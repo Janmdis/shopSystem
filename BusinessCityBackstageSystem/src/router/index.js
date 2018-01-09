@@ -9,6 +9,20 @@ export default new Router({
     {
       path: '/login',
       component: resolve => require(['../components/view/login/Login.vue'], resolve)
+    },
+    {
+      path: '',
+       component: resolve => require(['../components/common/home/home.vue'], resolve),
+      children: [
+        {
+          path: '',
+      	  redirect: '/index'
+        },
+        {
+          path: '/index', // 首页
+          component: resolve => require(['../components/view/index/index.vue'], resolve)
+        }
+      ]
     }
   ]
 })
