@@ -5,6 +5,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
+import 'babel-polyfill'
 // 挂载在全局
 Vue.use(ElementUI)
 Vue.config.productionTip = false
