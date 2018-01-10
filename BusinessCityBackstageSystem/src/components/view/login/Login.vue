@@ -54,7 +54,7 @@ document.getElementById("myButton").onclick = function(){
 }
 .el-checkbox__label{
     color:#fff;
-    margin-right: 50px;
+    margin-right: 35px;
 }
 .el-checkbox__input.is-checked+.el-checkbox__label{
     color:#0f0;
