@@ -1,8 +1,8 @@
 export default {
-    name: 'leatNav',
-    data () {
-      return {
-        msg: 'leatNav'
-      }
+  data() {
+
+    return {
+      tableData: Array(20).fill(item)
     }
   }
+};
