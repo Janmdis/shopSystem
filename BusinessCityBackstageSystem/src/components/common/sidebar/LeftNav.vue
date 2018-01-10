@@ -1,7 +1,8 @@
 <template>
   <div class="leatNav" >
     <div class="login">
-      
+      <img class='imgs' src="/static/images/Login/logo.png" />
+      <p>禾目SAAS管理系统</p>
     </div>
   </div>
 </template>
