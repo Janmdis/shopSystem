@@ -1,23 +1,49 @@
 /* eslint-disable */
-var { gVerify } = require("../../../assets/javascript/common.js");
 export default {
+    name: 'forgetPwd',
     data() {
         return {
             ruleForm: {
-                userName: '',
+                userPhone: '',
+                userCompany: '',
+                userCode: '',
                 userPwd: '',
-                checked: false,
+                userPwd1: '',
+                checked: ''
             },
+            options: [{ value: '选项1', label: '弘之云' }, { value: '选项2', label: '禾目子公司' }],
+            value: '',
+            company: false,
+            companys: true,
         }
     },
     methods: {
-        forgetPassword() {
-            this.$router.push({ path: '/login/forgetPwd' })
+        jumpLogin() {
+            this.$router.push('/login')
         },
-        checkName: function() {
+        isCompany() {
+            if ((this.options == null || this.options == '' || this.options == undefined)) {
+                console.log(this.options)
+                this.companys = true;
+                return this.company = false;
+            } else {
+                this.companys = false;
+                return this.company = true;
+            }
+        },
+        checkPhone: function() {
             console.log(111)
         },
+        checkCompany: function() {
+            console.log(222)
+        },
+        checkCode: function() {
+            console.log(222)
+        },
         checkPwd: function() {
+            console.log(222)
+        },
+        checkPwd1: function() {
             console.log(222)
         },
         logining(ruleForm) {
@@ -41,7 +67,6 @@ export default {
                 alert("用户账号或密码不正确")
             }
             //判断复选框是否被勾选 勾选则调用配置cookie方法
-            alert(this.ruleForm.checked)
             if (this.ruleForm.checked == true) {
                 //传入账号名，密码，和保存天数3个参数
                 this.setCookie(name, pass, 7);
@@ -90,6 +115,9 @@ export default {
         clearCookie: function() {
             this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
         }
+    },
+    created() {
+
     },
     //页面加载调用获取cookie值
     mounted() {

@@ -15,7 +15,29 @@
     display: inline-block;
     padding: 10px 0;
   }
-  .el-col,.el-row{
+  .navTab{
+    width: 100%;
+    li{
+      float: left;
+      width:10%;
+      cursor: pointer;
+    }
+  }
+  .el-col,.navTab,li{
     height: 100%;
+  }
+}
+.active{
+  background: #44b8d8;
+}
+.leftName{
+  li{
+    float: left;
+    padding-top: 20px;
+    line-height: 30px;
+    width: 30%;
+    .el-dropdown{
+      color:@f;
+    }
   }
 }
