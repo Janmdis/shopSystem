@@ -3,7 +3,10 @@
     <el-row class="textCenter textW navBox">
       <el-col :span="18">
          <ul class='navTab'>
-          <li v-for="info in navInfo">
+          <li v-for="info in navInfo" 
+           @click="selected(info.infoText)" 
+           :class="{active: activeName == info.infoText}"
+           >
             <i :class = info.imgClass ></i>
             <p>{{info.infoText}}</p>
           </li>
