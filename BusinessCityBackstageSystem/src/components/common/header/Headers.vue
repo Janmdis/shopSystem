@@ -12,16 +12,49 @@
           </li>
          </ul>
       </el-col>
+      <el-col :span="6">
+      <ul class="leftName">
+        <li>商城前台</li>
+        <li>
+          <el-dropdown :hide-on-click="false">
+            <span class="el-dropdown-link">
+              系统消息
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item >黄金糕</el-dropdown-item>
+              <el-dropdown-item divided>狮子头</el-dropdown-item>
+              <el-dropdown-item divided>螺蛳粉</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </li>
+        <li>
+          <el-dropdown :hide-on-click="false">
+            <span class="el-dropdown-link">
+              个人信息
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item >
+                <router-link to="userInfos">个人信息</router-link>
+              </el-dropdown-item>
+              <el-dropdown-item divided>狮子头</el-dropdown-item>
+              <el-dropdown-item divided>螺蛳粉</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </li>
+      </ul>
+      </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import headers from './headers'
-export default headers
+import headers from './headers';
+export default headers;
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
+
+
 <style scoped lang='less'>
 @import './header'; 
 </style>
