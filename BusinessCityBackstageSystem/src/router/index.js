@@ -19,6 +19,7 @@ export default new Router({
         },
         {
           path: 'index', // 首页
+          name: 'index',
           component: resolve => require(['@/components/view/index/index.vue'], resolve)
         },
         {
@@ -30,6 +31,11 @@ export default new Router({
           path: 'depmanage', // 部门管理
           name: 'depmanage',
           //component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
+        },
+        {
+          path: 'userInfos', // 部门管理
+          name: 'userInfos',
+          component: resolve => require(['@/components/view/userInfo/userInfos.vue'], resolve)
         }
       ]
     },
