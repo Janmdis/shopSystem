@@ -1,5 +1,6 @@
 /* eslint-disable */
 export default {
+    name: 'forgetPwd',
     data() {
         return {
             ruleForm: {

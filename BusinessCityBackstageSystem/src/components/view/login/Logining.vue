@@ -5,14 +5,15 @@
             <div class="contentRight">
                 <h3>欢迎进入禾目云视觉健康管理系统</h3>
                 <h5> Background management system </h5>
+                <router-view></router-view>
             </div>
         </el-col>
     </el-row>
   </div>
 </template>
 <script>
-import loginTag from './Login.vue'
-import forgetTag from './ForgetPwd.vue'
+/* import loginTag from './Login.vue'
+import forgetTag from './ForgetPwd.vue' */
 export default {
     data () {
         return {
@@ -20,7 +21,7 @@ export default {
         }
     },
     components:{
-        loginTag,
+        
     }
 }
 </script>

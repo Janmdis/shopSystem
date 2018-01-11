@@ -1,20 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-
+    /* eslint-disable */
 export default new Router({
     mode: 'history',
     routes: [{
             path: 'login',
             component: resolve => require(['@/components/view/login/Logining.vue'], resolve),
             children: [{
-                path: '', // 登录页面
-                component: resolve => require(['@/components/view/login/Login.vue'], resolve)
-            }, {
-                path: 'forgetPwd', //  忘记密码页面
-                name: 'forgetPwd',
-                component: resolve => require(['@/components/view/login/ForgetPwd.vue'], resolve)
-            }]
+                    path: '', // 登录页面
+                    component: resolve => require(['@/components/view/login/Login.vue'], resolve)
+                },
+                {
+                    path: 'forgetPwd', //  忘记密码页面
+                    name: 'forgetPwd',
+                    component: resolve => require(['@/components/view/login/ForgetPwd.vue'], resolve)
+                }
+            ]
         },
         {
             path: '',
@@ -35,7 +37,7 @@ export default new Router({
                 {
                     path: 'depmanage', // 部门管理
                     name: 'depmanage',
-                    //component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
+                    component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
                 }
             ]
         },
