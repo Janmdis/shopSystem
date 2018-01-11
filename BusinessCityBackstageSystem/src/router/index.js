@@ -21,6 +21,10 @@ export default new Router({
         {
           path: '/index', // 首页
           component: resolve => require(['../components/view/index/index.vue'], resolve)
+        },
+        {
+          path: '/depmanage', // 部门管理
+          component: resolve => require(['../components/view/organize/depmanage/depmanage'], resolve)
         }
       ]
     }
