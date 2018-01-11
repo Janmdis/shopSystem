@@ -25,7 +25,12 @@ export default new Router({
           path: 'member', // 会员管理
           name: 'member',
           component: resolve => require(['@/components/view/Member/Member.vue'], resolve)
-        }   
+        },
+        {
+          path: 'depmanage', // 部门管理
+          name: 'depmanage',
+          //component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
+        }
       ]
     },
     {

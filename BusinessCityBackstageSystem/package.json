@@ -15,6 +15,7 @@
     "babel-polyfill": "^6.26.0",
 <<<<<<< HEAD
     "css-loader": "^0.28.8",
+    "echarts": "^3.8.5",
     "element-ui": "^2.0.11",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
