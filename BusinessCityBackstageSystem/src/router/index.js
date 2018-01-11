@@ -6,12 +6,13 @@ export default new Router({
     mode: 'history',
     routes: [{
             path: 'login',
-            component: resolve => require(['@/components/view/login/Login.vue'], resolve),
+            component: resolve => require(['@/components/view/login/Logining.vue'], resolve),
             children: [{
                 path: '', // 登录页面
                 component: resolve => require(['@/components/view/login/Login.vue'], resolve)
             }, {
                 path: 'forgetPwd', //  忘记密码页面
+                name: 'forgetPwd',
                 component: resolve => require(['@/components/view/login/ForgetPwd.vue'], resolve)
             }]
         },
