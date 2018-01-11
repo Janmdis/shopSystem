@@ -5,7 +5,7 @@ Vue.use(Router)
 export default new Router({
     mode: 'history',
     routes: [{
-            path: 'login',
+            path: '/login',
             component: resolve => require(['@/components/view/login/Logining.vue'], resolve),
             children: [{
                     path: '', // 登录页面

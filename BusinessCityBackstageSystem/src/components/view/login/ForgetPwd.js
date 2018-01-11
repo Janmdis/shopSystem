@@ -56,8 +56,18 @@ export default {
                 alert("请输入正确的密码");
                 return
             }
+            if (name.match(/^[a-zA-Z]\w{5,17}$/)) {
+                alert(name)
+            } else {
+                alert("用户账号或密码不正确")
+            }
+            if (pass.match(/^[a-zA-Z]\w{5,17}$/)) {
+                alert(pass)
+            } else {
+                alert("用户账号或密码不正确")
+            }
             //判断复选框是否被勾选 勾选则调用配置cookie方法
-            if (this.checked = true) {
+            if (this.ruleForm.checked == true) {
                 //传入账号名，密码，和保存天数3个参数
                 this.setCookie(name, pass, 7);
             }

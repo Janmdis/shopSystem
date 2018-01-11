@@ -6,7 +6,7 @@
                 <h3>欢迎进入禾目云视觉健康管理系统</h3>
                 <h5> Background management system </h5> -->
                 <el-form :model="ruleForm" action="" class="forgetForm">
-                    <ul class="loginUl">
+                    <ul class="forgetUl">
                         <li>
                             <label><img src="/static/images/Login/reiphones.png" alt=""><el-input type="text" @change="checkPhone" value="" v-model="ruleForm.userPhone" placeholder="请输入手机号" clearable></el-input></label>
                         </li>
@@ -37,28 +37,36 @@
 import forgets from './ForgetPwd.js';
 export default forgets;
 </script>
+<style scoped lang='less'>
+@import "./ForgetPwd.less";
+</style>
 <style>
-.el-input .el-input__inner{
+.forgetUl{
+    padding-left:0;
+}
+.forgetUl li{
+    list-style: none;
+}
+.forgetUl .el-input{
+    width: 85%;
+}
+.forgetUl .el-input .el-input__inner{
     border:none;
     vertical-align: 5px;
     background:transparent;
     padding-left:25px;
     color:#fff;
-    font-size:17px;
     margin-top:-6px;
 }
-.el-input .el-input__inner::-webkit-input-placeholder{
+.forgetUl .el-input .el-input__inner::-webkit-input-placeholder{
     color:#fff;
 }
-.el-input .el-input__suffix{
+.forgetUl .el-input .el-input__suffix{
     top:-5px;
 }
-.el-checkbox__label{
+.forgetUl .el-checkbox__label{
     color:#fff;
     margin-right: 35px;
 }
-</style>
-<style scoped lang='less'>
-@import "./ForgetPwd.less";
 </style>
 

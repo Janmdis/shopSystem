@@ -33,30 +33,32 @@ export default logins;
 //     }
 // }
 </script>
-
 <style scoped lang='less'>
 @import "./Login.less";
 </style>
 <style>
-.el-input{
+.loginUl li{
+    list-style: none;
+}
+.loginUl .el-input{
     display:inline-block;
-    width:70%;
+    width:82%;
     background:transparent;
 }
-.el-input .el-input__inner{
+.loginUl .el-input .el-input__inner{
     border:none;
     vertical-align: 5px;
     background:transparent;
     padding-left:15px;
 }
-.el-input .el-input__suffix{
+.loginUl .el-input .el-input__suffix{
     top:-5px;
 }
-.el-checkbox__label{
+.loginUl .el-checkbox__label{
     color:#fff;
     margin-right: 35px;
 }
-.el-checkbox__input.is-checked+.el-checkbox__label{
+.loginUl .el-checkbox__input.is-checked+.el-checkbox__label{
     color:#0f0;
 }   
 </style>
