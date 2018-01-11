@@ -1,6 +1,6 @@
 <template>
     <div id="memberInfo">
-
+        
     </div>
 </template>
 <script>
@@ -9,7 +9,7 @@ export default memberInfos; */
 export default{
     data () {
         return {
-            
+
         }
     }
 }
