@@ -1,6 +1,28 @@
 export default {
-  data () {
+  data() {
+    var validatePass1 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      }else {
+        callback()
+      }
+    }
     return {
+      dialogVisible: false,
+      ruleForm: {
+        region: '',
+        newPass: '',
+        
+      }, rules: {
+        region: [
+          { required: true, message: '请选择活动区域', trigger: 'change' }
+        ],
+        newPass: [
+          { pattern: /^(\w){6,20}$/, required: true,
+          message: '只能输入6-20个字母、数字、下划线' },
+          { validator: validatePass1, trigger: 'blur' }
+        ],
+      },
       navInfo: [
         { infoText: '首页', imgClass: 'icon iconfont icon-user' },
         { infoText: '会员在线', imgClass: 'icon iconfont icon-user' },
@@ -12,14 +34,35 @@ export default {
         { infoText: '品牌在线', imgClass: 'icon iconfont icon-pinpai' },
         { infoText: '管理中心', imgClass: 'icon iconfont icon-guanlizhongxin' }
       ],
-      activeName: '首页'
+      activeName: 'one'
     }
   },
+  created() {
+    this.$root.$on('infoText', (infoText) => {
+      this.which_to_show = infoText
+    })
+    this.selected('首页')
+  },
   methods: {
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!')
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields()
+      },
+      handleLoginOut(){},
     selected: function (navInfo) {
       this.activeName = navInfo
       if (navInfo == '首页') {
-        this.$router.push({path: '/index', replace: true})
+        navInfo = 'one'
+        this.$router.push("/index")
       } else if (navInfo == '会员在线') {
         navInfo = 'two'
       } else if (navInfo == '产品在线') {
@@ -36,9 +79,10 @@ export default {
         navInfo = 'eight'
       } else if (navInfo == '管理中心') {
         navInfo = 'night'
-      } 
+      }
       this.$root.$emit('infoText', navInfo)
     }
-  }
-}
 
+  }
+
+}

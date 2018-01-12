@@ -1,2 +1,3 @@
 var { gVerify } = require('./login/gVerify.js')
-export { gVerify }
+var { checkClass } = require('./utils/checkClass.js')
+export {gVerify, checkClass}
