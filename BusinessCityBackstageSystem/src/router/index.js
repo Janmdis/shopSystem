@@ -27,6 +27,7 @@ export default new Router({
                 },
                 {
                     path: 'index', // 首页
+                    name: 'index',
                     component: resolve => require(['@/components/view/index/index.vue'], resolve)
                 },
                 {
@@ -34,11 +35,24 @@ export default new Router({
                     name: 'member',
                     component: resolve => require(['@/components/view/Member/Member.vue'], resolve)
                 },
+<<<<<<< HEAD
                 // {
                 //     path: 'depmanage', // 部门管理
                 //     name: 'depmanage',
                 //     component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
                 // }
+=======
+                {
+                    path: 'depmanage', // 部门管理
+                    name: 'depmanage',
+                    component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
+              },
+              {
+                path: 'userInfos', // 部门管理
+                name: 'userInfos',
+                component: resolve => require(['@/components/view/userInfo/userInfos.vue'], resolve)
+            }
+>>>>>>> 62b84748dce2869a44db7b6c790e4aa0509d2b58
             ]
         },
         {

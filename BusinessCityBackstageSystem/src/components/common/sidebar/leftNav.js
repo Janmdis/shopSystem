@@ -1,4 +1,4 @@
-import ones from './siderchildren/one'
+import ones from '@/components/view/index/index.vue'
 import twos from './siderchildren/two'
 import threes from './siderchildren/three'
 import fours from './siderchildren/four'
@@ -18,6 +18,7 @@ export default {
       this.which_to_show = infoText
     })
   },
+
   components: {
     one: ones,
     two: twos,

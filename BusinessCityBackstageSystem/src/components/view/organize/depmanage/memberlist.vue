@@ -3,7 +3,7 @@
         <div class="rolHeader">
             成员列表
             <div class="pull-right">
-                    <button class="btn  btn-xs userModals" >新建用户</button>
+                    <button class="btn  btn-xs userModals" @click="opendialog">新建用户</button>
             </div>
         </div>
         <div class="roleSection">
@@ -28,37 +28,46 @@
                 </tbody>
             </table>
         </div>
+        <Dialogmember></Dialogmember>
     </div>
 </template>
 <script>
+import Dialogmember from './dialogmember';
 export default {
-  data(){
-      return{
-          list:[
-              {
-                  id:1,
-                  username:'user1',
-                  sex:'男',
-                  status:'在线',
-                  phone:'111111'
-              },
-              {
-                  id:2,
-                  username:'user2',
-                  sex:'男',
-                  status:'在线',
-                  phone:'111111'
-              },
-              {
-                  id:3,
-                  username:'user3',
-                  sex:'男',
-                  status:'在线',
-                  phone:'111111'
-              }
-          ]
-      }
-  }
+    components:{Dialogmember},
+    data(){
+        return{
+            list:[
+                {
+                    id:1,
+                    username:'user1',
+                    sex:'男',
+                    status:'在线',
+                    phone:'111111'
+                },
+                {
+                    id:2,
+                    username:'user2',
+                    sex:'男',
+                    status:'在线',
+                    phone:'111111'
+                },
+                {
+                    id:3,
+                    username:'user3',
+                    sex:'男',
+                    status:'在线',
+                    phone:'111111'
+                }
+            ],
+        }
+    },
+    methods:{
+        opendialog(){
+            this.$root.$emit('opendialogmember',true);
+            // this.dialogmeberVisible=true;
+        }
+    }
 }
 </script>
 

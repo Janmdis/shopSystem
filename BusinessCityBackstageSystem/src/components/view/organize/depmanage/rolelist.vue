@@ -17,7 +17,7 @@
                 </tbody>
                 <tbody class="trbody">
                     <tr :key="item.id" v-for="item in list">
-                        <td class="roleNames" data-id="item.id">{{item.name}}</td>
+                        <td class="roleNames " data-id="item.id" @click="selectrole($event)">{{item.name}}</td>
                         <td data-id="item.id"><span class="delrole">删除</span></td>
                     </tr>
                 </tbody>
@@ -45,6 +45,14 @@ export default {
     methods:{
         opendialogrole(){
             this.$root.$emit("exportvisrole",true);
+        },
+        selectrole(e){
+            // console.log(document.getElementsByClassName('tbactive'));
+            let dom=document.getElementsByClassName('tbactive');
+            if(dom.length){
+                dom[0].setAttribute('class','roleNames');
+            }
+            e.target.setAttribute('class','roleNames tbactive');
         }
     }
 }
@@ -109,5 +117,9 @@ export default {
 .roleSection .roles td span{
 	color:#00adab;
 	cursor:pointer;
+}
+.tbactive{
+    background-color: #00adab !important;
+    color:#fff;
 }
 </style>
