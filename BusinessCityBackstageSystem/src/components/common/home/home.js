@@ -14,6 +14,7 @@ let _this = null;
 export default {
   data() {
     return data;
+    dialogVisible: false
   },
   created() {
     _this = this;

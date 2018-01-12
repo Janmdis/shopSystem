@@ -6,7 +6,7 @@
             <template slot="title"><i class="el-icon-message"></i>会员管理</template>
             <el-menu-item-group>
               <el-menu-item index="member">
-                <route-link to="member">会员档案</route-link>
+                会员档案
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
