@@ -4,13 +4,13 @@
                  <el-col :span="7" :offset='2'>
                      <div class="grid-content">
                          <label for="" :span="2">角色名称：</label>
-                         <input type="text" :span="10" placeholder="请输入角色名称">
+                         <input type="text" :span="10" placeholder="请输入角色名称" id="namerole">
                      </div>
                  </el-col>
                  <el-col :span="7">
                      <div class="grid-content">
                         <label>角色编号：</label>
-                        <input type="text" placeholder="请输入角色编号"> 
+                        <input type="text" placeholder="请输入角色编号" id="idrole"> 
                      </div>
                  </el-col>
                  <el-col :span="7">
@@ -24,7 +24,7 @@
                 <el-col :span='10' :offset='4'>
                      <div class="grid-content">持有权限</div>
                 </el-col>
-                <el-col :span='5'>
+                <el-col :offset='2' :span='3'>
                      <div class="grid-content">可操作</div>
                 </el-col>
                 <el-col :span='5'>
@@ -38,11 +38,11 @@
                             <div class='name'>
                                 <span>全选</span>
                             </div>
-                             <div class='check el-checkbox__input' typediv='opcan' @click="select($event)">
+                             <div class='check el-checkbox__input checkall' typediv='opcan' @click="selectall($event)">
                                 <input type="checkbox">
                                 <span class="checkfor el-checkbox__inner"></span>
                             </div>
-                            <div class='check el-checkbox__input' typediv='seecan' @click="select($event)">
+                            <div class='check el-checkbox__input checkall' typediv='seecan' @click="selectall($event)">
                                 <input type="checkbox">
                                 <span class="checkfor el-checkbox__inner"></span>
                             </div>
@@ -107,22 +107,44 @@ export default {
         }
     },
     created:function(){
-        console.log(this.ishow);
         this.dialogroleVisible=this.ishow;
         this.$root.$on('exportvisrole',(data)=>{
             this.dialogroleVisible=data;
         });
-        // this.$root.$on("changestatu",(e)=>{
-        //     this.select(e);
-        // });
+        this.$root.$on("changestatu",(status,type)=>{
+            let dom=document.getElementsByClassName('checkall');
+            dom=this.getElementByAttr('typediv',type,dom)[0];
+            if(status){
+                dom.setAttribute('class','check  el-checkbox__input is-checked checkall');
+            }
+            else{
+                dom.setAttribute('class','check  el-checkbox__input checkall');
+            }
+            dom.getElementsByTagName('input')[0].checked=status;
+        });
     },
     methods:{
         adddata(){
-            
-            this.dialogDepVisible=false;
+            let idlistopcan=[];
+            let idlistseecan=[];
+            let namerole=document.getElementById('namerole').value;
+            let idrole=document.getElementById('idrole').value;
+            let selectedlist=document.getElementsByClassName('check  el-checkbox__input is-checked');
+            // 被选中的可操作性项集合
+            let selectedopcan=this.getElementByAttr('typediv','opcan',selectedlist);
+             // 被选中的可查看项集合
+            let selectedseecan=this.getElementByAttr('typediv','seecan',selectedlist);
+            for(let i=0;i<selectedopcan.length;i++){
+                idlistopcan.push(selectedopcan[i].getAttribute('data-id'));
+            }
+            for(let i=0;i<selectedseecan.length;i++){
+                idlistseecan.push(selectedseecan[i].getAttribute('data-id'));
+            }
+            console.log(namerole,idrole,idlistopcan,idlistseecan);
+            // this.dialogroleVisible=false;
         },
         ai_dialog_close(){
-            this.dialogDepVisible = false;
+            this.dialogroleVisible = false;
         },
         getElementByAttr(attr,value,list)
         {
@@ -134,21 +156,25 @@ export default {
             }
             return aEle;
         },
-        select(e){
+        selectall(e){
             let target=e.target.parentNode;
             let ischecked=target.childNodes[0].checked;
+            let selectclass='';
             if(ischecked){
-                target.setAttribute('class','check  el-checkbox__input');
+                target.setAttribute('class','check  el-checkbox__input checkall');
+                selectclass='check  el-checkbox__input';
             }
             else{
-                target.setAttribute('class','check  el-checkbox__input is-checked');
+                target.setAttribute('class','check  el-checkbox__input is-checked checkall');
+                selectclass='check  el-checkbox__input is-checked';
             }
+            target.childNodes[0].checked=!ischecked;
             let list=target.parentNode.parentNode.getElementsByClassName('check');
             let attr=target.getAttribute('typediv');
             let result=this.getElementByAttr('typediv',attr,list);
-            for(let i=0;i<result.length;i++){
+            for(let i=1;i<result.length;i++){
                 let ststus=result[i].childNodes[0].checked;
-                result[i].setAttribute('class',target.getAttribute('class'));
+                result[i].setAttribute('class',selectclass);
                 result[i].childNodes[0].checked=!ststus;
             }
         }
@@ -188,7 +214,7 @@ div.check{
     
 }
 .check[typediv='opcan']{
-    left: 59%;
+    left: 68%;
 }
 .check[typediv='seecan']{
     left: 80%;
