@@ -68,6 +68,7 @@ export default {
 	border:1px solid #00adab;
 	border-radius:5px;
     background:#fff;
+    overflow-y: auto;
 }
 .rolHeader{
 	height:90px;
@@ -98,7 +99,7 @@ export default {
     border: 1px solid transparent;
 }
 .roleSection{
-    height: 600px;
+    /* height: 600px; */
     overflow-y: auto;
 }
 .roleSection .member{

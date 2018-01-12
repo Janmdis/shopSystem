@@ -4,7 +4,7 @@
             角色列表	
             <div class="pull-right">
                 <!-- <button class="btn btn-xs">已有角色</button> -->
-                <button class="btn btn-xs roleModals" >创建角色</button>
+                <button class="btn btn-xs roleModals" @click="opendialogrole" >创建角色</button>
             </div>
         </div>
         <div class="roleSection">
@@ -23,11 +23,14 @@
                 </tbody>
             </table>
             
-        </div>   
+        </div> 
+        <Dialogrole :ishow='dialogroleVisible'></Dialogrole>  
     </div>
 </template>
 <script>
+import Dialogrole from './dialogrole'
 export default {
+    components:{Dialogrole},
     data(){
         return {
             list:[
@@ -35,7 +38,13 @@ export default {
                 {id:2,name:'角色2'},
                 {id:3,name:'角色3'},
                 {id:4,name:'角色4'}
-            ]
+            ],
+            dialogroleVisible:false
+        }
+    },
+    methods:{
+        opendialogrole(){
+            this.$root.$emit("exportvisrole",true);
         }
     }
 }
@@ -47,6 +56,7 @@ export default {
 	border:1px solid #00adab;
 	border-radius:5px;
     background:#fff;
+    overflow-y: auto;
 }
 .rolHeader{
 	height:90px;
@@ -71,7 +81,7 @@ export default {
     border: 1px solid transparent;
 }
 .roleSection{
-    height: 600px;
+    /* height: 600px; */
     overflow-y: auto;
 }
 .roleSection .roles{

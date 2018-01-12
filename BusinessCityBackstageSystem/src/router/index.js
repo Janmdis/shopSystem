@@ -38,7 +38,7 @@ export default new Router({
                 {
                     path: 'depmanage', // 部门管理
                     name: 'depmanage',
-                    component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
+                    //component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
               },
               {
                 path: 'userInfos', // 部门管理
