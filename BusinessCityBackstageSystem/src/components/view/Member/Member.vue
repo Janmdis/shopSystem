@@ -231,7 +231,7 @@ left: 12.5%;
     }
     .memberMain{
         height:100%;
-        background:#8ab130;
+        background:transparent;
         position:relative;
         top:100px;
         .infoCover{
@@ -243,7 +243,7 @@ left: 12.5%;
             left:16%;
             z-index: 999;
             box-shadow: rgb(198, 198, 198) 0px 0px 10px 0px;
-            // display:none;
+            top:0;
         }
     }
 }
