@@ -20,7 +20,7 @@
             <el-table
                 :data="tableData3"
                 style="width: 100%"
-                height="250">
+                height="100%">
                 <el-table-column
                 fixed
                 prop="date"
@@ -28,6 +28,7 @@
                 width="150">
                 </el-table-column>
                 <el-table-column
+                fixed
                 prop="name"
                 label="姓名"
                 width="120">
