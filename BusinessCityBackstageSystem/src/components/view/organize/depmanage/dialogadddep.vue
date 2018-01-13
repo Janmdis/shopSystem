@@ -3,36 +3,42 @@
             <el-row>
                  <el-col :span="3" :offset='3'>
                      <div class="grid-content labelName">
-                         部门名称
+                         部门名称：
                      </div>
                  </el-col>
                  <el-col :span="16">
                      <div class="grid-content input">
-                         <input type="text" placeholder="请输入部门名称">
+                        <el-input placeholder="请输入部门名称" v-model="depname"></el-input>
                      </div>
                  </el-col>
             </el-row>
             <el-row>
                  <el-col :span="3" :offset='3'>
                      <div class="grid-content labelName">
-                         部门编号
+                         部门编号：
                      </div>
                  </el-col>
                  <el-col :span="16">
                      <div class="grid-content input">
-                         <input type="text" placeholder="请输入部门编号">
+                         <el-input placeholder="请输入部门编号" v-model="depid"></el-input>
                      </div>
                  </el-col>
             </el-row>
             <el-row>
                  <el-col :span="3" :offset='3'>
                      <div class="grid-content labelName">
-                         部门描述
+                         部门描述：
                      </div>
                  </el-col>
-                 <el-col :span="16">
+                 <el-col :span="15">
                      <div class="grid-content input">
-                         <textarea class="tearteacher" name="" id="" cols="30" rows="10"></textarea>
+                         <!-- <textarea class="tearteacher" name="" id="" cols="30" rows="10"></textarea> -->
+                        <el-input
+                            type="textarea"
+                            :rows="5"
+                            placeholder="请输入内容"
+                            v-model="depdest">
+                        </el-input>
                          <span class="pull-right infoText">不超过50个字</span>
                      </div>
                  </el-col>
@@ -40,7 +46,7 @@
              <el-row>
                  <el-col :span="3" :offset='3'>
                      <div class="grid-content labelName">
-                         所属部门
+                         所属部门：
                      </div>
                  </el-col>
                  <el-col :span="16">
@@ -59,7 +65,10 @@ export default {
     props:['ishow'],
     data(){
         return {
-            dialogDepVisible:true
+            dialogDepVisible:true,
+            depname:'',
+            depid:'',
+            depdest:''
         }
     },
     created:function(){
@@ -137,6 +146,9 @@ export default {
     padding-top: 5px;
     padding-right: 0;
 }
+.el-dialog .grid-content.labelName{
+    text-align: right;
+}
 .el-dialog .grid-content.valueName{
     padding-left: 15px;
 }
@@ -152,14 +164,14 @@ export default {
 .el-dialog .grid-content.input{
     padding-left: 15px;
 }
-.el-dialog .grid-content textarea{
+/* .el-dialog .grid-content textarea{
     border:1px solid #c7c7c7;
 	width:80%;
 	height:100px;
 	border-radius:5px;
 	resize:none;
 	padding:5px 10px;
-}
+} */
 .el-dialog .grid-content .infoText{
     color:#00adab;
     display: block;

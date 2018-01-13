@@ -39,12 +39,17 @@ export default new Router({
                     path: 'depmanage', // 部门管理
                     name: 'depmanage',
                     component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
-              },
-              {
-                path: 'userInfos', // 部门管理
-                name: 'userInfos',
-                component: resolve => require(['@/components/view/userInfo/userInfos.vue'], resolve)
-            }
+                },
+                {
+                    path: 'userInfos', // 部门管理
+                    name: 'userInfos',
+                    component: resolve => require(['@/components/view/userInfo/userInfos.vue'], resolve)
+                },
+                {
+                    path: 'roleManage', // 部门管理
+                    name: 'roleManage',
+                    component: resolve => require(['@/components/view/organize/rolemanage/role.vue'], resolve)
+                }
             ]
         },
         {

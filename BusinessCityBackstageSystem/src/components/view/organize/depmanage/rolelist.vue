@@ -104,7 +104,8 @@ export default {
 .roleSection .roles th{
 	width:40%;
 	height:50px;
-	border:1px solid #bcbcbc ;
+    border:1px solid #bcbcbc ;
+    vertical-align: middle;
 }
 .roleSection .roles td{
 	width:110px;
