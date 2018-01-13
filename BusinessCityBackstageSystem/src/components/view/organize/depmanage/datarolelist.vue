@@ -1,16 +1,16 @@
 <template>
   <ul class='fatherUl'>
-    <li :key="item.id" v-for="item in child">
+    <li :key="item.id" v-for="(item,index) in child">
         <div class='select'>
             <div class='name'>
                 <i v-if='item.child.length' :data-id='item.id' class='el-icon el-icon-minus' @click="pack($event)"></i>
                 <span>{{item.name}}</span>
             </div>
-            <div class='check el-checkbox__input' typediv='opcan' @click="select($event)" :msg='msg'>
+            <div class='check el-checkbox__input' :data-id='item.id' typediv='opcan' @click="select($event)" :msg='msg' :msg2='index'>
                 <input type="checkbox" :data-id='item.id'>
                 <span class="checkfor el-checkbox__inner"></span>
             </div>
-            <div class='check el-checkbox__input' typediv='seecan' @click="select($event)" :msg='msg'>
+            <div class='check el-checkbox__input' :data-id='item.id' typediv='seecan' @click="select($event)" :msg='msg' :msg2='index'>
                 <input type="checkbox" :data-id='item.id'>
                 <span class="checkfor el-checkbox__inner"></span>
             </div>
@@ -58,7 +58,6 @@ export default {
             return aEle;
         },
         select(e){
-            // this.$root.$emit("changestatu",e);
             let target=e.target.parentNode;
             let ischecked=target.childNodes[0].checked;
             if(ischecked){
@@ -75,17 +74,50 @@ export default {
             for(let i=0;i<result.length;i++){
                 let ststus=result[i].childNodes[0].checked;
                 result[i].setAttribute('class',target.getAttribute('class'));
-                console.log(ststus);
                 result[i].childNodes[0].checked=!ststus;
             }
             // 改变父集状态
+            // 去的当前元素的同辈元素标志
             let msg=target.getAttribute("msg");
-            var lensublim=target.parentNode.parentNode.parentNode.parentNode.getElementsByClassName('check');
-            let result2=this.getElementByAttr('msg',msg,lensublim);
-            // 点击选择框的元素的同辈元素
-            result2=this.getElementByAttr('typediv',attr,result2);
-            console.log(result2.length);
-            // this.$root.$emit("changestatu",target);
+            // 取得当前元素的同一分支节点标志
+            let msg2=target.getAttribute("msg2");
+           
+            // 当前元素的结构树层数
+            let length_tree=msg.split('test')[1].split('').length;
+            // var selected
+            let dom=target.parentNode.parentNode.parentNode.parentNode;
+            for(let i=1;i<=length_tree;i++){
+                // 默认每层的子元素全部被选中
+                let selectedall=true;
+                // 得到当前元素的第i层ul父节点
+                for(let j=1;j<i;j++){
+                    dom=dom.parentNode.parentNode;
+                }
+                let lensublim=dom.getElementsByClassName('check');
+                let msg3=dom.getElementsByClassName('fatherUl')[0].childNodes[0].getElementsByClassName('check')[0].getAttribute('msg');
+                let result2=this.getElementByAttr('typediv',attr,lensublim);
+                
+                // 点击当前层元素的同辈元素
+                let result3=this.getElementByAttr('msg',msg3,result2);
+                // console.log(result2);
+                // 获取当前层是否全部选中
+                for(let m=0;m<result3.length;m++){
+                    var check=result3[m].getElementsByTagName('input')[0].checked;
+                    if(!check){
+                        selectedall=false;
+                    }
+                }
+                let msg4=msg3.slice(0,msg3.length-1);
+                // 当前层级的父层checkbox
+                let fadom=this.getElementByAttr('msg',msg4,result2);
+                if(fadom.length){
+                    fadom[0].setAttribute('class',selectedall?'check  el-checkbox__input is-checked':'check  el-checkbox__input');
+                    fadom[0].childNodes[0].checked=selectedall;
+                }
+                else{
+                    this.$root.$emit('changestatu',selectedall,attr);
+                }
+            }
         }
     }
 }
@@ -121,7 +153,7 @@ div.check{
     
 }
 .check[typediv='opcan']{
-    left: 59%;
+    left: 68%;
 }
 .check[typediv='seecan']{
     left: 80%;
