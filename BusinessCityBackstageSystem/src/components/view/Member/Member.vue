@@ -16,7 +16,6 @@
         </div>
         <div class="memberMain">
             <member-info class="infoCover"></member-info>
-
         </div>
     </el-main>
 </template>
@@ -70,7 +69,6 @@ left: 12.5%;
             padding-top: 15px;
             margin-bottom: 10px;
             .navLeft{
-                // width:40%;
                 font-size: 20px;
                 font-weight: 400;
                 color: #253a4d;
@@ -89,7 +87,6 @@ left: 12.5%;
                 position: absolute;
             }
             .navRight{
-                // width:60%;
                 position: relative;
                 .el-input{
                     width: 30%; 
@@ -157,7 +154,7 @@ left: 12.5%;
             left:16%;
             z-index: 999;
             box-shadow: rgb(198, 198, 198) 0px 0px 10px 0px;
-            display:none;
+            // display:none;
         }
     }
 }
