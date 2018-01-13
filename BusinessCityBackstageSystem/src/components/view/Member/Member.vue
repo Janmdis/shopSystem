@@ -16,43 +16,70 @@
         </div>
         <div class="memberMain">
 
-            <div>
+            <div class='boderBox'>
             <el-table
+                stripe
                 :data="tableData3"
                 style="width: 100%"
-                height="100%">
+                height="528">
                 <el-table-column
                 fixed
-                prop="date"
-                label="日期"
-                width="150">
+                prop="num"
+                label="N"
+                width='50'>
                 </el-table-column>
                 <el-table-column
                 fixed
+                type="selection"
+                width="55">
+                </el-table-column>
+                <el-table-column
+                class='borderRight'
+                fixed
+                prop="ids"
+                label="ID"
+                width='100'>
+                </el-table-column>
+                <el-table-column
                 prop="name"
-                label="姓名"
-                width="120">
+                label="客户姓名">
                 </el-table-column>
                 <el-table-column
-                prop="province"
-                label="省份"
-                width="120">
+                prop="iphone"
+                width='120'
+                label="手机号">
+                </el-table-column>
+                <el-table-column
+                prop="types"
+                label="客户类型">
                 </el-table-column>
                 <el-table-column
                 prop="city"
-                label="市区"
-                width="120">
+                label="城市">
                 </el-table-column>
                 <el-table-column
+                prop="quarters"
+                label="小区">
+                </el-table-column>
+                <el-table-column
+                prop="state"
+                label="订单状态">
+                </el-table-column>
+                <el-table-column
+                prop="source"
+                label="来源">
+                </el-table-column>
+                <el-table-column
+                prop="Inputtiem"
+                width='100'
+                label="录入时间">
+                </el-table-column>
+                <el-table-column
+                width='260'
                 prop="address"
-                label="地址"
-                width="300">
+                label="小区地址">
                 </el-table-column>
-                <el-table-column
-                prop="zip"
-                label="邮编"
-                width="120">
-                </el-table-column>
+                
             </el-table>
             </div>
             <member-info class="infoCover"></member-info>
@@ -67,56 +94,139 @@ export default {
         return {
             searchFn:'',
             isActive:false,
-            tableData3: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }]
+            tableData3: [
+                {
+                    num: '1',
+                    name: '王小虎',
+                    ids:'25285',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                }
+        ]
         }
     },
     components:{
@@ -124,12 +234,16 @@ export default {
     },
 }
 </script>
-<style>
+<style lang='less'>
+
 .el-input__inner{
     border-radius:40px;
 }
 </style>
 <style scoped lang="less">
+#member .memberMain .infoCover[data-v-45a712d6]{
+    left:1600px;
+}
 @media only screen and (min-width: 992px) {
 .el-main{
 width: 83.33333%;
@@ -142,6 +256,7 @@ width: 87.5%;
 left: 12.5%;
 } 
 }
+
 #member{
     width:90%;
     min-width: 1200px;
@@ -248,5 +363,7 @@ left: 12.5%;
         }
     }
 }
-
+#member .memberMain[data-v-45a712d6] {
+    top:80px;
+}
 </style>

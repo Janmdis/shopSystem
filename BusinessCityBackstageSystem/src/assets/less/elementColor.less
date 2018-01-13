@@ -1,0 +1,32 @@
+//element隔行变色
+.el-table--striped .el-table__body tr.el-table__row--striped td{
+    background:#f3fdfd;
+}
+//element表格 字体居中
+.el-table th, .el-table tr{
+    text-align: center;
+}
+//table 边的颜色
+table td:nth-child(3),table th:nth-child(3){
+    border-right: 1px solid #ddd;
+}
+//element 勾选的样式
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    background-color: #00aeaa;
+    border-color: #00aeaa;
+}
+//选中客户资料的id的样式
+table td:nth-child(3) .cell{
+    border: 1px solid #ddd;
+}
+table td:nth-child(3) {
+    padding-right:10px;
+}
+
+//去掉三角
+.el-popper .popper__arrow{
+    display: none !important;
+  }
+  .el-popper[x-placement^=bottom]{
+    margin-top:0;
+  }

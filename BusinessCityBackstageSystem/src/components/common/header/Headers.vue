@@ -80,15 +80,11 @@ export default headers;
 
 <style lang='less'>
 @import '../../../assets/less/color';
+@import '../../../assets/less/elementColor';
 .el-select{
   width:84%;
 }
-.el-popper .popper__arrow{
-  display: none !important;
-}
-.el-popper[x-placement^=bottom]{
-  margin-top:0;
-}
+
 .el-dialog__footer{
   text-align: center;
 }
