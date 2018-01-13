@@ -7,7 +7,7 @@
                 </div>
                 个人设置
             </el-header>
-            <el-main style="width:97%; left:20px;height:100%;" class="mainBox">
+            <el-main style="width:97%; left:20px;height:90%;" class="mainBox">
             <el-tabs :tab-position="tabPosition" style="height:100%;" >
                 <el-tab-pane label="基本信息">
                 <users ></users>
@@ -32,7 +32,8 @@ import Password from './userChildren/Password.vue'
     export default {
     data() {
       return {
-        tabPosition: 'left'
+        tabPosition: 'left',
+        
       };
     },
     components:{

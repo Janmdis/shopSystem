@@ -41,7 +41,6 @@ export default {
     this.$root.$on('infoText', (infoText) => {
       this.which_to_show = infoText
     })
-   
   },
   methods: {
       submitForm(formName) {
