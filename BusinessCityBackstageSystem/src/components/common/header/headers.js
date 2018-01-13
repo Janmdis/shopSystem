@@ -41,7 +41,7 @@ export default {
     this.$root.$on('infoText', (infoText) => {
       this.which_to_show = infoText
     })
-    this.selected('首页')
+    //this.selected('首页')
   },
   methods: {
       submitForm(formName) {
