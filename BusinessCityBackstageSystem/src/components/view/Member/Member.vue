@@ -1,18 +1,18 @@
 <template>
     <el-main id="member">
         <div class="memberNav">
-            <div class="navChild">
-                <div class="navLeft">
+            <el-row class="navChild">
+                <el-col :span="12" class="navLeft">
                     <span>客户资料</span>
-                </div>
-                <div class="navRight">
+                </el-col>
+                <el-col :span="12" class="navRight">
                     <el-input placeholder="请输入内容" v-model="searchFn"></el-input>
                     <i class="el-icon-search"></i> 
                     <span>新增</span>
                     <i class="el-icon-refresh"></i>
                     <el-button :class="{active:isActive}">导入</el-button><el-button :class="{active:isActive}">导出</el-button>
-                </div>
-            </div>
+                </el-col>
+            </el-row>
         </div>
         <div class="memberMain">
             <member-info class="infoCover"></member-info>
@@ -41,10 +41,23 @@ export default {
 }
 </style>
 <style scoped lang="less">
+@media only screen and (min-width: 992px) {
+.el-main{
+width: 83.33333%;
+left: 16.66667%;
+}
+}
+@media only screen and (min-width: 1200px) {
+.el-main{
+width: 87.5%;
+left: 12.5%;
+} 
+}
 #member{
     width:90%;
+    min-width: 1200px;
     height:100%;
-    margin:70px 0 0 195px;
+    margin:70px 0 0 0;
     position: absolute;
     .memberNav{
         width: 100%;
@@ -55,8 +68,9 @@ export default {
             height: 63px;
             display:flex;
             padding-top: 15px;
+            margin-bottom: 10px;
             .navLeft{
-                width:40%;
+                // width:40%;
                 font-size: 20px;
                 font-weight: 400;
                 color: #253a4d;
@@ -75,7 +89,7 @@ export default {
                 position: absolute;
             }
             .navRight{
-                width:60%;
+                // width:60%;
                 position: relative;
                 .el-input{
                     width: 30%; 
@@ -101,17 +115,20 @@ export default {
                     font-size: 35px;
                      cursor: pointer;
                     color:#00aeaa;
-                    left:48%;
                     top:2px;
                 }
                 .el-button:nth-of-type(1){
-                    margin-left: 60px;
+                    width: 80px;
+                    margin-left: 80px;
                     border-radius:20px 0 0 20px;
                     background:#00aeaa;
                     color:#fff;
                 }
                 .el-button:nth-of-type(2){
+                    width: 80px;
                     border-radius:0 20px 20px 0;
+                    background:#fff;
+                    color:#000;
                 }
                 .el-button+.el-button{
                     margin-left: -1px;
