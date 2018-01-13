@@ -1,10 +1,90 @@
 <template>
-    <div id="member">
-        <div class="memberNav"></div>
+    <el-main id="member">
+        <div class="memberNav">
+            <el-row class="navChild">
+                <el-col :span="12" class="navLeft">
+                    <span>客户资料</span>
+                </el-col>
+                <el-col :span="12" class="navRight">
+                    <el-input placeholder="请输入内容" v-model="searchFn"></el-input>
+                    <i class="el-icon-search"></i> 
+                    <span>新增</span>
+                    <i class="el-icon-refresh"></i>
+                    <el-button :class="{active:isActive}">导入</el-button><el-button :class="{active:isActive}">导出</el-button>
+                </el-col>
+            </el-row>
+        </div>
         <div class="memberMain">
+
+            <div class='boderBox'>
+            <el-table
+                stripe
+                :data="tableData3"
+                style="width: 100%"
+                height="528">
+                <el-table-column
+                fixed
+                prop="num"
+                label="N"
+                width='50'>
+                </el-table-column>
+                <el-table-column
+                fixed
+                type="selection"
+                width="55">
+                </el-table-column>
+                <el-table-column
+                class='borderRight'
+                fixed
+                prop="ids"
+                label="ID"
+                width='100'>
+                </el-table-column>
+                <el-table-column
+                prop="name"
+                label="客户姓名">
+                </el-table-column>
+                <el-table-column
+                prop="iphone"
+                width='120'
+                label="手机号">
+                </el-table-column>
+                <el-table-column
+                prop="types"
+                label="客户类型">
+                </el-table-column>
+                <el-table-column
+                prop="city"
+                label="城市">
+                </el-table-column>
+                <el-table-column
+                prop="quarters"
+                label="小区">
+                </el-table-column>
+                <el-table-column
+                prop="state"
+                label="订单状态">
+                </el-table-column>
+                <el-table-column
+                prop="source"
+                label="来源">
+                </el-table-column>
+                <el-table-column
+                prop="Inputtiem"
+                width='100'
+                label="录入时间">
+                </el-table-column>
+                <el-table-column
+                width='260'
+                prop="address"
+                label="小区地址">
+                </el-table-column>
+                
+            </el-table>
+            </div>
             <member-info class="infoCover"></member-info>
         </div>
-    </div>
+    </el-main>
 </template>
 <script>
 import memberInfo from './memberInfo/MemberInfo.vue'
@@ -12,7 +92,141 @@ export default {
     name:'member',
     data () {
         return {
-
+            searchFn:'',
+            isActive:false,
+            tableData3: [
+                {
+                    num: '1',
+                    name: '王小虎',
+                    ids:'25285',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                },
+                 {
+                    num: '1',
+                    name: '王小虎',
+                    iphone:'1500898888',
+                    province: '上海',
+                    types:'优质客户',
+                    city: '上海市',
+                    quarters:"贝尚湾",
+                    state:'待完成',
+                    source:'老客户介绍',
+                    address: '上海市普陀区金沙江路 1518 弄',
+                    Inputtiem: '2017-02-08'
+                }
+        ]
         }
     },
     components:{
@@ -20,24 +234,120 @@ export default {
     },
 }
 </script>
-<style>
+<style lang='less'>
 
+.el-input__inner{
+    border-radius:40px;
+}
 </style>
 <style scoped lang="less">
+#member .memberMain .infoCover[data-v-45a712d6]{
+    left:1600px;
+}
+@media only screen and (min-width: 992px) {
+.el-main{
+width: 83.33333%;
+left: 16.66667%;
+}
+}
+@media only screen and (min-width: 1200px) {
+.el-main{
+width: 87.5%;
+left: 12.5%;
+} 
+}
+
 #member{
+    width:90%;
+    min-width: 1200px;
     height:100%;
-    margin:70px 0 0 12.5%;
-    position: relative;
+    margin:70px 0 0 0;
+    position: absolute;
     .memberNav{
         width: 100%;
-        height:100px;
-        background:#31b1b0;
+        height:80px;
+        background:#fff;
         position: absolute;
-        top:0;
+        .navChild{
+            height: 63px;
+            display:flex;
+            padding-top: 15px;
+            margin-bottom: 10px;
+            .navLeft{
+                font-size: 20px;
+                font-weight: 400;
+                color: #253a4d;
+                margin-top:10px;
+                span{
+                    margin-left: 40px;
+                }
+            }
+            .navLeft::before{
+                content:'';
+                display:inline-block;
+                width: 4px;
+                height: 22px;
+                background-color: #000;
+                margin: 0 15px 0 18px;
+                position: absolute;
+            }
+            .navRight{
+                position: relative;
+                .el-input{
+                    width: 30%; 
+                }
+                .el-icon-search{
+                    font-size: 22px;
+                    cursor: pointer;
+                    color:#00aeaa;
+                    position: absolute;
+                    top:9px;
+                    left:26%;
+                }
+                span{
+                    padding:9px 25px;
+                    background:#00aeaa;
+                    color:#fff;
+                    border-radius:10px;
+                    margin:0 40px 0 25px;
+                    cursor: pointer;
+                }
+                .el-icon-refresh{
+                    position: absolute;
+                    font-size: 35px;
+                     cursor: pointer;
+                    color:#00aeaa;
+                    top:2px;
+                }
+                .el-button:nth-of-type(1){
+                    width: 80px;
+                    margin-left: 80px;
+                    border-radius:20px 0 0 20px;
+                    background:#00aeaa;
+                    color:#fff;
+                }
+                .el-button:nth-of-type(2){
+                    width: 80px;
+                    border-radius:0 20px 20px 0;
+                    background:#fff;
+                    color:#000;
+                }
+                .el-button+.el-button{
+                    margin-left: -1px;
+                }
+            }
+        }
+    }
+    .memberNav::after{
+        content:'';
+        display:block;
+        background: #fff;
+        margin-right: 16px;
+        border-top: 6px solid #56d2f4;
     }
     .memberMain{
         height:100%;
-        background:#8ab130;
+        background:transparent;
         position:relative;
         top:100px;
         .infoCover{
@@ -49,8 +359,11 @@ export default {
             left:16%;
             z-index: 999;
             box-shadow: rgb(198, 198, 198) 0px 0px 10px 0px;
+            top:0;
         }
     }
 }
-
+#member .memberMain[data-v-45a712d6] {
+    top:80px;
+}
 </style>
