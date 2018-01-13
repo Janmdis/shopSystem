@@ -123,7 +123,8 @@ export default {
 .roleSection .member th{
 	width:16%;
 	height:50px;
-	border:1px solid #bcbcbc ;
+    border:1px solid #bcbcbc ;
+    vertical-align: middle;
 }
 .roleSection .member td{
 	width:110px;

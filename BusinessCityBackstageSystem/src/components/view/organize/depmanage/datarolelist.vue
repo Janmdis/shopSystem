@@ -134,8 +134,7 @@ input[type='checkbox']{
     opacity: 0;
 }
 .fatherUl{
-    margin-top: 0px;
-    margin-left: -20px;
+    padding-left: 25px;
 }
 .select{
     overflow: hidden;
@@ -173,6 +172,9 @@ input[type='checkbox']{
     border: 1px solid #cccccc;
     cursor: pointer;
     border-radius: 5px;
+}
+li{
+    margin-top: 10px !important;
 }
 </style>
 <style>

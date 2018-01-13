@@ -1,24 +1,36 @@
 <template>
   <el-dialog id='roledialog'  width='60%' top='40px'  title="创建角色" :visible="dialogroleVisible" :modal='true' :before-close="ai_dialog_close"> 
-            <el-row :gutter='20' class='topmsg'>
-                 <el-col :span="7" :offset='2'>
-                     <div class="grid-content">
-                         <label for="" :span="2">角色名称：</label>
-                         <input type="text" :span="10" placeholder="请输入角色名称" id="namerole">
-                     </div>
-                 </el-col>
-                 <el-col :span="7">
-                     <div class="grid-content">
-                        <label>角色编号：</label>
-                        <input type="text" placeholder="请输入角色编号" id="idrole"> 
-                     </div>
-                 </el-col>
-                 <el-col :span="7">
-                     <div class="grid-content">
-                        <label>所属部门：</label>
-                        <span>你猜</span> 
-                     </div>
-                 </el-col>
+            <el-row :gutter='10' class='topmsg'>
+                <el-col :span="8" :offset='1'>
+                    <el-col :span="10">
+                        <div class="grid-content labelfor">角色名称：</div>
+                    </el-col>
+                    <el-col :span="14">
+                        <div class="grid-content">
+                            <el-input placeholder="请输入角色名称" v-model="rolename"></el-input>
+                        </div>
+                    </el-col>
+                </el-col>
+                <el-col :span="8">
+                    <el-col :span="10">
+                        <div class="grid-content labelfor">角色编号：</div>
+                    </el-col>
+                    <el-col :span="14">
+                        <div class="grid-content">
+                            <el-input placeholder="请输入角色编号" v-model="roleid"></el-input>
+                        </div>
+                    </el-col>
+                </el-col>
+                <el-col :span="7">
+                    <el-col :span="10">
+                        <div class="grid-content labelfor">所属部门：</div>
+                    </el-col>
+                    <el-col :span="14">
+                        <div class="grid-content">
+                            你猜
+                        </div>
+                    </el-col>
+                </el-col>
             </el-row>
             <el-row>
                 <el-col :span='10' :offset='4'>
@@ -102,8 +114,10 @@ export default {
                     name:'四级',
                     child:[]
                 }
-          ],
-          test:'test'
+            ],
+            test:'test',
+            rolename:'',
+            roleid:''
         }
     },
     created:function(){
@@ -197,6 +211,9 @@ export default {
     border-radius: 5px;
     padding:10px 20px;
     overflow: hidden;
+}
+.labelfor{
+    text-align: right;
 }
 .data .select{
     overflow: hidden;

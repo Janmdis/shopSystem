@@ -101,8 +101,9 @@ export default {
     padding-right:40px;
     float: right;
 }
-
-
+li{
+    margin-top: 10px !important;
+}
 </style>
 
 

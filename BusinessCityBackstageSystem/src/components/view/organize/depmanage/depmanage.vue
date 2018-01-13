@@ -42,7 +42,6 @@ export default {
     background-color: #f0f3f6;
     position: absolute;
     top: 70px;
-    
 }
 @media only screen and (min-width: 992px) {
     .el-main{
@@ -61,6 +60,12 @@ export default {
 }
 .el-col{
     height: 100%;
+}
+
+</style>
+<style>
+.tree li{
+    margin-top: 10px !important;
 }
 </style>
 

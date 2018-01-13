@@ -44,6 +44,11 @@ export default new Router({
                     path: 'userInfos', // 部门管理
                     name: 'userInfos',
                     component: resolve => require(['@/components/view/userInfo/userInfos.vue'], resolve)
+                },
+                {
+                    path: 'roleManage', // 角色管理
+                    name: 'roleManage',
+                    component: resolve => require(['@/components/view/organize/rolemanage/role.vue'], resolve)
                 }
             ]
         },
