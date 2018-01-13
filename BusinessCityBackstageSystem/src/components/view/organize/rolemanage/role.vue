@@ -92,8 +92,14 @@ export default {
             valuesearch:'',
         }
     },
+    created:function(){
+        this.$root.$on('editdialog',()=>{
+            this.opendialogedit();
+        });
+    },
     methods:{
         opendialogedit(){
+            
             this.$root.$emit('showeditdialog');
         }
     }

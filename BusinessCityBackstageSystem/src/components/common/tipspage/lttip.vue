@@ -6,7 +6,7 @@
             </h3>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
-                <li id="modificationBtn" class='other'>
+                <li id="modificationBtn" class='other' @click="edit">
                     <i class='el-icon-edit-outline'></i> 编辑
                 </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal">
@@ -21,7 +21,8 @@ export default {
     props:['name'],
     data(){
         return{
-            listname:''
+            listname:'',
+            canedit:true
         }
     },
     created:function(){
@@ -32,7 +33,15 @@ export default {
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
             dom.style.left=data.show?'0px':'-500px';
             dom_edit.style.cursor=data.editcan?'':'not-allowed';
+            this.canedit=data.editcan;
         });
+    },
+    methods:{
+        edit(){
+            if(this.canedit){
+                this.$root.$emit('editdialog');
+            }
+        }
     }
 }
 </script>

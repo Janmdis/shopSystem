@@ -34,27 +34,7 @@ export default {
 }
 </script>
 <style scoped>
-.el-main{
-    width: 83.33333%;
-    left: 16.66667%;
-    height: 100%;
-    margin-bottom: -70px;
-    background-color: #f0f3f6;
-    position: absolute;
-    top: 70px;
-}
-@media only screen and (min-width: 992px) {
-    .el-main{
-        width: 83.33333%;
-        left: 16.66667%;
-    }  
-}
-@media only screen and (min-width: 1200px) {
-    .el-main{
-        width: 87.5%;
-        left: 12.5%;
-    }   
-}
+
 .el-row{
     height: 100%;
 }
