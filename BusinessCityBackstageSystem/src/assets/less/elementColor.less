@@ -15,13 +15,7 @@ table td:nth-child(3),table th:nth-child(3){
     background-color: #00aeaa;
     border-color: #00aeaa;
 }
-//选中客户资料的id的样式
-table td:nth-child(3) .cell{
-    border: 1px solid #ddd;
-}
-table td:nth-child(3) {
-    padding-right:10px;
-}
+
 
 //去掉三角
 .el-popper .popper__arrow{
@@ -29,4 +23,31 @@ table td:nth-child(3) {
   }
   .el-popper[x-placement^=bottom]{
     margin-top:0;
+  }
+
+  //element 圆角
+  .el-input__inner{
+    border-radius: 5px; 
+  }
+  //按钮颜色
+  .el-button--primary:focus, .el-button--primary:hover{
+    background: #00aeaa;
+    border-color: #00aeaa;
+    
+  }
+  //下拉文本框宽度
+  .el-select{
+      width:100% !important;
+  }
+ .el-col .el-button--primary{
+      //width: auto;
+  }
+  .el-icon-refresh{
+    font-size: 35px;
+    cursor: pointer;
+    color: #00aeaa;
+    margin-top: 3px;
+  }
+  .mLeft{
+      margin-left: 20px;
   }
