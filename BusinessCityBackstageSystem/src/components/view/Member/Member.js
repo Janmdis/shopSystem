@@ -27,6 +27,7 @@ export default {
         },
         {
           name: '王小虎',
+          ids: '25288',
           iphone: '1500898888',
           province: '上海',
           types: '优质客户',

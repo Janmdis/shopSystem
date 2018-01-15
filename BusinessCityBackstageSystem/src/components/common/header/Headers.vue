@@ -5,8 +5,7 @@
          <ul class='navTab'>
           <li v-for="info in navInfo" 
            @click="selected(info.infoText)" 
-           :class="{active: activeName == info.infoText}"
-           >
+           :class="{active: activeName == info.infoText}">
             <i :class = info.imgClass ></i>
             <p>{{info.infoText}}</p>
           </li>
@@ -52,7 +51,7 @@
     >
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="企业" prop="region">
-        <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+        <el-col :span="20"><el-select v-model="ruleForm.region" placeholder="请选择活动区域">
           <el-option label="区域一" value="shanghai"></el-option>
           <el-option label="区域二" value="beijing"></el-option>
         </el-select>

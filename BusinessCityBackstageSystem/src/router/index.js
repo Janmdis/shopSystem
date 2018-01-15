@@ -3,7 +3,7 @@ import Router from 'vue-router'
 Vue.use(Router)
     /* eslint-disable */
 export default new Router({
-    mode: 'history',
+    //mode: 'history',
     routes: [{
             path: '/login',
             component: resolve => require(['@/components/view/login/Logining.vue'], resolve),
@@ -41,7 +41,7 @@ export default new Router({
                     component: resolve => require(['@/components/view/organize/depmanage/depmanage.vue'], resolve)
                 },
                 {
-                    path: 'userInfos', // 部门管理
+                    path: 'userInfos', // 个人信息
                     name: 'userInfos',
                     component: resolve => require(['@/components/view/userInfo/userInfos.vue'], resolve)
                 },
@@ -51,7 +51,7 @@ export default new Router({
                     component: resolve => require(['@/components/view/organize/rolemanage/role.vue'], resolve)
                 },
                 {
-                    path: 'mallSet', // 角色管理
+                    path: 'mallSet', // 商城模板
                     name: 'mallSet',
                     component: resolve => require(['@/components/view/mall/customTemplate/templateSet.vue'], resolve)
                 }

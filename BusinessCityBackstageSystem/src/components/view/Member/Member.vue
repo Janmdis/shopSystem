@@ -51,6 +51,11 @@ import Members from './Member.js';
 export default Members
 </script>
 <style>
+.lineHeight{
+   position:relative;
+   top:24px;
+   color:#6f6f6f;
+}
 table td:nth-child(3) .cell{
     border: 1px solid #ddd;
 }

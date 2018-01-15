@@ -109,11 +109,6 @@ export default {
                 }
             }
             this.$root.$emit('showlttip',{show,editcan,num});
-            
-            // console.log(num);
-            // if((!isall&&num==allnum)||(isall&&num==0)){
-            //     console.log('全选');
-            // }
         },
         indexMethod(index) {
         return index + 1
