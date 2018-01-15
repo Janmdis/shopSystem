@@ -1,6 +1,6 @@
 <template>
-    <el-main id="member">
-        <div class="memberNav">
+    <el-main id="member" >
+        <div class="memberNav" @click.native="closeInfo">
             <el-row class="navChild">
                 <el-col :span="10" >
                     <lttip :name='namepage'></lttip>
@@ -23,7 +23,7 @@
             <div class='boderBox'>
             <Datatable :data='tableData3'></Datatable>
             </div>
-            <member-info class="infoCover"></member-info>
+            <member-info class="infoCover" ref="memberInfos"></member-info>
             <el-row>
                 <el-col :span='10'>
                     <p class='lineHeight'>从1到20/共<span>21</span>条数据</p>

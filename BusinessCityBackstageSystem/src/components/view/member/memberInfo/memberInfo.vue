@@ -5,7 +5,7 @@
                 <div class="infoLine1">
                     <div class="infoLine1Img"><img class="images" src="/static/images/Member/customerLogo.png" alt=""></div>
                     <div class="infoLine1Left">上海镜曲网络科技有限公司</div>
-                    <div class="infoLine1Right"><span class="line1PrintBtn">打印</span><span class="line1CloseBtn el-icon-close"></span></div>
+                    <div class="infoLine1Right"><span class="line1PrintBtn">打印</span><span class="line1CloseBtn el-icon-close" @click="closeInfo"></span></div>
                 </div>
                 <div class="infoLine2">
                    <label for="">姓名<p>小明</p></label>
