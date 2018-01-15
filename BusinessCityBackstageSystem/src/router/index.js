@@ -49,6 +49,11 @@ export default new Router({
                     path: 'roleManage', // 角色管理
                     name: 'roleManage',
                     component: resolve => require(['@/components/view/organize/rolemanage/role.vue'], resolve)
+                },
+                {
+                    path: 'mallSet', // 角色管理
+                    name: 'mallSet',
+                    component: resolve => require(['@/components/view/mall/customTemplate/templateSet.vue'], resolve)
                 }
             ]
         },
