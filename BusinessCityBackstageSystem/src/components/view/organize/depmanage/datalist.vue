@@ -54,7 +54,7 @@ export default {
             // 是否有子节点
             var haschild=e.currentTarget.parentNode.parentNode.getElementsByTagName("li").length?true:false;
             e.currentTarget.setAttribute("class","on");
-            this.$root.$emit("haschild",haschild);
+            this.$root.$emit("haschild",!haschild);
             // var ulnode=strongnode;
             // console.log(ulnode);
         }
