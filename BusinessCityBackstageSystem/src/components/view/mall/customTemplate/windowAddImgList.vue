@@ -3,11 +3,11 @@
                 <div class="imgShowDiv">
                     <div class="chooseImg">
                         <div class="center">
-                            <img class="microImg" src="./../../../../assets/logo.png">
+                            <img class="microImg" src="./../../../../assets/templateImg.jpg">
                         </div>
                     </div>
                     <div class="reLoadingImg">
-                        <p @click="opendialog" style="line-height: 855%;">重新上传 建议比例（15:7）</p>
+                        <p @click="opendialog" style="line-height: 1178%;text-align: center;">重新上传 建议比例（1:1）</p>
                         <div class="delete-img">&times;</div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
   font-size:23px;
   position:absolute;
   top:-6%;
-  left:94%;
+  left:89%;
   padding:2px 6px;
   border-radius:50%;
   color:#fff;
@@ -137,8 +137,8 @@
 }
 //样式 主标题 副标题 
  .carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
- .imgShowDiv{width:45%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;}
- .chooseImg{width:220px;height:141px;}
+ .imgShowDiv{width:30%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;font-size: 12px;}
+ .chooseImg{width:164px;height:141px;}
  .editStyleDiv{width:50%;background:#fff;margin-left:10px;margin-top:5px;float:left;}
  .styleBtn{font-size:16px;margin-top:10px;margin-bottom:20px;}
  .styleTitle{float:left;padding-left:16px;padding-top:5px;}
@@ -149,5 +149,7 @@
  .subtitleDiv{margin-top:20px;margin-bottom:20px;}
  .subtitle{display:inline-block;float:left;padding-top:6px}
  .subtitleInput{display:inline-block;float:left;width:200px;}
- .el-dropdown-link{border: 1px solid #aaaaaa;padding: 7px;border-radius: 3px;cursor: pointer;}
+ .el-dropdown{border: 1px solid #aaaaaa;padding: 7px;}
+ .el-dropdown:hover{background-color: #f5f3f3;}
+ .el-dropdown-link{border-radius: 3px;cursor: pointer;}
 </style>

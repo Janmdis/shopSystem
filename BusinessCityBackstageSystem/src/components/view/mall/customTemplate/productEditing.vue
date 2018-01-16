@@ -62,7 +62,8 @@
     padding: 8px 11px;
     background: #00adab;
     color:#fff;
-    width: 82px;cursor: pointer;}
+    width: 82px;cursor: pointer;
+    text-align: center;}
     .borderBig{border-radius: 5px 0px 0px 5px;}
 .borderSmall{border-radius: 0px;}
 .borderBS{border-radius: 0px 5px 5px 0px;}

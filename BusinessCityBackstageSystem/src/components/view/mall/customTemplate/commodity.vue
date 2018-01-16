@@ -5,19 +5,19 @@
         <el-col :span="24">
           <div class="imgConet">
                <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
+               <img src="./../../../../assets/templateImg.jpg" class="img">
              </div>
         </el-col>
         <el-col :span="12">
           <div class="imgConet">
                <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
+               <img src="./../../../../assets/templateImg.jpg" class="img">
              </div>
         </el-col>
         <el-col :span="12">
           <div class="imgConet">
                <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
+               <img src="./../../../../assets/templateImg.jpg" class="img">
              </div>
         </el-col>
         </el-row>
