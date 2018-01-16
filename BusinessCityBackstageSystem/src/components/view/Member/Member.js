@@ -3,13 +3,13 @@ import memberInfo from './memberInfo/MemberInfo.vue'
 import Datatable from './MemberTable.vue'
 import Lttip from '@/components/common/tipspage/lttip.vue'
 import search from './search.vue'
+import showWindows from './showWindow.vue'
 export default {
     name: 'member',
     data() {
-        return {
+      return {
             namepage: '客户资料',
             currentPage1: 1,
-
             searchFn: '',
             isActive: false,
             tableData3: [{
@@ -45,19 +45,19 @@ export default {
     },
     methods: {
         closeInfo() {
-            let infos = document.getElementsByClassName("infoCover")[0]
-            console.log(infos.style.left)
-            if (!(infos.style.left == '' || infos.style.left == null || infos.style.left == undefined)) {
-                var left1 = 16;
-                let timer2 = setInterval(function() {
-                    left1++
-                    infos.style.left = left1 + '%';
-                    if (left1 == 100) {
-                        left1 = 100
-                        clearInterval(timer2)
-                    }
-                }, 5);
-            }
+            // let infos = document.getElementsByClassName("infoCover")[0]
+            // console.log(infos.style.left)
+            // if (!(infos.style.left == '' || infos.style.left == null || infos.style.left == undefined)) {
+            //     var left1 = 16;
+            //     let timer2 = setInterval(function() {
+            //         left1++
+            //         infos.style.left = left1 + '%';
+            //         if (left1 == 100) {
+            //             left1 = 100
+            //             clearInterval(timer2)
+            //         }
+            //     }, 5);
+            // }
         },
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`)
@@ -106,6 +106,7 @@ export default {
         memberInfo,
         Lttip,
         search,
-        Datatable
+        Datatable,
+        showWindows
     }
 }

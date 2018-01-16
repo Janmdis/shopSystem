@@ -1,53 +1,121 @@
 <template>
     <el-main >
-        <el-row :gutter="20">
-            <el-col :span="6">
-                <Statis :typedata="1"></Statis>
+        <el-row :gutter="20" type='flex' justify='center'>
+            <el-col>
+                <Statis :data="list[0]"></Statis>
             </el-col>
-            <el-col :span="6">
-                <Statis :typedata="2"></Statis>
+            <el-col>
+                <Statis :data="list[1]"></Statis>
             </el-col>
-            <el-col :span="6">
-                <Statis :typedata="3"></Statis>
+            <el-col>
+                <Statis :data="list[2]"></Statis>
             </el-col>
-            <el-col :span="6">
-                <StatisPayment></StatisPayment>
+            <el-col>
+                <Statis :data="list[3]"></Statis>
+            </el-col>
+            <el-col>
+                <Statis :data="list[4]"></Statis>
             </el-col>
         </el-row>
-        <el-row :gutter="20">
-            <el-col :span="16">
-                <Graph></Graph>
+        <el-row :gutter='20'>
+            <el-col :span="16" >
+                <el-row :gutter="20">
+                    <el-col :span='10' >
+                        <Statis :data="list[5]"></Statis>
+                    </el-col>
+                    <el-col :span='14'>
+                        <Readydo></Readydo>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col style='margin-bottom:65px;'>
+                        <Graph></Graph>
+                    </el-col>
+                </el-row>
             </el-col>
             <el-col :span="8">
                 <Pie :objdata='objclient' ></Pie>
                 <Pie :objdata='objorder'></Pie>
             </el-col>
+            <!-- <el-col :span='16' style='margin-bottom:65px;'>
+                
+            </el-col> -->
+            <!-- <el-col :span="8">
+                <Pie :objdata='objclient' ></Pie>
+                <Pie :objdata='objorder'></Pie>
+            </el-col> -->
         </el-row>
     </el-main>
 </template>
 <script>
 import Statis from '../index/Statis.vue'
-import StatisPayment from '../index/StatisPayment.vue'
+import Readydo from '../index/readydo.vue'
 import Graph from '../index/Graph.vue'
 import Pie from '../index/Pie.vue'
 import '../../../assets/javascript/index'
 
 /* eslint-disable */
 export default {
-  components:{Statis,StatisPayment,Graph,Pie},
+  components:{Statis,Graph,Pie,Readydo},
   data(){
       return{
+            list:[
+                {
+                    type:1,
+                    describe1:'订单数',
+                    describe2:'订单数',
+                    value1:'100',
+                    value2:'200'
+                },
+                {
+                    type:2,
+                    describe1:'总成交额',
+                    describe2:'总成交额',
+                    value1:'100',
+                    value2:'200'
+                },
+                {
+                    type:3,
+                    describe1:'总访客',
+                    describe2:'总访客',
+                    value1:'100',
+                    value2:'200'
+                },
+                {
+                    type:4,
+                    describe1:'总流量',
+                    describe2:'总流量',
+                    value1:'100M',
+                    value2:'200M'
+                },
+                {
+                    type:5,
+                    describe1:'客单价',
+                    describe2:'客单价',
+                    value1:'100',
+                    value2:'200'
+                },
+                {
+                    type:6,
+                    describe1:'移动访客',
+                    describe2:'移动流量',
+                    value1:'100',
+                    value2:'200M'
+                }
+            ],
             objclient:{
                 title:'客户来源',
-                url:'../../../../static/images/index/main6.png',
-                listdatetype:['客户转介绍','社交软件','网上看到'],
+                url:'../../../../static/images/index/main7.png',
+                listdatetype:['自助下单','幸福绿城app','电话来访','线下推广','会员推荐','回头客','淘宝','管家推荐','其他'],
+                listdata:[100,200,300,400,500,600,700,800,900],
                 totaltip:'客户总数',
                 idname:'charts1'
             },
             objorder:{
                 title:'订单类型',
-                url:'../../../../static/images/index/main7.png',
+                url:'../../../../static/images/index/main9.png',
                 listdatetype:['批发订单','商城订单','订单采购'],
+                listdata:[100,200,300],
                 totaltip:'订单总数',
                 idname:'charts2'
             }

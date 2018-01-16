@@ -20,7 +20,6 @@ export default {
       if (!value) {
         return callback(new Error('日期不能为空'))
       } else {
-        
       }
     }
     return {
@@ -29,8 +28,7 @@ export default {
         disabledDate(time) {
           return time.getTime() > Date.now()
         }
-      },
-     
+      },  
       ruleForm1: {
         iPhone: '',
         userName: '',

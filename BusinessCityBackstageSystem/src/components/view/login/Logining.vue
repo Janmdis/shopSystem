@@ -29,7 +29,7 @@ export default {
 #logining{
     width:100%;
     height: 100%;
-    background:url(/static/images/Login/background.jpg) no-repeat;
+    background:url(./background.jpg) no-repeat;
     background-size:100% 100%;
     position: relative;
 }

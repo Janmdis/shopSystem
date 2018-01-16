@@ -15,14 +15,14 @@
                 <span class="checkfor el-checkbox__inner"></span>
             </div>
         </div>
-        <Datarolelist :list='item.child' :test='msg'></Datarolelist>
+        <Datarolelist :list='item.child' :msgextra='msg'></Datarolelist>
     </li>
   </ul>
 </template>
 <script>
 export default {
     name:'Datarolelist',
-    props:['list','test'],
+    props:['list','msgextra'],
     data(){
         return {
             child:[],
@@ -31,7 +31,7 @@ export default {
     },
     created:function(){
         this.child=this.list;
-        this.msg= this.test+'1';
+        this.msg= this.msgextra+'1';
     },
     methods:{
         pack(e){
@@ -77,7 +77,7 @@ export default {
                 result[i].childNodes[0].checked=!ststus;
             }
             // 改变父集状态
-            // 去的当前元素的同辈元素标志
+            // 获取当前元素的同辈元素标志
             let msg=target.getAttribute("msg");
             // 取得当前元素的同一分支节点标志
             let msg2=target.getAttribute("msg2");
@@ -85,10 +85,11 @@ export default {
             // 当前元素的结构树层数
             let length_tree=msg.split('test')[1].split('').length;
             // var selected
+            let selectedall=true;
             let dom=target.parentNode.parentNode.parentNode.parentNode;
             for(let i=1;i<=length_tree;i++){
                 // 默认每层的子元素全部被选中
-                let selectedall=true;
+                
                 // 得到当前元素的第i层ul父节点
                 for(let j=1;j<i;j++){
                     dom=dom.parentNode.parentNode;

@@ -3,7 +3,7 @@
         <el-header>
                 修改头像
         </el-header>
-        <el-main>
+        <div class="mTop">
         <el-upload
         class="avatar-uploader"
         action="https://jsonplaceholder.typicode.com/posts/"
@@ -14,7 +14,7 @@
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <el-col :span="24" ><el-button type="success">保存</el-button></el-col>
-        </el-main>
+        </div>
     </el-container>
 </template>
 
