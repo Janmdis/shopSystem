@@ -1,7 +1,7 @@
 <template>
   <div>
        <div style="margin:25px 0px 15px 24px;color:black;text-align:left;">选择图片：
-           <span class="add-new-Btn">新增分类</span>
+           <span class="add-newClass-Btn">新增分类</span>
        </div>
         <div class="imgLists">
             <classificationAddImgList></classificationAddImgList>
@@ -28,7 +28,7 @@ import classificationAddImgList from './classificationAddImgList'
 </script>
 <style scoped lang="less">
 @import "../../../../assets/less/color";
-.add-new-Btn{
+.add-newClass-Btn{
     line-height: 34px;
    border-radius: 5px;
   color: #fff;
@@ -37,5 +37,9 @@ import classificationAddImgList from './classificationAddImgList'
   margin-left: 12px;
   background: #00adab;
   position: relative;
+  cursor: pointer;
+}
+.add-newClass-Btn:hover{
+  background: #049e9d;
 }
 </style>

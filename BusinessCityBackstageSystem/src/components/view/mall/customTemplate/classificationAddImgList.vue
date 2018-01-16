@@ -3,11 +3,11 @@
                 <div class="imgShowDiv">
                     <div class="chooseImg">
                         <div class="center">
-                            <img class="microImg" src="./../../../../assets/logo.png">
+                            <img class="microImg" src="./../../../../assets/templateImg.jpg">
                         </div>
                     </div>
                     <div class="reLoadingImg">
-                        <p @click="opendialog" style="line-height: 1485%;font-size:14px;">重新上传 建议比例（4:4）</p>
+                        <p @click="opendialog" style="line-height: 1485%;font-size:14px;text-align: center;">重新上传 建议比例（4:4）</p>
                         <div class="delete-img">&times;</div>
                     </div>
                 </div>
@@ -127,10 +127,12 @@
  .linkTips{font-size:16px;margin-top:38px;margin-bottom:20px;text-align: left;}
  .carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
  .imgShowDiv{width:30%;background:#fff;margin-left:10px;margin-right:65px;margin-top:5px;float:left;position: relative;}
- .chooseImg{width:156px;height:224px;}
+ .chooseImg{width: 165px;height:224px;}
  .editStyleDiv{width:50%;background:#fff;margin-left:10px;margin-top:40px;float:left;}
  .calssTitleDiv{margin-top:20px;margin-bottom:20px;}
- .classTitle{display:inline-block;float:left;padding-top:6px}
- .classTitleInput{display:inline-block;float:left;width:101px;}
- .el-dropdown-link{border: 1px solid #aaaaaa;padding: 7px;border-radius: 3px;cursor: pointer;}
+ .el-dropdown{border: 1px solid #aaaaaa;padding: 7px;}
+ .el-dropdown:hover{background-color: #f5f3f3;}
+ .el-dropdown-link{border-radius: 3px;cursor: pointer;}
+ .classTitle{float: left;line-height: 27px;display: inline-block;}
+ .classTitleInput{float: left;width: 50%;}
 </style>
