@@ -4,24 +4,24 @@
     <div class="borderHover">
         <el-row >
           <el-col class="className">
-            <div class="">眼镜</div>
-            <img src="./../../../../assets/logo.png" class="img">
+            <div class="classNameTitle">眼镜</div>
+            <img src="./../../../../assets/templateImg.jpg" class="img">
           </el-col>
           <el-col class="className">
-             <img src="./../../../../assets/logo.png" class="img">
-            <div class="">数码</div>
+             <img src="./../../../../assets/templateImg.jpg" class="img">
+            <div class="classNameTitle">数码</div>
           </el-col>
           <el-col class="className">
-            <div class="">家电</div>
-             <img src="./../../../../assets/logo.png" class="img">
+            <div class="classNameTitle">家电</div>
+             <img src="./../../../../assets/templateImg.jpg" class="img">
           </el-col>
           <el-col class="className">
-             <img src="./../../../../assets/logo.png" class="img">
-            <div class="">食品</div>
+             <img src="./../../../../assets/templateImg.jpg" class="img">
+            <div class="classNameTitle">食品</div>
           </el-col>
           <el-col class="className">
-            <div class="">衣服</div>
-             <img src="./../../../../assets/logo.png" class="img">
+            <div class="classNameTitle">衣服</div>
+             <img src="./../../../../assets/templateImg.jpg" class="img">
           </el-col>
         </el-row>
     </div>
@@ -58,5 +58,8 @@
 .img{
  width:100%;
  height:100%;
+}
+.classNameTitle{
+  text-align: center;
 }
 </style>

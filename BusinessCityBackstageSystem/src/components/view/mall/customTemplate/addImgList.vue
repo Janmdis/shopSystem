@@ -1,26 +1,28 @@
 <template>
-  <div class="carouselListInfo" style="padding:30px 30px 30px;border-bottom:1px solid #d2d2d2">
-                <div style="width:45%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;">
-                    <div class="chooseImg" style="width:220px;height:141px;">
+  <div class="carouselListInfo">
+                <div class="bannerEditContent">
+                    <div class="chooseImg" style="width:246px;height:141px;">
                         <div class="center">
-                            <img class="microImg" src="./../../../../assets/logo.png">
+                            <img class="microImg" src="./../../../../assets/templateImg.jpg">
                         </div>
                     </div>
                     <div class="reLoadingImg">
-                        <p @click="opendialog" style="line-height: 855%;">重新上传 建议比例（15:7）</p>
+                        <p @click="opendialog" style="line-height: 855%;text-align: center;">重新上传 建议比例（15:7）</p>
                         <div class="delete-img">&times;</div>
                     </div>
                 </div>
-                <div style="width:50%;background:#fff;margin-left:10px;margin-top:5px;float:left;">
-                    <div class="linkTips" style="font-size:16px;margin-top:20px;margin-bottom:20px;">设置链接到页面地址</div>
+                <div class="bannerLinkSrc">
+                    <div class="linkTips" style="">设置链接到页面地址</div>
                     <div class="dropdown">
-                        <button class="linkTips btn btn-default dropdown-toggle" type="button">
-                            链接到页面地址&nbsp;<span class="iconfot fs12 pull-rigth"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li @click="opendialogPro" style="margin-top:10px;">商品详情</li>
-                            <li @click="opendialogSelf" style="margin-top:10px;">自定义</li>
-                        </ul>
+                        <el-dropdown trigger="click">
+                            <span class="el-dropdown-link">
+                            链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
+                           </span>
+                           <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                            <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                           </el-dropdown-menu>
+                        </el-dropdown>
                     </div>
                 </div>
                 <div style="clear:both"></div>
@@ -109,4 +111,11 @@
     width: 100%;
     height: 100%;
 }
+.carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
+.bannerEditContent{width:45%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;}
+.bannerLinkSrc{width:50%;background:#fff;margin-left:10px;margin-top:5px;float:left;}
+.linkTips{font-size:16px;margin-top:20px;margin-bottom:20px;}
+ .el-dropdown{border: 1px solid #aaaaaa;padding: 7px;}
+ .el-dropdown:hover{background-color: #f5f3f3;}
+ .el-dropdown-link{border-radius: 3px;cursor: pointer;}
 </style>

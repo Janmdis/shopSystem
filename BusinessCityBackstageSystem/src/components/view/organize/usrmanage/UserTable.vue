@@ -21,50 +21,64 @@
         class='borderRight'
         fixed
         prop="ids"
-        label="ID"
+        label="用户登录名称"
         width='100'
         >
         </el-table-column>
         <el-table-column
         prop="name"
-        label="客户姓名"
+        label="姓名"
         >
         </el-table-column>
         <el-table-column
         prop="iphone"
         width='120'
-        label="手机号">
+        label="性别">
         </el-table-column>
         <el-table-column
         prop="types"
-        label="客户类型">
+        label="年龄">
         </el-table-column>
         <el-table-column
         prop="city"
-        label="城市">
+        label="手机号码">
         </el-table-column>
         <el-table-column
         prop="quarters"
-        label="小区">
+        label="入职日期">
         </el-table-column>
         <el-table-column
         prop="state"
-        label="订单状态">
+        label="邮件">
         </el-table-column>
         <el-table-column
         prop="source"
-        label="来源">
+        width='120'
+        label="工作状态">
         </el-table-column>
         <el-table-column
         prop="Inputtiem"
         width='100'
-        label="录入时间">
+        label="所属部门">
         </el-table-column>
         <el-table-column
-        width='260'
-        prop="address"
-        label="小区地址">
-    </el-table-column>
+        prop="locking"
+        label="是否锁定">
+        </el-table-column>
+        <el-table-column
+        width='120'
+        prop="tel"
+        label="固定电话">
+        </el-table-column>
+        <el-table-column
+        width='120'
+        prop="birthday"
+        label="出生日期">
+        </el-table-column>
+        <el-table-column
+        prop="relation"
+        label="关联角色">
+        </el-table-column>
                 
             </el-table>
 </template>

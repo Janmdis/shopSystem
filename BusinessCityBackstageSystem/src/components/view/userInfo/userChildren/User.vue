@@ -3,7 +3,7 @@
         <el-header>
                 基本信息
         </el-header>
-        <el-main>
+        <div class="mTop">
         <el-form :model='ruleForm1' 
         status-icon :rules='rules1' 
         ref='ruleForm1'
@@ -60,8 +60,7 @@
             </el-col>
         </el-form-item>
         </el-form>
-       
-        </el-main>
+        </div>
     </el-container>
 </template>
 
@@ -71,6 +70,7 @@ export default user
 
 </script>
 <style>
+
 .el-radio__input.is-checked+.el-radio__label{
   color:#0b9c9b;
 }
@@ -92,12 +92,13 @@ export default user
 .el-button{
     margin-left:12.8%;
 }
-    .el-header{
-        border-bottom:1px solid #ddd;
-        line-height:60px;
-    }
-    .el-row{
-        line-height:40px;
-        margin-bottom: 10px;
-    }
+.el-header{
+    border-bottom:1px solid #ddd;
+    line-height:60px;
+}
+.el-row{
+    line-height:40px;
+    margin-bottom: 10px;
+}
+
 </style>

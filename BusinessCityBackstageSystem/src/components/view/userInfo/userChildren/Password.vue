@@ -3,7 +3,7 @@
         <el-header>
                 修改密码
         </el-header>
-        <el-main>
+        <div class="mTop">
         <el-form 
         :model="ruleForm2" 
         status-icon 
@@ -27,7 +27,7 @@
             </el-col>
         </el-form-item>
         </el-form>
-        </el-main>
+        </div>
     </el-container>
 </template>
 

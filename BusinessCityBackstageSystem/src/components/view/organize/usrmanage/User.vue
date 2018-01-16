@@ -16,21 +16,16 @@
                     
                     <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
                     
-                   <el-button type="primary" class='msnuiMore' round><i class='icon iconfont icon-msnui-more'></i></el-button>
-                   <el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button>
                 </div>
             </el-col>
    
             </el-row>
-            <el-row>
-                <search></search>
-            </el-row>
+            
         </div>
         <div class="memberMain">
             <div class='boderBox'>
             <Datatable :data='tableData3'></Datatable>
             </div>
-            <member-info class="infoCover" ref="memberInfos"></member-info>
             <el-row>
                 <el-col :span='10'>
                     <p class='lineHeight'>从1到20/共<span>21</span>条数据</p>
@@ -55,8 +50,8 @@
 </template>
 <script>
 
-import Members from './Member.js';
-export default Members
+import User from './User.js';
+export default User
 </script>
 <style>
 .lineHeight{
@@ -64,9 +59,7 @@ export default Members
    top:24px;
    color:#6f6f6f;
 }
-table td:nth-child(3) .cell{
-    border: 1px solid #ddd;
-}
+
 table td:nth-child(3) {
     padding-right:10px;
 }
@@ -81,8 +74,10 @@ table td:nth-child(3) {
 }
 </style>
 <style scoped lang="less">
-@import './Member.less';
-
+@import './User.less';
+.add {
+    background:#00aeaa;
+}
 .search {
     height: 72px;
     display: -webkit-box;

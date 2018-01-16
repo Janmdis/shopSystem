@@ -45,6 +45,9 @@ import Password from './userChildren/Password.vue'
 </script>
 
 <style>
+.mTop{
+    margin-top:20px;
+}
 .el-tabs__item{
     width:200px;
 }

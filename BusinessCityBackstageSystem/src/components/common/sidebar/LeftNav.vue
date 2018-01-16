@@ -1,7 +1,7 @@
 <template>
   <div class="leatNav" >
     <div class="login">
-      <img class='imgs' src="/static/images/Login/logo.png" />
+      <img class='imgs' src="static/images/Login/logo.png" />
       <p>禾目SAAS管理系统</p>
     </div>
     <component v-bind:is="which_to_show"></component>

@@ -2,7 +2,7 @@
   <!-- 橱窗组件开始 -->
     <div class="borderHover">
         <el-row>
-        <el-col :span="12">
+        <el-col :span="8">
              <div class="imgConet">
                <!-- 条框div -->
                 <div class="boxesDiv">
@@ -12,11 +12,11 @@
                 <p class="title1">主标题</p>
                 <!-- 副标题 -->
                 <p class="title2">副标题</p>
-                <!-- 线框div -->
-                <div class="lineDiv"></div>
+               <!-- 线框div -->
+               <div class="lineDiv"></div>
              </div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
             <div class="imgConet">
                <!-- 条框div -->
                 <div class="boxesDiv">
@@ -30,7 +30,7 @@
                <div class="lineDiv"></div>
              </div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
             <div class="imgConet">
                <!-- 条框div -->
                <div class="boxesDiv">
@@ -44,7 +44,35 @@
                <div class="lineDiv"></div>
              </div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
+          <div class="imgConet">
+               <!-- 条框div -->
+                <div class="boxesDiv">
+                  <img src="./../../../../assets/logo.png" class="img">
+                </div>
+                <!-- 主标题 -->
+                <p class="title1">主标题</p>
+                <!-- 副标题 -->
+                <p class="title2">副标题</p>
+               <!-- 线框div -->
+               <div class="lineDiv"></div>
+             </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="imgConet">
+               <!-- 条框div -->
+                <div class="boxesDiv">
+                  <img src="./../../../../assets/logo.png" class="img">
+                </div>
+                <!-- 主标题 -->
+                <p class="title1">主标题</p>
+                <!-- 副标题 -->
+                <p class="title2">副标题</p>
+               <!-- 线框div -->
+               <div class="lineDiv"></div>
+             </div>
+        </el-col>
+        <el-col :span="8">
           <div class="imgConet">
                <!-- 条框div -->
                 <div class="boxesDiv">
@@ -107,11 +135,11 @@
     border: 1px solid #eeeeee;
 }
 .title1{    position: absolute;
-font-size: 13px;
+font-size: 10px;
     top: 17%;
-    left: 40%;}
+    left: 35%;}
 .title2{position: absolute;
-font-size: 13px;
+font-size: 10px;
     top: 72%;
-    left: 40%;}
+    left: 35%;}
 </style>

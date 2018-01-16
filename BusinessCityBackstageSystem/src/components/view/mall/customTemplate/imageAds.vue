@@ -3,7 +3,7 @@
         <div class="borderHover" @click="handleClick" :class="{'current-style':hasBorder}">
             <div class="block">
                 <el-carousel trigger="click" width='614px'>
-                    <el-carousel-item v-for="item in ImgArr" :key="item">
+                    <el-carousel-item v-for="item in 4" :key="item">
                         <h3 class="Imgsize"><a href="javascript:;"><img class="Imgsize" :src="item" /></a></h3>
                     </el-carousel-item>
                 </el-carousel>

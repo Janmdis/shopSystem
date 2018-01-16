@@ -9,10 +9,10 @@
             </div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="" style="margin-bottom:25px;">BACK TO SCHOOL SEASONAL DISCOUNT</div>
+            <div class="" style="margin-bottom:25px;text-align: center;">BACK TO SCHOOL SEASONAL DISCOUNT</div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="">开学季优惠</div>
+            <div class="" style="text-align: center;">开学季优惠</div>
           </el-col>
         </el-row>
     </div>
