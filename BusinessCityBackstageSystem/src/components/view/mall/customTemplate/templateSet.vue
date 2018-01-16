@@ -22,19 +22,22 @@
                   </div>
                   <!-- 模板内容头部结束 -->
                   <!-- 模板内容开始 -->
-                  <div>
+                  <div id='test' >
+                      <keep-alive v-for='(item,index) in comlist' :key='index'>
+                        <components :data='index' :is='item'></components>
+                      </keep-alive>
                       <!-- 图片广告组件 -->
-                      <imageAds></imageAds>
+                      <!-- <imageAds></imageAds> -->
                        <!-- 橱窗组件 -->
-                       <window></window>
+                       <!-- <window></window> -->
                        <!-- 橱窗组件2 -->
-                       <window2></window2>
+                       <!-- <window2></window2> -->
                        <!-- 商品组件 -->
-                       <commodity></commodity>
+                       <!-- <commodity></commodity> -->
                        <!-- 标题组件 -->
-                       <titles></titles>
+                       <!-- <titles></titles> -->
                        <!-- 分类组件 -->
-                       <classification></classification>
+                       <!-- <classification></classification> -->
                   </div>
                   <!-- 模板内容结束 -->
                   <!-- 模板底部开始 -->
@@ -44,7 +47,8 @@
                           <p class="template-buttom-title">添加新内容</p>
                           <el-row :gutter="15" class="template-buttom-content">
                             <el-col style="width:20%;"><div class="newContentBtn" @click="commodityAdd">商品</div></el-col>
-                            <el-col style="width:20%;"><div class="newContentBtn" @click="titleAdd">标题</div></el-col>
+                           
+                            <!-- <el-col style="width:20%;"><div class="newContentBtn" @click="titleAdd">标题</div></el-col>
                             <el-col style="width:20%;"><div class="newContentBtn" @click="imageAdsAdd">图片广告</div></el-col>
                             <el-col style="width:20%;"><div class="newContentBtn" @click="classificationAdd">分类</div></el-col>
                             <el-col style="width:20%;">
@@ -56,7 +60,7 @@
                                         <el-dropdown-item style="margin-top:10px;" @click.native="windowValue = !windowValue">{{ windowValue?windowValue2:windowValue1 }}</el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>
-                            </el-col>
+                            </el-col> -->
                           </el-row>
                       </el-col>
                       <div style="clear:both;"></div>
@@ -146,11 +150,27 @@ import customLink from './customLink'
          return{
              windowValue:true,
              windowValue1:"橱窗1",
-             windowValue2:"橱窗2"
+             windowValue2:"橱窗2",
+             comlist:[],
          }
-         
+     },
+     created:function(){
+         this.$root.$on('test',(id)=>{
+            let list=[];
+            for(let i=0;i<this.comlist.length;i++){
+                if(id!=i){
+                    list.push(this.comlist[i]);
+                }
+            }
+            this.comlist=list;
+            //  alert(id);
+         });
      },
      methods:{
+         commodityAdd(){
+             this.id1++;
+             this.comlist.push('commodity');
+         }
      },
      components:{
          imageAds,
