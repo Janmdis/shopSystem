@@ -11,7 +11,7 @@
                         suffix-icon="el-icon-search"
                         v-model="valuesearch">
                     </el-input>
-                    <el-button type="primary" round>新增</el-button>
+                    <el-button type="primary" @click="opendialogedit" round>新增</el-button>
                     <el-button type="primary" class="research"><i class='el-icon-refresh'></i></el-button>
                 </div>
             </el-col>
@@ -28,14 +28,16 @@
             </div>
         </el-row>
         <Dialogedit></Dialogedit>
+        <Dialogaddrole></Dialogaddrole>
     </el-main>
 </template>
 <script>
 import Lttip from '@/components/common/tipspage/lttip.vue'
 import Datatable from './datatable.vue'
 import Dialogedit from './dialogedit.vue'
+import Dialogaddrole from './dialogaddrole.vue'
 export default {
-    components:{Lttip,Datatable,Dialogedit},
+    components:{Lttip,Datatable,Dialogedit,Dialogaddrole},
     data(){
         return {
             namepage:'角色管理',
@@ -99,9 +101,11 @@ export default {
     },
     methods:{
         opendialogedit(){
-            
             this.$root.$emit('showeditdialog');
-        }
+        },
+        opendialogedit(){
+            this.$root.$emit('showroledialog');
+        },
     }
 }
 </script>

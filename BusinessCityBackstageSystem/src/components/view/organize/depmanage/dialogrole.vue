@@ -45,7 +45,7 @@
             </el-row>
             <el-row class="data">
                 <el-col :span='20' :offset='2'>
-                    <div class="grid-content">
+                    <div class="grid-content" style="min-height:300px;">
                         <div class='select'>
                             <div class='name'>
                                 <span>全选</span>
@@ -59,7 +59,7 @@
                                 <span class="checkfor el-checkbox__inner"></span>
                             </div>
                         </div>
-                        <Datarolelist :list='list' :test='test'></Datarolelist>
+                        <Datarolelist :list='list' :msgextra='test'></Datarolelist>
                     </div>
                 </el-col>
             </el-row>
@@ -141,8 +141,6 @@ export default {
         adddata(){
             let idlistopcan=[];
             let idlistseecan=[];
-            let namerole=document.getElementById('namerole').value;
-            let idrole=document.getElementById('idrole').value;
             let selectedlist=document.getElementsByClassName('check  el-checkbox__input is-checked');
             // 被选中的可操作性项集合
             let selectedopcan=this.getElementByAttr('typediv','opcan',selectedlist);
@@ -154,7 +152,7 @@ export default {
             for(let i=0;i<selectedseecan.length;i++){
                 idlistseecan.push(selectedseecan[i].getAttribute('data-id'));
             }
-            console.log(namerole,idrole,idlistopcan,idlistseecan);
+            console.log(this.namerole,this.idrole,idlistopcan,idlistseecan);
             // this.dialogroleVisible=false;
         },
         ai_dialog_close(){
@@ -204,7 +202,7 @@ export default {
 }
 .data{
     margin-top: -15px;
-    height: 350px;
+    /* height: 350px; */
 }
 .data .grid-content{
     border: 1px solid !important;
