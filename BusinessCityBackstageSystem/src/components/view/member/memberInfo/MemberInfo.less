@@ -80,6 +80,7 @@
 }
 #infoContainer{
     margin-left:10px;
+    width:82%;
     #conLeft{
         background-color: #FFFFFF;
         margin-top: 10px;
@@ -92,23 +93,6 @@
                 border-bottom: 3px solid #51c5e9;
             }
         }
-        .conLeftList1{
-            margin-top: 10px;
-            margin-left: 6%;
-            display:flex;
-            flex-wrap: wrap;
-            text-align: center;
-            p{
-                padding:7px 10px;
-                margin-right:4%;
-                margin-top:5px;
-                background-color: #EFF5F5;
-                border: none;
-                margin-bottom: 5px;
-                font-size: 12px;
-                border-radius: 5px;
-            }
-        }
         .conLeftList2{
             width: 80%;
             margin-left: 6%;
@@ -118,31 +102,51 @@
             margin-top: 30px;
             li{
                 border-bottom: 1px solid #E4E6E6 !important;
-                padding:5px 0;
+                padding:15px 0;
                 margin-bottom: 20px;
                 display:flex;
                 align-items: center;
                 cursor: pointer;
                 .list2Img{
-                    width: 40px;
-                    height: 40px;
+                    width: 60px;
+                    height: 60px;
                     border-radius:10px;
-                    margin-right: 5px;
+                    margin-right: 30px;
+                    position:relative;
+                    img{
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: 0;
+                        left: 0;
+                        margin:auto;
+                    }
+                }
+                p{
+                    font-size: 18px;
+                    span{
+                        padding:0 5px;
+                    }
                 }
             }
+            li:hover{
+                color:#31b1b0;
+            }
             .liactive,.defaultActive{
-                background:#31b1b0;
-                color:#fff;
+               // background:#31b1b0;
+                color:#31b1b0;
                 border-radius:10px;
-                padding-left:50px;
             }
         }
     }
     #conRight{
-        margin:80px 0 0 110px;
-        padding:50px 0 0 50px;
+        margin:10px 0 0 10px;
         overflow: hidden;
         background:#fff;
+        padding:0;
+        position:relative;
+        top:0;
+        left:0;
         .conRightDefault{
             color:#f00;
         }

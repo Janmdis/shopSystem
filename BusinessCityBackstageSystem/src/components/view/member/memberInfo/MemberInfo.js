@@ -1,19 +1,22 @@
 /* eslint-disable */
 import onePersonnel from './Personnel.vue'
-import twoHouse from './House.vue'
+//import twoHouse from './House.vue'
 import threeOrder from './Order.vue'
-import fourReport from './Report.vue'
+import fourVisit from './Visit.vue'
 import fiveRelatedPeople from './RelatedPeople.vue'
+//import threeOrder from './OrderDetail.vue'
+import twoHouse from './HouseDetail.vue'
+
 export default {
     name: 'memberInfo',
     data() {
         return {
             infoText: [
-                { title: '个人信息', imgSrc: '/static/images/Member/ren.jpg' },
-                { title: '房屋', imgSrc: '/static/images/Member/ren.jpg' },
-                { title: '订单', imgSrc: '/static/images/Member/dingdan.jpg' },
-                { title: '报告', imgSrc: '/static/images/Member/customerVisit.png' },
-                { title: '相关联会员', imgSrc: '/static/images/Member/shouqian.jpg' },
+                { title: '个人信息', imgSrc: '/static/images/Member/ren.jpg', number: 2 },
+                { title: '房屋', imgSrc: '/static/images/Member/ren.jpg', number: 2 },
+                { title: '订单', imgSrc: '/static/images/Member/dingdan.jpg', number: 2 },
+                { title: '回访', imgSrc: '/static/images/Member/customerVisit.png', number: 2 },
+                { title: '相关联会员', imgSrc: '/static/images/Member/shouqian.jpg', number: 2 },
             ],
             isActive: '个人信息',
             which_to_show: '个人信息',
@@ -72,7 +75,7 @@ export default {
         onePersonnel,
         twoHouse,
         threeOrder,
-        fourReport,
+        fourVisit,
         fiveRelatedPeople,
     }
 }
