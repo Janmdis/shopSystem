@@ -93,15 +93,15 @@
     
                 </el-col>
     
-                <el-col :span="3" class="mLeft" @click.native="getData">
+                <el-col :span="2" class="mLeft" @click.native="getData">
     
-                    <el-button type="primary" round>查询</el-button>
+                    <el-button type="primary" class='btnW' round>查询</el-button>
     
                 </el-col>
     
-                <el-col :span="2" >
+                <el-col :span="2" style='margin-left:10px;'>
     
-                    <i @click="formClear" class="el-icon-refresh"></i>
+                    <i @click="formClear" class='icon iconfont icon-shuaxin1'></i>
     
                 </el-col>
     
@@ -112,7 +112,9 @@
     </div>
 </template>
 <style>
-    
+    .btnW{
+        width:100%;
+    }
 </style>
 <script>
     export default {

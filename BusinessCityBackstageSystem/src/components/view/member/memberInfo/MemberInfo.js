@@ -26,7 +26,31 @@ export default {
         })
         this.isShow('个人信息');
     },
+    mounted() {
+        this.$root.$on('infoCoverShow', (left) => {
+            var left1 = 100;
+            let timer1 = setInterval(function() {
+                left1--
+                document.getElementsByClassName("infoCover")[0].style.left = left1 + '%';
+                if (left1 == left) {
+                    left1 = left
+                    clearInterval(timer1)
+                }
+            }, 5);
+        })
+    },
     methods: {
+        closeInfo() {
+            var left1 = 16;
+            let timer2 = setInterval(function() {
+                left1++
+                document.getElementsByClassName("infoCover")[0].style.left = left1 + '%';
+                if (left1 == 100) {
+                    left1 = 100
+                    clearInterval(timer2)
+                }
+            }, 5);
+        },
         isShow(text) {
             this.default1 = false;
             this.isActive = text;

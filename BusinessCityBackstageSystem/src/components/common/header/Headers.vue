@@ -64,8 +64,10 @@
         </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer" center>
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    <el-row :gutter="20">
+      <el-col :span="12"><el-button class="clearBtn" @click="dialogVisible = false">取 消</el-button></el-col>
+      <el-col :span="12"><el-button class="okBtn" type="primary" @click="dialogVisible = false">确 定</el-button></el-col>
+    </el-row>
     </span>
     </el-dialog>
   </div>
@@ -77,7 +79,7 @@ export default headers;
 </script>
 
 
-<style lang='less'>
+<style lang='less' >
 @import '../../../assets/less/color';
 @import '../../../assets/less/elementColor';
 .el-select{
@@ -87,19 +89,25 @@ export default headers;
 .el-dialog__footer{
   text-align: center;
 }
-.el-button--default{
+.el-dialog{
+.dialog-footer .clearBtn{
     height: 42px;
     width: 144px;
     border-radius: 20px;
     color: #fff;
     background: #ef7747;
+    margin:0 5%;
+    display: inline-block;
 }
-.el-button--primary{
+.dialog-footer .okBtn{
     height: 42px;
     width: 144px;
     border-radius: 20px;
     color: #fff;
     background: #00adab;
+    margin:0 5%;
+    display: inline-block;
+}
 }
 .el-dialog__header{
   background:@hederTbg;

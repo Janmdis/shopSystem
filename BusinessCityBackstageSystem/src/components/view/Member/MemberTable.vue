@@ -3,6 +3,7 @@
     :data="datalist"
     @select='showextra(false)'
     @select-all='showextra(true)'
+    @row-click="showMemberInfo()"
     :stripe='true'
     style="width: 100%">
     <el-table-column
@@ -21,11 +22,13 @@
         fixed
         prop="ids"
         label="ID"
-        width='100'>
+        width='100'
+        >
         </el-table-column>
         <el-table-column
         prop="name"
-        label="客户姓名">
+        label="客户姓名"
+        >
         </el-table-column>
         <el-table-column
         prop="iphone"
@@ -70,13 +73,18 @@ export default {
     props:['data'],
     data(){
         return {
-            datalist:[]
+            datalist:[],
+            showLeft:0,
         }
     },
     created:function(){
         this.datalist=this.data;
     },
     methods:{
+        showMemberInfo(index){//  点击显示侧滑
+            this.showLeft = 16
+            this.$root.$emit('infoCoverShow',this.showLeft)
+        },      
         showextra(isall){
             let inputdom=document.getElementsByClassName('el-table__body-wrapper')[0].getElementsByTagName('input');
             let num=0;
@@ -111,7 +119,7 @@ export default {
             this.$root.$emit('showlttip',{show,editcan,num});
         },
         indexMethod(index) {
-        return index + 1
+            return index + 1
         },
     }
 
