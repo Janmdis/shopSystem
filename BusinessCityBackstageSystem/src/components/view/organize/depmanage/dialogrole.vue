@@ -1,7 +1,7 @@
 <template>
   <el-dialog id='roledialog'  width='60%' top='40px'  title="创建角色" :visible="dialogroleVisible" :modal='true' :before-close="ai_dialog_close"> 
             <el-row :gutter='10' class='topmsg'>
-                <el-col :span="8" :offset='1'>
+                <el-col :span="11" :offset='0'>
                     <el-col :span="10">
                         <div class="grid-content labelfor">角色名称：</div>
                     </el-col>
@@ -11,7 +11,7 @@
                         </div>
                     </el-col>
                 </el-col>
-                <el-col :span="8">
+                <!-- <el-col :span="8">
                     <el-col :span="10">
                         <div class="grid-content labelfor">角色编号：</div>
                     </el-col>
@@ -20,8 +20,8 @@
                             <el-input placeholder="请输入角色编号" v-model="roleid"></el-input>
                         </div>
                     </el-col>
-                </el-col>
-                <el-col :span="7">
+                </el-col> -->
+                <el-col :span="12">
                     <el-col :span="10">
                         <div class="grid-content labelfor">所属部门：</div>
                     </el-col>

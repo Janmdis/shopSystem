@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增产品" :visible="dialogDepVisible" :modal='true' :before-close="ai_dialog_close"> 
+  <el-dialog title="新增部门" :visible="dialogDepVisible" :modal='true' :before-close="ai_dialog_close"> 
             <el-row>
                  <el-col :span="3" :offset='3'>
                      <div class="grid-content labelName">
@@ -12,7 +12,7 @@
                      </div>
                  </el-col>
             </el-row>
-            <el-row>
+            <!-- <el-row>
                  <el-col :span="3" :offset='3'>
                      <div class="grid-content labelName">
                          部门编号：
@@ -23,7 +23,7 @@
                          <el-input placeholder="请输入部门编号" v-model="depid"></el-input>
                      </div>
                  </el-col>
-            </el-row>
+            </el-row> -->
             <el-row>
                  <el-col :span="3" :offset='3'>
                      <div class="grid-content labelName">
@@ -51,7 +51,7 @@
                  </el-col>
                  <el-col :span="16">
                      <div class="grid-content valueName">
-                         你猜
+                         {{depfathername}}
                      </div>
                  </el-col>
             </el-row>
@@ -67,23 +67,33 @@ export default {
         return {
             dialogDepVisible:true,
             depname:'',
-            depid:'',
-            depdest:''
+            depdest:'',
+            depfatherid:'',
+            depfathername:''
         }
     },
     created:function(){
         console.log(this.ishow);
         this.dialogDepVisible=this.ishow;
         this.$root.$on('exportvis',(data)=>{
-            this.dialogDepVisible=data;
+            this.depfatherid=data.departmentFatherid;
+            this.depfathername=data.departmentFathername;
+            this.dialogDepVisible=true;
+            console.log(this.depfathername);
         });
-        // var closei=document.getElementsByClassName('el-dialog')[0].getElementsByClassName('el-dialog__close')[0];
-        // closei.setAttribute('class','el-dialog__close');
-        // closei.innerHTML='X';
     },
     methods:{
         adddata(){
-            
+            this.$http.post('/api/admin/manage/department/create',{
+                departmentName:this.depname,
+                departmentFather:this.depfathername
+            })
+            .then(function (response) {
+                this.$message('添加成功！');
+            })
+            .catch(function (response) {
+                this.$message('添加失败！');
+            });
             this.dialogDepVisible=false;
         },
         ai_dialog_close(){

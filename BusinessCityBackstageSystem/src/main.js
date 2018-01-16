@@ -7,10 +7,12 @@ import App from './App'
 import router from './router'
 import 'babel-polyfill'
 import echarts from 'echarts'
+import axios from 'axios'
 // 挂载在全局
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts 
+Vue.prototype.$http= axios
 
 //路由限制跳转判断
 router.beforeEach((transition, from, next) => {
