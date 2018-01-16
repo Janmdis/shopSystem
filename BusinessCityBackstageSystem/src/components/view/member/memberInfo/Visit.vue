@@ -1,6 +1,6 @@
 <template>
     <div id="report">
-        <h2>报告</h2>
+        <h2>回访</h2>
     </div>
 </template>
 <script>
@@ -12,6 +12,7 @@ export default{
     }
 }
 </script>
-<script scoped>
+<style scoped lang="less">
 
-</script>
+</style>
+

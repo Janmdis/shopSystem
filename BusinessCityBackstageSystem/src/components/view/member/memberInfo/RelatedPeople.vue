@@ -12,6 +12,6 @@ export default{
     }
 }
 </script>
-<script scoped>
+<style scoped lang="less">
 
-</script>
+</style>
