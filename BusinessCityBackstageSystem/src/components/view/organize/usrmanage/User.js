@@ -1,14 +1,15 @@
 /* eslint-disable */
-import memberInfo from './memberInfo/MemberInfo.vue'
-import Datatable from './MemberTable.vue'
+//import memberInfo from './memberInfo/MemberInfo.vue'
+import Datatable from './UserTable.vue'
 import Lttip from '@/components/common/tipspage/lttip.vue'
-import search from './search.vue'
+//import search from './search.vue'
 import showWindows from './showWindow.vue'
 export default {
     name: 'member',
     data() {
-      return {
-            namepage: '客户资料',
+        return {
+            valuesearch:'',                      
+            namepage: '用户管理',
             currentPage1: 1,
             searchFn: '',
             isActive: false,
@@ -23,10 +24,15 @@ export default {
                     state: '待完成',
                     source: '老客户介绍',
                     address: '上海市普陀区金沙江路 1518 弄',
-                    Inputtiem: '2017-02-08'
+                    Inputtiem: '2017-02-08',
+                    locking: '是',
+                    tel: '67662122',
+                    birthday: '2017-02-09',
+                    relation:'张三'
                 },
                 {
                     name: '王小虎',
+                    ids: '25285',
                     iphone: '1500898888',
                     province: '上海',
                     types: '优质客户',
@@ -35,7 +41,11 @@ export default {
                     state: '待完成',
                     source: '老客户介绍',
                     address: '上海市普陀区金沙江路 1518 弄',
-                    Inputtiem: '2017-02-08'
+                    Inputtiem: '2017-02-08',
+                    locking: '是',
+                    tel: '67662122',
+                    birthday: '2017-02-09',
+                    relation:'张三'
                 }
             ]
         }
@@ -45,7 +55,7 @@ export default {
     },
     methods: {
         showWindow() {
-            this.$root.$emit("showWindow")
+            this.$root.$emit('showWindow');
         },
         closeInfo() {
             // let infos = document.getElementsByClassName("infoCover")[0]
@@ -106,10 +116,9 @@ export default {
 
     },
     components: {
-        memberInfo,
         Lttip,
-        search,
+        //search,
         Datatable,
         showWindows
-    },
+    }
 }

@@ -51,10 +51,16 @@ export default new Router({
                     component: resolve => require(['@/components/view/organize/rolemanage/role.vue'], resolve)
                 },
                 {
+                    path: 'usermanage', // 用户管理
+                    name: 'usermanage',
+                    component: resolve => require(['@/components/view/organize/usrmanage/User.vue'], resolve)
+                },
+                {
                     path: 'mallSet', // 商城模板
                     name: 'mallSet',
                     component: resolve => require(['@/components/view/mall/customTemplate/templateSet.vue'], resolve)
                 }
+                
             ]
         },
         {

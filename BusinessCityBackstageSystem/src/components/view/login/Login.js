@@ -11,6 +11,9 @@ export default {
         }
     },
     methods: {
+        goIndex() {
+            this.$router.push("/index");
+        },
         forgetPassword() {
             this.$router.push({ path: '/login/forgetPwd' })
         },

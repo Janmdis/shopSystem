@@ -11,7 +11,7 @@
                         <li><label><img src="static/images/Login/regpass.png" alt=""><el-input type="password" @change="checkPwd" value="" v-model="ruleForm.userPwd" placeholder="请输入登录密码" clearable></el-input></label></li>
                         <li class="liFr"><div id="checkCode" style="width: 200px;height: 50px;"></div><span>验证码:</span><input type="text" id="codeInput" placeholder="请输入验证码" ></li>
                         <li class="liTh"><label><el-checkbox v-model="ruleForm.checked" name="remPassword" @click="clearCookie" >记住密码</el-checkbox></label><span @click="forgetPassword">忘记密码?</span></li>
-                        <li class="liFo"><span id="myButton" @click="logining(ruleForm)" >立即登录</span></li>
+                        <li class="liFo"><span id="myButton" @click='goIndex'  >立即登录</span></li>
                     </ul>
                </el-form>
             <!--  </div>
