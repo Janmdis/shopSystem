@@ -57,6 +57,8 @@ export default {
             deleteshow:true,
             currentid:'',
             currentname:'',
+            curentnum:'',
+            lastchildnum:'',
             dialogDepVisible:false     //模态框是否显示
         }
     },
@@ -65,10 +67,13 @@ export default {
             this.deleteshow=data.show;
             this.currentid=data.currentid;
             this.currentname=data.currentname;
+            this.curentnum=data.currentnum;
+            this.lastchildnum=data.lastchildnum;
         });
         let that=this;
         this.$http.post('/api/admin/manage/department/find?type=1&range=0',{})
         .then(function (response) {
+            console.log(response);
             let data=response.data;
             if(data.msg=='查询成功'){
                 that.list.push(data.info.treeAll);
@@ -81,9 +86,15 @@ export default {
     },
     methods:{
         opendialogDep(){
+            //父部门id
             let departmentFatherid=this.currentid;
+            // 父部门名称
             let departmentFathername=this.currentname;
-            this.$root.$emit("exportvis",{departmentFatherid,departmentFathername});
+            // 父部们编号
+            let departmentFathernum=this.curentnum;
+            // 最后一个同辈节点编号
+            let deplastchildnum=this.lastchildnum;
+            this.$root.$emit("exportvis",{departmentFatherid,departmentFathername,departmentFathernum,deplastchildnum});
         },
         delete(){
             this.$http.post('/api/admin/manage/department/update',{
