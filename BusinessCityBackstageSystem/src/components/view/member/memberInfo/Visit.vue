@@ -1,6 +1,11 @@
 <template>
-    <div id="report">
-        <h2>回访</h2>
+    <div id="visit">
+        <div class="visitHeader">
+            暂无回访记录
+        </div>
+        <div class="visitMain">
+
+        </div>
     </div>
 </template>
 <script>
@@ -13,6 +18,8 @@ export default{
 }
 </script>
 <style scoped lang="less">
-
+#visit{
+    padding:20px 20px;
+}
 </style>
 

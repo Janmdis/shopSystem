@@ -70,7 +70,7 @@ export default {
                         }
                     }
                 ]
-            }
+            };
             myChart.setOption(option);
         }
     }

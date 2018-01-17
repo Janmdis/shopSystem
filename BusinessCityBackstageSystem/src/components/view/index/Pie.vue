@@ -28,6 +28,8 @@ export default {
     created:function(){
         this.imgurl=this.objdata.url;
         this.idname=this.objdata.idname;
+        this.tips=this.objdata.title;
+        // this.draw();
     },
     mounted:function(){
         this.draw();
@@ -54,7 +56,6 @@ export default {
                 }
                 datas.push(json);
             }
-            console.log(datalist);
             let option={
                     title: {
                         text:this.objdata.totaltip+' \n',

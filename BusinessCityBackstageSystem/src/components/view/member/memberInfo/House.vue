@@ -1,20 +1,22 @@
 <template>
-    <div id="house">
-        <ul class="houseMain">
-            <li v-for="info in infos" :key="info.id" >
-                <div class="houseDiv"><span>小区/写字楼 : {{info.houseNumber}}</span><span>房屋类型 : {{info.serviceType}}</span></div>
-                <div class="houseDiv"><span>地址 : {{info.houseTime}}</span><span>租住状态 : {{info.houseState}}</span></div>
-                <div class="houseBtn">
-                    <el-button @click="jumpHouseDetail(info.houseId)">查看详情</el-button>
-                </div>
-            </li>
-        </ul>
-        <div class="housePagination">
-            分页区域
+    <div id="house" >
+        <div class="houseHome" v-show="isSwitchHouseDetail">
+            <ul class="houseMain" >
+                <li v-for="info in infos" :key="info.id" >
+                    <div class="houseDiv"><span>小区/写字楼 : {{info.houseArea}}</span><span>房屋类型 : {{info.houseType}}</span></div>
+                    <div class="houseDiv"><span>地址 : {{info.houseAddress}}</span><span>租住状态 : {{info.houseState}}</span></div>
+                    <div class="houseBtn">
+                        <el-button @click="jumpHouseDetail(info.houseId)">查看详情</el-button>
+                    </div>
+                </li>
+            </ul>
+            <public-pagination></public-pagination>
         </div>
+        <house-details></house-details>
     </div>
 </template>
 <script>
+import publicPagination from '@/components/common/pagination/pagination.vue'
 import houseDetails from './HouseDetail.vue'
 export default{
     data () {
@@ -24,23 +26,39 @@ export default{
                 {houseId:1,houseArea:'龙盛华庭',houseType:'住宅',houseAddress:'上海市杨浦区长阳路1687号',houseState:'租住'},
                 {houseId:2,houseArea:'龙盛华庭',houseType:'住宅',houseAddress:'上海市杨浦区长阳路1687号',houseState:'租住'},
                 {houseId:3,houseArea:'龙盛华庭',houseType:'住宅',houseAddress:'上海市杨浦区长阳路1687号',houseState:'租住'},
-            ]
+            ],
+            isSwitchHouseDetail:true,
         }
     },
+    created:function(){
+       this.$root.$on('houseShow',() => {
+            this.isSwitchHouseDetail = true
+        })
+    },
     methods: {
-        jumpHouseDetail (num) {
-            // this.$router.replace('/member/houseDetail')
+        jumpHouseDetail () {
+            this.isSwitchHouseDetail = false
+            this.$root.$emit('houseDetailShow')
+        },
+        handleSizeChange(val) {
+            //console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            //console.log(`当前页: ${val}`);
         }
     },
     components: {
         houseDetails,
-    }
+        publicPagination,
+    },
 }
 </script>
 <style lang="less" scoped>
+.houseHome{
+    padding:0 25px 20px;
+}
 #house{
     background: #fff;
-    padding:0 25px 20px;
     .houseMain{
             width: 100%;
         li{
@@ -76,6 +94,7 @@ export default{
                     color:#00c0be;
                     position: absolute;
                     right:30px;
+                    border-radius:30px;
                 }
                 .el-button:hover{
                     background:#00c0be;

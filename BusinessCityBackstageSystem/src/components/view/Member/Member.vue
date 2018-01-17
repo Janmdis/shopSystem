@@ -59,6 +59,7 @@ import Members from './Member.js';
 export default Members
 </script>
 <style>
+
 .lineHeight{
    position:relative;
    top:24px;
@@ -78,6 +79,10 @@ table td:nth-child(3) {
     position: absolute;
     top: -9px;
     left: 359px;
+}
+.add{
+    background:#00aeaa;
+    border:1px solid #00aeaa;
 }
 </style>
 <style scoped lang="less">

@@ -100,7 +100,7 @@ export default {
             this.$root.$emit('infoCoverShow',this.showLeft)
         },      
         showextra(isall){
-            let inputdom=document.getElementsByClassName('el-table__body-wrapper')[0].getElementsByTagName('input');
+            let inputdom=document.getElementsByClassName('el-table__fixed-body-wrapper')[0].getElementsByTagName('input');
             let num=0;
             let allnum=inputdom.length;
             for(let i=0;i<inputdom.length;i++){

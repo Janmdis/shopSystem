@@ -54,6 +54,9 @@ import User from './User.js';
 export default User
 </script>
 <style>
+el-input__icon el-icon-search{
+    line-height: 32px;
+}
 .lineHeight{
    position:relative;
    top:24px;
