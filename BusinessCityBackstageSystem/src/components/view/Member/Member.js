@@ -7,7 +7,7 @@ import showWindows from './showWindow.vue'
 export default {
     name: 'member',
     data() {
-      return {
+        return {
             namepage: '客户资料',
             currentPage1: 1,
             searchFn: '',
@@ -107,6 +107,6 @@ export default {
         Lttip,
         search,
         Datatable,
-        showWindows
+        showWindows,
     }
 }

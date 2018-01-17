@@ -1,7 +1,7 @@
 <template>
-    <div id="orderDetail">
-        <div class="detailHeader">
-            <i class="el-icon-back"></i>
+    <div id="orderDetail" v-show="isSwitchOrder">
+        <div class="detailHeader" @click="returnBackOrder">
+            <i class="el-icon-back" ></i>
         </div>
         <div class="detailMain">
             <div class="detailLines" :key="detailInfo.id" v-for="detailInfo in details">
@@ -29,11 +29,22 @@ export default{
                 payState:'在线支付',airConditionBrand:'阿迪达斯',payMoney:'201.00',
                 contractNumber:'21387891723',originAccount:'1234123123',waitPayMoney:'201.00',
                 orderState:'未完成',productType:'眼镜',detailedAddress:'上海市杨浦区长阳路1687号一号楼一号电梯312室',
-
                 }
             ],
+            isSwitchOrder:false,
         }
-    }
+    },
+    created:function(){
+        this.$root.$on('orderShow',() => {
+            this.isSwitchOrder=true;
+        })
+    },
+    methods: {
+        returnBackOrder(){
+            this.isSwitchOrder = false
+            this.$root.$emit('detailShow')
+        },
+    },
 }
 </script>
 <style scoped lang="less">
