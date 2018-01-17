@@ -21,9 +21,10 @@ export default new Router({
         {
             path: '',
             component: resolve => require(['@/components/common/home/home.vue'], resolve),
-            children: [{
+            children: [
+                {
                     path: '',
-                    redirect: 'login'
+                    redirect: 'index'
                 },
                 {
                     path: 'index', // 首页
@@ -59,6 +60,11 @@ export default new Router({
                     path: 'mallSet', // 商城模板
                     name: 'mallSet',
                     component: resolve => require(['@/components/view/mall/customTemplate/templateSet.vue'], resolve)
+                },
+                {
+                    path: 'authoritymanage', // 权限管理
+                    name: 'authoritymanage',
+                    component: resolve => require(['@/components/view/organize/authmanage/authority.vue'], resolve)
                 }
                 
             ]
