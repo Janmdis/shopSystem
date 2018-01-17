@@ -16,7 +16,7 @@
                         </li>
                         <li>
                             <label><img src="/static/images/Login/reslock.png" alt=""><el-input type="text" @change="checkCode" value="" v-model="ruleForm.userCode" placeholder="请输入验证码" clearable></el-input></label>
-                            <el-button type="primary" plain>获取验证码</el-button>
+                            <el-button type="primary" @click='getver' plain>获取验证码</el-button>
                         </li>
                         <li>
                             <label><img src="/static/images/Login/regpass.png" alt=""><el-input type="password" @change="checkPwd" value="" v-model="ruleForm.userPwd" placeholder="请输入密码" clearable></el-input></label>
