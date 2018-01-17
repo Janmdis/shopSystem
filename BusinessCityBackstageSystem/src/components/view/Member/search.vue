@@ -114,6 +114,8 @@
 <style>
     .btnW{
         width:100%;
+        background:#00aeaa;
+        border:1px solid #00aeaa;
     }
 </style>
 <script>
