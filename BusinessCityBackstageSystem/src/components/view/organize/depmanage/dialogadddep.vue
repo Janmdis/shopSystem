@@ -69,7 +69,9 @@ export default {
             depname:'',
             depdest:'',
             depfatherid:'',
-            depfathername:''
+            depfathernum:'',
+            depfathername:'',
+            deplastchildnum:''
         }
     },
     created:function(){
@@ -77,16 +79,46 @@ export default {
         this.dialogDepVisible=this.ishow;
         this.$root.$on('exportvis',(data)=>{
             this.depfatherid=data.departmentFatherid;
+            this.depfathernum=data.departmentFathernum;
             this.depfathername=data.departmentFathername;
+            this.deplastchildnum=data.deplastchildnum;
             this.dialogDepVisible=true;
             console.log(this.depfathername);
         });
     },
     methods:{
         adddata(){
+            // 部门编号
+            let numDep='';
+            // 父部们为空，创建根部门
+            if(this.depfatherid==''){
+                let ranNum = Math.ceil(Math.random() * 25);
+                // 随机生成一个大写字母
+                let strRandom=String.fromCharCode(65+ranNum);
+                let numRandom=Math.floor(Math.random()*9000)+1000;
+                // 拼接公司编号
+                numDep=strRandom+numRandom.toString();
+                console.log(numDep);
+            }
+            
+            // 副部们不为空，生成子部门
+            else{
+                // 生成第一个子节点
+                if(this.deplastchildnum==''){
+                    numDep=this.depfathernum+'000001'
+                }
+                else{
+                    let nums=Number(this.deplastchildnum.slice(4,6));
+                
+                    numDep=this.deplastchildnum.slice(0,5)+nums.toString();
+                }
+            }
+            // console.log(strRandom);
             this.$http.post('/api/admin/manage/department/create',{
                 departmentName:this.depname,
-                departmentFather:this.depfathername
+                departmentFather:this.depfathername,
+                departmentNumber:numDep,
+                departmentDescription:this.depdest
             })
             .then(function (response) {
                 this.$message('添加成功！');

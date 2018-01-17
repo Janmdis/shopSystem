@@ -68,41 +68,42 @@ export default {
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`)
         },
-        showextra(isall) {
-            let inputdom = document.getElementsByClassName('el-table__body-wrapper')[0].getElementsByTagName('input')
-            let num = 0
-            let allnum = inputdom.length
-            for (let i = 0; i < inputdom.length; i++) {
-                if (inputdom[i].checked) {
-                    num++
-                }
-            }
-            let show = false
-            let editcan = true
-            if (isall) {
-                if (num == 0 || num != allnum) {
-                    show = true
-                    editcan = false
-                    num = allnum
-                } else {
-                    show = false
-                    num = 0
-                }
-            } else {
-                if (num != 0) {
-                    show = true
-                    editcan = num > 1 ? false : true
-                } else {
-                    show = false
-                }
-            }
-            this.$root.$emit('showlttip', { show, editcan, num })
+        // showextra(isall) {
+        //     alert(11);
+        //     let inputdom = document.getElementsByClassName('el-table__body-wrapper')[0].getElementsByTagName('input')
+        //     let num = 0
+        //     let allnum = inputdom.length
+        //     for (let i = 0; i < inputdom.length; i++) {
+        //         if (inputdom[i].checked) {
+        //             num++
+        //         }
+        //     }
+        //     let show = false
+        //     let editcan = true
+        //     if (isall) {
+        //         if (num == 0 || num != allnum) {
+        //             show = true
+        //             editcan = false
+        //             num = allnum
+        //         } else {
+        //             show = false
+        //             num = 0
+        //         }
+        //     } else {
+        //         if (num != 0) {
+        //             show = true
+        //             editcan = num > 1 ? false : true
+        //         } else {
+        //             show = false
+        //         }
+        //     }
+        //     this.$root.$emit('showlttip', { show, editcan, num })
 
-            // console.log(num)
-            // if((!isall&&num==allnum)||(isall&&num==0)){
-            //     console.log('全选')
-            // }
-        }
+        //     // console.log(num)
+        //     // if((!isall&&num==allnum)||(isall&&num==0)){
+        //     //     console.log('全选')
+        //     // }
+        // }
 
     },
     components: {
