@@ -23,15 +23,7 @@
 /* eslint-disable */
 import logins from './Login.js'
 export default logins;
-// var verifyCode = new GVerify("checkCode");
-// document.getElementById("myButton").onclick = function() {
-//     var res = verifyCode.validate(document.getElementById("codeInput").value);
-//     if (res) {
-//         alert("验证正确");
-//     } else {
-//         alert("验证码错误");
-//     }
-// }
+
 </script>
 <style scoped lang='less'>
 @import "./Login.less";

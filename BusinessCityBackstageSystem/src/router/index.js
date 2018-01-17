@@ -23,7 +23,7 @@ export default new Router({
             component: resolve => require(['@/components/common/home/home.vue'], resolve),
             children: [{
                     path: '',
-                    redirect: 'index'
+                    redirect: 'login'
                 },
                 {
                     path: 'index', // 首页
@@ -33,18 +33,7 @@ export default new Router({
                 {
                     path: 'member', // 会员管理
                     name: 'member',
-                    component: resolve => require(['@/components/view/Member/Member.vue'], resolve),
-                    // children: [{
-                    //         path: 'order', //  订单页
-                    //         name: 'order',
-                    //         component: resolve => require(['@/components/view/Member/MemberInfo/Order.vue'], resolve)
-                    //     },
-                    //     {
-                    //         path: 'orderDetail', //  订单详情页
-                    //         name: 'orderDetail',
-                    //         component: resolve => require(['@/components/view/Member/MemberInfo/orderDetail.vue'], resolve)
-                    //     }
-                    // ]
+                    component: resolve => require(['@/components/view/Member/Member.vue'], resolve)
                 },
                 {
                     path: 'depmanage', // 部门管理

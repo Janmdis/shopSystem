@@ -116,6 +116,9 @@ export default {
                     show=false;
                 }
             }
+            console.log(show)
+            console.log(editcan)
+            console.log(num)
             this.$root.$emit('showlttip',{show,editcan,num});
         },
         indexMethod(index) {

@@ -12,7 +12,6 @@ export default {
       ruleForm: {
         region: '',
         newPass: '',
-        
       }, rules: {
         region: [
           { required: true, message: '请选择活动区域', trigger: 'change' }
@@ -40,7 +39,8 @@ export default {
   created() {
     this.$root.$on('infoText', (infoText) => {
       this.which_to_show = infoText
-    })
+    }),
+      this.selected('首页')
   },
   methods: {
       submitForm(formName) {
