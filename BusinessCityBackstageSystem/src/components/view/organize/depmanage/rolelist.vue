@@ -39,8 +39,28 @@ export default {
                 {id:3,name:'角色3'},
                 {id:4,name:'角色4'}
             ],
-            dialogroleVisible:false
+            dialogroleVisible:false,
+            depid:''
         }
+    },
+    created:function(){
+        this.$root.$on('currentrole',(depid)=>{
+            let that=this;
+            this.depid=depid;
+            this.$http.post('/api/admin/manage/department/find?type=0',{
+                id:depid
+            })
+            .then(function (response) {
+                let data=response.data;
+                if(data.msg=='查询成功'){
+                    that.list.push(data.info.list);
+                }
+                console.log(that.list);
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
+        });
     },
     methods:{
         opendialogrole(){
@@ -53,6 +73,8 @@ export default {
                 dom[0].setAttribute('class','roleNames');
             }
             e.target.setAttribute('class','roleNames tbactive');
+            // 触发所属角色的成员列表函数
+            this.$root.$emit('membertorole',{depid:this.depid,roleid:e.target.getAttribute('data-id')});
         }
     }
 }
