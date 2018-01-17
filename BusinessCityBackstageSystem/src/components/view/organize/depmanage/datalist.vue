@@ -1,12 +1,12 @@
 <template>
     <div>
         <ul>
-            <li :id="item.id" :key="item.id" class="parent_li" v-for="item in childlist">
-                <span :id="item.id" title="收起">
-                    <i class="el-icon el-icon-minus"  v-if='item.childlist.length' @click="pack($event)"></i>
-                    <strong data-id="85" @click="selectNode($event)">{{item.name}}</strong>
+            <li :data-id="item.id" :key="item.id" :data-num='item.num' class="parent_li" v-for="item in childlist">
+                <span :data-id="item.id" title="收起">
+                    <i class="el-icon el-icon-minus"  v-if='item.children.length' @click="pack($event)"></i>
+                    <strong :data-id="item.id" :data-num='item.num' @click="selectNode($event)">{{item.info}}</strong>
                 </span>
-                <Datalist :list='item.childlist'></Datalist>
+                <Datalist :list='item.children'></Datalist>
             </li>
         </ul>
         
@@ -18,8 +18,8 @@ export default {
     props:['list'],
     data(){
         return {
-           childlist:[],
-           currentid:this.list.length?this.list[0].id:0
+           childlist:[]
+        //    currentid:this.list.length?this.list[0].id:0
         }
     },
     created:function(){
@@ -46,15 +46,24 @@ export default {
             }
         },
         selectNode(e){
-            var strongnode=document.getElementsByClassName('on')[0];
-            console.log(strongnode);
+            let strongnode=document.getElementsByClassName('on')[0];
+            // console.log(strongnode);
             if(strongnode){
                 strongnode.setAttribute("class",'');
             }
+            let dom=e.currentTarget.parentNode.parentNode.getElementsByTagName("li");
             // 是否有子节点
-            var haschild=e.currentTarget.parentNode.parentNode.getElementsByTagName("li").length?true:false;
+            let haschild=dom.length?true:false;
             e.currentTarget.setAttribute("class","on");
-            this.$root.$emit("haschild",!haschild);
+            let currentid=e.currentTarget.getAttribute('data-id');
+            let currentname=e.currentTarget.innerHTML;
+            // 当前部门编号
+            let currentnum=e.currentTarget.getAttribute('data-num');
+            // 最后一个子节点的编号
+            let lastchildnum=dom.length?dom[dom.length-1].getAttribute('data-num'):'';   
+           // 修改‘删除’按钮状态
+            this.$root.$emit("haschild",{show:!haschild,currentid,currentname,currentnum,lastchildnum});
+            this.$root.$emit('currentrole',(currentid));
             // var ulnode=strongnode;
             // console.log(ulnode);
         }

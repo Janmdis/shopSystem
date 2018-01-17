@@ -5,41 +5,57 @@
         <el-col :span="12">
              <div class="imgConet">
                <!-- 条框div -->
-                <div class="boxesDiv"></div>
-               <!-- 线框div -->
-               <div class="lineDiv"></div>
-               <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
+                <div class="boxesDiv">
+                  <img src="./../../../../assets/logo.png" class="img">
+                </div>
+                <!-- 主标题 -->
+                <p class="title1">主标题</p>
+                <!-- 副标题 -->
+                <p class="title2">副标题</p>
+                <!-- 线框div -->
+                <div class="lineDiv"></div>
              </div>
         </el-col>
         <el-col :span="12">
             <div class="imgConet">
                <!-- 条框div -->
-                <div class="boxesDiv"></div>
+                <div class="boxesDiv">
+                  <img src="./../../../../assets/logo.png" class="img">
+                </div>
+                <!-- 主标题 -->
+                <p class="title1">主标题</p>
+                <!-- 副标题 -->
+                <p class="title2">副标题</p>
                <!-- 线框div -->
                <div class="lineDiv"></div>
-               <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
              </div>
         </el-col>
         <el-col :span="12">
             <div class="imgConet">
                <!-- 条框div -->
-                <div class="boxesDiv"></div>
+               <div class="boxesDiv">
+                  <img src="./../../../../assets/logo.png" class="img">
+                </div>
+                <!-- 主标题 -->
+                <p class="title1">主标题</p>
+                <!-- 副标题 -->
+                <p class="title2">副标题</p>
                <!-- 线框div -->
                <div class="lineDiv"></div>
-               <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
              </div>
         </el-col>
         <el-col :span="12">
           <div class="imgConet">
                <!-- 条框div -->
-                <div class="boxesDiv"></div>
+                <div class="boxesDiv">
+                  <img src="./../../../../assets/logo.png" class="img">
+                </div>
+                <!-- 主标题 -->
+                <p class="title1">主标题</p>
+                <!-- 副标题 -->
+                <p class="title2">副标题</p>
                <!-- 线框div -->
                <div class="lineDiv"></div>
-               <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
              </div>
         </el-col>
         <div style="clear:both;"></div>
@@ -80,16 +96,22 @@
   height: 100%;
 }
 .boxesDiv{
-  position:absolute;
-  width:90%;
-  height:89%;
   border:10px solid #eeeeee;
 }
 .lineDiv{
-  position:absolute;
-  width:88%;
-  height:88%;
-  margin:5% 5%;
-  border:1px solid #eeeeee;
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    top: 9%;
+    left: 9%;
+    border: 1px solid #eeeeee;
 }
+.title1{    position: absolute;
+font-size: 13px;
+    top: 17%;
+    left: 40%;}
+.title2{position: absolute;
+font-size: 13px;
+    top: 72%;
+    left: 40%;}
 </style>

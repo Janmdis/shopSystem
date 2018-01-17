@@ -1,5 +1,6 @@
 <template>
-  <div class="m-content" style="height:100%">
+<el-main style="background:#fff;">
+  <div class="m-content" style="height:100%;">
       <div>
           <el-col :span="24">
               <div class="m-top">
@@ -16,22 +17,27 @@
               <!-- 模板最外层容器开始 -->
               <div style="margin:66px 10px 416px 36px;border: 1px solid #aaaaaa;border-radius: 3px;">
                   <!-- 模板内容头部开始 -->
-                  <div style="height=134px;width:100%">
-                      <img class="Imgsize" src="./../../../../assets/logo.png">
+                  <div style="height:34px;width:100%">
+                      <img class="Imgsize" src="./../../../../assets/templateHeader.jpg">
                   </div>
                   <!-- 模板内容头部结束 -->
                   <!-- 模板内容开始 -->
-                  <div>
+                  <div id='test' >
+                      <keep-alive v-for='(item,index) in comlist' :key='index'>
+                        <components :data='index' :is='item'></components>
+                      </keep-alive>
                       <!-- 图片广告组件 -->
-                      <imageAds></imageAds>
+                      <!-- <imageAds></imageAds> -->
                        <!-- 橱窗组件 -->
-                       <window></window>
+                       <!-- <window></window> -->
+                       <!-- 橱窗组件2 -->
+                       <!-- <window2></window2> -->
                        <!-- 商品组件 -->
-                       <commodity></commodity>
+                       <!-- <commodity></commodity> -->
                        <!-- 标题组件 -->
-                       <titles></titles>
+                       <!-- <titles></titles> -->
                        <!-- 分类组件 -->
-                       <classification></classification>
+                       <!-- <classification></classification> -->
                   </div>
                   <!-- 模板内容结束 -->
                   <!-- 模板底部开始 -->
@@ -40,21 +46,21 @@
                       <el-col :span="24" >
                           <p class="template-buttom-title">添加新内容</p>
                           <el-row :gutter="15" class="template-buttom-content">
-                            <el-col style="width:20%;"><div class="newContentBtn">商品</div></el-col>
-                            <el-col style="width:20%;"><div class="newContentBtn">标题</div></el-col>
-                            <el-col style="width:20%;"><div class="newContentBtn">图片广告</div></el-col>
-                            <el-col style="width:20%;"><div class="newContentBtn" >分类</div></el-col>
+                            <el-col style="width:20%;"><div class="newContentBtn" @click="commodityAdd">商品</div></el-col>
+                           
+                            <!-- <el-col style="width:20%;"><div class="newContentBtn" @click="titleAdd">标题</div></el-col>
+                            <el-col style="width:20%;"><div class="newContentBtn" @click="imageAdsAdd">图片广告</div></el-col>
+                            <el-col style="width:20%;"><div class="newContentBtn" @click="classificationAdd">分类</div></el-col>
                             <el-col style="width:20%;">
                                 <el-dropdown class="newContentBtn" trigger="click">
                                     <span class="el-dropdown-link">
-                                    橱窗1<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
-                                </span>
-                                <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item style="margin-top:10px;">橱窗2</el-dropdown-item>
-                                    <el-dropdown-item style="margin-top:10px;">橱窗3</el-dropdown-item>
-                                </el-dropdown-menu>
+                                    {{ windowValue?windowValue1:windowValue2 }}<i class="el-icon-arrow-down el-icon--right" style="display: inline;font-size: 10px;margin-left: 0px;"></i>
+                                    </span>
+                                    <el-dropdown-menu slot="dropdown" style="left: 587px;width: 5.3%;font-size:12px;">
+                                        <el-dropdown-item style="margin-top:10px;" @click.native="windowValue = !windowValue">{{ windowValue?windowValue2:windowValue1 }}</el-dropdown-item>
+                                    </el-dropdown-menu>
                                 </el-dropdown>
-                            </el-col>
+                            </el-col> -->
                           </el-row>
                       </el-col>
                       <div style="clear:both;"></div>
@@ -66,38 +72,39 @@
           </el-col>
           
           <!-- 左侧开始 -->
-          <el-col :span="12" style="margin-top:86px;">
+          <el-col :span="12" style="margin-top:86px;margin-bottom: 168px;">
               <p class="template-name-title">模板名称：</p>
               <div class="template-name-input">
-                  <el-input v-model="input" placeholder="请输入内容"></el-input>
+                  <el-input  placeholder="请输入内容"></el-input>
               </div>
               <div style="clear:both;"></div>
-              <div class="template-edit-div">
+              <div class="template-editContent-div">
                 <div class="arrow"></div>
                 <div>
                     <!-- 图片广告编辑组件 -->
-                    <!-- <imageAdEditing></imageAdEditing> -->
+                    <imageAdEditing v-bind="imgdata"></imageAdEditing>
                     <!-- 橱窗编辑组件 -->
-                    <!-- <windowEditing></windowEditing> -->
+                    <windowEditing v-bind="windowdata"></windowEditing>
+                    <!-- 橱窗2编辑组件 -->
+                    <windowEditing2 v-bind="windowdatas"></windowEditing2>
                     <!-- 分类编辑组件 -->
-                    <!-- <classificationEditing></classificationEditing> -->
+                    <classificationEditing v-bind="classdata"></classificationEditing>
                     <!-- 商品编辑组件 -->
-                    <!-- <productEditing></productEditing> -->
+                    <productEditing v-bind="prodata"></productEditing>
                     <!-- 标题编辑组件 -->
-                    <titlesEditing></titlesEditing>
+                    <titlesEditing v-bind="titdata"></titlesEditing>
                 </div>
               </div>
           </el-col>
     <!-- 底部保存/返回 -->
-   
-      </el-row>
-          <el-col :span="24" class="template-save-div" style="">
+         <el-col :span="24" class="template-save-div" style="">
               <el-row type="flex" class="bottom-btn" justify="center">
-                <el-col :span="2"><div class="save-Btn">保存</div></el-col>
+                <el-col :span="2"><div class="template-save-Btn">保存</div></el-col>
                 <el-col :span="2"><div class=""></div></el-col>
-                <el-col :span="2"><div class="back-btn">返回</div></el-col>
+                <el-col :span="2"><div class="template-back-btn">返回</div></el-col>
               </el-row>
           </el-col>
+      </el-row>
     <!-- 上传图片模态框 -->
     <uploadImage></uploadImage>
     <!-- 商品详情模态框 --> 
@@ -105,12 +112,15 @@
     <!-- 自定义模态框 -->
     <customLink></customLink>
   </div>
+  </el-main>
 </template>
 <script>
 // 图片广告展示组件
 import imageAds from './imageAds'
 // 橱窗展示组件
 import window from './window'
+// 橱窗2展示组件
+import window2 from './window2'
 // 商品展示组件
 import commodity from './commodity'
 // 标题展示组件
@@ -121,6 +131,8 @@ import classification from './classification'
 import imageAdEditing from './imageAdEditing'
 // 橱窗编辑组件
 import windowEditing from './windowEditing'
+// 橱窗2编辑组件
+import windowEditing2 from './windowEditing2'
 // 分类编辑组件
 import classificationEditing from './classificationEditing'
 // 商品编辑组件
@@ -136,20 +148,40 @@ import customLink from './customLink'
  export default{
      data() {
          return{
-             input:''
+             windowValue:true,
+             windowValue1:"橱窗1",
+             windowValue2:"橱窗2",
+             comlist:[],
          }
-         
+     },
+     created:function(){
+         this.$root.$on('test',(id)=>{
+            let list=[];
+            for(let i=0;i<this.comlist.length;i++){
+                if(id!=i){
+                    list.push(this.comlist[i]);
+                }
+            }
+            this.comlist=list;
+            //  alert(id);
+         });
      },
      methods:{
+         commodityAdd(){
+             this.id1++;
+             this.comlist.push('commodity');
+         }
      },
      components:{
          imageAds,
          window,
+         window2,
          commodity,
          titles,
          classification,
          imageAdEditing,
          windowEditing,
+         windowEditing2,
          classificationEditing,
          productEditing,
          titlesEditing,
@@ -178,10 +210,12 @@ import customLink from './customLink'
 .template-buttom-title{
     margin-top:22px;
     margin-bottom:20px;
+    text-align: center;
 }
 .template-buttom-content{
     padding:0px 37px 25px 37px;
     margin-bottom: 25px;
+    text-align: center;
 }
 .transition-box-click{
     position: absolute;
@@ -208,6 +242,10 @@ import customLink from './customLink'
    border-radius: 5px;
   color: #fff;
   background: #00adab;
+}
+.newContentBtn:hover{
+  background: rgb(1, 138, 136);
+  cursor: pointer;
 }
 .bottom-btn {
   padding: 10px 0;
@@ -240,7 +278,7 @@ import customLink from './customLink'
     width:32%;
     float:left;
 }
-.template-edit-div{
+.template-editContent-div{
     margin-top:40px;
     position:relative;
     min-width:608px;
@@ -255,16 +293,18 @@ import customLink from './customLink'
      z-index: 910;
      position: fixed;
      }
-.save-Btn{
+.template-save-Btn{
     line-height: 34px;
     border-radius: 25px;
     color: #fff;
     background: #00adab;
+    text-align: center;
 }
-.back-btn{
+.template-back-btn{
     line-height: 34px;
     border-radius: 25px;
     color: #fff;
     background: #ef7747;
+    text-align: center;
 }
 </style>

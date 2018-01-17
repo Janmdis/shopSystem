@@ -3,6 +3,8 @@
         <div class="imgLists">
             <windowAddImgList></windowAddImgList>
             <windowAddImgList></windowAddImgList>
+            <windowAddImgList></windowAddImgList>
+            <windowAddImgList></windowAddImgList>
         </div>
   </div>
 </template>

@@ -4,16 +4,16 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-row>
             <el-col :span='8'>
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="客户名称" prop="customer">
     
-                <el-input v-model="ruleForm.name"></el-input>
+                <el-input v-model="ruleForm.customer"></el-input>
     
             </el-form-item>
             </el-col>
             <el-col :span='8'>
-                <el-form-item label="活动区域" prop="region">
+                <el-form-item label="客户状态" prop="status">
         
-                    <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                    <el-select v-model="ruleForm.status" placeholder="请选择活动区域">
         
                         <el-option label="区域一" value="shanghai"></el-option>
         
@@ -24,9 +24,9 @@
                 </el-form-item>
             </el-col>
             <el-col :span='8'>
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="联系方式" prop="mode">
     
-                <el-input v-model="ruleForm.name"></el-input>
+                <el-input v-model="ruleForm.mode"></el-input>
     
             </el-form-item>
             </el-col>
@@ -34,9 +34,9 @@
 
         <el-row>
             <el-col :span='8'>
-                <el-form-item label="活动区域" prop="region">
+                <el-form-item label="客户类型" prop="type">
         
-                    <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                    <el-select v-model="ruleForm.type" placeholder="请选择活动区域">
         
                         <el-option label="区域一" value="shanghai"></el-option>
         
@@ -47,16 +47,16 @@
                 </el-form-item>
             </el-col>
             <el-col :span='8'>
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="客户等级" prop="grade">
     
                 <el-input v-model="ruleForm.name"></el-input>
     
             </el-form-item>
              </el-col>
              <el-col :span='8'>
-            <el-form-item label="是否签约" prop="resource">
+            <el-form-item label="是否签约" >
     
-                <el-radio-group v-model="ruleForm.resource">
+                <el-radio-group >
     
                     <el-radio label="签约"></el-radio>
     
@@ -67,13 +67,13 @@
             </el-form-item>
             </el-col>
         </el-row>
-                    <hr>
+        <div class='lineBline'></div>
                     <br>
         <el-row>
             <el-col :span='8'>
-                <el-form-item label="活动区域" prop="region">
+                <el-form-item label="省">
         
-                    <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                    <el-select v-model="ruleForm.province" placeholder="请选择活动区域">
         
                         <el-option label="区域一" value="shanghai"></el-option>
         
@@ -84,9 +84,9 @@
                 </el-form-item>
             </el-col>
             <el-col :span='8'>
-                <el-form-item label="活动区域" prop="region">
+                <el-form-item label="市">
         
-                    <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                    <el-select v-model="ruleForm.city" placeholder="请选择活动区域">
         
                         <el-option label="区域一" value="shanghai"></el-option>
         
@@ -98,9 +98,9 @@
             </el-form-item>
              </el-col>
              <el-col :span='8'>
-            <el-form-item label="活动区域" prop="region">
+            <el-form-item label="县" >
 
-                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                <el-select v-model="ruleForm.county" placeholder="请选择活动区域">
     
                     <el-option label="区域一" value="shanghai"></el-option>
     
@@ -113,9 +113,9 @@
         </el-row>
         <el-row>
             <el-col :span='8'>
-            <el-form-item label="活动区域" prop="region">
+            <el-form-item label="区域" >
 
-                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                <el-select  placeholder="请选择活动区域">
     
                     <el-option label="区域一" value="shanghai"></el-option>
     
@@ -126,41 +126,41 @@
                 </el-form-item>
             </el-col>
              <el-col :span='8'>
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="库房地址" >
     
-                <el-input v-model="ruleForm.name"></el-input>
+                <el-input ></el-input>
     
             </el-form-item>
             </el-col>
             <el-col :span='8'>
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="办公地址" >
     
-                <el-input v-model="ruleForm.name"></el-input>
+                <el-input ></el-input>
     
             </el-form-item>
             </el-col>
         </el-row>
-        <hr>
+        <div class='lineBline'></div>
         <br>
         <el-row>
             <el-col :span='8'>
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="客户负责人" >
     
-                <el-input v-model="ruleForm.name"></el-input>
-    
-            </el-form-item>
-            </el-col>
-            <el-col :span='8'>
-                <el-form-item label="活动名称" prop="name">
-    
-                <el-input v-model="ruleForm.name"></el-input>
+                <el-input ></el-input>
     
             </el-form-item>
             </el-col>
             <el-col :span='8'>
-            <el-form-item label="活动区域" prop="region">
+                <el-form-item label="负责人联系方式" >
+    
+                <el-input ></el-input>
+    
+            </el-form-item>
+            </el-col>
+            <el-col :span='8'>
+            <el-form-item label="业务员" >
 
-                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                <el-select  placeholder="请选择活动区域">
     
                     <el-option label="区域一" value="shanghai"></el-option>
     
@@ -173,17 +173,17 @@
         </el-row>
         <el-row>
             <el-col :span='16'>
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="备注" >
     
-                <el-input v-model="ruleForm.name"></el-input>
+                <el-input></el-input>
     
             </el-form-item>
             </el-col>
 
             <el-col :span='8'>
-            <el-form-item label="活动区域" prop="region">
+            <el-form-item label="来源" >
 
-                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                <el-select  placeholder="请选择活动区域">
     
                     <el-option label="区域一" value="shanghai"></el-option>
     
@@ -196,9 +196,9 @@
         </el-row>
         <el-row>
             <el-col :span='8'>
-                <el-form-item label="活动名称" prop="name">
+                <el-form-item label="图片" >
     
-                <el-input v-model="ruleForm.name"></el-input>
+                <el-input ></el-input>
     
             </el-form-item>
             </el-col>
@@ -213,31 +213,17 @@
     <el-button @click="resetForm('ruleForm')">重置</el-button>
   </el-form-item>
         </el-form>
-    
+
         <span slot="footer" class="dialog-footer" center>
-    
-        
-    
             <el-row :gutter="20">
-    
-        
-    
               <el-col :span="12"><el-button class="clearBtn" @click="dialogVisible = false">取 消</el-button></el-col>
-    
-        
-    
+
               <el-col :span="12"><el-button class="okBtn" type="primary" @click="dialogVisible = false">确 定</el-button></el-col>
     
-        
-    
             </el-row>
-    
-        
-    
-            </span>
-    
-    
-    
+
+        </span>
+
     </el-dialog>
 </template>
 <style>
@@ -246,46 +232,49 @@
     height:100px;
     border:1px solid #ddd;
 }
+.lineBline{
+    border-bottom:1px solid #ddd;
+}
 </style>
 <script>
 
     export default {
     data() {
-        
       return {
-        dialogVisible: true,
+        dialogVisible: false,
         ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          customer: '',
+          status: '',
+          mode: '',
+          city:'',
+          county:'',
+          grade:'',
+          type:'',
         },
         rules: {
           name: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
             { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ],
-          region: [
-            { required: true, message: '请选择活动区域', trigger: 'change' }
+          grade:[
+              { required: true, message: '请输入客户名称', trigger: 'blur' },
+              { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+          type:[
+               { required: true, message: '请输入客户名称', trigger: 'blur' },
+               { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ],
-          date2: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+          mode:[
+               { required: true, message: '请输入客户名称', trigger: 'blur' },
+               { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ],
-          type: [
-            { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+          customer:[
+               { required: true, message: '请输入客户名称', trigger: 'blur' },
+               { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ],
-          resource: [
-            { required: true, message: '请选择活动资源', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写活动形式', trigger: 'blur' }
+          status:[
+               { required: true, message: '请输入客户名称', trigger: 'blur' },
+               { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ]
         }
       };
@@ -304,6 +293,11 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
+    },
+   created:function(){
+        this.$root.$on('showWindow',()=>{
+            this.dialogVisible=true;
+        })
     }
   }
 </script>

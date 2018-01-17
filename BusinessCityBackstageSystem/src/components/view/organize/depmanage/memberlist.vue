@@ -62,6 +62,26 @@ export default {
             ],
         }
     },
+    created:function(){
+        this.$root.$on("membertorole",(data)=>{
+            let depid=data.depid;
+            let roleid=data.roleid;
+            this.$http.post('/api/admin/manage/department/find?type=0',{
+                id:depid,
+                crea_id:roleid
+            })
+            .then(function (response) {
+                let data=response.data;
+                if(data.msg=='查询成功'){
+                    that.list.push(data.info.list);
+                }
+                console.log(that.list);
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
+        });
+    },
     methods:{
         opendialog(){
             this.$root.$emit('opendialogmember',true);

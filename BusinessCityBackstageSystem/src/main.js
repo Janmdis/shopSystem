@@ -7,21 +7,23 @@ import App from './App'
 import router from './router'
 import 'babel-polyfill'
 import echarts from 'echarts'
+import axios from 'axios'
 // 挂载在全局
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts 
+Vue.prototype.$http= axios
 
 //路由限制跳转判断
-router.beforeEach((transition, from, next) => {
-  // 登录路径不执行
-  if (transition.path.indexOf('login') == -1) {
-      // 判断缓存信息是否存在，不存在则直接跳转登录页
-        //return next({ path: '/login' })
+// router.beforeEach((transition, from, next) => {
+//   // 登录路径不执行
+//   if (transition.path.indexOf('login') == -1) {
+//       // 判断缓存信息是否存在，不存在则直接跳转登录页
+//         //return next({ path: '/login' })
 
-  }
-  next();
-})
+//   }
+//   next();
+// })
 
 /* eslint-disable no-new */
 new Vue({

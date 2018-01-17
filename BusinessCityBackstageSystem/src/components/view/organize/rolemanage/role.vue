@@ -12,7 +12,7 @@
                         v-model="valuesearch">
                     </el-input>
                     <el-button type="primary" @click="opendialogedit" round>新增</el-button>
-                    <el-button type="primary" class="research"><i class='el-icon-refresh'></i></el-button>
+                    <el-button type="primary" class="research"><i class='icon iconfont icon-shuaxin'></i></el-button>
                 </div>
             </el-col>
         </el-row>
@@ -160,6 +160,7 @@ export default {
     font-size: 40px;
     padding: 0;
 }
+
 .pages{
     text-align: right;
     margin-top: 20px;
@@ -169,5 +170,8 @@ export default {
 <style>
 .top .el-input__inner{
     border-radius: 40px;
+}
+.search .el-input__suffix{
+    cursor: pointer;
 }
 </style>

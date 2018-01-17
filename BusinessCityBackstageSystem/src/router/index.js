@@ -21,7 +21,8 @@ export default new Router({
         {
             path: '',
             component: resolve => require(['@/components/common/home/home.vue'], resolve),
-            children: [{
+            children: [
+                {
                     path: '',
                     redirect: 'index'
                 },
@@ -33,18 +34,7 @@ export default new Router({
                 {
                     path: 'member', // 会员管理
                     name: 'member',
-                    component: resolve => require(['@/components/view/Member/Member.vue'], resolve),
-                    // children: [{
-                    //         path: 'order', //  订单页
-                    //         name: 'order',
-                    //         component: resolve => require(['@/components/view/Member/MemberInfo/Order.vue'], resolve)
-                    //     },
-                    //     {
-                    //         path: 'orderDetail', //  订单详情页
-                    //         name: 'orderDetail',
-                    //         component: resolve => require(['@/components/view/Member/MemberInfo/orderDetail.vue'], resolve)
-                    //     }
-                    // ]
+                    component: resolve => require(['@/components/view/Member/Member.vue'], resolve)
                 },
                 {
                     path: 'depmanage', // 部门管理
@@ -62,10 +52,21 @@ export default new Router({
                     component: resolve => require(['@/components/view/organize/rolemanage/role.vue'], resolve)
                 },
                 {
+                    path: 'usermanage', // 用户管理
+                    name: 'usermanage',
+                    component: resolve => require(['@/components/view/organize/usrmanage/User.vue'], resolve)
+                },
+                {
                     path: 'mallSet', // 商城模板
                     name: 'mallSet',
                     component: resolve => require(['@/components/view/mall/customTemplate/templateSet.vue'], resolve)
+                },
+                {
+                    path: 'authoritymanage', // 权限管理
+                    name: 'authoritymanage',
+                    component: resolve => require(['@/components/view/organize/authmanage/authority.vue'], resolve)
                 }
+                
             ]
         },
         {

@@ -12,7 +12,6 @@ export default {
       ruleForm: {
         region: '',
         newPass: '',
-        
       }, rules: {
         region: [
           { required: true, message: '请选择活动区域', trigger: 'change' }
@@ -41,6 +40,7 @@ export default {
     this.$root.$on('infoText', (infoText) => {
       this.which_to_show = infoText
     })
+      // this.selected('首页')
   },
   methods: {
       submitForm(formName) {
@@ -61,7 +61,8 @@ export default {
       this.activeName = navInfo
       if (navInfo == '首页') {
         navInfo = 'one'
-        this.$router.push("/index")
+        window.location.href='/index'
+        // this.$router.push("/index")
       } else if (navInfo == '会员在线') {
         navInfo = 'two'
       } else if (navInfo == '产品在线') {

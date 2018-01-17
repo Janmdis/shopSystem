@@ -8,6 +8,7 @@ export default {
     name: 'member',
     data() {
         return {
+            valuesearch: '',
             namepage: '客户资料',
             currentPage1: 1,
             searchFn: '',
@@ -27,6 +28,7 @@ export default {
                 },
                 {
                     name: '王小虎',
+                    ids: '25285',
                     iphone: '1500898888',
                     province: '上海',
                     types: '优质客户',
@@ -44,6 +46,9 @@ export default {
 
     },
     methods: {
+        showWindow() {
+            this.$root.$emit("showWindow")
+        },
         closeInfo() {
             // let infos = document.getElementsByClassName("infoCover")[0]
             // console.log(infos.style.left)
@@ -64,41 +69,6 @@ export default {
         },
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`)
-        },
-        showextra(isall) {
-            let inputdom = document.getElementsByClassName('el-table__body-wrapper')[0].getElementsByTagName('input')
-            let num = 0
-            let allnum = inputdom.length
-            for (let i = 0; i < inputdom.length; i++) {
-                if (inputdom[i].checked) {
-                    num++
-                }
-            }
-            let show = false
-            let editcan = true
-            if (isall) {
-                if (num == 0 || num != allnum) {
-                    show = true
-                    editcan = false
-                    num = allnum
-                } else {
-                    show = false
-                    num = 0
-                }
-            } else {
-                if (num != 0) {
-                    show = true
-                    editcan = num > 1 ? false : true
-                } else {
-                    show = false
-                }
-            }
-            this.$root.$emit('showlttip', { show, editcan, num })
-
-            // console.log(num)
-            // if((!isall&&num==allnum)||(isall&&num==0)){
-            //     console.log('全选')
-            // }
         }
 
     },

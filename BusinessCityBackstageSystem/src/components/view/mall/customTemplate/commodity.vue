@@ -5,19 +5,20 @@
         <el-col :span="24">
           <div class="imgConet">
                <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
+               <button :index='dataid' @click='test'>删除</button>
+               <img src="./../../../../assets/templateImg.jpg" class="img">
              </div>
         </el-col>
         <el-col :span="12">
           <div class="imgConet">
                <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
+               <img src="./../../../../assets/templateImg.jpg" class="img">
              </div>
         </el-col>
         <el-col :span="12">
           <div class="imgConet">
                <!-- 图片-->
-               <img src="./../../../../assets/logo.png" class="img">
+               <img src="./../../../../assets/templateImg.jpg" class="img">
              </div>
         </el-col>
         </el-row>
@@ -26,10 +27,20 @@
 </template>
 <script>
     export default{
+      props:['data'],
         data() {
             return{
-                
+                dataid:''
             }
+        },
+        created:function(){
+          this.dataid=this.data
+          
+        },
+        methods:{
+          test(){
+            this.$root.$emit('test',this.dataid);
+          }
         }
     }
 </script>

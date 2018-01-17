@@ -11,6 +11,9 @@ export default {
         }
     },
     methods: {
+        goIndex() {
+            this.$router.push("/index");
+        },
         forgetPassword() {
             this.$router.push({ path: '/login/forgetPwd' })
         },
@@ -89,10 +92,22 @@ export default {
         //清除cookie
         clearCookie: function() {
             this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
+        },
+        yzn() {
+            var verifyCode = new GVerify("checkCode");
+            document.getElementById("myButton").onclick = function() {
+                var res = verifyCode.validate(document.getElementById("codeInput").value);
+                if (res) {
+                    alert("验证正确");
+                } else {
+                    alert("验证码错误");
+                }
+            }
         }
     },
     //页面加载调用获取cookie值
     mounted() {
-        this.getCookie()
+        this.getCookie(),
+        this.yzn()    
     }
 }
