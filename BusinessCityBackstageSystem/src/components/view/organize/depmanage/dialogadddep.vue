@@ -1,7 +1,7 @@
 <template>
-  <el-dialog title="新增部门" :visible="dialogDepVisible" :modal='true' :before-close="ai_dialog_close"> 
+  <el-dialog title="新增部门" :visible="dialogDepVisible" width='40%' :modal='true' :before-close="ai_dialog_close"> 
             <el-row>
-                 <el-col :span="3" :offset='3'>
+                 <el-col :span="4" :offset='1'>
                      <div class="grid-content labelName">
                          部门名称：
                      </div>
@@ -25,7 +25,7 @@
                  </el-col>
             </el-row> -->
             <el-row>
-                 <el-col :span="3" :offset='3'>
+                 <el-col :span="4" :offset='1'>
                      <div class="grid-content labelName">
                          部门描述：
                      </div>
@@ -44,7 +44,7 @@
                  </el-col>
             </el-row>
              <el-row>
-                 <el-col :span="3" :offset='3'>
+                 <el-col :span="4" :offset='1'>
                      <div class="grid-content labelName">
                          所属部门：
                      </div>

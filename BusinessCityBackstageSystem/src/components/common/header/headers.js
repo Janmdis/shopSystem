@@ -61,7 +61,8 @@ export default {
       this.activeName = navInfo
       if (navInfo == '首页') {
         navInfo = 'one'
-        this.$router.push("/index")
+        window.location.href='/index'
+        // this.$router.push("/index")
       } else if (navInfo == '会员在线') {
         navInfo = 'two'
       } else if (navInfo == '产品在线') {
