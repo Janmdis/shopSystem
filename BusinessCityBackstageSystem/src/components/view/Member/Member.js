@@ -2,13 +2,14 @@
 import memberInfo from './memberInfo/MemberInfo.vue'
 import Datatable from './MemberTable.vue'
 import Lttip from '@/components/common/tipspage/lttip.vue'
+import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
 export default {
     name: 'member',
     data() {
         return {
-            valuesearch:'',
+            valuesearch: '',
             namepage: '客户资料',
             currentPage1: 1,
             searchFn: '',
@@ -77,6 +78,7 @@ export default {
         Lttip,
         search,
         Datatable,
-        showWindows
+        showWindows,
+        searchBox
     },
 }

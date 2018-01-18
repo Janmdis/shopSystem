@@ -3,7 +3,7 @@
         title="上传图片"
         :visible.sync="dialogVisible"
         width="30%"
-        :before-close="handleClose">
+        >
             <!-- 内容 -->
             <el-upload
             class="upload-demo"

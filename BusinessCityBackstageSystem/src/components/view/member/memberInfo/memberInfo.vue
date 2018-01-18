@@ -21,19 +21,12 @@
             <el-container id="infoContainer">
                 <el-aside id="conLeft">
                     <div class="conLeftTitle"> <span>相关</span></div>
-                    <!-- <div class="conLeftList1">
-                        <p>个人信息</p>
-                        <p>房屋</p>
-                        <p>订单<span>(2)</span></p>
-                        <p>回访<span>(2)</span></p>
-                        <p>相关联会员<span>(2)</span></p>
-                    </div> -->
                     <ul class="conLeftList2">
                         <li v-for="(info,index) in infoText"
                             :key="index"
                             :class="{liactive:isActive == info.title,defaultActive:default1}"
                             @click="isShow(info.title)">
-                            <div class="list2Img" style="background:#df4b31;"><img :src="info.imgSrc" alt=""></div>
+                            <div class="list2Img" :style="info.bgColor"><img :src="info.imgSrc" alt=""></div>
                             <p>{{info.title}}&nbsp;&nbsp;(<span>{{info.number}}</span>)</p>
                         </li>
                     </ul>
