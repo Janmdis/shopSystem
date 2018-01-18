@@ -29,7 +29,7 @@
         </div>
         <div class="memberMain">
             <div class='boderBox'>
-            <Datatable :data='tableData3'></Datatable>
+                <Datatable :data='tableData3'></Datatable>
             </div>
             <member-info class="infoCover" ref="memberInfos"></member-info>
             <el-row>

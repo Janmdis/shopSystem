@@ -45,6 +45,7 @@ export default{
 #related{
     background: #fff;
     padding:0 25px 20px;
+    min-width: 750px;
     .relatedMain{
             width: 100%;
         li{

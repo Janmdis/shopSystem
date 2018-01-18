@@ -3,7 +3,7 @@
     :data="datalist"
     @select='showextra(false)'
     @select-all='showextra(true)'
-    @row-click="showMemberInfo()"
+    @cell-click='showMemberInfo'
     :stripe='true'
     style="width: 100%">
     <el-table-column
@@ -17,13 +17,7 @@
         type="selection"
         width="55">
         </el-table-column>
-        <el-table-column
-        class='borderRight'
-        fixed
-        prop="ids"
-        label="ID"
-        width='100'
-        >
+        <el-table-column class='borderRight' fixed prop="ids" label="ID" width='100'>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -69,6 +63,7 @@
             </el-table>
 </template>
 <script>
+//@row-click="showMemberInfo()"
 export default {
     props:['data'],
     data(){
@@ -81,9 +76,15 @@ export default {
         this.datalist=this.data;
     },
     methods:{
-        showMemberInfo(index){//  点击显示侧滑
-            this.showLeft = 16
-            this.$root.$emit('infoCoverShow',this.showLeft)
+        showMemberInfo(row,column,cell,event){//  点击显示侧滑
+            //  console.log(row,column,cell,event)
+            //  let classNum = cell.className.split('n_')[1]
+            let labelValue = column.label
+            console.log(labelValue)
+            if(labelValue == 'ID'){
+                this.showLeft = 16
+                this.$root.$emit('infoCoverShow',this.showLeft)
+            }
         },      
         showextra(isall){
             let inputdom=document.getElementsByClassName('el-table__fixed-body-wrapper')[0].getElementsByTagName('input');
@@ -124,6 +125,19 @@ export default {
         indexMethod(index) {
             return index + 1
         },
+        // formatterData(row,column,cellValue){//  初始化某一列的内容,三个参数
+        //     //console.log(row,column,cellValue)
+        //     switch(row.ids){
+        //         case '25284':
+        //         return '大虎';
+        //         break;
+        //         case '25285':
+        //         return '王二虎';
+        //         break;
+        //         default:
+        //         return '未知';
+        //     }
+        // },
     }
 
 }
