@@ -165,7 +165,7 @@ export default {
         },
         handleDelete(index, row) {
             console.log(index, row);
-            this.$confirm('确定删除此行数据吗?', '提示', 
+            this.$confirm('确定删除{品牌}{设备}吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
                 .then(() => {
                     this.$message({
@@ -193,6 +193,8 @@ export default {
     }
     .el-table td:nth-child(6) .cell{
         display:flex;
+        min-width: 140px;
+        justify-content:space-between;
     }
 }
 #houseDetail{
@@ -256,6 +258,7 @@ export default {
     }
 }
 #houseDetail{
+    // min-width: 750px;
     background: #fff;
     padding-bottom:80px;
     position: relative;
@@ -299,6 +302,7 @@ export default {
                 display:flex;
                 p{
                     width: 60px;
+                    min-width:40px;
                     line-height:40px;
                 }
                 span{
@@ -308,6 +312,7 @@ export default {
                         width: 70% !important;
                     }
                     i{
+                        min-width:30px;
                         font-style:normal;
                         margin-left:15px;
                     }

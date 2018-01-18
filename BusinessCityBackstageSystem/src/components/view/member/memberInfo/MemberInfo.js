@@ -48,8 +48,8 @@ export default {
             let timer2 = setInterval(function() {
                 left1++
                 document.getElementsByClassName("infoCover")[0].style.left = left1 + '%';
-                if (left1 == 100) {
-                    left1 = 100
+                if (left1 == 105) {
+                    left1 = 105
                     clearInterval(timer2)
                 }
             }, 5);
