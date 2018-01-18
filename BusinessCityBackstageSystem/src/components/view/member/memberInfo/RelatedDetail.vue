@@ -1,6 +1,6 @@
 <template>
     <div id="relatedDetail">
-
+        
     </div>
 </template>
 <script>
@@ -12,11 +12,6 @@ export default{
     }
 }
 </script>
-<style lang="less">
-
-</style>
-
 <style scoped lang="less">
 
 </style>
-

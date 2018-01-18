@@ -1,11 +1,11 @@
 <template>
     <div id="visit">
         <div class="visitHeader">
-            暂无回访记录
+            <el-button>返回 <i class=""></i></el-button>
         </div>
-        <div class="visitMain">
+        <ul class="visitMain">
 
-        </div>
+        </ul>
     </div>
 </template>
 <script>
