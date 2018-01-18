@@ -12,6 +12,7 @@
                         suffix-icon="el-icon-search"
                         v-model="valuesearch">
                     </el-input>
+                    
                     <el-button type="primary" class="add" @click='showWindow' round><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
                     
                     <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
@@ -89,6 +90,7 @@ table td:nth-child(3) {
 @import './Member.less';
 
 .search {
+    position:relative;
     height: 72px;
     display: -webkit-box;
     display: -ms-flexbox;

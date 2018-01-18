@@ -8,6 +8,7 @@ import router from './router'
 import 'babel-polyfill'
 import echarts from 'echarts'
 import axios from 'axios'
+
 import store from './vuex/store'
 // 挂载在全局
 Vue.use(ElementUI)

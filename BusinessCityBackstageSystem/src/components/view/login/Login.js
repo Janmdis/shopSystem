@@ -1,5 +1,6 @@
 /* eslint-disable */
 var { gVerify } = require("../../../assets/javascript/common.js");
+
 export default {
 
     data() {
@@ -37,6 +38,7 @@ export default {
             this.$router.push({ path: '/login/forgetPwd' })
         },
         logining(formName) {
+            this.yzn()
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //验证成功登陆
@@ -49,21 +51,21 @@ export default {
                         this.setCookie(name, pass, 7);
                     }
                     //接口
-                    var url = '/api/admin/account/login';
+                    var url = '/api/admin/account/login?username=18356987162&password=123456';
                     // this.$http.post(url, this.ruleForm, { emulateJSON: true })
                     this.$http({
                         url: url,
                         method: 'POST',
                         // 请求体重发送的数据
-                        data: {
+                        data:qs.stringify(  {
                             username: 18356987162,
                             password: 123456,
                             //verificationCode:this.ruleForm.verificationCode,
                             //rememberMe: this.ruleForm.rememberMe,
-                        },
+                        }),
                         // 设置请求头
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/x-www-form-urlencoded'
                         }
                     })
                         .then(res => {
@@ -74,9 +76,9 @@ export default {
                                 this.ruleForm.password = '';
                                 return
                             } else {
-                                this.$alert('3秒后自动跳转到...', '登陆成功', {
-                                    confirmButtonText: '确定',
-                                });
+                                // this.$alert('3秒后自动跳转到...', '登陆成功', {
+                                //     confirmButtonText: '确定',
+                                // });
                                 this.$router.push("/index")
                             }
                         })
@@ -123,7 +125,8 @@ export default {
         },
         yzn() {
             var verifyCode = new GVerify("checkCode");
-            document.getElementById("myButton").onclick = function() {
+            var codeInput = document.querySelector("#codeInput");
+            codeInput.onblur = function () {
                 var res = verifyCode.validate(document.getElementById("codeInput").value);
                 if (res) {
                     alert("验证正确");

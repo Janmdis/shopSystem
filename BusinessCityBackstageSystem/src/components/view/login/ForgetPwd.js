@@ -1,66 +1,112 @@
 /* eslint-disable */
+import qs from 'qs'
 export default {
     name: 'forgetPwd',
     data() {
+        var validatePass = (rule, value, callback) => {
+            if (value === '') {
+              callback(new Error('请输入密码'));
+            } else {
+              if (this.ruleForm.userPwd1 !== '') {
+                this.$refs.ruleForm.validateField('userPwd1');
+              }
+              callback();
+            }
+          };
+          var validatePass2 = (rule, value, callback) => {
+            if (value === '') {
+              callback(new Error('请再次输入密码'));
+            } else if (value !== this.ruleForm.userPwd) {
+              callback(new Error('两次输入密码不一致!'));
+            } else {
+              callback();
+            }
+          };
         return {
+            time: 60, // 发送验证码倒计时
+            sendMsgDisabled: false,
             ruleForm: {
-                userPhone: '18356987162',
-                userCompany: '',
+                userPhone: '',
+                //userCompany: '',
                 userCode: '',
                 userPwd: '',
                 userPwd1: '',
-                checked: ''
+                region: '',
             },
-            options: [{ value: '选项1', label: '弘之云' }, { value: '选项2', label: '禾目子公司' }],
+            rules: {
+                userPhone: [
+                    {
+                        pattern: /^1[3|4|5|7|8][0-9]{9}$/g,
+                        required: true,
+                        message: '请输入正确的手机号',
+                        trigger: 'blur'
+                    }
+                ],
+                userPwd: [
+                    { pattern: /^(\w){6,20}$/, required: true,
+                    message: '只能输入6-20个字母、数字、下划线' },
+                    { validator: validatePass, trigger: 'blur' }
+          
+                  ],
+                  userPwd1: [
+                    { pattern: /^(\w){6,20}$/, required: true,
+                    message: '只能输入6-20个字母、数字、下划线' },
+                    { validator: validatePass2, trigger: 'blur' }
+          
+                ],
+                userCompany: [
+                    { required: true, message: '请选择活动区域', trigger: 'change' }
+                ],
+                userCode: [
+                    { required: true, message: '请填写验证码', trigger: 'blur' }
+                ]
+            },
             value: '',
             company: false,
             companys: true,
         }
     },
     methods: {
-        getver() {
-            alert("...")
+        option() {
+            this.$message('请填写手机号');
+        },
+        send() {
+            let me = this;
+            me.sendMsgDisabled = true;
+            let interval = window.setInterval(function() {
+             if ((me.time--) <= 0) {
+              me.time = 60;
+              me.sendMsgDisabled = false;
+              window.clearInterval(interval);
+             }
+            }, 1000);
+           },
+        getver(a) {
+            
+            if (this.ruleForm.userPhone != '') {
+                this.send()
+            alert("..18356987162")
             let url = '/api/admin/account/sendphonecode';
-            // this.$http.post(url, { 
-            //     phone: this.ruleForm.userPhone,
-            // })
             this.$http({
                     url: url,
                     method: 'POST',
                     // 请求体重发送的数据
                     data: {
-                        phone: 18356987162,
+                        phone:this.ruleForm.userPhone
                     },
                     // 设置请求头
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    // headers: {
+                    //     'Content-Type': 'application/x-www-form-urlencoded'
+                    // }
                 })
                 .then(res => {
                     console.log(res)
                 })
                 .catch(err => {
                     console.log(err)
-                })
-        },
-        overTime(o) {
-            var wait=60;
-            function time(o) {
-            if (wait == 0) {
-            o.removeAttribute("disabled");   
-            o.value="获取验证码";
-            $(o).css({"background":"#17c69b"})
-            wait = 60;
-            } else { 
-            o.setAttribute("disabled", true);
-            o.value="重新发送(" + wait + ")";
-            $(o).css({"background":"#ccc"})
-            wait--;
-            setTimeout(function() {
-                time(o)
-            },
-            1000)
-            }
+                }) 
+        } else {
+            this.option();
             }
         },
         jumpLogin() {
@@ -75,21 +121,6 @@ export default {
                 this.companys = false;
                 return this.company = true;
             }
-        },
-        checkPhone: function() {
-            console.log(111)
-        },
-        checkCompany: function() {
-            console.log(222)
-        },
-        checkCode: function() {
-            console.log(222)
-        },
-        checkPwd: function() {
-            console.log(222)
-        },
-        checkPwd1: function() {
-            console.log(222)
         },
         logining(ruleForm) {
             var name = this.ruleForm.userName; // 保存的账号

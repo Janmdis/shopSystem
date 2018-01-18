@@ -2,6 +2,7 @@
 import memberInfo from './memberInfo/MemberInfo.vue'
 import Datatable from './MemberTable.vue'
 import Lttip from '@/components/common/tipspage/lttip.vue'
+import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
 export default {
@@ -78,5 +79,6 @@ export default {
         search,
         Datatable,
         showWindows,
-    }
+        searchBox
+    },
 }

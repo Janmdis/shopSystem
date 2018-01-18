@@ -1,72 +1,118 @@
 <template>
     <div id="forgetPwd">
-        <!-- <el-row>
-        <el-col :sm="4" :md="6" :lg="8" :offset="16">
-            <div class="contentRight">
-                <h3>欢迎进入禾目云视觉健康管理系统</h3>
-                <h5> Background management system </h5> -->
-                <el-form :model="ruleForm" action="" class="forgetForm">
-                    <ul class="forgetUl">
-                        <li>
-                            <label><img src="/static/images/Login/reiphones.png" alt=""><el-input type="text" @change="checkPhone" value="" v-model="ruleForm.userPhone" placeholder="请输入手机号" clearable></el-input></label>
-                        </li>
-                        <li>
-                            <label><img src="/static/images/Login/rescou.png" alt=""><el-input type="password" v-show="companys" @change="checkCompany" @focus="isCompany" value="" v-model="ruleForm.userCompany" placeholder="请选择企业" clearable></el-input></label>
-                            <el-select v-model="value" v-show="company" placeholder="请选择企业"><el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option></el-select>
-                        </li>
-                        <li>
-                            <label><img src="/static/images/Login/reslock.png" alt=""><el-input type="text" @change="checkCode" value="" v-model="ruleForm.userCode" placeholder="请输入验证码" clearable></el-input></label>
-                            <el-button type="primary" @click='getver' plain>获取验证码</el-button>
-                        </li>
-                        <li>
-                            <label><img src="/static/images/Login/regpass.png" alt=""><el-input type="password" @change="checkPwd" value="" v-model="ruleForm.userPwd" placeholder="请输入密码" clearable></el-input></label>
-                        </li>
-                        <li>
-                             <label><img src="/static/images/Login/regpass1.png" alt=""><el-input type="text" @change="checkPwd1" value="" v-model="ruleForm.userPwd1" placeholder="请确认密码" clearable></el-input></label>
-                        </li>     
-                        <li class="liBtn"><span id="myButton" @click="logining(ruleForm)" >确认</span></li>
-                        <li class="hasAccount"><span @click="jumpLogin">已有账号,立即登录</span></li>
-                    </ul>
-                </el-form>
-           <!--  </div>
-        </el-col>
-    </el-row> -->
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="forgetForm">
+            <el-row>
+                <el-col :span='5'>
+                    <i class="icon iconfont icon-icon-user icon-shouji"></i>
+                </el-col>
+                <el-col :span='19'>
+                    <el-form-item prop="userPhone">
+                        <el-input type="text" v-model="ruleForm.userPhone" placeholder="请输入手机号" clearable></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span='5'>
+                    <i class="icon iconfont icon-icon-user icon-ecurityCode"></i>
+                </el-col>
+                <el-col :span='19'>
+                    <el-form-item prop="userCompany">
+                    <el-col :span='12'>
+                        <el-input type="text"  v-model="ruleForm.userCode" placeholder="请输入验证码" clearable></el-input>
+                     </el-col>   
+                     <el-col :span='10' :offset='1'> 
+                        <el-button type="primary" @click='getver'  plain>
+                        <span v-if="sendMsgDisabled">{{time+'秒后获取'}}</span>
+                        <span v-if="!sendMsgDisabled">获取验证码</span>
+                        </el-button>
+                         </el-col>   
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span='5'>
+                    <i class="icon iconfont icon-icon-user icon-mima1"></i>
+                </el-col>
+                <el-col :span='19'>
+                    <el-form-item prop="userPwd">
+                        <el-input type="password"  v-model="ruleForm.userPwd" placeholder="请输入密码" clearable></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span='5'>
+                    <i class="icon iconfont icon-icon-user icon-querenmima"></i>
+                </el-col>
+                <el-col :span='19'>
+                    <el-form-item prop="userPwd1">
+                        <el-input   v-model="ruleForm.userPwd1" placeholder="请确认密码" clearable></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span='24'>
+                   <el-form-item class='textAlign'>
+                        <el-button type="primary" style='width:90%;' @click="submitForm('ruleForm')">确认</el-button>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span='24'>
+                   <el-form-item class='textAlign'>
+                        <span  type="primary" @click="jumpLogin">已有账号,立即登录</span>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <!--  </div>
+            </el-col>
+        </el-row> -->
     </div>
 </template>
 <script>
-import forgets from './ForgetPwd.js';
-export default forgets;
+    import forgets from './ForgetPwd.js';
+    export default forgets;
 </script>
 <style scoped lang='less'>
-@import "./ForgetPwd.less";
+    @import "./ForgetPwd.less";
 </style>
 <style>
-.forgetUl{
-    padding-left:0;
-}
-.forgetUl li{
-    list-style: none;
-}
-.forgetUl .el-input{
-    width: 85%;
-}
-.forgetUl .el-input .el-input__inner{
-    border:none;
-    vertical-align: 5px;
-    background:transparent;
-    padding-left:25px;
-    color:#fff;
-    margin-top:-6px;
-}
-.forgetUl .el-input .el-input__inner::-webkit-input-placeholder{
-    color:#fff;
-}
-.forgetUl .el-input .el-input__suffix{
-    top:-5px;
-}
-.forgetUl .el-checkbox__label{
-    color:#fff;
-    margin-right: 35px;
-}
+    .textAlign{
+        text-align:center;
+        color:#fff;
+    }
+    .iconfont {
+        font-size: 26px;
+        color: #fff;
+        margin-top: 8px;
+        display:inline-block;
+    }
+    .forgetUl {
+        padding-left: 0;
+    }
+    .forgetUl li {
+        list-style: none;
+    }
+    .forgetUl .el-input {
+        width: 85%;
+    }
+    .forgetUl .el-input .el-input__inner {
+        border: none;
+        vertical-align: 5px;
+        background: transparent;
+        padding-left: 25px;
+        color: #fff;
+        margin-top: -6px;
+    }
+    .forgetUl .el-input .el-input__inner::-webkit-input-placeholder {
+        color: #fff;
+    }
+    .forgetUl .el-input .el-input__suffix {
+        top: -5px;
+    }
+    .forgetUl .el-checkbox__label {
+        color: #fff;
+        margin-right: 35px;
+    }
 </style>
 
