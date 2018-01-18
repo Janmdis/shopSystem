@@ -1,16 +1,5 @@
 <template>
     <div id="login">
-    
-        <!-- <el-row>
-    
-            <el-col :sm="4" :md="6" :lg="8" :offset="16">
-    
-                <div class="contentRight">
-    
-                    <h3>欢迎进入禾目云视觉健康管理系统</h3>
-    
-                    <h5> Background management system </h5> -->
-    
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="loginForm">
                 <el-row >
                     <el-col :span='5'>

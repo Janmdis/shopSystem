@@ -1,6 +1,6 @@
 /* eslint-disable */
 var { gVerify } = require("../../../assets/javascript/common.js");
-import qs from 'qs'
+
 export default {
 
     data() {
