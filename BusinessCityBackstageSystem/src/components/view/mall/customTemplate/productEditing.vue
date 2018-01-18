@@ -1,4 +1,20 @@
 <template>
+
+<!-- <el-col class='btnsPie' :span='16' style='padding-bottom:5px;'>
+                <el-button type="primary" class='on' @click.native='switchbtn($event)' style="margin-left:20%;">全部</el-button>
+                <el-button type="primary" @click.native='switchbtn($event)'>本月</el-button>
+                <el-button type="primary"  @click.native='switchbtn($event)'>更多</el-button>
+               
+            </el-col> -->
+
+            <!-- switchbtn(e){
+            let target=e.target.tagName=='BUTTON'?e.target:e.target.parentNode;
+            let btns=target.parentNode.getElementsByTagName('button');
+            for(let i=0;i<btns.length;i++){
+                btns[i].setAttribute('class','el-button el-button--primary');
+            }
+            target.setAttribute('class','el-button on el-button--primary');
+        }, -->
   <div>
         <div class="imgLists">
            <div class="carouselListInfo">
@@ -6,18 +22,18 @@
                     <div class="styleBtn">
                         <ul>
                             <li class="styleTitle">选择商品：</li>
-                            <li class="styleBorderBtn" @click="opendialogPro" style="border-radius: 5px;">选择</li>
+                            <li class="styleBorderBtn styleBorderBtns" @click="opendialogPro" style="border-radius: 5px;">选择</li>
                         </ul>
                         <div style="clear:both;"></div>
                     </div>
                 </div>
                 <div class="editStyleDiv">
+                    <p class="styleTitle">列表样式：</p>
                     <div class="styleBtn">
-                        <ul>
-                            <li class="styleTitle">列表样式：</li>
-                            <li class="styleBorderBtn borderBig" style="background:#018a88;">大图</li>
-                            <li class="styleBorderBtn borderSmall">小图</li>
-                            <li class="styleBorderBtn borderBS">一大两小</li>
+                        <ul class="styleUl">
+                            <li @click='switchbtn($event,1)' class="styleBorderBtn on">大图</li>
+                            <li @click='switchbtn($event,2)' class="styleBorderBtn">小图</li>
+                            <li @click='switchbtn($event,3)' class="styleBorderBtn">一大两小</li>
                         </ul>
                         <div style="clear:both;"></div>
                     </div>
@@ -30,14 +46,23 @@
     export default{
      data() {
          return{
-             
          }
          
      },
      methods:{
          opendialogPro(){
              this.$root.$emit('opendialogProduct',true)
-         }
+         },
+         switchbtn(e,index){
+             //alert(index)
+             this.$root.$emit('probtnid',index);             
+            let target=e.target.tagName=='li'?e.target.parentNode:e.target;
+            let lis=target.parentNode.getElementsByTagName('li');
+            for(let i=0;i<lis.length;i++){
+                lis[i].setAttribute('class','styleBorderBtn');
+            }
+            target.setAttribute('class','styleBorderBtn on');
+        }
      }
  }
 </script>
@@ -64,7 +89,19 @@
     color:#fff;
     width: 82px;cursor: pointer;
     text-align: center;}
-    .borderBig{border-radius: 5px 0px 0px 5px;}
-.borderSmall{border-radius: 0px;}
-.borderBS{border-radius: 0px 5px 5px 0px;}
+.styleBorderBtns:hover{
+    background:#018a88;
+}
+    .styleUl :nth-child(1){
+        border-radius: 5px 0px 0px 5px;
+    }
+    .styleUl :nth-child(2){
+        border-radius: 0px;
+    }
+    .styleUl :nth-child(3){
+       border-radius: 0px 5px 5px 0px;
+    }
+.on{
+   background:#018a88;
+}
 </style>

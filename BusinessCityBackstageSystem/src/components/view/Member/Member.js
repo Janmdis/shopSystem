@@ -9,7 +9,7 @@ export default {
     name: 'member',
     data() {
         return {
-            valuesearch:'',
+            valuesearch: '',
             namepage: '客户资料',
             currentPage1: 1,
             searchFn: '',

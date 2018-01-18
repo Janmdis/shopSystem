@@ -1,13 +1,13 @@
 <template>
     <div id="order">
-        <div>
+        <div class="isSwitch" v-show="isSwitchOrderDetail">
             <ul class="orderMain">
                 <li v-for="info in infos" :key="info.id" >
                     <div class="orderDiv"><span>订单号 : {{info.orderNumber}}</span><span>服务类型 : {{info.serviceType}}</span><span>支付金额 : {{info.payMoney}}</span></div>
                     <div class="orderDiv"><span>下单时间 : {{info.orderTime}}</span><span>订单状态 : {{info.orderState}}</span><span>服务人员 : {{info.servicePeople}}</span></div>
                     <div class="orderBtn">
                         <div class="btnGroup">
-                            <el-button @click="jumpDetail(info.orderNumber)">查看详情</el-button>
+                            <el-button @click="jumpOrderDetail">查看详情</el-button>
                             <el-button>回访</el-button>
                             <el-button>追单</el-button>
                             <el-button>退款</el-button>
@@ -15,11 +15,13 @@
                     </div>
                 </li>
             </ul>
+            <public-pagination></public-pagination>
         </div>
-        <!-- <component :is="isOrderDetail"></component> -->
+        <order-details></order-details>
     </div>
 </template>
 <script>
+import publicPagination from '@/components/common/pagination/pagination.vue'
 import orderDetails from './OrderDetail.vue';
 export default{
     data () {
@@ -30,13 +32,23 @@ export default{
                 {orderId:2,orderNumber:123424131331,serviceType:'上门',payMoney:'100.00',orderTime:'2017-12-12',orderState:'已发货',servicePeople:'马云'},
                 {orderId:3,orderNumber:123424131331,serviceType:'上门',payMoney:'100.00',orderTime:'2017-12-12',orderState:'已发货',servicePeople:'马云'},
             ],
-
+            isSwitchOrderDetail:true,
         }
     },
+    created:function(){
+       this.$root.$on('detailShow',() => {
+            this.isSwitchOrderDetail = true
+        })
+    },
     methods:{
-        jumpDetail (num) {
-            // this.$router.replace('/member/orderDetail')
-        }       
+        jumpOrderDetail () {
+            this.isSwitchOrderDetail = false
+            this.$root.$emit('orderShow')
+        }
+    },
+    components:{
+        publicPagination,
+        orderDetails,
     },
 }
 </script>
@@ -78,6 +90,10 @@ export default{
                 .el-button{
                     background:#fff;
                     color:#00c0be;
+                    border-radius:30px;
+                }
+                .el-button:nth-child(n+2){
+                   padding:12px 30px;
                 }
                 .el-button:hover{
                     background:#00c0be;

@@ -3,7 +3,7 @@
         title="商品详情"
         :visible.sync="dialogVisible"
         width="30%"
-        :before-close="handleClose">
+        >
             <!-- 内容 -->
             商品详情
             <!-- 内容 -->

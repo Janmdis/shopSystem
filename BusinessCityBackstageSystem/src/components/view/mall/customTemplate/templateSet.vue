@@ -22,9 +22,9 @@
                   </div>
                   <!-- 模板内容头部结束 -->
                   <!-- 模板内容开始 -->
-                  <div id='test' >
+                  <div id='test'>
                       <keep-alive v-for='(item,index) in comlist' :key='index'>
-                        <components :data='index' :is='item'></components>
+                        <components :templatedata='index' :is='item'  class="22"></components>
                       </keep-alive>
                       <!-- 图片广告组件 -->
                       <!-- <imageAds></imageAds> -->
@@ -47,7 +47,6 @@
                           <p class="template-buttom-title">添加新内容</p>
                           <el-row :gutter="15" class="template-buttom-content">
                             <el-col style="width:20%;"><div class="newContentBtn" @click="commodityAdd">商品</div></el-col>
-                           
                             <!-- <el-col style="width:20%;"><div class="newContentBtn" @click="titleAdd">标题</div></el-col>
                             <el-col style="width:20%;"><div class="newContentBtn" @click="imageAdsAdd">图片广告</div></el-col>
                             <el-col style="width:20%;"><div class="newContentBtn" @click="classificationAdd">分类</div></el-col>
@@ -82,17 +81,17 @@
                 <div class="arrow"></div>
                 <div>
                     <!-- 图片广告编辑组件 -->
-                    <imageAdEditing v-bind="imgdata"></imageAdEditing>
+                    <!-- <imageAdEditing v-bind="imgdata"></imageAdEditing> -->
                     <!-- 橱窗编辑组件 -->
-                    <windowEditing v-bind="windowdata"></windowEditing>
+                    <!-- <windowEditing v-bind="windowdata"></windowEditing> -->
                     <!-- 橱窗2编辑组件 -->
-                    <windowEditing2 v-bind="windowdatas"></windowEditing2>
+                    <!-- <windowEditing2 v-bind="windowdatas"></windowEditing2> -->
                     <!-- 分类编辑组件 -->
-                    <classificationEditing v-bind="classdata"></classificationEditing>
+                    <!-- <classificationEditing v-bind="classdata"></classificationEditing> -->
                     <!-- 商品编辑组件 -->
                     <productEditing v-bind="prodata"></productEditing>
                     <!-- 标题编辑组件 -->
-                    <titlesEditing v-bind="titdata"></titlesEditing>
+                    <!-- <titlesEditing v-bind="titdata"></titlesEditing> -->
                 </div>
               </div>
           </el-col>
@@ -127,6 +126,9 @@ import commodity from './commodity'
 import titles from './titles'
 // 分类展示组件
 import classification from './classification'
+
+///////////////////////////////
+
 // 图片广告编辑组件
 import imageAdEditing from './imageAdEditing'
 // 橱窗编辑组件
@@ -139,6 +141,9 @@ import classificationEditing from './classificationEditing'
 import productEditing from './productEditing'
 // 标题编辑组件
 import titlesEditing from './titlesEditing'
+
+///////////////////////////////
+
 // 上传图片模态框
 import uploadImage from './uploadImage'
 // 商品详情模态框
@@ -167,8 +172,8 @@ import customLink from './customLink'
          });
      },
      methods:{
+         //动态添加组件
          commodityAdd(){
-             this.id1++;
              this.comlist.push('commodity');
          }
      },

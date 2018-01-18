@@ -1,22 +1,22 @@
 /* eslint-disable */
 import onePersonnel from './Personnel.vue'
-//import twoHouse from './House.vue'
+import twoHouse from './House.vue'
 import threeOrder from './Order.vue'
 import fourVisit from './Visit.vue'
 import fiveRelatedPeople from './RelatedPeople.vue'
+//import twoHouse from './HouseDetail.vue'
 //import threeOrder from './OrderDetail.vue'
-import twoHouse from './HouseDetail.vue'
-
+//import fiveRelatedPeople from './RelatedDetail.vue'
 export default {
     name: 'memberInfo',
     data() {
         return {
             infoText: [
-                { title: '个人信息', imgSrc: '/static/images/Member/ren.jpg', number: 2 },
-                { title: '房屋', imgSrc: '/static/images/Member/ren.jpg', number: 2 },
-                { title: '订单', imgSrc: '/static/images/Member/dingdan.jpg', number: 2 },
-                { title: '回访', imgSrc: '/static/images/Member/customerVisit.png', number: 2 },
-                { title: '相关联会员', imgSrc: '/static/images/Member/shouqian.jpg', number: 2 },
+                { title: '个人信息', imgSrc: '/static/images/Member/personnel-info.png', bgColor: 'background:#7a9df7;', number: 2 },
+                { title: '房屋', imgSrc: '/static/images/Member/personnel-house.png', bgColor: 'background:#e16938;', number: 2 },
+                { title: '订单', imgSrc: '/static/images/Member/dingdan.jpg', bgColor: 'background:#00c0be;', number: 2 },
+                { title: '回访', imgSrc: '/static/images/Member/personnel-visit.png', bgColor: 'background:#e39eef;', number: 2 },
+                { title: '相关联会员', imgSrc: '/static/images/Member/personnel-related.png', bgColor: 'background:#ffaf48;', number: 2 },
             ],
             isActive: '个人信息',
             which_to_show: '个人信息',
@@ -63,8 +63,8 @@ export default {
                 text = twoHouse;
             } else if (text == '订单') {
                 text = threeOrder;
-            } else if (text == '报告') {
-                text = fourReport;
+            } else if (text == '回访') {
+                text = fourVisit;
             } else if (text == '相关联会员') {
                 text = fiveRelatedPeople;
             }

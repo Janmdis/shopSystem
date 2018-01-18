@@ -9,27 +9,27 @@
         </div>
         <div class="personnelMain">
             <ul class="infomation">
-                <li><label for="name"><span>姓名</span><el-input name="memberName" id="name" v-model="input" placeholder="请输入内容"></el-input></label></li>
-                <li><span>客户类型</span><el-select v-model="value" placeholder="请选择">
-                    <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <li><label for="name"><span>姓名</span><el-input name="memberName" id="name" v-model="nameInput" placeholder="请输入内容"></el-input></label></li>
+                <li><span>客户类型</span><el-select v-model="customer" placeholder="请选择">
+                    <el-option v-for="item in customerType" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select></li>
-                <li class="memberPhone"><label for="phone"><span>手机号</span><el-input id="phone" name="memberPhone" v-model="input" placeholder="18530365351" disabled></el-input></label></li>
-                <li><span>身份</span><el-select v-model="value" placeholder="请选择">
-                    <el-option v-for="item in option2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <li class="memberPhone"><label for="phone"><span>手机号</span><el-input id="phone" name="memberPhone" v-model="phoneInput" placeholder="18530365351" disabled></el-input></label></li>
+                <li><span>身份</span><el-select v-model="identy" placeholder="请选择">
+                    <el-option v-for="item in identity" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select></li>
                 <li class="ageLi"><span>出生日期</span>
-                    <div class="block" id="dataSelect"><el-date-picker v-model="value" type="date" placeholder="选择日期"></el-date-picker></div>
+                    <div class="block" id="dataSelect"><el-date-picker v-model="birth" type="date" placeholder="选择日期"></el-date-picker></div>
                     <span class="memberAge">年龄</span>
                 </li>
-                <li><span>城市</span><el-select v-model="value" placeholder="请选择">
-                    <el-option v-for="item in option2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <li><span>城市</span><el-select v-model="city" placeholder="请选择">
+                    <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select></li>
-                <li><span>来源</span><el-select v-model="value" placeholder="请选择">
-                    <el-option v-for="item in option2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                <li><span>来源</span><el-select v-model="origin" placeholder="请选择">
+                    <el-option v-for="item in origins" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select></li>
-                <li><label for="address"><span>地址管理</span><el-input name="memberAddress" id="address" v-model="input" placeholder="请输入内容"></el-input></label></li>
+                <li><label for="address"><span>地址管理</span><el-input name="memberAddress" id="address" v-model="addressInput" placeholder="请输入内容"></el-input></label></li>
             </ul>
-            <el-button @click='btnActive = () => {"background:#00c0be;color:#fff;"}'>保存</el-button>
+            <el-button  @click='btnActive = () => {"background:#00c0be;color:#fff;"}'>保存</el-button>
         </div>
     </div>
 </template>
@@ -43,13 +43,27 @@ export default{
                 {des:'录入人 : ',result:'马云',imgSrc:'/static/images/Member/personnel-character.png'},
                 {des:'录入时间 : ',result:'2017-12-12',imgSrc:'/static/images/Member/personnel-timer.png'},
             ],
-            input:'',
-            value:'',
-            option1:[
+            birth:'',
+            city:'',
+            nameInput:'',
+            phoneInput:'',
+            customer:'',
+            identy:'',
+            origin:'',
+            addressInput:'',
+            customerType:[
                 {value: '选项1',label: '黄金糕'}, 
                 {value: '选项2',label: '双皮奶'},
             ],
-            option2:[
+            identity:[
+                {value: '选项1',label: '黄金糕'}, 
+                {value: '选项2',label: '双皮奶'},
+            ],
+            cities:[
+                {value: '选项1',label: '黄金糕'}, 
+                {value: '选项2',label: '双皮奶'},
+            ],
+            origins:[
                 {value: '选项1',label: '黄金糕'}, 
                 {value: '选项2',label: '双皮奶'},
             ],
@@ -67,6 +81,7 @@ export default{
 </script>
 <style lang="less" scoped>
 .personnelHeader{
+    min-width:780px;
     position: relative;
         display:flex;
         align-items: center;
@@ -78,17 +93,11 @@ export default{
         li:nth-child(even){
             width:40%;
             margin-bottom:30px;
-            div{
-                width:240px;
-            }
         }
         li:nth-child(odd){
-            width:30%;
+            width:45%;
             padding-left:110px;
             margin-bottom:30px;
-            div{
-                width:170px;
-            }
         }
         li img{
             width:22px;
@@ -99,21 +108,31 @@ export default{
 }
 .personnelMain{
     padding:60px 40px;
+    min-width:780px;
     position:relative;
     .infomation{
         display:flex;
         flex-wrap: wrap;
-        padding-bottom:80px;
     }
     .infomation li:nth-child(odd){
         padding-left:20px;
+    }
+    .infomation li:nth-child(7){
+        .el-select{
+            margin-left:17px;
+        }
+    }
+    .infomation li:nth-child(8){
+        .el-input{
+            margin-left:-16px;
+        }
     }
     .infomation li{
         position:relative;
         margin-bottom: 84px;
         display:flex;
         justify-content: space-between;
-        width:40%;
+        width:45%;
         color:#666;
         .memberAge{
             position: absolute;
@@ -128,37 +147,27 @@ export default{
         .el-input{
             position: absolute;
             top:-10px;
-            left:150px;
-            width: 250px;
-            .el-input__inner{
-                width: 250px;   
-            }
+            left:145px;
+            width:50%;
         }
         .el-select{
             position: absolute;
             top:-10px;
-            left:150px;
-            width: 250px !important;
-            .el-input{
-                width: 250px; 
-                .el-input__inner{
-                    width: 250px; 
-                }
-            }
-            .el-select-dropdown{
-                width: 200px;
-            }
+            left:128px;
+            width: 50% !important;
         }
     }
     .infomation .ageLi{
         margin-bottom: 110px;
     }
     .el-button{
-        position: absolute;
         background:#fff;
+        padding:12px 40px;
+        border-radius:30px;
         color:#00c0be;
-        bottom:0;
-        left:60%;
+        position: absolute;
+        left:45%;
+        bottom:30px;
     }
     .el-button:focus, .el-button:hover{
         background:#00c0be;

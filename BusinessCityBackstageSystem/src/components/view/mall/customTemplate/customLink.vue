@@ -3,7 +3,7 @@
         title="自定义"
         :visible.sync="dialogVisible"
         width="30%"
-        :before-close="handleClose">
+        >
             <!-- 内容 -->
             自定义
             <!-- 内容 -->
