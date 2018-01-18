@@ -54,6 +54,40 @@ export default {
                             }]
                         }
                     ]
+                },
+                {
+                    label: '一级 3',
+                    children: [
+                        {
+                            label: '二级 3-1',
+                            children: [{
+                                label: '三级 3-1-1'
+                            }]
+                        },
+                        {
+                            label: '二级 3-2',
+                            children: [{
+                            label: '三级 3-2-1'
+                            }]
+                        }
+                    ]
+                },
+                {
+                    label: '一级 3',
+                    children: [
+                        {
+                            label: '二级 3-1',
+                            children: [{
+                                label: '三级 3-1-1'
+                            }]
+                        },
+                        {
+                            label: '二级 3-2',
+                            children: [{
+                            label: '三级 3-2-1'
+                            }]
+                        }
+                    ]
                 }
             ],
             defaultProps: {
@@ -76,7 +110,7 @@ export default {
 </script>
 <style scoped>
 .grid-content{
-    min-height: 88%;
+    height: 88%;
     background-color:#fff;
 }
 .head-top{
@@ -86,10 +120,21 @@ export default {
 	padding-left:5%;
     font-size: 14px;
 }
-
-
+.list{
+    margin-left: 5%;
+    margin-right: 5%;
+    height:80%;
+    padding-top: 20px;
+    margin-top: -20px;
+    border-bottom: 1px solid #ebeef5;
+    border-top: 1px solid #ebeef5;
+}
 </style>
 <style>
+.el-tree{
+    height:95%;
+    overflow:auto;
+}
 .el-tree-node__expand-icon{
     color:rgb(0, 173, 171);
 }

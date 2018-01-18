@@ -5,7 +5,7 @@
                 <Deplist></Deplist>
             </el-col>
             <el-col :span='18'>
-                <Memberlist></Memberlist>
+                <Memberlist ref='test'></Memberlist>
             </el-col>
         </el-row>
     </el-main>

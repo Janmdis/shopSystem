@@ -73,6 +73,7 @@ export default {
         let that=this;
         this.$http.post('/api/admin/manage/department/find?type=1&range=0',{})
         .then(function (response) {
+            alert('成功返回');
             console.log(response);
             let data=response.data;
             if(data.msg=='查询成功'){
@@ -81,6 +82,7 @@ export default {
             console.log(that.list);
         })
         .catch(function (response) {
+            alert('提交失败');
             console.log(response);
         });
     },

@@ -49,21 +49,21 @@ export default {
                         this.setCookie(name, pass, 7);
                     }
                     //接口
-                    var url = '/api/admin/account/login';
+                    var url = '/api/admin/account/login?username=18356987162&password=123456';
                     // this.$http.post(url, this.ruleForm, { emulateJSON: true })
                     this.$http({
                         url: url,
                         method: 'POST',
                         // 请求体重发送的数据
                         data: {
-                            username: 18356987162,
-                            password: 123456,
+                            // username: 18356987162,
+                            // password: 123456,
                             //verificationCode:this.ruleForm.verificationCode,
                             //rememberMe: this.ruleForm.rememberMe,
                         },
                         // 设置请求头
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json;charset=utf-8'
                         }
                     })
                         .then(res => {
