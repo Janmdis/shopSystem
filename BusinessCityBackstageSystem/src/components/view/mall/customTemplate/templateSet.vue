@@ -179,7 +179,9 @@ import customLink from './customLink'
                 }
             }
             this.comlist=list;
-            //  alert(id);
+            let length = document.querySelectorAll('.test').length;
+            let value=this.comlist[length-2];
+            this.changetop(length-2,value);
          });
      },
      methods:{
@@ -205,9 +207,13 @@ import customLink from './customLink'
         changetop(index,item){
             let jump = document.querySelectorAll('.test');
             let top=jump[index].offsetTop-100;
+            let dom=document.getElementsByClassName('current-style');
+            dom.length?dom[0].setAttribute('class','test borderHover'):void(0);
+            jump[index].setAttribute('class','current-style test');
             document.getElementsByClassName('template-editContent-div')[0].style.marginTop=top+'px';
             let eq=this.list2.indexOf(item);
             this.left=this.leftlist[eq];
+
         }
      },
      components:{
