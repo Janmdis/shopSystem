@@ -10,7 +10,7 @@
             </div>
             <div class="hoverClick">
                 <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-                <span @click="scrollTo">添加新内容</span>
+                <span >添加新内容</span>
            </div>
         </div>
     <!-- 轮播结束 -->
@@ -55,12 +55,13 @@
                 });
             });
             
-         },
-         scrollTo(){
-             var _id = document.getElementById('addnewContent');
-             console.log(_id.offsetTop)
-             window.scrollTo(0,_id.offsetTop);
          }
+        //  scrollTo(){
+        //      var _id = document.getElementById('addnewContent');
+        //     //  console.log(_id.offsetTop);
+        //     document.body.scrollTop=0;
+        //     //  alert(111);
+        //  }
         }
     }
 </script>

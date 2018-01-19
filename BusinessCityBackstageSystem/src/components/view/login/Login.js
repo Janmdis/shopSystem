@@ -50,7 +50,7 @@ export default {
         },
         logining(formName) {
             this.yzn()
-            this.$refs.formName.validate((valid) => {
+            this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //验证成功登陆
                     var name = this.ruleForm.userName; // 保存的账号

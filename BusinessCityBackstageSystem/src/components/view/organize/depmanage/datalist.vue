@@ -19,7 +19,6 @@ export default {
     data(){
         return {
            childlist:[]
-        //    currentid:this.list.length?this.list[0].id:0
         }
     },
     created:function(){
