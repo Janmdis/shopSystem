@@ -13,6 +13,7 @@
             </el-col>
         </div>
         <div  :id="idname" class="echar"  ></div>
+        
   </div>
 </template>
 <script>
@@ -29,7 +30,6 @@ export default {
         this.imgurl=this.objdata.url;
         this.idname=this.objdata.idname;
         this.tips=this.objdata.title;
-        // this.draw();
     },
     mounted:function(){
         this.draw();

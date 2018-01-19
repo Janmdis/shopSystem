@@ -6,10 +6,10 @@
                 <label for="">待办事项</label>
             </el-col>
             <el-col class='btns' :span='16'>
-                <el-button type="primary" class='on' @click.native='switchbtn("showtome",$event)'>To我</el-button>
-                <el-button type="primary" @click.native='switchbtn("showoverdate",$event)'>超期</el-button>
-                <el-button type="primary"  icon="el-icon-star-on" @click.native='switchbtn("showstar",$event)'></el-button>
-                <el-button type="primary"  icon="el-icon-search" @click.native='switchbtn("showsearch",$event)'></el-button>
+                <el-button type="primary" :class='showtome?"on":""' @click.native='switchbtn("showtome",$event)'>To我</el-button>
+                <el-button type="primary" :class='showoverdate?"on":""' @click.native='switchbtn("showoverdate",$event)'>超期</el-button>
+                <el-button type="primary" :class='showstar?"on":""' icon="el-icon-star-on" @click.native='switchbtn("showstar",$event)'></el-button>
+                <el-button type="primary" :class='showsearch?"on":""' icon="el-icon-search" @click.native='switchbtn("showsearch",$event)'></el-button>
             </el-col>
         </div>
         <div class='content-tome' v-show='showtome'>1</div>
@@ -42,12 +42,6 @@ export default {
             this.showstar=false;
             this.showsearch=false;
             this[type]=true;
-            let target=e.target.tagName=='BUTTON'?e.target:e.target.parentNode;
-            let btns=document.getElementsByClassName('btns')[0].getElementsByTagName('button');
-            for(let i=0;i<btns.length;i++){
-                btns[i].setAttribute('class','el-button el-button--primary');
-            }
-            target.setAttribute('class','el-button on el-button--primary');
         }
     }
 }

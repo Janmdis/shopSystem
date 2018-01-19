@@ -1,4 +1,4 @@
-import ones from '@/components/view/index/index.vue'
+import ones from './siderchildren/two'
 import twos from './siderchildren/two'
 import threes from './siderchildren/three'
 import fours from './siderchildren/four'
