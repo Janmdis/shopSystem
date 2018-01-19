@@ -59,6 +59,7 @@ export default{
 }
 #house{
     background: #fff;
+    min-width:750px;
     .houseMain{
             width: 100%;
         li{
@@ -71,10 +72,13 @@ export default{
                 display:flex;
                 span{
                     display:block;
-                    width: 50%;
+                }
+                span:nth-child(odd){
+                    width:60%;
                 }
                 span:nth-child(even){
                     margin-left: 110px;
+                    width:40%;
                 }
             }
             .houseDiv:nth-child(1){

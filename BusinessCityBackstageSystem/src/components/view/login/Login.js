@@ -62,7 +62,8 @@ export default {
                         this.setCookie(name, pass, 7);
                     }
                     //接口
-                    var url = '/api/admin/account/login?username=18356987162&password=123456';
+                    var url = '/api/admin/account/login';
+                    //18356987162
                     // this.$http.post(url, this.ruleForm, { emulateJSON: true })
                     this.$http({
                             url: url,
@@ -89,8 +90,10 @@ export default {
                             } else {
                                 this.$alert('3秒后自动跳转到...', '登陆成功', {
                                     confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$router.push("/index")
+                                      }
                                 });
-                                //this.$router.push("/index")
                             }
                         })
                         .catch(err => {
@@ -140,8 +143,9 @@ export default {
             var codeInput = document.querySelector("#codeInput");
             codeInput.onblur = function() {
                 var res = verifyCode.validate(document.getElementById("codeInput").value);
+                console.log(res)
                 if (res) {
-                    alert("验证正确");
+                    //alert("验证正确");
                 } else {
                     //alert("验证码错误")
                 }
