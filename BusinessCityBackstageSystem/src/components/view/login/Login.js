@@ -90,7 +90,7 @@ export default {
                                 this.$alert('3秒后自动跳转到...', '登陆成功', {
                                     confirmButtonText: '确定',
                                 });
-                                this.$router.push("/index")
+                                //this.$router.push("/index")
                             }
                         })
                         .catch(err => {

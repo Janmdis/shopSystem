@@ -11,14 +11,14 @@
                         <div class="delete-img">&times;</div>
                     </div>
                 </div>
-                <div class="bannerLinkSrc">
+                <div class="bannerLinkSrc" >
                     <div class="linkTips" style="">设置链接到页面地址</div>
                     <div class="dropdown">
-                        <el-dropdown trigger="click">
-                            <span class="el-dropdown-link">
+                        <el-dropdown trigger="click" style="min-width: 76px;">
+                            <span class="el-dropdown-link" style="width:100%;height:100%;display:inline-block;">
                             链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                            </span>
-                           <el-dropdown-menu slot="dropdown">
+                           <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
                             <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
                             <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
                            </el-dropdown-menu>

@@ -23,8 +23,10 @@
                   <!-- 模板内容头部结束 -->
                   <!-- 模板内容开始 -->
                   <div id='test'>
+                      <!-- banner -->
+                      <banner></banner>
                       <keep-alive v-for='(item,index) in comlist' :key='index'>
-                        <components :templatedata='index' :is='item'  class="22"></components>
+                        <components :templatedata='index' :is='item'  class="test"  @click.native='changetop(index,item)'></components>
                       </keep-alive>
                       <!-- 图片广告组件 -->
                       <!-- <imageAds></imageAds> -->
@@ -42,24 +44,26 @@
                   <!-- 模板内容结束 -->
                   <!-- 模板底部开始 -->
                   <div class="template-buttom-div">
+                      <!-- windowValue true 橱窗1 false 橱窗2 -->
                       <!-- 底部添加新内容组件开始 -->
                       <el-col :span="24" >
-                          <p class="template-buttom-title">添加新内容</p>
+                          <p class="template-buttom-title" id="addnewContent">添加新内容</p>
                           <el-row :gutter="15" class="template-buttom-content">
-                            <el-col style="width:20%;"><div class="newContentBtn" @click="commodityAdd">商品</div></el-col>
-                            <!-- <el-col style="width:20%;"><div class="newContentBtn" @click="titleAdd">标题</div></el-col>
-                            <el-col style="width:20%;"><div class="newContentBtn" @click="imageAdsAdd">图片广告</div></el-col>
-                            <el-col style="width:20%;"><div class="newContentBtn" @click="classificationAdd">分类</div></el-col>
-                            <el-col style="width:20%;">
+                            <el-col style="width:20%;min-width:60px;"><div class="newContentBtn" @click="commodityAdd">商品</div></el-col>
+                            <el-col style="width:20%;min-width: 60px;"><div class="newContentBtn" @click="titleAdd">标题</div></el-col>
+                            <el-col style="width:20%;min-width: 60px;"><div class="newContentBtn" @click="imageAdsAdd">图片广告</div></el-col>
+                            <el-col style="width:20%;min-width: 60px;"><div class="newContentBtn" @click="classificationAdd">分类</div></el-col>
+                            <el-col style="width:20%;min-width: 76px;">
                                 <el-dropdown class="newContentBtn" trigger="click">
-                                    <span class="el-dropdown-link">
-                                    {{ windowValue?windowValue1:windowValue2 }}<i class="el-icon-arrow-down el-icon--right" style="display: inline;font-size: 10px;margin-left: 0px;"></i>
+                                    <span class="el-dropdown-link" style="width:100%;height:100%;display:inline-block;">
+                                    橱窗<i class="el-icon-arrow-down el-icon--right" style="display: inline;font-size: 10px;margin-left: 2px;"></i>
                                     </span>
-                                    <el-dropdown-menu slot="dropdown" style="left: 587px;width: 5.3%;font-size:12px;">
-                                        <el-dropdown-item style="margin-top:10px;" @click.native="windowValue = !windowValue">{{ windowValue?windowValue2:windowValue1 }}</el-dropdown-item>
+                                    <el-dropdown-menu slot="dropdown" style="left: 353px;width: 5%;font-size:12px;">
+                                        <el-dropdown-item style="margin-top:10px;" @click.native="windowAdd">橱窗1</el-dropdown-item>
+                                         <el-dropdown-item style="margin-top:10px;" @click.native="windowsAdd">橱窗2</el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>
-                            </el-col> -->
+                            </el-col>
                           </el-row>
                       </el-col>
                       <div style="clear:both;"></div>
@@ -71,7 +75,7 @@
           </el-col>
           
           <!-- 左侧开始 -->
-          <el-col :span="12" style="margin-top:86px;margin-bottom: 168px;">
+          <el-col :span="12" style="" id='lefttemp'>
               <p class="template-name-title">模板名称：</p>
               <div class="template-name-input">
                   <el-input  placeholder="请输入内容"></el-input>
@@ -80,8 +84,11 @@
               <div class="template-editContent-div">
                 <div class="arrow"></div>
                 <div>
-                    <!-- 图片广告编辑组件 -->
+                    <!-- banner/图片广告编辑组件 -->
                     <!-- <imageAdEditing v-bind="imgdata"></imageAdEditing> -->
+                    <keep-alive>
+                        <components :is='left' ></components>
+                    </keep-alive>
                     <!-- 橱窗编辑组件 -->
                     <!-- <windowEditing v-bind="windowdata"></windowEditing> -->
                     <!-- 橱窗2编辑组件 -->
@@ -89,7 +96,7 @@
                     <!-- 分类编辑组件 -->
                     <!-- <classificationEditing v-bind="classdata"></classificationEditing> -->
                     <!-- 商品编辑组件 -->
-                    <productEditing v-bind="prodata"></productEditing>
+                    <!-- <productEditing v-bind="prodata"></productEditing> -->
                     <!-- 标题编辑组件 -->
                     <!-- <titlesEditing v-bind="titdata"></titlesEditing> -->
                 </div>
@@ -114,6 +121,8 @@
   </el-main>
 </template>
 <script>
+//banner组件
+import banner from './banner'
 // 图片广告展示组件
 import imageAds from './imageAds'
 // 橱窗展示组件
@@ -153,10 +162,12 @@ import customLink from './customLink'
  export default{
      data() {
          return{
-             windowValue:true,
-             windowValue1:"橱窗1",
-             windowValue2:"橱窗2",
+             imgdata:'',
+             prodata:'',
              comlist:[],
+             left:'imageAdEditing',
+             leftlist:['productEditing','titlesEditing','imageAdEditing','classificationEditing','windowEditing','windowEditing2'],
+             list2:['commodity','titles','imageAds','classification','window','window2']
          }
      },
      created:function(){
@@ -175,9 +186,32 @@ import customLink from './customLink'
          //动态添加组件
          commodityAdd(){
              this.comlist.push('commodity');
-         }
+         },
+         windowAdd(){
+            this.comlist.push('window');
+         },
+         windowsAdd(){
+            this.comlist.push('window2');
+         },
+         titleAdd(){
+             this.comlist.push('titles');
+        },
+         imageAdsAdd(){
+             this.comlist.push('imageAds');
+        },
+         classificationAdd(){
+             this.comlist.push('classification');
+        },
+        changetop(index,item){
+            let jump = document.querySelectorAll('.test');
+            let top=jump[index].offsetTop-100;
+            document.getElementsByClassName('template-editContent-div')[0].style.marginTop=top+'px';
+            let eq=this.list2.indexOf(item);
+            this.left=this.leftlist[eq];
+        }
      },
      components:{
+         banner,
          imageAds,
          window,
          window2,
@@ -198,6 +232,9 @@ import customLink from './customLink'
 </script>
 <style scoped lang="less">
 @import "../../../../assets/less/color";
+.el-dropdown-menu__item{
+    font-size: 12px;
+}
 //选中的模块/鼠标停留的时候 边框样式
 .current-style {
     border: 1px dashed red!important;
@@ -206,6 +243,9 @@ import customLink from './customLink'
 .Imgsize{
     width: 100%;
     height: 100%;
+}
+#lefttemp{
+    margin-top:86px;margin-bottom: 168px;
 }
 //模板底部按钮样式
 
