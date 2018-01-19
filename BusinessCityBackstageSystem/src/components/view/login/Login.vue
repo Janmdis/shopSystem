@@ -27,7 +27,7 @@
                     </el-col>
                     <el-col :span='19'>
                         <el-form-item   prop="verificationCode">
-                            <el-input  id="codeInput" v-model="ruleForm.verificationCode" placeholder="请输入验证码"></el-input>
+                            <el-input  id="codeInput" v-model="ruleForm.verificationCode" placeholder="请输入验证码" auto-complete="off"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -67,7 +67,10 @@
 <style scoped lang='less'>
     @import "./Login.less";
 </style>
-<style>
+<style scoped>
+.el-input__inner{
+    height:100%;
+}
     .loginUl li {
     
         list-style: none;

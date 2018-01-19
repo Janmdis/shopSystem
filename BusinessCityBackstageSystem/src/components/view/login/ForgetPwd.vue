@@ -21,7 +21,7 @@
                             <el-input type="text" v-model="ruleForm.userCode" placeholder="请输入验证码" clearable></el-input>
                         </el-col>
                         <el-col :span='10' :offset='1'>
-                            <overtimer   @click.native="getver"  :disabled="disabled" ref="c1"  :second="60"></overtimer>
+                            <overtimer   @click.native="getver"  :disabled="disabled"  ref="c1"  :second="60"></overtimer>
                         </el-col>
                     </el-form-item>
                 </el-col>
@@ -42,7 +42,7 @@
                 </el-col>
                 <el-col :span='19'>
                     <el-form-item prop="userPwd1">
-                        <el-input v-model="ruleForm.userPwd1" placeholder="请确认密码" clearable></el-input>
+                        <el-input type="password" v-model="ruleForm.userPwd1" placeholder="请确认密码" clearable></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -73,7 +73,10 @@
 <style scoped lang='less'>
     @import "./ForgetPwd.less";
 </style>
-<style>
+<style scoped>
+.el-input__inner{
+    height:100%;
+}
     .textAlign {
         text-align: center;
         color: #fff;

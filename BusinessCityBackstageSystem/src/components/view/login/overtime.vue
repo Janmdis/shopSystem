@@ -1,9 +1,9 @@
 <template>
     <button class="btnstyle" :disabled="disabled || time > 0">
-                    {{ text }}
-                </button>
+        {{ text }}
+    </button>
 </template>
-<style>
+<style scoped>
 .btnstyle{
     background: #00aeaa;
     width: 100%;
@@ -13,7 +13,7 @@
     color: #fff;
 }
 </style>
-<script>
+<script >
     export default {
         data() {
             return {

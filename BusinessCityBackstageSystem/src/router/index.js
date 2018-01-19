@@ -3,7 +3,7 @@ import Router from 'vue-router'
 Vue.use(Router)
     /* eslint-disable */
 export default new Router({
-    mode: 'history',
+   // mode: 'history',
     routes: [{
             path: '/login',
             component: resolve => require(['@/components/view/login/Logining.vue'], resolve),
