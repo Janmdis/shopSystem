@@ -143,8 +143,9 @@ export default {
             var codeInput = document.querySelector("#codeInput");
             codeInput.onblur = function() {
                 var res = verifyCode.validate(document.getElementById("codeInput").value);
+                console.log(res)
                 if (res) {
-                    alert("验证正确");
+                    //alert("验证正确");
                 } else {
                     //alert("验证码错误")
                 }

@@ -76,7 +76,7 @@
     border: 1px dashed red!important;
 }
 .borderHover{
-  padding:5px 5px;
+  padding:20px 20px;
   margin-bottom: 3px;
   position: relative;
 }

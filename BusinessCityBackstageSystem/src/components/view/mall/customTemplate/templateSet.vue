@@ -26,7 +26,7 @@
                       <!-- banner -->
                       <banner></banner>
                       <keep-alive v-for='(item,index) in comlist' :key='index'>
-                        <components :templatedata='index' :is='item'  class="22"></components>
+                        <components :templatedata='index' :is='item'  class="test"  @click.native='changetop(index,item)'></components>
                       </keep-alive>
                       <!-- 图片广告组件 -->
                       <!-- <imageAds></imageAds> -->
@@ -75,7 +75,7 @@
           </el-col>
           
           <!-- 左侧开始 -->
-          <el-col :span="12" style="margin-top:86px;margin-bottom: 168px;">
+          <el-col :span="12" style="" id='lefttemp'>
               <p class="template-name-title">模板名称：</p>
               <div class="template-name-input">
                   <el-input  placeholder="请输入内容"></el-input>
@@ -85,7 +85,10 @@
                 <div class="arrow"></div>
                 <div>
                     <!-- banner/图片广告编辑组件 -->
-                    <imageAdEditing v-bind="imgdata"></imageAdEditing>
+                    <!-- <imageAdEditing v-bind="imgdata"></imageAdEditing> -->
+                    <keep-alive>
+                        <components :is='left' ></components>
+                    </keep-alive>
                     <!-- 橱窗编辑组件 -->
                     <!-- <windowEditing v-bind="windowdata"></windowEditing> -->
                     <!-- 橱窗2编辑组件 -->
@@ -162,6 +165,9 @@ import customLink from './customLink'
              imgdata:'',
              prodata:'',
              comlist:[],
+             left:'imageAdEditing',
+             leftlist:['productEditing','titlesEditing','imageAdEditing','classificationEditing','windowEditing','windowEditing2'],
+             list2:['commodity','titles','imageAds','classification','window','window2']
          }
      },
      created:function(){
@@ -195,6 +201,13 @@ import customLink from './customLink'
         },
          classificationAdd(){
              this.comlist.push('classification');
+        },
+        changetop(index,item){
+            let jump = document.querySelectorAll('.test');
+            let top=jump[index].offsetTop-100;
+            document.getElementsByClassName('template-editContent-div')[0].style.marginTop=top+'px';
+            let eq=this.list2.indexOf(item);
+            this.left=this.leftlist[eq];
         }
      },
      components:{
@@ -230,6 +243,9 @@ import customLink from './customLink'
 .Imgsize{
     width: 100%;
     height: 100%;
+}
+#lefttemp{
+    margin-top:86px;margin-bottom: 168px;
 }
 //模板底部按钮样式
 

@@ -41,6 +41,12 @@
     background-color: transparent;
     border: 1px solid #109997;
 }
+.el-carousel__arrow,el-carousel__arrow--left{
+   filter:alpha(opacity=0);
+   -moz-opacity:0;
+    -khtml-opacity: 0;
+    opacity: 0; 
+}
 </style>
 
 <style scoped lang="less">

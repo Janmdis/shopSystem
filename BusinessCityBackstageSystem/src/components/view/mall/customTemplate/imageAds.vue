@@ -10,7 +10,7 @@
             </div>
             <div class="hoverClick">
                 <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-                <span @click="scrollTo">添加新内容</span>
+                <a href="#addnewContent"><span >添加新内容</span></a> 
            </div>
         </div>
     <!-- 轮播结束 -->
@@ -31,6 +31,7 @@
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
+          
         },
         methods:{
           delete(){
@@ -55,12 +56,13 @@
                 });
             });
             
-         },
-         scrollTo(){
-             var _id = document.getElementById('addnewContent');
-             console.log(_id.offsetTop)
-             window.scrollTo(0,_id.offsetTop);
          }
+        //  scrollTo(){
+        //      var _id = document.getElementById('addnewContent');
+        //     //  console.log(_id.offsetTop);
+        //     document.body.scrollTop=0;
+        //     //  alert(111);
+        //  }
         }
     }
 </script>
@@ -79,10 +81,17 @@
     background-color: transparent;
     border: 1px solid #109997;
 }
+.el-carousel__arrow,el-carousel__arrow--left{
+   filter:alpha(opacity=0);
+   -moz-opacity:0;
+    -khtml-opacity: 0;
+    opacity: 0; 
+}
 </style>
 
 <style scoped lang="less">
 @import "../../../../assets/less/color";
+
 //选中的模块/鼠标停留的时候 边框样式
 .current-style {
     border: 1px dashed red!important;
