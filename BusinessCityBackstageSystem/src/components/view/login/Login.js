@@ -76,9 +76,9 @@ export default {
                                 this.ruleForm.password = '';
                                 return
                             } else {
-                                // this.$alert('3秒后自动跳转到...', '登陆成功', {
-                                //     confirmButtonText: '确定',
-                                // });
+                                this.$alert('3秒后自动跳转到...', '登陆成功', {
+                                    confirmButtonText: '确定',
+                                });
                                 this.$router.push("/index")
                             }
                         })

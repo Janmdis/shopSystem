@@ -235,7 +235,7 @@ export default {
 <style>
 .search .el-input .el-input__inner{
     border-radius: 20px;
-    margin-top:-60px;
+    margin-top:4px;
 }
 .list{
     /* height: 100%; */
