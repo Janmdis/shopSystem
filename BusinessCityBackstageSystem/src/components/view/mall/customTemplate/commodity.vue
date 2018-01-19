@@ -1,6 +1,6 @@
 <template>
    <!-- 商品组件开始 -->
-    <div class="borderHover" :index='dataid' >
+    <div class="borderHover" :index='dataid'>
         <el-row>
         <el-col :span="bigImg">
           <div class="imgConet">
@@ -22,8 +22,8 @@
         </el-col>
         </el-row>
         <div class="hoverClick">
-            <span data-toggle="modal" data-target="#delModal" @click='deletedep' v-show="deleteshow">删除</span>
-            <span>添加新内容</span>
+            <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
+            <span><a href="#addnewContent" style="color:#fff">添加新内容</a></span>
         </div>
     </div>
     <!-- 商品组件结束 -->
@@ -34,7 +34,6 @@
         data() {
             return{
                 dataid:'',
-                deleteshow:true,
                 bigImg:24,
                 smallImg:24,
                 bigsImg:24
@@ -90,57 +89,6 @@
           var box = document.querySelector("#test");
           console.log(box)
         }
-        // maodian(){
-        //   let jump = document.querySelectorAll('.template-buttom-div')
-        //   // 获取需要滚动的距离(y轴)
-        //   let total = jump.offsetTop
-        //   console.log(total)
-        //   // Chrome
-        //   document.body.scrollTop = total
-        //   // Firefox
-        //   document.documentElement.scrollTop = total
-        //   // Safari
-        //   window.pageYOffset = total
-        //   // 平滑滚动，时长500ms，每10ms一跳，共50跳
-        //   // 获取当前滚动条与窗体顶部的距离
-        //   let distance = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
-        //   // 计算每一小段的距离
-        //   let step = total / 50
-        //    setTimeout(smoothDown(), 10)
-        // //  底部 class  .template-buttom-div
-        // },
-        // smoothDown(){
-        //   if (distance < total) {
-        //   distance += step
-        //   　　// 移动一小段
-        //   document.body.scrollTop = distance
-        //   document.documentElement.scrollTop = distance
-        //   window.pageYOffset = distance
-        //   　　// 设定每一次跳动的时间间隔为10ms
-        //   setTimeout(smoothDown, 10)
-        //   } else {
-        //   　　// 限制滚动停止时的距离
-        //   document.body.scrollTop = total
-        //   document.documentElement.scrollTop = total
-        //   window.pageYOffset = total
-        //   }
-        // }
-      //   maodian(y, duration){
-      //     alert(y)
-      //     alert(duration)
-      //     /*y:目标纵坐标,duration:时间(毫秒)*/
-      // 　　var scrollTop = document.body.scrollTop;/*页面当前滚动距离*/
-      //    // Chrome
-      //     scrollTop = document.documentElement.scrollTop
-      //    // Firefox
-      //     scrollTop =  window.pageYOffset 
-      //    // Safari
-      //     var distance = y - scrollTop;/*结果大于0,说明目标在下方,小于0,说明目标在上方*/
-      //     var scrollCount = duration / 10;/*10毫秒滚动一次,计算滚动次数*/
-      //     var everyDistance = distance / scrollCount/*滚动距离除以滚动次数计算每次滚动距离*/
-      //     for (var index = 1; index <= scrollCount; index++) /*循环设置scrollBy事件,在duration之内,完成滚动效果*/
-      //   　　setTimeout(function () { window.scrollBy(0, everyDistance) }, 10 * index);
-      //   }
         }
     }
 </script>
@@ -178,6 +126,7 @@
 .borderHover:hover .hoverClick{
   display: block;
 }
+///////////////
  .el-row {
   margin-bottom: 20px;
   &:last-child {
