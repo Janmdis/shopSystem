@@ -66,7 +66,6 @@ export default {
       window.sessionStorage.setItem('status', navInfo)
       if (navInfo == '首页') {
         navInfo = 'one'
-        //window.location.href = '/index'
        this.$router.push("/index")
       } else if (navInfo == '会员在线') {
         navInfo = 'two'

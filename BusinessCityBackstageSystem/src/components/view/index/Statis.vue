@@ -21,7 +21,6 @@ export default {
   props:['data'],
   created:function(){
     this.datas=this.data;
-    console.log(this.data);
     if(this.datas.type==1){
       this.imgurl='../../../../static/images/index/main1.png';
     }

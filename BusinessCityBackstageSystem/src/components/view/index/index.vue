@@ -37,13 +37,6 @@
                 <Pie :objdata='objclient' ></Pie>
                 <Pie :objdata='objorder'></Pie>
             </el-col>
-            <!-- <el-col :span='16' style='margin-bottom:65px;'>
-                
-            </el-col> -->
-            <!-- <el-col :span="8">
-                <Pie :objdata='objclient' ></Pie>
-                <Pie :objdata='objorder'></Pie>
-            </el-col> -->
         </el-row>
     </el-main>
 </template>
@@ -132,7 +125,6 @@ export default {
         background-color: #f0f3f6;
         position: absolute;
         top: 70px;
-        
     }
     @media only screen and (min-width: 992px) {
         .el-main{

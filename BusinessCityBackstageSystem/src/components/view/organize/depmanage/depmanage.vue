@@ -19,7 +19,7 @@ import Deplist from '../depmanage/deplist'
 import Rolelist from '../depmanage/rolelist'
 import Memberlist from '../depmanage/memberlist'
 export default {
-    components:{Deplist,Rolelist,Memberlist},
+    components:{Deplist,Rolelist,Memberlist}
     // data(){
     //     return {
     //         dialogDepVisible:false,     //模态框是否显示
