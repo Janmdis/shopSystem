@@ -44,7 +44,7 @@
                 </el-row>
                 <el-row class="forgMiss" >
                 <el-form-item>
-                <el-button type="primary" class="login" @click="logining('ruleForm')">立即登录</el-button>
+                <el-button type="primary" class="login" @click.native="logining('ruleForm')">立即登录</el-button>
                 </el-form-item>
                 </el-row>
         </el-form>

@@ -50,7 +50,7 @@ export default {
         },
         logining(formName) {
             this.yzn()
-            this.$refs.formName.validate((valid) => {
+            this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
                     //验证成功登陆
                     var name = this.ruleForm.userName; // 保存的账号
@@ -69,8 +69,8 @@ export default {
                             method: 'POST',
                             // 请求体重发送的数据
                             data: qs.stringify({
-                                username: 18356987162,
-                                password: 123456,
+                                username: this.ruleForm.userName,
+                                password: this.ruleForm.password,
                                 //verificationCode:this.ruleForm.verificationCode,
                                 //rememberMe: this.ruleForm.rememberMe,
                             }),
@@ -140,8 +140,9 @@ export default {
             var codeInput = document.querySelector("#codeInput");
             codeInput.onblur = function() {
                 var res = verifyCode.validate(document.getElementById("codeInput").value);
+                console.log(res)
                 if (res) {
-                    alert("验证正确");
+                    //alert("验证正确");
                 } else {
                     //alert("验证码错误")
                 }
