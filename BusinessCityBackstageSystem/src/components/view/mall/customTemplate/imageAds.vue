@@ -10,7 +10,7 @@
             </div>
             <div class="hoverClick">
                 <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-                <span >添加新内容</span>
+                <a href="#addnewContent"><span >添加新内容</span></a> 
            </div>
         </div>
     <!-- 轮播结束 -->

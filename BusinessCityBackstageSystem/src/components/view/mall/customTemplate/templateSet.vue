@@ -197,13 +197,9 @@ import customLink from './customLink'
              this.comlist.push('classification');
         },
         changetop(index){
-            // document.getElementById('').style.marginTop='1000px';
             let jump = document.querySelectorAll('.test');
             let top=jump[index].offsetTop-100;
-          
-            // console.log(top);
             document.getElementsByClassName('template-editContent-div')[0].style.marginTop=top+'px';
-            // alert(index);
         }
      },
      components:{
