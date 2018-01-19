@@ -1,5 +1,5 @@
 <template>
-    <button class="btnstyle" :disabled="disabled || time > 0">
+    <button type="button" class="btnstyle" :disabled="disabled || time > 0">
         {{ text }}
     </button>
 </template>
