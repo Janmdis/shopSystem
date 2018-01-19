@@ -59,7 +59,7 @@
 import Members from './Member.js';
 export default Members
 </script>
-<style>
+<style >
 
 .lineHeight{
    position:relative;
