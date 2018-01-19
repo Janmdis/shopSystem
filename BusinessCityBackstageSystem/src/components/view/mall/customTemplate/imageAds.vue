@@ -31,6 +31,7 @@
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
+          
         },
         methods:{
           delete(){
@@ -79,10 +80,17 @@
     background-color: transparent;
     border: 1px solid #109997;
 }
+.el-carousel__arrow,el-carousel__arrow--left{
+   filter:alpha(opacity=0);
+   -moz-opacity:0;
+    -khtml-opacity: 0;
+    opacity: 0; 
+}
 </style>
 
 <style scoped lang="less">
 @import "../../../../assets/less/color";
+
 //选中的模块/鼠标停留的时候 边框样式
 .current-style {
     border: 1px dashed red!important;
