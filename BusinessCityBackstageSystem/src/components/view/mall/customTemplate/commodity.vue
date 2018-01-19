@@ -41,23 +41,27 @@
         },
         created:function(){
           this.dataid=this.templatedata;
-          this.$root.$on('probtnid',(id)=>{
+          this.$root.$on('probtnid',(data)=>{
+            let type=data.type;
             //alert(id)
-            if(id == 1){
-              this.bigImg = 24;
-              this.smallImg = 24;
-              this.bigsImg = 24;
+            if(this.dataid==type){
+              if(data.id == 1){
+                this.bigImg = 24;
+                this.smallImg = 24;
+                this.bigsImg = 24;
+              }
+              else if(data.id == 2){
+                this.bigImg = 12;
+                this.smallImg = 12;
+                this.bigsImg = 12;
+              }
+              else if(data.id == 3){
+                this.bigImg = 24;
+                this.smallImg = 12;
+                this.bigsImg = 12;
+              }
             }
-            else if(id == 2){
-              this.bigImg = 12;
-              this.smallImg = 12;
-              this.bigsImg = 12;
-            }
-            else if(id == 3){
-              this.bigImg = 24;
-              this.smallImg = 12;
-              this.bigsImg = 12;
-            }
+            
          });
         },
         methods:{
