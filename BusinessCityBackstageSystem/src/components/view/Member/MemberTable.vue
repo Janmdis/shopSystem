@@ -46,7 +46,7 @@
         label="订单状态">
         </el-table-column>
         <el-table-column
-        prop="source"
+        prop="recommendedSourceId"
         label="来源">
         </el-table-column>
         <el-table-column
