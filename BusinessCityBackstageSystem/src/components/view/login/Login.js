@@ -18,6 +18,7 @@ export default {
         // };
 
         return {
+            isRight: false,
             ruleForm: {
                 userName: '',
                 password: '',
@@ -44,12 +45,20 @@ export default {
             }
         }
     },
+    //页面加载调用获取cookie值
+    mounted() {
+        this.getCookie()
+        this.yzn()
+    },
     methods: {
         forgetPassword() {
             this.$router.push({ path: '/login/forgetPwd' })
         },
         logining(formName) {
-            this.yzn()
+            if (!this.isRight) {
+                alert(this.isRight);
+                return false
+            }
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
                     //验证成功登陆
@@ -92,7 +101,7 @@ export default {
                                     confirmButtonText: '确定',
                                     callback: action => {
                                         this.$router.push("/index")
-                                      }
+                                    }
                                 });
                             }
                         })
@@ -138,6 +147,7 @@ export default {
             this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
         },
         yzn() {
+            let that = this
             var verifyCode = new GVerify("checkCode");
             console.log(verifyCode.options.code)
             var codeInput = document.querySelector("#codeInput");
@@ -145,16 +155,11 @@ export default {
                 var res = verifyCode.validate(document.getElementById("codeInput").value);
                 console.log(res)
                 if (res) {
-                    //alert("验证正确");
+                    that.isRight = true
                 } else {
-                    //alert("验证码错误")
+                    that.isRight = false
                 }
             }
         }
     },
-    //页面加载调用获取cookie值
-    mounted() {
-        this.getCookie()
-        this.yzn()
-    }
 }
