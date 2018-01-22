@@ -49,7 +49,7 @@ export default{
 </script>
 <style scoped lang="less">
 #orderDetail{
-    min-width: 750px;
+    //min-width: 750px;
     padding:20px 20px;
     background: #fff;
     .detailHeader{

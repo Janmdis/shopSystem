@@ -81,23 +81,20 @@ export default{
 </script>
 <style lang="less" scoped>
 .personnelHeader{
-    min-width:780px;
+    // min-width:780px;
     position: relative;
         display:flex;
+        justify-content: space-around;
         align-items: center;
         flex-wrap: wrap;
         font-size: 14px;
         color:#666;
         border-bottom:1px solid #dbdbdb;
         padding:20px 20px 0;
-        li:nth-child(even){
-            width:40%;
+        li{
+            width:50%;
             margin-bottom:30px;
-        }
-        li:nth-child(odd){
-            width:45%;
-            padding-left:110px;
-            margin-bottom:30px;
+            text-align: center;
         }
         li img{
             width:22px;
@@ -108,31 +105,25 @@ export default{
 }
 .personnelMain{
     padding:60px 40px;
-    min-width:780px;
-    position:relative;
+    //min-width:780px;
     .infomation{
         display:flex;
         flex-wrap: wrap;
-    }
-    .infomation li:nth-child(odd){
-        padding-left:20px;
+        justify-content: space-around;
     }
     .infomation li:nth-child(7){
         .el-select{
             margin-left:17px;
         }
     }
-    .infomation li:nth-child(8){
-        .el-input{
-            margin-left:-16px;
-        }
-    }
     .infomation li{
-        position:relative;
+        position: relative;
+        left: 0;
+        right: 0;
+        margin: auto;
+        //left: 35px;
         margin-bottom: 84px;
-        display:flex;
-        justify-content: space-between;
-        width:45%;
+        width:50%;
         color:#666;
         .memberAge{
             position: absolute;
@@ -147,14 +138,27 @@ export default{
         .el-input{
             position: absolute;
             top:-10px;
-            left:145px;
+            left:125px;
             width:50%;
         }
         .el-select{
             position: absolute;
             top:-10px;
-            left:128px;
+            left:108px;
             width: 50% !important;
+        }
+    }
+    .infomation li:nth-child(even){
+        width: 46%;
+        padding-left:4%;
+        span{
+            margin-left: -8%;
+        }
+        .el-select{
+            left:125px;
+        }
+        .el-input{
+            left:125px;
         }
     }
     .infomation .ageLi{
