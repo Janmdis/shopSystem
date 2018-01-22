@@ -5,6 +5,7 @@ import Lttip from '@/components/common/tipspage/lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
+import qs from 'qs'
 export default {
     name: 'member',
     data() {
@@ -44,14 +45,14 @@ export default {
         }
     },
     created() {
-        let url = '';
+        let url = 'customer/relationshipGroup/query';
         this.$http({
             url: url,
             method: 'POST',
             // 请求体重发送的数据
             data: qs.stringify({
-                username: this.ruleForm.userName,
-                password: this.ruleForm.password,
+                // username: this.ruleForm.userName,
+                // password: this.ruleForm.password,
                 //verificationCode:this.ruleForm.verificationCode,
                 //rememberMe: this.ruleForm.rememberMe,
             }),
