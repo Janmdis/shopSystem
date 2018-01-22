@@ -59,7 +59,7 @@ export default{
 }
 #house{
     background: #fff;
-    min-width:750px;
+    //min-width:750px;
     .houseMain{
             width: 100%;
         li{
