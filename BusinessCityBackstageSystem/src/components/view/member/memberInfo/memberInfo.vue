@@ -8,7 +8,7 @@
                     <div class="infoLine1Right"><span class="line1PrintBtn">编辑</span><span class="line1CloseBtn el-icon-close" @click="closeInfo"></span></div>
                 </div>
                 <div class="infoLine2">
-                   <label for="">姓名<p>小明</p></label>
+                   <!-- <label for="">姓名<p>{{dataInfo.name}}</p></label> -->
                    <label for="">手机号<p>13052528379</p></label>
                    <label for="">客户类型<p>一级</p></label>
                    <label for="">小区<p>龙华盛亭</p></label>

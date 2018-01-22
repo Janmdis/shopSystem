@@ -53,35 +53,35 @@ export default {
         this.yzn()
     },
     methods: {
-        option(test,status) {
+        option(test, status) {
             this.$message({
                 message: test,
-                type:status?status:'warning'
-          })
-        },  
-        getCode(){
+                type: status ? status : 'warning'
+            })
+        },
+        getCode() {
             const TIME_COUNT = 1;
             if (!this.timer) {
-              this.count = TIME_COUNT;
-              this.show = false;
-              this.timer = setInterval(() => {
-              if (this.count > 0 && this.count <= TIME_COUNT) {
-                this.count--;
-               } else {
-                this.show = true;
-                clearInterval(this.timer);
-                  this.timer = null;
-                  this.$router.push({ path: '/index' })  
-               }
-              }, 1000)
-             }
-          },
+                this.count = TIME_COUNT;
+                this.show = false;
+                this.timer = setInterval(() => {
+                    if (this.count > 0 && this.count <= TIME_COUNT) {
+                        this.count--;
+                    } else {
+                        this.show = true;
+                        clearInterval(this.timer);
+                        this.timer = null;
+                        this.$router.push({ path: '/index' })
+                    }
+                }, 1000)
+            }
+        },
         forgetPassword() {
             this.$router.push({ path: '/login/forgetPwd' })
         },
         logining(formName) {
             if (!this.isRight) {
-                alert(this.isRight);
+                this.option('验证码错误');
                 return false
             }
             this.$refs.ruleForm.validate((valid) => {
@@ -116,7 +116,7 @@ export default {
                         })
                         .then(res => {
                             var msg = res.data.msg
-                            if (msg !=='登录成功') {
+                            if (msg !== '登录成功') {
                                 this.option("用户名不存在或密码错误,请重新输入");
                                 this.ruleForm.userName = '';
                                 this.ruleForm.password = '';

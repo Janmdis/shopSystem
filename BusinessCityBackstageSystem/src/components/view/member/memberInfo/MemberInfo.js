@@ -21,6 +21,7 @@ export default {
             isActive: '个人信息',
             which_to_show: '个人信息',
             default1: true,
+            personnelInfo: []
         }
     },
     created() {
@@ -28,13 +29,12 @@ export default {
             this.which_to_show = title
         })
         this.isShow('个人信息');
-
     },
     mounted() {
-        this.$root.$on('searchPersonnelInfo', (ids) => {
+        this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
             this.searchInfo(ids);
         });
-        this.$root.$on('infoCoverShow', (left) => {
+        this.$root.$on('infoCoverShow', (left) => { //  显示侧滑框的方法
             var left1 = 100;
             let timer1 = setInterval(function() {
                 left1--
@@ -44,10 +44,10 @@ export default {
                     clearInterval(timer1)
                 }
             }, 5);
-        })
+        });
     },
     methods: {
-        closeInfo() {
+        closeInfo() { //   关闭侧滑框
             var left1 = 16;
             let timer2 = setInterval(function() {
                 left1++
@@ -58,18 +58,22 @@ export default {
                 }
             }, 5);
         },
-        searchInfo(id) {
+        searchInfo(id) { //  获取用户信息
             console.log(id)
             this.$http({
-                    url: '/api/customer/account/queryByIds',
+                    url: '/api/customer/account/query',
                     method: 'POST',
                     // 请求发送的数据
-                    data: [{ 'id': id }],
+                    data: { 'id': id },
                     // 设置请求头
                     headers: { 'Content-Type': 'application/json' }
                 })
-                .then(res => { console.log(res) })
-                .catch(error => { console.log(error) })
+                .then(res => {
+                    let dataInfo = res;
+                    console.log(res)
+                        // this.personnelInfo.push(dataInfo);
+                })
+                .catch(error => { console.log(res.data.msg) })
         },
         isShow(text) {
             this.default1 = false;
