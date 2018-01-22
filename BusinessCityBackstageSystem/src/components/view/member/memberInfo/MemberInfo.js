@@ -28,6 +28,7 @@ export default {
             this.which_to_show = title
         })
         this.isShow('个人信息');
+        //this.searchInfo();
     },
     mounted() {
         this.$root.$on('infoCoverShow', (left) => {
@@ -54,6 +55,11 @@ export default {
                 }
             }, 5);
         },
+        // searchInfo() {
+        //     this.$http.post('customer/account/query', { 'id': '25284' })
+        //         .then((res) => { console.log(res) })
+        //         .catch((res) => { console.log(error) })
+        // },
         isShow(text) {
             this.default1 = false;
             this.isActive = text;
