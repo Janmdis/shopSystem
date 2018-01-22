@@ -17,7 +17,7 @@
         type="selection"
         width="55">
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="ids" label="ID" width='100'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='200'>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -30,7 +30,7 @@
         label="手机号">
         </el-table-column>
         <el-table-column
-        prop="types"
+        prop="categoryId"
         label="客户类型">
         </el-table-column>
         <el-table-column
@@ -54,11 +54,7 @@
         width='100'
         label="录入时间">
         </el-table-column>
-        <el-table-column
-        width='260'
-        prop="address"
-        label="小区地址">
-    </el-table-column>
+
                 
             </el-table>
 </template>
@@ -83,10 +79,12 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 data: {
+                    
                 },
             })
-                .then(response => {
-                    this.datalist=(response.data.info.list);
+            .then(response => {
+                this.datalist=(response.data.info.list);
+                console.log(this.datalist)
           })
           .catch(error=>{
               console.log(error);
