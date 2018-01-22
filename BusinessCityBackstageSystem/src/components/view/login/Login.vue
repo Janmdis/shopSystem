@@ -67,9 +67,11 @@
 <style scoped lang='less'>
     @import "./Login.less";
 </style>
-<style scoped>
+<style lang = 'less'>
+#login{
+
 .el-input__inner{
-    height:100%;
+    height:40px;
 }
     .loginUl li {
     
@@ -153,6 +155,7 @@
     
         color: #0f0;
     
+    }
     }
 </style>
 

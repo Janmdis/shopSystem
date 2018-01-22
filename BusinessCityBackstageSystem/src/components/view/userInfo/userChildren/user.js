@@ -77,5 +77,31 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
     }
+  },
+  created() {
+    let url = '';
+      this.$http({
+          url: url,
+          method: 'POST',
+          // 请求体重发送的数据
+          data: qs.stringify({
+              username: this.ruleForm.userName,
+              password: this.ruleForm.password,
+              //verificationCode:this.ruleForm.verificationCode,
+              //rememberMe: this.ruleForm.rememberMe,
+          }),
+          // 设置请求头
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+          }
+      })
+    .then(response=>{
+        console.log(response);
+        this.oftenGoods=response.data;
+    })
+    .catch(error=>{
+        console.log(error);
+        alert('网络错误，不能访问');
+    })
   }
 }
