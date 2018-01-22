@@ -93,10 +93,10 @@ export default {
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
-            // console.log(row,column,cell,event)
+            //console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
-            let labelValue = column.label
-            console.log(labelValue,column.property,row.ids)
+            let labelValue = row.id
+            console.log(labelValue)
             if(labelValue == 'ID'){
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
