@@ -3,8 +3,8 @@
         <ul>
             <li :data-id="item.id" :key="item.id" :data-num='item.num' class="parent_li" v-for="item in childlist">
                 <span :data-id="item.id" title="收起">
-                    <i class="el-icon el-icon-minus"  v-if='item.children.length' @click="pack($event)"></i>
-                    <strong :data-id="item.id" :data-num='item.num' @click="selectNode($event)">{{item.info}}</strong>
+                    <i class="el-icon el-icon-minus"  v-if='item.children' @click="pack($event)"></i>
+                    <strong :data-id="item.id" :data-num='item.number' @click="selectNode($event)">{{item.info}}</strong>
                 </span>
                 <Datalist :list='item.children'></Datalist>
             </li>
@@ -23,13 +23,8 @@ export default {
     },
     created:function(){
         this.childlist=this.list;
+        console.log(this.list);
     },
-    // computed:{
-    //     currentid:function(){
-    //         var currentnode=document.getElementsByClassName('on')[0];
-    //         return currentnode?currentnode.getAttribute('data-id'):this.list[0].id;
-    //     }
-    // },
     methods:{
         pack(e){
             var title=e.currentTarget.parentNode.getAttribute('title');

@@ -210,7 +210,7 @@ import customLink from './customLink'
             let top=jump[index].offsetTop-100;
             let dom=document.getElementsByClassName('current-style');
             dom.length?dom[0].setAttribute('class','test borderHover'):void(0);
-            jump[index].setAttribute('class','current-style test');
+            jump[index].setAttribute('class','current-style test borderHover');
             document.getElementsByClassName('template-editContent-div')[0].style.marginTop=top+'px';
             let eq=this.list2.indexOf(item);
             this.left=this.leftlist[eq];
