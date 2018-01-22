@@ -15,31 +15,11 @@ export default {
             currentPage1: 1,
             searchFn: '',
             isActive: false,
-            tableData3: []
+            // tableData3: []
         }
     },
-    created() {
-        this.getDate()
-    },
     methods: {
-        getDate() {
-            let url = '/api/customer/account/query';
-            this.$http({
-                url: url,
-                method: 'POST',
-                // 请求体重发送的数据
-                data: {
-                },
-            })
-                .then(response => {
-                    this.tableData3.push(response.data.info.list);
-              console.log(this.tableData3)      
-          })
-          .catch(error=>{
-              console.log(error);
-              alert('网络错误，不能访问');
-          })
-        },
+
         showWindow() {
             this.$root.$emit("showWindow")
         },

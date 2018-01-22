@@ -73,11 +73,27 @@ export default {
             tableData3:[{id:"3ded7a87-fa9f-11e7-9dba-509a4c15ca0c"}]
         }
     },
-    mounted:function(){
-        console.log(this.data[0])
-        this.datalist=this.data[0];
+    created:function(){
+        this.getDate()
     },
     methods:{
+      getDate() {
+            let url = '/api/customer/account/query';
+            this.$http({
+                url: url,
+                method: 'POST',
+                // 请求体重发送的数据
+                data: {
+                },
+            })
+                .then(response => {
+                    this.datalist=(response.data.info.list);
+          })
+          .catch(error=>{
+              console.log(error);
+              alert('网络错误，不能访问');
+          })
+        },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
             // console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
