@@ -45,7 +45,7 @@ export default {
         }
     },
     created() {
-        let url = 'customer/relationshipGroup/query';
+        let url = '/api/customer/relationshipGroup/query';
         this.$http({
             url: url,
             method: 'POST',
