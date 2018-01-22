@@ -69,13 +69,17 @@ export default{
             ],
         }
     },
+    created(){
+
+    },
     mounted(){
         this.changeClass();
     },
     methods:{
         changeClass(){
             document.getElementsByClassName("el-input__prefix")[0].setAttribute("class","el-input__suffix")
-        }
+        },
+          
     },
 }
 </script>
