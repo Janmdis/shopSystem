@@ -59,14 +59,13 @@
             </el-table>
 </template>
 <script>
-//@row-click="showMemberInfo()"
 export default {
     props:['data'],
     data(){
         return {
             datalist:[],
             showLeft:0,
-            tableData3:[{id:"3ded7a87-fa9f-11e7-9dba-509a4c15ca0c"}]
+            tableData3:[]
         }
     },
     created:function(){
@@ -79,9 +78,6 @@ export default {
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
-                data: {
-                    
-                },
             })
             .then(response => {
                 this.datalist=(response.data.info.list);
@@ -89,18 +85,18 @@ export default {
           })
           .catch(error=>{
               console.log(error);
-              alert('网络错误，不能访问');
+              //alert('网络错误，不能访问');
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
             //console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
-            let labelValue = row.id
-            console.log(labelValue)
+            //let labelValue = row.id
+            console.log(row.id)
             if(labelValue == 'ID'){
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
-                this.$root.$emit('searchPersonnelInfo',row.ids)
+                this.$root.$emit('searchPersonnelInfo',row.id)
             }
         },      
         showextra(isall){
