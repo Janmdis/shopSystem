@@ -66,6 +66,7 @@ export default {
         return {
             datalist:[],
             showLeft:0,
+            tableData3:[{id:"3ded7a87-fa9f-11e7-9dba-509a4c15ca0c"}]
         }
     },
     created:function(){

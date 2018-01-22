@@ -69,9 +69,9 @@ export default {
                     headers: { 'Content-Type': 'application/json' }
                 })
                 .then(res => {
-                    let dataInfo = res;
-                    console.log(res)
-                        // this.personnelInfo.push(dataInfo);
+                    let dataInfo = res.data.info.list;
+                    console.log(dataInfo)
+                    this.personnelInfo.push(dataInfo);
                 })
                 .catch(error => { console.log(res.data.msg) })
         },
