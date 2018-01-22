@@ -25,7 +25,7 @@
         >
         </el-table-column>
         <el-table-column
-        prop="iphone"
+        prop="mobile"
         width='120'
         label="手机号">
         </el-table-column>
@@ -72,8 +72,9 @@ export default {
             showLeft:0,
         }
     },
-    created:function(){
-        this.datalist=this.data;
+    mounted:function(){
+        console.log(this.data[0])
+        this.datalist=this.data[0];
     },
     methods:{
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
