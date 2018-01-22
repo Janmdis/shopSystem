@@ -44,6 +44,7 @@
 </template>
 <script>
     export default{
+        props:['type'],
      data() {
          return{
          }
@@ -51,11 +52,12 @@
      },
      methods:{
          opendialogPro(){
+            //  alert(this.datatype);
              this.$root.$emit('opendialogProduct',true)
          },
          switchbtn(e,index){
              //alert(index)
-             this.$root.$emit('probtnid',index);             
+             this.$root.$emit('probtnid',{id:index,type:this.type});             
             let target=e.target.tagName=='li'?e.target.parentNode:e.target;
             let lis=target.parentNode.getElementsByTagName('li');
             for(let i=0;i<lis.length;i++){

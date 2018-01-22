@@ -26,7 +26,7 @@
                       <!-- banner -->
                       <banner></banner>
                       <keep-alive v-for='(item,index) in comlist' :key='index'>
-                        <components :templatedata='index' :is='item'  class="test"  @click.native='changetop(index,item)'></components>
+                        <components :templatedata='index' :is='item'  :type='item'  class="test"  @click.native='changetop(index,item)'></components>
                       </keep-alive>
                       <!-- 图片广告组件 -->
                       <!-- <imageAds></imageAds> -->
@@ -87,7 +87,7 @@
                     <!-- banner/图片广告编辑组件 -->
                     <!-- <imageAdEditing v-bind="imgdata"></imageAdEditing> -->
                     <keep-alive>
-                        <components :is='left' ></components>
+                        <components :is='left' :type='indexr'></components>
                     </keep-alive>
                     <!-- 橱窗编辑组件 -->
                     <!-- <windowEditing v-bind="windowdata"></windowEditing> -->
@@ -167,7 +167,8 @@ import customLink from './customLink'
              comlist:[],
              left:'imageAdEditing',
              leftlist:['productEditing','titlesEditing','imageAdEditing','classificationEditing','windowEditing','windowEditing2'],
-             list2:['commodity','titles','imageAds','classification','window','window2']
+             list2:['commodity','titles','imageAds','classification','window','window2'],
+             indexr:''
          }
      },
      created:function(){
@@ -179,7 +180,9 @@ import customLink from './customLink'
                 }
             }
             this.comlist=list;
-            //  alert(id);
+            let length = document.querySelectorAll('.test').length;
+            let value=this.comlist[length-2];
+            this.changetop(length-2,value);
          });
      },
      methods:{
@@ -205,9 +208,14 @@ import customLink from './customLink'
         changetop(index,item){
             let jump = document.querySelectorAll('.test');
             let top=jump[index].offsetTop-100;
+            let dom=document.getElementsByClassName('current-style');
+            dom.length?dom[0].setAttribute('class','test borderHover'):void(0);
+            jump[index].setAttribute('class','current-style test');
             document.getElementsByClassName('template-editContent-div')[0].style.marginTop=top+'px';
             let eq=this.list2.indexOf(item);
             this.left=this.leftlist[eq];
+            this.indexr=index;
+            // alert(index);
         }
      },
      components:{
