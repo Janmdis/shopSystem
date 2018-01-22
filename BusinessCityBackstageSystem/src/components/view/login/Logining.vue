@@ -31,6 +31,7 @@ export default {
     height: 100%;
     background:url(./background.jpg) no-repeat;
     background-size:100% 100%;
+    background-position: center;
     position: relative;
 }
 .el-row{
