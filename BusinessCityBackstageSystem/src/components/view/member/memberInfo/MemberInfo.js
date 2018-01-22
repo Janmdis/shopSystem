@@ -61,7 +61,7 @@ export default {
         searchInfo(id) {
             console.log(id)
             this.$http({
-                    url: 'customer/account/queryByIds',
+                    url: '/api/customer/account/queryByIds',
                     method: 'POST',
                     // 请求发送的数据
                     data: [{ 'id': id }],

@@ -25,7 +25,7 @@ export default {
                 userName: '',
                 password: '',
                 verificationCode: '',
-                rememberMe: false
+                rememberMe: false,
             },
             rules: {
                 userName: [{
