@@ -77,13 +77,14 @@ export default {
     },
     methods:{
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
-            console.log(row,column,cell,event)
-            //  let classNum = cell.className.split('n_')[1]
+            // console.log(row,column,cell,event)
+            //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
             let labelValue = column.label
-            console.log(labelValue,column.property)
+            console.log(labelValue,column.property,row.ids)
             if(labelValue == 'ID'){
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
+                this.$root.$emit('searchPersonnelInfo',row.ids)
             }
         },      
         showextra(isall){

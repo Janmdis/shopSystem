@@ -28,9 +28,12 @@ export default {
             this.which_to_show = title
         })
         this.isShow('个人信息');
-        //this.searchInfo();
+
     },
     mounted() {
+        this.$root.$on('searchPersonnelInfo', (ids) => {
+            this.searchInfo(ids);
+        });
         this.$root.$on('infoCoverShow', (left) => {
             var left1 = 100;
             let timer1 = setInterval(function() {
@@ -55,11 +58,19 @@ export default {
                 }
             }, 5);
         },
-        // searchInfo() {
-        //     this.$http.post('customer/account/query', { 'id': '25284' })
-        //         .then((res) => { console.log(res) })
-        //         .catch((res) => { console.log(error) })
-        // },
+        searchInfo(id) {
+            console.log(id)
+            this.$http({
+                    url: 'customer/account/queryByIds',
+                    method: 'POST',
+                    // 请求发送的数据
+                    data: [{ 'id': id }],
+                    // 设置请求头
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(res => { console.log(res) })
+                .catch(error => { console.log(error) })
+        },
         isShow(text) {
             this.default1 = false;
             this.isActive = text;
