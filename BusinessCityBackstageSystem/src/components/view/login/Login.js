@@ -18,6 +18,9 @@ export default {
         // };
 
         return {
+            show: true,
+            count: '',
+            timer: null,
             ruleForm: {
                 userName: '',
                 password: '',
@@ -44,12 +47,43 @@ export default {
             }
         }
     },
+    //页面加载调用获取cookie值
+    mounted() {
+        this.getCookie()
+        this.yzn()
+    },
     methods: {
+        option(test, status) {
+            this.$message({
+                message: test,
+                type: status ? status : 'warning'
+            })
+        },
+        getCode() {
+            const TIME_COUNT = 1;
+            if (!this.timer) {
+                this.count = TIME_COUNT;
+                this.show = false;
+                this.timer = setInterval(() => {
+                    if (this.count > 0 && this.count <= TIME_COUNT) {
+                        this.count--;
+                    } else {
+                        this.show = true;
+                        clearInterval(this.timer);
+                        this.timer = null;
+                        this.$router.push({ path: '/index' })
+                    }
+                }, 1000)
+            }
+        },
         forgetPassword() {
             this.$router.push({ path: '/login/forgetPwd' })
         },
         logining(formName) {
-            this.yzn()
+            if (!this.isRight) {
+                this.option('验证码错误');
+                return false
+            }
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
                     //验证成功登陆
@@ -81,19 +115,16 @@ export default {
                             }
                         })
                         .then(res => {
-                            console.log(res)
-                            if (res.body == "fail") {
-                                alert("用户名或密码错误,请重新输入");
+                            var msg = res.data.msg
+                            if (msg !== '登录成功') {
+                                this.option("用户名不存在或密码错误,请重新输入");
                                 this.ruleForm.userName = '';
                                 this.ruleForm.password = '';
+                                this.ruleForm.verificationCode = '';
                                 return
                             } else {
-                                this.$alert('3秒后自动跳转到...', '登陆成功', {
-                                    confirmButtonText: '确定',
-                                    callback: action => {
-                                        this.$router.push("/index")
-                                      }
-                                });
+                                this.option('登录成功正在为你跳转请稍后...', 'success');
+                                this.getCode();
                             }
                         })
                         .catch(err => {
@@ -138,6 +169,7 @@ export default {
             this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
         },
         yzn() {
+            let that = this
             var verifyCode = new GVerify("checkCode");
             console.log(verifyCode.options.code)
             var codeInput = document.querySelector("#codeInput");
@@ -145,16 +177,11 @@ export default {
                 var res = verifyCode.validate(document.getElementById("codeInput").value);
                 console.log(res)
                 if (res) {
-                    //alert("验证正确");
+                    that.isRight = true
                 } else {
-                    //alert("验证码错误")
+                    that.isRight = false
                 }
             }
         }
     },
-    //页面加载调用获取cookie值
-    mounted() {
-        this.getCookie()
-        this.yzn()
-    }
 }

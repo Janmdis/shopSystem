@@ -193,7 +193,8 @@ export default {
     }
     .el-table td:nth-child(6) .cell{
         display:flex;
-        min-width: 140px;
+        flex-wrap: wrap;
+        // min-width: 140px;
         justify-content:space-between;
     }
 }

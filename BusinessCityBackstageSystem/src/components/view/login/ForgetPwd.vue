@@ -73,9 +73,12 @@
 <style scoped lang='less'>
     @import "./ForgetPwd.less";
 </style>
-<style scoped>
+<style lang='less'>
+#forgetPwd{
+
+
 .el-input__inner{
-    height:100%;
+    height:40px;
 }
     .textAlign {
         text-align: center;
@@ -125,6 +128,7 @@
     .el-button--primary:hover {
         background: #00aeaa;
         border: #00aeaa;
+    }
     }
 </style>
 

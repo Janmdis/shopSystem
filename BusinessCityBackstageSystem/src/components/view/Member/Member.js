@@ -5,6 +5,7 @@ import Lttip from '@/components/common/tipspage/lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
+import qs from 'qs'
 export default {
     name: 'member',
     data() {
@@ -14,62 +15,13 @@ export default {
             currentPage1: 1,
             searchFn: '',
             isActive: false,
-            tableData3: [{
-                    name: '王小虎',
-                    ids: '25284',
-                    iphone: '1500898888',
-                    province: '上海',
-                    types: '优质客户',
-                    city: '上海市',
-                    quarters: '贝尚湾',
-                    state: '待完成',
-                    source: '老客户介绍',
-                    address: '上海市普陀区金沙江路 1518 弄',
-                    Inputtiem: '2017-02-08'
-                },
-                {
-                    name: '王小虎',
-                    ids: '25285',
-                    iphone: '1500898888',
-                    province: '上海',
-                    types: '优质客户',
-                    city: '上海市',
-                    quarters: '贝尚湾',
-                    state: '待完成',
-                    source: '老客户介绍',
-                    address: '上海市普陀区金沙江路 1518 弄',
-                    Inputtiem: '2017-02-08'
-                }
-            ]
+            totalCount: 40,
+            pageIndex: 1,
+            pageSize: 10,
         }
     },
-    created() {
-        let url = '';
-        this.$http({
-            url: url,
-            method: 'POST',
-            // 请求体重发送的数据
-            data: qs.stringify({
-                username: this.ruleForm.userName,
-                password: this.ruleForm.password,
-                //verificationCode:this.ruleForm.verificationCode,
-                //rememberMe: this.ruleForm.rememberMe,
-            }),
-            // 设置请求头
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        })
-      .then(response=>{
-         console.log(response);
-         this.oftenGoods=response.data;
-      })
-      .catch(error=>{
-          console.log(error);
-          alert('网络错误，不能访问');
-      })
-    },
     methods: {
+
         showWindow() {
             this.$root.$emit("showWindow")
         },
@@ -89,11 +41,14 @@ export default {
             // }
         },
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`)
+            this.pageSize = val;
+            this.$root.$emit('pageSize',{value:this.pageSize})
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`)
-        }
+            this.pageIndex = val;
+            this.$root.$emit('pageIndex', { value: this.pageIndex })
+            
+        },
 
     },
     components: {

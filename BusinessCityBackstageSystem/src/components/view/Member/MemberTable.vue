@@ -17,7 +17,7 @@
         type="selection"
         width="55">
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="ids" label="ID" width='100'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='100'>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -25,7 +25,7 @@
         >
         </el-table-column>
         <el-table-column
-        prop="iphone"
+        prop="mobile"
         width='120'
         label="手机号">
         </el-table-column>
@@ -70,20 +70,45 @@ export default {
         return {
             datalist:[],
             showLeft:0,
+            pageIndex:1
         }
     },
     created:function(){
-        this.datalist=this.data;
+        this.$root.$on('pageIndex',(data) => {
+            this.pageIndex = data.value
+            this.getDate(this.pageIndex)
+        })
+        this.getDate()
     },
     methods:{
+
+      getDate(pageIndex) {
+          console.log(pageIndex)
+            let url = '/api/customer/account/query';
+            this.$http({
+                url: url,
+                method: 'POST',
+                // 请求体重发送的数据
+                data: {
+                },
+            })
+            .then(response => {
+                    this.datalist=(response.data.info.list);
+          })
+          .catch(error=>{
+              console.log(error);
+              alert('网络错误，不能访问');
+          })
+        },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
-            //  console.log(row,column,cell,event)
-            //  let classNum = cell.className.split('n_')[1]
+            //console.log(row,column,cell,event)
+            //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
             let labelValue = column.label
             console.log(labelValue)
             if(labelValue == 'ID'){
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
+                this.$root.$emit('searchPersonnelInfo',row.id)
             }
         },      
         showextra(isall){

@@ -23,37 +23,7 @@ export default {
     components:{Datalist,Dialogadddep},
     data(){
         return {
-            list:[
-                {
-                    id:85,
-                    info:'烛之萤火',
-                    children:[
-                        {
-                            id:105,
-                            info:'张俊俊',
-                            children:[
-                                {
-                                    id:107,
-                                    info:'111',
-                                    children:[
-                                        {
-                                            id:108,
-                                            info:'11',
-                                            children:[]
-                                        }
-                                    ]
-                                    
-                                }
-                            ]
-                        },
-                        {
-                            id:106,
-                            info:'测试',
-                            children:[]
-                        }
-                    ]
-                }
-            ],
+            list:[],
             deleteshow:true,
             currentid:'',
             currentname:'',
@@ -73,8 +43,8 @@ export default {
         let that=this;
         this.$http.post('/api/admin/manage/department/find?type=1&range=0',{})
         .then(function (response) {
-            alert('成功返回');
-            console.log(response);
+            // alert('成功返回');
+            // console.log(response);
             let data=response.data;
             if(data.msg=='查询成功'){
                 that.list.push(data.info.treeAll);

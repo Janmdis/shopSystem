@@ -7,7 +7,7 @@
             :current-page.sync="currentPage3"
             :page-size="100"
             layout="sizes,total,prev, pager, next, jumper"
-            :total="1000">
+            :total="40">
         </el-pagination>
     </div>
 </template>
@@ -15,6 +15,8 @@
 export default{
     data () {
         return {
+            total:0,//默认数据总数
+            pagesize:7,
             currentPage3: 1,
         }
     },
