@@ -125,6 +125,7 @@
 .borderHover:hover .hoverClick{
   display: block;
 }
+
 //////
 .Imgsize{
     width: 100%;
