@@ -52,18 +52,18 @@
             this.color1 = data.color
             let mainTitles = document.getElementsByClassName('mainTitles')
             console.log(mainTitles)
-            for(var i = 0;i<= mainTitles.length;i++){
-              console.log(mainTitles[i])
-               mainTitles[i].style.color = this.color1;
+            for(var value of mainTitles){
+              console.log(value)
+              value.style.color = this.color1;
             }
           })
           this.$root.$on('subTitleColor',(data) => {
             this.color2 = data.color
            let subtitles = document.getElementsByClassName('subTitles')
            console.log(subtitles)
-           for(var i = 0;i<= subtitles.length;i++){
-             console.log(subtitles[i])
-               subtitles[i].style.color = this.color2;
+           for(var value of subtitles){
+              console.log(value)
+              value.style.color = this.color2;
             }
           })
         },
