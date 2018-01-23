@@ -4,9 +4,6 @@ import twoHouse from './House.vue'
 import threeOrder from './Order.vue'
 import fourVisit from './Visit.vue'
 import fiveRelatedPeople from './RelatedPeople.vue'
-//import twoHouse from './HouseDetail.vue'
-//import threeOrder from './OrderDetail.vue'
-//import fiveRelatedPeople from './RelatedDetail.vue'
 export default {
     name: 'memberInfo',
     data() {
@@ -21,7 +18,8 @@ export default {
             isActive: '个人信息',
             which_to_show: '个人信息',
             default1: true,
-            personnelInfo: []
+            personnelInfo: '',
+            customerCategory: '',
         }
     },
     created() {
@@ -58,8 +56,7 @@ export default {
                 }
             }, 5);
         },
-        searchInfo(id) { //  获取用户信息
-            alert(id)
+        searchInfo(id) { //  通过接口获取用户信息
             this.$http({
                     url: '/api/customer/account/query',
                     method: 'POST',
@@ -69,9 +66,18 @@ export default {
                     headers: { 'Content-Type': 'application/json' }
                 })
                 .then(res => {
-                    let dataInfo = res.data.info.list;
+                    let dataInfo = res.data.info.list[0];
                     console.log(dataInfo)
-                    this.personnelInfo.push(dataInfo);
+                    this.personnelInfo = dataInfo;
+                    this.$http.post(
+                        '/api/customer/customerCategory/findCategory?key=id&value=name'
+                    ).then(res => {
+                        console.log(res)
+                            //this.customerCategory = res.data.info.get(0);  // map数据,前端可以当做数组进行处理
+                        this.customerCategory = res.data.info["1"];
+                    }).catch(err => {
+                        console.log(res.msg)
+                    })
                 })
                 .catch(error => { console.log(res.data.msg) })
         },
@@ -98,5 +104,9 @@ export default {
         threeOrder,
         fourVisit,
         fiveRelatedPeople,
+    },
+    beforeDestroy() {
+        this.$root.$off('searchPersonnelInfo');
+        this.$root.$off('searchInfo');
     }
 }

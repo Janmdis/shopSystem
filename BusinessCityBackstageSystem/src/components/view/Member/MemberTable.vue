@@ -17,7 +17,7 @@
         type="selection"
         width="55">
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='200'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='100'>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -30,7 +30,7 @@
         label="手机号">
         </el-table-column>
         <el-table-column
-        prop="categoryId"
+        prop="types"
         label="客户类型">
         </el-table-column>
         <el-table-column
@@ -46,7 +46,7 @@
         label="订单状态">
         </el-table-column>
         <el-table-column
-        prop="recommendedSourceId"
+        prop="source"
         label="来源">
         </el-table-column>
         <el-table-column
@@ -54,18 +54,23 @@
         width='100'
         label="录入时间">
         </el-table-column>
-
+        <el-table-column
+        width='260'
+        prop="address"
+        label="小区地址">
+    </el-table-column>
                 
             </el-table>
 </template>
 <script>
+//@row-click="showMemberInfo()"
 export default {
     props:['data'],
     data(){
         return {
             datalist:[],
             showLeft:0,
-            tableData3:[]
+            tableData3:[{id:"3ded7a87-fa9f-11e7-9dba-509a4c15ca0c"}]
         }
     },
     created:function(){
@@ -78,21 +83,22 @@ export default {
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
+                data: {
+                },
             })
             .then(response => {
-                this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                    this.datalist=(response.data.info.list);
           })
           .catch(error=>{
               console.log(error);
-              //alert('网络错误，不能访问');
+              alert('网络错误，不能访问');
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
             //console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
-            //let labelValue = row.id
-            console.log(row.id)
+            let labelValue = column.label
+            console.log(labelValue)
             if(labelValue == 'ID'){
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
