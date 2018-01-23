@@ -3,7 +3,7 @@
         <el-row class='head-top'>
             <el-col :span='8'>
                 <div class="grid-content">
-                    <p class='title'>员工列表</p>
+                    <p class='title'>角色列表</p>
                 </div>
             </el-col>
             <el-col :span='16'>
@@ -28,49 +28,30 @@
             :stripe='true'>
                 <el-table-column
                 prop="num"
-                label="员工编号"
+                label="角色编号"
                 align='center'>
                 </el-table-column>
                 <el-table-column
                 prop="name"
-                label="姓名"
+                label="角色名称"
                 align='center'>
                 </el-table-column>
                 <el-table-column
-                prop="phone"
-                label="手机号"
-                align='center'
-                width='150'>
-                </el-table-column>
-                <el-table-column
-                prop="sex"
-                label="性别"
-                align='center'>
-                </el-table-column>
-                <el-table-column
-                prop="type"
-                label="员工种类"
-                align='center'>
-                </el-table-column>
-                 <el-table-column
                 prop="department"
-                label="部门"
+                label="所属部门"
                 align='center'>
                 </el-table-column>
-                 <el-table-column
-                prop="role"
-                label="角色"
+                <!-- <el-table-column
+                prop="promise"
+                label="权限"
                 align='center'>
-                </el-table-column>
-                 <el-table-column
-                prop="status"
-                label="状态"
-                align='center'>
-                </el-table-column>
-                <el-table-column prop="Opera" label="操作" align='center' width='100'>
+                </el-table-column> -->
+                <el-table-column prop="opera" label="操作" align='center' width='200'>
                     <template slot-scope="scope">
                         <el-button size="mini" type='text' @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        <el-button size="mini" type='text' @click="handleDelete(scope.$index, scope.row)">权限管理</el-button>
                         <el-button size="mini" type='text' @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        
                     </template>
                 </el-table-column>
         </el-table>
@@ -90,90 +71,50 @@ export default {
                 {
                     num:'1',
                     name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
                     department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
+                    promise:'管理员'
                 },
                 {
                     num:'1',
                     name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
                     department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
+                    promise:'管理员'
                 },
                 {
                     num:'1',
                     name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
                     department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
+                    promise:'管理员'
                 },
                 {
                     num:'1',
                     name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
                     department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
+                    promise:'管理员'
                 },
                 {
                     num:'1',
                     name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
                     department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
+                    promise:'管理员'
                 },
                 {
                     num:'1',
                     name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
                     department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
+                    promise:'管理员'
                 },
                 {
                     num:'1',
                     name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
                     department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
+                    promise:'管理员'
                 },
                 {
-                    num:'2',
+                    num:'1',
                     name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
                     department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
+                    promise:'管理员'
                 }
             ]
         }

@@ -54,17 +54,19 @@ export default {
             // 当前部门编号
             let currentnum=e.currentTarget.getAttribute('data-num');
             // 最后一个子节点的编号
-            let lastchildnum=dom.length?dom[dom.length-1].getAttribute('data-num'):'';   
+            let lastchildnum=dom.length?dom[dom.length-1].getAttribute('data-num'):'';  
            // 修改‘删除’按钮状态
             this.$root.$emit("haschild",{show:!haschild,currentid,currentname,currentnum,lastchildnum});
-            this.$root.$emit('currentrole',(currentid));
-            // var ulnode=strongnode;
-            // console.log(ulnode);
+            this.$root.$emit('currentrole',{depid:currentid,depname:currentname});
         }
     }
 }
 </script>
 <style>
+.tree{
+    height: 78%;
+    overflow-y: auto;
+}
 .tree .el-icon{
     color: #03aeac;
 }

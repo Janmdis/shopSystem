@@ -1,177 +1,30 @@
 <template>
     <el-main>
-        <el-row class='top'>
-            <el-col :span='15'>
-                <lttip :name='namepage'></lttip>
+        <el-row :gutter='20'>
+            <el-col :span='6'>
+                <Deplist></Deplist>
             </el-col>
-            <el-col :span='9'>
-                <div class="grid-content search">
-                    <el-input
-                        placeholder="请输入内容"
-                        suffix-icon="el-icon-search"
-                        v-model="valuesearch">
-                    </el-input>
-                    <el-button type="primary" @click="opendialogedit" round>新增</el-button>
-                    <el-button type="primary" class="research"><i class='icon iconfont icon-shuaxin'></i></el-button>
-                </div>
+            <el-col :span='18'>
+                <Rolelist ref='test'></Rolelist>
             </el-col>
         </el-row>
-        <el-row class="datalist">
-            <Datatable :data='datalist'></Datatable>
-        </el-row>
-        <el-row class="pages">
-            <div class="block">
-                <el-pagination
-                    layout="prev, pager, next"
-                    :total="1000">
-                </el-pagination>
-            </div>
-        </el-row>
-        <Dialogedit></Dialogedit>
-        <Dialogaddrole></Dialogaddrole>
     </el-main>
 </template>
 <script>
-import Lttip from '@/components/common/tipspage/lttip.vue'
-import Datatable from './datatable.vue'
-import Dialogedit from './dialogedit.vue'
-import Dialogaddrole from './dialogaddrole.vue'
+import Deplist from "../authmanage/deplist.vue";
+import Rolelist from "./rolelist.vue";
 export default {
-    components:{Lttip,Datatable,Dialogedit,Dialogaddrole},
-    data(){
-        return {
-            namepage:'角色管理',
-            datalist:[
-                {
-                    id:'20181001',
-                    name:'test1',
-                    belongdep:'x',
-                    authority:'admin'
-                },
-                {
-                    id:'20181002',
-                    name:'test2',
-                    belongdep:'x',
-                    authority:'admin'
-                },
-                {
-                    id:'20181003',
-                    name:'test3',
-                    belongdep:'x',
-                    authority:'admin'
-                },
-                {
-                    id:'20181004',
-                    name:'test4',
-                    belongdep:'x',
-                    authority:'admin'
-                },
-                {
-                    id:'20181001',
-                    name:'test1',
-                    belongdep:'x',
-                    authority:'admin'
-                },
-                {
-                    id:'20181002',
-                    name:'test2',
-                    belongdep:'x',
-                    authority:'admin'
-                },
-                {
-                    id:'20181003',
-                    name:'test3',
-                    belongdep:'x',
-                    authority:'admin'
-                },
-                {
-                    id:'20181004',
-                    name:'test4',
-                    belongdep:'x',
-                    authority:'admin'
-                }
-            ],
-            valuesearch:'',
-        }
-    },
-    created:function(){
-        this.$root.$on('editdialog',()=>{
-            this.opendialogedit();
-        });
-    },
-    methods:{
-        opendialogedit(){
-            this.$root.$emit('showeditdialog');
-        },
-        opendialogedit(){
-            this.$root.$emit('showroledialog');
-        },
-    }
+    components:{Deplist,Rolelist}
 }
 </script>
 <style scoped>
-.el-main{
-    width: 83.33333%;
-    left: 16.66667%;
-    height: 100%;
-    margin-bottom: -70px;
-    background-color:#fff;
-    position: absolute;
-    top: 70px;
-}
-@media only screen and (min-width: 992px) {
-    .el-main{
-        width: 83.33333%;
-        left: 16.66667%;
-    }  
-}
-@media only screen and (min-width: 1200px) {
-    .el-main{
-        width: 87.5%;
-        left: 12.5%;
-    }   
-}
-/* .el-row{
-    height: 100%;
+.el-row{
+    height:100%;
+    overflow-y: auto;
 }
 .el-col{
     height: 100%;
-} */
-.search{
-    height:72px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.el-button--primary{
-    font-size: 16px;
-    width: 90px;
-    height:37px;
-    line-height: 0;
-    margin-left: 15px;
-}
-.el-button--primary:hover{
-    background-color: #00adab;
-}
-.top .research{
-    background: none;
-    border: none;
-    color:#00adab;
-    font-size: 40px;
-    padding: 0;
+    border-radius:5px;
 }
 
-.pages{
-    text-align: right;
-    margin-top: 20px;
-    margin-bottom: 60px;
-}
-</style>
-<style>
-.top .el-input__inner{
-    border-radius: 40px;
-}
-.search .el-input__suffix{
-    cursor: pointer;
-}
 </style>

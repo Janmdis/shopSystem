@@ -118,7 +118,7 @@ export default {
 	color:#8b8b8b;
 	line-height:90px;
 	padding-left:5%;
-    font-size: 14px;
+    font-size: 16px;
 }
 .list{
     margin-left: 5%;
@@ -137,6 +137,7 @@ export default {
 }
 .el-tree-node__expand-icon{
     color:rgb(0, 173, 171);
+    font-size:14px;
 }
 .el-tree-node__expand-icon.expanded{
     transform: rotate(0deg)
@@ -153,7 +154,7 @@ export default {
     height:80%;
 }
 .list .el-tree-node__label{
-    font-size:12px;
+    font-size:14px;
     color:#8b8b8b;
 }
 .el-tree-node__label{

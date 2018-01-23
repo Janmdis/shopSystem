@@ -40,23 +40,28 @@ export default {
             this.curentnum=data.currentnum;
             this.lastchildnum=data.lastchildnum;
         });
-        let that=this;
-        this.$http.post('/api/admin/manage/department/find?type=1&range=0',{})
-        .then(function (response) {
-            // alert('成功返回');
-            // console.log(response);
-            let data=response.data;
-            if(data.msg=='查询成功'){
-                that.list.push(data.info.treeAll);
-            }
-            console.log(that.list);
-        })
-        .catch(function (response) {
-            alert('提交失败');
-            console.log(response);
+        this.$root.$on('undatadep',()=>{
+            this.getdatalist();
         });
+        this.getdatalist();
     },
     methods:{
+        getdatalist:function(){
+            let that=this;
+            this.$http.post('/api/admin/manage/department/find?type=1&range=0',{})
+            .then(function (response) {
+                let data=response.data;
+                if(data.msg=='查询成功'){
+                    that.list.splice(0,that.list.length)
+                    that.list.push(data.info.treeAll);
+                }
+                console.log(that.list);
+            })
+            .catch(function (response) {
+                alert('提交失败');
+                console.log(response);
+            });
+        },
         opendialogDep(){
             //父部门id
             let departmentFatherid=this.currentid;
@@ -69,17 +74,22 @@ export default {
             this.$root.$emit("exportvis",{departmentFatherid,departmentFathername,departmentFathernum,deplastchildnum});
         },
         delete(){
-            this.$http.post('/api/admin/manage/department/update',{
-                id:this.currentid,
+            let that=this;
+            console.log(this.currentid);
+            this.$http.post('/api/admin/manage/department/update',[{
+                id:that.currentid,
                 isActive:false
-            })
+            }])
             .then(function (response) {
+                console.log(response);
                 return{
                     type:'success',
                     message:'删除成功!'
                 };
+                that.getdatalist();
             })
             .catch(function (response) {
+                console.log(response);
                 return {
                     type:'info',
                     message:'删除失败!'
@@ -100,12 +110,12 @@ export default {
                     message: '已取消删除'
                 });
             });
-            
         }
-        
+    },
+    beforeDestroy:function(){
+        this.$root.$off('haschild');
+        this.$root.$off('undatadep');
     }
-    
-   
 }
 </script>
 <style scoped>
@@ -114,6 +124,7 @@ export default {
 	border:1px solid #00adab;
 	border-radius:5px;
     background:#fff;
+    overflow: hidden;
 }
 .rolHeader{
 	height:90px;

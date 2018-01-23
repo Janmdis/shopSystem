@@ -17,8 +17,8 @@
                 </tbody>
                 <tbody class="trbody">
                     <tr :key="item.id" v-for="item in list">
-                        <td class="roleNames " data-id="item.id" @click="selectrole($event)">{{item.name}}</td>
-                        <td data-id="item.id"><span class="delrole">删除</span></td>
+                        <td class="roleNames " :data-id="item.id" @click="selectrole($event)">{{item.groupName}}</td>
+                        <td ><span :data-id="item.id"  class="delrole" @click="deletedata($event)">删除</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -33,38 +33,67 @@ export default {
     components:{Dialogrole},
     data(){
         return {
-            list:[
-                {id:1,name:'角色1'},
-                {id:2,name:'角色2'},
-                {id:3,name:'角色3'},
-                {id:4,name:'角色4'}
-            ],
+            list:[],
             dialogroleVisible:false,
-            depid:''
+            depid:'',
+            depname:''
         }
     },
     created:function(){
-        this.$root.$on('currentrole',(depid)=>{
+        this.$root.$on('currentrole',(datas)=>{
+            this.depid=datas.depid;
+            this.depname=datas.depname;
+            this.getdata();
+        });
+    },
+    methods:{
+        getdata(){
             let that=this;
-            this.depid=depid;
-            this.$http.post('/api/admin/manage/department/find?type=0',{
-                id:depid
+            this.$http.post('/api/admin/manage/group/find?pageSize=0',{
+                departmentId:this.depid,
+                isActive:true
             })
             .then(function (response) {
                 let data=response.data;
                 if(data.msg=='查询成功'){
-                    that.list.push(data.info.list);
+                    that.list=data.info.list;
                 }
-                console.log(that.list);
+                console.log(data);
             })
             .catch(function (response) {
                 console.log(response);
             });
-        });
-    },
-    methods:{
+        },
+        deletedata(e){
+            let target=e.target;
+            let id=target.getAttribute('data-id');
+            this.$http.post('/api/admin/manage/group/update',[{
+                id:id,
+                isActive:false
+            }])
+            .then(function (response) {
+                let data=response.data;
+                if(data.msg=='更新成功'){
+                    this.$message({
+                        type:'success',
+                        message:'删除成功'
+                    });
+                    this.getdata();
+                }
+                else{
+                    this.$message({
+                        type:'info',
+                        message:data.msg
+                    });
+                }
+            })
+            .catch(function (response) {
+                console.log(response);
+            });
+            console.log(id);
+        },
         opendialogrole(){
-            this.$root.$emit("exportvisrole",true);
+            this.$root.$emit("exportvisrole",{depid:this.depid,depname:this.depname});
         },
         selectrole(e){
             // console.log(document.getElementsByClassName('tbactive'));
@@ -76,6 +105,9 @@ export default {
             // 触发所属角色的成员列表函数
             this.$root.$emit('membertorole',{depid:this.depid,roleid:e.target.getAttribute('data-id')});
         }
+    },
+    beforeDestroy:function(){
+        this.$root.$off('currentrole');
     }
 }
 </script>
@@ -86,7 +118,7 @@ export default {
 	border:1px solid #00adab;
 	border-radius:5px;
     background:#fff;
-    overflow-y: auto;
+    overflow:hidden;
 }
 .rolHeader{
 	height:90px;
@@ -111,8 +143,9 @@ export default {
     border: 1px solid transparent;
 }
 .roleSection{
-    /* height: 600px; */
+    height: 78%;
     overflow-y: auto;
+    margin-bottom: 10px;
 }
 .roleSection .roles{
 	border-top:0;

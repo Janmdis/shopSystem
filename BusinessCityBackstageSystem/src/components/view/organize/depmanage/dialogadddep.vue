@@ -20,48 +20,6 @@
                      </div>
                 </el-form-item>
             </el-form>
-            <!-- <el-row>
-                 <el-col :span="4" :offset='1'>
-                     <div class="grid-content labelName">
-                         部门名称：
-                     </div>
-                 </el-col>
-                 <el-col :span="16">
-                     <div class="grid-content input">
-                        <el-input placeholder="请输入部门名称" v-model="depname"></el-input>
-                     </div>
-                 </el-col>
-            </el-row> -->
-            <!-- <el-row>
-                 <el-col :span="4" :offset='1'>
-                     <div class="grid-content labelName">
-                         部门描述：
-                     </div>
-                 </el-col>
-                 <el-col :span="15">
-                     <div class="grid-content input">
-                        <el-input
-                            type="textarea"
-                            :rows="5"
-                            placeholder="请输入内容"
-                            v-model="depdest">
-                        </el-input>
-                         <span class="pull-right infoText">不超过50个字</span>
-                     </div>
-                 </el-col>
-            </el-row> -->
-            <!-- <el-row>
-                 <el-col :span="4" :offset='1'>
-                     <div class="grid-content labelName">
-                         所属部门：
-                     </div>
-                 </el-col>
-                 <el-col :span="16">
-                     <div class="grid-content valueName">
-                         {{depfathername}}
-                     </div>
-                 </el-col>
-            </el-row> -->
             <div slot="footer" class="dialog-footer" :center='true'>
                 <el-button type="primary" round   @click="adddata">新增</el-button>
             </div>
@@ -82,10 +40,10 @@ export default {
                 departmentNumber:'',
             },
             rules:{
-                depname:[
+                departmentName:[
                     {required:true,message:'请输入部门名称',trigger:'blur'}
                 ],
-                depdest:[
+                departmentDescription:[
                     {validator:function(rule,value,callback){
                         if(value.length>50){
                             callback(new Error('部门描述部门超过50字！'));
@@ -103,26 +61,25 @@ export default {
         this.$root.$on('exportvis',(data)=>{
             this.dataform.departmentFather=data.departmentFatherid;
             this.dataform.departmentNumber=data.departmentFathernum;
-            this.dataform.departmentName=data.departmentFathername;
+            this.depfathername=data.departmentFathername;
             this.deplastchildnum=data.deplastchildnum;
             this.dialogDepVisible=true;
         });
+        
     },
     methods:{
         adddata(){
-            // 部门编号
-            let numDep='';
+            let that=this;
+            console.log(this.deplastchildnum);
             // 父部们为空，创建根部门
-            if(this.depfatherid==''){
+            if(this.dataform.departmentFather==''){
                 let ranNum = Math.ceil(Math.random() * 25);
                 // 随机生成一个大写字母
                 let strRandom=String.fromCharCode(65+ranNum);
                 let numRandom=Math.floor(Math.random()*9000)+1000;
                 // 拼接公司编号
                 this.dataform.departmentNumber=strRandom+numRandom.toString();
-                console.log(numDep);
             }
-            
             // 副部们不为空，生成子部门
             else{
                 // 生成第一个子节点
@@ -134,36 +91,29 @@ export default {
                     this.dataform.departmentNumber=this.deplastchildnum.slice(0,5)+nums.toString();
                 }
             }
-            this.$refs.ruleForm.validate((valid)=>{
-                if(valid){
-                    console.log(this.dataform);
-                    this.$http.post('/api/admin/manage/department/create',this.dataform)
-                    .then(function (response) {
-                        this.$message('添加成功！');
-                    })
-                    .catch(function (response) {
-                        this.$message('添加失败！');
-                    });
-                    this.dialogDepVisible=false;
-                }
-            });
-            // this.$http.post('/api/admin/manage/department/create',{
-            //     departmentName:this.depname,
-            //     departmentFather:this.depfathername,
-            //     departmentNumber:numDep,
-            //     departmentDescription:this.depdest
-            // })
-            // .then(function (response) {
-            //     this.$message('添加成功！');
-            // })
-            // .catch(function (response) {
-            //     this.$message('添加失败！');
+            console.log(this.dataform);
+            // this.$refs.ruleForm.validate((valid)=>{
+            //     if(valid){
+            //         console.log(this.dataform);
+            //         this.$http.post('/api/admin/manage/department/create',this.dataform)
+            //         .then(function (response) {
+            //             console.log(response);
+            //             that.$message('添加成功！');
+            //             that.$root.$emit('undatadep');
+            //         })
+            //         .catch(function (response) {
+            //             that.$message('添加失败！');
+            //         });
+            //         this.dialogDepVisible=false;
+            //     }
             // });
-            // this.dialogDepVisible=false;
         },
         ai_dialog_close(){
             this.dialogDepVisible = false;
         },
+    },
+     beforeDestroy:function(){
+        this.$root.$off('exportvis');
     }
 }
 </script>
@@ -215,17 +165,8 @@ export default {
 .el-dialog .grid-content{
     border:none;
 }
-.el-dialog .grid-content.labelName,
-.el-dialog .grid-content.valueName{
-    font-size: 14px;
-    padding-top: 5px;
-    padding-right: 0;
-}
-.el-dialog .grid-content.labelName{
+/* .el-dialog .grid-content.labelName{
     text-align: right;
-}
-/* .el-dialog .grid-content.valueName{
-    padding-left: 15px;
 } */
 .el-dialog .grid-content input{
     width: 80%;
@@ -235,9 +176,6 @@ export default {
     line-height: 1.5;
     border-radius: 3px;
     border:1px solid #ccc;
-}
-.el-dialog .grid-content.input{
-    padding-left: 15px;
 }
 /* .el-dialog .grid-content textarea{
     border:1px solid #c7c7c7;
