@@ -70,14 +70,20 @@ export default {
         return {
             datalist:[],
             showLeft:0,
-            tableData3:[{id:"3ded7a87-fa9f-11e7-9dba-509a4c15ca0c"}]
+            pageIndex:1
         }
     },
     created:function(){
+        this.$root.$on('pageIndex',(data) => {
+            this.pageIndex = data.value
+            this.getDate(this.pageIndex)
+        })
         this.getDate()
     },
     methods:{
-      getDate() {
+
+      getDate(pageIndex) {
+          console.log(pageIndex)
             let url = '/api/customer/account/query';
             this.$http({
                 url: url,
