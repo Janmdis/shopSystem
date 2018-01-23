@@ -42,9 +42,10 @@
                 <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
-                :current-page="currentPage1"
+                :current-page="pageIndex"
+                :page-size="pageSize"
                 layout=" prev, pager, next, jumper,total"
-                :total="400">
+                :total="totalCount">
                 </el-pagination>
                
             </div></el-col>

@@ -56,14 +56,10 @@
              <el-col :span='8'>
             <el-form-item label="是否签约" >
     
-                <el-radio-group >
-    
-                    <el-radio label="签约"></el-radio>
-    
-                    <el-radio label="未签约"></el-radio>
-    
+               <el-radio-group v-model="ruleForm.resource">
+                <el-radio label="1">签约</el-radio>
+                <el-radio label="2">未签约</el-radio>
                 </el-radio-group>
-    
             </el-form-item>
             </el-col>
         </el-row>
@@ -71,7 +67,7 @@
                     <br>
         <el-row>
             <el-col :span='8'>
-                <el-form-item label="省">
+                <el-form-item label="省" >
         
                     <el-select v-model="ruleForm.province" placeholder="请选择活动区域">
         
@@ -111,35 +107,7 @@
                 </el-form-item>
             </el-col>
         </el-row>
-        <el-row>
-            <el-col :span='8'>
-            <el-form-item label="区域" >
-
-                <el-select  placeholder="请选择活动区域">
-    
-                    <el-option label="区域一" value="shanghai"></el-option>
-    
-                    <el-option label="区域二" value="beijing"></el-option>
-    
-                </el-select>
         
-                </el-form-item>
-            </el-col>
-             <el-col :span='8'>
-                <el-form-item label="库房地址" >
-    
-                <el-input ></el-input>
-    
-            </el-form-item>
-            </el-col>
-            <el-col :span='8'>
-                <el-form-item label="办公地址" >
-    
-                <el-input ></el-input>
-    
-            </el-form-item>
-            </el-col>
-        </el-row>
         <div class='lineBline'></div>
         <br>
         <el-row>
@@ -151,7 +119,7 @@
             </el-form-item>
             </el-col>
             <el-col :span='8'>
-                <el-form-item label="负责人联系方式" >
+                <el-form-item label="联系方式" >
     
                 <el-input ></el-input>
     
@@ -160,7 +128,7 @@
             <el-col :span='8'>
             <el-form-item label="业务员" >
 
-                <el-select  placeholder="请选择活动区域">
+                <el-select  placeholder="请选择活动区域" v-model="ruleForm.county">
     
                     <el-option label="区域一" value="shanghai"></el-option>
     
@@ -183,7 +151,7 @@
             <el-col :span='8'>
             <el-form-item label="来源" >
 
-                <el-select  placeholder="请选择活动区域">
+                <el-select  placeholder="请选择活动区域" v-model="ruleForm.county">
     
                     <el-option label="区域一" value="shanghai"></el-option>
     
@@ -209,20 +177,13 @@
             </el-col>
         </el-row>
         <el-form-item>
-    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-    <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-row :gutter="20">
+            <el-col :span="12"><el-button class="clearBtn" type="primary" @click="submitForm('ruleForm')">立即创建</el-button></el-col>
+            <el-col :span="12"><el-button class="okBtn"  @click="resetForm('ruleForm')">重置</el-button></el-col>
+        </el-row>
   </el-form-item>
         </el-form>
 
-        <span slot="footer" class="dialog-footer" center>
-            <el-row :gutter="20">
-              <el-col :span="12"><el-button class="clearBtn" @click="dialogVisible = false">取 消</el-button></el-col>
-
-              <el-col :span="12"><el-button class="okBtn" type="primary" @click="dialogVisible = false">确 定</el-button></el-col>
-    
-            </el-row>
-
-        </span>
 
     </el-dialog>
 </template>
@@ -243,13 +204,18 @@
       return {
         dialogVisible: false,
         ruleForm: {
+          resource: '1',
           customer: '',
           status: '',
           mode: '',
+          name:"",
           city:'',
           county:'',
           grade:'',
           type:'',
+          province:'',
+          city:'',
+          county:''
         },
         rules: {
           name: [
@@ -273,8 +239,7 @@
                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ],
           status:[
-               { required: true, message: '请输入客户名称', trigger: 'blur' },
-               { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+               { required: true, message: '请输入客户状态', trigger: 'chnage' },
           ]
         }
       };

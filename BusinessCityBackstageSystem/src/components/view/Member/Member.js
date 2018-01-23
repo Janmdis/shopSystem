@@ -15,7 +15,9 @@ export default {
             currentPage1: 1,
             searchFn: '',
             isActive: false,
-            // tableData3: []
+            totalCount: 40,
+            pageIndex: 1,
+            pageSize: 10,
         }
     },
     methods: {
@@ -39,11 +41,14 @@ export default {
             // }
         },
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`)
+            this.pageSize = val;
+            this.$root.$emit('pageSize',{value:this.pageSize})
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`)
-        }
+            this.pageIndex = val;
+            this.$root.$emit('pageIndex', { value: this.pageIndex })
+            
+        },
 
     },
     components: {

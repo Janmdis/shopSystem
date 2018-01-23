@@ -66,14 +66,21 @@ export default {
         return {
             datalist:[],
             showLeft:0,
+            pageIndex:1,
             tableData3:[{id:"3ded7a87-fa9f-11e7-9dba-509a4c15ca0c"}]
         }
     },
     created:function(){
+        this.$root.$on('pageIndex',(data) => {
+            this.pageIndex = data.value
+            this.getDate(this.pageIndex)
+        })
         this.getDate()
     },
     methods:{
-      getDate() {
+
+      getDate(pageIndex) {
+          console.log(pageIndex)
             let url = '/api/customer/account/query';
             this.$http({
                 url: url,
@@ -88,7 +95,6 @@ export default {
                 console.log(this.datalist)
           })
           .catch(error=>{
-              console.log(error);
               alert('网络错误，不能访问');
           })
         },
