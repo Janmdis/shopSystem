@@ -59,12 +59,12 @@ export default {
             }, 5);
         },
         searchInfo(id) { //  获取用户信息
-            console.log(id)
+            alert(id)
             this.$http({
                     url: '/api/customer/account/query',
                     method: 'POST',
                     // 请求发送的数据
-                    data: { 'id': id },
+                    data: JSON.stringify({ 'id': id }),
                     // 设置请求头
                     headers: { 'Content-Type': 'application/json' }
                 })
