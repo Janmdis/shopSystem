@@ -31,7 +31,7 @@
     
                         <el-select v-model="form.source" @click.native='sourceFn' placeholder="请选择活动区域">
     
-                             <el-option v-for=' item in this.form.sourceFns ' :label='item.name' :value="item.id"></el-option>
+                             <el-option v-for=' (item,index) in this.form.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
     
                         </el-select>
     
@@ -65,7 +65,7 @@
     
                         <el-select v-model="form.Customer" @click.native='showData' placeholder="请选择活动区域">
     
-                            <el-option v-for=' item in this.form.curDate ' :label='item.name' :value="item.id"></el-option>
+                            <el-option v-for=' (item,index) in this.form.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
     
                         </el-select>
     
