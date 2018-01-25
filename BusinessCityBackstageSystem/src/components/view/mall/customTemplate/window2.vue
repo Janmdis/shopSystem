@@ -167,6 +167,9 @@
 .borderHover:hover .hoverClick{
   display: block;
 }
+.current-style:hover .hoverClick{
+  display: block;
+}
 //////
 
  .el-row {

@@ -8,14 +8,15 @@
                 <Memberlist ref='test'></Memberlist>
             </el-col>
         </el-row>
+        <Dialogedit></Dialogedit>
     </el-main>
-    
 </template>
 <script>
 import Deplist from "./deplist.vue";
 import Memberlist from "./memberlist.vue";
+import Dialogedit from "./dialogedit.vue";
 export default {
-    components:{Deplist,Memberlist}
+    components:{Deplist,Memberlist,Dialogedit}
 }
 </script>
 <style scoped>

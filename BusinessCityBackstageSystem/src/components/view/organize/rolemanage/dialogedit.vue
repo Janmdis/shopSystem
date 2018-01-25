@@ -1,53 +1,56 @@
 <template>
     <el-dialog  width='30%' top='40px'  title="编辑信息" :visible="visiableedit" :modal='true' :before-close="ai_dialog_close"> 
-        <el-row>
-            <el-col :span='8'>
-                <div class="grid-content label">角色名称：</div>
-            </el-col>
-            <el-col :span='12'>
-                <div class="grid-content">
-                    <el-input placeholder="请输入角色名称" v-model="rolename"></el-input>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span='8'>
-                <div class="grid-content label">角色编号：</div>
-            </el-col>
-            <el-col :span='12'>
-                <div class="grid-content">
-                    <el-input placeholder="请输入角色编号" v-model="roleid"></el-input>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span='8'>
-                <div class="grid-content label">部门id：</div>
-            </el-col>
-            <el-col :span='12'>
-                <div class="grid-content value-text">
-                    你猜吧
-                </div>
-            </el-col>
-        </el-row>
-        <el-row></el-row>
-        <el-row></el-row>
-        <div slot="footer" class="dialog-footer" :center='true'>
+        <el-form @submit.native.prevent :model='dataform' status-icon ref="ruleForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
+            <el-form-item label="角色名称：" prop="groupName">
+                <el-input placeholder="请输入角色名称" v-model="dataform.groupName" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="角色编号：" prop="groupNumber">
+                <el-input placeholder="请输入角色编号" v-model="dataform.groupNumber" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="所属部门：">
+                <div class="grid-content valueName">
+                        {{dataform.departmentName}}
+                    </div>
+            </el-form-item>
+            <el-form-item class='btns'>
+                <el-button type="primary" round   @click="editdata">确定</el-button>
+            </el-form-item>
+        </el-form>
+        <!-- <div slot="footer" class="dialog-footer" :center='true'>
             <el-button type="primary" round   @click="adddata">新增</el-button>
-        </div>
+        </div> -->
     </el-dialog>
 </template>
-<<script>
+<script>
 export default {
     data(){
         return{
             visiableedit:false,
-            rolename:'',
-            roleid:''
+            dataform:{
+                groupName:'',
+                id:'',
+                groupNumber:'',
+                departmentName:'',
+            },
+            depid:'',
+            rules:{
+                groupName:[
+                    {required:true,message:'请输入角色名称',trigger:'blur'}
+                ],
+                groupNumber:[
+                   {required:true,message:'请输入角色编号',trigger:'blur'}
+                ]
+            },
+            // data:[]
         }
     },
     created:function(){
-        this.$root.$on('showeditdialog',()=>{
+        this.$root.$on('showeditdialog',(data)=>{
+            this.depid=data.depid;
+            this.dataform.id=data.id;
+            this.dataform.groupName=data.groupName;
+            this.dataform.groupNumber=data.groupNumber;
+            this.dataform.departmentName=data.departmentName;
             this.visiableedit=true;
         });
     },
@@ -55,9 +58,35 @@ export default {
         ai_dialog_close(){
             this.visiableedit=false;
         },
-        adddata(){
+        editdata(){
+            this.$refs.ruleForm.validate((valid)=>{
+                let that=this;
+                if(valid){
+                    this.$http.post('/api/admin/manage/group/update',[that.dataform])
+                    .then(function (response) {
+                        let data=response.data;
+                        if(data.msg=='更新成功'){
+                            that.$message({
+                                type:'success',
+                                message:'更新成功'
+                            });
+                            that.$root.$emit('getrole',that.depid);
+                        }
+                    })
+                    .catch(function (response) {
+                        that.$message({
+                            type:'info',
+                            message:'更新失败'
+                        });
+                        console.log(response);
+                    });
+                }
+            })
             this.visiableedit=false;
         }
+    },
+    beforeDestroy:function(){
+        this.$root.$off('showeditdialog');
     }
 }
 </script>
@@ -77,12 +106,18 @@ export default {
     width: 80%;
     margin: 0 auto;
 }
-.el-dialog__footer .el-button{
+.el-form-item .el-button{
     width:140px;
     font-size:14px;
     background:#00adab;
     margin:0 auto;
     display: block;
+}
+.btns .el-form-item__content{
+    margin-left: 0 !important;
+}
+.el-dialog__body{
+    padding-bottom: 5px;
 }
 </style>
 <style scoped>
