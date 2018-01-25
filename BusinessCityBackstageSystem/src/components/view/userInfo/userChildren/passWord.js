@@ -77,6 +77,23 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
+    },
+    gemessage() {
+      let url = '/api/admin/account/updateadminaccount'
+      this.$http({
+        url: url,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: {}
+      })
+        .then(respone => {
+          let data = respone.data.info
+          console.log(data.adminSex)
+        })
+        .catch(error => {
+          console.log(error)
+          alert('网络错误，不能访问')
+        })
     }
   }
 }

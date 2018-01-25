@@ -29,11 +29,9 @@
     
                     <el-form-item label="来源">
     
-                        <el-select v-model="form.source" placeholder="请选择活动区域">
+                        <el-select v-model="form.source" @click.native='sourceFn' placeholder="请选择活动区域">
     
-                            <el-option label="区域一" value="shanghai"></el-option>
-    
-                            <el-option label="区域二" value="beijing"></el-option>
+                             <el-option v-for=' item in this.form.sourceFns ' :label='item.name' :value="item.id"></el-option>
     
                         </el-select>
     
@@ -63,13 +61,11 @@
     
                 <el-col :span="4">
     
-                    <el-form-item label="客户类型">
+                    <el-form-item label="客户类型" >
     
-                        <el-select v-model="form.Customer" placeholder="请选择活动区域">
+                        <el-select v-model="form.Customer" @click.native='showData' placeholder="请选择活动区域">
     
-                            <el-option label="区域一" value="shanghai"></el-option>
-    
-                            <el-option label="区域二" value="beijing"></el-option>
+                            <el-option v-for=' item in this.form.curDate ' :label='item.name' :value="item.id"></el-option>
     
                         </el-select>
     
@@ -126,7 +122,7 @@
     
                 form: {
     
-                    iphone: '1',
+                    iphone: '',
 
                     quarters: '',
     
@@ -136,12 +132,18 @@
     
                     Customer: '',
     
-                    Visit: ''
+                    Visit: '',
+                    curDate:[],
+                    sourceFns:[]
     
                 }
     
             }
     
+        },
+        created(){
+            this.sourceFn();
+            this.showData()
         },
         methods:{
             formClear(){
@@ -159,11 +161,45 @@
                 let Order = this.form.Order;
                 let Customer = this.form.Customer;
                 let Visit = this.form.Visit;
-                console.log(iphone,quarters)
+                console.log(iphone,quarters,source,Customer)
             },
             changeValue(value) {
                 console.log(value);
+            },
+            showData(){
+               let url='/api/customer/customerCategory/findCategory';
+               this.$http({
+                   url:url,
+                   method:'post',
+                   headers:{ 'Content-Type': 'application/json' },
+                   data:{}
+               })
+               .then(respone =>{
+                   this.form.curDate = respone.data.info;
+               })
+               .catch(error=>{
+                   console.log(error);
+                   alert('网络错误，不能访问');
+               })
+            },
+            sourceFn(){
+               let url='/api/customer/recommendedSource/findSource';
+               this.$http({
+                   url:url,
+                   method:'post',
+                   headers:{ 'Content-Type': 'application/json' },
+                   data:{}
+               })
+               .then(respone =>{
+                   this.form.sourceFns = respone.data.info;
+                   console.log(this.form.sourceFns)
+               })
+               .catch(error=>{
+                   console.log(error);
+                   alert('网络错误，不能访问');
+               })
             }
+
         }
     
     }

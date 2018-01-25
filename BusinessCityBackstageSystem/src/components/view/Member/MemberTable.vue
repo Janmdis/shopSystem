@@ -4,6 +4,7 @@
     @select='showextra(false)'
     @select-all='showextra(true)'
     @cell-click='showMemberInfo'
+    v-loading="this.listLoading"
     :stripe='true'
     style="width: 100%">
     <el-table-column
@@ -15,9 +16,9 @@
         <el-table-column
         fixed
         type="selection"
-        width="55">
+        width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='100'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360'height='100'>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -65,12 +66,12 @@
 <script>
 //@row-click="showMemberInfo()"
 export default {
-    props:['data'],
+    prop:['listLoading'],
     data(){
         return {
             datalist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
         }
     },
     created:function(){
@@ -78,22 +79,26 @@ export default {
             this.pageIndex = data.value
             this.getDate(this.pageIndex)
         })
-        this.getDate()
+        this.getDate(1)
     },
     methods:{
 
       getDate(pageIndex) {
-          console.log(pageIndex)
-            let url = '/api/customer/account/query';
+            this.listLoading =  true;
+            let url = '/api/customer/account/query?page='+ pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
+                headers: { 'Content-Type': 'application/json' },
                 data: {
                 },
             })
             .then(response => {
-                    this.datalist=(response.data.info.list);
+                this.listLoading =  false;
+                this.datalist=(response.data.info.list);
+                this.$root.$emit('pages',response.data.info.pages)
+                this.$root.$emit('total',response.data.info.total)
           })
           .catch(error=>{
               console.log(error);
@@ -142,9 +147,6 @@ export default {
                     show=false;
                 }
             }
-            console.log(show)
-            console.log(editcan)
-            console.log(num)
             this.$root.$emit('showlttip',{show,editcan,num});
         },
         indexMethod(index) {

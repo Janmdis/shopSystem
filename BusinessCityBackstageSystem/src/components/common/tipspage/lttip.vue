@@ -18,7 +18,7 @@
 </template>
 <script>
 export default {
-    props:['name'],
+    props:['name','showWindow'],
     data(){
         return{
             listname:'',
@@ -38,9 +38,13 @@ export default {
     },
     methods:{
         edit(){
+            
             if(this.canedit){
                 this.$root.$emit('editdialog');
+                this.$root.$emit("showWindow")
+                
             }
+
         }
     }
 }
