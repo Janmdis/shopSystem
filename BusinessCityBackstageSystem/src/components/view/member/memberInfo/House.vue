@@ -35,6 +35,9 @@ export default{
             this.isSwitchHouseDetail = true
         })
     },
+    mounted(){
+        
+    },
     methods: {
         jumpHouseDetail () {
             this.isSwitchHouseDetail = false

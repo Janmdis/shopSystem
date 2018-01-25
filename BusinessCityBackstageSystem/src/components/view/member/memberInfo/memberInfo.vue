@@ -10,9 +10,8 @@
                 <div class="infoLine2">
                    <label for="">姓名<p>{{personnelInfo.name}}</p></label>
                    <label for="">手机号<p>{{personnelInfo.mobile}}</p></label>
-                   <label for="">客户类型<p>{{customerCategory}}</p></label>
-                   <label for="">小区<p>{{personnelInfo.name}}</p></label>
-                   <label for="">订单详情<p>{{personnelInfo.name}}</p></label>
+                   <label for="">客户类型<p>{{customerCategory[personnelInfo.categoryId]}}</p></label>
+                   <label for="">订单状态<p>暂无接口</p></label>
                    <label for="">来源<p>{{personnelInfo.recommendedSourceId}}</p></label>
                    <label for="">生日<p>{{personnelInfo.birthDate}}</p></label>
                    <label for="">消费累计积分/等级<p>{{personnelInfo.consumptionPoints}}</p></label>
@@ -32,7 +31,9 @@
                     </ul>
                 </el-aside>
                 <el-main id="conRight">
-                    <component :is="which_to_show"></component>
+                    <component :is="which_to_show" :personnelInfo="personnelInfo" :customerCategory="customerCategory" :customerIdentity="customerIdentity"
+                     :recommendedSource="recommendedSource">
+                    </component>
                 </el-main>
             </el-container>
         </el-container>
