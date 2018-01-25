@@ -152,6 +152,7 @@ export default{
             this.age = returnAge; // 返回周岁年龄       
         },
         btnActive(){
+            this.disabledBtn = true;
             console.log("点击了")
         }
     },

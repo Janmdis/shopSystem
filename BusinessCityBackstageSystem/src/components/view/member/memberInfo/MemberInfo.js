@@ -92,15 +92,7 @@ export default {
                 // ).then(res => {
                 //     this.memberHouse = res.data.info;
                 //     console.log(this.memberHouse)
-                // }).catch(err => { console.log(err); });
-
-                //  获取会员房屋信息
-                this.$http.get(
-                    '/api/customer/customerHousing/findHousingInfo?id=' + id
-                ).then(res => {
-                    this.memberHouse = res.data.info;
-                    console.log(this.memberHouse)
-                }).catch(err => { console.log(err); });
+                // }).catch(err => { console.log(err); })
 
             }).catch(err => { console.log(err) })
         },
