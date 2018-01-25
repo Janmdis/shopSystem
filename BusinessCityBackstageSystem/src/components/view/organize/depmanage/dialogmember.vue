@@ -1,185 +1,116 @@
 <template>
     <el-dialog id='userdialog'  width='60%' top='40px'  title="创建用户" :visible="dialogmemberVisible" :modal='true' :before-close="ai_dialog_close"> 
-        <el-row>
-            <el-col :span="10" :offset='2'>
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label for=""><span class="red">*</span>登录名称：</label>
-                    </el-col>
-                    <el-col :span="14" >
-                        <el-input  v-model='namelogin' placeholder="请输入登录名称"></el-input>
-                    </el-col>
-                </div>
-            </el-col>
-            <el-col  :span="10">
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label>性别：</label>
-                    </el-col>
-                    <el-col :span="14" >
+        <el-form @submit.native.prevent :model='dataform' status-icon ref="ruleForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
+            <el-row>
+                <el-col :span="10" :offset='2'>
+                    <el-form-item label="登录名称：" prop="departmentName">
+                        <el-input placeholder="请输入登录名称" v-model="dataform.adminName" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col  :span="10">
+                    <el-form-item label="性别：" prop="departmentName">
                         <el-radio v-model="sex" label="1">男</el-radio>
                         <el-radio v-model="sex" label="2">女</el-radio>
-                    </el-col>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col  :span="10" :offset='2'>
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label>用户名称：</label>
-                    </el-col>
-                    <el-col :span="14" >
-                        <el-input v-model='nameuser'  placeholder="请输入用户名称"></el-input>
-                    </el-col>
-                </div>
-            </el-col>
-            <el-col :span="10">
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label for=""><span class="red">*</span>年龄：</label>
-                    </el-col>
-                    <el-col :span="14" >
-                        <el-input v-model='age'  placeholder="请输入年龄"></el-input>
-                    </el-col>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col  :span="10" :offset='2'>
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label>出生日期：</label>
-                    </el-col>
-                    <el-col :span="14">
-                        <el-date-picker
-                        v-model="databorn"
-                        type="date"
-                        placeholder="选择日期"
-                        :picker-options="pickerOptions">
-                        </el-date-picker>
-                    </el-col>
-                </div>
-            </el-col>
-            <el-col :span="10">
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label for="">入职日期：</label>
-                    </el-col>
-                    <el-col :span="14">
-                        <el-date-picker
-                        v-model="datajoin"
-                        type="date"
-                        placeholder="选择日期"
-                        :picker-options="pickerOptions">
-                        </el-date-picker>
-                    </el-col>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="10" :offset='2'>
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label for=""><span class="red">*</span>手机号码：</label>
-                    </el-col>
-                    <el-col :span="14" >
-                        <el-input v-model='phonenum'  placeholder="请输入手机号码"></el-input>
-                    </el-col>
-                </div>
-            </el-col>
-            <el-col  :span="10">
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label>电话号码：</label>
-                    </el-col>
-                    <el-col :span="14" >
-                        <el-input v-model='callnum'  placeholder="请输入电话号码"></el-input>
-                    </el-col>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="10" :offset='2'>
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label for=""><span class="red">*</span>登录密码：</label>
-                    </el-col>
-                    <el-col :span="14" >
-                        <el-input v-model='psw'  placeholder="请输入登录密码"></el-input>
-                    </el-col>
-                </div>
-            </el-col>
-            <el-col  :span="10">
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label>用户邮箱：</label>
-                    </el-col>
-                    <el-col :span="14" >
-                        <el-input v-model='email' placeholder="请输入邮箱"></el-input>
-                    </el-col>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="10" :offset='2'>
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label for="">所属部门：</label>
-                    </el-col>
-                    <el-col :span="14" >
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :offset='2'>
+                    <el-form-item label="用户名称：" prop="departmentName">
+                        <el-input placeholder="请输入用户名称：" v-model="dataform.adminName" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col  :span="10">
+                    <el-form-item label="年龄：" prop="departmentName">
+                        <el-input v-model='age' type='number' min="0" placeholder="请输入年龄" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :offset='2'>
+                    <el-form-item label="出生日期：" prop="departmentName">
+                        <el-col>
+                            <el-date-picker
+                            v-model="databorn"
+                            type="date"
+                            placeholder="选择日期"
+                            :picker-options="pickerOptions">
+                            </el-date-picker>
+                        </el-col>
+                    </el-form-item>
+                </el-col>
+                <el-col  :span="10">
+                    <el-form-item label="入职日期：" prop="departmentName">
+                        <el-col>
+                            <el-date-picker
+                            v-model="datajoin"
+                            type="date"
+                            placeholder="选择日期"
+                            :picker-options="pickerOptions">
+                            </el-date-picker>
+                        </el-col>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :offset='2'>
+                    <el-form-item label="手机号码：" prop="phonenum">
+                        <el-input placeholder="请输入手机号码" type='number' min="0" v-model="dataform.phonenum" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col  :span="10">
+                    <el-form-item label="电话号码：" prop="departmentName">
+                        <el-input v-model='age' type='number' min="0" placeholder="请输入电话号码" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :offset='2'>
+                    <el-form-item label="登录密码：" prop="departmentName">
+                        <el-input placeholder="请输入登录密码" v-model="dataform.adminName" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col  :span="10">
+                    <el-form-item label="用户邮箱：" prop="departmentName">
+                        <el-input v-model='age' type='email' placeholder="请输入邮箱" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :offset='2'>
+                    <el-form-item label="所属部门：" prop="departmentName">
                         你猜
-                    </el-col>
-                </div>
-            </el-col>
-            <el-col  :span="10">
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label><span class="red">*</span>用户是否被锁定：</label>
-                    </el-col>
-                    <el-col :span="14" >
+                    </el-form-item>
+                </el-col>
+                <el-col  :span="10">
+                    <el-form-item label="是否被锁定：" prop="departmentName">
                         <el-radio v-model="islock" label="3">锁定</el-radio>
                         <el-radio v-model="islock" label="4">未锁定</el-radio>
-                    </el-col>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="10" :offset='2'>
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label for="">工作状态：</label>
-                    </el-col>
-                    <el-col :span="14" >
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :offset='2'>
+                    <el-form-item label="工作状态：" prop="departmentName">
                         <el-radio v-model="status" label="5">试用</el-radio>
                         <el-radio v-model="status" label="6">上岗</el-radio>
                         <el-radio v-model="status" label="7">离职</el-radio>
-                    </el-col>
-                </div>
-            </el-col>
-            <el-col  :span="10">
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label><span class="red">*</span>可查看范围：</label>
-                    </el-col>
-                    <el-col :span="14" >
-                        <el-input v-model='namerange' @click.native="associashow"  placeholder="请输入关联角色"></el-input>
-                    </el-col>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="10" :offset='2'>
-                <div class="grid-content">
-                    <el-col :span="8" class="f-r">
-                        <label for=""><span class="red">*</span>所属角色：</label>
-                    </el-col>
-                    <el-col :span="14" >
-                        你再猜
-                    </el-col>
-                </div>
-            </el-col>
-        </el-row>
+                    </el-form-item>
+                </el-col>
+                <el-col  :span="10">
+                    <el-form-item label="可查看范围：" prop="departmentName">
+                        <el-input v-model='age' @click.native="associashow"  placeholder="请输入关联角色" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col  :span="10" :offset='2'>
+                    <el-form-item label="所属角色：" prop="departmentName">
+                        你猜
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
         <div slot="footer" class="dialog-footer" :center='true'>
             <el-button type="primary" round   @click="adddata">新增</el-button>
         </div>
@@ -193,22 +124,26 @@ export default {
     data(){
         return{
             dialogmemberVisible:false,
-            namelogin:'',
-            sex: '1',
-            nameuser:'',
-            age:'',
-            databorn:'',
-            datajoin:'',
-            phonenum:'',
-            callnum:'',
-            psw:'',
-            email:'',
-            belongdep:'',
-            islock:'3',
-            status:'5',
-            idrange:'',
-            namerange:'',
-            belongrole:'',
+            dataform:{
+                adminName:'',
+                sex: '1',
+                nameuser:'',
+                age:'',
+                databorn:'',
+                datajoin:'',
+                phonenum:'',
+                callnum:'',
+                psw:'',
+                email:'',
+                belongdep:'',
+                islock:'3',
+                status:'5',
+                idrange:'',
+                namerange:'',
+                belongrole:''
+            },
+            rules:{
+            },
             pickerOptions:{
                 disabledDate(time) {
                     return time.getTime() > Date.now();
@@ -272,11 +207,6 @@ export default {
     }
 }
 </script>
-<style scoped>
-span.red{
-    color:red;
-}
-</style>
 
 <style>
 /* 模态框 */
@@ -318,9 +248,6 @@ span.red{
     margin:0 auto;
     display: block;
 }
-.el-dialog .el-row{
-    margin-bottom: 15px;
-}
 .el-dialog .el-col{
     line-height: 35px;
 }
@@ -339,7 +266,7 @@ span.red{
 /* .el-dialog .grid-content.valueName{
     padding-left: 15px;
 } */
-.el-dialog .grid-content input{
+.el-dialog  input{
     width: 95%;
     height: 32px;
     padding: 5px 10px;
@@ -369,9 +296,14 @@ span.red{
 .el-date-editor .el-input__inner{
     width:95% !important;
     height: 32px !important;
-    text-indent:20px !important;
+    /* text-indent:20px !important; */
 }
 .el-radio+.el-radio{
     margin-left:15px
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
 }
 </style>

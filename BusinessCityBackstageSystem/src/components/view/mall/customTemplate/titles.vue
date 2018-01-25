@@ -9,10 +9,10 @@
             </div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="" style="margin-bottom:25px;text-align: center;">BACK TO SCHOOL SEASONAL DISCOUNT</div>
+            <div class="mainTitles" style="margin-bottom:25px;text-align: center;font-size: 18px;overflow: hidden;">{{ main }}</div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="" style="text-align: center;">开学季优惠</div>
+            <div class="subTitles" style="text-align: center;overflow: hidden;">{{ sub }}</div>
           </el-col>
         </el-row>
          <div class="hoverClick">
@@ -26,12 +26,46 @@
     export default{
         data() {
             return{
-                dataid:''
+                dataid:'',
+                main:'BACK TO SCHOOL SEASONAL DISCOUNT',
+                sub:'开学季优惠',
+                color1: {
+                  type: String,
+                  default: ''
+                },
+                color2: {
+                  type: String,
+                  default: ''
+                }
             }
         },
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
+          this.$root.$on('mainTitle',(data) => {
+            this.main = data.value
+          })
+          this.$root.$on('subtitle',(data) => {
+            this.sub = data.value
+          })
+          this.$root.$on('mainTitleColor',(data) => {
+            this.color1 = data.color
+            let mainTitles = document.getElementsByClassName('mainTitles')
+            console.log(mainTitles)
+            for(var value of mainTitles){
+              console.log(value)
+              value.style.color = this.color1;
+            }
+          })
+          this.$root.$on('subTitleColor',(data) => {
+            this.color2 = data.color
+           let subtitles = document.getElementsByClassName('subTitles')
+           console.log(subtitles)
+           for(var value of subtitles){
+              console.log(value)
+              value.style.color = this.color2;
+            }
+          })
         },
         methods:{
           delete(){
@@ -92,6 +126,9 @@
   background: red;
 }
 .borderHover:hover .hoverClick{
+  display: block;
+}
+.current-style:hover .hoverClick{
   display: block;
 }
 //////

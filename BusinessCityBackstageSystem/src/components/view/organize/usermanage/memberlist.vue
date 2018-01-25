@@ -24,7 +24,7 @@
         <div class='list table-list'>
             <el-table
             :data="datalist"
-            style="width: 100%;height:85%"
+            style="width: 100%;height:90%"
             :stripe='true'>
                 <el-table-column
                 prop="num"
@@ -177,6 +177,29 @@ export default {
                 }
             ]
         }
+    },
+    methods:{
+        handleEdit(){
+            this.$root.$emit('opendialogedit');
+        },
+        handleDelete(){
+             this.$confirm('确认删除？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(()=>{
+                let msg=this.delete();
+                this.$message(msg);
+            }).catch(()=>{
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        },
+        delete(){
+            
+        }
     }
 }
 </script>
@@ -191,7 +214,7 @@ export default {
     height:90px;
 	color:#8b8b8b;
 	line-height:90px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .search{
@@ -242,6 +265,11 @@ export default {
 }
 .list .el-table{
     margin-bottom:100px;
+    
+}
+.list .el-table th,
+.list .el-table td{
+    font-size:14px;
 }
 .list table{
     font-size: 12px !important;
@@ -251,6 +279,7 @@ export default {
 }
 table .el-button--text{
     color:#00adab;
+    font-size:14px;
 }
 .el-button--text{
     border-radius:0;

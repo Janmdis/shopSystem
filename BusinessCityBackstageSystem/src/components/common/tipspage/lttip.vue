@@ -28,6 +28,7 @@ export default {
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
+            console.log(data)
             var dom=document.getElementsByClassName('emendation')[0];
             let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;

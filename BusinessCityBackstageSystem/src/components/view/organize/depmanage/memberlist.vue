@@ -19,7 +19,7 @@
                 </tbody>
                 <tbody class="roleBody">
                     <tr :key='item.id' v-for="item in list">
-                        <td data-id="item.id">{{item.username}}</td>
+                        <td data-id="item.id">{{item.adminName}}</td>
                         <td data-id="item.id">{{item.sex}}</td>
                         <td data-id="item.id">{{item.status}}</td>
                         <td data-id="item.id">{{item.phone}}</td>
@@ -37,56 +37,42 @@ export default {
     components:{Dialogmember},
     data(){
         return{
-            list:[
-                {
-                    id:1,
-                    username:'user1',
-                    sex:'男',
-                    status:'在线',
-                    phone:'111111'
-                },
-                {
-                    id:2,
-                    username:'user2',
-                    sex:'男',
-                    status:'在线',
-                    phone:'111111'
-                },
-                {
-                    id:3,
-                    username:'user3',
-                    sex:'男',
-                    status:'在线',
-                    phone:'111111'
-                }
-            ],
+            list:[],
+            roleid:''
         }
     },
     created:function(){
         this.$root.$on("membertorole",(data)=>{
             let depid=data.depid;
-            let roleid=data.roleid;
-            this.$http.post('/api/admin/manage/department/find?type=0',{
-                id:depid,
-                crea_id:roleid
+            // let roleid=data.roleid;
+            this.roleid=data.roleid
+            this.getmemberlist();
+        });
+    },
+    methods:{
+        getmemberlist(){
+             this.$http.post('/api/admin/account/multiConditionalQuery',{
+                groupId:this.roleid,
+                pageSize:0
             })
             .then(function (response) {
                 let data=response.data;
-                if(data.msg=='查询成功'){
-                    that.list.push(data.info.list);
+                if(data.status==200){
+                    that.list=data.info;
                 }
-                console.log(that.list);
+                console.log(response);
             })
             .catch(function (response) {
                 console.log(response);
             });
-        });
-    },
-    methods:{
+        },
         opendialog(){
             this.$root.$emit('opendialogmember',true);
             // this.dialogmeberVisible=true;
         }
+    },
+    beforeDestroy:function(){
+        this.$root.$off('membertorole');
     }
 }
 </script>

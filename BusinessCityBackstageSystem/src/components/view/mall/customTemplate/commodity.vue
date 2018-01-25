@@ -127,9 +127,10 @@
 .hoverClick span:hover {
   background: red;
 }
-.borderHover:hover .hoverClick{
+.test:hover .hoverClick{
   display: block;
 }
+
 ///////////////
  .el-row {
   margin-bottom: 20px;

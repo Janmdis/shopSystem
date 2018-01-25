@@ -1,8 +1,7 @@
 <template>
     <el-table
     :data="datalist"
-    @select='showextra(false)'
-    @select-all='showextra(true)'
+    @selection-change='showextra'
     @cell-click='showMemberInfo'
     v-loading="this.listLoading"
     :stripe='true'
@@ -116,38 +115,40 @@ export default {
                 this.$root.$emit('searchPersonnelInfo',row.id)
             }
         },      
-        showextra(isall){
-            let inputdom=document.getElementsByClassName('el-table__fixed-body-wrapper')[0].getElementsByTagName('input');
-            let num=0;
-            let allnum=inputdom.length;
-            for(let i=0;i<inputdom.length;i++){
-                if(inputdom[i].checked){
-                    num++;
-                }
-            }
+        showextra(val){
+            this.multipleSelection = val
+            console.log(this.multipleSelection)
+            // let inputdom=document.getElementsByClassName('el-table__fixed-body-wrapper')[0].getElementsByTagName('input');
+            // let num=0;
+            // let allnum=inputdom.length;
+            // for(let i=0;i<inputdom.length;i++){
+            //     if(inputdom[i].checked){
+            //         num++;
+            //     }
+            // }
             let show=false;
-            let editcan=true;
-            if(isall){
-                if(num==0||num!=allnum){
-                    show=true;
-                    editcan=false;
-                    num=allnum;
-                }
-                else{
-                    show=false;
-                    num=0;
-                }
-            }
-            else{
-                if(num!=0){
-                    show=true;
-                    editcan=num>1?false:true;
-                }
-                else{
-                    show=false;
-                }
-            }
-            this.$root.$emit('showlttip',{show,editcan,num});
+             let editcan=true;
+            // if(isall){
+            //     if(num==0||num!=allnum){
+            //         show=true;
+            //         editcan=false;
+            //         num=allnum;
+            //     }
+            //     else{
+            //         show=false;
+            //         num=0;
+            //     }
+            // }
+            // else{
+            //     if(num!=0){
+            //         show=true;
+            //         editcan=num>1?false:true;
+            //     }
+            //     else{
+            //         show=false;
+            //     }
+            // }
+             this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length});
         },
         indexMethod(index) {
             return index + 1

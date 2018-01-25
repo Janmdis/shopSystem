@@ -7,23 +7,26 @@
                 <span class="clearBorder" data-toggle="modal" data-target="#delModal" @click='deletedep' v-show="deleteshow">删除</span>
             </div>
         </div>
-        <div class="tree ">
-            <Datalist :list='list'></Datalist>
+        <div class="list ">
+            <el-tree :data="list" :props="defaultProps" :default-expand-all='true' :expand-on-click-node='false' @node-click='pick'></el-tree>
+            <!-- <Datalist :list='list'></Datalist> -->
         </div>
         <Dialogadddep :ishow='dialogDepVisible'></Dialogadddep>
         
     </div>
 </template>
 <script>
-import Datalist from '../depmanage/datalist'
 import Dialogadddep from './dialogadddep'
-
 /* eslint-disable */
 export default {
-    components:{Datalist,Dialogadddep},
+    components:{Dialogadddep},
     data(){
         return {
             list:[],
+            defaultProps: {
+                children: 'children',
+                label: 'info'
+            },
             deleteshow:true,
             currentid:'',
             currentname:'',
@@ -33,30 +36,34 @@ export default {
         }
     },
     created:function(){
-        this.$root.$on("haschild",(data)=>{
-            this.deleteshow=data.show;
-            this.currentid=data.currentid;
-            this.currentname=data.currentname;
-            this.curentnum=data.currentnum;
-            this.lastchildnum=data.lastchildnum;
+        this.$root.$on('undatadep',()=>{
+            this.getdatalist();
         });
-        let that=this;
-        this.$http.post('/api/admin/manage/department/find?type=1&range=0',{})
-        .then(function (response) {
-            // alert('成功返回');
-            // console.log(response);
-            let data=response.data;
-            if(data.msg=='查询成功'){
-                that.list.push(data.info.treeAll);
-            }
-            console.log(that.list);
-        })
-        .catch(function (response) {
-            alert('提交失败');
-            console.log(response);
-        });
+        this.getdatalist();
     },
     methods:{
+        getdatalist:function(){
+            let that=this;
+            this.$http.post('/api/admin/manage/department/find?type=1&range=0&pageSize=0',{
+                isActive:'1'
+            })
+            .then(function (response) {
+                let data=response.data;
+                // console.log(data);
+                if(data.msg=='查询成功'){
+                    that.list.splice(0,that.list.length)
+                    that.list.push(data.info.treeAll);
+                }
+                // console.log(that.list);
+            })
+            .catch(function (response) {
+                that.$message({
+                    type:'info',
+                    message:'部门列表查询失败'
+                });
+                console.log(response);
+            });
+        },
         opendialogDep(){
             //父部门id
             let departmentFatherid=this.currentid;
@@ -66,46 +73,68 @@ export default {
             let departmentFathernum=this.curentnum;
             // 最后一个同辈节点编号
             let deplastchildnum=this.lastchildnum;
+            console.log(deplastchildnum);
             this.$root.$emit("exportvis",{departmentFatherid,departmentFathername,departmentFathernum,deplastchildnum});
         },
-        delete(){
-            this.$http.post('/api/admin/manage/department/update',{
-                id:this.currentid,
-                isActive:false
-            })
-            .then(function (response) {
-                return{
-                    type:'success',
-                    message:'删除成功!'
-                };
-            })
-            .catch(function (response) {
-                return {
-                    type:'info',
-                    message:'删除失败!'
-                };
-            });
-        },
         deletedep(){
+            let that=this;
             this.$confirm('确认删除？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(()=>{
-                let msg=this.delete();
-                this.$message(msg);
+                this.$http.post('/api/admin/manage/department/update',[{
+                    id:that.currentid,
+                    isActive:'0'
+                }])
+                .then(function (response) {
+                    console.log(response);
+                    if(response.data.msg=='更新成功'){
+                        that.$message({
+                            type:'success',
+                            message:'删除成功!'
+                        });
+                        that.getdatalist();
+                    }
+                    else{
+                        that.$message({
+                            type:'info',
+                            message:response.data.msg
+                        });
+                    }
+                })
+                .catch(function (response) {
+                    that.$message({
+                        type:'info',
+                        message:'删除失败!'
+                    });
+                });
             }).catch(()=>{
                 this.$message({
                     type: 'info',
                     message: '已取消删除'
                 });
             });
-            
+        },
+        pick(data,node,vuecomponent){
+            let dom_current=vuecomponent.$el.firstChild.lastChild;
+            let classname=dom_current.getAttribute('class');
+            let don_on=document.getElementsByClassName('on');
+            don_on.length?don_on[0].setAttribute('class','el-tree-node__label'):void(0);
+            dom_current.setAttribute('class','el-tree-node__label on');
+            // console.log(node);
+           // 修改‘删除’按钮状态
+            this.deleteshow=data.children?false:true;
+            this.currentid=data.id;
+            this.currentname=data.info;
+            this.curentnum=data.number;
+            this.lastchildnum=node.childNodes.length?node.childNodes[node.childNodes.length-1].data.number:'';
+            this.$root.$emit('currentrole',{depid:data.id,depname:data.info});
         }
-        
+    },
+    beforeDestroy:function(){
+        this.$root.$off('undatadep');
     }
-    
-   
 }
 </script>
 <style scoped>
@@ -114,6 +143,7 @@ export default {
 	border:1px solid #00adab;
 	border-radius:5px;
     background:#fff;
+    overflow: hidden;
 }
 .rolHeader{
 	height:90px;
@@ -139,5 +169,41 @@ li{
     margin-top: 10px !important;
 }
 </style>
-
+<style>
+.el-tree{
+    height:95%;
+    overflow:auto;
+}
+.el-tree-node__expand-icon{
+    color:rgb(0, 173, 171);
+    font-size:14px;
+}
+.el-tree-node__expand-icon.expanded{
+    transform: rotate(0deg)
+}
+.el-tree-node__expand-icon:before{
+    content:"\E602"
+    
+}
+.el-tree-node__expand-icon.expanded:before{
+    content:"\E63C"
+}
+.list{
+    margin-left: 5%;
+    height:80%;
+}
+.list .el-tree-node__label{
+    font-size:14px;
+    color:#8b8b8b;
+}
+.el-tree-node__label{
+    line-height:10px;
+    padding:5px;
+    border-radius:5px;
+}
+.el-tree-node__label.on{
+    background-color: rgb(0, 173, 171);
+    color:#fff;
+}
+</style>
 
