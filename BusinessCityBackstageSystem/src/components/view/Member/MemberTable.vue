@@ -70,7 +70,7 @@ export default {
         return {
             datalist:[],
             showLeft:0,
-            pageIndex:1,
+            pageIndex:1
         }
     },
     created:function(){
@@ -108,7 +108,6 @@ export default {
             //console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
             let labelValue = column.label
-            console.log(labelValue)
             if(labelValue == 'ID'){
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
@@ -116,8 +115,15 @@ export default {
             }
         },      
         showextra(val){
-            this.multipleSelection = val
-            console.log(this.multipleSelection)
+             let show=false;
+             let editcan=true;
+             this.multipleSelection = val
+            if(this.multipleSelection.length>0){
+                show=true;
+            }
+            if(this.multipleSelection.length>1){
+                editcan=false;
+            }
             // let inputdom=document.getElementsByClassName('el-table__fixed-body-wrapper')[0].getElementsByTagName('input');
             // let num=0;
             // let allnum=inputdom.length;
@@ -126,8 +132,7 @@ export default {
             //         num++;
             //     }
             // }
-            let show=false;
-             let editcan=true;
+           
             // if(isall){
             //     if(num==0||num!=allnum){
             //         show=true;
