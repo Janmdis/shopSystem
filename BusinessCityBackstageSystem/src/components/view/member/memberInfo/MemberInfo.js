@@ -16,19 +16,20 @@ export default {
                 { title: '相关联会员', imgSrc: '/static/images/Member/personnel-related.png', bgColor: 'background:#ffaf48;', number: 2 },
             ],
             isActive: '个人信息',
-            which_to_show: '个人信息',
+            which_to_show: '',
             default1: true,
-            personnelInfo: '',
-            customerCategory: '',
+            personnelInfo: {},
+            customerCategory: {},
+            customerIdentity: {},
+            recommendedSource: {},
+            memberHouse: {},
         }
     },
     created() {
         this.$root.$on('title', (title) => {
             this.which_to_show = title
-        })
-        this.isShow('个人信息');
-    },
-    mounted() {
+        });
+        this.isShow('个人信息')
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
             this.searchInfo(ids);
         });
@@ -45,6 +46,64 @@ export default {
         });
     },
     methods: {
+        searchInfo(id) { //  点击ID事件,通过接口获取用户信息
+            let that = this;
+            this.$http({
+                url: '/api/customer/account/query',
+                method: 'POST',
+                // 请求发送的数据
+                data: JSON.stringify({ 'id': id }),
+                // 设置请求头
+                headers: { 'Content-Type': 'application/json' }
+            }).then(res => {
+                let dataInfo = res.data.info.list[0];
+                console.log(dataInfo)
+                this.personnelInfo = dataInfo;
+                this.which_to_show = 'onePersonnel';
+
+                //  获取客户类型接口
+                this.$http.post(
+                    '/api/customer/customerCategory/findCategory?key=id&value=name'
+                ).then(res => {
+                    console.log(res.data.info)
+                        //this.customerCategory = res.data.info.get(id);  // map数据,前端可以当做数组进行处理
+                    this.customerCategory = res.data.info;
+                }).catch(err => { console.log(err) });
+
+                //  获取会员身份接口
+                this.$http.post(
+                    '/api/customer/identity/findIdentity?key=id&value=name'
+                ).then(res => {
+                    this.customerIdentity = res.data.info;
+                    console.log(this.customerIdentity)
+                }).catch(err => { console.log(err); });
+
+                //  获取推荐来源接口
+                this.$http.post(
+                    '/api/customer/recommendedSource/findSource?key=id&value=name'
+                ).then(res => {
+                    this.recommendedSource = res.data.info;
+                    console.log(this.recommendedSource)
+                }).catch(err => { console.log(err); });
+
+                //  获取会员房屋信息
+                // this.$http.get(
+                //     '/api/customer/customerHousing/findHousingInfo?id=' + id
+                // ).then(res => {
+                //     this.memberHouse = res.data.info;
+                //     console.log(this.memberHouse)
+                // }).catch(err => { console.log(err); });
+
+                //  获取会员房屋信息
+                this.$http.get(
+                    '/api/customer/customerHousing/findHousingInfo?id=' + id
+                ).then(res => {
+                    this.memberHouse = res.data.info;
+                    console.log(this.memberHouse)
+                }).catch(err => { console.log(err); });
+
+            }).catch(err => { console.log(err) })
+        },
         closeInfo() { //   关闭侧滑框
             var left1 = 16;
             let timer2 = setInterval(function() {
@@ -55,31 +114,6 @@ export default {
                     clearInterval(timer2)
                 }
             }, 5);
-        },
-        searchInfo(id) { //  通过接口获取用户信息
-            this.$http({
-                    url: '/api/customer/account/query',
-                    method: 'POST',
-                    // 请求发送的数据
-                    data: JSON.stringify({ 'id': id }),
-                    // 设置请求头
-                    headers: { 'Content-Type': 'application/json' }
-                })
-                .then(res => {
-                    let dataInfo = res.data.info.list[0];
-                    console.log(dataInfo)
-                    this.personnelInfo = dataInfo;
-                    this.$http.post(
-                        '/api/customer/customerCategory/findCategory?key=id&value=name'
-                    ).then(res => {
-                        console.log(res)
-                            //this.customerCategory = res.data.info.get(0);  // map数据,前端可以当做数组进行处理
-                        this.customerCategory = res.data.info["1"];
-                    }).catch(err => {
-                        console.log(res.msg)
-                    })
-                })
-                .catch(error => { console.log(res.data.msg) })
         },
         isShow(text) {
             this.default1 = false;
