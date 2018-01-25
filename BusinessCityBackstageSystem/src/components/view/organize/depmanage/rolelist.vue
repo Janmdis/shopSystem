@@ -67,36 +67,46 @@ export default {
         deletedata(e){
             let target=e.target;
             let id=target.getAttribute('data-id');
-            this.$http.post('/api/admin/manage/group/update',[{
-                id:id,
-                isActive:false
-            }])
-            .then(function (response) {
-                let data=response.data;
-                if(data.msg=='更新成功'){
-                    this.$message({
-                        type:'success',
-                        message:'删除成功'
-                    });
-                    this.getdata();
-                }
-                else{
-                    this.$message({
-                        type:'info',
-                        message:data.msg
-                    });
-                }
-            })
-            .catch(function (response) {
-                console.log(response);
+            let that=this;
+            this.$confirm('确认删除？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(()=>{
+                this.$http.post('/api/admin/manage/group/update',[{
+                    id:id,
+                    isActive:false
+                }])
+                .then(function (response) {
+                    let data=response.data;
+                    if(data.msg=='更新成功'){
+                        that.$message({
+                            type:'success',
+                            message:'删除成功'
+                        });
+                        that.getdata();
+                    }
+                    else{
+                        that.$message({
+                            type:'info',
+                            message:data.msg
+                        });
+                    }
+                })
+                .catch(function (response) {
+                    console.log(response);
+                });
+            }).catch(()=>{
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
             });
-            console.log(id);
         },
         opendialogrole(){
             this.$root.$emit("exportvisrole",{depid:this.depid,depname:this.depname});
         },
         selectrole(e){
-            // console.log(document.getElementsByClassName('tbactive'));
             let dom=document.getElementsByClassName('tbactive');
             if(dom.length){
                 dom[0].setAttribute('class','roleNames');

@@ -24,7 +24,7 @@
         <div class='list table-list'>
             <el-table
             :data="datalist"
-            style="width: 100%;height:85%"
+            style="width: 100%;height:90%"
             :stripe='true'>
                 <el-table-column
                 prop="num"

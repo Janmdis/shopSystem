@@ -33,6 +33,7 @@ export default {
             dialogDepVisible:true,
             depfathername:'',
             deplastchildnum:'',
+            depfathernum:'',
             dataform:{
                 departmentName:'',
                 departmentDescription:'',
@@ -60,7 +61,7 @@ export default {
         this.dialogDepVisible=this.ishow;
         this.$root.$on('exportvis',(data)=>{
             this.dataform.departmentFather=data.departmentFatherid;
-            this.dataform.departmentNumber=data.departmentFathernum;
+            this.depfathernum=data.departmentFathernum;
             this.depfathername=data.departmentFathername;
             this.deplastchildnum=data.deplastchildnum;
             this.dialogDepVisible=true;
@@ -70,8 +71,7 @@ export default {
     methods:{
         adddata(){
             let that=this;
-            console.log(this.deplastchildnum);
-            // 父部们为空，创建根部门
+            //父部们为空，创建根部门
             if(this.dataform.departmentFather==''){
                 let ranNum = Math.ceil(Math.random() * 25);
                 // 随机生成一个大写字母
@@ -80,33 +80,39 @@ export default {
                 // 拼接公司编号
                 this.dataform.departmentNumber=strRandom+numRandom.toString();
             }
-            // 副部们不为空，生成子部门
+            // 父部们不为空，生成子部门
             else{
                 // 生成第一个子节点
                 if(this.deplastchildnum==''){
                     this.dataform.departmentNumber=this.depfathernum+'000001'
                 }
                 else{
-                    let nums=Number(this.deplastchildnum.slice(4,6));
-                    this.dataform.departmentNumber=this.deplastchildnum.slice(0,5)+nums.toString();
+                    let nums=Number(this.deplastchildnum.slice(5,11))+1;
+                    let length=6-nums.toString().length;
+                    for(let i=0;i<length;i++){
+                        nums='0'+nums;
+                    }
+                    this.dataform.departmentNumber=this.deplastchildnum.slice(0,5)+nums;
                 }
             }
-            console.log(this.dataform);
-            // this.$refs.ruleForm.validate((valid)=>{
-            //     if(valid){
-            //         console.log(this.dataform);
-            //         this.$http.post('/api/admin/manage/department/create',this.dataform)
-            //         .then(function (response) {
-            //             console.log(response);
-            //             that.$message('添加成功！');
-            //             that.$root.$emit('undatadep');
-            //         })
-            //         .catch(function (response) {
-            //             that.$message('添加失败！');
-            //         });
-            //         this.dialogDepVisible=false;
-            //     }
-            // });
+            this.$refs.ruleForm.validate((valid)=>{
+                if(valid){
+                    console.log(this.dataform);
+                    this.$http.post('/api/admin/manage/department/create',this.dataform)
+                    .then(function (response) {
+                        console.log(response);
+                        that.$message({
+                            type:'success',
+                            message:'添加成功!'
+                        });
+                        that.$root.$emit('undatadep');
+                    })
+                    .catch(function (response) {
+                        that.$message('添加失败！');
+                    });
+                    this.dialogDepVisible=false;
+                }
+            });
         },
         ai_dialog_close(){
             this.dialogDepVisible = false;

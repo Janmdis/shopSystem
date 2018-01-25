@@ -29,9 +29,7 @@
         </el-dialog>
 </template>
 <script>
-// import Datarolelist from './datarolelist'
 export default {
-    // components:{Datarolelist},
     props:['ishow'],
     data(){
         return {
@@ -60,6 +58,7 @@ export default {
             this.dialogroleVisible=true;
             this.depid=data.depid;
             this.depname=data.depname;
+            this.getpromiselist();
         });
         // this.$root.$on("changestatu",(status,type)=>{
         //     let dom=document.getElementsByClassName('checkall');
@@ -72,7 +71,7 @@ export default {
         //     }
         //     dom.getElementsByTagName('input')[0].checked=status;
         // });
-        this.getpromiselist();
+        
     },
     methods:{
         getpromiselist(){
@@ -88,7 +87,7 @@ export default {
                 }
             })
             .catch(function (response) {
-                that.$message('添加失败！');
+                that.$message('角色查询失败！');
             });
         },
         adddata(){

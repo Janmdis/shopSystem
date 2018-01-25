@@ -8,13 +8,19 @@
                 <Rolelist ref='test'></Rolelist>
             </el-col>
         </el-row>
+        <Dialogedit></Dialogedit>
+        <Dialogaddrole></Dialogaddrole>
+        <Dialogpromise></Dialogpromise>
     </el-main>
 </template>
 <script>
-import Deplist from "../authmanage/deplist.vue";
-import Rolelist from "./rolelist.vue";
+import Deplist from "../usermanage/deplist.vue";
+import Rolelist from "./rolelist.vue"
+import Dialogedit from "./dialogedit.vue"
+import Dialogaddrole from "./dialogaddrole.vue"
+import Dialogpromise from "./dialogpromise.vue"
 export default {
-    components:{Deplist,Rolelist}
+    components:{Deplist,Rolelist,Dialogedit,Dialogaddrole,Dialogpromise}
 }
 </script>
 <style scoped>

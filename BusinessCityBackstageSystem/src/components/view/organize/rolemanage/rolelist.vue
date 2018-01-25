@@ -6,17 +6,16 @@
                     <p class='title'>角色列表</p>
                 </div>
             </el-col>
-            <el-col :span='16'>
+            <el-col :span='12' :offset='4'>
                 <div class="grid-content search">
                     <el-input
-                        placeholder="请输入内容"
+                        placeholder="请输入角色名称"
                         suffix-icon="el-icon-search"
-                        v-model="searchvalue">
+                        v-model="searchvalue"
+                        @keyup.enter.native="searchdata">
                     </el-input>
-                    <el-button type="primary">新增</el-button>
-                    <el-button type="primary">导入</el-button>
-                    <el-button type="primary">导出</el-button>
-                    <el-button type="primary" class='research'><i class="icon iconfont icon-shuaxin"></i></el-button>
+                    <el-button type="primary" @click="addrole">新增</el-button>
+                    <el-button type="primary" class='research' @click="researchdata"><i class="icon iconfont icon-shuaxin"></i></el-button>
                 </div>
                 
             </el-col>
@@ -24,20 +23,21 @@
         <div class='list table-list'>
             <el-table
             :data="datalist"
-            style="width: 100%;height:85%"
+            style="width: 100%;height:90%"
+            v-loading=this.loading
             :stripe='true'>
                 <el-table-column
-                prop="num"
+                prop="groupNumber"
                 label="角色编号"
                 align='center'>
                 </el-table-column>
                 <el-table-column
-                prop="name"
+                prop="groupName"
                 label="角色名称"
                 align='center'>
                 </el-table-column>
                 <el-table-column
-                prop="department"
+                prop="departmentName"
                 label="所属部门"
                 align='center'>
                 </el-table-column>
@@ -46,18 +46,20 @@
                 label="权限"
                 align='center'>
                 </el-table-column> -->
-                <el-table-column prop="opera" label="操作" align='center' width='200'>
+                <el-table-column prop="opera" label="操作" align='center' width='180'>
                     <template slot-scope="scope">
-                        <el-button size="mini" type='text' @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                        <el-button size="mini" type='text' @click="handleDelete(scope.$index, scope.row)">权限管理</el-button>
-                        <el-button size="mini" type='text' @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                        
+                        <el-button size="mini" type='text' @click="handleEdit(scope.row)">编辑</el-button>
+                        <el-button size="mini" type='text' @click="handlePromise(scope.row)">权限管理</el-button>
+                        <el-button size="mini" type='text' @click="handleDelete(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
         </el-table>
         <el-pagination
-        layout="prev, pager, next"
-        :total="500">
+        layout="prev, pager, next,jumper,total"
+        :total=total
+        :current-page=currentpage
+        :page-size=pagesize
+        @current-change="handleCurrentChange">
         </el-pagination>
         </div>
     </div>
@@ -67,70 +69,115 @@ export default {
     data(){
         return {
             searchvalue:'',
-            datalist:[
-                {
-                    num:'1',
-                    name:'test1',
-                    department:'开发部',
-                    promise:'管理员'
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    department:'开发部',
-                    promise:'管理员'
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    department:'开发部',
-                    promise:'管理员'
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    department:'开发部',
-                    promise:'管理员'
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    department:'开发部',
-                    promise:'管理员'
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    department:'开发部',
-                    promise:'管理员'
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    department:'开发部',
-                    promise:'管理员'
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    department:'开发部',
-                    promise:'管理员'
-                }
-            ]
+            depid:'',
+            datalist:[],
+            total:0,
+            pagesize:10,
+            currentpage:1,
+            loading:false
         }
     },
+    created:function(){
+        this.$root.$on('getrole',(depid)=>{
+            this.depid=depid;
+            this.getrolelist(1,this.pagesize);
+        });
+        this.getrolelist(1,this.pagesize);
+    },
     methods:{
-        handleEdit(){
-            this.$root.$emit('opendialogedit');
+        getrolelist(pageno,pagesize){
+            let that=this;
+            this.loading=true;
+            this.$http.post('/api/admin/manage/group/find?pageNo='+pageno+'&pageSize='+pagesize,{
+                departmentId:this.depid,
+                isActive:true
+            })
+            .then(function (response) {
+                let data=response.data;
+                // console.log(data);
+                if(data.msg=='查询成功'){
+                    that.datalist=data.info.list;
+                    that.total=data.info.total;
+                    that.currentpage=pageno;
+                }
+            })
+            .catch(function (response) {
+                that.$message({
+                    type:'info',
+                    message:'部门列表查询失败'
+                });
+            });
+            that.loading=false;
         },
-        handleDelete(){
+        addrole(){
+            this.$root.$emit('addroledialog');
+        },
+        researchdata(){
+            this.getrolelist(1,this.pagesize);
+        },
+        searchdata(){
+            let that=this;
+            this.loading=true;
+            this.$http.post('/api/admin/manage/group/find?pageSize='+this.pagesize,{
+                groupName:this.searchvalue,
+                isActive:true
+            })
+            .then(function (response) {
+                let data=response.data;
+                // console.log(data);
+                if(data.msg=='查询成功'){
+                    that.datalist=data.info.list;
+                    that.total=data.info.total;
+                    that.currentpage=1;
+                }
+            })
+            .catch(function (response) {
+                that.$message({
+                    type:'info',
+                    message:'部门列表查询失败'
+                });
+            });
+            that.loading=false;
+        },
+        handleEdit(row){
+            let data={
+                id:row.id,
+                depid:row.departmentId,
+                departmentName:row.departmentName,
+                groupName:row.groupName,
+                groupNumber:row.groupNumber
+            }
+            this.$root.$emit('showeditdialog',data);
+        },
+        handleDelete(row){
+            let that=this;
              this.$confirm('确认删除？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(()=>{
-                let msg=this.delete();
-                this.$message(msg);
+                this.$http.post('/api/admin/manage/group/update',[{
+                    id:row.id,
+                    isActive:false
+                }])
+                .then(function (response) {
+                    let data=response.data;
+                    if(data.msg=='更新成功'){
+                        that.$message({
+                            type:'success',
+                            message:'删除成功'
+                        });
+                        that.getrolelist(1,that.pagesize);
+                    }
+                    console.log(response);
+                })
+                .catch(function (response) {
+                    that.$message({
+                        type:'info',
+                        message:'更新失败'
+                    });
+                    console.log(response);
+                });
             }).catch(()=>{
                 this.$message({
                     type: 'info',
@@ -138,9 +185,16 @@ export default {
                 });
             });
         },
-        delete(){
-            
+        handlePromise(row){
+            // console.log(row);
+            this.$root.$emit('showpromise',{id:row.id,depid:this.depid,permissionid:row.permissionsId});
+        },
+        handleCurrentChange(currentPage){
+            this.getrolelist(currentPage,this.pagesize);
         }
+    },
+    beforeDestroy:function(){
+        this.$root.$off('getrole',datalist);
     }
 }
 </script>
@@ -176,9 +230,9 @@ export default {
     background-color: #00adab;
     /* margin-left: 15px; */
 }
-.search .el-button--primary:hover{
+/* .search .el-button--primary:hover{
     background-color: #00adab;
-}
+} */
 .search .research{
     background: none;
     border: none;
