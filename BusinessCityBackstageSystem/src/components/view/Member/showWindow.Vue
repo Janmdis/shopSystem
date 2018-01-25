@@ -288,7 +288,8 @@
             }
         },
         created: function() {
-            this.$root.$on('showWindow', () => {
+            this.$root.$on('showWindow', (data) => {
+                console.log(data)
                 this.dialogVisible = true;
             });
             this.sourceFn();

@@ -153,7 +153,7 @@ export default {
             //         show=false;
             //     }
             // }
-             this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length});
+             this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
         },
         indexMethod(index) {
             return index + 1
