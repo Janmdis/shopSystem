@@ -14,13 +14,13 @@
                 </el-col>
                 <el-col :span="7">
                     <el-form-item label="所属部门：" prop="depname">
-                        <el-select v-model="dataform.departmentName"  placeholder="请选择">
+                        <el-select v-model="dataform.departmentId" @change='changeValue'  placeholder="请选择">
                             <el-option
                             v-for="item in deplist"
                             :key="item.id"
                             :value-key="item.id"
                             :label="item.departmentName"
-                            :value="item.departmentName">
+                            :value="item.id">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -39,6 +39,7 @@
     </el-dialog>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     data(){
         return {
@@ -50,9 +51,7 @@ export default {
                 departmentName:'',
                 permissionsId:''
             },
-            deplist:[],
             selectvalue:'',
-            promiselist:[],
             isIndeterminate:false,
             checkAll:false,
             checkedPromises:[],
@@ -68,48 +67,16 @@ export default {
     },
     created:function(){
         this.$root.$on('addroledialog',()=>{
-            this.getdeplist();
-            this.getpromiselist();
             this.dialogroleVisible=true;
         })
     },
     methods:{
-        getdeplist(){
-            let that=this;
-            this.$http.post('/api/admin/manage/department/find?type=0&range=0&pageSize=0',{
-                isActive:'1'
-            })
-            .then(function (response) {
-                let data=response.data;
-                if(data.msg=='查询成功'){
-                    that.deplist=data.info.list.list;
-                }
-            })
-            .catch(function (response) {
-                that.$message({
-                    type:'info',
-                    message:'部门查询失败'
-                });
-                console.log(response);
+        changeValue(value){
+            let obj = {};
+            obj = this.deplist.find((item)=>{
+                return item.id === value;
             });
-        },
-        getpromiselist(){
-            let that=this;
-            this.$http.post('/api/admin/permissions/find',{
-                type:'1'
-            })
-            .then(function (response) {
-                let data=response.data;
-                if(data.msg=='查询成功'){
-                    that.promiselist=data.info.currentPermissionsList;
-                }
-            })
-            .catch(function (response) {
-                that.$message({
-                    type:'info',
-                    message:'权限查询失败'
-                });
-            });
+            this.dataform.departmentName=obj.departmentName;
         },
         ai_dialog_close(){
             this.dialogroleVisible=false;
@@ -137,10 +104,7 @@ export default {
                         });
                     }
                     else{
-                        let depid=document.getElementsByClassName('el-select-dropdown__item selected')[0].getAttribute('value-key');
-                        this.dataform.departmentId=depid;
                         this.dataform.permissionsId=checklist.join(',');
-                        // console.log(this.dataform);
                         this.$http.post('/api/admin/manage/group/insert',that.dataform)
                         .then(function (response) {
                             let data=response.data;
@@ -163,6 +127,12 @@ export default {
             })
             this.dialogroleVisible=false;
         },
+    },
+    computed: {
+        ...mapState({
+            promiselist: state => state.promiselist.promiselist,
+            deplist:state => state.deplist.deplistall
+        })
     },
     beforeDestroy:function(){
         this.$root.$off('addroledialog');

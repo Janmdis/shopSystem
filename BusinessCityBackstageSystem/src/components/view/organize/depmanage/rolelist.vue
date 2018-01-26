@@ -18,7 +18,7 @@
                 <tbody class="trbody">
                     <tr :key="item.id" v-for="item in list">
                         <td class="roleNames " :data-id="item.id" @click="selectrole($event)">{{item.groupName}}</td>
-                        <td ><span :data-id="item.id"  class="delrole" @click="deletedata($event)">删除</span></td>
+                        <td ><span :data-id="item.id" :data-depid='item.departmentId'  class="delrole" @click="deletedata($event)">删除</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -29,44 +29,20 @@
 </template>
 <script>
 import Dialogrole from './dialogrole'
+import { mapState } from 'vuex'
 export default {
     components:{Dialogrole},
     data(){
         return {
-            list:[],
             dialogroleVisible:false,
-            depid:'',
             depname:''
         }
     },
-    created:function(){
-        this.$root.$on('currentrole',(datas)=>{
-            this.depid=datas.depid;
-            this.depname=datas.depname;
-            this.getdata();
-        });
-    },
     methods:{
-        getdata(){
-            let that=this;
-            this.$http.post('/api/admin/manage/group/find?pageSize=0',{
-                departmentId:this.depid,
-                isActive:true
-            })
-            .then(function (response) {
-                let data=response.data;
-                if(data.msg=='查询成功'){
-                    that.list=data.info.list;
-                }
-                console.log(data);
-            })
-            .catch(function (response) {
-                console.log(response);
-            });
-        },
         deletedata(e){
             let target=e.target;
             let id=target.getAttribute('data-id');
+            let depid=target.getAttribute('data-depid');
             let that=this;
             this.$confirm('确认删除？', '提示', {
                 confirmButtonText: '确定',
@@ -79,12 +55,13 @@ export default {
                 }])
                 .then(function (response) {
                     let data=response.data;
+                    console.log(data);
                     if(data.msg=='更新成功'){
                         that.$message({
                             type:'success',
                             message:'删除成功'
                         });
-                        that.getdata();
+                        that.$store.dispatch('getRolelist',{depid});
                     }
                     else{
                         that.$message({
@@ -104,6 +81,8 @@ export default {
             });
         },
         opendialogrole(){
+            this.$store.dispatch('getPromiselist');
+            this.$store.dispatch('getDeplistall');
             this.$root.$emit("exportvisrole",{depid:this.depid,depname:this.depname});
         },
         selectrole(e){
@@ -115,6 +94,11 @@ export default {
             // 触发所属角色的成员列表函数
             this.$root.$emit('membertorole',{depid:this.depid,roleid:e.target.getAttribute('data-id')});
         }
+    },
+    computed: {
+        ...mapState({
+            list: state => state.rolelist.roledata.list
+        })
     },
     beforeDestroy:function(){
         this.$root.$off('currentrole');

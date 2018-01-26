@@ -3,23 +3,24 @@
         <el-form @submit.native.prevent :model='dataform' status-icon ref="ruleForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span="10" :offset='2'>
-                    <el-form-item label="登录名称：" prop="departmentName">
+                    <el-form-item label="用户名称：" prop="departmentName">
                         <el-input placeholder="请输入登录名称" v-model="dataform.adminName" auto-complete="off"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="性别：" prop="departmentName">
-                        <el-radio v-model="sex" label="1">男</el-radio>
-                        <el-radio v-model="sex" label="2">女</el-radio>
+                    <el-form-item label="登录密码：" prop="departmentName">
+                        <el-input placeholder="请输入登录密码" v-model="dataform.adminName" auto-complete="off"></el-input>
                     </el-form-item>
+                    
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10" :offset='2'>
-                    <el-form-item label="用户名称：" prop="departmentName">
-                        <el-input placeholder="请输入用户名称：" v-model="dataform.adminName" auto-complete="off"></el-input>
+                 <el-col :span="10" :offset='2'>
+                     <el-form-item label="性别：" prop="departmentName">
+                        <el-radio v-model="sex" label="1">男</el-radio>
+                        <el-radio v-model="sex" label="2">女</el-radio>
                     </el-form-item>
-                </el-col>
+                 </el-col>
                 <el-col  :span="10">
                     <el-form-item label="年龄：" prop="departmentName">
                         <el-input v-model='age' type='number' min="0" placeholder="请输入年龄" auto-complete="off"></el-input>
@@ -59,30 +60,6 @@
                     </el-form-item>
                 </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="电话号码：" prop="departmentName">
-                        <el-input v-model='age' type='number' min="0" placeholder="请输入电话号码" auto-complete="off"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="10" :offset='2'>
-                    <el-form-item label="登录密码：" prop="departmentName">
-                        <el-input placeholder="请输入登录密码" v-model="dataform.adminName" auto-complete="off"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col  :span="10">
-                    <el-form-item label="用户邮箱：" prop="departmentName">
-                        <el-input v-model='age' type='email' placeholder="请输入邮箱" auto-complete="off"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="10" :offset='2'>
-                    <el-form-item label="所属部门：" prop="departmentName">
-                        你猜
-                    </el-form-item>
-                </el-col>
-                <el-col  :span="10">
                     <el-form-item label="是否被锁定：" prop="departmentName">
                         <el-radio v-model="islock" label="3">锁定</el-radio>
                         <el-radio v-model="islock" label="4">未锁定</el-radio>
@@ -91,22 +68,44 @@
             </el-row>
             <el-row>
                 <el-col :span="10" :offset='2'>
-                    <el-form-item label="工作状态：" prop="departmentName">
-                        <el-radio v-model="status" label="5">试用</el-radio>
-                        <el-radio v-model="status" label="6">上岗</el-radio>
-                        <el-radio v-model="status" label="7">离职</el-radio>
+                    <el-form-item label="所属部门：" prop="depname">
+                        <el-select v-model="dataform.departmentName"  placeholder="请选择">
+                            <el-option
+                            v-for="item in deplist"
+                            :key="item.id"
+                            :value-key="item.id"
+                            :label="item.departmentName"
+                            :value="item.departmentName">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="可查看范围：" prop="departmentName">
-                        <el-input v-model='age' @click.native="associashow"  placeholder="请输入关联角色" auto-complete="off"></el-input>
+                    <el-form-item label="所属角色：" prop="depname">
+                        <el-select v-model="dataform.departmentName"  placeholder="请选择">
+                            <el-option
+                            v-for="item in deplist"
+                            :key="item.id"
+                            :value-key="item.id"
+                            :label="item.departmentName"
+                            :value="item.departmentName">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
-                <el-col  :span="10" :offset='2'>
-                    <el-form-item label="所属角色：" prop="departmentName">
-                        你猜
+                <el-col :span="10" :offset='2'>
+                    <el-form-item label="员工类型：" prop="depname">
+                        <el-select v-model="dataform.departmentName"  placeholder="请选择">
+                            <el-option
+                            v-for="item in deplist"
+                            :key="item.id"
+                            :value-key="item.id"
+                            :label="item.departmentName"
+                            :value="item.departmentName">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -114,32 +113,24 @@
         <div slot="footer" class="dialog-footer" :center='true'>
             <el-button type="primary" round   @click="adddata">新增</el-button>
         </div>
-        <Dialogassociated :datalist='list'></Dialogassociated>
     </el-dialog>
 </template>
 <script>
-import Dialogassociated from './dialogassociated'
 export default {
-    components:{Dialogassociated},
     data(){
         return{
             dialogmemberVisible:false,
             dataform:{
                 adminName:'',
+                adminPsw:'',
                 sex: '1',
-                nameuser:'',
                 age:'',
                 databorn:'',
                 datajoin:'',
-                phonenum:'',
-                callnum:'',
-                psw:'',
-                email:'',
+                phone:'',
                 belongdep:'',
                 islock:'3',
                 status:'5',
-                idrange:'',
-                namerange:'',
                 belongrole:''
             },
             rules:{
@@ -149,60 +140,44 @@ export default {
                     return time.getTime() > Date.now();
                 }
             },
-            list:[
-                {
-                    id:'1',
-                    name:'test1'
-                },
-                {
-                    id:'2',
-                    name:'test2'
-                },
-                {
-                    id:'3',
-                    name:'test3'
-                },
-                {
-                    id:'4',
-                    name:'test4'
-                },
-                {
-                    id:'1',
-                    name:'test1'
-                },
-                {
-                    id:'2',
-                    name:'test2'
-                },
-                {
-                    id:'3',
-                    name:'test3'
-                },
-                {
-                    id:'4',
-                    name:'test4'
-                }
-            ]
+            deplist:[]
         }
     },
     created:function(){
         this.$root.$on('opendialogmember',(status)=>{
             this.dialogmemberVisible=status;
         });
-        this.$root.$on('getrolerange',(data)=>{
-            this.idrange=data.idlist;
-            this.namerange=data.rolelist.join(',');
-        });
     },
     methods:{
+        // 获取部门列表
+        getdeplist(){
+            let that=this;
+            this.$http.post('/api/admin/manage/department/find?type=1&range=0&pageSize=0',{
+                isActive:'1'
+            })
+            .then(function (response) {
+                let data=response.data;
+                // console.log(data);
+                if(data.msg=='查询成功'){
+                    that.deplist.splice(0,that.list.length)
+                    that.deplist.push(data.info.treeAll);
+                }
+            })
+            .catch(function (response) {
+                that.$message({
+                    type:'info',
+                    message:'部门列表查询失败'
+                });
+                console.log(response);
+            });
+        },
+        // 获取角色列表
+        getrolelist(){},
         ai_dialog_close(){
             this.dialogmemberVisible=false;
         },
         adddata(){
             this.dialogmemberVisible=false;
-        },
-        associashow(){
-            this.$root.$emit("associashow",true);
         }
     }
 }
@@ -274,6 +249,9 @@ export default {
     line-height: 1.5;
     border-radius: 3px;
     border:1px solid #ccc;
+}
+.el-input__suffix{
+    right: 15px;
 }
 .el-dialog .grid-content.input{
     padding-left: 15px;

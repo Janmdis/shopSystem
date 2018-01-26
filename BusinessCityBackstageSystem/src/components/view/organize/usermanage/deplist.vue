@@ -9,38 +9,17 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     data(){
         return {
-            list:[],
             defaultProps: {
                 children: 'children',
                 label: 'info'
             }
         }
     },
-    created:function(){
-        this.getdeplist();
-    },
     methods:{
-        getdeplist(){
-            let that=this;
-            this.$http.post('/api/admin/manage/department/find?type=1&range=0&pageSize=0',{})
-            .then(function (response) {
-                let data=response.data;
-                if(data.msg=='查询成功'){
-                    that.list.splice(0,that.list.length)
-                    that.list.push(data.info.treeAll);
-                }
-            })
-            .catch(function (response) {
-                that.$message({
-                    type:'info',
-                    message:'部门列表查询失败'
-                });
-                console.log(response);
-            });
-        },
         pick(data,node,vuecomponent){
             let dom_current=vuecomponent.$el.firstChild.lastChild;
             let classname=dom_current.getAttribute('class');
@@ -48,9 +27,13 @@ export default {
             don_on.length?don_on[0].setAttribute('class','el-tree-node__label'):void(0);
             dom_current.setAttribute('class','el-tree-node__label on');
             this.$root.$emit('getrole',data.id);
-            // console.log(classname);
         }
-    }
+    },
+    computed: {
+        ...mapState({
+            list: state => state.deplist.deplisttree
+        })
+    },
 }
 </script>
 <style scoped>
