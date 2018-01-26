@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="新增会员" :visible.sync="dialogVisible" width="50%">
+    <el-dialog :title="ruleForm.titles" :visible.sync="dialogVisible" width="50%">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='12'>
@@ -102,7 +102,8 @@
                     ctypes: '',
                     panper: '',
                     curDate: [],
-                    sourceFns: []
+                    sourceFns: [],
+                    titles:'00'
                 },
                 rules: {
                     name: [{

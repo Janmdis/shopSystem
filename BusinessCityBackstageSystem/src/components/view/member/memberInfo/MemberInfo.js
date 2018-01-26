@@ -23,15 +23,17 @@ export default {
             customerIdentity: {},
             recommendedSource: {},
             memberHouse: {},
+            memberId: '',
         }
     },
     created() {
         this.$root.$on('title', (title) => {
             this.which_to_show = title
         });
-        this.isShow('个人信息')
+        this.isShow('个人信息');
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
             this.searchInfo(ids);
+            this.memberId = ids;
         });
         this.$root.$on('infoCoverShow', (left) => { //  显示侧滑框的方法
             var left1 = 100;
@@ -61,38 +63,51 @@ export default {
                 this.personnelInfo = dataInfo;
                 this.which_to_show = 'onePersonnel';
 
-                //  获取客户类型接口
-                this.$http.post(
+                this.$http.post( //  获取客户类型接口
                     '/api/customer/customerCategory/findCategory?key=id&value=name'
                 ).then(res => {
-                    console.log(res.data.info)
+                    if (res.data.info == null) {
+                        alert(res.data.msg)
+                    } else {
                         //this.customerCategory = res.data.info.get(id);  // map数据,前端可以当做数组进行处理
-                    this.customerCategory = res.data.info;
+                        this.customerCategory = res.data.info;
+                    }
+                    console.log(res.data.info)
                 }).catch(err => { console.log(err) });
 
-                //  获取会员身份接口
-                this.$http.post(
+                this.$http.post( //  获取会员身份接口
                     '/api/customer/identity/findIdentity?key=id&value=name'
                 ).then(res => {
-                    this.customerIdentity = res.data.info;
+                    if (res.data.info == null) {
+                        alert(res.data.msg)
+                    } else {
+                        this.customerIdentity = res.data.info;
+                    }
                     console.log(this.customerIdentity)
                 }).catch(err => { console.log(err); });
 
-                //  获取推荐来源接口
-                this.$http.post(
+                this.$http.post( //  获取推荐来源接口
                     '/api/customer/recommendedSource/findSource?key=id&value=name'
                 ).then(res => {
-                    this.recommendedSource = res.data.info;
+                    if (res.data.info == null) {
+                        alert(res.data.msg)
+                    } else {
+                        this.recommendedSource = res.data.info;
+                    }
                     console.log(this.recommendedSource)
                 }).catch(err => { console.log(err); });
 
-                //  获取会员房屋信息
-                // this.$http.get(
-                //     '/api/customer/customerHousing/findHousingInfo?id=' + id
-                // ).then(res => {
-                //     this.memberHouse = res.data.info;
-                //     console.log(this.memberHouse)
-                // }).catch(err => { console.log(err); })
+                this.$http.get( //  获取会员房屋信息
+                    '/api/customer/customerHousing/findHousingInfo?id=' + id
+                ).then(res => {
+                    if (res.data.info == null) {
+                        alert(res.data.msg);
+                    } else {
+                        this.memberHouse = res.data.info;
+                    }
+                    console.log(res.data.info)
+                }).catch(err => { console.log(err); })
+
 
             }).catch(err => { console.log(err) })
         },
@@ -114,6 +129,16 @@ export default {
                 text = onePersonnel;
             } else if (text == '房屋') {
                 text = twoHouse;
+                // this.$http.get( //  获取会员房屋信息
+                //     '/api/customer/customerHousing/findHousingInfo?id=' + this.memberId
+                // ).then(res => {
+                //     if (res.data.info == null) {
+                //         alert(res.data.msg);
+                //     } else {
+                //         this.memberHouse = res.data.info;
+                //     }
+                //     console.log(res.data)
+                // }).catch(err => { console.log(err); })
             } else if (text == '订单') {
                 text = threeOrder;
             } else if (text == '回访') {

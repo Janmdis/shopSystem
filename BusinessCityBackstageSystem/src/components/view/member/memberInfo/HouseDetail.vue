@@ -32,7 +32,7 @@
                     </el-select><i>区</i></span>
                     <span><el-select v-model="value" placeholder="请选择">
                         <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select><i>街道</i></span>
+                    </el-select><i class="street">街道</i></span>
                     <input type="text" placeholder="请输入详细地址" class="detailAddress">
                 </div>
             </li>
@@ -72,7 +72,7 @@
             </div>
             <div class="houseDetailBtn"><el-button class="btn1" round>保存</el-button></div>
         </div>
-        <el-dialog class="dialog1" :append-to-body="true" title="新增" :visible.sync="dialogVisible" :before-close="handleClose">
+        <el-dialog class="dialog1" :append-to-body="true" title="新增" :visible.sync="dialogVisible" :before-close="handleClose"> 
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item label="家用设备" prop="equipName">
                     <el-input v-model="ruleForm.equipName"></el-input>
@@ -191,12 +191,18 @@ export default {
     table td:nth-child(3) .cell{
         border:none;
     }
+    .el-table th:nth-child(6) .cell{
+        min-width: 142px;
+    }
     .el-table td:nth-child(6) .cell{
+        width: 142px;
         display:flex;
         flex-wrap: wrap;
-        // min-width: 140px;
         justify-content:space-between;
     }
+}
+.el-select-dropdown__item{
+    padding:0 20% !important;
 }
 #houseDetail{
     .el-table__body-wrapper{
@@ -259,7 +265,7 @@ export default {
     }
 }
 #houseDetail{
-    // min-width: 750px;
+    min-width: 750px;
     background: #fff;
     padding-bottom:80px;
     position: relative;
@@ -271,11 +277,11 @@ export default {
             border-bottom:2px solid #ddd;
             position: relative;
             .houseDetailDiv1{      
-                padding: 35px 90px 30px 50px;
+                padding: 35px 50px 30px 50px;
                 display:flex;
                 span{
                     display:block;
-                    width: 50%;
+                   width: 50%;
                     .el-select{
                         margin-left:15px;
                         position: absolute;
@@ -284,8 +290,12 @@ export default {
                     }
                 }
                 span:nth-child(even){
-                    margin-left: 110px;
-                    margin-right:50px;
+                    margin-left: 78px;
+                    // margin-right:50px;
+                }
+                span:last-child{
+                    margin-left:58px;
+                    // margin-right:50px;
                 }
             }
             .houseDetailDiv2{
@@ -316,6 +326,9 @@ export default {
                         min-width:30px;
                         font-style:normal;
                         margin-left:15px;
+                    }
+                    i.street{
+                        padding-right:10px !important;;
                     }
                 }
                 .detailAddress{
