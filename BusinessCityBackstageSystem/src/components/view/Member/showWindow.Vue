@@ -257,9 +257,6 @@
                 this.$http({
                         url: url,
                         method: 'post',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
                         data: {}
                     })
                     .then(respone => {
@@ -304,7 +301,9 @@
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            data: {}
+                            data: {
+                                
+                            }
                         })
                         .then(respone => {
                             this.ruleForm.sourceFns = respone.data.info;
