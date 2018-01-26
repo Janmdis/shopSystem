@@ -75,7 +75,7 @@ export default {
     //   });
     },
     showWindow() {
-      this.$root.$emit("showWindow")
+      this.$root.$emit("showWindow",'no')
     },
     closeInfo() {
       // let infos = document.getElementsByClassName("infoCover")[0]

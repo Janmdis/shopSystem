@@ -1,6 +1,6 @@
 <template>
     <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%">
-        <el-form :model="ruleForm.ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='12'>
                     <el-form-item label="姓名" prop="name">
@@ -151,8 +151,10 @@
                         //alert('网络错误，不能访问');
                     })
             },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
+            submitForm(formName) {console.log(formName)
+                let that = this;
+                that.$refs[formName].validate((valid) => {
+                    
                     if (valid) {
                         let url = '/api/customer/account/insert';
                         this.$http({
@@ -289,10 +291,11 @@
             getData() {
             }
         },
-        created: function() {
+        beforeMount: function() {
             this.$root.$on('showWindow', (data) => {
-                console.log(data[0])
-                if (data.id != "") {
+                console.log(data)
+                if (data != 'no') {
+                    console.log(data[0].id)
                     this.ruleForm.textInfo = '编辑会员';
                     let url = '/api/customer/account/queryByIds';
                     this.$http({
@@ -302,19 +305,25 @@
                                 'Content-Type': 'application/json'
                             },
                             data: {
-                                
+                                key:data[0].id
                             }
                         })
                         .then(respone => {
-                            this.ruleForm.sourceFns = respone.data.info;
-                            console.log(this.ruleForm.sourceFns)
+                            console.log(respone)
+                            // this.ruleForm.sourceFns = respone.data.info;
+                            // console.log(this.ruleForm.sourceFns)
                         })
                         .catch(error => {
                             console.log(error);
                             alert('网络错误，不能访问');
                         })
+                        this.dialogVisible = true;
+                }else{
+                       
+                    this.ruleForm.textInfo = '新增会员';
+                    this.dialogVisible = true;
                 }
-                this.dialogVisible = true;
+                
             });
             this.sourceFn();
             this.showData();
