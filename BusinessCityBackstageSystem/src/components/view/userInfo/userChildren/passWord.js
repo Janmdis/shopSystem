@@ -1,3 +1,4 @@
+import qs from 'qs'
 export default {
   data() {
     var validatePass1 = (rule, value, callback) => {
@@ -65,10 +66,16 @@ export default {
     }
   },
   methods: {
+    option(test, status) {
+    this.$message({
+        message: test,
+        type: status ? status : 'warning'
+    })
+  },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.gemessage()
         } else {
           console.log('error submit!!')
           return false
@@ -79,20 +86,24 @@ export default {
       this.$refs[formName].resetFields()
     },
     gemessage() {
-      let url = '/api/admin/account/updateadminaccount'
+      let url = '/api/admin/account/updatepassword'
       this.$http({
         url: url,
         method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        data: {}
+        headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
+        data: qs.stringify({
+          oldPassword: this.ruleForm2.newPass,
+          newPassword:this.ruleForm2.pass,
+          confirmPassword:this.ruleForm2.checkPass})
       })
         .then(respone => {
-          let data = respone.data.info
-          console.log(data.adminSex)
+          if (respone.data.msg == '修改成功') {
+            this.option(respone.data.msg,'success')
+          }
         })
         .catch(error => {
           console.log(error)
-          alert('网络错误，不能访问')
+          this.option('网络错误，不能访问')
         })
     }
   }

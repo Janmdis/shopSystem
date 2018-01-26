@@ -51,6 +51,12 @@ export default {
     }
   },
   methods: {
+    option(test, status) {
+      this.$message({
+          message: test,
+          type: status ? status : 'warning'
+      })
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -74,7 +80,6 @@ export default {
       })
         .then(respone => {
           let data = respone.data.info
-          console.log(data.adminSex)
           this.ruleForm1.iPhone = data.phone
           this.ruleForm1.userName = data.adminName
           this.ruleForm1.resource = data.adminSex + ''
@@ -98,18 +103,20 @@ export default {
         data: {
           phone: this.ruleForm1.iPhone,
           adminName: this.ruleForm1.userName,
-          adminSex: this.ruleForm1.radio,
+          adminSex: this.ruleForm1.resource,
           adminBirthday: this.ruleForm1.date1,
           departmentName: this.ruleForm1.role,
           groupName: this.ruleForm1.jon
         }
       })
         .then(respone => {
-          console.log(data)
+          if (respone.data.msg == '修改成功') {
+            this.option(respone.data.msg,'success')
+         }
         })
         .catch(error => {
           console.log(error)
-          alert('网络错误，不能访问')
+          this.option('网络错误，不能访问')
         })
     },
     changeCount() {
@@ -119,7 +126,6 @@ export default {
       }
       var d = new Date(this.getDate(this.ruleForm1.date1)+'');
       this.ruleForm1.age = (this.jsGetAge(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()));
-      alert(this.ruleForm1.age)
       
     },
      getDate(str){

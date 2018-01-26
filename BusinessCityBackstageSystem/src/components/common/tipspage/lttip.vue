@@ -42,7 +42,6 @@ export default {
         edit(){
             if(this.canedit){
                 this.$root.$emit('editdialog');
-                console.log(this.dataInfo)
                 this.$root.$emit("showWindow",this.dataInfo)
                 
             }

@@ -22,7 +22,7 @@
                     </el-radio-group>
                 </el-form-item>
 
-                  <el-form-item label='出生日期' prop="date1">
+                  <el-form-item label='出生日期' >
                     <el-col :span="8">
                          <el-date-picker   v-on:blur="changeCount"    type="date" placeholder="选择日期" v-model="ruleForm1.date1" style="width: 100%;"></el-date-picker>
                     </el-col>
