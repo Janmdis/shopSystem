@@ -66,9 +66,6 @@ export default{
             this.isSwitchHouseDetail = true
         })
     },
-    mounted(){
-        
-    },
     methods: {
         addCover(){ //  新增房屋事件
         this.showHouseCover = true;
