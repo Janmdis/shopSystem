@@ -24,7 +24,7 @@
             <el-table
             :data="datalist"
             style="width: 100%;height:90%"
-            v-loading=this.loading
+            v-loading=loading
             :stripe='true'>
                 <el-table-column
                 prop="groupNumber"
@@ -65,16 +65,14 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     data(){
         return {
             searchvalue:'',
             depid:'',
-            datalist:[],
-            total:0,
             pagesize:10,
             currentpage:1,
-            loading:false
         }
     },
     created:function(){
@@ -83,61 +81,23 @@ export default {
             this.getrolelist(1,this.pagesize);
         });
         this.getrolelist(1,this.pagesize);
+        this.$store.dispatch('getPromiselist');
     },
     methods:{
         getrolelist(pageno,pagesize){
-            let that=this;
-            this.loading=true;
-            this.$http.post('/api/admin/manage/group/find?pageNo='+pageno+'&pageSize='+pagesize,{
-                departmentId:this.depid,
-                isActive:true
-            })
-            .then(function (response) {
-                let data=response.data;
-                // console.log(data);
-                if(data.msg=='查询成功'){
-                    that.datalist=data.info.list;
-                    that.total=data.info.total;
-                    that.currentpage=pageno;
-                }
-            })
-            .catch(function (response) {
-                that.$message({
-                    type:'info',
-                    message:'部门列表查询失败'
-                });
-            });
-            that.loading=false;
+            this.currentpage=pageno;
+            this.$store.dispatch('getRolelist',{depid:this.depid,pageno:this.currentpage,pagesize:this.pagesize});  
         },
         addrole(){
+            this.$store.dispatch('getPromiselist');
+            this.$store.dispatch('getDeplistall');
             this.$root.$emit('addroledialog');
         },
         researchdata(){
             this.getrolelist(1,this.pagesize);
         },
         searchdata(){
-            let that=this;
-            this.loading=true;
-            this.$http.post('/api/admin/manage/group/find?pageSize='+this.pagesize,{
-                groupName:this.searchvalue,
-                isActive:true
-            })
-            .then(function (response) {
-                let data=response.data;
-                // console.log(data);
-                if(data.msg=='查询成功'){
-                    that.datalist=data.info.list;
-                    that.total=data.info.total;
-                    that.currentpage=1;
-                }
-            })
-            .catch(function (response) {
-                that.$message({
-                    type:'info',
-                    message:'部门列表查询失败'
-                });
-            });
-            that.loading=false;
+            this.$store.dispatch('getRolelist',{roleName:this.searchvalue,pageno:1,pagesize:this.pagesize});
         },
         handleEdit(row){
             let data={
@@ -145,7 +105,8 @@ export default {
                 depid:row.departmentId,
                 departmentName:row.departmentName,
                 groupName:row.groupName,
-                groupNumber:row.groupNumber
+                groupNumber:row.groupNumber,
+                
             }
             this.$root.$emit('showeditdialog',data);
         },
@@ -186,12 +147,18 @@ export default {
             });
         },
         handlePromise(row){
-            // console.log(row);
             this.$root.$emit('showpromise',{id:row.id,depid:this.depid,permissionid:row.permissionsId});
         },
         handleCurrentChange(currentPage){
             this.getrolelist(currentPage,this.pagesize);
         }
+    },
+    computed: {
+        ...mapState({
+            datalist: state => state.rolelist.roledata.list,
+            total:state => state.rolelist.roledata.total,
+            loading:state => state.rolelist.loading,
+        })
     },
     beforeDestroy:function(){
         this.$root.$off('getrole',datalist);

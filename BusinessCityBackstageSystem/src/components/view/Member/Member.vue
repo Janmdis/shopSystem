@@ -60,15 +60,18 @@
 import Members from './Member.js';
 export default Members
 </script>
+<style scoped>
+table td:nth-child(3) .cell{
+    border: 1px solid #ddd;
+}
+</style>
+
 <style >
 
 .lineHeight{
    position:relative;
    top:24px;
    color:#6f6f6f;
-}
-table td:nth-child(3) .cell{
-    border: 1px solid #ddd;
 }
 table td:nth-child(3) {
     padding-right:10px;

@@ -8,7 +8,7 @@
                 <Rolelist></Rolelist>
             </el-col>
             <el-col :span="9">
-                <Memberlist></Memberlist>
+                <!-- <Memberlist></Memberlist> -->
             </el-col>
         </el-row>
         
@@ -19,7 +19,15 @@ import Deplist from '../depmanage/deplist'
 import Rolelist from '../depmanage/rolelist'
 import Memberlist from '../depmanage/memberlist'
 export default {
-    components:{Deplist,Rolelist,Memberlist}
+    components:{Deplist,Rolelist,Memberlist},
+    created:function(){
+        this.$store.dispatch('getDeplisttree');
+    },
+    // methods:{
+    //     getdeplist(){
+    //         this.$store.dispatch('getList');
+    //     }
+    // }
     // data(){
     //     return {
     //         dialogDepVisible:false,     //模态框是否显示

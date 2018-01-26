@@ -4,12 +4,13 @@
             部门列表
             <div class="pull-right">
                 <span class="addRole" data-toggle="modal" data-target="#productModal" type="button" @click="opendialogDep">添加</span>
-                <span class="clearBorder" data-toggle="modal" data-target="#delModal" @click='deletedep' v-show="deleteshow">删除</span>
+                <transition name="fade">
+                    <span class="clearBorder" data-toggle="modal" data-target="#delModal" @click='deletedep' v-show="deleteshow">删除</span>                    
+                </transition>
             </div>
         </div>
         <div class="list ">
             <el-tree :data="list" :props="defaultProps" :default-expand-all='true' :expand-on-click-node='false' @node-click='pick'></el-tree>
-            <!-- <Datalist :list='list'></Datalist> -->
         </div>
         <Dialogadddep :ishow='dialogDepVisible'></Dialogadddep>
         
@@ -17,12 +18,12 @@
 </template>
 <script>
 import Dialogadddep from './dialogadddep'
+import { mapState } from 'vuex'
 /* eslint-disable */
 export default {
     components:{Dialogadddep},
     data(){
         return {
-            list:[],
             defaultProps: {
                 children: 'children',
                 label: 'info'
@@ -35,35 +36,7 @@ export default {
             dialogDepVisible:false     //模态框是否显示
         }
     },
-    created:function(){
-        this.$root.$on('undatadep',()=>{
-            this.getdatalist();
-        });
-        this.getdatalist();
-    },
     methods:{
-        getdatalist:function(){
-            let that=this;
-            this.$http.post('/api/admin/manage/department/find?type=1&range=0&pageSize=0',{
-                isActive:'1'
-            })
-            .then(function (response) {
-                let data=response.data;
-                // console.log(data);
-                if(data.msg=='查询成功'){
-                    that.list.splice(0,that.list.length)
-                    that.list.push(data.info.treeAll);
-                }
-                // console.log(that.list);
-            })
-            .catch(function (response) {
-                that.$message({
-                    type:'info',
-                    message:'部门列表查询失败'
-                });
-                console.log(response);
-            });
-        },
         opendialogDep(){
             //父部门id
             let departmentFatherid=this.currentid;
@@ -94,7 +67,7 @@ export default {
                             type:'success',
                             message:'删除成功!'
                         });
-                        that.getdatalist();
+                        that.$store.dispatch('getDeplisttree');
                     }
                     else{
                         that.$message({
@@ -129,8 +102,16 @@ export default {
             this.currentname=data.info;
             this.curentnum=data.number;
             this.lastchildnum=node.childNodes.length?node.childNodes[node.childNodes.length-1].data.number:'';
-            this.$root.$emit('currentrole',{depid:data.id,depname:data.info});
+            let parm={
+                depid:data.id
+            }
+            this.$store.dispatch('getRolelist',parm);
         }
+    },
+    computed: {
+        ...mapState({
+            list: state => state.deplist.deplisttree
+        })
     },
     beforeDestroy:function(){
         this.$root.$off('undatadep');
@@ -204,6 +185,12 @@ li{
 .el-tree-node__label.on{
     background-color: rgb(0, 173, 171);
     color:#fff;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
 

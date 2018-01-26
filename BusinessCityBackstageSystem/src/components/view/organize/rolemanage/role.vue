@@ -20,7 +20,10 @@ import Dialogedit from "./dialogedit.vue"
 import Dialogaddrole from "./dialogaddrole.vue"
 import Dialogpromise from "./dialogpromise.vue"
 export default {
-    components:{Deplist,Rolelist,Dialogedit,Dialogaddrole,Dialogpromise}
+    components:{Deplist,Rolelist,Dialogedit,Dialogaddrole,Dialogpromise},
+    created:function(){
+        this.$store.dispatch('getDeplisttree');
+    },
 }
 </script>
 <style scoped>

@@ -44,7 +44,6 @@ export default {
     created:function(){
         this.$root.$on("membertorole",(data)=>{
             let depid=data.depid;
-            // let roleid=data.roleid;
             this.roleid=data.roleid
             this.getmemberlist();
         });
