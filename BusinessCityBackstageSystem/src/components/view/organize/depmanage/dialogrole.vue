@@ -9,9 +9,15 @@
                     </el-col>
                     <el-col :span="10" :offset='1'>
                         <el-form-item label="所属部门：">
-                            <div class="grid-content">
-                                    {{depname}}
-                            </div>
+                            <el-select v-model="depid"  placeholder="请选择" @change='changeValue'>
+                                <el-option
+                                v-for="item in deplist"
+                                :key="item.id"
+                                :value-key="item.id"
+                                :label="item.departmentName"
+                                :value="item.id">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -21,7 +27,6 @@
                         <el-checkbox v-for="item in promiseslist" :key="item.id" :label="item">{{item.permissionsName}}</el-checkbox>
                     </el-checkbox-group>
                 </el-row>
-                
             </el-form>
             <div slot="footer" class="dialog-footer" :center='true'>
                 <el-button type="primary" round   @click="adddata">新增</el-button>
@@ -29,21 +34,19 @@
         </el-dialog>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
-    props:['ishow'],
     data(){
         return {
-            dialogroleVisible:true,
-            depname:'',
-            depid:'',
+            dialogroleVisible:false,
             checkedPromises:[],
-            promiseslist:[],
             isIndeterminate:true,
             checkAll:false,
-            // test:'test',
             roleid:'',
+            depname:'',
+            depid:'',
             dataform:{
-                rolename:''
+                rolename:'',
             },
             rules:{
                 rolename:[
@@ -53,42 +56,17 @@ export default {
         }
     },
     created:function(){
-        this.dialogroleVisible=this.ishow;
         this.$root.$on('exportvisrole',(data)=>{
             this.dialogroleVisible=true;
-            this.depid=data.depid;
-            this.depname=data.depname;
-            this.getpromiselist();
         });
-        // this.$root.$on("changestatu",(status,type)=>{
-        //     let dom=document.getElementsByClassName('checkall');
-        //     dom=this.getElementByAttr('typediv',type,dom)[0];
-        //     if(status){
-        //         dom.setAttribute('class','check  el-checkbox__input is-checked checkall');
-        //     }
-        //     else{
-        //         dom.setAttribute('class','check  el-checkbox__input checkall');
-        //     }
-        //     dom.getElementsByTagName('input')[0].checked=status;
-        // });
-        
     },
     methods:{
-        getpromiselist(){
-            let that=this;
-            this.$http.post('/api/admin/permissions/find',{
-                type:'1'
-            })
-            .then(function (response) {
-                let data=response.data;
-                console.log(data);
-                if(data.msg=='查询成功'){
-                    that.promiseslist=data.info.currentPermissionsList;
-                }
-            })
-            .catch(function (response) {
-                that.$message('角色查询失败！');
+        changeValue(value){
+            let obj = {};
+            obj = this.deplist.find((item)=>{
+                return item.id === value;
             });
+            this.depname=obj.departmentName;
         },
         adddata(){
             let that=this;          
@@ -112,14 +90,15 @@ export default {
                             type:'success',
                             message:data.msg
                         });
-                        that.$root.$emit('currentrole',{depid:that.depid,depname:that.depname});
+                        that.$store.dispatch('getRolelist',{depid:that.depid});
                     })
                     .catch(function (response) {
                         that.$message('添加失败！');
                     });
+                    this.dialogroleVisible=false;
                 }
             });
-            this.dialogroleVisible=false;
+            
         },
         ai_dialog_close(){
             this.dialogroleVisible = false;
@@ -134,9 +113,14 @@ export default {
             this.isIndeterminate = checkedCount > 0 && checkedCount < this.promiseslist.length;
         }
     },
+    computed: {
+        ...mapState({
+            promiseslist: state => state.promiselist.promiselist,
+            deplist: state => state.deplist.deplistall
+        })
+    },
     beforeDestroy:function(){
         this.$root.$off('exportvisrole');
-        this.$root.$off('changestatu');
     }
 }
 </script>

@@ -22,12 +22,14 @@ export default {
     data(){
         return{
             listname:'',
-            canedit:true
+            canedit:true,
+            dataInfo:''
         }
     },
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
+            this.dataInfo = data.datas
             var dom=document.getElementsByClassName('emendation')[0];
             let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
@@ -38,10 +40,9 @@ export default {
     },
     methods:{
         edit(){
-            
             if(this.canedit){
                 this.$root.$emit('editdialog');
-                this.$root.$emit("showWindow")
+                this.$root.$emit("showWindow",this.dataInfo)
                 
             }
 

@@ -1,6 +1,6 @@
 <template>
-    <el-dialog :title="ruleForm.titles" :visible.sync="dialogVisible" width="50%">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%">
+        <el-form :model="ruleForm.ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='12'>
                     <el-form-item label="姓名" prop="name">
@@ -29,15 +29,16 @@
                 <el-col :span='12'>
                     <el-form-item label="来源">
                         <el-select placeholder="请选择来源" @click.native='sourceFn' v-model="ruleForm.county">
-                            <el-option v-for=' (item,index) in this.ruleForm.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
+                            <el-option v-for=' item in this.ruleForm.sourceFns ' :label='item.name' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="客户类型">
                         <el-select v-model="ruleForm.ctypes" @click.native='showData' placeholder="请选择客户类型">
-                            <el-option v-for=' (item,index) in this.ruleForm.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
+                            <el-option v-for=' item in this.ruleForm.curDate ' :label='item.name' :value="item.id"></el-option>
                         </el-select>
+                    </el-form-item>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
@@ -53,8 +54,10 @@
                             <el-option label="儿媳" value="7"></el-option>
                         </el-select>
                     </el-form-item>
+                    </el-form-item>
                 </el-col>
             </el-row>
+            </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
                 <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -103,7 +106,7 @@
                     panper: '',
                     curDate: [],
                     sourceFns: [],
-                    titles:'00'
+                    textInfo: '新增会员'
                 },
                 rules: {
                     name: [{
@@ -122,9 +125,11 @@
                         message: '请选择日期',
                         trigger: 'change'
                     }],
-                    old: [
-                    { validator: checkAge, trigger: 'blur', required: true }
-                    ],
+                    old: [{
+                        validator: checkAge,
+                        trigger: 'blur',
+                        required: true
+                    }],
                 }
             };
         },
@@ -252,9 +257,6 @@
                 this.$http({
                         url: url,
                         method: 'post',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
                         data: {}
                     })
                     .then(respone => {
@@ -283,14 +285,41 @@
                         console.log(error);
                         alert('网络错误，不能访问');
                     })
+            },
+            getData() {
             }
         },
         created: function() {
-            this.$root.$on('showWindow', () => {
+            this.$root.$on('showWindow', (data) => {
+                console.log(data[0])
+                if (data.id != "") {
+                    this.ruleForm.textInfo = '编辑会员';
+                    let url = '/api/customer/account/queryByIds';
+                    this.$http({
+                            url: url,
+                            method: 'post',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            data: {
+                                
+                            }
+                        })
+                        .then(respone => {
+                            this.ruleForm.sourceFns = respone.data.info;
+                            console.log(this.ruleForm.sourceFns)
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            alert('网络错误，不能访问');
+                        })
+                }
                 this.dialogVisible = true;
             });
             this.sourceFn();
             this.showData();
+        },
+        mounted: function() {
         }
     }
 </script>

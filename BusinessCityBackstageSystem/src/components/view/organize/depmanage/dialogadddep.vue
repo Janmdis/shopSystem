@@ -105,7 +105,8 @@ export default {
                             type:'success',
                             message:'添加成功!'
                         });
-                        that.$root.$emit('undatadep');
+                        that.$store.dispatch('getDeplisttree');
+                        // that.$root.$emit('undatadep');
                     })
                     .catch(function (response) {
                         that.$message('添加失败！');
