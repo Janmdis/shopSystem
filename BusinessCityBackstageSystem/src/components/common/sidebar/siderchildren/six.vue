@@ -7,8 +7,7 @@
             <el-menu-item-group>
               <el-menu-item index="depmanage">部门管理</el-menu-item>
               <el-menu-item index="roleManage" >角色管理</el-menu-item>
-              <el-menu-item index="usermanage">用户管理</el-menu-item>
-              <!-- <el-menu-item index="authoritymanage">权限管理</el-menu-item> -->
+              <el-menu-item index="authoritymanage">用户管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

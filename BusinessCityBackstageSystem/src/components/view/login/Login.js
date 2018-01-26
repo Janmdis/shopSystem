@@ -116,6 +116,8 @@ export default {
                         })
                         .then(res => {
                             var msg = res.data.msg
+                            console.log()
+                            sessionStorage.setItem('userInfo',JSON.stringify(res.data.info))
                             if (msg !== '登录成功') {
                                 this.option("用户名不存在或密码错误,请重新输入");
                                 this.ruleForm.userName = '';

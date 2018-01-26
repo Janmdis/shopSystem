@@ -1,9 +1,9 @@
 <template>
     <el-table
     :data="datalist"
-    @select='showextra(false)'
-    @select-all='showextra(true)'
+    @selection-change='showextra'
     @cell-click='showMemberInfo'
+    v-loading="this.listLoading"
     :stripe='true'
     style="width: 100%">
     <el-table-column
@@ -15,9 +15,9 @@
         <el-table-column
         fixed
         type="selection"
-        width="55">
+        width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='100'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360'height='100'>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -65,7 +65,7 @@
 <script>
 //@row-click="showMemberInfo()"
 export default {
-    props:['data'],
+    prop:['listLoading'],
     data(){
         return {
             datalist:[],
@@ -78,22 +78,26 @@ export default {
             this.pageIndex = data.value
             this.getDate(this.pageIndex)
         })
-        this.getDate()
+        this.getDate(1)
     },
     methods:{
 
       getDate(pageIndex) {
-          console.log(pageIndex)
-            let url = '/api/customer/account/query';
+            this.listLoading =  true;
+            let url = '/api/customer/account/query?page='+ pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
+                headers: { 'Content-Type': 'application/json' },
                 data: {
                 },
             })
             .then(response => {
-                    this.datalist=(response.data.info.list);
+                this.listLoading =  false;
+                this.datalist=(response.data.info.list);
+                this.$root.$emit('pages',response.data.info.pages)
+                this.$root.$emit('total',response.data.info.total)
           })
           .catch(error=>{
               console.log(error);
@@ -104,48 +108,52 @@ export default {
             //console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
             let labelValue = column.label
-            console.log(labelValue)
             if(labelValue == 'ID'){
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
                 this.$root.$emit('searchPersonnelInfo',row.id)
             }
         },      
-        showextra(isall){
-            let inputdom=document.getElementsByClassName('el-table__fixed-body-wrapper')[0].getElementsByTagName('input');
-            let num=0;
-            let allnum=inputdom.length;
-            for(let i=0;i<inputdom.length;i++){
-                if(inputdom[i].checked){
-                    num++;
-                }
+        showextra(val){
+             let show=false;
+             let editcan=true;
+             this.multipleSelection = val
+            if(this.multipleSelection.length>0){
+                show=true;
             }
-            let show=false;
-            let editcan=true;
-            if(isall){
-                if(num==0||num!=allnum){
-                    show=true;
-                    editcan=false;
-                    num=allnum;
-                }
-                else{
-                    show=false;
-                    num=0;
-                }
+            if(this.multipleSelection.length>1){
+                editcan=false;
             }
-            else{
-                if(num!=0){
-                    show=true;
-                    editcan=num>1?false:true;
-                }
-                else{
-                    show=false;
-                }
-            }
-            console.log(show)
-            console.log(editcan)
-            console.log(num)
-            this.$root.$emit('showlttip',{show,editcan,num});
+            // let inputdom=document.getElementsByClassName('el-table__fixed-body-wrapper')[0].getElementsByTagName('input');
+            // let num=0;
+            // let allnum=inputdom.length;
+            // for(let i=0;i<inputdom.length;i++){
+            //     if(inputdom[i].checked){
+            //         num++;
+            //     }
+            // }
+           
+            // if(isall){
+            //     if(num==0||num!=allnum){
+            //         show=true;
+            //         editcan=false;
+            //         num=allnum;
+            //     }
+            //     else{
+            //         show=false;
+            //         num=0;
+            //     }
+            // }
+            // else{
+            //     if(num!=0){
+            //         show=true;
+            //         editcan=num>1?false:true;
+            //     }
+            //     else{
+            //         show=false;
+            //     }
+            // }
+             this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
         },
         indexMethod(index) {
             return index + 1
