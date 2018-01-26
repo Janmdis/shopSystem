@@ -8,7 +8,7 @@
                 <Rolelist></Rolelist>
             </el-col>
             <el-col :span="9">
-                <!-- <Memberlist></Memberlist> -->
+                <Memberlist></Memberlist>
             </el-col>
         </el-row>
         
@@ -22,23 +22,8 @@ export default {
     components:{Deplist,Rolelist,Memberlist},
     created:function(){
         this.$store.dispatch('getDeplisttree');
+        this.$store.dispatch('getDeplistall');
     },
-    // methods:{
-    //     getdeplist(){
-    //         this.$store.dispatch('getList');
-    //     }
-    // }
-    // data(){
-    //     return {
-    //         dialogDepVisible:false,     //模态框是否显示
-    //         addLoading: false, 
-    //     }
-    // },
-    // methods:{
-    //     opendialogDep(){
-    //         this.dialogDepVisible=true;
-    //     }
-    // }
 }
 </script>
 <style scoped>
