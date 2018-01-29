@@ -82,7 +82,7 @@ export default {
         },
         opendialogrole(){
             this.$store.dispatch('getPromiselist');
-            this.$store.dispatch('getDeplistall');
+            
             this.$root.$emit("exportvisrole",{depid:this.depid,depname:this.depname});
         },
         selectrole(e){

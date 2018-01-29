@@ -49,8 +49,9 @@ export default {
         });
     },
     methods:{
-        getmemberlist(){
-             this.$http.post('/api/admin/account/multiConditionalQuery',{
+        getmemberlist(roleid,){
+            let that=this;
+            this.$http.post('/api/admin/account/multiConditionalQuery',{
                 groupId:this.roleid,
                 pageSize:0
             })

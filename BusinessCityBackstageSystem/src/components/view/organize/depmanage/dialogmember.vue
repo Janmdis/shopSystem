@@ -3,36 +3,36 @@
         <el-form @submit.native.prevent :model='dataform' status-icon ref="ruleForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span="10" :offset='2'>
-                    <el-form-item label="用户名称：" prop="departmentName">
+                    <el-form-item label="用户名称：" prop="adminName">
                         <el-input placeholder="请输入登录名称" v-model="dataform.adminName" auto-complete="off"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="登录密码：" prop="departmentName">
-                        <el-input placeholder="请输入登录密码" v-model="dataform.adminName" auto-complete="off"></el-input>
+                    <el-form-item label="登录密码：" prop="adminPassword">
+                        <el-input placeholder="请输入登录密码" v-model="dataform.adminPassword" auto-complete="off"></el-input>
                     </el-form-item>
                     
                 </el-col>
             </el-row>
             <el-row>
                  <el-col :span="10" :offset='2'>
-                     <el-form-item label="性别：" prop="departmentName">
-                        <el-radio v-model="sex" label="1">男</el-radio>
-                        <el-radio v-model="sex" label="2">女</el-radio>
+                     <el-form-item label="性别：" prop="adminSex">
+                        <el-radio v-model="dataform.adminSex" label="0">男</el-radio>
+                        <el-radio v-model="dataform.adminSex" label="1">女</el-radio>
                     </el-form-item>
                  </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="年龄：" prop="departmentName">
-                        <el-input v-model='age' type='number' min="0" placeholder="请输入年龄" auto-complete="off"></el-input>
+                    <el-form-item label="年龄：" prop="adminAge">
+                        <el-input v-model='adminAge' :disabled="true" type='number' min="0" placeholder="请输入年龄" auto-complete="off"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="10" :offset='2'>
-                    <el-form-item label="出生日期：" prop="departmentName">
+                    <el-form-item label="出生日期：" prop="adminBirthday">
                         <el-col>
                             <el-date-picker
-                            v-model="databorn"
+                            v-model="dataform.adminBirthday"
                             type="date"
                             placeholder="选择日期"
                             :picker-options="pickerOptions">
@@ -41,10 +41,10 @@
                     </el-form-item>
                 </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="入职日期：" prop="departmentName">
+                    <el-form-item label="入职日期：" prop="entryDate">
                         <el-col>
                             <el-date-picker
-                            v-model="datajoin"
+                            v-model="dataform.entryDate"
                             type="date"
                             placeholder="选择日期"
                             :picker-options="pickerOptions">
@@ -55,40 +55,41 @@
             </el-row>
             <el-row>
                 <el-col :span="10" :offset='2'>
-                    <el-form-item label="手机号码：" prop="phonenum">
-                        <el-input placeholder="请输入手机号码" type='number' min="0" v-model="dataform.phonenum" auto-complete="off"></el-input>
+                    <el-form-item label="手机号码：" prop="phone">
+                        <el-input placeholder="请输入手机号码" type='number' min="0" v-model="dataform.phone" auto-complete="off"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="是否被锁定：" prop="departmentName">
-                        <el-radio v-model="islock" label="3">锁定</el-radio>
-                        <el-radio v-model="islock" label="4">未锁定</el-radio>
+                    <el-form-item label="是否被锁定：" prop="accStatus">
+                        <el-radio v-model="dataform.accStatus" label="0">锁定</el-radio>
+                        <el-radio v-model="dataform.accStatus" label="1">未锁定</el-radio>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="10" :offset='2'>
-                    <el-form-item label="所属部门：" prop="depname">
-                        <el-select v-model="dataform.departmentName"  placeholder="请选择">
+                    <el-form-item label="所属部门：" >
+                        <el-select v-model="dataform.departmentId"  placeholder="请选择" @change='selectdep'>
                             <el-option
                             v-for="item in deplist"
                             :key="item.id"
                             :value-key="item.id"
                             :label="item.departmentName"
-                            :value="item.departmentName">
+                            :value="item.id">
                             </el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="所属角色：" prop="depname">
-                        <el-select v-model="dataform.departmentName"  placeholder="请选择">
+                    <el-form-item label="所属角色：">
+                        <el-select v-model="dataform.groupId"  placeholder="请选择" >
                             <el-option
-                            v-for="item in deplist"
+                            v-for="item in rolelist"
                             :key="item.id"
                             :value-key="item.id"
-                            :label="item.departmentName"
-                            :value="item.departmentName">
+                            :label="item.groupName"
+                            :value="item.id"
+                            >
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -96,14 +97,14 @@
             </el-row>
             <el-row>
                 <el-col :span="10" :offset='2'>
-                    <el-form-item label="员工类型：" prop="depname">
-                        <el-select v-model="dataform.departmentName"  placeholder="请选择">
+                    <el-form-item label="员工类型：">
+                        <el-select v-model="dataform.employeeTypeId"  placeholder="请选择">
                             <el-option
-                            v-for="item in deplist"
+                            v-for="item in employeetypelist"
                             :key="item.id"
                             :value-key="item.id"
-                            :label="item.departmentName"
-                            :value="item.departmentName">
+                            :label="item.employeeTypeName"
+                            :value="item.employeeTypeId">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -116,31 +117,49 @@
     </el-dialog>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     data(){
         return{
             dialogmemberVisible:false,
             dataform:{
                 adminName:'',
-                adminPsw:'',
-                sex: '1',
-                age:'',
-                databorn:'',
-                datajoin:'',
+                adminPassword:'',
+                adminSex: '0',
+                adminAge:'',
+                adminBirthday:'',
+                entryDate:'',
                 phone:'',
-                belongdep:'',
-                islock:'3',
-                status:'5',
-                belongrole:''
+                accStatus:'1',
+                departmentId:'',
+                departmentName:'',
+                groupId:'',
+                groupName:'',
+                employeeTypeId:'',
+                employeeTypeName:''
             },
+            // deplist:[],
+            rolelist:[],
+            employeetypelist:[],
             rules:{
+                adminName:[
+                    {required:true,message:'请输入用户名',trigger:'blur'}
+                ],
+                adminPassword:[
+                    {required:true,message:'请输入密码',trigger:'blur'}
+                ],
+                adminBirthday:[
+                    {required:true,message:'请选择日期',trigger:'blur'}
+                ],
+                entryDate:[
+                    {required:true,message:'请选择日期',trigger:'blur'}
+                ]
             },
             pickerOptions:{
                 disabledDate(time) {
                     return time.getTime() > Date.now();
                 }
-            },
-            deplist:[]
+            }
         }
     },
     created:function(){
@@ -149,37 +168,72 @@ export default {
         });
     },
     methods:{
-        // 获取部门列表
-        getdeplist(){
+        selectdep(value){
+            let obj = {};
+            obj = this.deplist.find((item)=>{
+                return item.id === value;
+            });
+            this.dataform.departmentName=obj.departmentName;
+            this.getrolelist(obj.id);
+        },
+        selectrole(value){
+            let obj = {};
+            obj = this.rolelist.find((item)=>{
+                return item.id === value;
+            });
+            this.dataform.groupName=obj.groupName;
+            // this.getrolelist(obj.id);
+        },
+        // 获取角色列表
+        getrolelist(depid){
             let that=this;
-            this.$http.post('/api/admin/manage/department/find?type=1&range=0&pageSize=0',{
-                isActive:'1'
+            this.$http.post('/api/admin/manage/group/find?pageSize=0',{
+                departmentId :depid,
+                isActive:true
             })
             .then(function (response) {
                 let data=response.data;
-                // console.log(data);
-                if(data.msg=='查询成功'){
-                    that.deplist.splice(0,that.list.length)
-                    that.deplist.push(data.info.treeAll);
+                if(data.msg=="查询成功"){
+                    that.rolelist=data.info.list;
                 }
+                console.log(response);
             })
             .catch(function (response) {
-                that.$message({
-                    type:'info',
-                    message:'部门列表查询失败'
-                });
                 console.log(response);
             });
         },
-        // 获取角色列表
-        getrolelist(){},
         ai_dialog_close(){
             this.dialogmemberVisible=false;
         },
         adddata(){
             this.dialogmemberVisible=false;
         }
-    }
+    },
+     computed: {
+        ...mapState({
+            deplist: state => state.deplist.deplistall
+        }),
+        adminAge:function(){
+            let datecurrent=new Date();
+            let dateborn=this.dataform.adminBirthday;
+            if(dateborn==''){
+                return 0;
+            }
+            else{
+                let yearc=datecurrent.getFullYear();
+                let yearb=dateborn.getFullYear();
+                let monthc=datecurrent.getMonth();
+                let monthb=dateborn.getMonth();
+                let dayc=datecurrent.getDate();
+                let dayb=dateborn.getDate();
+                let age=yearc-yearb;
+                if(   monthc<monthb||(monthc==monthb&&dayc<dayb)   ){
+                    age--;
+                }
+                return age;
+            }
+        }
+    },
 }
 </script>
 
