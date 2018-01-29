@@ -6,16 +6,17 @@
                     <p class='title'>员工列表</p>
                 </div>
             </el-col>
-            <el-col :span='16'>
+            <el-col :span='12' :offset='4'>
                 <div class="grid-content search">
                     <el-input
-                        placeholder="请输入内容"
+                        placeholder="请输入员工姓名"
                         suffix-icon="el-icon-search"
-                        v-model="searchvalue">
+                        v-model="searchvalue"
+                        @keyup.enter.native="searchdata">
                     </el-input>
-                    <el-button type="primary">新增</el-button>
-                    <el-button type="primary">导入</el-button>
-                    <el-button type="primary">导出</el-button>
+                    <el-button type="primary" @click="adddata">新增</el-button>
+                    <!-- <el-button type="primary">导入</el-button>
+                    <el-button type="primary">导出</el-button> -->
                     <el-button type="primary" class='research'><i class="icon iconfont icon-shuaxin"></i></el-button>
                 </div>
                 
@@ -25,14 +26,15 @@
             <el-table
             :data="datalist"
             style="width: 100%;height:90%"
+            v-loading=loading
             :stripe='true'>
                 <el-table-column
-                prop="num"
+                prop="id"
                 label="员工编号"
                 align='center'>
                 </el-table-column>
                 <el-table-column
-                prop="name"
+                prop="adminName"
                 label="姓名"
                 align='center'>
                 </el-table-column>
@@ -43,40 +45,49 @@
                 width='150'>
                 </el-table-column>
                 <el-table-column
-                prop="sex"
                 label="性别"
                 align='center'>
+                <template slot-scope="scope">
+                    {{scope.row.adminSex?'女':'男'}}
+                </template>
                 </el-table-column>
                 <el-table-column
-                prop="type"
+                prop="employeeTypeName"
                 label="员工种类"
                 align='center'>
                 </el-table-column>
                  <el-table-column
-                prop="department"
+                prop="departmentName"
                 label="部门"
                 align='center'>
                 </el-table-column>
                  <el-table-column
-                prop="role"
+                prop="groupName"
                 label="角色"
-                align='center'>
+                align='center' >
                 </el-table-column>
                  <el-table-column
-                prop="status"
+                prop="accStatus"
                 label="状态"
                 align='center'>
+                <template slot-scope="scope">
+                    {{scope.row.accStatus==0?'停用':'正常'}}
+                    
+                </template>
                 </el-table-column>
                 <el-table-column prop="Opera" label="操作" align='center' width='100'>
                     <template slot-scope="scope">
-                        <el-button size="mini" type='text' @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                        <el-button size="mini" type='text' @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        <el-button size="mini" type='text' @click="handleEdit(scope.row)">编辑</el-button>
+                        <el-button size="mini" type='text' @click="handleDelete(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
         </el-table>
         <el-pagination
-        layout="prev, pager, next"
-        :total="500">
+        layout="prev, pager, next,jumper,total"
+        :total=total
+        :current-page=currentpage
+        :page-size=pagesize
+        @current-change="handleCurrentChange">
         </el-pagination>
         </div>
     </div>
@@ -86,110 +97,76 @@ export default {
     data(){
         return {
             searchvalue:'',
-            datalist:[
-                {
-                    num:'1',
-                    name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
-                    department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
-                    department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
-                    department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
-                    department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
-                    department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
-                    department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
-                },
-                {
-                    num:'1',
-                    name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
-                    department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
-                },
-                {
-                    num:'2',
-                    name:'test1',
-                    phone:'15058160069',
-                    sex:'男',
-                    type:'员工',
-                    department:'开发部',
-                    role:'管理员',
-                    status:'在线',
-                    opera:''
-                }
-            ]
+            datalist:[],
+            depid:'',
+            loading:false,
+            pagesize:10,
+            currentpage:1,
+            total:0
         }
     },
+    created:function(){
+        this.$root.$on('getemploy',(depid)=>{
+            this.depid=depid;
+            this.getemployeelist(1);
+        });
+    },
     methods:{
-        handleEdit(){
-            this.$root.$emit('opendialogedit');
+        //获取员工列表
+        getemployeelist(pagenum,value){
+            let that=this;
+            this.loading=true;
+            this.$http.post('/api/admin/account/multiConditionalQuery',{
+                departmentId:that.depid,
+                pageSize:this.pageSize,
+                pageNum:pagenum,
+                adminName:value
+            })
+            .then(function (response) {
+                let data=response.data;
+                if(data.status==200){
+                    that.datalist=data.info.list;
+                    that.total=data.info.total;
+                    that.currentpage=pagenum;
+                }
+                console.log(response);
+                that.loading=false;
+            })
+            .catch(function (response) {
+                console.log(response);
+                that.loading=false;
+            });
+            
         },
-        handleDelete(){
+        handleEdit(data){
+            // console.log(data);
+            this.$root.$emit('opendialogemploy',{iscreate:false,data:data});
+        },
+        handleDelete(data){
              this.$confirm('确认删除？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(()=>{
-                let msg=this.delete();
-                this.$message(msg);
+                let that=this;
+                this.$http.post('/api/admin/account/delete?ids='+data.id,{})
+                .then(function (response) {
+                    let data=response.data;
+                    if(data.status==200){
+                        that.$message({
+                            type:'success',
+                            message:'删除成功'
+                        });
+                        that.getemployeelist(1);
+                    }
+                    console.log(response);
+                })
+                .catch(function (response) {
+                    that.$message({
+                        type:'info',
+                        message:'删除失败！'
+                    });
+                });
             }).catch(()=>{
                 this.$message({
                     type: 'info',
@@ -197,9 +174,18 @@ export default {
                 });
             });
         },
-        delete(){
-            
+        handleCurrentChange(currentPage){
+            this.getemployeelist(currentPage);
+        },
+        adddata(){
+            this.$root.$emit('opendialogemploy',{iscreate:true});
+        },
+        searchdata(){
+            this.getemployeelist(1,this.searchvalue);
         }
+    },
+    beforeDestroy:function(){
+        this.$root.$off('getemploy');
     }
 }
 </script>

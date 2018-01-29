@@ -161,7 +161,7 @@ export default {
         })
     },
     beforeDestroy:function(){
-        this.$root.$off('getrole',datalist);
+        this.$root.$off('getrole');
     }
 }
 </script>
