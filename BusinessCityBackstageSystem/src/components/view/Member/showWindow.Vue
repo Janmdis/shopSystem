@@ -76,6 +76,7 @@
     }
 </style>
 <script>
+import qs from 'qs'
     export default {
         data() {
             var checkAge = (rule, value, callback) => {
@@ -297,19 +298,23 @@
                 if (data != 'no') {
                     console.log(data[0].id)
                     this.ruleForm.textInfo = '编辑会员';
-                    let url = '/api/customer/account/queryByIds';
+                    let url = '/api/customer/account/queryMapByIds?key=id'/*'+[data[0].id]*/;
                     this.$http({
                             url: url,
                             method: 'post',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            data: {
-                                key:data[0].id
-                            }
+                            //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
+                            data:[data[0].id]
                         })
                         .then(respone => {
-                            console.log(respone)
+                            let infos = respone.data.info['17b180e9-0023-11e8-a953-509a4c15ca0c']
+                            console.log(infos)
+                            this.ruleForm.mode= infos.mobile,
+                            this.ruleForm.name= infos.name,
+                            this.ruleForm.date1= infos.birthDate,
+                            this.ruleForm.old= infos.age,
+                            this.ruleForm.county= 1,
+                            this.ruleForm.ctypes= 2,
+                            this.ruleForm.panper= '女儿'
                             // this.ruleForm.sourceFns = respone.data.info;
                             // console.log(this.ruleForm.sourceFns)
                         })
