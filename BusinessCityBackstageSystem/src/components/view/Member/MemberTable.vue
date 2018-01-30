@@ -79,9 +79,12 @@ export default {
             this.getDate(this.pageIndex)
         })
         this.getDate(1)
+        this.$root.$on('getDatezdy',(data)=>{
+            alert("..")
+             this.getDate( data)
+        })
     },
     methods:{
-
       getDate(pageIndex) {
             this.listLoading =  true;
             let url = '/api/customer/account/query?page='+ pageIndex+'&pageSize=10';
