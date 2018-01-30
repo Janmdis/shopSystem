@@ -110,6 +110,7 @@ export default {
             this.depid=depid;
             this.getemployeelist(1);
         });
+        this.getemployeelist(1);
     },
     methods:{
         //获取员工列表

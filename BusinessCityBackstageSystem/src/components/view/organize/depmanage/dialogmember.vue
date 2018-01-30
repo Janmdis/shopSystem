@@ -254,7 +254,9 @@ export default {
             });
         },
         ai_dialog_close(){
+            this.$refs.memberForm.resetFields();
             this.dialogmemberVisible=false;
+            
         },
         adddata(){
             let that=this;

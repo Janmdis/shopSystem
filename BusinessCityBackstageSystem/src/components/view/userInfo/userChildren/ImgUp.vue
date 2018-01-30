@@ -6,8 +6,10 @@
         <div class="mTop">
         <el-upload
         class="avatar-uploader"
-        action="/api/sms/file/fileUpload"
+        :action="importFileUrl"
         :show-file-list="false"
+        name='fileUpload'
+        :data='dataurl'
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload">
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -22,7 +24,11 @@
 export default {
     data() {
       return {
-        imageUrl: ''
+        imageUrl: '',
+        importFileUrl:'/api/sms/file/fileUpload',
+        dataurl:{
+          type:'admin'
+        }
       };
     },
     methods: {
