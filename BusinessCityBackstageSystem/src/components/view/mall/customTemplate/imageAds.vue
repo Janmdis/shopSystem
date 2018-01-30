@@ -3,14 +3,14 @@
         <div class="borderHover" :index='dataid'>
             <div class="block">
                 <el-carousel trigger="click" width='614px'>
-                    <el-carousel-item v-for="item in 4" :key="item">
-                        <h3 class="Imgsize"><a href="javascript:;"><img class="Imgsize" :src="item" /></a></h3>
+                    <el-carousel-item v-for='(item,index) in ImgArr' :key='index'>
+                        <h3 class="Imgsize"><a href="javascript:;"><img class="Imgsize" :src="item.img" /></a></h3>
                     </el-carousel-item>
                 </el-carousel>
             </div>
             <div class="hoverClick">
                 <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-                <a href="#addnewContent"><span >添加新内容</span></a> 
+                <a href="#addnewContent" onclick="return false;"><span >添加新内容</span></a> 
            </div>
         </div>
     <!-- 轮播结束 -->
@@ -19,20 +19,32 @@
     export default{
         data() {
             return{
-                addnewContent:addnewContent,
-                 ImgArr:[
-                 "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=877572980,414732243&fm=27&gp=0.jpg",
-                 "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3912709398,3423769101&fm=27&gp=0.jpg",
-                 "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=877572980,414732243&fm=27&gp=0.jpg"
-                 ],
-                 dataid:''
+                ImgArr:[
+                        {
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            url:''
+                        },{
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
+                            url:''
+                        },{
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517226158648&di=17f12755288182fb3d22662116b917aa&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16838_sc115.com.jpg",
+                            url:''
+                        },{
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304770&di=fd7f38f44865d3dd961d24dea0e265f7&imgtype=0&src=http%3A%2F%2Fpic22.nipic.com%2F20120718%2F5135035_193813111000_2.jpg",
+                            url:''
+                        },{
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=23cccc5f58a5cab6420036e616b83a5f&imgtype=0&src=http%3A%2F%2Fpic107.nipic.com%2Ffile%2F20160816%2F20860925_080643495000_2.jpg",
+                            url:''
+                        }
+                    ],
+                dataid:''
             }
         },
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
-          
         },
+        
         methods:{
           delete(){
             this.$root.$emit('test',this.dataid);
@@ -57,12 +69,7 @@
             });
             
          }
-        //  scrollTo(){
-        //      var _id = document.getElementById('addnewContent');
-        //     //  console.log(_id.offsetTop);
-        //     document.body.scrollTop=0;
-        //     //  alert(111);
-        //  }
+        
         }
     }
 </script>

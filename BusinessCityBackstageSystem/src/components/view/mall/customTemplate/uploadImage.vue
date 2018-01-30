@@ -4,18 +4,31 @@
         :visible.sync="dialogVisible"
         width="30%"
         >
+
+        <div class="bannerEditContent">
+                    <div class="chooseImg" style="width:246px;height:141px;">
+                        <div class="center">
+                             <img class="microImg avatar" v-if="imageUrl" :src="imageUrl">
+                        </div>
+                    </div>
+                    <div class="reLoadingImg">
+                          <el-upload
+                          class="avatar-uploader"
+                          action="https://jsonplaceholder.typicode.com/posts/"
+                          :show-file-list="false"
+                          :on-success="handleAvatarSuccess"
+                          :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                           <!-- <img class="microImg avatar" v-if="imageUrl" :src="imageUrl"> -->
+                          <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i> -->
+                        </el-upload>
+                        <p style="line-height: 1000%;text-align: center;">重新上传 建议比例（15:7）</p>
+                        <div class="delete-img">&times;</div>
+                    </div>
+                </div>
             <!-- 内容 -->
-            <el-upload
-            class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-remove="handleRemove"
-            :file-list="fileList2"
-            :before-upload="beforeAvatarUpload"
-            list-type="picture">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-            </el-upload>
+
             <!-- 内容 -->
+            
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -27,15 +40,13 @@
        data() {
       return {
           dialogVisible: false,
-        fileList2: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+          imageUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1516962155831&di=322da642ba62380467a16fac4f07996b&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140217%2F0042040393387050_b.jpg'
       };
     },
     methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
+
+      handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -58,12 +69,12 @@
       },
   }
 </script>
-<style scoped lang="less">
-@import "../../../../assets/less/color";
-//添加图片样式
+<style>
+/* 添加图片样式 */
 
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
+    /* background: #409EFF; */
     border-radius: 6px;
     cursor: pointer;
     position: relative;
@@ -81,9 +92,35 @@
     text-align: center;
   }
   .avatar {
-    width: 178px;
+    width: 248px;
     height: 178px;
     display: block;
   }
+  /* input file 样式 */
+  .el-upload--text{
+  width: 100%;
+    height: 100%;
+}
+</style>
+
+<style scoped lang="less">
+@import "../../../../assets/less/color";
+ 
+.bannerEditContent{
+  width:100%;
+  background:#fff;
+  margin-left:10px;
+  margin-top:5px;
+  float:left;
+  position: relative;
+  }
+.center{
+ width: 100%;
+height: 100%;
+}
+.microImg{
+    width: 100%;
+    height: 100%;
+}
 
 </style>

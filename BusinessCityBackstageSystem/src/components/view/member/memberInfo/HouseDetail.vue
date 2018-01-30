@@ -6,34 +6,48 @@
         <ul class="houseDetailHeader">
             <li v-for="info in infos" :key="info.id" >
                 <div class="houseDetailDiv1">
-                    <span>小区/写字楼 : <el-select v-model="value" placeholder="请选择">
+                    <span>小区/写字楼 : <el-select v-model="houseProps.buildings" :filterable="true" placeholder="你好">
                         <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
                         </el-select>
-                    </span><span>租住状态 : <el-select v-model="value" placeholder="请选择">
-                        <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </span>
+                    <span>租住状态 : <el-select v-model="houseProps.rentalStatus" placeholder='请选择'>
+                        <el-option v-for="(value,key) in rentalStatusDetail" :key="key" :label="value" :value="value"></el-option>
                         </el-select>
-                    </span><span>房屋类型 : <el-select v-model="value" placeholder="请选择">
-                        <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </span>
+                    <span>房屋类型 : <el-select v-model="houseProps.houseType" placeholder='请选择'>
+                        <el-option v-for="(value,key) in houseCategoryDetail" :key="key" :label="value" :value="value"></el-option>
                         </el-select>
-                    </span></div>
-                <div class="houseDetailDiv2">
-                    房型 : <input type="text"> 室 <input type="text"> 厅 <input type="text"> 卫 <input type="text"> 厨 <input type="text"> 阳台
+                    </span>
+                </div>
+                <div class="houseDetailDiv2" v-show="isHousing">
+                    房型 : <input type="text" v-model="houseProps.room" placeholder='memberHouseDetail[houseNum].areaId'> 室 <input type="text" v-model="houseProps.office" > 厅 
+                    <input type="text" v-model="houseProps.toilet"> 卫 <input type="text" v-model="houseProps.kitchen"> 厨 
+                    <input type="text" v-model="houseProps.balcony"> 阳台
                 </div>
                 <div class="houseDetailDiv3">
                     <p>地址 : </p>
-                    <span><el-select v-model="value" placeholder="请选择">
-                        <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select><i>省</i></span>
-                    <span><el-select v-model="value" placeholder="请选择">
-                        <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select><i>市</i></span>
-                    <span><el-select v-model="value" placeholder="请选择">
-                        <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select><i>区</i></span>
-                    <span><el-select v-model="value" placeholder="请选择">
-                        <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select><i class="street">街道</i></span>
-                    <input type="text" placeholder="请输入详细地址" class="detailAddress">
+                    <span>
+                        <el-select v-model="houseProps.bigDistrict" placeholder="请选择">
+                            <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select><i>区</i>
+                    </span>
+                    <span><el-select v-model="houseProps.provinceValue" placeholder="请选择">
+                            <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select><i>省</i>
+                    </span>
+                    <span><el-select v-model="houseProps.cityValue" placeholder="请选择">
+                            <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select><i>市</i>
+                    </span>
+                    <span><el-select v-model="houseProps.smallDistrict" placeholder="请选择">
+                            <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select><i>区</i>
+                    </span>
+                    <span><el-select v-model="houseProps.streetValue" placeholder="请选择">
+                            <el-option v-for="item in option1" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select><i class="street">街道</i>
+                    </span>
+                    <input type="text" placeholder="请输入详细地址" v-model="houseProps.streetMore" class="detailAddress">
                 </div>
             </li>
         </ul>
@@ -105,11 +119,26 @@
 </template>
 <script>
 export default {
+    props:[
+        'memberHouseDetail','houseCategoryDetail','rentalStatusDetail'
+    ],
     data () {
         return {
+            houseNum:0,
             isSwitchHouse:false,
-            value:'',
+            isHousing:false,
             dialogVisible: false,
+            houseProps:{
+                rentalStatus:this.rentalStatusDetail[1],houseType:this.houseCategoryDetail[1],
+                balcony:'',room:'',office:'',
+                toilet:'',kitchen:'',
+                bigDistrict:'',
+                provinceValue:'',
+                cityValue:'',
+                smallDistrict:'',
+                streetValue:'',
+                streetMore:''
+            },
             option1:[
                 {value: '选项1',label: '黄金糕'}, 
                 {value: '选项2',label: '双皮奶'},
@@ -143,9 +172,26 @@ export default {
         }
     },
     created:function(){
-        this.$root.$on('houseDetailShow',()=>{
+        this.$root.$on('houseDetailShow',(data)=>{
             this.isSwitchHouse=true;
+            this.houseNum = data;
         })
+    },
+    watch:{
+        houseProps: {
+            handler:function(value,oldValue){
+                console.log(this.houseProps.houseBuilding);
+                console.log(this.houseProps.houseType);
+                console.log(this.houseProps.rentalStatus);
+                console.log(this.houseProps.houseStreet);
+                if(this.houseProps.houseType == '住宅'){
+                    this.isHousing = true;
+                }else{
+                    this.isHousing = false;
+                }
+            },
+            deep:true
+        }
     },
     methods:{
         returnBack(){
@@ -184,6 +230,9 @@ export default {
             this.dialogVisible = true;
         }
     },
+    beforeDestroy(){
+        this.$root.$off('houseDetailShow')
+    }
 }
 </script>
 <style lang="less">

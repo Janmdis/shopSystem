@@ -29,16 +29,15 @@
                 <el-col :span='12'>
                     <el-form-item label="来源">
                         <el-select placeholder="请选择来源" @click.native='sourceFn' v-model="ruleForm.county">
-                            <el-option v-for=' item in this.ruleForm.sourceFns ' :label='item.name' :value="item.id"></el-option>
+                            <el-option v-for=' (item,index) in this.ruleForm.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="客户类型">
                         <el-select v-model="ruleForm.ctypes" @click.native='showData' placeholder="请选择客户类型">
-                            <el-option v-for=' item in this.ruleForm.curDate ' :label='item.name' :value="item.id"></el-option>
+                            <el-option v-for=' (item,index) in this.ruleForm.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
-                    </el-form-item>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
@@ -54,10 +53,8 @@
                             <el-option label="儿媳" value="7"></el-option>
                         </el-select>
                     </el-form-item>
-                    </el-form-item>
                 </el-col>
             </el-row>
-            </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
                 <el-button @click="resetForm('ruleForm')">重置</el-button>

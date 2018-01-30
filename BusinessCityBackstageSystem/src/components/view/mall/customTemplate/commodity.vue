@@ -23,7 +23,7 @@
         </el-row>
         <div class="hoverClick">
             <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-            <span><a href="#addnewContent" style="color:#fff">添加新内容</a></span>
+            <span><a href="#addnewContent"  onclick="return false;" style="color:#fff">添加新内容</a></span>
         </div>
     </div>
     <!-- 商品组件结束 -->
