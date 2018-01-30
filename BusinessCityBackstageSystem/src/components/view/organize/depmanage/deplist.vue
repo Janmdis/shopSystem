@@ -28,7 +28,7 @@ export default {
                 children: 'children',
                 label: 'info'
             },
-            deleteshow:true,
+            deleteshow:false,
             currentid:'',
             currentname:'',
             curentnum:'',

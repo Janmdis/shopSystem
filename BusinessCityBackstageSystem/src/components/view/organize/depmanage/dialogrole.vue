@@ -101,6 +101,7 @@ export default {
             
         },
         ai_dialog_close(){
+            this.$refs.ruleForm.resetFields();
             this.dialogroleVisible = false;
         },
         handleCheckAllChange(val) {

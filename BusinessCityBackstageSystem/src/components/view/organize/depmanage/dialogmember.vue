@@ -1,6 +1,6 @@
 <template>
     <el-dialog id='userdialog'  width='60%' top='40px'  title="创建用户" :visible="dialogmemberVisible" :modal='true' :before-close="ai_dialog_close"> 
-        <el-form @submit.native.prevent :model='dataform' status-icon ref="ruleForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
+        <el-form @submit.native.prevent :model='dataform' status-icon ref="memberForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span="10" :offset='2'>
                     <el-form-item label="用户名称：" prop="adminName">
@@ -8,22 +8,47 @@
                     </el-form-item>
                 </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="登录密码：" prop="adminPassword">
-                        <el-input placeholder="请输入登录密码" v-model="dataform.adminPassword" auto-complete="off"></el-input>
+                    <el-form-item label="性别：" prop="adminSex">
+                        <el-radio-group v-model="dataform.adminSex">
+                            <el-radio :label="0">男</el-radio>
+                            <el-radio :label="1">女</el-radio>
+                        </el-radio-group>
+                        
                     </el-form-item>
+                    
                     
                 </el-col>
             </el-row>
             <el-row>
                  <el-col :span="10" :offset='2'>
-                     <el-form-item label="性别：" prop="adminSex">
-                        <el-radio v-model="dataform.adminSex" label="0">男</el-radio>
-                        <el-radio v-model="dataform.adminSex" label="1">女</el-radio>
+                    <el-form-item label="登录密码：" prop="adminPassword">
+                        <el-input placeholder="请输入登录密码" v-model="dataform.adminPassword" auto-complete="off"></el-input>
                     </el-form-item>
                  </el-col>
                 <el-col  :span="10">
+                     <el-form-item label="确认密码：" prop="confirmPassword">
+                        <el-input placeholder="请再次输入登录密码" v-model="dataform.confirmPassword"  auto-complete="off"></el-input>
+                    </el-form-item>
+                    
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :offset='2'>
                     <el-form-item label="年龄：" prop="adminAge">
-                        <el-input v-model='adminAge' :disabled="true" type='number' min="0" placeholder="请输入年龄" auto-complete="off"></el-input>
+                        <el-input v-model='age' :disabled="true" type='number' min="0" placeholder="请输入年龄" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item label="员工类型：">
+                        <el-select v-model="dataform.employeeTypeId"  placeholder="请选择" @change='selectemploytype'>
+                            <el-option
+                            v-for="item in employeetypelist"
+                            :key="item.id"
+                            :value-key="item.id"
+                            :label="item.employeeTypeName"
+                            :value="item.id">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -82,7 +107,7 @@
                 </el-col>
                 <el-col  :span="10">
                     <el-form-item label="所属角色：">
-                        <el-select v-model="dataform.groupId"  placeholder="请选择" >
+                        <el-select v-model="dataform.groupId"  placeholder="请选择" @change='selectrole'>
                             <el-option
                             v-for="item in rolelist"
                             :key="item.id"
@@ -90,21 +115,6 @@
                             :label="item.groupName"
                             :value="item.id"
                             >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="10" :offset='2'>
-                    <el-form-item label="员工类型：">
-                        <el-select v-model="dataform.employeeTypeId"  placeholder="请选择">
-                            <el-option
-                            v-for="item in employeetypelist"
-                            :key="item.id"
-                            :value-key="item.id"
-                            :label="item.employeeTypeName"
-                            :value="item.employeeTypeId">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -120,12 +130,24 @@
 import { mapState } from 'vuex'
 export default {
     data(){
+        var validatePass = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请再次输入密码'));
+            }
+            else if (value !== this.dataform.adminPassword) {
+                callback(new Error('两次输入密码不一致!'));
+            }
+            else {
+                callback();
+            }
+        };
         return{
             dialogmemberVisible:false,
             dataform:{
                 adminName:'',
                 adminPassword:'',
-                adminSex: '0',
+                confirmPassword:'',
+                adminSex: 0,
                 adminAge:'',
                 adminBirthday:'',
                 entryDate:'',
@@ -138,7 +160,6 @@ export default {
                 employeeTypeId:'',
                 employeeTypeName:''
             },
-            // deplist:[],
             rolelist:[],
             employeetypelist:[],
             rules:{
@@ -148,11 +169,18 @@ export default {
                 adminPassword:[
                     {required:true,message:'请输入密码',trigger:'blur'}
                 ],
+                confirmPassword:[
+                    {required:true,message:'请再次输入密码',trigger:'blur'},
+                    {validator:validatePass,trigger:'blur'}
+                ],
                 adminBirthday:[
                     {required:true,message:'请选择日期',trigger:'blur'}
                 ],
                 entryDate:[
                     {required:true,message:'请选择日期',trigger:'blur'}
+                ],
+                phone:[
+                    {pattern: /^1[3|4|5|7|8][0-9]{9}$/g,required:true,message:'请输入正确的手机号码',trigger:'blur'}
                 ]
             },
             pickerOptions:{
@@ -164,7 +192,9 @@ export default {
     },
     created:function(){
         this.$root.$on('opendialogmember',(status)=>{
-            this.dialogmemberVisible=status;
+            this.getemployeetype();
+            this.dialogmemberVisible=true;
+            this.$refs.memberForm.resetFields();
         });
     },
     methods:{
@@ -182,7 +212,13 @@ export default {
                 return item.id === value;
             });
             this.dataform.groupName=obj.groupName;
-            // this.getrolelist(obj.id);
+        },
+        selectemploytype(value){
+            let obj = {};
+            obj = this.employeetypelist.find((item)=>{
+                return item.id === value;
+            });
+            this.dataform.employeeTypeName=obj.employeeTypeName;
         },
         // 获取角色列表
         getrolelist(depid){
@@ -196,16 +232,62 @@ export default {
                 if(data.msg=="查询成功"){
                     that.rolelist=data.info.list;
                 }
+                // console.log(response);
+            })
+            .catch(function (response) {
                 console.log(response);
+            });
+        },
+        // 获取员工类型列表
+        getemployeetype(){
+            let that=this;
+            this.$http.get('/api/admin/employeetype/queryList',{})
+            .then(function (response) {
+                let data=response.data;
+                if(response.status==200){
+                    that.employeetypelist=data.info;
+                }
+                // console.log(response);
             })
             .catch(function (response) {
                 console.log(response);
             });
         },
         ai_dialog_close(){
+            this.$refs.memberForm.resetFields();
             this.dialogmemberVisible=false;
+            
         },
         adddata(){
+            let that=this;
+            this.dataform.adminAge=this.age;
+            console.log(this.dataform);
+            this.$refs.memberForm.validate((valid)=>{
+                if(valid){
+                    this.$http.post('/api/admin/account/insert',this.dataform)
+                    .then(function(response){
+                        // if(response.data.status==200){
+                        //     that.$message({
+                        //         type:'success',
+                        //         message:'添加成功!'
+                        //     });
+                        // }
+                        that.$message({
+                            type:'success',
+                            message:response.data.msg
+                        });
+                        that.$root.$emit('updatemember');
+                        console.log(response);
+                    })
+                    .catch(function(response){
+                        that.$message({
+                            type:'info',
+                            message:'添加失败!'
+                        });
+                        console.log(response);
+                    });
+                }
+            })
             this.dialogmemberVisible=false;
         }
     },
@@ -213,7 +295,7 @@ export default {
         ...mapState({
             deplist: state => state.deplist.deplistall
         }),
-        adminAge:function(){
+        age:function(){
             let datecurrent=new Date();
             let dateborn=this.dataform.adminBirthday;
             if(dateborn==''){

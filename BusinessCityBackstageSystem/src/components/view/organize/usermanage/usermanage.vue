@@ -16,7 +16,11 @@ import Deplist from "./deplist.vue";
 import Memberlist from "./memberlist.vue";
 import Dialogedit from "./dialogedit.vue";
 export default {
-    components:{Deplist,Memberlist,Dialogedit}
+    components:{Deplist,Memberlist,Dialogedit},
+    created:function(){
+        this.$store.dispatch('getDeplisttree');
+        this.$store.dispatch('getDeplistall');
+    },
 }
 </script>
 <style scoped>
