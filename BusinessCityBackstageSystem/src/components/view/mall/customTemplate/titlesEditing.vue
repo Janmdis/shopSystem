@@ -7,13 +7,13 @@
                         <!-- <span class="mainTitle">主标题：{{ mainTitle }}</span>
                         <el-input v-model="mainTitle" class="mainTitleInput"></el-input> -->
                         <span class="mainTitle">主标题：</span>
-                        <el-input @input.native="inputchange($event)" class="mainTitleInput"></el-input>
+                        <el-input @input.native="inputchange($event)" v-model="mainTitleInput" class="mainTitleInput"></el-input>
                         <colorPicker v-model="color1" v-on:change="headleChangeColor1"></colorPicker>
                         <div style="clear:both;"></div>
                     </div>
                     <div class="subtitleDiv">
                         <span class="subtitle">副标题：</span>
-                        <el-input @input.native="subinputchange($event)" class="subtitleInput"></el-input>
+                        <el-input @input.native="subinputchange($event)" v-model="subtitleInput" class="subtitleInput"></el-input>
                         <colorPicker v-model="color2" v-on:change="headleChangeColor2"></colorPicker>
                         <div style="clear:both;"></div>
                     </div>
@@ -28,34 +28,52 @@
   import colorPicker from './../../../../assets/plugin/vue-color-picker/colorPicker'
 
     export default{
+     props:['type'],
      data() {
          return{
              subtitle:'',
              mainTitle:'',
              color1: '#000',
-             color2: '#000'
+             color2: '#000',
+             mainTitleInput:'',
+             subtitleInput:''
          }
          
+     },
+     created:function(){
+         this.$root.$on('titleContent',(data) => {
+             console.log(data)
+             let mainContent = data.btitle;
+             let subContent = data.mtitle;
+             let mainColor = data.color1;
+             let subColor = data.color2;
+             console.log(mainColor)
+             console.log(subColor)
+              this.mainTitleInput = mainContent
+              this.color1 = mainColor;
+              this.subtitleInput = subContent
+              this.color2 = subColor;
+         })
      },
      methods:{
          inputchange($event){
              this.mainTitle = $event.target.value
              //console.log(this.mainTitle)
-             this.$root.$emit('mainTitle',{value:this.mainTitle});
+             this.$root.$emit('mainTitle',{value:this.mainTitle,type:this.type});
              
          },
          subinputchange($event){
              this.subtitle = $event.target.value
-             this.$root.$emit('subtitle',{value:this.subtitle});
+             this.$root.$emit('subtitle',{value:this.subtitle,type:this.type});
              
          },
          headleChangeColor1 (color1) {
             console.log(`颜色值改变事件：`+ this.color1 )
-            this.$root.$emit('mainTitleColor',{color:this.color1});
+            this.$root.$emit('mainTitleColor',{color:this.color1,type:this.type});
             },
             headleChangeColor2 (color2) {
              console.log(`颜色值改变事件：`+ this.color2 )
-             this.$root.$emit('subTitleColor',{color:this.color2});
+             this.$root.$emit('subTitleColor',{color:this.color2,type:this.type});
             }
             
      },
