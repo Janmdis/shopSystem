@@ -80,9 +80,12 @@ export default {
         })
         this.getDate(1)
         this.$root.$on('getDatezdy',(data)=>{
-            alert("..")
              this.getDate( data)
         })
+        this.$root.$on('dataListBox',(data)=>{
+            this.datalist = data
+        })
+        
     },
     methods:{
       getDate(pageIndex) {
