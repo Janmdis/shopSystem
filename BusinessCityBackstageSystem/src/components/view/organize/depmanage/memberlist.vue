@@ -12,18 +12,18 @@
                     <tr>
                         <th>用户名称</th>
                         <th>性别</th>
-                        <th>工作状态</th>
+                        <th>员工类型</th>
                         <th>联系方式</th>
                         <th>操作</th>
                     </tr>
                 </tbody>
                 <tbody class="roleBody">
                     <tr :key='item.id' v-for="item in list">
-                        <td data-id="item.id">{{item.adminName}}</td>
-                        <td data-id="item.id">{{item.sex}}</td>
-                        <td data-id="item.id">{{item.status}}</td>
-                        <td data-id="item.id">{{item.phone}}</td>
-                        <td data-id="item.id"><span class="delrole">删除</span></td>
+                        <td :data-id="item.id">{{item.adminName}}</td>
+                        <td :data-id="item.id">{{item.adminSex?'女':'男'}}</td>
+                        <td :data-id="item.id">{{item.employeeTypeName}}</td>
+                        <td :data-id="item.id">{{item.phone}}</td>
+                        <td :data-id="item.id"><span :data-id="item.id" class="delrole" @click="deletedata($event)">删除</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -47,10 +47,14 @@ export default {
             this.roleid=data.roleid
             this.getmemberlist();
         });
+        this.$root.$on("updatemember",()=>{
+            this.getmemberlist();
+        });
     },
     methods:{
         getmemberlist(){
-             this.$http.post('/api/admin/account/multiConditionalQuery',{
+            let that=this;
+            this.$http.post('/api/admin/account/multiConditionalQuery',{
                 groupId:this.roleid,
                 pageSize:0
             })
@@ -65,6 +69,37 @@ export default {
                 console.log(response);
             });
         },
+        deletedata(e){
+            let target=e.target;
+            let id=target.getAttribute('data-id');
+            let that=this;
+            // this.$http({
+            //     url:'/api/admin/account/delete',
+            //     method:'post',
+            //     headers:{
+            //         'Content-Type': 'application/x-www-form-urlencoded'
+            //     },
+            //     data:{ids:id}
+            // })
+            this.$http.post('/api/admin/account/delete?ids='+id,{})
+            .then(function (response) {
+                let data=response.data;
+                if(data.status==200){
+                    that.$message({
+                        type:'success',
+                        message:'删除成功'
+                    });
+                    that.getmemberlist();
+                }
+                console.log(response);
+            })
+            .catch(function (response) {
+                that.$message({
+                    type:'info',
+                    message:'删除失败！'
+                });
+            });
+        },
         opendialog(){
             this.$root.$emit('opendialogmember',true);
             // this.dialogmeberVisible=true;
@@ -72,6 +107,7 @@ export default {
     },
     beforeDestroy:function(){
         this.$root.$off('membertorole');
+        this.$root.$off('updatemember');
     }
 }
 </script>
@@ -124,6 +160,7 @@ export default {
     border-spacing: 0;
     border-collapse: collapse;
     font-size: 14px;
+    margin-bottom: 20px;
 }
 .roleSection .member th{
 	width:16%;

@@ -27,6 +27,7 @@ export default {
             don_on.length?don_on[0].setAttribute('class','el-tree-node__label'):void(0);
             dom_current.setAttribute('class','el-tree-node__label on');
             this.$root.$emit('getrole',data.id);
+            this.$root.$emit('getemploy',data.id);
         }
     },
     computed: {

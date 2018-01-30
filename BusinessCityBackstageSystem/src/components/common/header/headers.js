@@ -60,7 +60,9 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
-    handleLoginOut() {},
+    handleLoginOut() {
+      this.$router.push("/login")
+    },
     selected: function (navInfo) {
       this.activeName = navInfo
       window.sessionStorage.setItem('status', navInfo)

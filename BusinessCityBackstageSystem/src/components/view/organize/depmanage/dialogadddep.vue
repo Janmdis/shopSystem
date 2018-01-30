@@ -116,6 +116,7 @@ export default {
             });
         },
         ai_dialog_close(){
+            this.$refs.ruleForm.resetFields();
             this.dialogDepVisible = false;
         },
     },

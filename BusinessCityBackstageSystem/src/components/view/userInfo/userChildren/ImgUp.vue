@@ -6,28 +6,81 @@
         <div class="mTop">
         <el-upload
         class="avatar-uploader"
-        action="/api/sms/file/fileUpload"
+        :action="importFileUrl"
         :show-file-list="false"
+<<<<<<< HEAD
+        :data="urlImg"
+        name='fileUpload'
+        :type='admin'
+=======
+        name='fileUpload'
+        :data='dataurl'
+>>>>>>> 52ef9f3c6037bf44843f9b1933da3937788876fa
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload">
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-        <el-col :span="24" ><el-button type="success">保存</el-button></el-col>
+        <el-col :span="24" ><el-button type="success" @click="saveImg">保存</el-button></el-col>
         </div>
     </el-container>
+    
 </template>
 
 <script>
 export default {
     data() {
       return {
-        imageUrl: ''
+        imageUrl: '',
+        admin:'admin',
+        urlImg:{
+          type:'admin'
+        }
       };
+    },
+    mounted(){
+      alert("..")
+      let url = '/api/admin/account/queryadminaccount'
+      this.$http({
+        url: url,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: {}
+      })
+        .then(respone => {
+          console.log(respone.data)
+          this.imageUrl = respone.data.info.adminHeadImg
+        })
+        .catch(error => {
+          console.log(error)
+          alert('网络错误，不能访问')
+        })
     },
     methods: {
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
+        this.imageUrl = res.info
+        console.log(file)
+      },
+      saveImg(){
+       let url = '/apiadmin/account/updateadminaccount'
+       this.$http({
+        url: url,
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: {
+          adminHeadImg: this.imageUrl
+        }
+      })
+        .then(respone => {
+          if (respone.msg == '修改成功') {
+            this.option(respone.data.msg,'success')
+         }
+        })
+        .catch(error => {
+          console.log(error)
+          this.option('网络错误，不能访问')
+        })
       },
       beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg';
