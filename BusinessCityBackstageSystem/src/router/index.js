@@ -24,7 +24,7 @@ export default new Router({
             children: [
                 {
                     path: '',
-                    redirect: 'index'
+                    redirect: '/login'
                 },
                 {
                     path: 'index', // 首页
