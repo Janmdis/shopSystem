@@ -9,7 +9,7 @@
                     <div><img src="/static/images/Member/personnel-integral.png" alt=""><span>个人累积消费积分 : </span><span>{{personnelInfo.consumptionPoints}}</span></div>
                 </li>
                 <li>
-                    <div><img src="/static/images/Member/personnel-character.png" alt=""><span>录入人 : </span><span>{{personnelInfo.createUser}}</span></div>
+                    <div><img src="/static/images/Member/personnel-character.png" alt=""><span>录入人 : </span><span>{{personnelInfo.createUser==null?'马云':personnelInfo.createUser}}</span></div>
                 </li>
                 <li>
                     <div><img src="/static/images/Member/personnel-timer.png" alt=""><span>录入时间 : </span><span>{{personnelInfo.createTime}}</span></div>
@@ -18,25 +18,22 @@
         </div>
         <div class="personnelMain">
             <ul class="infomation">
-                <li><label for="name"><span>姓名</span><el-input ref="memberName" name="memberName" id="name" v-model="items.nameInput" :placeholder='personnelInfo.name+""'></el-input></label></li>
-                <li><span>客户类型</span><el-select ref="option1" v-model="items.customer" :placeholder='customerCategory[personnelInfo.categoryId]'>
+                <li><label for="name"><span>姓名</span><el-input ref="memberName" name="memberName" id="name" v-model='items.nameInput' placeholder='请选择'></el-input></label></li>
+                <li><span>客户类型</span><el-select v-model="items.customer" placeholder='请选择'>
                     <el-option v-for="(item,index) in customerCategory" :key="index" :label="item" :value="item"></el-option>
                 </el-select></li>
-                <li class="memberPhone"><label for="phone"><span>手机号</span><el-input id="phone" name="memberPhone" v-model="items.phoneInput" :placeholder='personnelInfo.mobile+""' disabled></el-input></label></li>
-                <li><span>身份</span><el-select ref="option2" v-model="items.identy" :placeholder='this.customerIdentity[personnelInfo.identity]'>
+                <li class="memberPhone"><label for="phone"><span>手机号</span><el-input id="phone" name="memberPhone" v-model="items.phoneInput" placeholder='请选择' disabled></el-input></label></li>
+                <li><span>身份</span><el-select v-model="items.identy" placeholder='请选择'>
                     <el-option v-for="(item,index) in customerIdentity" :key="index" :label="item" :value="item"></el-option>
-                </el-select></li>
+                    </el-select>
+                </li>
                 <li class="ageLi"><span>出生日期</span>
-                    <div class="block" id="dataSelect" ><el-date-picker ref="option3" @change="selectDate(items.birth)" v-model="items.birth" :clearable="false" type="date" :placeholder='personnelInfo.birthDate+""'></el-date-picker></div>
+                    <div class="block" id="dataSelect" ><el-date-picker @change="selectDate(items.birth)" v-model="items.birth" :clearable="false" type="date" placeholder='请选择'></el-date-picker></div>
                     <span class="memberAge">年龄 : {{age?age:computedAge}}</span>
                 </li>
-                <!-- <li><span>城市</span><el-select v-model="city" :placeholder="personnelInfo.birthDate">
-                    <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select></li> -->
-                <li><span>来源</span><el-select ref="option4" v-model="items.origin" :placeholder='recommendedSource[personnelInfo.recommendedSourceId] == null? "电话专访" :recommendedSource[personnelInfo.recommendedSourceId]'>
+                <li><span>来源</span><el-select v-model="items.origin" placeholder='请选择'>
                     <el-option v-for="(item,index) in recommendedSource" :key="index" :label="item" :value="item"></el-option>
                 </el-select></li>
-                <!-- <li><label for="address"><span>地址管理</span><el-input type="text" name="memberAddress" id="address" v-model="addressInput" :placeholder="personnelInfo.birthDate"></el-input></label></li> -->
             </ul>
             <el-button :class='{activeBtn:!disabledBtn}'  @click='btnActive' :disabled="disabledBtn">保存</el-button>
         </div>
@@ -44,20 +41,29 @@
 </template>
 <script>
 export default{
-    props:['personnelInfo','customerCategory','customerIdentity','recommendedSource'],
+    props:[
+        'personnelInfo','customerCategory','customerIdentity','recommendedSource',
+        'defaultCategory','defaultIdentity','defaultSource'
+    ],
     data () {
         return {
             disabledBtn:true,
-            age:'',
+            age:0,
+            defaultCategorys:'',
             items:{
-                nameInput:'',
-                phoneInput:'',
-                identy:'',
-                customer:'',
-                birth:'',
-                origin:'',
+                nameInput:this.personnelInfo.name,
+                phoneInput:this.personnelInfo.mobile,
+                identy:this.defaultIdentity,
+                customer:this.defaultCategory,
+                birth:this.personnelInfo.birthDate,
+                origin:this.defaultSource,
             }
         }
+    },
+    beforeUpdate(){
+        this.items.identy=this.defaultIdentity;
+        this.items.customer=this.defaultCategory;
+        this.items.origin=this.defaultSource;
     },
     mounted(){
         this.changeClass();//  改变日期选择的图标位置 
@@ -72,18 +78,18 @@ export default{
                 this.personnelInfo.birthDate = years;
                 return this.age = Math.ceil(years - (this.personnelInfo.birthDate));
             }else{
-                return this.age = Math.ceil(2032 - (this.personnelInfo.birthDate).split('-')[0]);
+                return this.age = Math.ceil(years - (this.personnelInfo.birthDate).split('-')[0]);
             }
         }
     },
     watch:{
         items:{
             handler:function(val,oldval){
-                console.log(this.items.nameInput);
-                console.log(this.items.customer);
-                console.log(this.items.identy);
-                console.log(this.items.birth);
-                console.log(this.items.origin);
+                // console.log(this.items.nameInput);
+                // console.log(this.items.customer);
+                // console.log(this.items.identy);
+                // console.log(this.items.birth);
+                // console.log(this.items.origin);
                 this.disabledBtn = false;
             },
             deep:true
@@ -153,7 +159,7 @@ export default{
         },
         btnActive(){
             this.disabledBtn = true;
-            console.log("点击了")
+            console.log("点击了");
         }
     },
 }

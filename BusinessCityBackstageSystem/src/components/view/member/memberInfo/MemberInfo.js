@@ -4,6 +4,7 @@ import twoHouse from './House.vue'
 import threeOrder from './Order.vue'
 import fourVisit from './Visit.vue'
 import fiveRelatedPeople from './RelatedPeople.vue'
+import { setTimeout } from 'timers';
 export default {
     name: 'memberInfo',
     data() {
@@ -24,6 +25,11 @@ export default {
             recommendedSource: {},
             memberHouse: {},
             memberId: '',
+            houseCategory: {},
+            rentalStatus: {},
+            defaultCategory: '',
+            defaultIdentity: '',
+            defaultSource: '',
         }
     },
     created() {
@@ -71,6 +77,7 @@ export default {
                     } else {
                         //this.customerCategory = res.data.info.get(id);  // map数据,前端可以当做数组进行处理
                         this.customerCategory = res.data.info;
+                        this.defaultCategory = (res.data.info[this.personnelInfo.categoryId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.categoryId]);
                     }
                     console.log(res.data.info)
                 }).catch(err => { console.log(err) });
@@ -82,6 +89,7 @@ export default {
                         alert(res.data.msg)
                     } else {
                         this.customerIdentity = res.data.info;
+                        this.defaultIdentity = (res.data.info[this.personnelInfo.identity] == null ? res.data.info[1] : res.data.info[this.personnelInfo.identity]);
                     }
                     console.log(this.customerIdentity)
                 }).catch(err => { console.log(err); });
@@ -93,6 +101,7 @@ export default {
                         alert(res.data.msg)
                     } else {
                         this.recommendedSource = res.data.info;
+                        this.defaultSource = (res.data.info[this.personnelInfo.recommendedSourceId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.recommendedSourceId]);
                     }
                     console.log(this.recommendedSource)
                 }).catch(err => { console.log(err); });
@@ -104,8 +113,29 @@ export default {
                         alert(res.data.msg);
                     } else {
                         this.memberHouse = res.data.info;
+                        console.log(res.data.info)
+                        this.$http.post( //  查询房屋类型信息
+                            '/api/customer/housingCategory/queryCategory?key=id&value=name'
+                        ).then(res => {
+                            if (res.data.info == null) {
+                                alert(res.data.msg)
+                            } else {
+                                this.houseCategory = res.data.info;
+                                console.log(this.houseCategory)
+                            }
+                        }).catch(err => { console.log(err); });
+
+                        this.$http.post( //  获取租住状态接口信息
+                            '/api/customer/housingRentalStatus/queryStatus?key=id&value=name'
+                        ).then(res => {
+                            if (res.data.info == null) {
+                                alert(res.data.msg)
+                            } else {
+                                this.rentalStatus = res.data.info;
+                                console.log(this.rentalStatus)
+                            }
+                        }).catch(err => { console.log(err); });
                     }
-                    console.log(res.data.info)
                 }).catch(err => { console.log(err); })
 
 
@@ -129,16 +159,6 @@ export default {
                 text = onePersonnel;
             } else if (text == '房屋') {
                 text = twoHouse;
-                // this.$http.get( //  获取会员房屋信息
-                //     '/api/customer/customerHousing/findHousingInfo?id=' + this.memberId
-                // ).then(res => {
-                //     if (res.data.info == null) {
-                //         alert(res.data.msg);
-                //     } else {
-                //         this.memberHouse = res.data.info;
-                //     }
-                //     console.log(res.data)
-                // }).catch(err => { console.log(err); })
             } else if (text == '订单') {
                 text = threeOrder;
             } else if (text == '回访') {
@@ -146,7 +166,7 @@ export default {
             } else if (text == '相关联会员') {
                 text = fiveRelatedPeople;
             }
-            this.$root.$emit('title', text)
+            this.$root.$emit('title', text);
         },
     },
     components: {
