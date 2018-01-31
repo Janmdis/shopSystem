@@ -10,7 +10,7 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api': {
-                target: 'http://192.168.199.106/', //设置你调用的接口域名和端口号 别忘了加http
+                target: 'http://192.168.199.199/', //设置你调用的接口域名和端口号 别忘了加http
                 // target: 'http://192.168.199.207/',
                 changeOrigin: true,
                 pathRewrite: {
@@ -76,7 +76,7 @@ module.exports = {
         // Run the build command with an extra argument to
         // View the bundle analyzer report after build finishes:
         // `npm run build --report`
-        // Set to `true` or `false` to always turn it on or off
+        // Set to `true` or `false` to always turn it on or off 
         bundleAnalyzerReport: process.env.npm_config_report
     }
 }
