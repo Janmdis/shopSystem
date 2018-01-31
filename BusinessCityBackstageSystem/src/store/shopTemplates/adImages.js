@@ -109,9 +109,7 @@ const state={
     ]
 }
 const mutations={};
-const actions={
-    
-};
+const actions={};
 export default{
     state,
     mutations,

@@ -9,8 +9,7 @@
                      <div class="reLoadingImg">
                           <el-upload
                           class="avatar-uploader"
-                          action="http://192.168.199.207/sms/file/fileUpload"
-                          name="fileUpload"
+                          action="https://jsonplaceholder.typicode.com/posts/"
                           :show-file-list="false"
                           :on-success="handleAvatarSuccess"
                           :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">

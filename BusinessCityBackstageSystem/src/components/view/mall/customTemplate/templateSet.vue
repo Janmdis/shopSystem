@@ -181,18 +181,21 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             this.comlist=list;
             let length = document.querySelectorAll('.test').length;
             let value=this.comlist[length-2];
+            console.log(length)
+            console.log(value)
             this.changetop(length-2,value);
          });
      },
       computed:{
             ...mapState({
-                 adimage:state => state.adimage
+                 adimage:state => state.templateID
             })
         },
      methods:{
          //动态添加组件
          commodityAdd(){
              this.comlist.push('commodity');
+            
          },
          windowAdd(){
             this.comlist.push('window');
@@ -202,6 +205,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          },
          titleAdd(){
              this.comlist.push('titles');
+              let length = document.querySelectorAll('.test').length;
+            let value=this.comlist[length];
+            console.log(length)
+            console.log(value)
+            this.changetop(length-1,value);
         },
          imageAdsAdd(){
              this.comlist.push('imageAds');
@@ -211,7 +219,8 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
         },
         changetop(index,item){
             let jump = document.querySelectorAll('.test');
-            let top=jump[index].offsetTop-100;
+            console.log(jump)
+            let top=jump[index].offsetTop-130;
             let dom=document.getElementsByClassName('current-style');
             dom.length?dom[0].setAttribute('class','test borderHover'):void(0);
             jump[index].setAttribute('class','current-style test borderHover');
