@@ -90,14 +90,13 @@ export default {
     methods:{
       getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/customer/account/query?page='+ pageIndex+'&pageSize=10';
+            let url = '/api/customer/account/query?page='+pageIndex;
             this.$http({
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data: {
-                },
+                data:{},
             })
             .then(response => {
                 this.listLoading =  false;
