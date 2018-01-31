@@ -1,7 +1,7 @@
 
 <template>
   <!-- 标题组件开始 -->
-    <div class="borderHover" :index='dataid'>
+    <div class="borderHover" @click="sendTitleinfo" :index='dataid'>
         <el-row>
           <el-col :span="24">
             <div class="line">
@@ -9,15 +9,15 @@
             </div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="mainTitles" style="margin-bottom:25px;text-align: center;font-size: 18px;overflow: hidden;">{{ main }}</div>
+            <div class="mainTitles" v-bind:style="mainTitleStyle">{{ main }}</div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="subTitles" style="text-align: center;overflow: hidden;">{{ sub }}</div>
+            <div class="subTitles" v-bind:style="subTitleStyle">{{ sub }}</div>
           </el-col>
         </el-row>
          <div class="hoverClick">
             <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-            <span><a href="#addnewContent" style="color:#fff">添加新内容</a></span>
+            <span><a href="#addnewContent" onclick="return false;" style="color:#fff">添加新内容</a></span>
         </div>
     </div>
     <!-- 标题组件结束 -->
@@ -29,41 +29,47 @@
                 dataid:'',
                 main:'BACK TO SCHOOL SEASONAL DISCOUNT',
                 sub:'开学季优惠',
-                color1: {
-                  type: String,
-                  default: ''
+                color1: '#000',
+                color2: '#000',
+                mainTitleStyle:{
+                  color:''
                 },
-                color2: {
-                  type: String,
-                  default: ''
+                subTitleStyle:{
+                  color:''
                 }
-            }
+             }
         },
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
           this.$root.$on('mainTitle',(data) => {
-            this.main = data.value
+            let type = data.type;
+            if(this.dataid==type){
+              this.main = data.value
+            }
           })
           this.$root.$on('subtitle',(data) => {
-            this.sub = data.value
+            let type = data.type;
+            if(this.dataid==type){
+             this.sub = data.value
+            }
           })
           this.$root.$on('mainTitleColor',(data) => {
-            this.color1 = data.color
-            let mainTitles = document.getElementsByClassName('mainTitles')
-            console.log(mainTitles)
-            for(var value of mainTitles){
-              console.log(value)
-              value.style.color = this.color1;
+            let type = data.type;
+            console.log(type)
+            console.log(this.dataid)
+            if(this.dataid == type){
+               this.color1 = data.color
+              this.mainTitleStyle.color = this.color1;
+              //console.log(this.mainTitleStyle.color+'绑定的主标题颜色')
             }
           })
           this.$root.$on('subTitleColor',(data) => {
-            this.color2 = data.color
-           let subtitles = document.getElementsByClassName('subTitles')
-           console.log(subtitles)
-           for(var value of subtitles){
-              console.log(value)
-              value.style.color = this.color2;
+            let type = data.type;
+            if(this.dataid==type){
+              this.color2 = data.color
+              this.subTitleStyle.color = this.color2;
+             // console.log(this.subTitleStyle.color+'绑定的副标题颜色')
             }
           })
         },
@@ -74,6 +80,13 @@
                     type:'success',
                     message:'删除成功!'
                 };
+          },
+          sendTitleinfo(){
+            // alert(this.main)
+            // alert(this.sub)
+            // alert(this.color1)
+            // alert(this.color2)
+             this.$root.$emit('titleContent',{btitle:this.main,mtitle:this.sub,color1:this.color1,color2:this.color2});
           },
           deletedep(){
             this.$confirm('确认删除？', '提示', {
@@ -150,5 +163,6 @@
   height:3px;
   margin:0 auto;
   }
-
+.mainTitles{margin-bottom:25px;text-align: center;font-size: 18px;overflow: hidden;}
+.subTitles{text-align: center;overflow: hidden;}
 </style>

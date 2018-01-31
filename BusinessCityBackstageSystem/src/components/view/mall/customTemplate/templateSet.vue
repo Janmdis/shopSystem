@@ -23,8 +23,6 @@
                   <!-- 模板内容头部结束 -->
                   <!-- 模板内容开始 -->
                   <div id='test'>
-                      <!-- banner -->
-                      <banner></banner>
                       <keep-alive v-for='(item,index) in comlist' :key='index'>
                         <components :templatedata='index' :is='item'  :type='item'  class="test"  @click.native='changetop(index,item)'></components>
                       </keep-alive>
@@ -74,7 +72,7 @@
               <!-- 模板最外层容器结束 -->
           </el-col>
           
-          <!-- 左侧开始 -->
+          <!-- 右侧开始 -->
           <el-col :span="12" style="" id='lefttemp'>
               <p class="template-name-title">模板名称：</p>
               <div class="template-name-input">
@@ -121,8 +119,6 @@
   </el-main>
 </template>
 <script>
-//banner组件
-import banner from './banner'
 // 图片广告展示组件
 import imageAds from './imageAds'
 // 橱窗展示组件
@@ -159,12 +155,15 @@ import uploadImage from './uploadImage'
 import productDetails from './productDetails'
 // 自定义模态框
 import customLink from './customLink'
+
+import { mapState,mapMutations,mapGetters } from 'vuex'
+
  export default{
      data() {
          return{
              imgdata:'',
              prodata:'',
-             comlist:[],
+             comlist:['imageAds'],
              left:'imageAdEditing',
              leftlist:['productEditing','titlesEditing','imageAdEditing','classificationEditing','windowEditing','windowEditing2'],
              list2:['commodity','titles','imageAds','classification','window','window2'],
@@ -185,6 +184,11 @@ import customLink from './customLink'
             this.changetop(length-2,value);
          });
      },
+      computed:{
+            ...mapState({
+                 adimage:state => state.adimage
+            })
+        },
      methods:{
          //动态添加组件
          commodityAdd(){
@@ -219,7 +223,6 @@ import customLink from './customLink'
         }
      },
      components:{
-         banner,
          imageAds,
          window,
          window2,
