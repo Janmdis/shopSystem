@@ -24,7 +24,7 @@
                   <!-- 模板内容开始 -->
                   <div id='test'>
                       <keep-alive v-for='(item,index) in comlist' :key='index'>
-                        <components :templatedata='index' :is='item'  :type='item'  class="test"  @click.native='changetop(index,item)'></components>
+                        <components :templatedata='index' :is='item'  :type='item'  class="test"   @click.native='changetop(index,item)'></components>
                       </keep-alive>
                       <!-- 图片广告组件 -->
                       <!-- <imageAds></imageAds> -->
@@ -76,7 +76,7 @@
           <el-col :span="12" style="" id='lefttemp'>
               <p class="template-name-title">模板名称：</p>
               <div class="template-name-input">
-                  <el-input  placeholder="请输入内容"></el-input>
+                  <el-input  placeholder="请输入内容" v-model="templateName"></el-input>
               </div>
               <div style="clear:both;"></div>
               <div class="template-editContent-div">
@@ -163,7 +163,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          return{
              imgdata:'',
              prodata:'',
-             comlist:['imageAds'],
+             comlist:['imageAds','window','window2','commodity','titles','classification'],
              left:'imageAdEditing',
              leftlist:['productEditing','titlesEditing','imageAdEditing','classificationEditing','windowEditing','windowEditing2'],
              list2:['commodity','titles','imageAds','classification','window','window2'],
@@ -186,16 +186,23 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             this.changetop(length-2,value);
          });
      },
-      computed:{
-            ...mapState({
-                 adimage:state => state.templateID
-            })
-        },
+     computed:mapState({
+         templateName:state => state.adImageList.templateName
+     }),
      methods:{
          //动态添加组件
-         commodityAdd(){
+         commodityAdd(item){
              this.comlist.push('commodity');
-            
+            //  let addOffsetTop = document.querySelectorAll('#addnewContent')
+            //  console.log(addOffsetTop)
+            //  let top = addOffsetTop[0].offsetTop;
+            //  console.log(top)
+            //  let rightEditContent = document.querySelectorAll('.template-editContent-div')
+            //  rightEditContent[0].style.marginTop=top+'px';
+            //   let eq=this.list2.indexOf(item);
+            // this.left=this.leftlist[eq];
+            // let comlistLen = this.comlist.length;
+            // this.indexr = comlistLen;
          },
          windowAdd(){
             this.comlist.push('window');
@@ -203,13 +210,13 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          windowsAdd(){
             this.comlist.push('window2');
          },
-         titleAdd(){
+         titleAdd(item){
              this.comlist.push('titles');
-              let length = document.querySelectorAll('.test').length;
-            let value=this.comlist[length];
-            console.log(length)
-            console.log(value)
-            this.changetop(length-1,value);
+            //  let length = document.querySelectorAll('.test').length;
+            //  let value=this.comlist[length];
+            //  console.log(length)
+            //  console.log(value)
+            //  this.changetop(length,value);
         },
          imageAdsAdd(){
              this.comlist.push('imageAds');
@@ -218,8 +225,12 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
              this.comlist.push('classification');
         },
         changetop(index,item){
-            let jump = document.querySelectorAll('.test');
-            console.log(jump)
+            // console.log(index)
+            // let jump = this.$refs.temEditTop
+            //  console.log(jump)
+            //  console.log(jump.length)
+             let jump = document.querySelectorAll('.test');
+             console.log(jump)
             let top=jump[index].offsetTop-130;
             let dom=document.getElementsByClassName('current-style');
             dom.length?dom[0].setAttribute('class','test borderHover'):void(0);
