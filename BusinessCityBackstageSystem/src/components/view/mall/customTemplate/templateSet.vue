@@ -119,6 +119,8 @@
   </el-main>
 </template>
 <script>
+import axios from 'axios'
+
 // 图片广告展示组件
 import imageAds from './imageAds'
 // 橱窗展示组件

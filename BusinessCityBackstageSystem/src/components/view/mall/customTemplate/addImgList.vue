@@ -1,19 +1,28 @@
 <template>
+        
+        
+        <!-- <el-col :span="24" ><el-button type="success" @click="saveImg">保存</el-button></el-col>
+         -->
+
+
   <div class="carouselListInfo">
                 <div class="bannerEditContent">
                     <div class="chooseImg" style="width:246px;height:141px;">
                         <div class="center">
-                             <img class="microImg avatar" v-if="imageUrl" :src="imageUrl">
+                          <img v-if="imageUrl" :src="imageUrl" class="microImg avatar">
                         </div>
                     </div>
                      <div class="reLoadingImg">
-                          <el-upload
-                          class="avatar-uploader"
-                          action="https://jsonplaceholder.typicode.com/posts/"
-                          :show-file-list="false"
-                          :on-success="handleAvatarSuccess"
-                          :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
-                        </el-upload>
+                         <el-upload
+                            class="avatar-uploader"
+                            :action="importFileUrl"
+                            :show-file-list="false"
+                            :data="urlImg"
+                            name='fileUpload'
+                            :type='admin'
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                          </el-upload>
                         <p style="line-height: 887%;text-align: center;">重新上传 建议比例（15:7）</p>
                         <div class="delete-img" @click="deleteImgAd">&times;</div>
                     </div>
@@ -36,15 +45,58 @@
             </div>
 </template>
 <script>
-
+   import axios from 'axios'
     export default{
      data() {
          return{
              deleteId:'',
-             imageUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1516962155831&di=322da642ba62380467a16fac4f07996b&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140217%2F0042040393387050_b.jpg'
+             importFileUrl:'/api/admin/account/queryadminaccount',
+             imageUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1516962155831&di=322da642ba62380467a16fac4f07996b&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140217%2F0042040393387050_b.jpg',
+             admin:'admin',
+             urlImg:{
+                 type:'admin'
+             }
          }
          
      },
+     //图片上传
+    //  mounted(){
+    //      let url = '/api/admin/account/queryadminaccount';
+    //      this.$http({
+    //          url:url,
+    //          method:'post',
+    //          headers:{'Content-Type':'application/json'},
+    //          data:{}
+    //          })
+    //         .then(respone => {
+    //             console.log(respone.data)
+    //             this.imageUrl = JSON.stringify(respone.data.info.adminHeadImg)
+    //             // this.saveImg()
+    //             console.log(respone.data.info.adminHeadImg)
+    //             let urls = '/api/admin/account/updateadminaccount'
+    //             this.$http({
+    //                 url: urls,
+    //                 method: 'post',
+    //                 headers: { 'Content-Type': 'application/json' },
+    //                 data: {
+    //                 adminHeadImg: this.imageUrl
+    //                 }
+    //             })
+    //                 .then(respone => {
+    //                     if (respone.msg == '修改成功') {
+    //                     alert(respone.data.msg,'success')
+    //                     }
+    //                 })
+    //                 .catch(error => {
+    //                     console.log(error)
+    //                     alert('网络错误，不能访问')
+    //                 })
+    //         })
+    //         .catch(error => {
+    //             console.log(error)
+    //             alert("网络错误，不能访问")
+    //         })
+    //  },
      props:['deleteImgAdData'],
         created:function(){
           this.deleteId=this.deleteImgAdData;
@@ -52,19 +104,23 @@
      methods:{
          handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
+       // this.imageUrl = res.info
+       // console.log(file)
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg';
+            const isGIF = file.type === 'image/gif';
             const isPNG = file.type === 'image/png';
+            const isBMP = file.type === 'image/bmp';
             const isLt2M = file.size / 1024 / 1024 < 2;
 
-            if (!isJPG && !isPNG) {
-            this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
+            if (!isJPG && !isPNG && !isGIF && !isBMP) {
+               this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
             }
             if (!isLt2M) {
-            this.$message.error('上传头像图片大小不能超过 2MB!');
+               this.common.errorTip('上传图片大小不能超过 2MB!');
             }
-            return isJPG && isLt2M && isPNG;
+             return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
         },
          opendialogPro(){
              this.$root.$emit('opendialogProduct',true)
@@ -75,9 +131,6 @@
           deleteImgAd(){
             this.$root.$emit('imgADdeleteId',this.deleteId);
          }
-     },
-     components:{
-         
      }
  }
 </script>
