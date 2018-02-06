@@ -17,7 +17,7 @@
                     <el-button type="primary" @click="adddata">新增</el-button>
                     <!-- <el-button type="primary">导入</el-button>
                     <el-button type="primary">导出</el-button> -->
-                    <el-button type="primary" class='research'><i class="icon iconfont icon-shuaxin"></i></el-button>
+                    <el-button type="primary" class='refresh' @click='refreshdata'><i class="icon iconfont icon-shuaxin"></i></el-button>
                 </div>
                 
             </el-col>
@@ -183,6 +183,9 @@ export default {
         },
         searchdata(){
             this.getemployeelist(1,this.searchvalue);
+        },
+        refreshdata(){
+            this.getemployeelist(1);
         }
     },
     beforeDestroy:function(){
@@ -222,16 +225,19 @@ export default {
     background-color: #00adab;
     /* margin-left: 15px; */
 }
-.search .el-button--primary:hover{
+/* .search .el-button--primary:hover{
     background-color: #00adab;
-}
-.search .research{
+} */
+.search .refresh{
     background: none;
     border: none;
     color:#00adab;
     font-size: 40px;
     padding: 0;
 }
+/* .search .refresh:hover{
+    background-color: none;
+} */
 .el-pagination{
     text-align: right;
     margin-top: -90px;

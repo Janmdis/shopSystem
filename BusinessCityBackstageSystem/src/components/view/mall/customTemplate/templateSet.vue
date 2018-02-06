@@ -205,11 +205,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          },
          titleAdd(){
              this.comlist.push('titles');
-              let length = document.querySelectorAll('.test').length;
-            let value=this.comlist[length];
-            console.log(length)
+              let index = document.querySelectorAll('.test').length;
+            let value=this.comlist[index];
+            console.log(this.comlist,index)
             console.log(value)
-            this.changetop(length-1,value);
+            this.changetop(index-1,value);
         },
          imageAdsAdd(){
              this.comlist.push('imageAds');

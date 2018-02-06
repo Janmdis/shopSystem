@@ -194,7 +194,6 @@ export default {
         this.$root.$on('opendialogmember',(status)=>{
             this.getemployeetype();
             this.dialogmemberVisible=true;
-            this.$refs.memberForm.resetFields();
         });
     },
     methods:{
