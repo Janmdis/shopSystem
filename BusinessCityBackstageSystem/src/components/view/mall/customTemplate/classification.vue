@@ -8,16 +8,18 @@
             <img src="./../../../../assets/templateImg.jpg" class="img">
           </el-col>
           <el-col class="className">
-             <img src="./../../../../assets/templateImg.jpg" class="img">
             <div class="classNameTitle">数码</div>
+             <img src="./../../../../assets/templateImg.jpg" class="img">
+            
           </el-col>
           <el-col class="className">
             <div class="classNameTitle">家电</div>
              <img src="./../../../../assets/templateImg.jpg" class="img">
           </el-col>
           <el-col class="className">
-             <img src="./../../../../assets/templateImg.jpg" class="img">
             <div class="classNameTitle">食品</div>
+             <img src="./../../../../assets/templateImg.jpg" class="img">
+            
           </el-col>
           <el-col class="className">
             <div class="classNameTitle">衣服</div>
