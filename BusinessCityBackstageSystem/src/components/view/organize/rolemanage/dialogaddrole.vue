@@ -1,6 +1,6 @@
 <template>
     <el-dialog  width='60%' top='40px'  title="新增角色" :visible="dialogroleVisible" :modal='true' :before-close="ai_dialog_close"> 
-        <el-form @submit.native.prevent :model='dataform' status-icon ref="ruleForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
+        <el-form @submit.native.prevent :model='dataform' status-icon ref="roleForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
             <el-row :gutter='5' class='topmsg'>
                 <el-col :span="7" :offset='1'>
                     <el-form-item label="角色名称：" prop="groupName">
@@ -79,6 +79,7 @@ export default {
             this.dataform.departmentName=obj.departmentName;
         },
         ai_dialog_close(){
+            this.$refs.roleForm.resetFields();
             this.dialogroleVisible=false;
         },
         handleCheckAllChange(val) {
@@ -96,7 +97,7 @@ export default {
             for(let i=0;i<this.checkedPromises.length;i++){
                 checklist.push(this.checkedPromises[i].id);
             }
-            this.$refs.ruleForm.validate((valid)=>{
+            this.$refs.roleForm.validate((valid)=>{
                 if(valid){
                     if(this.dataform.departmentName==''){
                         this.$alert('请选择部门', '提示', {

@@ -143,7 +143,7 @@ export default{
         addCover(){ //  新增房屋事件
             var that = this;
             this.showHouseCover = true;
-            this.$http.get('/api/public/region/findParent?levels=3')
+            this.$http.get('/api/public/region/findParent')
             .then(res => {
                 if (res.data.info == null) {
                     alert(res.data.error)
