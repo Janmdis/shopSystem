@@ -214,19 +214,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          },
          titleAdd(item){
              this.comlist.push('titles');
-<<<<<<< HEAD
-              let index = document.querySelectorAll('.test').length;
-            let value=this.comlist[index];
-            console.log(this.comlist,index)
-            console.log(value)
-            this.changetop(index-1,value);
-=======
             //  let length = document.querySelectorAll('.test').length;
             //  let value=this.comlist[length];
             //  console.log(length)
             //  console.log(value)
             //  this.changetop(length,value);
->>>>>>> 9d99fb73d21789e580fddca1861c93eceb0e23ee
         },
          imageAdsAdd(){
              this.comlist.push('imageAds');
