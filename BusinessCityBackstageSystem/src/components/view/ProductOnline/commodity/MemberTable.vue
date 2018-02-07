@@ -3,6 +3,7 @@
     :data="datalist"
     @selection-change='showextra'
     @cell-click='showMemberInfo'
+    :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
     style="width: 100%">
@@ -21,43 +22,67 @@
         </el-table-column>
         <el-table-column
         prop="name"
-        label="客户姓名"
+        label="图片"
+        width='120'
         >
         </el-table-column>
         <el-table-column
         prop="mobile"
         width='120'
-        label="手机号">
+        label="标题">
         </el-table-column>
         <el-table-column
+        width='120'
         prop="types"
-        label="客户类型">
+        label="库存" 
+        sortable
+        >
         </el-table-column>
         <el-table-column
+        width='120'
         prop="city"
-        label="城市">
+        label="分类(品牌)"
+        >
         </el-table-column>
         <el-table-column
+        width='120'
         prop="quarters"
-        label="小区">
+        label="销量"
+        sortable>
         </el-table-column>
         <el-table-column
+        width='120'
         prop="state"
-        label="订单状态">
+        label="价格(/元)"
+        sortable>
         </el-table-column>
         <el-table-column
+        width='120'
         prop="source"
-        label="来源">
+        label="参加活动">
         </el-table-column>
         <el-table-column
         prop="Inputtiem"
         width='100'
-        label="录入时间">
+        label="状态">
         </el-table-column>
         <el-table-column
-        width='260'
+        width='120'
         prop="address"
-        label="小区地址">
+        label="发布时间"
+        sortable>
+    </el-table-column>
+    <el-table-column
+        width='180'
+        prop="address"
+        label="操作"
+        fixed='right'>
+        <template scope="scope" >
+            <el-button type="text" size="small">编辑</el-button>
+            <el-button type="text" size="small">删除</el-button>
+            <el-button type="text" size="small">下架</el-button>
+        </template>
+        
     </el-table-column>
                 
             </el-table>

@@ -8,14 +8,9 @@
         class="avatar-uploader"
         :action="importFileUrl"
         :show-file-list="false"
-<<<<<<< HEAD
         :data="urlImg"
         name='fileUpload'
         :type='admin'
-=======
-        name='fileUpload'
-        :data='dataurl'
->>>>>>> 52ef9f3c6037bf44843f9b1933da3937788876fa
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload">
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -31,6 +26,7 @@
 export default {
     data() {
       return {
+        importFileUrl:'api/admin/account/queryadminaccount',
         imageUrl: '',
         admin:'admin',
         urlImg:{
@@ -38,8 +34,8 @@ export default {
         }
       };
     },
+    
     mounted(){
-      alert("..")
       let url = '/api/admin/account/queryadminaccount'
       this.$http({
         url: url,

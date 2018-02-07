@@ -10,16 +10,17 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api': {
-                target: 'http://192.168.199.106/', //设置你调用的接口域名和端口号 别忘了加http
-                changeOrigin: true,
+                target: 'http://192.168.199.207/', //设置你调用的接口域名和端口号 别忘了加http
                 pathRewrite: {
                     '^/api': '/'
-                }
+                },
+                changeOrigin: true,
+                secure: false,
             }
         },
         // Various Dev Server settings
-        host: '0.0.0.0', // can be overwritten by process.env.HOST
-        port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+        host: 'localhost', // can be overwritten by process.env.HOST
+        port: 8000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
         autoOpenBrowser: false,
         errorOverlay: true,
         notifyOnErrors: true,
@@ -28,7 +29,7 @@ module.exports = {
         // Use Eslint Loader?
         // If true, your code will be linted during bundling and
         // linting errors and warnings will be shown in the console.
-        useEslint: true,
+        useEslint: false,
         // If true, eslint errors and warnings will also be shown in the error overlay
         // in the browser.
         showEslintErrorsInOverlay: false,
@@ -45,7 +46,7 @@ module.exports = {
         // https://vue-loader.vuejs.org/en/options.html#cachebusting
         cacheBusting: true,
 
-        cssSourceMap: true,
+        cssSourceMap: false,
     },
 
     build: {
