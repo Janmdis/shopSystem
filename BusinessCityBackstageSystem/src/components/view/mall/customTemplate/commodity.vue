@@ -1,6 +1,8 @@
 <template>
    <!-- 商品组件开始 -->
     <div class="borderHover" :index='dataid'>
+      <!-- 商品开始 -->
+      <div>
         <el-row>
         <el-col :span="bigImg">
           <div class="imgConet">
@@ -24,6 +26,37 @@
         <div class="hoverClick">
             <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
             <span><a href="#addnewContent"  onclick="return false;" style="color:#fff">添加新内容</a></span>
+        </div>
+      </div>
+      <!-- 商品结束 -->
+      <div class="template-editContent-div" >
+            <div class="arrow"></div>
+            <div>
+                <div class="imgLists">
+                  <div class="carouselListInfo">
+                      <div class="editSelectDiv">
+                            <div class="styleBtn">
+                                <ul>
+                                    <li class="styleTitle">选择商品：</li>
+                                    <li class="styleBorderBtn styleBorderBtns" @click="opendialogPro" style="border-radius: 5px;">选择</li>
+                                </ul>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>
+                        <div class="editStyleDiv">
+                            <p class="styleTitle">列表样式：</p>
+                            <div class="styleBtn">
+                                <ul class="styleUl">
+                                    <li @click='switchbtn($event,1)' class="styleBorderBtn on">大图</li>
+                                    <li @click='switchbtn($event,2)' class="styleBorderBtn">小图</li>
+                                    <li @click='switchbtn($event,3)' class="styleBorderBtn">一大两小</li>
+                                </ul>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
         </div>
     </div>
     <!-- 商品组件结束 -->
@@ -88,17 +121,65 @@
                 });
             });
             
-        },
-        //点击设置边框
-        borders(){
-          var box = document.querySelector("#test");
-          console.log(box)
-        }
+          },
+          opendialogPro(){
+              //  alert(this.datatype);
+              this.$root.$emit('opendialogProduct',true)
+          },
+          switchbtn(e,index){
+              //alert(index)
+              this.$root.$emit('probtnid',{id:index,type:this.type});             
+              let target=e.target.tagName=='li'?e.target.parentNode:e.target;
+              let lis=target.parentNode.getElementsByTagName('li');
+              for(let i=0;i<lis.length;i++){
+                  lis[i].setAttribute('class','styleBorderBtn');
+              }
+              target.setAttribute('class','styleBorderBtn on');
+          }
         }
     }
 </script>
 <style scoped lang="less">
 @import "../../../../assets/less/color";
+.template-editContent-div{
+    margin-top:40px;
+    position: relative;
+    position:absolute;
+    top: 5%;
+    left: 102%;
+    min-width:608px;
+    margin-left:10px;
+    margin-right:280px;
+    border: 1px solid #aaaaaa;
+    border-bottom:none;
+}
+// 三角样式
+.arrow{
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 8px 10px 8px 0;
+    border-color: transparent #aaaaaa transparent transparent;
+    position: absolute;
+    left: -10px;
+    top: 19px;
+}
+.arrow:after{
+     content: "";
+    border-right-color: #F4F6FC;
+    left: 1px;
+    top: -8px;
+}
+.add-new-Btn{
+    line-height: 34px;
+   border-radius: 5px;
+  color: #fff;
+  display:inline-block;
+  padding: 0 15px 0 15px;
+  margin-left: 12px;
+  background: #00adab;
+  position: relative;
+}
 //选中的模块/鼠标停留的时候 边框样式
 .current-style {
     border: 1px dashed red!important;
@@ -145,5 +226,33 @@
 .img{
   width: 100%;
   height: 100%;
+}
+
+// new add
+.carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
+ .editSelectDiv{width:100%;background:#fff;margin-left:10px;margin-top:5px;}
+ .editStyleDiv{width:100%;background:#fff;margin-left:10px;margin-top:32px;}
+ .styleBtn{font-size:16px;margin-top:10px;margin-bottom:20px;}
+ .styleTitle{float:left;padding-left:16px;padding-top:5px;}
+ .styleBorderBtn{    float: left;
+    padding: 8px 11px;
+    background: #00adab;
+    color:#fff;
+    width: 82px;cursor: pointer;
+    text-align: center;}
+.styleBorderBtns:hover{
+    background:#018a88;
+}
+    .styleUl :nth-child(1){
+        border-radius: 5px 0px 0px 5px;
+    }
+    .styleUl :nth-child(2){
+        border-radius: 0px;
+    }
+    .styleUl :nth-child(3){
+       border-radius: 0px 5px 5px 0px;
+    }
+.on{
+   background:#018a88;
 }
 </style>

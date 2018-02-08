@@ -79,26 +79,16 @@
                   <el-input  placeholder="请输入内容" v-model="templateName"></el-input>
               </div>
               <div style="clear:both;"></div>
-              <div class="template-editContent-div">
+              <!-- <div class="template-editContent-div">
                 <div class="arrow"></div>
                 <div>
-                    <!-- banner/图片广告编辑组件 -->
-                    <!-- <imageAdEditing v-bind="imgdata"></imageAdEditing> -->
+                    
                     <keep-alive>
                         <components :is='left' :type='indexr'></components>
                     </keep-alive>
-                    <!-- 橱窗编辑组件 -->
-                    <!-- <windowEditing v-bind="windowdata"></windowEditing> -->
-                    <!-- 橱窗2编辑组件 -->
-                    <!-- <windowEditing2 v-bind="windowdatas"></windowEditing2> -->
-                    <!-- 分类编辑组件 -->
-                    <!-- <classificationEditing v-bind="classdata"></classificationEditing> -->
-                    <!-- 商品编辑组件 -->
-                    <!-- <productEditing v-bind="prodata"></productEditing> -->
-                    <!-- 标题编辑组件 -->
-                    <!-- <titlesEditing v-bind="titdata"></titlesEditing> -->
+                   
                 </div>
-              </div>
+              </div> -->
           </el-col>
     <!-- 底部保存/返回 -->
          <el-col :span="24" class="template-save-div" style="">
@@ -133,21 +123,6 @@ import commodity from './commodity'
 import titles from './titles'
 // 分类展示组件
 import classification from './classification'
-
-///////////////////////////////
-
-// 图片广告编辑组件
-import imageAdEditing from './imageAdEditing'
-// 橱窗编辑组件
-import windowEditing from './windowEditing'
-// 橱窗2编辑组件
-import windowEditing2 from './windowEditing2'
-// 分类编辑组件
-import classificationEditing from './classificationEditing'
-// 商品编辑组件
-import productEditing from './productEditing'
-// 标题编辑组件
-import titlesEditing from './titlesEditing'
 
 ///////////////////////////////
 
@@ -195,16 +170,6 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          //动态添加组件
          commodityAdd(item){
              this.comlist.push('commodity');
-            //  let addOffsetTop = document.querySelectorAll('#addnewContent')
-            //  console.log(addOffsetTop)
-            //  let top = addOffsetTop[0].offsetTop;
-            //  console.log(top)
-            //  let rightEditContent = document.querySelectorAll('.template-editContent-div')
-            //  rightEditContent[0].style.marginTop=top+'px';
-            //   let eq=this.list2.indexOf(item);
-            // this.left=this.leftlist[eq];
-            // let comlistLen = this.comlist.length;
-            // this.indexr = comlistLen;
          },
          windowAdd(){
             this.comlist.push('window');
@@ -214,11 +179,6 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          },
          titleAdd(item){
              this.comlist.push('titles');
-            //  let length = document.querySelectorAll('.test').length;
-            //  let value=this.comlist[length];
-            //  console.log(length)
-            //  console.log(value)
-            //  this.changetop(length,value);
         },
          imageAdsAdd(){
              this.comlist.push('imageAds');
@@ -229,19 +189,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
         changetop(index,item){
             // console.log(index)
             // let jump = this.$refs.temEditTop
-            //  console.log(jump)
-            //  console.log(jump.length)
              let jump = document.querySelectorAll('.test');
              console.log(jump)
-            let top=jump[index].offsetTop-130;
             let dom=document.getElementsByClassName('current-style');
             dom.length?dom[0].setAttribute('class','test borderHover'):void(0);
             jump[index].setAttribute('class','current-style test borderHover');
-            document.getElementsByClassName('template-editContent-div')[0].style.marginTop=top+'px';
             let eq=this.list2.indexOf(item);
             this.left=this.leftlist[eq];
             this.indexr=index;
-            // alert(index);
         }
      },
      components:{
@@ -251,12 +206,6 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          commodity,
          titles,
          classification,
-         imageAdEditing,
-         windowEditing,
-         windowEditing2,
-         classificationEditing,
-         productEditing,
-         titlesEditing,
          uploadImage,
          productDetails,
          customLink
