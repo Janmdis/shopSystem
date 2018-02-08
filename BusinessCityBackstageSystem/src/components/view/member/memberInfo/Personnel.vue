@@ -43,28 +43,24 @@
 export default{
     props:[
         'personnelInfo','customerCategory','customerIdentity','recommendedSource',
-        'defaultCategory','defaultIdentity','defaultSource'
+        'defaultCategory','defaultIdentity','defaultSource',
     ],
     data () {
         return {
             disabledBtn:true,
             age:0,
-            defaultCategorys:'',
             items:{
-                nameInput:this.personnelInfo.name,
-                phoneInput:this.personnelInfo.mobile,
-                identy:this.defaultIdentity,
-                customer:this.defaultCategory,
-                birth:this.personnelInfo.birthDate,
-                origin:this.defaultSource,
-            }
+                nameInput:'',
+                phoneInput:'',
+                identy:'',
+                customer:'',
+                birth:'',
+                origin:'',
+            },
         }
     },
-    beforeUpdate(){
-        this.items.identy=this.defaultIdentity;
-        this.items.customer=this.defaultCategory;
-        this.items.origin=this.defaultSource;
-    },
+
+
     mounted(){
         this.changeClass();//  改变日期选择的图标位置 
     },
@@ -93,6 +89,11 @@ export default{
                 this.disabledBtn = false;
             },
             deep:true
+        },
+        defaultIdentity:function(){
+            this.items.customer = this.defaultCategory;
+            this.items.identy = this.defaultIdentity;
+            this.items.origin = this.defaultSource;
         }
     },
     methods:{

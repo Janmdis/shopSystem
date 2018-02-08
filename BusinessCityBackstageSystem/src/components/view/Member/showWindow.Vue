@@ -305,7 +305,7 @@ import qs from 'qs'
                     })
                     .then(respone => {
                         this.ruleForm.sourceFns = respone.data.info;
-                        console.log(this.ruleForm.sourceFns)
+                        //console.log(this.ruleForm.sourceFns)
                         
                     })
                     .catch(error => {

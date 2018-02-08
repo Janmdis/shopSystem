@@ -3,7 +3,7 @@ import Router from 'vue-router'
 Vue.use(Router)
     /* eslint-disable */
 export default new Router({
-//    mode: 'history',
+    mode: 'history',
     routes: [{
             path: '/login',
             component: resolve => require(['@/components/view/login/Logining.vue'], resolve),
@@ -21,8 +21,7 @@ export default new Router({
         {
             path: '',
             component: resolve => require(['@/components/common/home/home.vue'], resolve),
-            children: [
-                {
+            children: [{
                     path: '',
                     redirect: '/login'
                 },
@@ -61,7 +60,7 @@ export default new Router({
                     name: 'usermanage',
                     component: resolve => require(['@/components/view/organize/usermanage/usermanage.vue'], resolve)
                 }
-                
+
             ]
         },
         {

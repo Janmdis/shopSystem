@@ -10,30 +10,35 @@ import echarts from 'echarts'
 import axios from 'axios'
 import store from './store'
 
-// import store from './vuex/store'
-// 挂载在全局
+// fade/zoom 等
+import 'element-ui/lib/theme-chalk/base.css';
+// collapse 展开折叠
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+Vue.component(CollapseTransition.name, CollapseTransition)
+    // import store from './vuex/store'
+    // 挂载在全局
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-Vue.prototype.$echarts = echarts 
-Vue.prototype.$http= axios
+Vue.prototype.$echarts = echarts
+Vue.prototype.$http = axios
 
 //路由限制跳转判断
 router.beforeEach((transition, from, next) => {
-  // 登录路径不执行
-  if (transition.path.indexOf('login') == -1) {
-    console.log(transition.path.indexOf('login'))
-      // 判断缓存信息是否存在，不存在则直接跳转登录页
-        //return next({ path: '/login' })
+    // 登录路径不执行
+    if (transition.path.indexOf('login') == -1) {
+        console.log(transition.path.indexOf('login'))
+            // 判断缓存信息是否存在，不存在则直接跳转登录页
+            //return next({ path: '/login' })
 
-  }
-  next();
+    }
+    next();
 })
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  store,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    store,
+    template: '<App/>',
+    components: { App }
 })

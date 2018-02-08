@@ -9,7 +9,7 @@
                 </div>
             </li>
         </ul>
-        <public-pagination></public-pagination>
+        <!-- <public-pagination data-name="相关联会员"></public-pagination> -->
     </div>
 </template>
 <script>
@@ -29,12 +29,12 @@ export default{
         jumpRelatedDetail (num) {
             // this.$router.replace('/member/relatedDetail')
         },
-        handleSizeChange(val) {
-            //console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            //console.log(`当前页: ${val}`);
-        }
+        // handleSizeChange(val) {
+        //     //console.log(`每页 ${val} 条`);
+        // },
+        // handleCurrentChange(val) {
+        //     //console.log(`当前页: ${val}`);
+        // }
     },
     components:{
         publicPagination,
@@ -44,7 +44,7 @@ export default{
 <style scoped lang="less">
 #related{
     background: #fff;
-    padding:0 25px 20px;
+    padding:0 25px 100px;
     min-width: 750px;
     .relatedMain{
             width: 100%;

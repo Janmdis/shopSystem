@@ -24,12 +24,17 @@ export default {
             customerIdentity: {},
             recommendedSource: {},
             memberHouse: {},
+            houseCount: {},
             memberId: '',
             houseCategory: {},
             rentalStatus: {},
             defaultCategory: '',
             defaultIdentity: '',
             defaultSource: '',
+            defaultGroup: [],
+            pageNum: 1,
+            pageSize: 3,
+            typeWord: '',
         }
     },
     created() {
@@ -40,6 +45,7 @@ export default {
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
             this.searchInfo(ids);
             this.memberId = ids;
+            this.getData(ids);
         });
         this.$root.$on('infoCoverShow', (left) => { //  显示侧滑框的方法
             var left1 = 100;
@@ -52,8 +58,30 @@ export default {
                 }
             }, 5);
         });
+        this.$root.$on('housePage', (res) => {
+            this.pageNum = res;
+            this.getData(this.memberId);
+        });
+        this.$root.$on('pageType', (res) => {
+            this.typeWord = res;
+            console.log(this.typeWord);
+        });
     },
     methods: {
+        getData(id) {
+            // console.log(this.memberId)
+            this.$http.get( //  获取会员房屋信息
+                '/api/customer/customerHousing/findHousingInfoPage?id=' + id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize
+            ).then(res => {
+                if (res.data.info == null) {
+                    alert(res.data.msg);
+                } else {
+                    this.memberHouse = res.data.info.list;
+                    this.houseCount = res.data.info;
+                    console.log(res.data.info);
+                }
+            }).catch(err => { console.log(err) });
+        },
         searchInfo(id) { //  点击ID事件,通过接口获取用户信息
             let that = this;
             this.$http({
@@ -79,7 +107,7 @@ export default {
                         this.customerCategory = res.data.info;
                         this.defaultCategory = (res.data.info[this.personnelInfo.categoryId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.categoryId]);
                     }
-                    console.log(res.data.info)
+                    //console.log(res.data.info)
                 }).catch(err => { console.log(err) });
 
                 this.$http.post( //  获取会员身份接口
@@ -91,7 +119,7 @@ export default {
                         this.customerIdentity = res.data.info;
                         this.defaultIdentity = (res.data.info[this.personnelInfo.identity] == null ? res.data.info[1] : res.data.info[this.personnelInfo.identity]);
                     }
-                    console.log(this.customerIdentity)
+                    //console.log(this.customerIdentity)
                 }).catch(err => { console.log(err); });
 
                 this.$http.post( //  获取推荐来源接口
@@ -103,41 +131,30 @@ export default {
                         this.recommendedSource = res.data.info;
                         this.defaultSource = (res.data.info[this.personnelInfo.recommendedSourceId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.recommendedSourceId]);
                     }
-                    console.log(this.recommendedSource)
+                    //console.log(this.recommendedSource)
                 }).catch(err => { console.log(err); });
 
-                this.$http.get( //  获取会员房屋信息
-                    '/api/customer/customerHousing/findHousingInfo?id=' + id
+                this.$http.post( //  查询房屋类型信息
+                    '/api/customer/housingCategory/queryCategory?key=id&value=name'
                 ).then(res => {
                     if (res.data.info == null) {
-                        alert(res.data.msg);
+                        alert(res.data.msg)
                     } else {
-                        this.memberHouse = res.data.info;
-                        console.log(res.data.info)
-                        this.$http.post( //  查询房屋类型信息
-                            '/api/customer/housingCategory/queryCategory?key=id&value=name'
-                        ).then(res => {
-                            if (res.data.info == null) {
-                                alert(res.data.msg)
-                            } else {
-                                this.houseCategory = res.data.info;
-                                console.log(this.houseCategory)
-                            }
-                        }).catch(err => { console.log(err); });
-
-                        this.$http.post( //  获取租住状态接口信息
-                            '/api/customer/housingRentalStatus/queryStatus?key=id&value=name'
-                        ).then(res => {
-                            if (res.data.info == null) {
-                                alert(res.data.msg)
-                            } else {
-                                this.rentalStatus = res.data.info;
-                                console.log(this.rentalStatus)
-                            }
-                        }).catch(err => { console.log(err); });
+                        this.houseCategory = res.data.info;
+                        //console.log(this.houseCategory)
                     }
-                }).catch(err => { console.log(err); })
+                }).catch(err => { console.log(err) });
 
+                this.$http.post( //  获取租住状态接口信息
+                    '/api/customer/housingRentalStatus/queryStatus?key=id&value=name'
+                ).then(res => {
+                    if (res.data.info == null) {
+                        alert(res.data.msg)
+                    } else {
+                        this.rentalStatus = res.data.info;
+                        //console.log(this.rentalStatus)
+                    }
+                }).catch(err => { console.log(err) });
 
             }).catch(err => { console.log(err) })
         },
@@ -179,5 +196,7 @@ export default {
     beforeDestroy() {
         this.$root.$off('searchPersonnelInfo');
         this.$root.$off('searchInfo');
+        this.$root.$off('housePage');
+        this.$root.$off('typeWord');
     }
 }
