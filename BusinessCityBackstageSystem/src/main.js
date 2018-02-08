@@ -33,7 +33,10 @@ router.beforeEach((transition, from, next) => {
     }
     next();
 })
-
+// router.afterEach((to, from, next) => {
+//   alert(to.name);
+//   document.title = to.name;
+// })
 /* eslint-disable no-new */
 new Vue({
     el: '#app',

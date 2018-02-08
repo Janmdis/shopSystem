@@ -11,10 +11,16 @@ module.exports = {
         proxyTable: {
             '/api': {
                 target: 'http://192.168.199.102/', //设置你调用的接口域名和端口号 别忘了加http
+<<<<<<< HEAD
+=======
+                // target: 'http://192.168.199.102/',
+>>>>>>> d4b08981d929cfec45be037a4e29bc01dc017c6c
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': '/'
-                }
+                },
+                changeOrigin: true,
+                secure: false,
             }
         },
         // Various Dev Server settings
@@ -28,7 +34,7 @@ module.exports = {
         // Use Eslint Loader?
         // If true, your code will be linted during bundling and
         // linting errors and warnings will be shown in the console.
-        useEslint: true,
+        useEslint: false,
         // If true, eslint errors and warnings will also be shown in the error overlay
         // in the browser.
         showEslintErrorsInOverlay: false,
@@ -45,7 +51,7 @@ module.exports = {
         // https://vue-loader.vuejs.org/en/options.html#cachebusting
         cacheBusting: true,
 
-        cssSourceMap: true,
+        cssSourceMap: false,
     },
 
     build: {

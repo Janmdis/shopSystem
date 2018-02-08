@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const state={
     templateID:'',//模板ID 新增默认为 0
-    templateName:'',//模板名称
+    templateName:'基于VUE的商城模板组件',//模板名称
     templateType:'',//模板类别 
     templateInfo:[  
         {
@@ -16,6 +16,21 @@ const state={
                     //图片地址
                 },{
                     index:2,//图片位置标识1
+                    url:'',//图片的商品链接地址
+                    image:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg'
+                     //图片地址
+                },{
+                    index:3,//图片位置标识1
+                    url:'',//图片的商品链接地址
+                    image:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg'
+                     //图片地址
+                },{
+                    index:4,//图片位置标识1
+                    url:'',//图片的商品链接地址
+                    image:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg'
+                     //图片地址
+                },{
+                    index:5,//图片位置标识1
                     url:'',//图片的商品链接地址
                     image:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg'
                      //图片地址
@@ -110,7 +125,13 @@ const state={
 }
 const mutations={};
 const actions={
-    
+    // getDate(){
+    //     if(templateID == 0){
+            
+    //     }else{
+
+    //     }
+    // },
 };
 export default{
     state,

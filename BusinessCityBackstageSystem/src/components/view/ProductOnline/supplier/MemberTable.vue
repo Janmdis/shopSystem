@@ -3,6 +3,7 @@
     :data="datalist"
     @selection-change='showextra'
     @cell-click='showMemberInfo'
+    :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
     style="width: 100%">
@@ -17,53 +18,60 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360'height='100'>
         </el-table-column>
         <el-table-column
         prop="name"
-        label="客户姓名"
+        label="公司"
+        width='120'
         >
         </el-table-column>
         <el-table-column
         prop="mobile"
         width='120'
-        label="手机号">
+        label="联系人">
         </el-table-column>
         <el-table-column
+        width='120'
         prop="types"
-        label="客户类型">
+        label="电话"
+        >
         </el-table-column>
         <el-table-column
+        width='120'
         prop="city"
-        label="城市">
+        label="类型"
+        >
         </el-table-column>
         <el-table-column
+        width='120'
         prop="quarters"
-        label="小区">
+        label="级别"
+        sortable>
         </el-table-column>
         <el-table-column
+        width='120'
         prop="state"
-        label="订单状态">
+        label="产品标签"
+        sortable>
         </el-table-column>
         <el-table-column
+        width='120'
         prop="source"
-        label="来源">
+        fixed="right"
+        label="操作">
+        <template scope="scope" >
+            <el-button type="text" size="small">编辑</el-button>
+            <el-button type="text" size="small">删除</el-button>
+        </template>
         </el-table-column>
-        <el-table-column
-        prop="Inputtiem"
-        width='100'
-        label="录入时间">
-        </el-table-column>
-        <el-table-column
-        width='260'
-        prop="address"
-        label="小区地址">
-    </el-table-column>
+
                 
             </el-table>
 </template>
 <script>
 //@row-click="showMemberInfo()"
+
 export default {
     prop:['listLoading'],
     data(){
@@ -90,13 +98,16 @@ export default {
     methods:{
       getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/customer/account/query?page='+pageIndex+'&pageSize=10';
+            let url = '/api/product/supplierInfo/queryPageList';
             this.$http({
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
-                headers: { 'Content-Type': 'application/json' },
-                data:{},
+                //headers: { 'Content-Type': 'application/json' },
+                data:{
+                    pageNum:10,
+                    pageSize:pageIndex
+                },
             })
             .then(response => {
                 this.listLoading =  false;

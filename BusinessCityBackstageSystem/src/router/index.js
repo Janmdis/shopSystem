@@ -59,8 +59,27 @@ export default new Router({
                     path: 'usermanage', // 用户管理
                     name: 'usermanage',
                     component: resolve => require(['@/components/view/organize/usermanage/usermanage.vue'], resolve)
-                }
-
+                },
+                {
+                    path: 'Supplier', // 供应商列表页
+                    name: 'Supplier',
+                    component: resolve => require(['@/components/view/ProductOnline/supplier/supplier.vue'], resolve)
+                },
+                {
+                    path: 'commodity', // 商品列表页
+                    name: 'commodity',
+                    component: resolve => require(['@/components/view/ProductOnline/commodity/commodity.vue'], resolve)
+                },
+                {
+                    path: 'package', // 套餐列表页
+                    name: 'package',
+                    component: resolve => require(['@/components/view/ProductOnline/package/package.vue'], resolve)
+                },
+                {
+                    path: 'product', // 产品列表页
+                    name: 'product',
+                    component: resolve => require(['@/components/view/ProductOnline/product/product.vue'], resolve)
+                },
             ]
         },
         {

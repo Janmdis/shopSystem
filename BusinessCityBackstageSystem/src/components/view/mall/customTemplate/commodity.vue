@@ -40,6 +40,7 @@
             }
         },
         created:function(){
+          console.log(this.dataid)
           this.dataid=this.templatedata;
           this.$root.$on('probtnid',(data)=>{
             let type=data.type;
