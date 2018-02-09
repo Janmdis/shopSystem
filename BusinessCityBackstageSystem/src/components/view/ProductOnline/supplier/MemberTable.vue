@@ -18,7 +18,7 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360'height='100'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -60,7 +60,7 @@
         prop="source"
         fixed="right"
         label="操作">
-        <template scope="scope" >
+        <template slot-scope="scope" >
             <el-button type="text" size="small">编辑</el-button>
             <el-button type="text" size="small">删除</el-button>
         </template>
