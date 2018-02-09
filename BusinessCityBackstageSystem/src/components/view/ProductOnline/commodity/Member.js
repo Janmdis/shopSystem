@@ -4,6 +4,7 @@ import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
+import shopDetails from './shopDetails.vue'
 import qs from 'qs'
 
 export default {
@@ -21,14 +22,18 @@ export default {
       pageSize: 10,
       pageS: 0,
       listLoading: false,
-      delArr:[],
-
+      delArr: [],
+      showTable: true
+      
     }
 
   },
   mounted() {
     this.$root.$on('total', (data) => {
       this.totalCount = data
+    })
+    this.$root.$on('showTables', (data) => {
+      this.showTable = data
     })
     this.$root.$on('pages', (data) => {
       this.pageS = data
@@ -119,9 +124,6 @@ export default {
     showWindow() {
       this.$root.$emit("showWindow",'no')
     },
-    closeInfo() {
-
-    },
     handleSizeChange(val) {
       this.pageSize = val;
       this.$root.$emit('pageSize', {
@@ -142,7 +144,8 @@ export default {
     search,
     Datatable,
     showWindows,
-    searchBox
+    searchBox,
+    shopDetails
   },
 }
 
