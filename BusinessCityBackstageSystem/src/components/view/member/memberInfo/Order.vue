@@ -15,7 +15,7 @@
                     </div>
                 </li>
             </ul>
-            <public-pagination></public-pagination>
+            <!-- <public-pagination></public-pagination> -->
         </div>
         <order-details></order-details>
     </div>
@@ -58,6 +58,7 @@ export default{
     padding:0 25px 20px;
     .orderMain{
             width: 100%;
+            padding-bottom: 100px;
         li{
             font-size: 14px;
             color:#666;

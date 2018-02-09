@@ -53,7 +53,7 @@
         <el-table-column
         width='120'
         prop="state"
-        label="分类"
+        label="分类">
         </el-table-column>
         <el-table-column
         width='120'

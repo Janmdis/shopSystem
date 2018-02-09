@@ -21,8 +21,7 @@ export default new Router({
         {
             path: '',
             component: resolve => require(['@/components/common/home/home.vue'], resolve),
-            children: [
-                {
+            children: [{
                     path: '',
                     redirect: '/login'
                 },
@@ -64,7 +63,7 @@ export default new Router({
                 {
                     path: 'Supplier', // 供应商列表页
                     name: 'Supplier',
-                   component: resolve => require(['@/components/view/ProductOnline/supplier/supplier.vue'], resolve)
+                    component: resolve => require(['@/components/view/ProductOnline/supplier/supplier.vue'], resolve)
                 },
                 {
                     path: 'commodity', // 商品列表页
@@ -82,6 +81,7 @@ export default new Router({
                     component: resolve => require(['@/components/view/ProductOnline/product/product.vue'], resolve)
                 },
             ]
+
         },
         {
             path: '*',
