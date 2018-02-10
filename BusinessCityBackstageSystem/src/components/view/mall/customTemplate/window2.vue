@@ -11,9 +11,9 @@
                     <img src="./../../../../assets/logo.png" class="img">
                   </div>
                   <!-- 主标题 -->
-                  <p class="title1">主标题</p>
+                  <!-- <p class="title1">主标题</p> -->
                   <!-- 副标题 -->
-                  <p class="title2">副标题</p>
+                  <!-- <p class="title2">副标题</p> -->
                 <!-- 线框div -->
                 <div class="lineDiv"></div>
               </div>
@@ -25,9 +25,9 @@
                     <img src="./../../../../assets/logo.png" class="img">
                   </div>
                   <!-- 主标题 -->
-                  <p class="title1">主标题</p>
+                  <!-- <p class="title1">主标题</p> -->
                   <!-- 副标题 -->
-                  <p class="title2">副标题</p>
+                  <!-- <p class="title2">副标题</p> -->
                 <!-- 线框div -->
                 <div class="lineDiv"></div>
               </div>
@@ -39,9 +39,9 @@
                     <img src="./../../../../assets/logo.png" class="img">
                   </div>
                   <!-- 主标题 -->
-                  <p class="title1">主标题</p>
+                  <!-- <p class="title1">主标题</p> -->
                   <!-- 副标题 -->
-                  <p class="title2">副标题</p>
+                  <!-- <p class="title2">副标题</p> -->
                 <!-- 线框div -->
                 <div class="lineDiv"></div>
               </div>
@@ -53,9 +53,9 @@
                     <img src="./../../../../assets/logo.png" class="img">
                   </div>
                   <!-- 主标题 -->
-                  <p class="title1">主标题</p>
+                  <!-- <p class="title1">主标题</p> -->
                   <!-- 副标题 -->
-                  <p class="title2">副标题</p>
+                  <!-- <p class="title2">副标题</p> -->
                 <!-- 线框div -->
                 <div class="lineDiv"></div>
               </div>
@@ -67,9 +67,9 @@
                     <img src="./../../../../assets/logo.png" class="img">
                   </div>
                   <!-- 主标题 -->
-                  <p class="title1">主标题</p>
+                  <!-- <p class="title1">主标题</p> -->
                   <!-- 副标题 -->
-                  <p class="title2">副标题</p>
+                  <!-- <p class="title2">副标题</p> -->
                 <!-- 线框div -->
                 <div class="lineDiv"></div>
               </div>
@@ -81,9 +81,9 @@
                     <img src="./../../../../assets/logo.png" class="img">
                   </div>
                   <!-- 主标题 -->
-                  <p class="title1">主标题</p>
+                  <!-- <p class="title1">主标题</p> -->
                   <!-- 副标题 -->
-                  <p class="title2">副标题</p>
+                  <!-- <p class="title2">副标题</p> -->
                 <!-- 线框div -->
                 <div class="lineDiv"></div>
               </div>
@@ -129,7 +129,7 @@
                                       </ul>
                                       <div style="clear:both;"></div>
                                   </div>
-                                  <div class="mainTitleDiv">
+                                  <!-- <div class="mainTitleDiv">
                                       <span class="mainTitle">主标题：</span>
                                       <el-input v-model="input" class="mainTitleInput"></el-input>
                                       <div style="clear:both;"></div>
@@ -138,13 +138,13 @@
                                       <span class="subtitle">副标题：</span>
                                       <el-input v-model="input" class="subtitleInput"></el-input>
                                       <div style="clear:both;"></div>
-                                  </div>
-                                  <div class="dropdown">
-                                      <el-dropdown trigger="click">
-                                          <span class="el-dropdown-link" style="">
+                                  </div> -->
+                                  <div class="dropdown" style="padding-left: 18px;">
+                                      <el-dropdown trigger="click" style="min-width: 76px;">
+                                          <span class="el-dropdown-link" style="width:100%;height:100%;display:inline-block;">
                                           链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                       </span>
-                                      <el-dropdown-menu slot="dropdown">
+                                      <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
                                           <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
                                           <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
                                       </el-dropdown-menu>

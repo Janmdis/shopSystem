@@ -1,53 +1,45 @@
 <template>
-    <div id="public-pagination">
+    <div class="block">
+        <span class="demonstration">从{{houseCount.firstPage}}到{{houseCount.lastPage}}/共{{houseCount.total}}条数据</span>
         <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage3"
-            :page-size="100"
-            layout="sizes,total,prev, pager, next, jumper"
-            :total="40">
+            @current-change="handleCurrentChange" 
+            :current-page="houseCount.pageNum" 
+            :page-size="houseCount.pageSize"
+            layout="prev, pager, next,jumper"
+            :total="houseCount.total">
         </el-pagination>
     </div>
 </template>
 <script>
 export default{
+    props:['houseCount'],
     data () {
         return {
-            total:0,//默认数据总数
-            pagesize:7,
-            currentPage3: 1,
+            // totalCount:10,// 默认数据总数
+            // pageSize:3,// 每页数据条数
+            // pageIndex: 1,// 当前页
+            // number:1,
         }
     },
+    created(){
+        console.log(this.houseCount);
+    },
     methods: {
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-        },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.$root.$emit('housePage',val);
         }
     },
 }
 </script>
 <style lang="less">
-#public-pagination{
+.block{
+    display:flex;
+    align-items: center;
+    justify-content: center;
     .el-pagination{
-        width: 70%;
-        margin: auto;
+        // width: 70%;
+        // margin: auto;
         font-size: 14px;
-        color:#575757;
-        .btn-next:hover,.btn-prev:hover{
-            color:#fff;
-            background: #00c0be;
-        }
-        .el-pagination__jump{
-            margin-left:5px;
-        }
-        .el-pager li.active{
-            background:#00c0be;
-            border-radius:50%;
-        }
     }
 }
 </style>

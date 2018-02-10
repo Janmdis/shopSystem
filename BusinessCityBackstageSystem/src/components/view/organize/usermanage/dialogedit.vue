@@ -144,6 +144,7 @@ export default {
             dataform:{
                 adminName:'',
                 adminPassword:'',
+                confirmPassword:'',
                 adminSex: 0,
                 adminAge:'',
                 adminBirthday:'',
@@ -268,22 +269,23 @@ export default {
         ai_dialog_close(){
             this.dialogmemberVisible=false;
             this.$refs['memberForm'].resetFields();
-            this.dataform={
-                adminName:'',
-                adminPassword:'',
-                adminSex: 0,
-                adminAge:'',
-                adminBirthday:'',
-                entryDate:'',
-                phone:'',
-                accStatus:'1',
-                departmentId:'',
-                departmentName:'',
-                groupId:'',
-                groupName:'',
-                employeeTypeId:'',
-                employeeTypeName:''
-            }
+            // this.dataform={
+            //     adminName:'',
+            //     adminPassword:'',
+            //     confirmPassword:'',
+            //     adminSex: 0,
+            //     adminAge:'',
+            //     adminBirthday:'',
+            //     entryDate:'',
+            //     phone:'',
+            //     accStatus:'1',
+            //     departmentId:'',
+            //     departmentName:'',
+            //     groupId:'',
+            //     groupName:'',
+            //     employeeTypeId:'',
+            //     employeeTypeName:''
+            // }
         },
         datahandle(){
             let that=this;

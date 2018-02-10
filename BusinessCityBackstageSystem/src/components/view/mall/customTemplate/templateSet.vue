@@ -22,9 +22,9 @@
                   </div>
                   <!-- 模板内容头部结束 -->
                   <!-- 模板内容开始 -->
-                  <div id='test'>
+                  <div id='templateMain'>
                       <keep-alive v-for='(item,index) in comlist' :key='index'>
-                        <components :templatedata='index' :is='item'  :type='item'  class="test"   @click.native='changetop(index,item)'></components>
+                        <components :templatedata='index' :is='item'  :type='item'  class="test"   @click.native='changeEdit(index,item)'></components>
                       </keep-alive>
                       <!-- 图片广告组件 -->
                       <!-- <imageAds></imageAds> -->
@@ -79,16 +79,6 @@
                   <el-input  placeholder="请输入内容" v-model="templateName"></el-input>
               </div>
               <div style="clear:both;"></div>
-              <!-- <div class="template-editContent-div">
-                <div class="arrow"></div>
-                <div>
-                    
-                    <keep-alive>
-                        <components :is='left' :type='indexr'></components>
-                    </keep-alive>
-                   
-                </div>
-              </div> -->
           </el-col>
     <!-- 底部保存/返回 -->
          <el-col :span="24" class="template-save-div" style="">
@@ -140,11 +130,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          return{
              imgdata:'',
              prodata:'',
-             comlist:['imageAds','window','window2','commodity','titles','classification'],
-             left:'imageAdEditing',
-             leftlist:['productEditing','titlesEditing','imageAdEditing','classificationEditing','windowEditing','windowEditing2'],
-             list2:['commodity','titles','imageAds','classification','window','window2'],
-             indexr:''
+             comlist:['imageAds','window','window2','commodity','titles','classification']
          }
      },
      created:function(){
@@ -156,12 +142,17 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                 }
             }
             this.comlist=list;
-            let length = document.querySelectorAll('.test').length;
-            let value=this.comlist[length-2];
-            console.log(length)
-            console.log(value)
-            this.changetop(length-2,value);
          });
+        
+     },
+     mounted: function () {
+       //控制显示对应的编辑器
+            let templateEdit = document.querySelectorAll('.template-editContent-div')
+            for(let value of templateEdit){
+                console.log(value)
+                value.style.display="none"
+            }
+            templateEdit[0].style.display="block";
      },
      computed:mapState({
          templateName:state => state.adImageList.templateName
@@ -186,17 +177,22 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          classificationAdd(){
              this.comlist.push('classification');
         },
-        changetop(index,item){
-            // console.log(index)
-            // let jump = this.$refs.temEditTop
+        changeEdit(index,item){
+             console.log(index) //循环下标
+             console.log(item)  //点时当前的组件name
+            // this.$refs // ref 取值
              let jump = document.querySelectorAll('.test');
              console.log(jump)
             let dom=document.getElementsByClassName('current-style');
             dom.length?dom[0].setAttribute('class','test borderHover'):void(0);
             jump[index].setAttribute('class','current-style test borderHover');
-            let eq=this.list2.indexOf(item);
-            this.left=this.leftlist[eq];
-            this.indexr=index;
+            //控制显示对应的编辑器
+            let templateEdit = document.querySelectorAll('.template-editContent-div')
+            for(let value of templateEdit){
+                console.log(value)
+                value.style.display="none"
+            }
+            templateEdit[index].style.display="block";
         }
      },
      components:{

@@ -1,6 +1,6 @@
 <template>
   <el-dialog title="新增部门" :visible="dialogDepVisible" width='40%' :modal='true' :before-close="ai_dialog_close"> 
-            <el-form @submit.native.prevent :model='dataform' status-icon ref="ruleForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
+            <el-form @submit.native.prevent :model='dataform' status-icon ref="depForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
                 <el-form-item label="部门名称：" prop="departmentName">
                     <el-input placeholder="请输入部门名称" v-model="dataform.departmentName" auto-complete="off"></el-input>
                 </el-form-item>
@@ -95,7 +95,7 @@ export default {
                     this.dataform.departmentNumber=this.deplastchildnum.slice(0,5)+nums;
                 }
             }
-            this.$refs.ruleForm.validate((valid)=>{
+            this.$refs.depForm.validate((valid)=>{
                 if(valid){
                     console.log(this.dataform);
                     this.$http.post('/api/admin/manage/department/create',this.dataform)
@@ -116,7 +116,7 @@ export default {
             });
         },
         ai_dialog_close(){
-            this.$refs.ruleForm.resetFields();
+            this.$refs.depForm.resetFields();
             this.dialogDepVisible = false;
         },
     },

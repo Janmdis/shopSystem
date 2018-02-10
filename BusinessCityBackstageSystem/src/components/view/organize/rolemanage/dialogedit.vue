@@ -1,6 +1,6 @@
 <template>
     <el-dialog  width='30%' top='40px'  title="编辑信息" :visible="visiableedit" :modal='true' :before-close="ai_dialog_close"> 
-        <el-form @submit.native.prevent :model='dataform' status-icon ref="ruleForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
+        <el-form @submit.native.prevent :model='dataform' status-icon ref="roleForm2" :rules="rules"  label-width="100px" class="demo-ruleForm">
             <el-form-item label="角色名称：" prop="groupName">
                 <el-input placeholder="请输入角色名称" v-model="dataform.groupName" auto-complete="off"></el-input>
             </el-form-item>
@@ -56,10 +56,11 @@ export default {
     },
     methods:{
         ai_dialog_close(){
+            this.$refs.roleForm2.resetFields();
             this.visiableedit=false;
         },
         editdata(){
-            this.$refs.ruleForm.validate((valid)=>{
+            this.$refs.roleForm2.validate((valid)=>{
                 let that=this;
                 if(valid){
                     this.$http.post('/api/admin/manage/group/update',[that.dataform])

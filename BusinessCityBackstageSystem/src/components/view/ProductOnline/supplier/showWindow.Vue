@@ -3,7 +3,22 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='12'>
-                    <el-form-item label="姓名" prop="name">
+                    <el-form-item label="公司名称" prop="Cname">
+                        <el-input v-model="ruleForm.Cname"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span='12'>
+                    <el-form-item label="银行名称" prop="backname">
+                        <el-input v-model="ruleForm.backname"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span='12'>
+                    <el-form-item label="银行账户" prop="backaccount">
+                        <el-input v-model="ruleForm.backaccount"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span='12'>
+                    <el-form-item label="联系人" prop="name">
                         <el-input v-model="ruleForm.name"></el-input>
                     </el-form-item>
                 </el-col>
@@ -12,45 +27,32 @@
                         <el-input v-model="ruleForm.mode"></el-input>
                     </el-form-item>
                 </el-col>
-            </el-row>
-            <el-row>
                 <el-col :span='12'>
-                    <el-form-item label="出生日期" prop='date1'>
-                        <el-date-picker v-on:blur="changeCount"  type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-                    </el-form-item>
-                </el-col>
-                <el-col :span='12'>
-                    <el-form-item label="年龄" prop='old'>
-                        <el-input v-model="ruleForm.old" disabled = disabled></el-input>
+                    <el-form-item label="创建时间" prop='date1'>
+                        <el-date-picker   type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span='12'>
-                    <el-form-item label="来源">
-                        <el-select placeholder="请选择来源" @click.native='sourceFn' v-model="ruleForm.county">
+                    <el-form-item label="供应商类型">
+                        <el-select placeholder="请选供应商类型" @click.native='sourceFn' v-model="ruleForm.county">
                             <el-option v-for=' (item,index) in this.ruleForm.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
-                    <el-form-item label="客户类型">
-                        <el-select v-model="ruleForm.ctypes" @click.native='showData' placeholder="请选择客户类型">
+                    <el-form-item label="级别类型">
+                        <el-select v-model="ruleForm.ctypes" @click.native='showData' placeholder="请选择级别类型">
                             <el-option v-for=' (item,index) in this.ruleForm.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
-                    <el-form-item label="身份">
+                    <el-form-item label="删除状态">
                         <el-select v-model="ruleForm.panper" placeholder="请选择身份">
-                            <el-option label="男主人" value="0"></el-option>
-                            <el-option label="女主人" value="1"></el-option>
-                            <el-option label="父亲" value="2"></el-option>
-                            <el-option label="母亲" value="3"></el-option>
-                            <el-option label="女儿" value="4"></el-option>
-                            <el-option label="女婿" value="5"></el-option>
-                            <el-option label="儿子" value="6"></el-option>
-                            <el-option label="儿媳" value="7"></el-option>
+                            <el-option label="删除" value="0"></el-option>
+                            <el-option label="正常" value="1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -95,6 +97,9 @@ import qs from 'qs'
             return {
                 dialogVisible: false,
                 ruleForm: {
+                    Cname:'',
+                    backname:'',
+                    backaccount:'',
                     mode: '',
                     name: "",
                     date1: '',
@@ -108,6 +113,21 @@ import qs from 'qs'
                     thisId:''
                 },
                 rules: {
+                    backaccount:[{
+                        required: true,
+                        message: '请输入银行账户',
+                        trigger: 'blur'
+                    }, ],
+                    backname:[{
+                        required: true,
+                        message: '请输入银行名称',
+                        trigger: 'blur'
+                    }, ],
+                    Cname:[{
+                        required: true,
+                        message: '请输入公司',
+                        trigger: 'blur'
+                    }, ],
                     name: [{
                         required: true,
                         message: '请输入姓名',
@@ -123,11 +143,6 @@ import qs from 'qs'
                         required: true,
                         message: '请选择日期',
                         trigger: 'change'
-                    }],
-                    old: [{
-                        validator: checkAge,
-                        trigger: 'blur',
-                        required: true
                     }],
                 }
             };
@@ -216,13 +231,6 @@ import qs from 'qs'
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
-            changeCount() {
-                if (this.ruleForm.date1 == "") {
-                    return false;
-                }
-                var d = new Date(this.getDate(this.ruleForm.date1) + '');
-                this.ruleForm.old = (this.jsGetAge(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()));
-            },
             getDate(str) {
                 if (str == null) {
                     return
@@ -279,7 +287,7 @@ import qs from 'qs'
                 return returnAge; // 返回周岁年龄       
             },
             showData() {
-                let url = '/api/customer/customerCategory/findCategory';
+                let url = '/api/product/category/query';
                 this.$http({
                         url: url,
                         method: 'post',
@@ -294,7 +302,7 @@ import qs from 'qs'
                     })
             },
             sourceFn() {
-                let url = '/api/customer/recommendedSource/findSource';
+                let url = '/api/product/level/query';
                 this.$http({
                         url: url,
                         method: 'post',
@@ -305,7 +313,7 @@ import qs from 'qs'
                     })
                     .then(respone => {
                         this.ruleForm.sourceFns = respone.data.info;
-                        //console.log(this.ruleForm.sourceFns)
+                        console.log(this.ruleForm.sourceFns)
                         
                     })
                     .catch(error => {
@@ -318,7 +326,6 @@ import qs from 'qs'
         },
         created: function() {
             this.$root.$on('showWindow', (data) => {
-                console.log(data)
                 if (data != 'no') {
                     console.log(data[0].id)
                     this.ruleForm.textInfo = '编辑会员';
@@ -349,7 +356,6 @@ import qs from 'qs'
                         })
                         this.dialogVisible = true;
                 }else{
-                       
                     this.ruleForm.textInfo = '新增会员';
                     this.dialogVisible = true;
                      this.ruleForm.mode= "",

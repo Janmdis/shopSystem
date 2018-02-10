@@ -1,4 +1,4 @@
-import ones from './siderchildren/two'
+import ones from './siderchildren/one'
 import twos from './siderchildren/two'
 import threes from './siderchildren/three'
 import fours from './siderchildren/four'

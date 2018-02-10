@@ -1,48 +1,48 @@
 <template>
-    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-dialog :title="ruleForm1.textInfo" :visible.sync="dialogVisible" width="50%">
+        <el-form :model="ruleForm1" :rules="rules" ref="ruleForm1" label-width="100px" class="demo-ruleForm1">
             <el-row>
                 <el-col :span='12'>
                     <el-form-item label="姓名" prop="name">
-                        <el-input v-model="ruleForm.name"></el-input>
+                        <el-input v-model="ruleForm1.name"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="手机号" prop="mode">
-                        <el-input v-model="ruleForm.mode"></el-input>
+                        <el-input v-model="ruleForm1.mode"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span='12'>
                     <el-form-item label="出生日期" prop='date1'>
-                        <el-date-picker v-on:blur="changeCount"  type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
+                        <el-date-picker v-on:blur="changeCount"  type="date" placeholder="选择日期" v-model="ruleForm1.date1" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="年龄" prop='old'>
-                        <el-input v-model="ruleForm.old" disabled = disabled></el-input>
+                        <el-input v-model="ruleForm1.old" disabled = disabled></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span='12'>
                     <el-form-item label="来源">
-                        <el-select placeholder="请选择来源" @click.native='sourceFn' v-model="ruleForm.county">
-                            <el-option v-for=' (item,index) in this.ruleForm.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
+                        <el-select placeholder="请选择来源" @click.native='sourceFn' v-model="ruleForm1.county">
+                            <el-option v-for=' (item,index) in this.ruleForm1.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="客户类型">
-                        <el-select v-model="ruleForm.ctypes" @click.native='showData' placeholder="请选择客户类型">
-                            <el-option v-for=' (item,index) in this.ruleForm.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
+                        <el-select v-model="ruleForm1.ctypes" @click.native='showData' placeholder="请选择客户类型">
+                            <el-option v-for=' (item,index) in this.ruleForm1.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="身份">
-                        <el-select v-model="ruleForm.panper" placeholder="请选择身份">
+                        <el-select v-model="ruleForm1.panper" placeholder="请选择身份">
                             <el-option label="男主人" value="0"></el-option>
                             <el-option label="女主人" value="1"></el-option>
                             <el-option label="父亲" value="2"></el-option>
@@ -56,8 +56,8 @@
                 </el-col>
             </el-row>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm1')">立即创建</el-button>
+                <el-button @click="resetForm('ruleForm1')">重置</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -94,7 +94,7 @@ import qs from 'qs'
             }
             return {
                 dialogVisible: false,
-                ruleForm: {
+                ruleForm1: {
                     mode: '',
                     name: "",
                     date1: '',
@@ -135,9 +135,9 @@ import qs from 'qs'
         methods: {
             submitForm(formName) {
                 let that = this;
-                if(this.ruleForm.textInfo == "新增会员"){
+                if(this.ruleForm1.textInfo == "新增会员"){
                 that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm.date1);  
+                   var d = new Date(this.ruleForm1.date1);  
                     var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
                     if (valid) {
                         let url = '/api/customer/account/insert';
@@ -149,14 +149,14 @@ import qs from 'qs'
                                     'Content-Type': 'application/json'
                                 },
                                 data:[{
-                                    name: this.ruleForm.name,
-                                    mobile: this.ruleForm.mode,
+                                    name: this.ruleForm1.name,
+                                    mobile: this.ruleForm1.mode,
                                     birthDate: youWant,
-                                    categoryId: this.ruleForm.ctypes,
-                                    recommendedSourceId: this.ruleForm.county,
+                                    categoryId: this.ruleForm1.ctypes,
+                                    recommendedSourceId: this.ruleForm1.county,
                                     consumptionPoints: 0,
                                     level: 0,
-                                    identity: this.ruleForm.panper
+                                    identity: this.ruleForm1.panper
                                 }]
                             })
                             .then(response => {
@@ -173,9 +173,9 @@ import qs from 'qs'
                     }
                 });
                 }
-                if(this.ruleForm.textInfo == "编辑会员"){
+                if(this.ruleForm1.textInfo == "编辑会员"){
                 that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm.date1);  
+                   var d = new Date(this.ruleForm1.date1);  
                     var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
                     if (valid) {
                         let url = '/api/customer/account/update';
@@ -187,15 +187,15 @@ import qs from 'qs'
                                     'Content-Type': 'application/json'
                                 },
                                 data: {
-                                    id:this.ruleForm.thisId,
-                                    name: this.ruleForm.name,
-                                    mobile: this.ruleForm.mode,
+                                    id:this.ruleForm1.thisId,
+                                    name: this.ruleForm1.name,
+                                    mobile: this.ruleForm1.mode,
                                     birthDate: youWant,
-                                    categoryId: this.ruleForm.ctypes,
-                                    recommendedSourceId: this.ruleForm.county,
+                                    categoryId: this.ruleForm1.ctypes,
+                                    recommendedSourceId: this.ruleForm1.county,
                                     consumptionPoints: 0,
                                     level: 0,
-                                    identity: this.ruleForm.panper
+                                    identity: this.ruleForm1.panper
                                 }
                             })
                             .then(response => {
@@ -217,11 +217,11 @@ import qs from 'qs'
                 this.$refs[formName].resetFields();
             },
             changeCount() {
-                if (this.ruleForm.date1 == "") {
+                if (this.ruleForm1.date1 == "") {
                     return false;
                 }
-                var d = new Date(this.getDate(this.ruleForm.date1) + '');
-                this.ruleForm.old = (this.jsGetAge(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()));
+                var d = new Date(this.getDate(this.ruleForm1.date1) + '');
+                this.ruleForm1.old = (this.jsGetAge(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()));
             },
             getDate(str) {
                 if (str == null) {
@@ -286,7 +286,7 @@ import qs from 'qs'
                         data: {}
                     })
                     .then(respone => {
-                        this.ruleForm.curDate = respone.data.info;
+                        this.ruleForm1.curDate = respone.data.info;
                     })
                     .catch(error => {
                         console.log(error);
@@ -304,8 +304,8 @@ import qs from 'qs'
                         data: {}
                     })
                     .then(respone => {
-                        this.ruleForm.sourceFns = respone.data.info;
-                        //console.log(this.ruleForm.sourceFns)
+                        this.ruleForm1.sourceFns = respone.data.info;
+                        console.log(this.ruleForm1.sourceFns)
                         
                     })
                     .catch(error => {
@@ -321,7 +321,7 @@ import qs from 'qs'
                 console.log(data)
                 if (data != 'no') {
                     console.log(data[0].id)
-                    this.ruleForm.textInfo = '编辑会员';
+                    this.ruleForm1.textInfo = '编辑会员';
                     let url = '/api/customer/account/queryMapByIds'/*'+[data[0].id]*/;
                     this.$http({
                             url: url,
@@ -332,16 +332,16 @@ import qs from 'qs'
                         .then(respone => {
                             
                             let infos = respone.data.info[0]
-                            this.ruleForm.thisId=  infos.id
-                            this.ruleForm.mode= infos.mobile,
-                            this.ruleForm.name= infos.name,
-                            this.ruleForm.date1= infos.birthDate,
-                            this.ruleForm.old= infos.age,
-                            this.ruleForm.county= 1,
-                            this.ruleForm.ctypes= 2,
-                            this.ruleForm.panper= 1
-                            // this.ruleForm.sourceFns = respone.data.info;
-                            // console.log(this.ruleForm.sourceFns)
+                            this.ruleForm1.thisId=  infos.id
+                            this.ruleForm1.mode= infos.mobile,
+                            this.ruleForm1.name= infos.name,
+                            this.ruleForm1.date1= infos.birthDate,
+                            this.ruleForm1.old= infos.age,
+                            this.ruleForm1.county= 1,
+                            this.ruleForm1.ctypes= 2,
+                            this.ruleForm1.panper= 1
+                            // this.ruleForm1.sourceFns = respone.data.info;
+                            // console.log(this.ruleForm1.sourceFns)
                         })
                         .catch(error => {
                             console.log(error);
@@ -350,15 +350,15 @@ import qs from 'qs'
                         this.dialogVisible = true;
                 }else{
                        
-                    this.ruleForm.textInfo = '新增会员';
+                    this.ruleForm1.textInfo = '新增会员';
                     this.dialogVisible = true;
-                     this.ruleForm.mode= "",
-                    this.ruleForm.name= "",
-                    this.ruleForm.date1= "",
-                    this.ruleForm.old= "",
-                    this.ruleForm.county= "",
-                    this.ruleForm.ctypes= "",
-                    this.ruleForm.panper= ''
+                     this.ruleForm1.mode= "",
+                    this.ruleForm1.name= "",
+                    this.ruleForm1.date1= "",
+                    this.ruleForm1.old= "",
+                    this.ruleForm1.county= "",
+                    this.ruleForm1.ctypes= "",
+                    this.ruleForm1.panper= ''
                 }
                 
             });
