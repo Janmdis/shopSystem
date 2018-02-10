@@ -1,5 +1,5 @@
 <template>
-<div class="borderHover" :index='dataid'>
+<div class="borderHover" :index='dataid' style="padding:0 0 0 0;">
   <!-- 轮播开始 -->
         <div>
             <div class="block">

@@ -17,8 +17,8 @@
               <!-- 模板最外层容器开始 -->
               <div style="margin:66px 10px 416px 36px;border: 1px solid #aaaaaa;border-radius: 3px;">
                   <!-- 模板内容头部开始 -->
-                  <div style="height:34px;width:100%">
-                      <img class="Imgsize" src="./../../../../assets/templateHeader.jpg">
+                  <div style="    height: 105px;width:100%">
+                      <img class="Imgsize" src="./../../../../assets/templateHeader.png">
                   </div>
                   <!-- 模板内容头部结束 -->
                   <!-- 模板内容开始 -->
