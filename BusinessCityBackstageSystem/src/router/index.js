@@ -81,6 +81,7 @@ export default new Router({
                     component: resolve => require(['@/components/view/ProductOnline/product/product.vue'], resolve)
                 },
             ]
+
         },
         {
             path: '*',

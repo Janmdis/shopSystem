@@ -20,7 +20,7 @@
               
             </el-row>
         </div>
-        <div class="memberMain">
+        <div class="memberMain commodity" v-show="showTable" >
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>
@@ -36,8 +36,8 @@
                 </el-col>
             </el-row>
         </div>
-    
-        
+        <shopDetails></shopDetails>
+        <showWindows></showWindows>
     </el-main>
 </template>
 <script>
@@ -45,8 +45,8 @@
      export default Members
 </script>
 <style>
-    #member .memberMain{
-        top:0;
+    #member .commodity{
+        top:0 !important;
     }
     .lineHeight {
         position: relative;
