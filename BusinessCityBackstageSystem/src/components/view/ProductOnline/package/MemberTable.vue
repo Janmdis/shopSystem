@@ -6,7 +6,8 @@
     :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
-    style="width: 100%">
+    height='100%'
+    style="width: 100%;height:100%">
     <el-table-column
     fixed
     type="index"
@@ -18,7 +19,7 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360'height='100'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' >
         </el-table-column>
         <el-table-column
         prop="name"
