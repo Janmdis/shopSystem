@@ -1,59 +1,73 @@
 <template>
-    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%">
+    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="80%">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
-                <el-col :span='12'>
+                <el-col :span='6'>
                     <el-form-item label="姓名" prop="name">
                         <el-input v-model="ruleForm.name"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span='12'>
-                    <el-form-item label="手机号" prop="mode">
-                        <el-input v-model="ruleForm.mode"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span='12'>
-                    <el-form-item label="出生日期" prop='date1'>
-                        <el-date-picker v-on:blur="changeCount"  type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-                    </el-form-item>
-                </el-col>
-                <el-col :span='12'>
-                    <el-form-item label="年龄" prop='old'>
-                        <el-input v-model="ruleForm.old" disabled = disabled></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span='12'>
+                <el-col :span='6'>
                     <el-form-item label="来源">
                         <el-select placeholder="请选择来源" @click.native='sourceFn' v-model="ruleForm.county">
                             <el-option v-for=' (item,index) in this.ruleForm.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span='12'>
+                <el-col :span='6'>
                     <el-form-item label="客户类型">
                         <el-select v-model="ruleForm.ctypes" @click.native='showData' placeholder="请选择客户类型">
                             <el-option v-for=' (item,index) in this.ruleForm.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span='12'>
-                    <el-form-item label="身份">
-                        <el-select v-model="ruleForm.panper" placeholder="请选择身份">
-                            <el-option label="男主人" value="0"></el-option>
-                            <el-option label="女主人" value="1"></el-option>
-                            <el-option label="父亲" value="2"></el-option>
-                            <el-option label="母亲" value="3"></el-option>
-                            <el-option label="女儿" value="4"></el-option>
-                            <el-option label="女婿" value="5"></el-option>
-                            <el-option label="儿子" value="6"></el-option>
-                            <el-option label="儿媳" value="7"></el-option>
-                        </el-select>
+                <el-col :span='6'>
+                    <el-form-item label="年龄" prop='old'>
+                        <el-input v-model="ruleForm.old" disabled = disabled></el-input>
                     </el-form-item>
                 </el-col>
+            </el-row>
+            <div class="boxLad">员工信息</div>
+            <el-row>
+                <el-table 
+                    border
+                    :data="tableData"
+                    style="width: 100%;margin-top:50px;">
+                    <el-table-column
+                        prop="date"
+                        label="N"
+                        width="180">
+                    </el-table-column>
+                    <el-table-column
+                        prop="name"
+                        label="姓名"
+                        width="180">
+                    </el-table-column>
+                    <el-table-column
+                        prop="address"
+                        label="手机">
+                    </el-table-column>
+                    <el-table-column
+                        prop="address"
+                        label="员工编号">
+                    </el-table-column>
+                    <el-table-column
+                        prop="address"
+                        label="所属部门">
+                    </el-table-column>
+                    <el-table-column
+                        prop="address"
+                        label="类型">
+                    </el-table-column>
+                     <el-table-column
+                        prop="address"
+                        label="操作">
+                        <template slot-scope="scope">
+                            <el-button @click="handleClick(scope.row)" type="text" size="small">指定为队长</el-button>
+                            <el-button type="text" size="small">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
             </el-row>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -70,6 +84,16 @@
     }
     .lineBline {
         border-bottom: 1px solid #ddd;
+    }
+    .boxLad{
+        background: blue;
+        height: 40px;
+        line-height:40px;
+        position: absolute;
+        top: 140px;
+        width: 100%;
+        left: 0;
+        color: #fff;
     }
 </style>
 <script>
@@ -94,6 +118,23 @@ import qs from 'qs'
             }
             return {
                 dialogVisible: false,
+                tableData: [{
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-04',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1517 弄'
+                }, {
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }],
                 ruleForm: {
                     mode: '',
                     name: "",
@@ -104,7 +145,7 @@ import qs from 'qs'
                     panper: '',
                     curDate: [],
                     sourceFns: [],
-                    textInfo: '新增会员',
+                    textInfo: '新增渠道',
                     thisId:''
                 },
                 rules: {
@@ -114,25 +155,22 @@ import qs from 'qs'
                         trigger: 'blur'
                     }, ],
                     mode: [{
-                        pattern: /^1[3|4|5|7|8][0-9]{9}$/g,
                         required: true,
-                        message: '请输入正确的手机号',
-                         trigger: 'blur'
+                        message: '请输入姓名',
+                        trigger: 'blur'
                     }, ],
                     date1: [{
                         required: true,
-                        message: '请选择日期',
-                        trigger: 'change'
-                    }],
-                    old: [{
-                        validator: checkAge,
-                        trigger: 'blur',
-                        required: true
-                    }],
+                        message: '请输入姓名',
+                        trigger: 'blur'
+                    }]
                 }
             };
         },
         methods: {
+            handleClick(data){
+
+            },
             submitForm(formName) {
                 let that = this;
                 if(this.ruleForm.textInfo == "新增会员"){
@@ -221,7 +259,7 @@ import qs from 'qs'
                     return false;
                 }
                 var d = new Date(this.getDate(this.ruleForm.date1) + '');
-                this.ruleForm.old = (this.jsGetAge(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()));
+                this.ruleForm.old = '';
             },
             getDate(str) {
                 if (str == null) {
@@ -234,49 +272,6 @@ import qs from 'qs'
                         oTime = oYear + '-' + this.getzf(oMonth) + '-' + this.getzf(oDay); //最后拼接时间  
                     return oTime;
                 }
-            },
-            //补0操作  
-            getzf(num) {
-                if (parseInt(num) < 10) {
-                    num = '0' + num;
-                }
-                return num;
-            },
-            jsGetAge(strBirthday) {
-                var returnAge
-                var strBirthdayArr = strBirthday.split('-')
-                var birthYear = strBirthdayArr[0]
-                var birthMonth = strBirthdayArr[1]
-                var birthDay = strBirthdayArr[2]
-                var d = new Date()
-                var nowYear = d.getFullYear()
-                var nowMonth = d.getMonth() + 1
-                var nowDay = d.getDate()
-                if (nowYear == birthYear) {
-                    returnAge = 0; // 同年 则为0岁    
-                } else {
-                    var ageDiff = nowYear - birthYear; // 年之差    
-                    if (ageDiff > 0) {
-                        if (nowMonth == birthMonth) {
-                            var dayDiff = nowDay - birthDay; // 日之差    
-                            if (dayDiff < 0) {
-                                returnAge = ageDiff - 1
-                            } else {
-                                returnAge = ageDiff
-                            }
-                        } else {
-                            var monthDiff = nowMonth - birthMonth; // 月之差    
-                            if (monthDiff < 0) {
-                                returnAge = ageDiff - 1
-                            } else {
-                                returnAge = ageDiff
-                            }
-                        }
-                    } else {
-                        returnAge = -1; // 返回-1 表示出生日期输入错误 晚于今天    
-                    }
-                }
-                return returnAge; // 返回周岁年龄       
             },
             showData() {
                 let url = '/api/customer/customerCategory/findCategory';
@@ -350,7 +345,7 @@ import qs from 'qs'
                         this.dialogVisible = true;
                 }else{
                        
-                    this.ruleForm.textInfo = '新增会员';
+                    this.ruleForm.textInfo = '新增渠道';
                     this.dialogVisible = true;
                      this.ruleForm.mode= "",
                     this.ruleForm.name= "",
