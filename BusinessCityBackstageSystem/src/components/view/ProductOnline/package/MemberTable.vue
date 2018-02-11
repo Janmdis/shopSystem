@@ -159,7 +159,7 @@ export default {
         },
         indexMethod(index) {
             return index + 1
-        },
+        }
     }
 
 }

@@ -36,7 +36,7 @@
                 <el-row>
                     <header class='header'>信息展示</header>
                     <el-form ref="formmsg" class='formmsg' :model="formmsg" label-width="80px">
-                        <el-form-item label="标题：">
+                        <el-form-item label="标题：" prop='title'>
                             <el-input v-model="formmsg.title"></el-input>
                         </el-form-item>
                         <el-row :gutter='20'>
@@ -59,24 +59,24 @@
                         </el-row>
                         <el-row :gutter='20'>
                             <el-col :span='12'>
-                                <el-form-item label="价格：">
+                                <el-form-item label="价格：" prop='price'>
                                     <el-input v-model="formmsg.price"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span='12'>
-                                <el-form-item label="库存：">
+                                <el-form-item label="库存：" prop='nums'>
                                     <el-input v-model="formmsg.nums"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row :gutter='20'>
                             <el-col :span='12'>
-                                <el-form-item label="销量：">
+                                <el-form-item label="销量：" prop='numssell'>
                                     <el-input v-model="formmsg.numssell"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
-                        <el-form-item label="描述：">
+                        <el-form-item label="描述：" prop='desc'>
                             <el-input type="textarea" v-model="formmsg.desc" ></el-input>
                         </el-form-item>
                         <el-form-item label="图片：">
@@ -85,13 +85,12 @@
                                 class="avatar-uploader"
                                 :action="importFileUrl"
                                 :show-file-list="false"
-                                :data="urlImg"
+                                :multiple='true'
                                 name='fileUpload'
-                                :type='admin'
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload">
-                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                <!-- <img v-if="imageUrl" :src="imageUrl" class="avatar"> -->
+                                <i class="el-icon-plus avatar-uploader-icon"></i>
                                 </el-upload>
                                 <div class='tips'>
                                     <p>提示：1.本地上传图片大小不超过500k</p>
@@ -99,12 +98,12 @@
                                 </div>
                             </div>
                             <ul class='imglist'>
-                                <li v-for="item in listimg" :key="item">
-                                    <i class='close'>X</i>
+                                <li v-for="(item,index) in listimg" :key="index">
+                                    <i class='close' @click="deleteimg(index)">X</i>
                                     <img :src="item.imgurl" alt="">
                                     <span class='opera'>
-                                        <i class='left icon iconfont arrow-left icon-arrowleft'></i>
-                                        <i class='right icon iconfont arrow-right icon-arrowright'></i>
+                                        <i class='left icon iconfont arrow-left icon-arrowleft' @click='changeimgindex(index,left)'></i>
+                                        <i class='right icon iconfont arrow-right icon-arrowright' @click='changeimgindex(index,right)'></i>
                                     </span>
                                 </li>
                             </ul>
@@ -127,7 +126,7 @@
                     <header class='header'>服务时间</header>
                     <el-row class='selectmodal'>
                         <el-col :span='5'>
-                            <el-select v-model="value" placeholder="选择模板">
+                            <el-select v-model="tmvalue" placeholder="选择模板">
                                 <el-option
                                 v-for="item in listmodaltime"
                                 :key="item.id"
@@ -215,7 +214,7 @@
                     <header class='header'>选择模板</header>
                     <el-row class='selectmodal'>
                         <el-col :span='5'>
-                            <el-select v-model="value" placeholder="选择模板">
+                            <el-select v-model="cmvalue" placeholder="选择模板">
                                 <el-option
                                 v-for="item in listmodaltime"
                                 :key="item.id"
@@ -236,7 +235,7 @@
                             <el-button plain type="danger" size='mini'>删除</el-button>
                             <el-button plain type="primary" size='mini'>编辑</el-button>
                             <el-col :span='7'>
-                                <el-select v-model="value" placeholder="城市">
+                                <el-select v-model="cityvalue" placeholder="城市">
                                     <el-option
                                     v-for="item in listmodaltime"
                                     :key="item.id"
@@ -259,9 +258,9 @@
             </el-col>
         </el-row>
         <el-row class='btnsgroup'>
-            <el-button  plain >重置</el-button>
+            <el-button  plain @click="resetForm">重置</el-button>
             <el-button  plain >预览</el-button>
-            <el-button type="primary" >保存</el-button>
+            <el-button type="primary" @click.native="savedata">保存</el-button>
         </el-row>
     </div>
    
@@ -274,42 +273,42 @@ export default {
         return {
             listgoods:[
                 {
-                    id:'',
+                    id:'1',
                     imgurl:'static/images/Login/background.jpg',
                     nums:'20'
                 },
                 {
-                    id:'',
+                    id:'2',
                     imgurl:'static/images/Login/logo.png',
                     nums:'20'
                 },
                 {
-                    id:'',
+                    id:'3',
                     imgurl:'static/images/Login/logo.png',
                     nums:'20'
                 },
                 {
-                    id:'',
+                    id:'4',
                     imgurl:'static/images/Login/logo.png',
                     nums:'20'
                 },
                 {
-                    id:'',
+                    id:'5',
                     imgurl:'static/images/Login/background.jpg',
                     nums:'20'
                 },
                 {
-                    id:'',
+                    id:'6',
                     imgurl:'static/images/Login/logo.png',
                     nums:'20'
                 },
                 {
-                    id:'',
+                    id:'7',
                     imgurl:'static/images/Login/logo.png',
                     nums:'20'
                 },
                 {
-                    id:'',
+                    id:'8',
                     imgurl:'static/images/Login/logo.png',
                     nums:'20'
                 }
@@ -449,116 +448,116 @@ export default {
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'2',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'3',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'4',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'5',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'6',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'7',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'8',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'9',
                     value:'上海市'
                 },{
-                    id:'1',
+                    id:'10',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'11',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'12',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'13',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'14',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'15',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'16',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'17',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'18',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'19',
                     value:'上海市'
                 },{
-                    id:'1',
+                    id:'20',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'21',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'22',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'23',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'24',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'25',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'26',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'27',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'28',
                     value:'上海市'
                 },
                 {
-                    id:'1',
+                    id:'29',
                     value:'上海市'
                 },{
-                    id:'1',
+                    id:'30',
                     value:'上海市'
                 }
             ],
@@ -572,7 +571,12 @@ export default {
                 desc:'',
                 listlabel:['标签一','标签二','标签三','标签四']
             },
-            disabled:true
+            disabled:true,
+            // 图片删除URL
+            importFileUrl:'',
+            tmvalue:'',
+            cmvalue:'',
+            cityvalue:''
         }
     },
     created(){
@@ -590,6 +594,88 @@ export default {
         savetimetable(){
             document.getElementsByClassName('timemodel')[0].setAttribute('class','timemodel');
             this.disabled=true;
+        },
+        // 保存商品套餐信息
+        savedata(){
+            this.$refs.detail.setAttribute('class','detail off');
+        },
+        // 改变图片顺序
+        changeimgindex(index,direction){
+            let length=this.listimg.length;
+            if((index==0&&direction=='left')||(index==length&&direction=='right')){
+                return;
+            }
+            else{
+                let index_change=direction=='left'?index-1:index+1;
+                let imglist=[];
+                for(let i=0;i<length;i++){
+                    imglist.push(this.listimg[i==index?index_change:i==index_change?index:i]);
+                }
+                this.listimg=imglist;
+            }
+        },
+        // 上传图片
+        beforeAvatarUpload(file){
+            if(this.imglist==5){
+                this.$message({
+                    message: '最多可上传5张图片',
+                    type: 'warning'
+                });
+                return false;
+            }
+            else{
+                console.log(file);
+                const isimg = file.type === 'image/jpeg'||file.type==='image/png';
+                const isLt500k = file.size / 1024 / 1024/1024 < 500;
+
+                if (!isimg) {
+                this.$message.error('只能上传图片！');
+                }
+                if (!isLt500k) {
+                this.$message.error('图片大小不能超过 500k!');
+                }
+                this.importFileUrl='';
+                return isimg && isLt500k;
+                
+            }
+        },
+        handleAvatarSuccess(res, file){
+            console.log(res,file);
+        },
+        // 删除图片
+        deleteimg(index){
+            this.$confirm('是否删除图片？','提示',{
+                confirmButtonText:'确定',
+                cancelButtonText:'取消',
+                type:'warning'
+            }).then(()=>{
+                let imglist=[];
+                for(let i=0;i<this.listimg.length;i++){
+                    if(i==index){
+                        continue;
+                    }
+                    else{
+                        imglist.push(this.listimg[i]);
+                    }
+                }
+                this.listimg=imglist;
+                this.$message({
+                    type:'success',
+                    message:'删除成功！'
+                });
+            }).catch(()=>{
+                this.$message({
+                    type:'info',
+                    message:'已取消删除'
+                });
+            });
+
+            
+            
+        },
+        // 重置表单
+        resetForm(){
+            this.$refs.formmsg.resetFields();
         }
     }
 
