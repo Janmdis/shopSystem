@@ -92,28 +92,28 @@ export default {
             this.listLoading = true;
             let _this = this;
             let url = '/api/customer/account/search?page=' + this.pageIndex + '&pageSize=10&keyword=' + para.username;
-            this.$http({
-                    url: url,
-                    method: 'POST',
-                    // 请求体重发送的数据
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    //  data:qs.stringify( {
+            // this.$http({
+            //         url: url,
+            //         method: 'POST',
+            //         // 请求体重发送的数据
+            //         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            //         //  data:qs.stringify( {
 
-                    //  }),
-                })
-                .then(response => {
-                    //console.log(response)
-                    //  this.listLoading =  false;
-                    this.datalist = (response.data.info.list);
-                    this.$root.$emit('dataListBox', this.datalist)
-                    this.$root.$emit('pages', response.data.info.pages)
-                    this.$root.$emit('total', response.data.info.total)
+            //         //  }),
+            //     })
+            //     .then(response => {
+            //         //console.log(response)
+            //         //  this.listLoading =  false;
+            //         this.datalist = (response.data.info.list);
+            //         this.$root.$emit('dataListBox', this.datalist)
+            //         this.$root.$emit('pages', response.data.info.pages)
+            //         this.$root.$emit('total', response.data.info.total)
 
-                })
-                .catch(error => {
-                    console.log(error);
-                    alert('网络错误，不能访问');
-                })
+            //     })
+            //     .catch(error => {
+            //         console.log(error);
+            //         alert('网络错误，不能访问');
+            //     })
 
         },
         showWindow() {

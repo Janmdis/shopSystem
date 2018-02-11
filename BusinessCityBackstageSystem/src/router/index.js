@@ -80,6 +80,31 @@ export default new Router({
                     name: 'product',
                     component: resolve => require(['@/components/view/ProductOnline/product/product.vue'], resolve)
                 },
+                {
+                    path: 'operationlog', // 管理日志
+                    name: 'operationlog',
+                    component: resolve => require(['@/components/view/ManagementCenter/operationlog/operationlog.vue'], resolve)
+                },
+                {
+                    path: 'channelmanagement', // 渠道管理
+                    name: 'channelmanagement',
+                    component: resolve => require(['@/components/view/ManagementCenter/channelmanagement/channelmanagement.vue'], resolve)
+                },
+                {
+                    path: 'residentialquarters', // 小区
+                    name: 'residentialquarters',
+                    component: resolve => require(['@/components/view/ManagementCenter/residentialquarters/residentialquarters.vue'], resolve)
+                },
+                {
+                    path: 'knowledgeBase', // 知识库
+                    name: 'knowledgeBase',
+                    component: resolve => require(['@/components/view/ManagementCenter/knowledgeBase/knowledgeBase.vue'], resolve)
+                },
+                {
+                    path: 'concessionalRate', // 优惠劵管理
+                    name: 'concessionalRate',
+                    component: resolve => require(['@/components/view/ManagementCenter/concessionalRate/concessionalRate.vue'], resolve)
+                },
             ]
 
         },
