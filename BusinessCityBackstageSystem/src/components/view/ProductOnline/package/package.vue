@@ -36,7 +36,8 @@
                 </el-col>
             </el-row>
         </div>
-    
+        <detailpackage></detailpackage>
+        <showWindows></showWindows>
         
     </el-main>
 </template>
@@ -69,9 +70,29 @@
         background: #00aeaa;
         border: 1px solid #00aeaa;
     }
+    .block{
+        text-align: right;
+    }
 </style>
 <style scoped lang="less">
     @import '../Member.less';
+    .el-main{
+        /* height:initial; */
+        // overflow-y:hidden;
+        overflow-x: hidden;
+    }
+    .memberMain{
+        /* width: 100%; */
+        height: 65% !important;
+        /* margin-bottom: 130px;; */
+    }
+    .boderBox{
+        width: 100%;
+        height: 100%;
+    }
+    .memberMain{
+        top:0 !important;
+    }
     .search {
         position: relative;
         height: 72px;
