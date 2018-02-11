@@ -4,6 +4,7 @@ import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
+import detailpackage from './detailpackage.vue'
 import qs from 'qs'
 
 export default {
@@ -39,6 +40,9 @@ export default {
       }
       this.clearBox()
     })
+    this.$root.$on('adddata',()=>{
+      
+    });
   },
   methods: {
     clearBox() {
@@ -97,9 +101,6 @@ export default {
              method: 'POST',
             // 请求体重发送的数据
              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            //  data:qs.stringify( {
-               
-            //  }),
          })
            .then(response => {
            console.log(response)
@@ -117,7 +118,7 @@ export default {
 
     },
     showWindow() {
-      this.$root.$emit("showWindow",'no')
+      this.$root.$emit("showWindow")
     },
     closeInfo() {
 
@@ -142,7 +143,8 @@ export default {
     search,
     Datatable,
     showWindows,
-    searchBox
+    searchBox,
+    detailpackage
   },
 }
 

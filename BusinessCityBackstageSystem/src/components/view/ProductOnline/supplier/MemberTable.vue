@@ -6,7 +6,7 @@
     :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
-    style="width: 100%">
+    style="width: 100%" height='500'>
     <el-table-column
     fixed
     type="index"
@@ -60,7 +60,7 @@
         prop="source"
         fixed="right"
         label="操作">
-        <template slot-scope="scope" >
+        <template slot-scope="scope">
             <el-button type="text" size="small">编辑</el-button>
             <el-button type="text" size="small">删除</el-button>
         </template>
@@ -70,6 +70,7 @@
             </el-table>
 </template>
 <script>
+/ eslint-disable /
 //@row-click="showMemberInfo()"
 
 export default {

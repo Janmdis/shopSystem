@@ -1,65 +1,54 @@
 <template>
-    <el-dialog :title="ruleForm1.textInfo" :visible.sync="dialogVisible" width="50%">
-        <el-form :model="ruleForm1" :rules="rules" ref="ruleForm1" label-width="100px" class="demo-ruleForm1">
-            <el-row>
-                <el-col :span='12'>
-                    <el-form-item label="姓名" prop="name">
-                        <el-input v-model="ruleForm1.name"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span='12'>
-                    <el-form-item label="手机号" prop="mode">
-                        <el-input v-model="ruleForm1.mode"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span='12'>
-                    <el-form-item label="出生日期" prop='date1'>
-                        <el-date-picker v-on:blur="changeCount"  type="date" placeholder="选择日期" v-model="ruleForm1.date1" style="width: 100%;"></el-date-picker>
-                    </el-form-item>
-                </el-col>
-                <el-col :span='12'>
-                    <el-form-item label="年龄" prop='old'>
-                        <el-input v-model="ruleForm1.old" disabled = disabled></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span='12'>
-                    <el-form-item label="来源">
-                        <el-select placeholder="请选择来源" @click.native='sourceFn' v-model="ruleForm1.county">
-                            <el-option v-for=' (item,index) in this.ruleForm1.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span='12'>
-                    <el-form-item label="客户类型">
-                        <el-select v-model="ruleForm1.ctypes" @click.native='showData' placeholder="请选择客户类型">
-                            <el-option v-for=' (item,index) in this.ruleForm1.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span='12'>
-                    <el-form-item label="身份">
-                        <el-select v-model="ruleForm1.panper" placeholder="请选择身份">
-                            <el-option label="男主人" value="0"></el-option>
-                            <el-option label="女主人" value="1"></el-option>
-                            <el-option label="父亲" value="2"></el-option>
-                            <el-option label="母亲" value="3"></el-option>
-                            <el-option label="女儿" value="4"></el-option>
-                            <el-option label="女婿" value="5"></el-option>
-                            <el-option label="儿子" value="6"></el-option>
-                            <el-option label="儿媳" value="7"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm1')">立即创建</el-button>
-                <el-button @click="resetForm('ruleForm1')">重置</el-button>
-            </el-form-item>
+
+    <el-dialog  :visible.sync="dialogVisible" width="80%" height='80%' class='commodity'>
+        <el-form ref="form" :model="form" width="80px" class='elesentBox'>
+        <el-form-item >
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+        </el-form-item>
         </el-form>
+        
+        <el-table :data="tableData"  style="width: 100%" class="srcollTbale">
+        <el-table-column
+        type="index"
+        label="N"
+        :index="indexMethod">
+        </el-table-column>
+            <el-table-column prop="date" label="图片" width="180">
+                <template slot-scope="scope">
+                    <img src='http://www.baidu.com/link?url=JUaZ5P3qfOKvnySgoziCyPR5yQrAtAcCiuUxa_XOPlp6yEuQovvdF5AyRp0d3wThNlaQrcS28-i48i5H4uT1968i9DZx_1xmR6dErvcDmBmfadxcGIRr8y7r1b2umQgiXGiMO_alJPQGbU-8mPRLUuWldkDI7uuOjlx4DVxQnkrkT-vf6GjezLrQhs9ZB6oSa5iY2cB7-T6n7k_d8UOn2Is9zmmuTVvae2x_yWidu8cApzChRpeZfE5CsAVY3uGLAra-U8r06vBlXvvR67XJenO0arOlUzlMAzM0L-frAF8Z2pfHJyCCab97zgWwQu6vatTbfk3JvgCjyasT5UCN8F_V7-wmvHL9o6K1B3-OSJ2OKqnooIAant512kHZ5NJUQfXEZxu23Bok0_zwX5gJYKIpubOjwCEa1BUTEiuRAXtOWi3OBx3EJHm8lJ8yYvT_mHTMuzELoZL4WKOT3QEEbI9sFzo8c8MLBpI41QveshPtH1sAGnlQUgYKf71GV5zUmdOFY3v8LvGn40vXGJqjFdIQ4O9m1DvTYtNvj0TKytVTyPnol2zFQbAjOdK88_GlPMN7gJngpkwRbjUjh9p7jK&timg=http%3A%2F%2Fa.cphotos.bdimg.com%2Ftimg%3Fimage%26quality%3D100%26size%3Db4000_4000%26sec%3D1518072074%26di%3D3ab172897f846b8797665bd7aff47529%26src%3Dhttp%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3ac79f3df8dcd10088b14b1c798b4710b9122fd9.jpg&click_t=1518072077100&s_info=1423_769&wd=&eqid=82f3e44b00009bbf000000045a7bf109'/>
+                    <img src='http://www.baidu.com/link?url=JUaZ5P3qfOKvnySgoziCyPR5yQrAtAcCiuUxa_XOPlp6yEuQovvdF5AyRp0d3wThNlaQrcS28-i48i5H4uT1968i9DZx_1xmR6dErvcDmBmfadxcGIRr8y7r1b2umQgiXGiMO_alJPQGbU-8mPRLUuWldkDI7uuOjlx4DVxQnkrkT-vf6GjezLrQhs9ZB6oSa5iY2cB7-T6n7k_d8UOn2Is9zmmuTVvae2x_yWidu8cApzChRpeZfE5CsAVY3uGLAra-U8r06vBlXvvR67XJenO0arOlUzlMAzM0L-frAF8Z2pfHJyCCab97zgWwQu6vatTbfk3JvgCjyasT5UCN8F_V7-wmvHL9o6K1B3-OSJ2OKqnooIAant512kHZ5NJUQfXEZxu23Bok0_zwX5gJYKIpubOjwCEa1BUTEiuRAXtOWi3OBx3EJHm8lJ8yYvT_mHTMuzELoZL4WKOT3QEEbI9sFzo8c8MLBpI41QveshPtH1sAGnlQUgYKf71GV5zUmdOFY3v8LvGn40vXGJqjFdIQ4O9m1DvTYtNvj0TKytVTyPnol2zFQbAjOdK88_GlPMN7gJngpkwRbjUjh9p7jK&timg=http%3A%2F%2Fa.cphotos.bdimg.com%2Ftimg%3Fimage%26quality%3D100%26size%3Db4000_4000%26sec%3D1518072074%26di%3D3ab172897f846b8797665bd7aff47529%26src%3Dhttp%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3ac79f3df8dcd10088b14b1c798b4710b9122fd9.jpg&click_t=1518072077100&s_info=1423_769&wd=&eqid=82f3e44b00009bbf000000045a7bf109'/>
+                </template>
+            </el-table-column>
+            <el-table-column prop="name" label="名称" width="180">
+            </el-table-column>
+            <el-table-column prop="address" label="规格">
+            </el-table-column>
+            <el-table-column prop="address" label="单位">
+            </el-table-column>
+            <el-table-column prop="address" label="品牌">
+            </el-table-column>
+            <el-table-column prop="address" label="操作">
+                <template slot-scope="scope">
+                    <el-button type="text"  @click="handleClick(scope.row)" size="small">选择</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+           <div class="memberMain">
+            <el-row>
+                <el-col :span='10'>
+                    <p class='lineHeight'>从1到{{this.pageS}}/共<span>{{this.totalCount}}</span>条数据</p>
+                </el-col>
+                <el-col :span='12' :offset="12">
+                    <div class="block">
+                        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageIndex" :page-size="pageSize" layout=" prev, pager, next, jumper,total" :total="totalCount">
+                        </el-pagination>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
     </el-dialog>
 </template>
 <style>
@@ -71,300 +60,107 @@
     .lineBline {
         border-bottom: 1px solid #ddd;
     }
+    
+    .commodity .el-dialog__header{
+        background:#fff;
+    }
+    .commodity .elesentBox{
+        width:20%;
+        position:absolute;
+        top:10px;
+    }
+    .commodity .srcollTbale{
+        border-top:2px solid #ddd;
+        max-height:400px;
+        overflow-y: scroll;
+    }
+    
 </style>
 <script>
-import qs from 'qs'
+    import qs from 'qs'
     export default {
         data() {
-            var checkAge = (rule, value, callback) => {
-                if (!value) {
-                    return callback(new Error('年龄不能为空'))
-                }
-                setTimeout(() => {
-                    if (!Number.isInteger(value)) {
-                        callback(new Error('请输入数字值'))
-                    } else {
-                        if (value < 18) {
-                            callback(new Error('必须年满18岁'))
-                        } else {
-                            callback()
-                        }
-                    }
-                }, 1000)
-            }
             return {
                 dialogVisible: false,
-                ruleForm1: {
-                    mode: '',
-                    name: "",
-                    date1: '',
-                    old: '',
-                    county: '',
-                    ctypes: '',
-                    panper: '',
-                    curDate: [],
-                    sourceFns: [],
-                    textInfo: '新增会员',
-                    thisId:''
+                textInfo: '新增会员',
+                totalCount:1,
+                pageS:1,
+                pageIndex: 1,
+                pageSize: 10,
+                
+                form: {
+                    region: ''
                 },
-                rules: {
-                    name: [{
-                        required: true,
-                        message: '请输入姓名',
-                        trigger: 'blur'
-                    }, ],
-                    mode: [{
-                        pattern: /^1[3|4|5|7|8][0-9]{9}$/g,
-                        required: true,
-                        message: '请输入正确的手机号',
-                         trigger: 'blur'
-                    }, ],
-                    date1: [{
-                        required: true,
-                        message: '请选择日期',
-                        trigger: 'change'
-                    }],
-                    old: [{
-                        validator: checkAge,
-                        trigger: 'blur',
-                        required: true
-                    }],
-                }
+                tableData: [{
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-04',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1517 弄'
+                }, {
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }]
             };
         },
-        methods: {
-            submitForm(formName) {
-                let that = this;
-                if(this.ruleForm1.textInfo == "新增会员"){
-                that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm1.date1);  
-                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
-                    if (valid) {
-                        let url = '/api/customer/account/insert';
-                        this.$http({
-                                url: url,
-                                method: 'POST',
-                                // 请求体重发送的数据
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                data:[{
-                                    name: this.ruleForm1.name,
-                                    mobile: this.ruleForm1.mode,
-                                    birthDate: youWant,
-                                    categoryId: this.ruleForm1.ctypes,
-                                    recommendedSourceId: this.ruleForm1.county,
-                                    consumptionPoints: 0,
-                                    level: 0,
-                                    identity: this.ruleForm1.panper
-                                }]
-                            })
-                            .then(response => {
-                                this.dialogVisible = false;
-                                this.$root.$emit('getDatezdy',1)
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                alert('网络错误，不能访问');
-                            })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-                }
-                if(this.ruleForm1.textInfo == "编辑会员"){
-                that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm1.date1);  
-                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
-                    if (valid) {
-                        let url = '/api/customer/account/update';
-                        this.$http({
-                                url: url,
-                                method: 'POST',
-                                // 请求体重发送的数据
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                data: {
-                                    id:this.ruleForm1.thisId,
-                                    name: this.ruleForm1.name,
-                                    mobile: this.ruleForm1.mode,
-                                    birthDate: youWant,
-                                    categoryId: this.ruleForm1.ctypes,
-                                    recommendedSourceId: this.ruleForm1.county,
-                                    consumptionPoints: 0,
-                                    level: 0,
-                                    identity: this.ruleForm1.panper
-                                }
-                            })
-                            .then(response => {
-                                this.dialogVisible = false;
-                                this.$root.$emit('getDatezdy',1)
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                alert('网络错误，不能访问');
-                            })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-                }
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-            },
-            changeCount() {
-                if (this.ruleForm1.date1 == "") {
-                    return false;
-                }
-                var d = new Date(this.getDate(this.ruleForm1.date1) + '');
-                this.ruleForm1.old = (this.jsGetAge(d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()));
-            },
-            getDate(str) {
-                if (str == null) {
-                    return
-                } else {
-                    var oDate = new Date(str),
-                        oYear = oDate.getFullYear(),
-                        oMonth = oDate.getMonth() + 1,
-                        oDay = oDate.getDate(),
-                        oTime = oYear + '-' + this.getzf(oMonth) + '-' + this.getzf(oDay); //最后拼接时间  
-                    return oTime;
-                }
-            },
-            //补0操作  
-            getzf(num) {
-                if (parseInt(num) < 10) {
-                    num = '0' + num;
-                }
-                return num;
-            },
-            jsGetAge(strBirthday) {
-                var returnAge
-                var strBirthdayArr = strBirthday.split('-')
-                var birthYear = strBirthdayArr[0]
-                var birthMonth = strBirthdayArr[1]
-                var birthDay = strBirthdayArr[2]
-                var d = new Date()
-                var nowYear = d.getFullYear()
-                var nowMonth = d.getMonth() + 1
-                var nowDay = d.getDate()
-                if (nowYear == birthYear) {
-                    returnAge = 0; // 同年 则为0岁    
-                } else {
-                    var ageDiff = nowYear - birthYear; // 年之差    
-                    if (ageDiff > 0) {
-                        if (nowMonth == birthMonth) {
-                            var dayDiff = nowDay - birthDay; // 日之差    
-                            if (dayDiff < 0) {
-                                returnAge = ageDiff - 1
-                            } else {
-                                returnAge = ageDiff
-                            }
-                        } else {
-                            var monthDiff = nowMonth - birthMonth; // 月之差    
-                            if (monthDiff < 0) {
-                                returnAge = ageDiff - 1
-                            } else {
-                                returnAge = ageDiff
-                            }
-                        }
-                    } else {
-                        returnAge = -1; // 返回-1 表示出生日期输入错误 晚于今天    
-                    }
-                }
-                return returnAge; // 返回周岁年龄       
-            },
-            showData() {
-                let url = '/api/customer/customerCategory/findCategory';
-                this.$http({
-                        url: url,
-                        method: 'post',
-                        data: {}
-                    })
-                    .then(respone => {
-                        this.ruleForm1.curDate = respone.data.info;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        alert('网络错误，不能访问');
-                    })
-            },
-            sourceFn() {
-                let url = '/api/customer/recommendedSource/findSource';
-                this.$http({
-                        url: url,
-                        method: 'post',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        data: {}
-                    })
-                    .then(respone => {
-                        this.ruleForm1.sourceFns = respone.data.info;
-                        console.log(this.ruleForm1.sourceFns)
-                        
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        alert('网络错误，不能访问');
-                    })
-            },
-            // getData() {
-            // }
+        methods:{
+            handleSizeChange(val) {
+                this.pageSize = val;
+                this.$root.$emit('pageSize', {
+                    value: this.pageSize
+                })
+                },
+                handleCurrentChange(val) {
+                this.pageIndex = val;
+                this.$root.$emit('pageIndex', {
+                    value: this.pageIndex
+                })
+             },
+             handleClick(val){
+                 console.log(val)
+                this.dialogVisible = false;
+                this.$root.$emit('showTables',false);
+                this.$root.$emit("shopDetailss",true);
+             },
+             indexMethod(index) {
+                return index + 1
+             },
         },
         created: function() {
             this.$root.$on('showWindow', (data) => {
-                console.log(data)
-                if (data != 'no') {
-                    console.log(data[0].id)
-                    this.ruleForm1.textInfo = '编辑会员';
-                    let url = '/api/customer/account/queryMapByIds'/*'+[data[0].id]*/;
-                    this.$http({
-                            url: url,
-                            method: 'post',
-                            //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
-                            data:[data[0].id]
-                        })
-                        .then(respone => {
-                            
-                            let infos = respone.data.info[0]
-                            this.ruleForm1.thisId=  infos.id
-                            this.ruleForm1.mode= infos.mobile,
-                            this.ruleForm1.name= infos.name,
-                            this.ruleForm1.date1= infos.birthDate,
-                            this.ruleForm1.old= infos.age,
-                            this.ruleForm1.county= 1,
-                            this.ruleForm1.ctypes= 2,
-                            this.ruleForm1.panper= 1
-                            // this.ruleForm1.sourceFns = respone.data.info;
-                            // console.log(this.ruleForm1.sourceFns)
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            alert('网络错误，不能访问');
-                        })
-                        this.dialogVisible = true;
-                }else{
-                       
-                    this.ruleForm1.textInfo = '新增会员';
-                    this.dialogVisible = true;
-                     this.ruleForm1.mode= "",
-                    this.ruleForm1.name= "",
-                    this.ruleForm1.date1= "",
-                    this.ruleForm1.old= "",
-                    this.ruleForm1.county= "",
-                    this.ruleForm1.ctypes= "",
-                    this.ruleForm1.panper= ''
-                }
-                
+                this.dialogVisible = true;
             });
-            this.sourceFn();
-            this.showData();
-             
         }
     }
 </script>
