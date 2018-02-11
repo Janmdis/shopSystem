@@ -6,7 +6,7 @@
     :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
-    style="width: 100%">
+    style="width: 100%" height='500'>
     <el-table-column
     fixed
     type="index"
@@ -18,7 +18,7 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360'height='100'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -77,7 +77,7 @@
         prop="address"
         label="操作"
         fixed='right'>
-        <template scope="scope" >
+        <template slot-scope="scope">
             <el-button type="text" size="small">编辑</el-button>
             <el-button type="text" size="small">删除</el-button>
             <el-button type="text" size="small">下架</el-button>
@@ -88,6 +88,7 @@
             </el-table>
 </template>
 <script>
+/ eslint-disable /
 //@row-click="showMemberInfo()"
 export default {
     prop:['listLoading'],

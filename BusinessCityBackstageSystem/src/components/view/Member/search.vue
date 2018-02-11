@@ -192,7 +192,7 @@
                })
                .then(respone =>{
                    this.form.sourceFns = respone.data.info;
-                   console.log(this.form.sourceFns)
+                   //console.log(this.form.sourceFns)
                })
                .catch(error=>{
                    console.log(error);
