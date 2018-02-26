@@ -21,37 +21,37 @@
         <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
-        prop="name"
+        prop="levelName"
         label="公司"
         width='120'
         >
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="contact"
         width='120'
         label="联系人">
         </el-table-column>
         <el-table-column
         width='120'
-        prop="types"
+        prop="contactMobile"
         label="电话"
         >
         </el-table-column>
         <el-table-column
         width='120'
-        prop="city"
+        prop="categoryId"
         label="类型"
         >
         </el-table-column>
         <el-table-column
         width='120'
-        prop="quarters"
+        prop="levelId"
         label="级别"
         sortable>
         </el-table-column>
         <el-table-column
         width='120'
-        prop="state"
+        prop="supplierLabel"
         label="产品标签"
         sortable>
         </el-table-column>
@@ -106,16 +106,15 @@ export default {
                 // 请求体重发送的数据
                 //headers: { 'Content-Type': 'application/json' },
                 data:{
-                    pageNum:10,
-                    pageSize:pageIndex
+                    pageNum:pageIndex,
+                    pageSize:10
                 },
             })
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(this.datalist)
-                this.$root.$emit('pages',response.data.info.pages)
-                this.$root.$emit('total',response.data.info.total)
+                this.$root.$emit('pages',response.data.info.pageNum)
+                this.$root.$emit('total',response.data.info.pageSize)
           })
           .catch(error=>{
               console.log(error);
