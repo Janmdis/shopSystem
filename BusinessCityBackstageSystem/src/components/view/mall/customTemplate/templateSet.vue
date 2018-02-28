@@ -13,36 +13,33 @@
       </div>
       <el-row>
           <!-- 右侧开始 -->
-          <el-col :span="10">
+          <el-col :span="10" style="min-width: 613px;">
+              <!-- 右侧开始 -->
+          <div id='lefttemp'>
+              <p class="template-name-title">模板名称：</p>
+              <div class="template-name-input">
+                  <el-input  placeholder="请输入内容" v-model="templateName"></el-input>
+              </div>
+              <div style="clear:both;"></div>
+          </div>
               <!-- 模板最外层容器开始 -->
-              <div style="margin:66px 10px 416px 36px;border: 1px solid #aaaaaa;border-radius: 3px;">
+              <div style="margin:20px 10px 922px 36px;border: 1px solid #aaaaaa;border-radius: 3px;">
                   <!-- 模板内容头部开始 -->
                   <div style="    height: 105px;width:100%">
                       <img class="Imgsize" src="./../../../../assets/templateHeader.png">
                   </div>
                   <!-- 模板内容头部结束 -->
+
                   <!-- 模板内容开始 -->
                   <div id='templateMain'>
                       <keep-alive v-for='(item,index) in comlist' :key='index'>
                         <components :templatedata='index' :is='item'  :type='item'  class="test"   @click.native='changeEdit(index,item)'></components>
                       </keep-alive>
-                      <!-- 图片广告组件 -->
-                      <!-- <imageAds></imageAds> -->
-                       <!-- 橱窗组件 -->
-                       <!-- <window></window> -->
-                       <!-- 橱窗组件2 -->
-                       <!-- <window2></window2> -->
-                       <!-- 商品组件 -->
-                       <!-- <commodity></commodity> -->
-                       <!-- 标题组件 -->
-                       <!-- <titles></titles> -->
-                       <!-- 分类组件 -->
-                       <!-- <classification></classification> -->
                   </div>
                   <!-- 模板内容结束 -->
+
                   <!-- 模板底部开始 -->
                   <div class="template-buttom-div">
-                      <!-- windowValue true 橱窗1 false 橱窗2 -->
                       <!-- 底部添加新内容组件开始 -->
                       <el-col :span="24" >
                           <p class="template-buttom-title" id="addnewContent">添加新内容</p>
@@ -70,15 +67,6 @@
                   <!-- 模板底部结束 -->
               </div>
               <!-- 模板最外层容器结束 -->
-          </el-col>
-          
-          <!-- 右侧开始 -->
-          <el-col :span="12" style="" id='lefttemp'>
-              <p class="template-name-title">模板名称：</p>
-              <div class="template-name-input">
-                  <el-input  placeholder="请输入内容" v-model="templateName"></el-input>
-              </div>
-              <div style="clear:both;"></div>
           </el-col>
     <!-- 底部保存/返回 -->
          <el-col :span="24" class="template-save-div" style="">
@@ -130,11 +118,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          return{
              imgdata:'',
              prodata:'',
-             comlist:['imageAds','window','window2','commodity','titles','classification']
+             comlist:['imageAds']
          }
      },
      created:function(){
-         this.$root.$on('test',(id)=>{
+         this.$root.$on('deleteID',(id)=>{
             let list=[];
             for(let i=0;i<this.comlist.length;i++){
                 if(id!=i){
@@ -159,23 +147,59 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
      }),
      methods:{
          //动态添加组件
-         commodityAdd(item){
+         commodityAdd(){
              this.comlist.push('commodity');
+             let templateEdit = document.querySelectorAll('.template-editContent-div')
+             for(let value of templateEdit){
+                console.log(value)
+                value.style.display="none"
+            }
+             templateEdit[templateEdit.length].style.display="block";
          },
          windowAdd(){
             this.comlist.push('window');
+             let templateEdit = document.querySelectorAll('.template-editContent-div')
+             for(let value of templateEdit){
+                console.log(value)
+                value.style.display="none"
+            }
+             templateEdit[templateEdit.length].style.display="block";
          },
          windowsAdd(){
             this.comlist.push('window2');
+             let templateEdit = document.querySelectorAll('.template-editContent-div')
+             for(let value of templateEdit){
+                console.log(value)
+                value.style.display="none"
+            }
+             templateEdit[templateEdit.length].style.display="block";
          },
          titleAdd(item){
              this.comlist.push('titles');
+              let templateEdit = document.querySelectorAll('.template-editContent-div')
+             for(let value of templateEdit){
+                console.log(value)
+                value.style.display="none"
+            }
+             templateEdit[templateEdit.length].style.display="block";
         },
          imageAdsAdd(){
              this.comlist.push('imageAds');
+              let templateEdit = document.querySelectorAll('.template-editContent-div')
+             for(let value of templateEdit){
+                console.log(value)
+                value.style.display="none"
+            }
+             templateEdit[templateEdit.length].style.display="block";
         },
          classificationAdd(){
              this.comlist.push('classification');
+              let templateEdit = document.querySelectorAll('.template-editContent-div')
+             for(let value of templateEdit){
+                console.log(value)
+                value.style.display="none"
+            }
+             templateEdit[templateEdit.length].style.display="block";
         },
         changeEdit(index,item){
              console.log(index) //循环下标
@@ -223,7 +247,9 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     height: 100%;
 }
 #lefttemp{
-    margin-top:86px;margin-bottom: 168px;
+    margin-top:30px;margin-bottom:20px;min-width: 630px;position: absolute;
+    left: 660px;
+    top: 56px;
 }
 //模板底部按钮样式
 
@@ -264,10 +290,10 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
    line-height: 34px;
    border-radius: 5px;
   color: #fff;
-  background: #00adab;
+  background: #27a1f2;
 }
 .newContentBtn:hover{
-  background: rgb(1, 138, 136);
+  background: #38abf8;
   cursor: pointer;
 }
 .bottom-btn {
@@ -294,7 +320,8 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 }
 .template-name-title{
     float:left;
-    padding-top: 6px;
+   // padding-top: 6px;
+    line-height: 225%;
     margin-left:46px
 }
 .template-name-input{
@@ -304,7 +331,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 .template-editContent-div{
     margin-top:40px;
     position:relative;
-    min-width:608px;
+    min-width:600px;
     margin-left:10px;
     margin-right:280px;
     border: 1px solid #aaaaaa;

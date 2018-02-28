@@ -4,99 +4,68 @@
       <!-- 橱窗1开始 -->
       <div>
         <el-row>
-        <el-col :span="12">
+        <el-col :span="12" v-for='(item,index) in winImgArr' :key='index'>
              <div class="imgConet">
-               <!-- 条框div -->
-                <div class="boxesDiv">
-                  <img src="./../../../../assets/logo.png" class="img">
+               
+                <div>
+                  <img :src="item.img" class="img">
                 </div>
                 <!-- 主标题 -->
                 <!-- <p class="title1">主标题</p> -->
                 <!-- 副标题 -->
                 <!-- <p class="title2">副标题</p> -->
+                <!-- 条框div -->
+                <div class="boxesDiv" v-bind:class="item.boxesDivStyle"></div>
                 <!-- 线框div -->
-                <div class="lineDiv"></div>
-             </div>
-        </el-col>
-        <el-col :span="12">
-            <div class="imgConet">
-               <!-- 条框div -->
-                <div class="boxesDiv">
-                  <img src="./../../../../assets/logo.png" class="img">
-                </div>
-                <!-- 主标题 -->
-                <!-- <p class="title1">主标题</p> -->
-                <!-- 副标题 -->
-                <!-- <p class="title2">副标题</p> -->
-               <!-- 线框div -->
-               <div class="lineDiv"></div>
-             </div>
-        </el-col>
-        <el-col :span="12">
-            <div class="imgConet">
-               <!-- 条框div -->
-               <div class="boxesDiv">
-                  <img src="./../../../../assets/logo.png" class="img">
-                </div>
-                <!-- 主标题 -->
-                <!-- <p class="title1">主标题</p> -->
-                <!-- 副标题 -->
-                <!-- <p class="title2">副标题</p> -->
-               <!-- 线框div -->
-               <div class="lineDiv"></div>
-             </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="imgConet">
-               <!-- 条框div -->
-                <div class="boxesDiv">
-                  <img src="./../../../../assets/logo.png" class="img">
-                </div>
-                <!-- 主标题 -->
-                <!-- <p class="title1">主标题</p> -->
-                <!-- 副标题 -->
-                <!-- <p class="title2">副标题</p> -->
-               <!-- 线框div -->
-               <div class="lineDiv"></div>
+                <div class="lineDiv" v-bind:class="item.lineDivStyle"></div>
              </div>
         </el-col>
         <div style="clear:both;"></div>
         </el-row>
         <div class="hoverClick">
             <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-            <span><a href="#addnewContent" onclick="return false;" style="color:#fff">添加新内容</a></span>
+            <span><a href="#addnewContent" style="color:#fff">添加新内容</a></span>
         </div>
       </div>
       <!-- 橱窗1结束 -->
        <div class="template-editContent-div" >
             <div class="arrow"></div>
             <div>
-                      <div style="margin:25px 0px 15px 24px;color:black;text-align:left;">选择图片：
-                          <span class="add-new-Btn" @click="addNewImg">添加图片</span>
-                      </div>
-                      <div class="imgLists">
-                  <!-- <windowAddImgList></windowAddImgList> -->
-                  <ul>
-                      <li>
+                <div style="margin:25px 0px 15px 24px;color:black;text-align:left;">选择图片：
+                    <!-- <span class="add-new-Btn" @click="addNewImg">添加图片</span> -->
+                </div>
+                <div class="imgLists">
+                  <ul class="imgListUL">
+                      <li v-for='(item,index) in winImgArr' :key='index'>
                           <div class="carouselListInfo">
                               <div class="imgShowDiv">
                                   <div class="chooseImg">
                                       <div class="center">
-                                          <img class="microImg" src="./../../../../assets/templateImg.jpg">
+                                          <img class="microImg" :src="item.img">
                                       </div>
                                   </div>
                                   <div class="reLoadingImg">
-                                      <p @click="opendialog" style="line-height: 1178%;text-align: center;">重新上传 建议比例（1:1）</p>
-                                      <div class="delete-img">&times;</div>
+                                       <el-upload
+                                            class="avatar-uploader"
+                                            :action="importFileUrl"
+                                            :show-file-list="false"
+                                            :data="item.urlImg"
+                                            name='fileUpload'
+                                            :type='admin'
+                                            :on-success="handleAvatarSuccess"
+                                            :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                                        </el-upload>
+                                      <p style="line-height: 1178%;text-align: center;">重新上传 建议比例（1:1）</p>
+                                      <!-- <div class="delete-img" @click="deleteImgAd(index)">&times;</div> -->
                                   </div>
                               </div>
                               <div class="editStyleDiv">
                                   <div class="styleBtn">
                                       <ul>
                                           <li class="styleTitle">样式：</li>
-                                          <li class="styleBorderBtn">无框</li>
-                                          <li class="styleBorderBtn">线框</li>
-                                          <li class="styleBorderBtn">条框</li>
+                                          <li class="styleBorderBtn" v-bind:class="item.notDivBtn" @click="notBorder(index)">无框</li>
+                                          <li class="styleBorderBtn" v-bind:class="item.lineDivBtn" @click="lineBorder(index)">线框</li>
+                                          <li class="styleBorderBtn" v-bind:class="item.boxesDivBtn" @click="boxesBorder(index)">条框</li>
                                       </ul>
                                       <div style="clear:both;"></div>
                                   </div>
@@ -136,7 +105,109 @@
     export default{
         data() {
             return{
-                dataid:''
+                dataid:'',
+                importFileUrl:'',
+                admin:'',
+                imageUrl: '',
+                winImgArr:[
+                        {
+                            boxesDivStyle:{
+                                boxesBorShow:false,
+                                boxesBorHide:true,
+                            },
+                            lineDivStyle:{
+                                lineBorShow:false,
+                                lineBorHide:true
+                                },
+                            notDivBtn:{
+                                notBtnShow:true,
+                                notBtnHide:false
+                            },
+                            lineDivBtn:{
+                                lineBtnShow:false,
+                                lineBtnHide:true
+                            },
+                            boxesDivBtn:{
+                                boxesBtnShow:false,
+                                boxesBtnHide:true
+                            },
+                            img:'http://img2.imgtn.bdimg.com/it/u=2862368089,191433258&fm=27&gp=0.jpg',
+                            url:'',
+                            urlImg:''
+                        },{
+                            boxesDivStyle:{
+                                boxesBorShow:false,
+                                boxesBorHide:true,
+                            },
+                            lineDivStyle:{
+                                lineBorShow:false,
+                                lineBorHide:true
+                                },
+                                notDivBtn:{
+                                notBtnShow:true,
+                                notBtnHide:false
+                            },
+                            lineDivBtn:{
+                                lineBtnShow:false,
+                                lineBtnHide:true
+                            },
+                            boxesDivBtn:{
+                                boxesBtnShow:false,
+                                boxesBtnHide:true
+                            },
+                            img:'http://img5q.duitang.com/uploads/item/201312/05/20131205172346_TjxGy.thumb.700_0.png',
+                            url:'',
+                            urlImg:''
+                        },{
+                            boxesDivStyle:{
+                                boxesBorShow:false,
+                                boxesBorHide:true,
+                            },
+                            lineDivStyle:{
+                                lineBorShow:false,
+                                lineBorHide:true
+                                },
+                                notDivBtn:{
+                                notBtnShow:true,
+                                notBtnHide:false
+                            },
+                            lineDivBtn:{
+                                lineBtnShow:false,
+                                lineBtnHide:true
+                            },
+                            boxesDivBtn:{
+                                boxesBtnShow:false,
+                                boxesBtnHide:true
+                            },
+                            img:'http://img5.duitang.com/uploads/item/201312/05/20131205171953_Pw4tu.thumb.700_0.jpeg',
+                            url:'',
+                            urlImg:''
+                        },{
+                             boxesDivStyle:{
+                                boxesBorShow:false,
+                                boxesBorHide:true,
+                            },
+                            lineDivStyle:{
+                                lineBorShow:false,
+                                lineBorHide:true
+                                },
+                                notDivBtn:{
+                                notBtnShow:true,
+                                notBtnHide:false
+                            },
+                            lineDivBtn:{
+                                lineBtnShow:false,
+                                lineBtnHide:true
+                            },
+                            boxesDivBtn:{
+                                boxesBtnShow:false,
+                                boxesBtnHide:true
+                            },
+                            img:'http://imgq.duitang.com/uploads/item/201312/05/20131205172408_FQefT.thumb.700_0.jpeg',
+                            url:'',
+                            urlImg:''
+                        }
+                ]
             }
         },
         props:['templatedata'],
@@ -145,7 +216,7 @@
         },
         methods:{
           delete(){
-            this.$root.$emit('test',this.dataid);
+            this.$root.$emit('deleteID',this.dataid);
                 return{
                     type:'success',
                     message:'删除成功!'
@@ -167,9 +238,60 @@
             });
             
          },
-          opendialog(){
-             this.$root.$emit('opendialogmember',true)
+         notBorder(index){
+             this.winImgArr[index].boxesDivStyle.boxesBorShow = false;
+              this.winImgArr[index].boxesDivStyle.boxesBorHide = true;
+              this.winImgArr[index].lineDivStyle.lineBorShow = false;
+              this.winImgArr[index].lineDivStyle.lineBorHide = true;
+              this.winImgArr[index].notDivBtn.notBtnShow = true;
+              this.winImgArr[index].notDivBtn.notBtnHide = false;
+              this.winImgArr[index].lineDivBtn.lineBtnShow = false;
+              this.winImgArr[index].lineDivBtn.lineBtnHide = true;
+              this.winImgArr[index].boxesDivBtn.boxesBtnShow = false;
+              this.winImgArr[index].boxesDivBtn.boxesBtnHide = true;
          },
+         lineBorder(index){
+             this.winImgArr[index].boxesDivStyle.boxesBorShow = false;
+              this.winImgArr[index].boxesDivStyle.boxesBorHide = true;
+              this.winImgArr[index].lineDivStyle.lineBorShow = true;
+              this.winImgArr[index].lineDivStyle.lineBorHide = false;
+              this.winImgArr[index].notDivBtn.notBtnShow = false;
+              this.winImgArr[index].notDivBtn.notBtnHide = true;
+              this.winImgArr[index].lineDivBtn.lineBtnShow = true;
+              this.winImgArr[index].lineDivBtn.lineBtnHide = false;
+              this.winImgArr[index].boxesDivBtn.boxesBtnShow = false;
+              this.winImgArr[index].boxesDivBtn.boxesBtnHide = true;
+         },
+         boxesBorder(index){
+              this.winImgArr[index].boxesDivStyle.boxesBorShow = true;
+              this.winImgArr[index].boxesDivStyle.boxesBorHide = false;
+              this.winImgArr[index].lineDivStyle.lineBorShow = false;
+              this.winImgArr[index].lineDivStyle.lineBorHide = true;
+              this.winImgArr[index].notDivBtn.notBtnShow = false;
+              this.winImgArr[index].notDivBtn.notBtnHide = true;
+              this.winImgArr[index].lineDivBtn.lineBtnShow = false;
+              this.winImgArr[index].lineDivBtn.lineBtnHide = true;
+              this.winImgArr[index].boxesDivBtn.boxesBtnShow = true;
+              this.winImgArr[index].boxesDivBtn.boxesBtnHide = false;
+         },
+          handleAvatarSuccess(res, file) {
+            this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isGIF = file.type === 'image/gif';
+                const isPNG = file.type === 'image/png';
+                const isBMP = file.type === 'image/bmp';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG && !isPNG && !isGIF && !isBMP) {
+                this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
+                }
+                if (!isLt2M) {
+                this.common.errorTip('上传图片大小不能超过 2MB!');
+                }
+                return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
+            },
          opendialogPro(){
              this.$root.$emit('opendialogProduct',true)
          },
@@ -186,13 +308,23 @@
 </style>
 <style scoped lang="less">
 @import "../../../../assets/less/color";
+.boxesBorShow{border: 10px solid #eeeeee}
+.boxesBorHide{border: 0px solid #eeeeee}
+.lineBorShow{border: 1px solid #eeeeee}
+.lineBorHide{border: 0px solid #eeeeee}
+.notBtnShow{background: #27a1f2;color:#ffffff;}
+.notBtnHide{background: #ffffff;}
+.lineBtnShow{background: #27a1f2;color:#ffffff;}
+.lineBtnHide{background: #ffffff;}
+.boxesBtnShow{background: #27a1f2;color:#ffffff;}
+.boxesBtnHide{background: #ffffff;}
 .template-editContent-div{
     margin-top:40px;
     position: relative;
     position:absolute;
     top: 5%;
     left: 102%;
-    min-width:608px;
+    min-width:600px;
     margin-left:10px;
     margin-right:280px;
     border: 1px solid #aaaaaa;
@@ -222,7 +354,7 @@
   display:inline-block;
   padding: 0 15px 0 15px;
   margin-left: 12px;
-  background: #00adab;
+  background: #27a1f2;
   cursor: pointer;
   position: relative;
 }
@@ -276,16 +408,21 @@
   width: 100%;
   height: 100%;
 }
-.boxesDiv{
-  border:10px solid #eeeeee;
-}
+ .boxesDiv{
+       position: absolute;
+    width: 96%;
+    height: 92%;
+    top: 0%;
+    left: 0%;
+  // border:10px solid #eeeeee;
+ }
 .lineDiv{
     position: absolute;
     width: 80%;
     height: 80%;
     top: 9%;
     left: 9%;
-    border: 1px solid #eeeeee;
+    //border: 1px solid #eeeeee;
 }
 .title1{    position: absolute;
 font-size: 13px;
@@ -341,7 +478,7 @@ font-size: 13px;
  .carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
  .imgShowDiv{width:30%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;font-size: 12px;}
  .chooseImg{width:164px;height:141px;}
- .editStyleDiv{width:50%;background:#fff;margin-left:10px;margin-top:5px;float:left;}
+ .editStyleDiv{width:51%;background:#fff;margin-left:10px;margin-top:5px;float:left;}
  .styleBtn{font-size:16px;margin-top:10px;margin-bottom:20px;}
  .styleTitle{float:left;padding-left:16px;padding-top:5px;}
  .styleBorderBtn{float: left;border: 1px solid #a5a5a5;padding: 5px 11px;border-radius: 5px;margin-right: 14px;cursor: pointer;}

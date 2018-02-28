@@ -1,7 +1,7 @@
 
 <template>
   <!-- 标题组件开始 -->
-    <div class="borderHover" @click="sendTitleinfo" :index='dataid'>
+    <div class="borderHover" :index='dataid'>
       <div>
         <!-- 标题开始 -->
         <el-row>
@@ -11,15 +11,15 @@
             </div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="mainTitles" v-bind:style="mainTitleStyle">{{ main }}</div>
+            <div class="mainTitles" v-bind:style="mainTitleStyle">{{ mainTitle }}</div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="subTitles" v-bind:style="subTitleStyle">{{ sub }}</div>
+            <div class="subTitles" v-bind:style="subTitleStyle">{{ subtitle }}</div>
           </el-col>
         </el-row>
          <div class="hoverClick">
             <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-            <span><a href="#addnewContent" onclick="return false;" style="color:#fff">添加新内容</a></span>
+            <span><a href="#addnewContent" style="color:#fff">添加新内容</a></span>
         </div>
         <!-- 标题结束 -->
         <div class="template-editContent-div" >
@@ -30,13 +30,13 @@
                       <div class="editSelectDiv">
                             <div class="mainTitleDiv">
                                 <span class="mainTitle">主标题：</span>
-                                <el-input @input.native="inputchange($event)" v-model="mainTitleInput" class="mainTitleInput"></el-input>
+                                <el-input @input.native="inputchange($event)" v-model="mainTitle" class="mainTitleInput"></el-input>
                                 <colorPicker v-model="color1" v-on:change="headleChangeColor1"></colorPicker>
                                 <div style="clear:both;"></div>
                             </div>
                             <div class="subtitleDiv">
                                 <span class="subtitle">副标题：</span>
-                                <el-input @input.native="subinputchange($event)" v-model="subtitleInput" class="subtitleInput"></el-input>
+                                <el-input @input.native="subinputchange($event)" v-model="subtitle" class="subtitleInput"></el-input>
                                 <colorPicker v-model="color2" v-on:change="headleChangeColor2"></colorPicker>
                                 <div style="clear:both;"></div>
                             </div>
@@ -59,86 +59,29 @@
         data() {
             return{
                 dataid:'',
-                main:'BACK TO SCHOOL SEASONAL DISCOUNT',
-                sub:'开学季优惠',
-                color1: '#000',
-                color2: '#000',
+                mainTitle:'BACK TO SCHOOL SEASONAL DISCOUNT',
+                subtitle:'开学季优惠',
                 mainTitleStyle:{
-                  color:''
+                  color:'#000'
                 },
                 subTitleStyle:{
-                  color:''
+                  color:'#000'
                 },
-                subtitle:'',
-                mainTitle:'',
-                color1: '#000',
-                color2: '#000',
-                mainTitleInput:'',
-                subtitleInput:''
+                color1:'#000',
+                color2:'#000'
              }
         },
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
-          this.$root.$on('mainTitle',(data) => {
-            let type = data.type;
-            if(this.dataid==type){
-              this.main = data.value
-            }
-          })
-          this.$root.$on('subtitle',(data) => {
-            let type = data.type;
-            if(this.dataid==type){
-             this.sub = data.value
-            }
-          })
-          this.$root.$on('mainTitleColor',(data) => {
-            let type = data.type;
-            console.log(type)
-            console.log(this.dataid)
-            if(this.dataid == type){
-               this.color1 = data.color
-              this.mainTitleStyle.color = this.color1;
-              //console.log(this.mainTitleStyle.color+'绑定的主标题颜色')
-            }
-          })
-          this.$root.$on('subTitleColor',(data) => {
-            let type = data.type;
-            if(this.dataid==type){
-              this.color2 = data.color
-              this.subTitleStyle.color = this.color2;
-             // console.log(this.subTitleStyle.color+'绑定的副标题颜色')
-            }
-          })
-
-           this.$root.$on('titleContent',(data) => {
-             console.log(data)
-             let mainContent = data.btitle;
-             let subContent = data.mtitle;
-             let mainColor = data.color1;
-             let subColor = data.color2;
-             console.log(mainColor)
-             console.log(subColor)
-              this.mainTitleInput = mainContent
-              this.color1 = mainColor;
-              this.subtitleInput = subContent
-              this.color2 = subColor;
-         })
         },
         methods:{
           delete(){
-            this.$root.$emit('test',this.dataid);
+            this.$root.$emit('deleteID',this.dataid);
                 return{
                     type:'success',
                     message:'删除成功!'
                 };
-          },
-          sendTitleinfo(){
-            // alert(this.main)
-            // alert(this.sub)
-            // alert(this.color1)
-            // alert(this.color2)
-             this.$root.$emit('titleContent',{btitle:this.main,mtitle:this.sub,color1:this.color1,color2:this.color2});
           },
           deletedep(){
             this.$confirm('确认删除？', '提示', {
@@ -159,22 +102,19 @@
          inputchange($event){
              this.mainTitle = $event.target.value
              //console.log(this.mainTitle)
-             this.$root.$emit('mainTitle',{value:this.mainTitle,type:this.type});
-             
          },
          subinputchange($event){
              this.subtitle = $event.target.value
-             this.$root.$emit('subtitle',{value:this.subtitle,type:this.type});
-             
+             //console.log(this.subtitle)
          },
          headleChangeColor1 (color1) {
             console.log(`颜色值改变事件：`+ this.color1 )
-            this.$root.$emit('mainTitleColor',{color:this.color1,type:this.type});
+            this.mainTitleStyle.color = this.color1
             },
-            headleChangeColor2 (color2) {
+         headleChangeColor2 (color2) {
              console.log(`颜色值改变事件：`+ this.color2 )
-             this.$root.$emit('subTitleColor',{color:this.color2,type:this.type});
-            }
+             this.subTitleStyle.color = this.color2
+           }
         },
        components:{
            colorPicker
@@ -198,7 +138,7 @@
     position:absolute;
     top: 5%;
     left: 102%;
-    min-width:608px;
+    min-width:600px;
     margin-left:10px;
     margin-right:280px;
     border: 1px solid #aaaaaa;
