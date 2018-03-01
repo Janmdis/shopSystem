@@ -2,41 +2,7 @@
     <div class='detail off' ref='detail'>
         <el-row  class='contain'>
             <el-col :span="12" >
-                <el-row class='group-goods'>
-                    <header class='header'>商品组</header>
-                    <el-table
-                    :data="listgoods"
-                    :stripe='true'
-                    :border='true'
-                    v-loading='loadinggoods'
-                    style="width: 80%;margin:10px auto;" height='250'>
-                        <el-table-column
-                        type="selection"
-                        >
-                        </el-table-column>
-                        <el-table-column  label="图片"  class-name='imgcolum'>
-                            <template slot-scope="scope">
-                                <img :src="scope.row.imgurl" alt="">
-                            </template>
-                        </el-table-column>
-                        <el-table-column  prop="totalSales" label="数量"  >
-                        </el-table-column>
-                        <el-table-column label="操作">
-                            <template slot-scope="scope">
-                                <el-button
-                                class='btnopera'
-                                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                                |
-                                <el-button
-                                class='btnopera'
-                                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <el-button type="primary" icon="el-icon-plus" class='adddata' @click='addgoods'></el-button>
-                </el-row>
                 <el-row>
-                    <header class='header'>信息展示</header>
                     <el-form ref="formmsg" class='formmsg' :model="formmsg" :rules="rules" label-width="80px">
                         <el-form-item label="标题：" prop='name'>
                             <el-input v-model="formmsg.name"></el-input>
@@ -65,8 +31,8 @@
                         </el-row>
                         <el-row :gutter='20'>
                             <el-col :span='12'>
-                                <el-form-item label="价格：" prop='originalPrice'>
-                                    <el-input v-model="formmsg.originalPrice"></el-input>
+                                <el-form-item label="品牌：" prop='brand'>
+                                    <el-input v-model="formmsg.brand"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span='12'>
@@ -76,6 +42,11 @@
                             </el-col>
                         </el-row>
                         <el-row :gutter='20'>
+                            <el-col :span='12'>
+                                <el-form-item label="价格：" prop='originalPrice'>
+                                    <el-input v-model="formmsg.originalPrice"></el-input>
+                                </el-form-item>
+                            </el-col>
                             <el-col :span='12'>
                                 <el-form-item label="销量：" prop='totalSales'>
                                     <el-input v-model="formmsg.totalSales"></el-input>
@@ -115,21 +86,11 @@
                                 </li>
                             </ul>
                         </el-form-item>
-                        <el-form-item label="参加活动：">
-                            <template>
-                                <div class='containlabel'>
-                                    <ul>
-                                        <li v-for="item in listlabel" :key="item">{{item}}</li>
-                                    </ul>
-                                </div>
-                            </template>
-                        </el-form-item>
                     </el-form>
                 </el-row>
             </el-col>
             <el-col :span="12">
                 <el-row class='timemodel'>
-                    <header class='header'>服务时间</header>
                     <el-row class='selectmodal'>
                         <el-col :span='5'>
                             <el-select v-model="tmselected" placeholder="选择模板" @change='changedatemodel'>
@@ -167,17 +128,6 @@
                             min-width='100'
                             label="">
                             <template slot-scope="scope" :span='10'>
-                                <!-- <el-time-picker
-                                    is-range
-                                    size='mini'
-                                    prefix-icon=''
-                                    v-model="scope.row.date"
-                                    value-format="HH:mm" 
-                                    format="HH:mm"
-                                    :disabled='scope.row.dateedit'
-                                    range-separator="-"
-                                    placeholder="选择时间范围">
-                                </el-time-picker> -->
                                 <span>{{scope.row.date}}</span>
                             </template>
                         </el-table-column>
@@ -232,12 +182,9 @@
                         </el-table-column>
                         
                     </el-table>
-                    <!-- <el-button  class="button-addtime el-icon-plus" size="small" @click="addtimedate"></el-button>
-                    <el-button  class="button-deletetime el-icon-minus" size="small" @click="deletetimedate"></el-button> -->
                     <el-button type="primary" style='height:30px;line-height:5px;float:right;margin:10px 10%;' @click='savetimetable'>保存</el-button>
                 </el-row>
                 <el-row class='areaservice'>
-                    <header class='header'>选择模板</header>
                     <el-row class='selectmodal'>
                         <el-col :span='5'>
                             <el-select v-model="areamselected" placeholder="选择模板" @change='changeareamodel'>
@@ -293,7 +240,6 @@
    
 </template>
 <script>
-import { mapState } from 'vuex'
 // import imgUp from './userChildren/ImgUp.vue'
 export default {
     // components:{imgUp},
@@ -328,7 +274,6 @@ export default {
         };
         return {
             id:'',
-            listgoods:[],
             listimg:[],
             imgdata:{
                 'type':'admin'
@@ -356,10 +301,10 @@ export default {
                 displayQuantity:'',
                 originalPrice:'',
                 totalSales:'',
-                categoryId:''
+                categoryId:'',
+                brand:''
             },
             goodstype:[],
-            listlabel:['标签一','标签二','标签三','标签四'],
             disabled:true,
             // 图片删除URL
             importFileUrl:'api/zuul/sms/file/fileUpload',
@@ -386,26 +331,21 @@ export default {
         }
     },
     created(){
-        this.$root.$on('editpackage',(datas)=>{
+        this.$root.$on('editcommodity',(datas)=>{
             this.id=datas.id;
             this.$refs.detail.setAttribute('class','detail on');
-            this.getpackageinfo();
-            this.getgoodslist();
+
+            this.getcommodityinfo();
             this.getcategory();
             this.getimglist();
-            // this.getdatemodel();
-            this.getdateperiod();
-            this.getcitys();
+            this.getdatemodel();
+            
+            // this.getcitys();
         });
     },
-    computed: {
-        ...mapState({
-            imglist: state => state.imglistcommodity.imglistcommodity
-        })
-    },
     methods:{
-        // 获取套餐信息
-        getpackageinfo(){
+        // 获取商品信息
+        getcommodityinfo(){
             let that=this;
             this.$http.post('/api/product/commodity/info/queryMap',{id:that.id})
             .then(function(response){
@@ -416,6 +356,7 @@ export default {
                     that.formmsg.originalPrice=data.originalPrice.toString();
                     that.formmsg.totalSales=data.totalSales.toString();
                     that.formmsg.categoryId=data.categoryId;
+                    that.formmsg.brand=data.brand;
                     that.tmid=data.periodTemplateId;
                     that.areamid=data.regionTemplateId;
                 }
@@ -425,42 +366,8 @@ export default {
                 console.log(response);
             })
             .catch(function(response){
-                that.$message('套餐信息读取失败！');
+                that.$message('商品信息读取失败！');
             })
-        },
-        // 获取套餐内商品列表
-        getgoodslist(){
-            let that=this;
-            this.loadinggoods=true;
-            this.$http.post('/api/product/commodity/package/queryCommodityInfoByPackageId?packageId='+this.id+'&pageSize=50')
-            .then(function(response){
-                if(response.data.msg=="查询成功"){
-                    that.listgoods=response.data.info;
-                    that.listgoods.forEach(item=>{
-                        let imgurl='';
-                        that.imglist.forEach(img=>{
-                            if(img.commodityId==item.id&&imgurl==''){
-                                imgurl='http://'+window.location.host+'/api/sms'+img.url;;
-                            }
-                        })
-                        that.$set(item,'imgurl',imgurl);
-                    });
-                    console.log(that.listgoods);
-                }
-                else{
-                    that.$message(response.data.msg);
-                }
-                that.loadinggoods=false;
-                // console.log(response);
-            })
-            .catch(function(response){
-                that.loadinggoods=false;
-                that.$message('查询商品列表失败！');
-            });
-        },
-        // 添加商品
-        addgoods(){
-            this.$root.$emit('showWindow',{flag:'edit',id:this.id});  
         },
         // 获取产品分类
         getcategory(){
@@ -470,7 +377,6 @@ export default {
                 if(response.data.msg=='查询成功'){
                     that.goodstype=response.data.info;
                 }
-                // console.log(response);
             })
             .catch(function(response){
                 console.log(response);
@@ -480,43 +386,6 @@ export default {
         changegoodstype(value){
             this.formmsg.categoryId=value;
             console.log(value);
-        },
-        // 编辑商品
-        handleEdit(){},
-        // 删除商品
-        handleDelete(index,row){
-            let that=this;
-            this.$confirm('是否删除该商品', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.$http.post('/api/product/commodity/package/remove',{commodityId:row.id,packageCommodityId:this.id})
-                .then(function(response){
-                    if(response.data.msg=='删除成功'){
-                        that.$message.success('删除成功！');
-                        that.getgoodslist();
-                    }
-                    else{
-                        that.$message(response.data.msg);
-                    }
-                    console.log(response);
-                })
-                .catch(function(response){
-                    console.log(response);
-                })
-                // let index=this.listgoods.indexOf(row);
-                // this.listgoods.splice(index,1);
-                // this.$message({
-                //     type: 'success',
-                //     message: '删除成功!'
-                // });
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });          
-            });
         },
         // 保存商品套餐信息
         savedata(){
@@ -551,21 +420,9 @@ export default {
             });
             
         },
-        // 获取套餐数据
-        getpackagedata(){
-            let that=this;
-            this.$http.post('/api/product/commodity/info/query?pageSize=1',{id:this.id})
-            .then(function(response){
-                if(response.data.msg=='查询成功'){
-                    that.formmsg=response.data.info.list[0];
-                    console.log(that.formmsg);
-                }
-            })
-            .catch(function(response){
-                console.log(response);
-            })
-        },
-        // 获取套餐图片
+  
+// 图片 
+        // 获取商品图片
         getimglist(){
             let that=this;
             this.listimg=[];
@@ -583,12 +440,13 @@ export default {
                         that.listimg.push(json);
                     });
                     that.listimg.sort(that.copmareimg);
+                    console.log(that.listimg);
                     // that.listimg=response.data.info;
                 }
                 else{
                     that.$message(response.data.msg);
                 }
-                console.log(response);
+                
             })
             .catch(function(response){
                 that.$message('查询商品图片失败！');
@@ -606,31 +464,148 @@ export default {
                 return 0;
             }
         },
+        // 改变图片顺序
+        changeimgindex(index,direction){
+            console.log(index,direction);
+            let length=this.listimg.length;
+            let lilist=document.querySelectorAll('.imglist li');
+            let [imgid1,order1,imgid2,order2]=[lilist[index].getAttribute('dataid'),lilist[index].getAttribute('dataorder'),'','']; 
+            // 首尾图片向两端移动不做变化
+            if((index==0&&direction=='left')||(index+1==length&&direction=='right')){
+                return;
+            }
+            else{
+                let index_change=direction=='left'?index-1:index+1;
+                imgid2=lilist[index_change].getAttribute('dataid');
+                order2=lilist[index_change].getAttribute('dataorder');
+                this.updateimgorder(imgid1,order2);
+                this.updateimgorder(imgid2,order1);
+                // this.getimglist();
+                this.listimg[index].displayOrder=order2;
+                this.listimg[index_change].displayOrder=order1;
+                this.listimg.sort(this.copmareimg);
+                console.log(this.listimg);
+            }
+        },
+        // 修改图片显示顺序
+        updateimgorder(imgid,order){
+            this.$http.post('/api/product/commodity/image/update',{id:imgid,displayOrder:order})
+            .then(function(response){
+                if(response.data.msg=='修改成功'){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+                console.log(response);
+            })
+            .catch(function(response){
+                return false;
+                consoel.log(response.data.msg);
+            })
+        },
+        // 上传图片
+        beforeAvatarUpload(file){
+            if(this.listimg.length==5){
+                this.$message({
+                    message: '最多可上传5张图片',
+                    type: 'warning'
+                });
+                return false;
+            }
+            else{
+                const isimg = file.type === 'image/jpeg'||file.type==='image/png';
+                const isLt500k = file.size / 1024 / 1024/1024 < 500;
+                if (!isimg) {
+                    this.$message.error('只能上传图片！');
+                }
+                if (!isLt500k) {
+                    this.$message.error('图片大小不能超过 500k!');
+                }
+                return isimg && isLt500k;
+            }
+        },
+        handleAvatarSuccess(res, file){
+            console.log(res);
+            if(res.msg=='文件上传成功'){
+                let url=res.info;
+                this.addimg(url);
+            }
+        },
+        // 商品添加图片
+        addimg(url){
+            this.displayOrder++;
+            let that=this;
+            this.$http.post('/api/product/commodity/image/insertOne',
+                {
+                    url:url,
+                    commodityId:that.id,
+                    displayOrder:this.displayOrder
+                }
+            )
+            .then(function(response){
+                if(response.data.msg=='新增成功'){
+                    
+                    url='http://'+window.location.host+'/api/sms'+url;
+                    let json={
+                        id:response.data.info.id,
+                        url:url,
+                        displayOrder:that.displayOrder
+                    };
+                    that.listimg.push(json);
+                    console.log(that.listimg);
+                    that.$message.success('图片添加成功！');
+                }
+                else{
+                    this.displayOrder--;
+                    that.$message(response.data.msg);
+                }
+                // console.log(response);
+            })
+            .catch(function(response){
+                console.log('图片添加失败！');
+            })
+        },
+        // 删除图片
+        deleteimg(index,imgid){
+            this.$confirm('是否删除图片？','提示',{
+                confirmButtonText:'确定',
+                cancelButtonText:'取消',
+                type:'warning'
+            }).then(()=>{
+                let that=this;
+                this.$http.post('/api/product/commodity/image/remove',[imgid])
+                .then(function(response){
+                    if(response.data.msg=='删除成功'){
+                        that.listimg.splice(index,1);
+                        that.$message.success('删除成功!');
+                    }
+                    else{
+                        that.$message(response.data.msg);
+                    }
+                    console.log(response);
+                })
+                .catch(function(response){
+                    console.log(response);
+                })
+            }).catch(()=>{
+                this.$message({
+                    type:'info',
+                    message:'已取消删除'
+                });
+            });
+        },
         // 详情类别
         getdetailtype(){},
-        // 店铺分类
-        getshoptype(){},
 
 // 时间模板处理
         // 获取时间模板
-        getdatemodel(currentvalue){
+        getdatemodel(){
             let that=this;
             this.$http.post('/api/product/commodity/periodTemplate/queryMap')
             .then(function(response){
                 if(response.data.msg=='查询成功'){
                     that.listmodaltime=response.data.info;
-                    // console.log();
-                    // if(that.tmid==null||that.tmid==''){
-                    //     that.tmid=that.listmodaltime[0].id;
-                    //     that.tmselected=that.listmodaltime[0].name;   
-                    // }
-                    // else{
-                    //     that.listmodaltime.forEach(item=>{
-                    //         if(that.tmid==item.id){
-
-                    //         }
-                    //     });
-                    // }
                     that.listmodaltime.forEach(item=>{
                         if(that.tmid==item.id){
                             that.tmselected=item.name;
@@ -782,7 +757,7 @@ export default {
                         type: 'info',
                         message: '已取消删除'
                     });          
-                }); 
+                });
             }
         },
         // 获取时间段
@@ -805,7 +780,7 @@ export default {
                             sunday:false,
                             periodId:item.id
                         });
-                        that.getdatemodel();
+                        // that.getdatemodel();
                     });
                 }
                 else{
@@ -837,24 +812,6 @@ export default {
             }
             
         },
-        // addtimedate(){
-        //     let datenew={
-        //                 date:'09:00-12:00',
-        //                 monday:false,
-        //                 tuesday:false,
-        //                 wednesday:false,
-        //                 thursday:false,
-        //                 friday:false,
-        //                 saturday:false,
-        //                 sunday:false,
-        //                 dateedit:false
-        //     };
-        //     this.listtime.push(datenew);
-                
-        // },
-        // deletetimedate(){
-        //     this.listtime.pop(this.listtime.length-1);
-        // },
         changedatestate(){
             let dom=document.getElementsByClassName('timemodel')[0];
             dom.setAttribute('class','timemodel edit');
@@ -1218,6 +1175,7 @@ export default {
                 this.disablecity=false;
                 this.typearea='edit';
             }
+            
         },
         // 创建地区模板
         createareamodal(){
@@ -1375,142 +1333,7 @@ export default {
 
 
 
-// 图片 
-        // 改变图片顺序
-        changeimgindex(index,direction){
-            console.log(index,direction);
-            let length=this.listimg.length;
-            let lilist=document.querySelectorAll('.imglist li');
-            let [imgid1,order1,imgid2,order2]=[lilist[index].getAttribute('dataid'),lilist[index].getAttribute('dataorder'),'','']; 
-            // 首尾图片向两端移动不做变化
-            if((index==0&&direction=='left')||(index+1==length&&direction=='right')){
-                return;
-            }
-            else{
-                let index_change=direction=='left'?index-1:index+1;
-                imgid2=lilist[index_change].getAttribute('dataid');
-                order2=lilist[index_change].getAttribute('dataorder');
-                this.updateimgorder(imgid1,order2);
-                this.updateimgorder(imgid2,order1);
-                // this.getimglist();
-                this.listimg[index].displayOrder=order2;
-                this.listimg[index_change].displayOrder=order1;
-                this.listimg.sort(this.copmareimg);
-                console.log(this.listimg);
-            }
-        },
-        // 修改图片显示顺序
-        updateimgorder(imgid,order){
-            this.$http.post('/api/product/commodity/image/update',{id:imgid,displayOrder:order})
-            .then(function(response){
-                if(response.data.msg=='修改成功'){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-                console.log(response);
-            })
-            .catch(function(response){
-                return false;
-                consoel.log(response.data.msg);
-            })
-        },
-        // 上传图片
-        beforeAvatarUpload(file){
-            console.log(file);
-            if(this.listimg.length==5){
-                this.$message({
-                    message: '最多可上传5张图片',
-                    type: 'warning'
-                });
-                return false;
-            }
-            else{
-                const isimg = file.type === 'image/jpeg'||file.type==='image/png';
-                const isLt500k = file.size / 1024 / 1024/1024 < 500;
-                if (!isimg) {
-                    this.$message.error('只能上传图片！');
-                }
-                if (!isLt500k) {
-                    this.$message.error('图片大小不能超过 500k!');
-                }
-                return isimg && isLt500k;
-            }
-        },
-        handleAvatarSuccess(res, file){
-            console.log(res);
-            if(res.msg=='文件上传成功'){
-                let url=res.info;
-                this.addimg(url);
-            }
-        },
-        // 套餐添加图片
-        addimg(url){
-            this.displayOrder++;
-            let that=this;
-            this.$http.post('/api/product/commodity/image/insertOne',
-                {
-                    url:url,
-                    commodityId:that.id,
-                    displayOrder:this.displayOrder
-                }
-            )
-            .then(function(response){
-                if(response.data.msg=='新增成功'){
-                    
-                    url='http://'+window.location.host+'/api/sms'+url;
-                    let json={
-                        id:response.data.info.id,
-                        url:url,
-                        displayOrder:that.displayOrder
-                    };
-                    that.listimg.push(json);
-                    console.log(that.listimg);
-                    that.$message.success('图片添加成功！');
-                }
-                else{
-                    this.displayOrder--;
-                    that.$message(response.data.msg);
-                }
-                // console.log(response);
-            })
-            .catch(function(response){
-                console.log('图片添加失败！');
-            })
-        },
-        // 删除图片
-        deleteimg(index,imgid){
-            this.$confirm('是否删除图片？','提示',{
-                confirmButtonText:'确定',
-                cancelButtonText:'取消',
-                type:'warning'
-            }).then(()=>{
-                let that=this;
-                this.$http.post('/api/product/commodity/image/remove',[imgid])
-                .then(function(response){
-                    if(response.data.msg=='删除成功'){
-                        that.listimg.splice(index,1);
-                        that.$message.success('删除成功!');
-                    }
-                    else{
-                        that.$message(response.data.msg);
-                    }
-                    console.log(response);
-                })
-                .catch(function(response){
-                    console.log(response);
-                })
-            }).catch(()=>{
-                this.$message({
-                    type:'info',
-                    message:'已取消删除'
-                });
-            });
 
-            
-            
-        },
         // 重置表单
         resetForm(){
             this.$refs.formmsg.resetFields();

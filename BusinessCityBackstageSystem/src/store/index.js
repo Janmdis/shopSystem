@@ -5,6 +5,7 @@ import axios from 'axios'
 import deplist from './modules/deplist'
 import rolelist from './modules/rolelist'
 import promiselist from './modules/promiselist'
+import imglistcommodity from './modules/imglistcommodity'
 
 //商城模板设置
 import adImageList from './shopTemplates/adImages'
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     deplist,
     rolelist,
     promiselist,
-    adImageList
+    adImageList,
+    imglistcommodity
   }
 })
