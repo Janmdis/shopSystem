@@ -3,7 +3,7 @@ import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
-import showWindows from './showWindow.vue'
+//import showWindows from './showWindow.vue'
 import qs from 'qs'
 
 export default {
@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       valuesearch: '',
-      namepage: '套餐',
+      namepage: '操作日志',
       currentPage1: 1,
       searchFn: '',
       isActive: false,
@@ -48,10 +48,10 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
     }).then(()=>{
-        this.$http.post('/api/customer/account/remove',this.delArr)
+        this.$http.post('/api/public/logger/removeLog',this.delArr)
         .then(function (response) {
             console.log(response);
-            if(response.data.msg=='删除成功'){
+            if(response.data.msg=='移除日志成功'){
                 that.$message({
                     type:'success',
                     message:'删除成功!'
@@ -141,7 +141,7 @@ export default {
     Lttip,
     search,
     Datatable,
-    showWindows,
+    //showWindows,
     searchBox
   },
 }

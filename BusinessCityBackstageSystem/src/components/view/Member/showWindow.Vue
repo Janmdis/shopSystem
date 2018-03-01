@@ -316,7 +316,7 @@ import qs from 'qs'
             // getData() {
             // }
         },
-        created: function() {
+        w: function() {
             this.$root.$on('showWindow', (data) => {
                 console.log(data)
                 if (data != 'no') {

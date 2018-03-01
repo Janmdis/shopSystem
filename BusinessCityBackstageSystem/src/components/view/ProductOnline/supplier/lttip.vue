@@ -35,7 +35,7 @@ export default {
             let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
             dom.style.left=data.show?'0px':'-500px';
-            dom_edit.style.cursor=data.editcan?'':'not-allowed';
+            //dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
     },

@@ -23,31 +23,25 @@
         <el-table-column
         prop="name"
         label="部门"
-        width='120'
         >
         </el-table-column>
         <el-table-column
-        prop="mobile"
-        width='120'
+        prop="adminName"
         label="姓名">
         </el-table-column>
         <el-table-column
         prop="mobile"
-        width='120'
         label="敏感操作">
         </el-table-column>
         <el-table-column
-        width='120'
         prop="types"
         label="操作详情">
         </el-table-column>
         <el-table-column
-        width='120'
         prop="quarters"
         label="操作时间">
         </el-table-column>
         <el-table-column
-        width='120'
         prop="state"
         label="员工IP">
         </el-table-column>  
@@ -82,7 +76,7 @@ export default {
     methods:{
       getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/customer/account/query?page='+pageIndex+'&pageSize=10';
+            let url = '/api/public/logger/findLog?pageNum='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
@@ -93,7 +87,7 @@ export default {
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                console.log(response.data)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })

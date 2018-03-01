@@ -21,36 +21,35 @@
         <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
-        prop="name"
-        label="名称"
-        >
+        prop="couponName "
+        label="优惠劵名称">
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="starTime"
         label="使用时间">
         </el-table-column>
+         <el-table-column
+        prop="endTime"
+        label="结束时间">
+        </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="couponAmount"
         label="数量">
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="fullAmount"
         label="数额">
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="explain"
         label="说明">
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="couponType"
         label="类型">
         </el-table-column>
         <el-table-column
-        prop="mobile"
-        label="标签">
-        </el-table-column>
-        <el-table-column
-        prop="mobile"
+        prop="couponStatus"
         label="状态">
         </el-table-column>
     </el-table>
@@ -84,7 +83,7 @@ export default {
     methods:{
       getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/customer/account/query?page='+pageIndex+'&pageSize=10';
+            let url = '/api/product/coupon/info/find?pageNo='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
