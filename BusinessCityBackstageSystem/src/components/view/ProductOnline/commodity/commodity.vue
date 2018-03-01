@@ -38,6 +38,7 @@
         </div>
         <shopDetails></shopDetails>
         <showWindows></showWindows>
+        <detailcommodity></detailcommodity>
     </el-main>
 </template>
 <script>

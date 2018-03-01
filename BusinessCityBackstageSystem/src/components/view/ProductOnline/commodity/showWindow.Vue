@@ -1,57 +1,64 @@
 <template>
-
-    <el-dialog  :visible.sync="dialogVisible" width="80%" height='80%' class='commodity'>
-        <el-form ref="form" :model="form" width="80px" class='elesentBox'>
-        <el-form-item >
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-        </el-form-item>
-        </el-form>
-        
-        <el-table :data="tableData"  style="width: 100%" class="srcollTbale">
-        <el-table-column
-        type="index"
-        label="N"
-        :index="indexMethod">
-        </el-table-column>
-            <el-table-column prop="date" label="图片" width="180">
+    <el-dialog title='产品列表'  :visible.sync="dialogVisible"  width="60%">
+        <el-row style='padding-bottom:10px;'>
+            <el-col :span="4">
+                <el-select v-model="type" placeholder="分类" class='typeselect' @change='changetype'>
+                    <el-option
+                    v-for="item in listtype"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-col>
+        </el-row>
+        <el-table 
+        :data="listgoods" 
+        ref='goodtable' 
+        style="width: 100%;height:90%;" 
+        height='100%' 
+        class='table-product' 
+        @selection-change="handleSelectionChange"
+        v-loading='loading'>
+            <el-table-column
+            type="index"
+            label="N"
+            >
+            </el-table-column>
+            <el-table-column   label="图片"  >
                 <template slot-scope="scope">
-                    <img src='http://www.baidu.com/link?url=JUaZ5P3qfOKvnySgoziCyPR5yQrAtAcCiuUxa_XOPlp6yEuQovvdF5AyRp0d3wThNlaQrcS28-i48i5H4uT1968i9DZx_1xmR6dErvcDmBmfadxcGIRr8y7r1b2umQgiXGiMO_alJPQGbU-8mPRLUuWldkDI7uuOjlx4DVxQnkrkT-vf6GjezLrQhs9ZB6oSa5iY2cB7-T6n7k_d8UOn2Is9zmmuTVvae2x_yWidu8cApzChRpeZfE5CsAVY3uGLAra-U8r06vBlXvvR67XJenO0arOlUzlMAzM0L-frAF8Z2pfHJyCCab97zgWwQu6vatTbfk3JvgCjyasT5UCN8F_V7-wmvHL9o6K1B3-OSJ2OKqnooIAant512kHZ5NJUQfXEZxu23Bok0_zwX5gJYKIpubOjwCEa1BUTEiuRAXtOWi3OBx3EJHm8lJ8yYvT_mHTMuzELoZL4WKOT3QEEbI9sFzo8c8MLBpI41QveshPtH1sAGnlQUgYKf71GV5zUmdOFY3v8LvGn40vXGJqjFdIQ4O9m1DvTYtNvj0TKytVTyPnol2zFQbAjOdK88_GlPMN7gJngpkwRbjUjh9p7jK&timg=http%3A%2F%2Fa.cphotos.bdimg.com%2Ftimg%3Fimage%26quality%3D100%26size%3Db4000_4000%26sec%3D1518072074%26di%3D3ab172897f846b8797665bd7aff47529%26src%3Dhttp%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3ac79f3df8dcd10088b14b1c798b4710b9122fd9.jpg&click_t=1518072077100&s_info=1423_769&wd=&eqid=82f3e44b00009bbf000000045a7bf109'/>
-                    <img src='http://www.baidu.com/link?url=JUaZ5P3qfOKvnySgoziCyPR5yQrAtAcCiuUxa_XOPlp6yEuQovvdF5AyRp0d3wThNlaQrcS28-i48i5H4uT1968i9DZx_1xmR6dErvcDmBmfadxcGIRr8y7r1b2umQgiXGiMO_alJPQGbU-8mPRLUuWldkDI7uuOjlx4DVxQnkrkT-vf6GjezLrQhs9ZB6oSa5iY2cB7-T6n7k_d8UOn2Is9zmmuTVvae2x_yWidu8cApzChRpeZfE5CsAVY3uGLAra-U8r06vBlXvvR67XJenO0arOlUzlMAzM0L-frAF8Z2pfHJyCCab97zgWwQu6vatTbfk3JvgCjyasT5UCN8F_V7-wmvHL9o6K1B3-OSJ2OKqnooIAant512kHZ5NJUQfXEZxu23Bok0_zwX5gJYKIpubOjwCEa1BUTEiuRAXtOWi3OBx3EJHm8lJ8yYvT_mHTMuzELoZL4WKOT3QEEbI9sFzo8c8MLBpI41QveshPtH1sAGnlQUgYKf71GV5zUmdOFY3v8LvGn40vXGJqjFdIQ4O9m1DvTYtNvj0TKytVTyPnol2zFQbAjOdK88_GlPMN7gJngpkwRbjUjh9p7jK&timg=http%3A%2F%2Fa.cphotos.bdimg.com%2Ftimg%3Fimage%26quality%3D100%26size%3Db4000_4000%26sec%3D1518072074%26di%3D3ab172897f846b8797665bd7aff47529%26src%3Dhttp%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F3ac79f3df8dcd10088b14b1c798b4710b9122fd9.jpg&click_t=1518072077100&s_info=1423_769&wd=&eqid=82f3e44b00009bbf000000045a7bf109'/>
+                    <img :src="scope.row.productImage" alt="">
                 </template>
             </el-table-column>
-            <el-table-column prop="name" label="名称" width="180">
+            <el-table-column  prop="name" label="名称"  >
             </el-table-column>
-            <el-table-column prop="address" label="规格">
+            <el-table-column  prop="specificationName" label="规格"  >
             </el-table-column>
-            <el-table-column prop="address" label="单位">
+            <el-table-column  prop="unitName" label="单位"  >
             </el-table-column>
-            <el-table-column prop="address" label="品牌">
+            <el-table-column  prop="brand" label="品牌"  >
             </el-table-column>
-            <el-table-column prop="address" label="操作">
+            <el-table-column
+                width='180'
+                prop="address"
+                label="操作"
+                fixed='right'>
                 <template slot-scope="scope">
-                    <el-button type="text"  @click="handleClick(scope.row)" size="small">选择</el-button>
+                    <el-button type="text" size="small" @click='selectproduct(scope.row)'>选择</el-button>
                 </template>
+                
             </el-table-column>
         </el-table>
-           <div class="memberMain">
-            <el-row>
-                <el-col :span='10'>
-                    <p class='lineHeight'>从1到{{this.pageS}}/共<span>{{this.totalCount}}</span>条数据</p>
-                </el-col>
-                <el-col :span='12' :offset="12">
-                    <div class="block">
-                        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageIndex" :page-size="pageSize" layout=" prev, pager, next, jumper,total" :total="totalCount">
-                        </el-pagination>
-                    </div>
-                </el-col>
-            </el-row>
-        </div>
+        <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-size="pages"
+        layout="prev, pager, next, jumper"
+        :total="total">
+        </el-pagination>
     </el-dialog>
 </template>
-<style>
+<style scoped>
     .imgBox {
         width: 100px;
         height: 100px;
@@ -60,107 +67,170 @@
     .lineBline {
         border-bottom: 1px solid #ddd;
     }
-    
-    .commodity .el-dialog__header{
-        background:#fff;
+    .el-table{
+        border-top: 6px solid #56d2f4;
     }
-    .commodity .elesentBox{
-        width:20%;
+    .el-pagination{
+        /* margin-top: 0px; */
+        text-align: right;
         position:absolute;
-        top:10px;
+        bottom:2%;
+        right:2%;
     }
-    .commodity .srcollTbale{
-        border-top:2px solid #ddd;
-        max-height:400px;
-        overflow-y: scroll;
+    .table-product img{
+        width:70px;
+        height:40px;
+        /* border: 1px solid; */
     }
     
 </style>
+<style>
+    .typeselect .el-input__inner{
+        height: 30px;
+    }
+     table td:nth-child(3) .cell{
+        border:none !important;
+    }
+    .el-dialog__wrapper{
+        width:100%;
+        height:100%;
+    }
+    .el-dialog{
+        height:80%;
+        padding-bottom:0px;
+    }
+    .el-dialog__body{
+        height:80%;
+        padding-top:10px;
+    }
+    .table-product tr td:nth-child(2){
+        padding:0;
+        text-align:center;
+    }
+    .table-product tr td:nth-child(2) .cell{
+        width:70px;
+        height:40px;
+        margin:0 auto;
+        padding:0;
+        line-height:10px;
+        background-color:#ebeef5;
+    }
+</style>
+
 <script>
-    import qs from 'qs'
     export default {
         data() {
             return {
+                // id:'',
                 dialogVisible: false,
-                textInfo: '新增会员',
-                totalCount:1,
-                pageS:1,
-                pageIndex: 1,
-                pageSize: 10,
-                
-                form: {
-                    region: ''
-                },
-                tableData: [{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄'
-                }]
+                currentPage:1,
+                total:1,
+                pages:1,
+                type:'',
+                typeid:'',
+                listtype:[],
+                listgoods:[],
+                selectedgoods:[],
+                loading:true,
             };
         },
-        methods:{
-            handleSizeChange(val) {
-                this.pageSize = val;
-                this.$root.$emit('pageSize', {
-                    value: this.pageSize
+        methods: {
+            getDatalist(pageindex){
+                let that=this;
+                this.loading=true;
+                this.$http.post('/api/product/info/find?pageNo='+pageindex+'&pageSize=10',
+                                {classificationId:that.typeid,isActive:1}
+                )
+                .then(function (response) {
+                    if(response.data.msg=='查询成功'){
+                        let data=response.data.info;
+                        that.listgoods=data.list; 
+                        that.listgoods.forEach(item=>{
+                            item.productImage='http://'+window.location.host+'/api/sms'+item.productImage;
+                        });
+                        console.log(data);
+                    }
+                    else{
+                        that.$message(response.data.msg);
+                    }
+                    that.loading=false;
                 })
-                },
-                handleCurrentChange(val) {
-                this.pageIndex = val;
-                this.$root.$emit('pageIndex', {
-                    value: this.pageIndex
+                .catch(function(response){
+                    that.$message('请求出错！');
+                    that.loading=false;
+                });
+            },
+            getType(){
+                let that=this;
+                this.$http.post('/api/product/sort/find?pageNo=1&pageSize=0',)
+                .then(function (response) {
+                    let data=response.data;
+                    if(data.msg=='查询成功'){
+                        that.listtype=data.info.list;
+                        that.type=that.listtype[0]?that.listtype[0].name:'';
+                        that.typeid=that.listtype[0]?that.listtype[0].id:'';
+                        that.getDatalist(1);
+                    }
+                    else{
+                        that.$message(data.msg);
+                    }
+                   console.log(response);
                 })
-             },
-             handleClick(val){
-                 console.log(val)
-                this.dialogVisible = false;
-                this.$root.$emit('showTables',false);
-                this.$root.$emit("shopDetailss",true);
-             },
-             indexMethod(index) {
-                return index + 1
-             },
+                .catch(function(response){
+                    that.$message('请求出错！');
+                })
+            },
+            changetype(value){
+                this.typeid=value;
+                this.getDatalist(1);
+            },
+            // 添加商品
+            selectproduct(row){
+                let that=this;
+                this.$http.post('/api/product/commodity/info/insertOne',{
+                    name:row.name,
+                    categoryId:1,
+                    originalPrice:0,
+                    discountPrice:0,
+                    currentPrice:0,
+                    priceRule:1,
+                    detailTemplateId:1,
+                    brand:row.brand
+                })
+                .then(function(response){
+                    if(response.data.msg=='新增成功'){
+                        that.$root.$emit('editcommidity',response.data.info.id);
+                    }
+                    else{
+                        that.$message('操作失败');
+                    }
+                })
+                .catch(function(response){
+                    console.log(response);
+                })
+                console.log(row);
+            },
+            handleCurrentChange(currentPage){
+                this.getDatalist(currentPage);
+            },
+            handleSelectionChange(val){
+                for(let i=0;i<val.length;i++){
+                    let currentstr=JSON.stringify(val[i]);
+                    let hasit=this.selectedgoods.includes(currentstr);
+                    if(!hasit){
+                        this.selectedgoods.push(currentstr);
+                    }
+                }
+            },
         },
         created: function() {
-            this.$root.$on('showWindow', (data) => {
-                this.dialogVisible = true;
-            });
+            this.$root.$on('showWindow', (datas) => {
+                this.getType();
+                this.dialogVisible=true;
+            });  
+        },
+        beforeDestroy(){
+            this.$root.$off('showWindow');
         }
     }
 </script>

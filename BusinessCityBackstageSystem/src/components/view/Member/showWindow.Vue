@@ -349,7 +349,6 @@ import qs from 'qs'
                         })
                         this.dialogVisible = true;
                 }else{
-                       
                     this.ruleForm.textInfo = '新增会员';
                     this.dialogVisible = true;
                      this.ruleForm.mode= "",

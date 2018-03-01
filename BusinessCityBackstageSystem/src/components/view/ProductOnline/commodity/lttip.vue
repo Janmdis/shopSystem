@@ -1,19 +1,19 @@
 <template>
     <div class="grid-content">
         <div class="productDesignation">
-            <h3 class="listName pull-left">{{listname}}
+            <h3 class="listName pull-left">{{name}}
                 <i class="icon-double-angle-right"></i>
             </h3>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
                 <li id="modificationBtn"></li>
-                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                <li class="other"  data-toggle="modal" data-target="#delModal" @click="operate('onsale')">
                     <i class='el-icon-delete'></i> 上架
                 </li>
-                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="operate('nosale')">
                     <i class='el-icon-delete'></i> 下架
                 </li>
-                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="operate('delete')">
                     <i class='el-icon-delete'></i> 删除
                 </li>
             </ul>
@@ -33,27 +33,32 @@ export default {
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
+            console.log(data);
             this.dataInfo = data.datas
             var dom=document.getElementsByClassName('emendation')[0];
             //let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
-            dom.style.left=data.show?'0px':'-500px';
+            dom.style.left=data.show?'0px':'-5000px';
             //dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
     },
     methods:{
-        edit(){
-            if(this.canedit){
-                this.$root.$emit('editdialog');
-                this.$root.$emit("showWindow",this.dataInfo)
-                
-            }
-
+        operate(type){
+            this.$root.$emit('operate',{data:this.dataInfo,type});
         },
-        delBox(){
-            this.$root.$emit("delBox",this.dataInfo)
-        }
+        // edit(){
+        //     if(this.canedit){
+        //         this.$root.$emit('editdialog');
+        //         this.$root.$emit("showWindow",this.dataInfo)
+        //     }
+        // },
+        // delBox(){
+        //     this.$root.$emit("delBox",this.dataInfo)
+        // }
+    },
+    beforeDestroy(){
+        this.$root.$off('showlttip');
     }
 }
 </script>
@@ -97,7 +102,7 @@ export default {
 	margin-top: 26px;
 	position: absolute;
 	top: 0;
-	left:-500px;
+	left:-5000px;
 	height: 32px;
     background: #fff;
     color: #555;

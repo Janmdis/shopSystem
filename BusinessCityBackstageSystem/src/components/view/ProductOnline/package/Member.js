@@ -27,6 +27,10 @@ export default {
     }
 
   },
+  created:function(){
+    // 获取商品图片
+    this.$store.dispatch('getImglistcommodity');
+  },
   mounted() {
     this.$root.$on('total', (data) => {
       this.totalCount = data
@@ -83,7 +87,8 @@ export default {
     })
     },
     show: function (val) {
-      this.searchUsers()
+      // this.searchUsers()
+      this.$root.$emit("search",this.valuesearch);
     },
     searchUsers() {
       let para = {
@@ -118,7 +123,7 @@ export default {
 
     },
     showWindow() {
-      this.$root.$emit("showWindow")
+      this.$root.$emit("showWindow",{flag:'create'});
     },
     closeInfo() {
 
@@ -137,6 +142,12 @@ export default {
 
     },
 
+  },
+  beforeDestroy:function(){
+    this.$root.$off('total');
+    this.$root.$off('pages');
+    this.$root.$off('delBox');
+    this.$root.$off('adddata');
   },
   components: {
     Lttip,
