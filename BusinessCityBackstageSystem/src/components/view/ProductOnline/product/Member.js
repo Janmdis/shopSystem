@@ -23,7 +23,7 @@ export default {
             pageS: 0,
             listLoading: false,
             delArr: [],
-
+            clickType: true
         }
 
     },
@@ -116,12 +116,12 @@ export default {
             //     })
 
         },
-        showWindow() {
+        showWindow(event) {
             this.show_add = true;
-            this.$root.$emit("showWindow");
+            this.$root.$emit("showWindow", { type: this.clickType, rowData: '' });
         },
-        closeInfo() {
-
+        closeInfo(formName) {
+            this.$refs[formName].resetFields();
         },
         handleSizeChange(val) {
             this.pageSize = val;

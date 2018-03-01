@@ -105,6 +105,11 @@ export default new Router({
                     name: 'concessionalRate',
                     component: resolve => require(['@/components/view/ManagementCenter/concessionalRate/concessionalRate.vue'], resolve)
                 },
+                {
+                    path: 'basicConfiguration', // 基础配置
+                    name: 'basicConfiguration',
+                    component: resolve => require(['@/components/view/ManagementCenter/basicconfiguration/configuration.vue'], resolve)
+                },
             ]
 
         },

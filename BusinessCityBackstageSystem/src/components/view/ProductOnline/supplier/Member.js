@@ -137,7 +137,7 @@ export default {
 
   },
   components: {
-    //Lttip,
+    Lttip,
     search,
     Datatable,
     showWindows,

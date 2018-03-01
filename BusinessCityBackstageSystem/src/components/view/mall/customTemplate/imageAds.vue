@@ -11,7 +11,7 @@
             </div>
             <div class="hoverClick">
                 <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-                <a href="#addnewContent" onclick="return false;"><span >添加新内容</span></a> 
+                <a href="#addnewContent"><span >添加新内容</span></a> 
             </div>
         </div>
     <!-- 轮播结束 -->
@@ -22,13 +22,13 @@
                     <span class="add-new-Btn" @click="addNewImg">添加图片</span>
                 </div>
                 <div class="imgLists">
-                    <ul>
-                        <li>
+                    <ul class="imgListUL">
+                        <li  v-for='(item,index) in ImgArr' :key='index'>
                             <div class="carouselListInfo">
                                 <div class="bannerEditContent">
-                                    <div class="chooseImg" style="width:246px;height:141px;">
+                                    <div class="chooseImg" style="width: 243px;height:141px;">
                                         <div class="center">
-                                        <img v-if="imageUrl" :src="imageUrl" class="microImg avatar">
+                                        <img :src="item.img" class="microImg avatar">
                                         </div>
                                     </div>
                                     <div class="reLoadingImg">
@@ -36,14 +36,14 @@
                                             class="avatar-uploader"
                                             :action="importFileUrl"
                                             :show-file-list="false"
-                                            :data="urlImg"
+                                            :data="item.urlImg"
                                             name='fileUpload'
                                             :type='admin'
                                             :on-success="handleAvatarSuccess"
                                             :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
                                         </el-upload>
                                         <p style="line-height: 887%;text-align: center;">重新上传 建议比例（15:7）</p>
-                                        <div class="delete-img" @click="deleteImgAd">&times;</div>
+                                        <div class="delete-img" @click="deleteImgAd(index)">&times;</div>
                                     </div>
                                 </div>
                                 <div class="bannerLinkSrc">
@@ -70,39 +70,56 @@
      </div> 
 </template>
 <script>
+
+import { mapState,mapMutations,mapGetters } from 'vuex'
+
     export default{
         data() {
             return{
+                importFileUrl:'',
+                admin:'',
+                defaultImgObj:{
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            url:'',
+                            urlImg:''
+                        },
                 ImgArr:[
                         {
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
-                            url:''
+                            url:'',
+                            urlImg:''
                         },{
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
-                            url:''
+                            url:'',
+                            urlImg:''
                         },{
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517226158648&di=17f12755288182fb3d22662116b917aa&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16838_sc115.com.jpg",
-                            url:''
+                            url:'',
+                            urlImg:''
                         },{
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304770&di=fd7f38f44865d3dd961d24dea0e265f7&imgtype=0&src=http%3A%2F%2Fpic22.nipic.com%2F20120718%2F5135035_193813111000_2.jpg",
-                            url:''
+                            url:'',
+                            urlImg:''
                         },{
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=23cccc5f58a5cab6420036e616b83a5f&imgtype=0&src=http%3A%2F%2Fpic107.nipic.com%2Ffile%2F20160816%2F20860925_080643495000_2.jpg",
-                            url:''
+                            url:'',
+                            urlImg:''
                         }
                     ],
                 dataid:'',
-                imageUrl: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1516962155831&di=322da642ba62380467a16fac4f07996b&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140217%2F0042040393387050_b.jpg'
+                imageUrl: '',
             }
         },
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
         },
-        
+        computed:mapState({
+            // adImgArr
+        }),
         methods:{
           delete(){
-            this.$root.$emit('test',this.dataid);
+            this.$root.$emit('deleteID',this.dataid);
                 return{
                     type:'success',
                     message:'删除成功!'
@@ -124,14 +141,35 @@
             });
             
          },
+         deleteImgAd(index){
+             let list=[];
+            for(let i=0;i<this.ImgArr.length;i++){
+                if(this.ImgArr.length <= 1){
+                    this.$message({
+                     type: 'warning',
+                     message: '至少有一张图片广告！'
+                    });
+                    return false
+                }
+                if(index!=i){
+                    list.push(this.ImgArr[i]);
+                     this.$message({
+                     type: 'success',
+                     message: '删除成功！'
+                    });
+                }
+            }
+            this.ImgArr=list;
+         },
          addNewImg(){
-            //  if(this.imgAdlist.length >= 5){
-            //      this.$message({
-            //         type: 'warning',
-            //         message: '最多添加5张图片广告！'
-            //     });
-            //      return false
-            //  }
+             if(this.ImgArr.length >= 5){
+                 this.$message({
+                     type: 'warning',
+                     message: '最多添加5张图片广告！'
+                 });
+                  return false
+             }
+             this.ImgArr.push(this.defaultImgObj)
          },
         handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
@@ -157,7 +195,6 @@
          opendialogSelf(){
              this.$root.$emit('opendialogSelf',true)
          }
-        
         }
     }
 </script>
@@ -165,7 +202,7 @@
 /* 轮播图组件样式 */
 .el-carousel__indicator.is-active button {
     opacity: 1;
-    background-color: #109997;
+    background-color: #27a1f2;
 }
 .el-carousel__button {
     display: block;
@@ -174,8 +211,8 @@
     height: 12px;
     border-radius: 50%;
     background-color: transparent;
-    border: 1px solid #109997;
-}
+    border: 1px solid #27a1f2;
+    }
 .el-carousel__arrow,el-carousel__arrow--left{
    filter:alpha(opacity=0);
    -moz-opacity:0;
@@ -224,7 +261,7 @@
     position:absolute;
     top: 5%;
     left: 102%;
-    min-width:608px;
+    min-width:600px;
     margin-left:10px;
     margin-right:280px;
     border: 1px solid #aaaaaa;
@@ -293,11 +330,13 @@
   display:inline-block;
   padding: 0 15px 0 15px;
   margin-left: 12px;
-  background: #00adab;
+  background: #27a1f2;
   cursor: pointer;
   position: relative;
 }
-
+.add-new-Btn:hover{
+    background: #38abf8;
+}
   @keyframes fadeIn {
     0% {
     opacity: 0; /*初始状态 透明度为0*/

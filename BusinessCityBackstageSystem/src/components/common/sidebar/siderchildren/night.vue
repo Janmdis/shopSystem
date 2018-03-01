@@ -10,6 +10,7 @@
               <el-menu-item index="residentialquarters">小区</el-menu-item>
               <el-menu-item index="knowledgeBase">知识库</el-menu-item>
               <el-menu-item index="concessionalRate">优惠劵</el-menu-item>
+              <el-menu-item index="basicConfiguration">基础配置</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

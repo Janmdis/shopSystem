@@ -7,25 +7,25 @@
         <el-col :span="bigImg">
           <div class="imgConet">
                <!-- 图片-->
-               <img src="./../../../../assets/templateImg.jpg" class="img">
+               <img :src="productImgSrc1" class="img">
              </div>
         </el-col>
         <el-col :span="smallImg">
           <div class="imgConet">
                <!-- 图片-->
-               <img src="./../../../../assets/templateImg.jpg" class="img">
+               <img :src="productImgSrc2" class="img">
              </div>
         </el-col>
         <el-col :span="bigsImg">
           <div class="imgConet">
                <!-- 图片-->
-               <img src="./../../../../assets/templateImg.jpg" class="img">
+               <img :src="productImgSrc3" class="img">
              </div>
         </el-col>
         </el-row>
         <div class="hoverClick">
             <span data-toggle="modal" data-target="#delModal" @click='deletedep'>删除</span>
-            <span><a href="#addnewContent"  onclick="return false;" style="color:#fff">添加新内容</a></span>
+            <span><a href="#addnewContent" style="color:#fff">添加新内容</a></span>
         </div>
       </div>
       <!-- 商品结束 -->
@@ -34,15 +34,6 @@
             <div>
                 <div class="imgLists">
                   <div class="carouselListInfo">
-                      <div class="editSelectDiv">
-                            <div class="styleBtn">
-                                <ul>
-                                    <li class="styleTitle">选择商品：</li>
-                                    <li class="styleBorderBtn styleBorderBtns" @click="opendialogPro" style="border-radius: 5px;">选择</li>
-                                </ul>
-                                <div style="clear:both;"></div>
-                            </div>
-                        </div>
                         <div class="editStyleDiv">
                             <p class="styleTitle">列表样式：</p>
                             <div class="styleBtn">
@@ -54,6 +45,125 @@
                                 <div style="clear:both;"></div>
                             </div>
                         </div>
+                        <ul>
+                            <li>
+                                <div class="carouselListInfos">
+                                    <div class="imgShowDiv">
+                                        <div class="chooseImg">
+                                            <div class="center">
+                                                <img class="microImg" src="./../../../../assets/templateImg.jpg">
+                                            </div>
+                                        </div>
+                                        <div class="reLoadingImg">
+                                            <el-upload
+                                                class="avatar-uploader"
+                                                :action="importFileUrl"
+                                                :show-file-list="false"
+                                                :data="urlImg"
+                                                name='fileUpload'
+                                                :type='admin'
+                                                :on-success="handleAvatarSuccess"
+                                                :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                                            </el-upload>
+                                            <p style="line-height: 1178%;text-align: center;">重新上传 建议比例（5:3）</p>
+                                        </div>
+                                    </div>
+                                    <div class="editStyleDivs">
+                                        <div class="linkTips" style="">设置链接到页面地址</div>
+                                        <div class="dropdown"  style="padding-left: 18px;">
+                                            <el-dropdown trigger="click"  style="min-width: 76px;">
+                                                <span class="el-dropdown-link" style="width:100%;height:100%;display:inline-block;">
+                                                链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
+                                            </span>
+                                            <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
+                                                <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                                <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                                            </el-dropdown-menu>
+                                            </el-dropdown>
+                                        </div>
+                                    </div>
+                                    <div style="clear:both"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carouselListInfos">
+                                    <div class="imgShowDiv">
+                                        <div class="chooseImg">
+                                            <div class="center">
+                                                <img class="microImg" src="./../../../../assets/templateImg.jpg">
+                                            </div>
+                                        </div>
+                                        <div class="reLoadingImg">
+                                            <el-upload
+                                                class="avatar-uploader"
+                                                :action="importFileUrl"
+                                                :show-file-list="false"
+                                                :data="urlImg"
+                                                name='fileUpload'
+                                                :type='admin'
+                                                :on-success="handleAvatarSuccess"
+                                                :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                                            </el-upload>
+                                            <p style="line-height: 1178%;text-align: center;">重新上传 建议比例（5:3）</p>
+                                        </div>
+                                    </div>
+                                    <div class="editStyleDivs">
+                                        <div class="linkTips" style="">设置链接到页面地址</div>
+                                        <div class="dropdown"  style="padding-left: 18px;">
+                                            <el-dropdown trigger="click"  style="min-width: 76px;">
+                                                <span class="el-dropdown-link" style="width:100%;height:100%;display:inline-block;">
+                                                链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
+                                            </span>
+                                            <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
+                                                <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                                <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                                            </el-dropdown-menu>
+                                            </el-dropdown>
+                                        </div>
+                                    </div>
+                                    <div style="clear:both"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carouselListInfos">
+                                    <div class="imgShowDiv">
+                                        <div class="chooseImg">
+                                            <div class="center">
+                                                <img class="microImg" src="./../../../../assets/templateImg.jpg">
+                                            </div>
+                                        </div>
+                                        <div class="reLoadingImg">
+                                            <el-upload
+                                                class="avatar-uploader"
+                                                :action="importFileUrl"
+                                                :show-file-list="false"
+                                                :data="urlImg"
+                                                name='fileUpload'
+                                                :type='admin'
+                                                :on-success="handleAvatarSuccess"
+                                                :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                                            </el-upload>
+                                            <p style="line-height: 1178%;text-align: center;">重新上传 建议比例（5:3）</p>
+                                        </div>
+                                    </div>
+                                    <div class="editStyleDivs">
+                                        <div class="linkTips" style="">设置链接到页面地址</div>
+                                        <div class="dropdown"  style="padding-left: 18px;">
+                                            <el-dropdown trigger="click"  style="min-width: 76px;">
+                                                <span class="el-dropdown-link" style="width:100%;height:100%;display:inline-block;">
+                                                    链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
+                                                </span>
+                                            <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
+                                                <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                                <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                                            </el-dropdown-menu>
+                                            </el-dropdown>
+                                        </div>
+                                    </div>
+                                    <div style="clear:both"></div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
           </div>
@@ -67,40 +177,28 @@
         data() {
             return{
                 dataid:'',
+                indexInfo:1, // 1 商品模块
                 bigImg:24,
                 smallImg:24,
-                bigsImg:24
+                bigsImg:24, // 列表风格 0 大图 1 小图 2 一大两小
+                productImgURL1:'',//商品1链接地址
+                productImgSrc1:require('./../../../../assets/templateImg.jpg'),//商品1图片地址
+                productImgURL2:'',//商品2链接地址
+                productImgSrc2:require('./../../../../assets/templateImg.jpg'),//商品2图片地址
+                productImgURL3:'',//商品3链接地址
+                productImgSrc3:require('./../../../../assets/templateImg.jpg'), //商品3图片地址
+                importFileUrl:'',
+                admin:'',
+                urlImg:''
             }
         },
         created:function(){
           console.log(this.dataid)
           this.dataid=this.templatedata;
-          this.$root.$on('probtnid',(data)=>{
-            let type=data.type;
-            //alert(id)
-            if(this.dataid==type){
-              if(data.id == 1){
-                this.bigImg = 24;
-                this.smallImg = 24;
-                this.bigsImg = 24;
-              }
-              else if(data.id == 2){
-                this.bigImg = 12;
-                this.smallImg = 12;
-                this.bigsImg = 12;
-              }
-              else if(data.id == 3){
-                this.bigImg = 24;
-                this.smallImg = 12;
-                this.bigsImg = 12;
-              }
-            }
-            
-         });
         },
         methods:{
           delete(){
-            this.$root.$emit('test',this.dataid);
+            this.$root.$emit('deleteID',this.dataid);
                 return{
                     type:'success',
                     message:'删除成功!'
@@ -122,13 +220,47 @@
             });
             
           },
+          handleAvatarSuccess(res, file) {
+            this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isGIF = file.type === 'image/gif';
+                const isPNG = file.type === 'image/png';
+                const isBMP = file.type === 'image/bmp';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG && !isPNG && !isGIF && !isBMP) {
+                this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
+                }
+                if (!isLt2M) {
+                this.common.errorTip('上传图片大小不能超过 2MB!');
+                }
+                return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
+            },
           opendialogPro(){
               //  alert(this.datatype);
               this.$root.$emit('opendialogProduct',true)
           },
+         opendialogSelf(){
+             this.$root.$emit('opendialogSelf',true)
+         },
           switchbtn(e,index){
-              //alert(index)
-              this.$root.$emit('probtnid',{id:index,type:this.type});             
+              if(index == 1){
+                this.bigImg = 24;
+                this.smallImg = 24;
+                this.bigsImg = 24;
+              }
+              else if(index == 2){
+                this.bigImg = 12;
+                this.smallImg = 12;
+                this.bigsImg = 12;
+              }
+              else if(index == 3){
+                this.bigImg = 24;
+                this.smallImg = 12;
+                this.bigsImg = 12;
+              }
               let target=e.target.tagName=='li'?e.target.parentNode:e.target;
               let lis=target.parentNode.getElementsByTagName('li');
               for(let i=0;i<lis.length;i++){
@@ -147,7 +279,7 @@
     position:absolute;
     top: 5%;
     left: 102%;
-    min-width:608px;
+    min-width:600px;
     margin-left:10px;
     margin-right:280px;
     border: 1px solid #aaaaaa;
@@ -229,10 +361,23 @@
 }
 
 // new add
+
+ @keyframes fadeIn {
+    0% {
+    opacity: 0; /*初始状态 透明度为0*/
+    }
+    50% {
+    opacity: 0; /*中间状态 透明度为0*/
+    }
+    100% {
+    opacity: 1; /*结尾状态 透明度为0.7*/
+    }
+    }
 .carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
- .editSelectDiv{width:100%;background:#fff;margin-left:10px;margin-top:5px;}
+.carouselListInfos{padding-bottom:30px;}
  .editStyleDiv{width:100%;background:#fff;margin-left:10px;margin-top:32px;}
- .styleBtn{font-size:16px;margin-top:10px;margin-bottom:20px;}
+  .editStyleDivs{width:50%;background:#fff;margin-left:10px;margin-top:5px;float:left;}
+ .styleBtn{font-size:16px;margin-top:10px;margin-bottom:30px;}
  .styleTitle{float:left;padding-left:16px;padding-top:5px;}
  .styleBorderBtn{    float: left;
     padding: 8px 11px;
@@ -240,9 +385,6 @@
     color:#fff;
     width: 82px;cursor: pointer;
     text-align: center;}
-.styleBorderBtns:hover{
-    background:#018a88;
-}
     .styleUl :nth-child(1){
         border-radius: 5px 0px 0px 5px;
     }
@@ -255,4 +397,43 @@
 .on{
    background:#018a88;
 }
+
+
+.reLoadingImg{
+  width:100%;
+  height:100%;
+  color:#fff;
+  background-color:rgba(0,0,0,.5);
+  filter:alpha(opacity=0);
+  -moz-opacity:0;
+  -khtml-opacity: 0;
+  opacity: 0;
+   position:absolute;
+   top:0;
+   left:0;
+}
+.reLoadingImg:hover{
+  filter:alpha(opacity=1);
+  -moz-opacity:1;
+  -khtml-opacity: 1;
+  opacity: 1;
+  cursor: pointer;
+  animation-name: fadeIn; /*动画名称*/
+  animation-duration: 0.4s; /*动画持续时间*/
+  animation-iteration-count: 1; /*动画次数*/
+  animation-delay: 0s; /*延迟时间*/
+}
+.carouselListInfo .el-input__inner{
+    height: 30px;
+}
+ .carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
+ .imgShowDiv{width:40%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;font-size: 12px;}
+  .chooseImg{width:218px;height:141px;}
+  .center{width: 100%;height: 100%;}
+  .microImg{width: 100%;height: 100%;}
+  
+  .linkTips{font-size:16px;margin-top:20px;margin-bottom:20px;}
+ .el-dropdown{border: 1px solid #aaaaaa;padding: 7px;}
+ .el-dropdown:hover{background-color: #f5f3f3;}
+ .el-dropdown-link{border-radius: 3px;cursor: pointer;}
 </style>

@@ -26,6 +26,22 @@ export default{
                 visitCont: '查水表',customerFeedback: '水表坏了',satisfaction: '非常满意',nextVisit:'是'}
             ]
         }
+    },
+    created(){
+        this.searchInfo();
+    },
+    methods:{
+        searchInfo(){
+            this.$http({
+                url:'/api/customer/visits/findData',
+                method:'POST'
+            }).then((res) => {
+                console.log(res);
+                
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
     }
 }
 </script>
