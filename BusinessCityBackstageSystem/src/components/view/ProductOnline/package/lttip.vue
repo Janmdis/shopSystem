@@ -6,13 +6,13 @@
             </h3>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
-                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                <li class="other"  data-toggle="modal" data-target="#delModal" @click="operate('onsale')">
                     <i class='el-icon-delete'></i> 上架
                 </li>
-                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                <li class="other"  data-toggle="modal" data-target="#delModal" @click="operate('nosale')">
                     <i class='el-icon-delete'></i> 下架
                 </li>
-                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                <li class="other"  data-toggle="modal" data-target="#delModal" @click="operate('delete')">
                     <i class='el-icon-delete'></i> 删除
                 </li>
             </ul>
@@ -38,21 +38,13 @@ export default {
             let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
             dom.style.left=data.show?'0px':'-600px';
-            dom_edit.style.cursor=data.editcan?'':'not-allowed';
+            // dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
     },
     methods:{
-        edit(){
-            if(this.canedit){
-                this.$root.$emit('editdialog');
-                this.$root.$emit("showWindow",this.dataInfo)
-                
-            }
-
-        },
-        delBox(){
-            this.$root.$emit("delBox",this.dataInfo)
+        operate(type){
+            this.$root.$emit('operate',{data:this.dataInfo,type});
         }
     }
 }

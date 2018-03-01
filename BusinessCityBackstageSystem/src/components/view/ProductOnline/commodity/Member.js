@@ -5,15 +5,15 @@ import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
 import shopDetails from './shopDetails.vue'
+import detailcommodity from './detailcommodity.vue'
 import qs from 'qs'
-
 export default {
   
   name: 'member',
   data() {
     return {
       valuesearch: '',
-      namepage: '商品',
+      namepage: '商品列表',
       currentPage1: 1,
       searchFn: '',
       isActive: false,
@@ -24,9 +24,15 @@ export default {
       listLoading: false,
       delArr: [],
       showTable: true
-      
     }
 
+  },
+  created:function(){
+    // 获取商品图片
+    this.$store.dispatch('getImglistcommodity');
+    this.$root.$on('editcommodity',()=>{
+      this.namepage='商品详情';
+    });
   },
   mounted() {
     this.$root.$on('total', (data) => {
@@ -84,7 +90,8 @@ export default {
     })
     },
     show: function (val) {
-      this.searchUsers()
+      this.$root.$emit('searchcommodity',this.valuesearch);
+      // this.searchUsers()
     },
     searchUsers() {
       let para = {
@@ -122,7 +129,7 @@ export default {
 
     },
     showWindow() {
-      this.$root.$emit("showWindow",'no')
+      this.$root.$emit("showWindow")
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -139,13 +146,21 @@ export default {
     },
 
   },
+  beforeDestroy(){
+    this.$root.$off('total');
+    this.$root.$off('showTables');
+    this.$root.$off('pages');
+    this.$root.$off('delBox');
+    this.$root.$off('editcommodity');
+  },
   components: {
     Lttip,
     search,
     Datatable,
     showWindows,
     searchBox,
-    shopDetails
+    shopDetails,
+    detailcommodity
   },
 }
 

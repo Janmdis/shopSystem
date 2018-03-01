@@ -1,18 +1,26 @@
 <template>
-    <el-dialog title='库存列表'  :visible.sync="dialogVisible"  width="60%">
+    <el-dialog title='商品列表'  :visible.sync="dialogVisible"  width="60%">
         <el-row style='padding-bottom:10px;'>
             <el-col :span="4">
-                <el-select v-model="type" placeholder="分类" class='typeselect'>
+                <el-select v-model="type" placeholder="分类" class='typeselect' @change='changetype'>
                     <el-option
                     v-for="item in listtype"
                     :key="item.id"
-                    :label="item.value"
+                    :label="item.name"
                     :value="item.id">
                     </el-option>
                 </el-select>
             </el-col>
         </el-row>
-        <el-table :data="listgoods" style="width: 100%;height:75%;" height='100%' class='table-goods'>
+        <el-table 
+        :data="listgoods" 
+        ref='goodtable' 
+        style="width: 100%;height:75%;" 
+        height='100%' 
+        class='table-goods' 
+        @selection-change="handleSelectionChange"
+        @select ='selectchange'
+        v-loading='loading'>
             <el-table-column
             type="index"
             label="N"
@@ -25,11 +33,11 @@
                     <img :src="scope.row.imgurl" alt="">
                 </template>
             </el-table-column>
-            <el-table-column  prop="title" label="标题"  >
+            <el-table-column  prop="name" label="标题"  >
             </el-table-column>
-            <el-table-column  prop="price" label="价格"  >
+            <el-table-column  prop="originalPrice" label="价格"  >
             </el-table-column>
-            <el-table-column  prop="nums" label="库存"  >
+            <el-table-column  prop="displayQuantity" label="库存"  >
             </el-table-column>
         </el-table>
         <el-pagination
@@ -105,116 +113,224 @@
 </style>
 
 <script>
+import { mapState } from 'vuex'
     export default {
         data() {
             return {
+                id:'',
                 dialogVisible: false,
                 currentPage:1,
-                total:100,
-                pages:10,
+                total:1,
+                pages:1,
                 type:'',
-                listtype:[
-                    {
-                        id:'1',
-                        value:'test1'
-                    },
-                    {
-                        id:'2',
-                        value:'test2'
-                    },
-                    {
-                        id:'3',
-                        value:'test3'
-                    }
-                ],
-                listgoods:[
-                    {
-                        id:'',
-                        imgurl:'static/images/Login/logo.png',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    },
-                    {
-                        id:'',
-                        imgurl:'static/images/Login/background.jpg',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    },
-                    {
-                        id:'',
-                        imgurl:'../',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    },
-                    {
-                        id:'',
-                        imgurl:'../',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    },
-                    {
-                        id:'',
-                        imgurl:'../',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    },
-                    {
-                        id:'',
-                        imgurl:'../',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    },
-                    {
-                        id:'',
-                        imgurl:'../',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    },
-                    {
-                        id:'',
-                        imgurl:'../',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    },
-                    {
-                        id:'',
-                        imgurl:'../',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    },
-                    {
-                        id:'',
-                        imgurl:'../',
-                        title:'',
-                        price:'20',
-                        nums:'2'
-                    }
-                ]
+                typeid:'',
+                listtype:[],
+                listgoods:[],
+                selectedgoods:[],
+                loading:true,
+                flag:'create'
             };
         },
+        updated() {
+            // this.$refs.goodtable.toggleRowSelection(this.listgoods[0],true);
+            // this.$refs.goodtable.toggleRowSelection(this.selectedgoods[1],true);
+            this.selectedgoods.forEach(row=>{
+                this.listgoods.forEach(good=>{
+                    if(JSON.stringify(good)==row){
+                        this.$refs.goodtable.toggleRowSelection(good,true);
+                    }
+                });
+            });  
+        },
         methods: {
+            getDatalist(pageindex){
+                let that=this;
+                this.loading=true;
+                this.$http.post('/api/product/commodity/info/query?page='+pageindex+'&pageSize=10',
+                                {categoryId:that.typeid,isPackage:0}
+                )
+                .then(function (response) {
+                    if(response.data.msg=='查询成功'){
+                        let data=response.data.info;
+                        that.listgoods=data.list;
+                        that.pages=data.pageSize;
+                        that.total=data.total;
+                        that.currentPage=data.pageNum;
+                        that.listgoods.forEach(item=>{
+                            let imgurl='';
+                            that.imglist.forEach(img=>{
+                                if(img.commodityId==item.id&&imgurl==''){
+                                    imgurl='http://'+window.location.host+'/api/sms'+img.url;;
+                                }
+                            })
+                            that.$set(item,'imgurl',imgurl);
+                        });
+                    }
+                    else{
+                        that.$message(response.data.msg);
+                    }
+                    console.log(response);
+                    that.loading=false;
+                    
+                })
+                .catch(function(response){
+                    that.$message('请求出错！');
+                    that.loading=false;
+                });
+            },
+            getType(){
+                let that=this;
+                this.$http.post('/api/product/commodity/category/queryMap',)
+                .then(function (response) {
+                    let data=response.data;
+                    if(data.msg=='查询成功'){
+                        that.listtype=data.info;
+                        that.type=that.listtype[0]?that.listtype[0].name:'';
+                        that.typeid=that.listtype[0]?that.listtype[0].id:'';
+                        that.getDatalist(1);
+                    }
+                    else{
+                        that.$message(data.msg);
+                    }
+                //    console.log(response);
+                })
+                .catch(function(response){
+                    that.$message('请求出错！');
+                })
+            },
+            // 获取套餐内商品
+            getgoodsinpackage(){
+                let that=this;
+                this.$http.post('/api/product/commodity/package/queryCommodityInfoByPackageId?pageSize=50&packageId='+this.id)
+                .then(function(response){
+                    if(response.data.msg=='查询成功'){
+                        let list=response.data.info;
+                        list.forEach(item=>{
+                            let str=JSON.stringify(item);
+                            that.selectedgoods.push(str);
+                        });
+                    }
+                })
+                .catch(function(response){
+                    console.log('套餐商品查询失败');
+                })
+            },
+            changetype(value){
+                this.typeid=value;
+                this.getDatalist(1);
+            },
             adddata(){
-                this.dialogVisible=false;
-                this.$root.$emit('adddata');
+                let length=this.selectedgoods.length;
+                if(!length){
+                    this.$message('请先选择商品！');
+                }
+                else{
+                    let list=[];
+                    this.selectedgoods.forEach(item=>{
+                        let json={
+                            commodityId:JSON.parse(item).id,
+                            packageCommodityId:this.id
+                        }
+                        list.push(json);
+                    });
+                    let that=this;
+                    // 生成套餐
+                    if(this.flag=='create'){
+                        this.$http.post('/api/product/commodity/info/insertOne',{
+                            name:'',
+                            categoryId:'1',
+                            originalPrice:0,
+                            discountPrice:0,
+                            currentPrice:0,
+                            priceRule:1,
+                            isPackage:1,
+                            detailTemplateId:0 
+                        })
+                        .then(function(response){
+                            if(response.data.msg=='新增成功'){
+                                that.id=response.data.info.id;
+                                console.log(that.id);
+                                list.forEach(item=>{
+                                    item.packageCommodityId=that.id;
+                                });
+                                that.addgoods(list);
+                            }
+                            else{
+                                that.$message(response.data.msg);
+                            }
+                            // console.log(response);
+                        })
+                        .catch(function(response){
+                            that.$message('套餐生成失败！');
+                        });  
+                    }
+                    // 在套餐内添加商品
+                    else if(this.flag='edit'){
+                        this.addgoods(list);
+                    }
+                }
+            },
+            // 在套餐内添加商品
+            addgoods(list){
+                let that=this;
+                console.log(list);
+                this.$http.post('/api/product/commodity/package/insert',list)
+                .then(function(response){
+                    if(response.data.msg=='新增成功'){
+                        that.$message.success('商品添加成功！');
+                        that.$root.$emit('editpackage',{id:that.id});
+                        that.dialogVisible=false;
+                        // that.$root.$emit('editpackage',{list,id:response.data.info.id});
+                        // that.dialogVisible=false;
+                    }
+                    else{
+                        that.$message(response.data.msg);
+                    }
+                    // console.log(response);
+                })
+                .catch(function(response){
+                    that.$message('商品添加失败！');
+                }); 
             },
             handleSizeChange(){},
-            handleCurrentChange(){}
+            handleCurrentChange(currentPage){
+                this.getDatalist(currentPage);
+                // console.log(currentPage);
+            },
+            handleSelectionChange(val){
+                for(let i=0;i<val.length;i++){
+                    let currentstr=JSON.stringify(val[i]);
+                    let hasit=this.selectedgoods.includes(currentstr);
+                    if(!hasit){
+                        this.selectedgoods.push(currentstr);
+                    }
+                }
+                // console.log(this.selectedgoods);
+            },
+            selectchange(selection,row){
+                let str=JSON.stringify(row);
+                let selected=selection.includes(row);
+                if(!selected){
+                    let index=this.selectedgoods.indexOf(str);
+                    this.selectedgoods.splice(index,1);
+                }
+            }
         },
         created: function() {
-            this.$root.$on('showWindow', () => {
-                // alert(111);
+            this.$root.$on('showWindow', (datas) => {
+                this.flag=datas.flag;
+                this.id=datas.id;
+                this.getType();
+                if(datas.flag=='edit'){
+                    this.getgoodsinpackage();
+                }
                 this.dialogVisible=true;
-                
             });  
+        },
+        computed: {
+            ...mapState({
+                imglist: state => state.imglistcommodity.imglistcommodity
+            })
         },
         beforeDestroy(){
             this.$root.$off('showWindow');
