@@ -1,3 +1,4 @@
+
 <template>
     <el-main id="member">
         <div class="memberNav" @click.native="closeInfo">

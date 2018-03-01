@@ -2,7 +2,6 @@
     <el-table
     :data="datalist"
     @selection-change='showextra'
-    @cell-click='showMemberInfo'
     :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
@@ -21,47 +20,48 @@
         <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
-        prop="name"
+        prop='productImage'
         label="图片"
         width='120'
         >
+        
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="name"
         width='120'
         label="名称">
         </el-table-column>
         <el-table-column
         width='120'
-        prop="types"
+        prop="specificationValue"
         label="规格" 
         sortable
         >
         </el-table-column>
         <el-table-column
         width='120'
-        prop="city"
+        prop="unitName"
         label="单位"
         >
         </el-table-column>
         <el-table-column
         width='120'
-        prop="quarters"
+        prop="inventoryQuantity"
         label="库存"
         sortable>
         </el-table-column>
         <el-table-column
         width='120'
-        prop="state"
+        prop="classificationName"
         label="分类">
         </el-table-column>
         <el-table-column
         width='120'
-        prop="source"
+        prop="typeName"
         label="类型">
         </el-table-column>
         <el-table-column
-        prop="Inputtiem"
+        prop="brand"
         width='100'
         label="品牌">
         </el-table-column>
@@ -72,23 +72,24 @@
             fixed='right'
             >
             <template slot-scope="scope">
-                <el-button type="text" size="small">编辑</el-button>
-                <el-button type="text" size="small">删除</el-button>
+                <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+                <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
             </template>
         </el-table-column>
                 
             </el-table>
 </template>
 <script>
-/ eslint-disable /
-//@row-click="showMemberInfo()"
+
 export default {
     prop:['listLoading'],
     data(){
         return {
+            dialogVisible:false,
             datalist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
+            clickType:false
         }
     },
     created:function(){
@@ -99,16 +100,41 @@ export default {
         this.getDate(1)
         this.$root.$on('getDatezdy',(data)=>{
              this.getDate( data)
-        })
-        this.$root.$on('dataListBox',(data)=>{
-            this.datalist = data
-        })
-        
+        })   
     },
     methods:{
-      getDate(pageIndex) {
+        handleDelete(index, row,event) { //  删除某一种产品
+            let that = this;
+            console.log(row);
+            this.$confirm('确定删除 "'+ row.brand +'的'+row.name+'" 吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/product/info/update',
+                        [{id:row.id,isActive:0}]
+                    ).then(res => {
+                        console.log(res.data.msg);
+                        that.getDate();
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消删除',
+                    duration:800
+                });          
+            });   
+        },
+        handleEdit(index, row,event) {
+            let getDate = this.getDate();
+            this.$root.$emit('showWindow',{type:this.clickType,rowData:row});
+        },
+        getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/customer/account/query?page='+pageIndex+'&pageSize=10';
+            let url = '/api/product/info/find?page='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
@@ -119,7 +145,7 @@ export default {
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                // console.log(this.datalist)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })
@@ -127,17 +153,7 @@ export default {
               console.log(error);
               alert('网络错误，不能访问');
           })
-        },
-        showMemberInfo(row,column,cell,event){//  点击显示侧滑
-            //console.log(row,column,cell,event)
-            //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
-            let labelValue = column.label
-            if(labelValue == 'ID'){
-                this.showLeft = 16
-                this.$root.$emit('infoCoverShow',this.showLeft)
-                this.$root.$emit('searchPersonnelInfo',row.id)
-            }
-        },      
+        },     
         showextra(val){
              let show=false;
              let editcan=true;

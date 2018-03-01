@@ -806,7 +806,7 @@ export default {
             }
     }
     .houseDetailMain{
-        padding: 0 90px 0 50px;
+        padding: 0 90px 50px 50px;
         .mainTable{
             .tableDes{
                 margin:35px 0;
