@@ -1,5 +1,5 @@
-<template>
-    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%">
+<template id='windowBox'>
+    <el-dialog :title="ruleForm.textInfo"  :visible.sync="dialogVisible" width="50%" >
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='12'>
@@ -27,11 +27,7 @@
                         <el-input v-model="ruleForm.mode"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span='12'>
-                    <el-form-item label="创建时间" prop='date1'>
-                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-                    </el-form-item>
-                </el-col>
+                
             </el-row>
             <el-row>
                 <el-col :span='12'>
@@ -49,10 +45,10 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
-                    <el-form-item label="删除状态">
+                    <el-form-item label="账户状态">
                         <el-select v-model="ruleForm.panper" placeholder="请选择身份">
-                            <el-option label="删除" value="0"></el-option>
-                            <el-option label="正常" value="1"></el-option>
+                            <el-option label="使用中" value="0"></el-option>
+                            <el-option label="注销" value="1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -72,6 +68,9 @@
     }
     .lineBline {
         border-bottom: 1px solid #ddd;
+    }
+    #windowBox .el-col-12{
+        height:50px;
     }
 </style>
 <script>
@@ -102,7 +101,7 @@
                     backaccount: '',
                     mode: '',
                     name: "",
-                    date1: '',
+                    ids: '',
                     old: '',
                     county: '',
                     ctypes: '',
@@ -138,12 +137,7 @@
                         required: true,
                         message: '请输入正确的手机号',
                         trigger: 'blur'
-                    }, ],
-                    date1: [{
-                        required: true,
-                        message: '请选择日期',
-                        trigger: 'change'
-                    }],
+                    }, ]
                 }
             };
         },
@@ -152,8 +146,6 @@
                 let that = this;
                 if (this.ruleForm.textInfo == "新增会员") {
                     that.$refs[formName].validate((valid) => {
-                        var d = new Date(this.ruleForm.date1);
-                        var youWant = d.getFullYear() + '-' + this.getzf((d.getMonth() + 1)) + '-' + this.getzf(d.getDate());
                         if (valid) {
                             let url = '/api/product/supplierInfo/insert';
                             this.$http({
@@ -164,9 +156,13 @@
                                     //     'Content-Type': 'application/json'
                                     // },
                                     data: {
-                                        "name": "上海弘之云网络科技有限公司",
-                                        "contact": "张总",
-                                        "contactMobile": "17612175684",
+                                        "name": this.ruleForm.Cname,
+                                        "contact": this.ruleForm.name,
+                                        "contactMobile": this.ruleForm.mode,
+                                        "bankName":this.ruleForm.backname,
+                                        "bankNumber":this.ruleForm.backaccount,
+                                        //'createTime':this.ruleForm.date1,
+                                        //'accountState ':this.ruleForm.panper,
                                         "categoryId": 1,
                                         "levelId": 1,
                                         "supplierLabel": [{
@@ -195,8 +191,6 @@
                 }
                 if (this.ruleForm.textInfo == "编辑会员") {
                     that.$refs[formName].validate((valid) => {
-                        var d = new Date(this.ruleForm.date1);
-                        var youWant = d.getFullYear() + '-' + this.getzf((d.getMonth() + 1)) + '-' + this.getzf(d.getDate());
                         if (valid) {
                             let url = '/api/product/supplierInfo/update';
                             this.$http({
@@ -207,15 +201,23 @@
                                         'Content-Type': 'application/json'
                                     },
                                     data: {
-                                        id: this.ruleForm.thisId,
-                                        name: this.ruleForm.name,
-                                        mobile: this.ruleForm.mode,
-                                        birthDate: youWant,
-                                        categoryId: this.ruleForm.ctypes,
-                                        recommendedSourceId: this.ruleForm.county,
-                                        consumptionPoints: 0,
-                                        level: 0,
-                                        identity: this.ruleForm.panper
+                                        'id': this.ruleForm.ids,
+                                        "name": this.ruleForm.Cname,
+                                        "contact": this.ruleForm.name,
+                                        "contactMobile": this.ruleForm.mode,
+                                        "bankName":this.ruleForm.backname,
+                                        "bankNumber":this.ruleForm.backaccount,
+                                        //'createTime':this.ruleForm.date1,
+                                        //'accountState':this.ruleForm.panper,
+                                        "categoryId": 1,
+                                        "levelId": 1,
+                                        "supplierLabel": [{
+                                                "id": "d264a608-07e1-11e8-a896-6c4b901e385d"
+                                            },
+                                            {
+                                                "id": "ff775481-07e2-11e8-a896-6c4b901e385d"
+                                            }
+                                        ]
                                     }
                                 })
                                 .then(response => {
@@ -233,63 +235,12 @@
                     });
                 }
             },
+            // handleClose(done) {
+            // this.dialogVisible = false;
+            // this.$refs['ruleForm'].resetFields();
+            // },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-            },
-            getDate(str) {
-                if (str == null) {
-                    return
-                } else {
-                    var oDate = new Date(str),
-                        oYear = oDate.getFullYear(),
-                        oMonth = oDate.getMonth() + 1,
-                        oDay = oDate.getDate(),
-                        oTime = oYear + '-' + this.getzf(oMonth) + '-' + this.getzf(oDay); //最后拼接时间  
-                    return oTime;
-                }
-            },
-            //补0操作  
-            getzf(num) {
-                if (parseInt(num) < 10) {
-                    num = '0' + num;
-                }
-                return num;
-            },
-            jsGetAge(strBirthday) {
-                var returnAge
-                var strBirthdayArr = strBirthday.split('-')
-                var birthYear = strBirthdayArr[0]
-                var birthMonth = strBirthdayArr[1]
-                var birthDay = strBirthdayArr[2]
-                var d = new Date()
-                var nowYear = d.getFullYear()
-                var nowMonth = d.getMonth() + 1
-                var nowDay = d.getDate()
-                if (nowYear == birthYear) {
-                    returnAge = 0; // 同年 则为0岁    
-                } else {
-                    var ageDiff = nowYear - birthYear; // 年之差    
-                    if (ageDiff > 0) {
-                        if (nowMonth == birthMonth) {
-                            var dayDiff = nowDay - birthDay; // 日之差    
-                            if (dayDiff < 0) {
-                                returnAge = ageDiff - 1
-                            } else {
-                                returnAge = ageDiff
-                            }
-                        } else {
-                            var monthDiff = nowMonth - birthMonth; // 月之差    
-                            if (monthDiff < 0) {
-                                returnAge = ageDiff - 1
-                            } else {
-                                returnAge = ageDiff
-                            }
-                        }
-                    } else {
-                        returnAge = -1; // 返回-1 表示出生日期输入错误 晚于今天    
-                    }
-                }
-                return returnAge; // 返回周岁年龄       
             },
             showData() {
                 let url = '/api/product/category/query';
@@ -329,47 +280,29 @@
         },
         created: function() {
             this.$root.$on('showWindow', (data) => {
+                 console.log(data)
                 if (data != 'no') {
+                    
                     this.ruleForm.textInfo = '编辑会员';
-                    let url = '/api/customer/account/queryMapByIds' /*'+[data[0].id]*/ ;
-                    this.$http({
-                            url: url,
-                            method: 'post',
-                            //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
-                            data: [data[0].id]
-                        })
-                        .then(respone => {
-                            let infos = respone.data.info[0]
-                            this.ruleForm.thisId = infos.id
-                            this.ruleForm.mode = infos.mobile,
-                                this.ruleForm.name = infos.name,
-                                this.ruleForm.date1 = infos.birthDate,
-                                this.ruleForm.old = infos.age,
-                                this.ruleForm.county = 1,
-                                this.ruleForm.ctypes = 2,
-                                this.ruleForm.panper = 1
-                            // this.ruleForm.sourceFns = respone.data.info;
-                            // console.log(this.ruleForm.sourceFns)
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            alert('网络错误，不能访问');
-                        })
+                    this.ruleForm.mode = data[0].contactMobile,
+                    this.ruleForm.name = data[0].contact,
+                    this.ruleForm.backname = data[0].bankName,
+                    this.ruleForm.backaccount = data[0].bankNumber,
+                    this.ruleForm.Cname = data[0].name,
+                    this.ruleForm.ids=data[0].id,
                     this.dialogVisible = true;
+                    
                 } else {
-                    this.ruleForm.textInfo = '新增会员';
+                    // this.ruleForm.textInfo = '新增会员';
                     this.dialogVisible = true;
-                    this.ruleForm.mode = "",
-                        this.ruleForm.name = "",
-                        this.ruleForm.date1 = "",
-                        this.ruleForm.old = "",
-                        this.ruleForm.county = "",
-                        this.ruleForm.ctypes = "",
-                        this.ruleForm.panper = ''
+                    this.$nextTick(() => {
+                        this.ruleForm = {textInfo : '新增会员'};
+                        this.$refs['ruleForm'].resetFields();
+                    })
                 }
             });
-            this.sourceFn();
-            this.showData();
+           // this.sourceFn();
+           // this.showData();
         }
     }
 </script>

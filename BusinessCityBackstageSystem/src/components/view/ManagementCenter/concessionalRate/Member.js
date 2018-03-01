@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       valuesearch: '',
-      namepage: '套餐',
+      namepage: '优惠劵',
       currentPage1: 1,
       searchFn: '',
       isActive: false,

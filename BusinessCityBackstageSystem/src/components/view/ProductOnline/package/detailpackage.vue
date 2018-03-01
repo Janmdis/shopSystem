@@ -631,11 +631,19 @@ export default {
                     //         }
                     //     });
                     // }
-                    that.listmodaltime.forEach(item=>{
-                        if(that.tmid==item.id){
-                            that.tmselected=item.name;
-                        }
-                    });
+                    if(that.tmtype=='delete'){
+                        that.tmid=that.listmodaltime[0].id;
+                        that.tmselected=that.listmodaltime[0].name;  
+                        that.tmtype='' 
+                    }
+                    else{
+                        that.listmodaltime.forEach(item=>{
+                            if(that.tmid==item.id){
+                                that.tmselected=item.name;
+                            }
+                        });
+                    }
+                    // console.log(that.tmid,that.listmodaltime,that.tmselected);
                     that.tmvalue=that.tmselected;
                     that.getdatedetail();
                 }
@@ -753,13 +761,13 @@ export default {
         // 删除时间模板
         deletetimetable(){
             if(this.tmid!=''&&this.tmid!=null){
-                this.tmtype='delete';
                 let that=this;
                 this.$confirm('是否删除该商品', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.tmtype='delete';
                     this.$http.post('/api/product/commodity/periodTemplate/remove',[this.tmid])
                     .then(function(response){
                         if(response.data.msg=='删除成功'){
@@ -988,16 +996,15 @@ export default {
                             data.forEach(item=>{
                                 item.templateId=that.tmid
                             });
-                            // console.log(data);
                             that.adddaterelation(data,'模板新增成功！');
-                            that.getdatemodel(currentvalue);   
+                            that.getdatemodel();   
                         }
                         else{
                             that.$message('模板保存失败！');
                         }
                     })
                     .catch(function(response){
-                        console.log(response.data.msg);
+                        console.log(response);
                     })
                     this.tmtype='';
                 }
@@ -1038,12 +1045,20 @@ export default {
                     // that.areamvalue=that.areamselected;
                     // that.areamid=that.listmodalarea[0].id;
                     // that.citymid=that.listmodalarea[0].cityId;
-                    that.listmodalarea.forEach(item=>{
-                        if(item.id==that.areamid){
-                            that.citymid=item.cityId;
-                            that.areamselected=item.name;
-                        }
-                    });
+                    if(that.typearea=='delete'){
+                        that.citymid=that.listmodalarea[0].cityId;
+                        that.areamselected=that.listmodalarea[0].name;
+                        that.areamid=that.listmodalarea[0].id;
+                        that.typearea='';
+                    }
+                    else{
+                        that.listmodalarea.forEach(item=>{
+                            if(item.id==that.areamid){
+                                that.citymid=item.cityId;
+                                that.areamselected=item.name;
+                            }
+                        });
+                    }
                     that.areamvalue=that.areamselected;
                     if(that.cityvalue==''){
                         // 获取默认城市
@@ -1242,6 +1257,7 @@ export default {
                         type: 'warning'
                     }).then(() => {
                         // 删除模板
+                        this.typearea='delete'
                         this.$http.post('/api/product/commodity/regionTemplate/remove',[that.areamid])
                         .then(function(response){
                             if(response.data.msg=='删除成功'){
@@ -1272,7 +1288,6 @@ export default {
                 if(response.data.msg=='删除成功'){
                     if(type=='delete'){
                         that.$message.success('删除成功');
-                        that.typearea='';
                         let dom=document.getElementsByClassName('areaservice')[0].querySelector('.title');
                         dom.setAttribute('class','title el-input none');
                         dom.querySelector('.el-input__inner').setAttribute('disabled','');

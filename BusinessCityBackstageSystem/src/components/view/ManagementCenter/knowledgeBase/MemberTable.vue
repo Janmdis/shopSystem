@@ -22,20 +22,20 @@
         <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
-        prop="name"
+        prop="knowledgeSortName"
         label="分类"
         >
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="knowledgePoint"
         label="知识点">
         </el-table-column>
         <el-table-column
         prop="mobile"
         label="操作">
          <template slot-scope="scope">
-            <el-button type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">删除</el-button>
+            <el-button type="text" size="small"  @click='handleWindow(scope.row)' >编辑</el-button>
+            <el-button type="text" size="small"  @click='handleClick(scope.row)' >删除</el-button>
             <el-button type="text" size="small">下架</el-button>
         </template>
         </el-table-column>
@@ -70,7 +70,7 @@ export default {
     methods:{
       getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/customer/account/query?page='+pageIndex+'&pageSize=10';
+            let url = '/api/public/knowledge/library/find?pageNo='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
@@ -89,6 +89,18 @@ export default {
               console.log(error);
               alert('网络错误，不能访问');
           })
+        },
+        handleWindow(row){
+           this.showWindow([row])
+       },
+       showWindow(id) {
+            this.$root.$emit("showWindow",id);
+        },
+        handleClick(row) {
+            this.delBox(row)
+       },
+       delBox(id){
+            this.$root.$emit("delBox",[id])
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
             //console.log(row,column,cell,event)
