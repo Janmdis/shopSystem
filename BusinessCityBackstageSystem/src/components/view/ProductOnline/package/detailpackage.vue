@@ -306,6 +306,9 @@ export default {
             }
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
+            }
+            else {
+                callback()
             } 
         };
         var checkQuantity=(rule,value,callback)=>{
@@ -316,6 +319,9 @@ export default {
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
             } 
+            else {
+                callback()
+            }
         };
         var checkSales=(rule,value,callback)=>{
             var pattern = /^(-?\d*.?\d*)$/;
@@ -325,6 +331,9 @@ export default {
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
             } 
+            else {
+                callback()
+            }
         };
         return {
             id:'',
@@ -538,6 +547,10 @@ export default {
                         if(response.data.msg=='修改成功'){
                             that.$message.success('套餐修改成功！');
                             that.$refs.detail.setAttribute('class','detail off');
+                            that.$root.$emit('reloadpackagelist');
+                        }
+                        else{
+                            that.$message(response.data,msg);
                         }
                         console.log(response);
                     })

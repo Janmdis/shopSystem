@@ -131,6 +131,9 @@ export default {
                 this.changesale(ids,type=='onsale'?1:0);
             }
         });
+        this.$root.$on('reloadlist',()=>{
+            this.getDate(1);
+        });
     },
     computed: {
         ...mapState({
@@ -259,6 +262,7 @@ export default {
         this.$root.$off('getDatezdy');
         this.$root.$off('dataListBox');
         this.$root.$off('operate');
+        this.$root.$off('reloadlist');
     },
 
 }

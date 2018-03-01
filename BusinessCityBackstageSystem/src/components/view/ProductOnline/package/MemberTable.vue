@@ -137,6 +137,9 @@ export default {
                 this.changestate(ids,type=='onsale'?1:0);
             }
         });
+        this.$root.$emit('reloadpackagelist',()=>{
+            this.getDate(1);
+        });
         
     },
     methods:{
@@ -274,6 +277,7 @@ export default {
         this.$root.$off('dataListBox');
         this.$root.$off('search');
         this.$root.$off('operate');
+        this.$root.$off('reloadpackagelist');
     }
 
 }

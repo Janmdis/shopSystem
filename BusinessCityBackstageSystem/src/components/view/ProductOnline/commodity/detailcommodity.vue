@@ -253,6 +253,9 @@ export default {
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
             } 
+            else {
+                callback()
+            }
         };
         var checkQuantity=(rule,value,callback)=>{
             var pattern = /^(-?\d*.?\d*)$/;
@@ -262,6 +265,9 @@ export default {
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
             } 
+            else {
+                callback()
+            }
         };
         var checkSales=(rule,value,callback)=>{
             var pattern = /^(-?\d*.?\d*)$/;
@@ -271,6 +277,9 @@ export default {
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
             } 
+            else {
+                callback()
+            }
         };
         return {
             id:'',
@@ -340,7 +349,7 @@ export default {
             this.getimglist();
             this.getdatemodel();
             
-            // this.getcitys();
+            this.getcitys();
         });
     },
     methods:{
@@ -387,7 +396,7 @@ export default {
             this.formmsg.categoryId=value;
             console.log(value);
         },
-        // 保存商品套餐信息
+        // 保存商品信息
         savedata(){
             this.$refs['formmsg'].validate((valid) => {
                 if (valid) {
@@ -400,15 +409,19 @@ export default {
                         totalSales:this.formmsg.totalSales,
                         periodTemplateId:this.tmid,
                         regionTemplateId:this.areamid,
-                        categoryId:this.formmsg.categoryId
+                        categoryId:this.formmsg.categoryId,
+                        brand:this.formmsg.brand
                     };
                     this.$http.post('/api/product/commodity/info/update',data)
                     .then(function(response){
                         if(response.data.msg=='修改成功'){
                             that.$message.success('套餐修改成功！');
                             that.$refs.detail.setAttribute('class','detail off');
+                            that.$root.$emit('reloadlist');
                         }
-                        console.log(response);
+                        else{
+                            that.$message(response.data,msg);
+                        }
                     })
                     .catch(function(response){
                         console.log(response);
@@ -606,11 +619,18 @@ export default {
             .then(function(response){
                 if(response.data.msg=='查询成功'){
                     that.listmodaltime=response.data.info;
-                    that.listmodaltime.forEach(item=>{
-                        if(that.tmid==item.id){
-                            that.tmselected=item.name;
-                        }
-                    });
+                    if(that.tmtype=='delete'){
+                        that.tmid=that.listmodaltime[0].id;
+                        that.tmselected=that.listmodaltime[0].name;  
+                        that.tmtype='' 
+                    }
+                    else{
+                        that.listmodaltime.forEach(item=>{
+                            if(that.tmid==item.id){
+                                that.tmselected=item.name;
+                            }
+                        });
+                    }
                     that.tmvalue=that.tmselected;
                     that.getdatedetail();
                 }
@@ -947,7 +967,7 @@ export default {
                             });
                             // console.log(data);
                             that.adddaterelation(data,'模板新增成功！');
-                            that.getdatemodel(currentvalue);   
+                            that.getdatemodel();   
                         }
                         else{
                             that.$message('模板保存失败！');
@@ -991,16 +1011,20 @@ export default {
             .then(function(response){
                 if(response.data.msg=='查询成功'){
                     that.listmodalarea=response.data.info;
-                    // that.areamselected=that.listmodalarea[0].name;
-                    // that.areamvalue=that.areamselected;
-                    // that.areamid=that.listmodalarea[0].id;
-                    // that.citymid=that.listmodalarea[0].cityId;
-                    that.listmodalarea.forEach(item=>{
-                        if(item.id==that.areamid){
-                            that.citymid=item.cityId;
-                            that.areamselected=item.name;
-                        }
-                    });
+                    if(that.typearea=='delete'){
+                        that.citymid=that.listmodalarea[0].cityId;
+                        that.areamselected=that.listmodalarea[0].name;
+                        that.areamid=that.listmodalarea[0].id;
+                        that.typearea='';
+                    }
+                    else{
+                        that.listmodalarea.forEach(item=>{
+                            if(item.id==that.areamid){
+                                that.citymid=item.cityId;
+                                that.areamselected=item.name;
+                            }
+                        });
+                    }
                     that.areamvalue=that.areamselected;
                     if(that.cityvalue==''){
                         // 获取默认城市
@@ -1200,6 +1224,7 @@ export default {
                         type: 'warning'
                     }).then(() => {
                         // 删除模板
+                        this.typearea='delete';
                         this.$http.post('/api/product/commodity/regionTemplate/remove',[that.areamid])
                         .then(function(response){
                             if(response.data.msg=='删除成功'){
@@ -1230,7 +1255,6 @@ export default {
                 if(response.data.msg=='删除成功'){
                     if(type=='delete'){
                         that.$message.success('删除成功');
-                        that.typearea='';
                         let dom=document.getElementsByClassName('areaservice')[0].querySelector('.title');
                         dom.setAttribute('class','title el-input none');
                         dom.querySelector('.el-input__inner').setAttribute('disabled','');
