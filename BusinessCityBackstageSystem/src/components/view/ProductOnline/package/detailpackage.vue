@@ -643,7 +643,6 @@ export default {
                             }
                         });
                     }
-                    
                     // console.log(that.tmid,that.listmodaltime,that.tmselected);
                     that.tmvalue=that.tmselected;
                     that.getdatedetail();
@@ -997,16 +996,15 @@ export default {
                             data.forEach(item=>{
                                 item.templateId=that.tmid
                             });
-                            // console.log(data);
                             that.adddaterelation(data,'模板新增成功！');
-                            that.getdatemodel(currentvalue);   
+                            that.getdatemodel();   
                         }
                         else{
                             that.$message('模板保存失败！');
                         }
                     })
                     .catch(function(response){
-                        console.log(response.data.msg);
+                        console.log(response);
                     })
                     this.tmtype='';
                 }
