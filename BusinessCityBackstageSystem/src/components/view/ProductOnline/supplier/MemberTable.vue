@@ -21,48 +21,41 @@
         <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
-        prop="levelName"
+        prop="name"
         label="公司"
-        width='120'
         >
         </el-table-column>
         <el-table-column
         prop="contact"
-        width='120'
         label="联系人">
         </el-table-column>
         <el-table-column
-        width='120'
         prop="contactMobile"
         label="电话"
         >
         </el-table-column>
         <el-table-column
-        width='120'
         prop="categoryId"
         label="类型"
         >
         </el-table-column>
         <el-table-column
-        width='120'
         prop="levelId"
         label="级别"
         sortable>
         </el-table-column>
         <el-table-column
-        width='120'
         prop="supplierLabel"
         label="产品标签"
         sortable>
         </el-table-column>
         <el-table-column
-        width='120'
         prop="source"
         fixed="right"
         label="操作">
         <template slot-scope="scope">
-            <el-button type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">删除</el-button>
+            <el-button type="text" @click='handleWindow(scope.row)' size="small">编辑</el-button>
+            <el-button type="text" size="small" @click='handleClick(scope.row)'>删除</el-button>
         </template>
         </el-table-column>
 
@@ -83,6 +76,7 @@ export default {
         }
     },
     created:function(){
+        
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
             this.getDate(this.pageIndex)
@@ -113,8 +107,8 @@ export default {
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                this.$root.$emit('pages',response.data.info.pageNum)
-                this.$root.$emit('total',response.data.info.pageSize)
+                this.$root.$emit('pages',response.data.info.pages)
+                this.$root.$emit('total',response.data.info.total)
           })
           .catch(error=>{
               console.log(error);
@@ -122,8 +116,6 @@ export default {
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
-            //console.log(row,column,cell,event)
-            //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
             let labelValue = column.label
             if(labelValue == 'ID'){
                 this.showLeft = 16
@@ -145,6 +137,18 @@ export default {
         },
         indexMethod(index) {
             return index + 1
+        },
+        handleClick(row) {
+            this.delBox(row.id)
+       },
+       delBox(id){
+            this.$root.$emit("delBox",[id])
+        },
+       handleWindow(row){
+           this.showWindow([row])
+       },
+       showWindow(id) {
+            this.$root.$emit("showWindow",id);
         },
     }
 

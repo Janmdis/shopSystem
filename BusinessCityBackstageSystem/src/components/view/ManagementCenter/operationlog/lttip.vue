@@ -6,12 +6,7 @@
             </h3>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
-                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
-                    <i class='el-icon-delete'></i> 上架
-                </li>
-                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
-                    <i class='el-icon-delete'></i> 下架
-                </li>
+                
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
                 </li>
@@ -37,8 +32,8 @@ export default {
             var dom=document.getElementsByClassName('emendation')[0];
             let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
-            dom.style.left=data.show?'0px':'-500px';
-            dom_edit.style.cursor=data.editcan?'':'not-allowed';
+            dom.style.left=data.show?'0px':'-700px';
+            //dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
     },
@@ -97,7 +92,7 @@ export default {
 	margin-top: 26px;
 	position: absolute;
 	top: 0;
-	left:-500px;
+	left:-700px;
 	height: 32px;
     background: #fff;
     color: #555;
