@@ -29,7 +29,7 @@ export default {
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
-            console.log(data)
+
             this.dataInfo = data.datas
             var dom=document.getElementsByClassName('emendation')[0];
             let dom_edit=document.getElementById('modificationBtn');
@@ -44,7 +44,6 @@ export default {
             if(this.canedit){
                 this.$root.$emit('editdialog');
                 this.$root.$emit("showWindow",this.dataInfo)
-                
             }
 
         },

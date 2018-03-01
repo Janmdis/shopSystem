@@ -29,7 +29,7 @@
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="创建时间" prop='date1'>
-                        <el-date-picker   type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -75,7 +75,7 @@
     }
 </style>
 <script>
-import qs from 'qs'
+    import qs from 'qs'
     export default {
         data() {
             var checkAge = (rule, value, callback) => {
@@ -97,9 +97,9 @@ import qs from 'qs'
             return {
                 dialogVisible: false,
                 ruleForm: {
-                    Cname:'',
-                    backname:'',
-                    backaccount:'',
+                    Cname: '',
+                    backname: '',
+                    backaccount: '',
                     mode: '',
                     name: "",
                     date1: '',
@@ -110,20 +110,20 @@ import qs from 'qs'
                     curDate: [],
                     sourceFns: [],
                     textInfo: '新增会员',
-                    thisId:''
+                    thisId: ''
                 },
                 rules: {
-                    backaccount:[{
+                    backaccount: [{
                         required: true,
                         message: '请输入银行账户',
                         trigger: 'blur'
                     }, ],
-                    backname:[{
+                    backname: [{
                         required: true,
                         message: '请输入银行名称',
                         trigger: 'blur'
                     }, ],
-                    Cname:[{
+                    Cname: [{
                         required: true,
                         message: '请输入公司',
                         trigger: 'blur'
@@ -137,7 +137,7 @@ import qs from 'qs'
                         pattern: /^1[3|4|5|7|8][0-9]{9}$/g,
                         required: true,
                         message: '请输入正确的手机号',
-                         trigger: 'blur'
+                        trigger: 'blur'
                     }, ],
                     date1: [{
                         required: true,
@@ -150,82 +150,87 @@ import qs from 'qs'
         methods: {
             submitForm(formName) {
                 let that = this;
-                if(this.ruleForm.textInfo == "新增会员"){
-                that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm.date1);  
-                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
-                    if (valid) {
-                        let url = '/api/customer/account/insert';
-                        this.$http({
-                                url: url,
-                                method: 'POST',
-                                // 请求体重发送的数据
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                data:[{
-                                    name: this.ruleForm.name,
-                                    mobile: this.ruleForm.mode,
-                                    birthDate: youWant,
-                                    categoryId: this.ruleForm.ctypes,
-                                    recommendedSourceId: this.ruleForm.county,
-                                    consumptionPoints: 0,
-                                    level: 0,
-                                    identity: this.ruleForm.panper
-                                }]
-                            })
-                            .then(response => {
-                                this.dialogVisible = false;
-                                this.$root.$emit('getDatezdy',1)
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                alert('网络错误，不能访问');
-                            })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+                if (this.ruleForm.textInfo == "新增会员") {
+                    that.$refs[formName].validate((valid) => {
+                        var d = new Date(this.ruleForm.date1);
+                        var youWant = d.getFullYear() + '-' + this.getzf((d.getMonth() + 1)) + '-' + this.getzf(d.getDate());
+                        if (valid) {
+                            let url = '/api/product/supplierInfo/insert';
+                            this.$http({
+                                    url: url,
+                                    method: 'POST',
+                                    // 请求体重发送的数据
+                                    // headers: {
+                                    //     'Content-Type': 'application/json'
+                                    // },
+                                    data: {
+                                        "name": "上海弘之云网络科技有限公司",
+                                        "contact": "张总",
+                                        "contactMobile": "17612175684",
+                                        "categoryId": 1,
+                                        "levelId": 1,
+                                        "supplierLabel": [{
+                                                "id": "d264a608-07e1-11e8-a896-6c4b901e385d"
+                                            },
+                                            {
+                                                "id": "ff775481-07e2-11e8-a896-6c4b901e385d"
+                                            }
+                                        ]
+                                    }
+                                })
+                                .then(response => {
+                                    console.log(response)
+                                    this.dialogVisible = false;
+                                    this.$root.$emit('getDatezdy', 1)
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    alert('网络错误，不能访问');
+                                })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
                 }
-                if(this.ruleForm.textInfo == "编辑会员"){
-                that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm.date1);  
-                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
-                    if (valid) {
-                        let url = '/api/customer/account/update';
-                        this.$http({
-                                url: url,
-                                method: 'POST',
-                                // 请求体重发送的数据
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                data: {
-                                    id:this.ruleForm.thisId,
-                                    name: this.ruleForm.name,
-                                    mobile: this.ruleForm.mode,
-                                    birthDate: youWant,
-                                    categoryId: this.ruleForm.ctypes,
-                                    recommendedSourceId: this.ruleForm.county,
-                                    consumptionPoints: 0,
-                                    level: 0,
-                                    identity: this.ruleForm.panper
-                                }
-                            })
-                            .then(response => {
-                                this.dialogVisible = false;
-                                this.$root.$emit('getDatezdy',1)
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                alert('网络错误，不能访问');
-                            })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+                if (this.ruleForm.textInfo == "编辑会员") {
+                    that.$refs[formName].validate((valid) => {
+                        var d = new Date(this.ruleForm.date1);
+                        var youWant = d.getFullYear() + '-' + this.getzf((d.getMonth() + 1)) + '-' + this.getzf(d.getDate());
+                        if (valid) {
+                            let url = '/api/product/supplierInfo/update';
+                            this.$http({
+                                    url: url,
+                                    method: 'POST',
+                                    // 请求体重发送的数据
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    data: {
+                                        id: this.ruleForm.thisId,
+                                        name: this.ruleForm.name,
+                                        mobile: this.ruleForm.mode,
+                                        birthDate: youWant,
+                                        categoryId: this.ruleForm.ctypes,
+                                        recommendedSourceId: this.ruleForm.county,
+                                        consumptionPoints: 0,
+                                        level: 0,
+                                        identity: this.ruleForm.panper
+                                    }
+                                })
+                                .then(response => {
+                                    this.dialogVisible = false;
+                                    this.$root.$emit('getDatezdy', 1)
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    alert('网络错误，不能访问');
+                                })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
                 }
             },
             resetForm(formName) {
@@ -313,8 +318,6 @@ import qs from 'qs'
                     })
                     .then(respone => {
                         this.ruleForm.sourceFns = respone.data.info;
-                        console.log(this.ruleForm.sourceFns)
-                        
                     })
                     .catch(error => {
                         console.log(error);
@@ -327,26 +330,24 @@ import qs from 'qs'
         created: function() {
             this.$root.$on('showWindow', (data) => {
                 if (data != 'no') {
-                    console.log(data[0].id)
                     this.ruleForm.textInfo = '编辑会员';
-                    let url = '/api/customer/account/queryMapByIds'/*'+[data[0].id]*/;
+                    let url = '/api/customer/account/queryMapByIds' /*'+[data[0].id]*/ ;
                     this.$http({
                             url: url,
                             method: 'post',
                             //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
-                            data:[data[0].id]
+                            data: [data[0].id]
                         })
                         .then(respone => {
-                            
                             let infos = respone.data.info[0]
-                            this.ruleForm.thisId=  infos.id
-                            this.ruleForm.mode= infos.mobile,
-                            this.ruleForm.name= infos.name,
-                            this.ruleForm.date1= infos.birthDate,
-                            this.ruleForm.old= infos.age,
-                            this.ruleForm.county= 1,
-                            this.ruleForm.ctypes= 2,
-                            this.ruleForm.panper= 1
+                            this.ruleForm.thisId = infos.id
+                            this.ruleForm.mode = infos.mobile,
+                                this.ruleForm.name = infos.name,
+                                this.ruleForm.date1 = infos.birthDate,
+                                this.ruleForm.old = infos.age,
+                                this.ruleForm.county = 1,
+                                this.ruleForm.ctypes = 2,
+                                this.ruleForm.panper = 1
                             // this.ruleForm.sourceFns = respone.data.info;
                             // console.log(this.ruleForm.sourceFns)
                         })
@@ -354,23 +355,21 @@ import qs from 'qs'
                             console.log(error);
                             alert('网络错误，不能访问');
                         })
-                        this.dialogVisible = true;
-                }else{
+                    this.dialogVisible = true;
+                } else {
                     this.ruleForm.textInfo = '新增会员';
                     this.dialogVisible = true;
-                     this.ruleForm.mode= "",
-                    this.ruleForm.name= "",
-                    this.ruleForm.date1= "",
-                    this.ruleForm.old= "",
-                    this.ruleForm.county= "",
-                    this.ruleForm.ctypes= "",
-                    this.ruleForm.panper= ''
+                    this.ruleForm.mode = "",
+                        this.ruleForm.name = "",
+                        this.ruleForm.date1 = "",
+                        this.ruleForm.old = "",
+                        this.ruleForm.county = "",
+                        this.ruleForm.ctypes = "",
+                        this.ruleForm.panper = ''
                 }
-                
             });
             this.sourceFn();
             this.showData();
-             
         }
     }
 </script>
