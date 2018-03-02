@@ -132,8 +132,7 @@ import { mapState } from 'vuex'
             };
         },
         updated() {
-            // this.$refs.goodtable.toggleRowSelection(this.listgoods[0],true);
-            // this.$refs.goodtable.toggleRowSelection(this.selectedgoods[1],true);
+            // console.log(this.selectedgoods,this.listgoods)
             this.selectedgoods.forEach(row=>{
                 this.listgoods.forEach(good=>{
                     if(JSON.stringify(good)==row){
@@ -201,19 +200,51 @@ import { mapState } from 'vuex'
             // 获取套餐内商品
             getgoodsinpackage(){
                 let that=this;
-                this.$http.post('/api/product/commodity/package/queryCommodityInfoByPackageId?pageSize=50&packageId='+this.id)
-                .then(function(response){
-                    if(response.data.msg=='查询成功'){
-                        let list=response.data.info;
-                        list.forEach(item=>{
-                            let str=JSON.stringify(item);
-                            that.selectedgoods.push(str);
-                        });
-                    }
-                })
-                .catch(function(response){
-                    console.log('套餐商品查询失败');
-                })
+                if(this.flag='addrecommend'){
+                    this.$http.post('/api/product/commodity/relationship/queryLinkedCommodityListByCommodityId?pageSize=50&commodityId='+this.id)
+                    .then(function(response){
+                        if(response.data.msg=='查询成功'){
+                            let list=response.data.info;
+                            list.forEach(item=>{
+                                let imgurl='';
+                                that.imglist.forEach(img=>{
+                                    if(img.commodityId==item.id&&imgurl==''){
+                                        imgurl='http://'+window.location.host+'/api/sms'+img.url;;
+                                    }
+                                })
+                                that.$set(item,'imgurl',imgurl);
+                                let str=JSON.stringify(item);
+                                that.selectedgoods.push(str);
+                            });
+                        }
+                    })
+                    .catch(function(response){
+                        console.log('套餐商品查询失败');
+                    })
+                }
+                else{
+                    this.$http.post('/api/product/commodity/package/queryCommodityInfoByPackageId?pageSize=50&packageId='+this.id)
+                    .then(function(response){
+                        if(response.data.msg=='查询成功'){
+                            let list=response.data.info;
+                            list.forEach(item=>{
+                                let imgurl='';
+                                that.imglist.forEach(img=>{
+                                    if(img.commodityId==item.id&&imgurl==''){
+                                        imgurl='http://'+window.location.host+'/api/sms'+img.url;;
+                                    }
+                                })
+                                that.$set(item,'imgurl',imgurl);
+                                let str=JSON.stringify(item);
+                                that.selectedgoods.push(str);
+                            });
+                        }
+                    })
+                    .catch(function(response){
+                        console.log('套餐商品查询失败');
+                    })
+                }
+                
             },
             changetype(value){
                 this.typeid=value;
@@ -226,16 +257,26 @@ import { mapState } from 'vuex'
                 }
                 else{
                     let list=[];
+                    let recommendlist=[];
                     this.selectedgoods.forEach(item=>{
                         let json={
                             commodityId:JSON.parse(item).id,
                             packageCommodityId:this.id
                         }
                         list.push(json);
+                        recommendlist.push({
+                            commodityId:this.id,
+                            linkedCommodityId:JSON.parse(item).id
+                        });
                     });
                     let that=this;
+                    // 添加商品间关联
+                    if(this.flag=='addrecommend'){
+                        this.addgoods(recommendlist);
+                        // console.log(list);
+                    }
                     // 生成套餐
-                    if(this.flag=='create'){
+                    else if(this.flag=='create'){
                         this.$http.post('/api/product/commodity/info/insertOne',{
                             name:'',
                             categoryId:'1',
@@ -265,7 +306,7 @@ import { mapState } from 'vuex'
                         });  
                     }
                     // 在套餐内添加商品
-                    else if(this.flag='edit'){
+                    else if(this.flag=='edit'){
                         this.addgoods(list);
                     }
                 }
@@ -274,23 +315,44 @@ import { mapState } from 'vuex'
             addgoods(list){
                 let that=this;
                 console.log(list);
-                this.$http.post('/api/product/commodity/package/insert',list)
-                .then(function(response){
-                    if(response.data.msg=='新增成功'){
-                        that.$message.success('商品添加成功！');
-                        that.$root.$emit('editpackage',{id:that.id});
-                        that.dialogVisible=false;
-                        // that.$root.$emit('editpackage',{list,id:response.data.info.id});
-                        // that.dialogVisible=false;
-                    }
-                    else{
-                        that.$message(response.data.msg);
-                    }
-                    // console.log(response);
-                })
-                .catch(function(response){
-                    that.$message('商品添加失败！');
-                }); 
+                if(this.flag=='addrecommend'){
+                    this.$http.post('/api/product/commodity/relationship/insert',list)
+                    .then(function(response){
+                        if(response.data.msg=='新增成功'){
+                            that.$message.success('推荐商品添加成功！');
+                            that.$root.$emit('reloadlist');
+                            that.dialogVisible=false;
+                            // that.$root.$emit('editpackage',{list,id:response.data.info.id});
+                            // that.dialogVisible=false;
+                        }
+                        else{
+                            that.$message(response.data.msg);
+                        }
+                    })
+                    .catch(function(response){
+                        that.$message('商品添加失败！');
+                    }); 
+                }
+                else{
+                    this.$http.post('/api/product/commodity/package/insert',list)
+                    .then(function(response){
+                        if(response.data.msg=='新增成功'){
+                            that.$message.success('商品添加成功！');
+                            that.$root.$emit('editpackage',{id:that.id});
+                            that.dialogVisible=false;
+                            // that.$root.$emit('editpackage',{list,id:response.data.info.id});
+                            // that.dialogVisible=false;
+                        }
+                        else{
+                            that.$message(response.data.msg);
+                        }
+                        // console.log(response);
+                    })
+                    .catch(function(response){
+                        that.$message('商品添加失败！');
+                    }); 
+                }
+                
             },
             handleSizeChange(){},
             handleCurrentChange(currentPage){
@@ -325,6 +387,13 @@ import { mapState } from 'vuex'
                     this.getgoodsinpackage();
                 }
                 this.dialogVisible=true;
+            });
+            this.$root.$on('editrecommend',(data)=>{
+                this.id=data.id;
+                this.flag='addrecommend';
+                this.getType();
+                this.getgoodsinpackage();
+                this.dialogVisible=true;
             });  
         },
         computed: {
@@ -334,6 +403,8 @@ import { mapState } from 'vuex'
         },
         beforeDestroy(){
             this.$root.$off('showWindow');
+            this.$root.$off('editrecommend');
+            
         }
     }
 </script>

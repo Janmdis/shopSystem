@@ -72,6 +72,13 @@
         prop="address"
         label="推荐商品"
         >
+            <template slot-scope="scope">
+                <div class='recommendlist'>
+                    <p v-for="(item,index) in scope.row.recommendcom" :key='index'>{{item}}</p>
+                </div>
+                
+                <el-button type="text" size="small" @click="Editcommond(scope.row)">修改</el-button>
+            </template>
     </el-table-column>
     <el-table-column
         width='180'
@@ -154,6 +161,8 @@ export default {
             .then(response => {
                 if(response.data.msg=='查询成功'){
                     this.datalist=(response.data.info.list);
+                    let result=Promise.resolve();
+                    let fun=this.getRecommendcommodity;
                     this.datalist.forEach(item=>{
                         let imgurl='';
                         this.imglist.forEach(img=>{
@@ -162,7 +171,13 @@ export default {
                             }
                         })
                         this.$set(item,'imgurl',imgurl);
+                        result=result.then(()=>{
+                            fun(item.id).then((data)=>{
+                                this.$set(item,'recommendcom',data);
+                            })
+                        })
                     });
+                    console.log(this.datalist);
                     this.$root.$emit('pages',response.data.info.pages)
                     this.$root.$emit('total',response.data.info.total)
                     this.listLoading =  false;
@@ -178,6 +193,33 @@ export default {
               alert('网络错误，不能访问');
           })
         },
+        // 获取推荐商品
+        getRecommendcommodity(commodityid){
+            return new Promise((resolve, reject)=>{
+                let that=this;
+                this.$http.post('/api/product/commodity/relationship/queryLinkedCommodityListByCommodityId?commodityId='+commodityid)
+                .then(function(response){
+                    if(response.data.msg=='查询成功'){
+                        let list=[];
+                        response.data.info.forEach(item=>{
+                            list.push(item.name);
+                        });
+                        resolve(list);                    
+                    }
+                    else{
+                        resolve([]);
+                    }
+                })
+                .catch(function(response){
+                    console.log(response);
+                    resolve([]);
+                })
+            })
+        },
+        // 修改推荐商品
+        Editcommond(row){
+            this.$root.$emit('editrecommend',row);
+        },
         // 编辑商品
         handleEdit(index,row){
             this.$root.$emit('editcommodity',{id:row.id});
@@ -192,7 +234,7 @@ export default {
             this.changesale([row.id],status);
         },
         deletecommodity(ids){
-            this.$confirm('是否删除图片？','提示',{
+            this.$confirm('是否删除数据？','提示',{
                 confirmButtonText:'确定',
                 cancelButtonText:'取消',
                 type:'warning'
@@ -289,5 +331,18 @@ export default {
 .commodity tr td:nth-child(3) .cell img{
     width:100%;
     height:50px;
+}
+.commodity .recommendlist{
+    height:50px;
+    overflow:auto;
+    position: relative;
+    top:10px;
+}
+.commodity .recommendlist+button{
+    position: relative;
+    top:10px;
+}
+.commodity .recommendlist p{
+    width:max-content;
 }
 </style>

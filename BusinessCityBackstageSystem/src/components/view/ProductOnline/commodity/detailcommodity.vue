@@ -1,5 +1,5 @@
 <template>
-    <div class='detail off' ref='detail'>
+    <div class='detailcommodity off' ref='detailcommodity'>
         <el-row  class='contain'>
             <el-col :span="12" >
                 <el-row>
@@ -282,6 +282,8 @@ export default {
             }
         };
         return {
+            packid:'',
+            from:'',
             id:'',
             listimg:[],
             imgdata:{
@@ -342,13 +344,22 @@ export default {
     created(){
         this.$root.$on('editcommodity',(datas)=>{
             this.id=datas.id;
-            this.$refs.detail.setAttribute('class','detail on');
-
+            this.$refs.detailcommodity.setAttribute('class','detailcommodity on');
             this.getcommodityinfo();
             this.getcategory();
             this.getimglist();
             this.getdatemodel();
-            
+            this.getcitys();
+        });
+        this.$root.$on('editcomm',(data)=>{
+            this.id=data.comid;
+            this.packid=data.packageid;
+            this.from='package';
+            this.$refs.detailcommodity.setAttribute('class','detailcommodity on');
+            this.getcommodityinfo();
+            this.getcategory();
+            this.getimglist();
+            this.getdatemodel();
             this.getcitys();
         });
     },
@@ -410,18 +421,27 @@ export default {
                         periodTemplateId:this.tmid,
                         regionTemplateId:this.areamid,
                         categoryId:this.formmsg.categoryId,
-                        brand:this.formmsg.brand
+                        brand:this.formmsg.brand,
+                        isPackage:0
                     };
                     this.$http.post('/api/product/commodity/info/update',data)
                     .then(function(response){
                         if(response.data.msg=='修改成功'){
-                            that.$message.success('套餐修改成功！');
-                            that.$refs.detail.setAttribute('class','detail off');
-                            that.$root.$emit('reloadlist');
+                            that.$message.success('商品修改成功！');
+                            that.$refs.detailcommodity.setAttribute('class','detailcommodity off');
+                            console.log(that.from);
+                            if(that.from=='package'){
+                                that.$root.$emit('reloadpackage',that.packid);
+                            }
+                            else{
+                                that.$root.$emit('reloadlist');
+                            }
+                            
                         }
                         else{
                             that.$message(response.data,msg);
                         }
+                        cosnole.log(response);
                     })
                     .catch(function(response){
                         console.log(response);
@@ -543,6 +563,9 @@ export default {
             if(res.msg=='文件上传成功'){
                 let url=res.info;
                 this.addimg(url);
+            }
+            else{
+                this.$message(res.msg);
             }
         },
         // 商品添加图片
@@ -1366,12 +1389,13 @@ export default {
     beforeDestroy(){
         // this.$root.$off('adddata');
         this.$root.$off('editpackage');
+        this.$root.$off('editcomm');
     }
 
 }
 </script>
 <style scoped>
-.detail{
+.detailcommodity{
     width: 100%;
     left: 0;
     top: 100px;
@@ -1414,11 +1438,11 @@ export default {
 .btnsgroup .el-button+.el-button{
     margin-left: 10px;
 }
-.detail.off{
+.detailcommodity.off{
     left:150%;
     display: none;
 }
-.detail.on{
+.detailcommodity.on{
     left: 0;
     display: block;
 }
@@ -1620,17 +1644,17 @@ export default {
 /* .detail table{
     margin:10px auto;
 } */
-.detail table tbody .imgcolum{
+.detailcommodity table tbody .imgcolum{
     padding:0;
 }
-.detail table tbody .imgcolum .cell{
+.detailcommodity table tbody .imgcolum .cell{
     width:80px;
     height:35px;
     margin:0 auto;
     padding:0;
     background-color: #ebeef5;
 }
-.detail table tbody .imgcolum .cell img{
+.detailcommodity table tbody .imgcolum .cell img{
     width:80px;
     height:35px;
 }

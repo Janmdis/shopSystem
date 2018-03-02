@@ -5,6 +5,7 @@ import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
 import detailpackage from './detailpackage.vue'
+import  detailcommodity from '@/components/view/ProductOnline/commodity/detailcommodity.vue'
 import qs from 'qs'
 
 export default {
@@ -22,8 +23,7 @@ export default {
       pageSize: 10,
       pageS: 0,
       listLoading: false,
-      delArr:[],
-
+      delArr:[]
     }
 
   },
@@ -148,6 +148,7 @@ export default {
     this.$root.$off('pages');
     this.$root.$off('delBox');
     this.$root.$off('adddata');
+    this.$root.$off('editcommodity');
   },
   components: {
     Lttip,
@@ -155,7 +156,8 @@ export default {
     Datatable,
     showWindows,
     searchBox,
-    detailpackage
+    detailpackage,
+    detailcommodity
   },
 }
 

@@ -38,7 +38,13 @@
         <el-table-column
         prop="productId"
         width='120'
+        style='height:60px;'
         label="商品组">
+            <template slot-scope="scope">
+                <p v-for="(item,index) in scope.row.commoditys" :key='index'>
+                    {{item}}
+                </p>
+            </template>
         </el-table-column>
         <el-table-column
         width='120'
@@ -104,7 +110,9 @@ export default {
             datalist:[],
             // imglist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
+            commoditylist:[],
+            packageids:[]
         }
     },
     created:function(){
@@ -144,23 +152,21 @@ export default {
     },
     methods:{
         getDate(pageIndex,name) {
-            console.log(111,this.imglist);
             this.listLoading =  true;
             let url = '/api/product/commodity/info/query?page='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
-                // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
                 data:{isPackage:1,name:name}
             })
             .then(response => {
-                // console.log(this.imglist);
                 this.listLoading =  false;
                 this.datalist=response.data.info.list;
+                let result=Promise.resolve();
+                let fun=this.getcommoditylist;
                 this.datalist.forEach(item=>{
                     let imgurl='';
-                    console.log(item.createTime);
                     item.createTime=item.createTime.substring(0,10);
                     this.imglist.forEach(img=>{
                         if(img.commodityId==item.id&&imgurl==''){
@@ -168,8 +174,14 @@ export default {
                         }
                     })
                     this.$set(item,'imgurl',imgurl);
+                    // this.getcommoditylist(item.id);
+                    result=result.then(()=>{
+                        fun(item.id).then((data)=>{
+                            this.$set(item,'commoditys',data);
+                        })
+                    })
                 });
-                // console.log(this.datalist)
+                console.log(this.datalist);
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })
@@ -177,6 +189,30 @@ export default {
               console.log(error);
               alert('网络错误，不能访问');
           })
+        },
+        // 获得当前套餐包含的商品组信息
+        getcommoditylist(packageid){
+            return new Promise((resolve, reject)=>{
+                let that=this;
+                this.$http.post('/api/product/commodity/package/queryCommodityInfoByPackageId?packageId='+packageid+'&pageSize=50')
+                .then(function(response){
+                    if(response.data.msg=='查询成功'){
+                        let commoditys=[];
+                        response.data.info.forEach(item=>{
+                            commoditys.push(item.name+'*'+item.displayQuantity);
+                        });
+                        resolve(commoditys);                    
+                    }
+                    else{
+                        resolve();
+                    }
+                })
+                .catch(function(response){
+                    console.log(response);
+                    resolve();
+                })
+            })
+            
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
             //console.log(row,column,cell,event)
@@ -238,7 +274,7 @@ export default {
         },
         deletepackage(ids){
             let that=this;
-            this.$confirm('是否删除图片？','提示',{
+            this.$confirm('是否删除数据？','提示',{
                 confirmButtonText:'确定',
                 cancelButtonText:'取消',
                 type:'warning'
@@ -304,5 +340,15 @@ export default {
 .packagetable tr td:nth-child(4) .cell img{
     width:100%;
     height:55px;
+}
+.packagetable .cell{
+    width:100% !important;
+    height:50px !important;
+    line-height:50px;
+    overflow:auto;
+}
+.packagetable .cell p{
+    width:max-content;
+    line-height:20px;
 }
 </style>

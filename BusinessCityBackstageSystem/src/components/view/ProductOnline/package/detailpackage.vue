@@ -19,7 +19,7 @@
                                 <img :src="scope.row.imgurl" alt="">
                             </template>
                         </el-table-column>
-                        <el-table-column  prop="totalSales" label="数量"  >
+                        <el-table-column  prop="displayQuantity" label="数量"  >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
@@ -296,7 +296,6 @@
 import { mapState } from 'vuex'
 // import imgUp from './userChildren/ImgUp.vue'
 export default {
-    // components:{imgUp},
     data(){
         var checkPrice=(rule,value,callback)=>{
             var pattern = /^(-?\d*.?\d*)$/;
@@ -402,7 +401,17 @@ export default {
             this.getgoodslist();
             this.getcategory();
             this.getimglist();
-            // this.getdatemodel();
+            this.getdateperiod();
+            this.getcitys();
+        });
+        this.$root.$on('reloadpackage',(id)=>{
+            this.listtime=[];
+            this.id=id;
+            this.$refs.detail.setAttribute('class','detail on');
+            this.getpackageinfo();
+            this.getgoodslist();
+            this.getcategory();
+            this.getimglist();
             this.getdateperiod();
             this.getcitys();
         });
@@ -491,7 +500,10 @@ export default {
             console.log(value);
         },
         // 编辑商品
-        handleEdit(){},
+        handleEdit(index,row){
+            this.$root.$emit('editcomm',{comid:row.id,packageid:this.id});
+            this.$refs.detail.setAttribute('class','detail off');
+        },
         // 删除商品
         handleDelete(index,row){
             let that=this;
@@ -1472,6 +1484,10 @@ export default {
                 let url=res.info;
                 this.addimg(url);
             }
+            else{
+                this.$message(res.msg);
+            }
+            
         },
         // 套餐添加图片
         addimg(url){
@@ -1547,6 +1563,8 @@ export default {
     beforeDestroy(){
         // this.$root.$off('adddata');
         this.$root.$off('editpackage');
+        this.$root.$off('reloadpackage');
+        
     }
 
 }

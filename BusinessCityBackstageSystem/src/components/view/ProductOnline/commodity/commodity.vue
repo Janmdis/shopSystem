@@ -39,6 +39,7 @@
         <shopDetails></shopDetails>
         <showWindows></showWindows>
         <detailcommodity></detailcommodity>
+        <commoditywindow></commoditywindow>
     </el-main>
 </template>
 <script>
