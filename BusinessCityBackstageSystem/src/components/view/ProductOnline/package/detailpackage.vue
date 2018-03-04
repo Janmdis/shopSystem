@@ -19,7 +19,7 @@
                                 <img :src="scope.row.imgurl" alt="">
                             </template>
                         </el-table-column>
-                        <el-table-column  prop="totalSales" label="数量"  >
+                        <el-table-column  prop="displayQuantity" label="数量"  >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
@@ -296,7 +296,6 @@
 import { mapState } from 'vuex'
 // import imgUp from './userChildren/ImgUp.vue'
 export default {
-    // components:{imgUp},
     data(){
         var checkPrice=(rule,value,callback)=>{
             var pattern = /^(-?\d*.?\d*)$/;
@@ -306,6 +305,9 @@ export default {
             }
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
+            }
+            else {
+                callback()
             } 
         };
         var checkQuantity=(rule,value,callback)=>{
@@ -316,6 +318,9 @@ export default {
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
             } 
+            else {
+                callback()
+            }
         };
         var checkSales=(rule,value,callback)=>{
             var pattern = /^(-?\d*.?\d*)$/;
@@ -325,6 +330,9 @@ export default {
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
             } 
+            else {
+                callback()
+            }
         };
         return {
             id:'',
@@ -393,7 +401,17 @@ export default {
             this.getgoodslist();
             this.getcategory();
             this.getimglist();
-            // this.getdatemodel();
+            this.getdateperiod();
+            this.getcitys();
+        });
+        this.$root.$on('reloadpackage',(id)=>{
+            this.listtime=[];
+            this.id=id;
+            this.$refs.detail.setAttribute('class','detail on');
+            this.getpackageinfo();
+            this.getgoodslist();
+            this.getcategory();
+            this.getimglist();
             this.getdateperiod();
             this.getcitys();
         });
@@ -482,7 +500,10 @@ export default {
             console.log(value);
         },
         // 编辑商品
-        handleEdit(){},
+        handleEdit(index,row){
+            this.$root.$emit('editcomm',{comid:row.id,packageid:this.id});
+            this.$refs.detail.setAttribute('class','detail off');
+        },
         // 删除商品
         handleDelete(index,row){
             let that=this;
@@ -538,6 +559,10 @@ export default {
                         if(response.data.msg=='修改成功'){
                             that.$message.success('套餐修改成功！');
                             that.$refs.detail.setAttribute('class','detail off');
+                            that.$root.$emit('reloadpackagelist');
+                        }
+                        else{
+                            that.$message(response.data,msg);
                         }
                         console.log(response);
                     })
@@ -631,11 +656,19 @@ export default {
                     //         }
                     //     });
                     // }
-                    that.listmodaltime.forEach(item=>{
-                        if(that.tmid==item.id){
-                            that.tmselected=item.name;
-                        }
-                    });
+                    if(that.tmtype=='delete'){
+                        that.tmid=that.listmodaltime[0].id;
+                        that.tmselected=that.listmodaltime[0].name;  
+                        that.tmtype='' 
+                    }
+                    else{
+                        that.listmodaltime.forEach(item=>{
+                            if(that.tmid==item.id){
+                                that.tmselected=item.name;
+                            }
+                        });
+                    }
+                    // console.log(that.tmid,that.listmodaltime,that.tmselected);
                     that.tmvalue=that.tmselected;
                     that.getdatedetail();
                 }
@@ -753,13 +786,13 @@ export default {
         // 删除时间模板
         deletetimetable(){
             if(this.tmid!=''&&this.tmid!=null){
-                this.tmtype='delete';
                 let that=this;
                 this.$confirm('是否删除该商品', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.tmtype='delete';
                     this.$http.post('/api/product/commodity/periodTemplate/remove',[this.tmid])
                     .then(function(response){
                         if(response.data.msg=='删除成功'){
@@ -988,16 +1021,15 @@ export default {
                             data.forEach(item=>{
                                 item.templateId=that.tmid
                             });
-                            // console.log(data);
                             that.adddaterelation(data,'模板新增成功！');
-                            that.getdatemodel(currentvalue);   
+                            that.getdatemodel();   
                         }
                         else{
                             that.$message('模板保存失败！');
                         }
                     })
                     .catch(function(response){
-                        console.log(response.data.msg);
+                        console.log(response);
                     })
                     this.tmtype='';
                 }
@@ -1038,12 +1070,20 @@ export default {
                     // that.areamvalue=that.areamselected;
                     // that.areamid=that.listmodalarea[0].id;
                     // that.citymid=that.listmodalarea[0].cityId;
-                    that.listmodalarea.forEach(item=>{
-                        if(item.id==that.areamid){
-                            that.citymid=item.cityId;
-                            that.areamselected=item.name;
-                        }
-                    });
+                    if(that.typearea=='delete'){
+                        that.citymid=that.listmodalarea[0].cityId;
+                        that.areamselected=that.listmodalarea[0].name;
+                        that.areamid=that.listmodalarea[0].id;
+                        that.typearea='';
+                    }
+                    else{
+                        that.listmodalarea.forEach(item=>{
+                            if(item.id==that.areamid){
+                                that.citymid=item.cityId;
+                                that.areamselected=item.name;
+                            }
+                        });
+                    }
                     that.areamvalue=that.areamselected;
                     if(that.cityvalue==''){
                         // 获取默认城市
@@ -1242,6 +1282,7 @@ export default {
                         type: 'warning'
                     }).then(() => {
                         // 删除模板
+                        this.typearea='delete'
                         this.$http.post('/api/product/commodity/regionTemplate/remove',[that.areamid])
                         .then(function(response){
                             if(response.data.msg=='删除成功'){
@@ -1272,7 +1313,6 @@ export default {
                 if(response.data.msg=='删除成功'){
                     if(type=='delete'){
                         that.$message.success('删除成功');
-                        that.typearea='';
                         let dom=document.getElementsByClassName('areaservice')[0].querySelector('.title');
                         dom.setAttribute('class','title el-input none');
                         dom.querySelector('.el-input__inner').setAttribute('disabled','');
@@ -1444,6 +1484,10 @@ export default {
                 let url=res.info;
                 this.addimg(url);
             }
+            else{
+                this.$message(res.msg);
+            }
+            
         },
         // 套餐添加图片
         addimg(url){
@@ -1519,6 +1563,8 @@ export default {
     beforeDestroy(){
         // this.$root.$off('adddata');
         this.$root.$off('editpackage');
+        this.$root.$off('reloadpackage');
+        
     }
 
 }
