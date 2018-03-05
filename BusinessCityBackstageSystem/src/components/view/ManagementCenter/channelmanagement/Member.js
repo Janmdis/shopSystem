@@ -3,7 +3,8 @@ import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
-import showWindows from './showWindow.vue'
+import createchannel from './createchannel.vue'
+import dialogemployee from './DialogEmployee.vue'
 import qs from 'qs'
 
 export default {
@@ -12,7 +13,7 @@ export default {
   data() {
     return {
       valuesearch: '',
-      namepage: '套餐',
+      namepage: '渠道管理',
       currentPage1: 1,
       searchFn: '',
       isActive: false,
@@ -22,7 +23,6 @@ export default {
       pageS: 0,
       listLoading: false,
       delArr:[],
-
     }
 
   },
@@ -79,7 +79,11 @@ export default {
     })
     },
     show: function (val) {
-      this.searchUsers()
+      this.$root.$emit('searchchannellist',this.valuesearch);
+      // this.searchUsers()
+    },
+    research(){
+      this.$root.$emit('searchchannellist');
     },
     searchUsers() {
       let para = {
@@ -117,10 +121,9 @@ export default {
 
     },
     showWindowx() {
-      this.$root.$emit("showWindow",'no')
+      this.$root.$emit("createchannel")
     },
     closeInfo() {
-
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -141,8 +144,9 @@ export default {
     Lttip,
     search,
     Datatable,
-    showWindows,
-    searchBox
+    searchBox,
+    createchannel,
+    dialogemployee
   },
 }
 
