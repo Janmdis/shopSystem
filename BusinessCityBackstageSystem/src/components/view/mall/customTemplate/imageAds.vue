@@ -4,7 +4,7 @@
         <div>
             <div class="block">
                 <el-carousel trigger="click" width='614px'>
-                    <el-carousel-item v-for='(item,index) in ImgArr' :key='index'>
+                    <el-carousel-item v-for='(item,index) in imglist' :key='index'>
                         <h3 class="Imgsize"><a href="javascript:;"><img class="Imgsize" :src="item.img" /></a></h3>
                     </el-carousel-item>
                 </el-carousel>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="imgLists">
                     <ul class="imgListUL">
-                        <li  v-for='(item,index) in ImgArr' :key='index'>
+                         <li  v-for='(item,index) in imglist' :key='index'>
                             <div class="carouselListInfo">
                                 <div class="bannerEditContent">
                                     <div class="chooseImg" style="width: 243px;height:141px;">
@@ -34,12 +34,12 @@
                                     <div class="reLoadingImg">
                                         <el-upload
                                             class="avatar-uploader"
-                                            :action="importFileUrl"
+                                            :action="imgAdDate.importFileUrl"
                                             :show-file-list="false"
-                                            :data="item.urlImg"
+                                            :data="imgAdDate.admin"
                                             name='fileUpload'
-                                            :type='admin'
                                             :on-success="handleAvatarSuccess"
+                                            @change.native="imgUploads(index)"
                                             :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
                                         </el-upload>
                                         <p style="line-height: 887%;text-align: center;">重新上传 建议比例（15:7）</p>
@@ -55,7 +55,7 @@
                                         </span>
                                         <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
                                             <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
-                                            <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                                            <el-dropdown-item @click.native="opendialogSelf(index)" style="margin-top:10px;">自定义</el-dropdown-item>
                                         </el-dropdown-menu>
                                         </el-dropdown>
                                     </div>
@@ -70,56 +70,43 @@
      </div> 
 </template>
 <script>
-
 import { mapState,mapMutations,mapGetters } from 'vuex'
 
     export default{
         data() {
             return{
-                importFileUrl:'',
-                admin:'',
-                defaultImgObj:{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
-                            url:'',
-                            urlImg:''
-                        },
-                ImgArr:[
-                        {
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
-                            url:'',
-                            urlImg:''
-                        },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
-                            url:'',
-                            urlImg:''
-                        },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517226158648&di=17f12755288182fb3d22662116b917aa&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16838_sc115.com.jpg",
-                            url:'',
-                            urlImg:''
-                        },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304770&di=fd7f38f44865d3dd961d24dea0e265f7&imgtype=0&src=http%3A%2F%2Fpic22.nipic.com%2F20120718%2F5135035_193813111000_2.jpg",
-                            url:'',
-                            urlImg:''
-                        },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=23cccc5f58a5cab6420036e616b83a5f&imgtype=0&src=http%3A%2F%2Fpic107.nipic.com%2Ffile%2F20160816%2F20860925_080643495000_2.jpg",
-                            url:'',
-                            urlImg:''
-                        }
-                    ],
+                imglist:'',
+                imgAdDate:'',
                 dataid:'',
-                imageUrl: '',
+                imgIndex:'',
+                images:'',
+                imageUrl:''
+
             }
         },
-        props:['templatedata'],
+        props:['templatedata'],// templateInfo接受父组件传入的数据
         created:function(){
-          this.dataid=this.templatedata;
+          this.dataid = this.templatedata;
+          console.log(this.comlist[this.dataid])
+          this.imglist=this.comlist[this.dataid].componentsData.ImgArr;
+          console.log(this.imglist)
+          this.imgAdDate = this.comlist[this.dataid].componentsData
         },
         computed:mapState({
-            // adImgArr
+            comlist:state => state.adImageList.comlist
         }),
+        watch:{
+            // imgAdDate(val,oldVal){
+            //     this.imgAdDate = val
+            // }
+            // "$store.state.adImageList.comlist":function(){
+            //     console.log(this.$store.state.adImageList.comlist)
+            //    this.comlist = this.$emit.state.comlist
+            // }
+        },
         methods:{
           delete(){
-            this.$root.$emit('deleteID',this.dataid);
+              this.$store.commit('deleteTemplate',this.dataid)//对应组件的标识
                 return{
                     type:'success',
                     message:'删除成功!'
@@ -142,37 +129,64 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             
          },
          deleteImgAd(index){
-             let list=[];
-            for(let i=0;i<this.ImgArr.length;i++){
-                if(this.ImgArr.length <= 1){
-                    this.$message({
-                     type: 'warning',
-                     message: '至少有一张图片广告！'
-                    });
-                    return false
+             //删除vuex 内部 state数据
+              let indexs = index
+              let dataid = this.dataid
+              this.$store.commit('deleteImgAD',{dataid,indexs})//对应组件的标识
+              //读取 vuex state 方法
+            //   console.log(this.$store.state.adImageList)
+            //   this.imglist = this.$store.state.adImageList.comlist[this.dataid].componentsData.ImgArr;
+            //   this.imgAdDate = this.$store.state.adImageList.comlist[this.dataid].componentsData;
+              //删除组件内部数据
+               let list=[];
+                for(let i=0;i<this.imglist.length;i++){
+                    if(this.imglist.length <= 1){
+                        this.$message({
+                        type: 'warning',
+                        message: '至少有一张图片广告！'
+                        });
+                        return false
+                    }
+                    if(index!=i){
+                        list.push(this.imglist[i]);
+                        this.$message({
+                        type: 'success',
+                        message: '删除成功！'
+                        });
+                    }
                 }
-                if(index!=i){
-                    list.push(this.ImgArr[i]);
-                     this.$message({
-                     type: 'success',
-                     message: '删除成功！'
-                    });
-                }
-            }
-            this.ImgArr=list;
+                this.imglist=list;
          },
          addNewImg(){
-             if(this.ImgArr.length >= 5){
+             this.$store.commit('addNewImgAD',this.dataid)//对应组件的标识
+             if(this.imglist.length >= 5){
                  this.$message({
                      type: 'warning',
                      message: '最多添加5张图片广告！'
                  });
                   return false
              }
-             this.ImgArr.push(this.defaultImgObj)
+             this.imglist.push(this.imgAdDate.defaultImgObj)
          },
         handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+            // this.imgAdDate.imageUrl = URL.createObjectURL(file.raw);
+             console.log(res,file);
+            let hostName = location.hostname;
+            let port = location.port;
+            this.images = res.info;
+            this.imageUrl = 'http://' + hostName + ':' + port + '/api/sms' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
+            console.log(this.imgIndex)
+            this.imglist[this.imgIndex].img = this.imageUrl; //  显示图片需要 图片显示的地址
+            this.imglist[this.imgIndex].imgSrc = this.images; //  上传后台需要 的图片地址
+            let indexs = this.imgIndex
+            let dataid = this.dataid
+            let imageUrls = this.imageUrl
+            let imageSrc = this.images
+            this.$store.commit('adUploadImage',{dataid,indexs,imageUrls,imageSrc})//对应组件的标识
+        },
+        imgUploads(index){
+            //alert(index)
+            this.imgIndex = index
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg';
@@ -181,7 +195,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             const isBMP = file.type === 'image/bmp';
             const isLt2M = file.size / 1024 / 1024 < 2;
 
-            if (!isJPG && !isPNG && !isGIF && !isBMP) {
+            if (!isJPG && !isPNG &IF && !isBMP) {
                this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
             }
             if (!isLt2M) {
@@ -191,9 +205,13 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
         },
          opendialogPro(){
              this.$root.$emit('opendialogProduct',true)
+
          },
-         opendialogSelf(){
+         opendialogSelf(index){
              this.$root.$emit('opendialogSelf',true)
+             let indexs = index;
+             let dataids = this.dataid
+             this.$root.$emit('customizeData',{indexs,dataids})
          }
         }
     }

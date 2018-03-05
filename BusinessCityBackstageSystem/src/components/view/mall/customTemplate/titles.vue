@@ -55,7 +55,6 @@
   import colorPicker from './../../../../assets/plugin/vue-color-picker/colorPicker'
 
     export default{
-       props:['type'],
         data() {
             return{
                 dataid:'',

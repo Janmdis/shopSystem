@@ -89,7 +89,7 @@
                             classTitle:'眼镜',
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488955&di=f1b060007ffda0586fd4da75a253c416&imgtype=0&src=http%3A%2F%2Fpic5.photophoto.cn%2F20071221%2F0042040377755194_b.jpg",
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },
                         classNameContent:{
                             width:''
@@ -99,27 +99,27 @@
                             classTitle:'眼镜',
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488955&di=f1b060007ffda0586fd4da75a253c416&imgtype=0&src=http%3A%2F%2Fpic5.photophoto.cn%2F20071221%2F0042040377755194_b.jpg",
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                             classTitle:'数码',
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488954&di=058542566eec0d937a415473a930b1b1&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F120528%2F188952-12052Q25F491.jpg",
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                             classTitle:'家电',
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488953&di=c706244511f07c831376fd56fb0e7ae0&imgtype=0&src=http%3A%2F%2Fpic122.nipic.com%2Ffile%2F20170217%2F20860925_143422405000_2.jpg",
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                             classTitle:'食品',
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488952&di=208a08cf210957a1fa56a66d3b426b5e&imgtype=0&src=http%3A%2F%2Fimg.ivsky.com%2Fimg%2Ftupian%2Fpre%2F201009%2F09%2Fmeishidacan-001.jpg",
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                             classTitle:'衣服',
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488952&di=84d4428946d26a09e3f91d2211212bbc&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F5243fbf2b211931357dcbe446f380cd790238da3.jpg",
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         }
                     ]
             }
