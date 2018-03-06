@@ -133,7 +133,7 @@
                             },
                             img:'http://img4.duitang.com/uploads/item/201312/05/20131205172039_wi35Z.jpeg',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                             boxesDivStyle:{
                                 boxesBorShow:false,
@@ -157,7 +157,7 @@
                             },
                             img:'http://img5q.duitang.com/uploads/item/201312/05/20131205172424_FQzWK.jpeg',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                             boxesDivStyle:{
                                 boxesBorShow:false,
@@ -181,7 +181,7 @@
                             },
                             img:'http://img4q.duitang.com/uploads/item/201312/05/20131205172424_THnfV.thumb.700_0.jpeg',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                              boxesDivStyle:{
                                 boxesBorShow:false,
@@ -205,7 +205,7 @@
                             },
                             img:'http://cdn.duitang.com/uploads/item/201312/05/20131205172050_4ttnU.jpeg',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                              boxesDivStyle:{
                                 boxesBorShow:false,
@@ -229,7 +229,7 @@
                             },
                             img:'http://img4.duitang.com/uploads/item/201312/05/20131205172258_X5LBL.jpeg',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                              boxesDivStyle:{
                                 boxesBorShow:false,
@@ -253,7 +253,7 @@
                             },
                             img:'http://img5.duitang.com/uploads/item/201312/05/20131205172032_ydsME.jpeg',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         }
                 ]
             }

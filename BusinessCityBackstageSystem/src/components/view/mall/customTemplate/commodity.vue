@@ -38,9 +38,9 @@
                             <p class="styleTitle">列表样式：</p>
                             <div class="styleBtn">
                                 <ul class="styleUl">
-                                    <li @click='switchbtn($event,1)' class="styleBorderBtn on">大图</li>
-                                    <li @click='switchbtn($event,2)' class="styleBorderBtn">小图</li>
-                                    <li @click='switchbtn($event,3)' class="styleBorderBtn">一大两小</li>
+                                    <li @click='switchbtn($event,1)' class="styleBorderBtn" v-bind:class="bigImgBtn">大图</li>
+                                    <li @click='switchbtn($event,2)' class="styleBorderBtn" v-bind:class="smImgBtn">小图</li>
+                                    <li @click='switchbtn($event,3)' class="styleBorderBtn" v-bind:class="bsImgBtn">一大两小</li>
                                 </ul>
                                 <div style="clear:both;"></div>
                             </div>
@@ -181,6 +181,15 @@
                 bigImg:24,
                 smallImg:24,
                 bigsImg:24, // 列表风格 0 大图 1 小图 2 一大两小
+                bigImgBtn:{
+                    onBtn:true
+                },
+                smImgBtn:{
+                    onBtn:false
+                },
+                bsImgBtn:{
+                    onBtn:false
+                },
                 productImgURL1:'',//商品1链接地址
                 productImgSrc1:require('./../../../../assets/templateImg.jpg'),//商品1图片地址
                 productImgURL2:'',//商品2链接地址
@@ -189,13 +198,30 @@
                 productImgSrc3:require('./../../../../assets/templateImg.jpg'), //商品3图片地址
                 importFileUrl:'',
                 admin:'',
-                urlImg:''
+                urlImg:{}
             }
         },
         created:function(){
           console.log(this.dataid)
           this.dataid=this.templatedata;
         },
+        // mounted:function(){
+        //      if(this.bigImg == 24 && this.smallImg == 24 && this.bigsImg == 24){
+        //         this.bigImgBtn.onBtn = true;
+        //         this.smImgBtn.onBtn = false;
+        //         this.bsImgBtn.onBtn = false;
+        //       }
+        //       else if(this.bigImg == 12 && this.smallImg == 12 && this.bigsImg == 12){
+        //         this.bigImgBtn.onBtn = false;
+        //         this.smImgBtn.onBtn = true;
+        //         this.bsImgBtn.onBtn = false;
+        //       }
+        //       else if(this.bigImg == 24 && this.smallImg == 12 && this.bigsImg == 12){
+        //         this.bigImgBtn.onBtn = false;
+        //         this.smImgBtn.onBtn = false;
+        //         this.bsImgBtn.onBtn = true;
+        //       }
+        // },
         methods:{
           delete(){
             this.$root.$emit('deleteID',this.dataid);
@@ -250,23 +276,33 @@
                 this.bigImg = 24;
                 this.smallImg = 24;
                 this.bigsImg = 24;
+                this.bigImgBtn.onBtn = true;
+                this.smImgBtn.onBtn = false;
+                this.bsImgBtn.onBtn = false;
               }
               else if(index == 2){
                 this.bigImg = 12;
                 this.smallImg = 12;
                 this.bigsImg = 12;
+                this.bigImgBtn.onBtn = false;
+                this.smImgBtn.onBtn = true;
+                this.bsImgBtn.onBtn = false;
               }
               else if(index == 3){
                 this.bigImg = 24;
                 this.smallImg = 12;
                 this.bigsImg = 12;
+                this.bigImgBtn.onBtn = false;
+                this.smImgBtn.onBtn = false;
+                this.bsImgBtn.onBtn = true;
               }
-              let target=e.target.tagName=='li'?e.target.parentNode:e.target;
-              let lis=target.parentNode.getElementsByTagName('li');
-              for(let i=0;i<lis.length;i++){
-                  lis[i].setAttribute('class','styleBorderBtn');
-              }
-              target.setAttribute('class','styleBorderBtn on');
+            //原生JS切换 改变class方法
+            //   let target=e.target.tagName=='li'?e.target.parentNode:e.target;
+            //   let lis=target.parentNode.getElementsByTagName('li');
+            //   for(let i=0;i<lis.length;i++){
+            //       lis[i].setAttribute('class','styleBorderBtn');
+            //   }
+            //   target.setAttribute('class','styleBorderBtn on');
           }
         }
     }
@@ -381,7 +417,7 @@
  .styleTitle{float:left;padding-left:16px;padding-top:5px;}
  .styleBorderBtn{    float: left;
     padding: 8px 11px;
-    background: #00adab;
+    background: #27a1f2;
     color:#fff;
     width: 82px;cursor: pointer;
     text-align: center;}
@@ -394,8 +430,8 @@
     .styleUl :nth-child(3){
        border-radius: 0px 5px 5px 0px;
     }
-.on{
-   background:#018a88;
+.onBtn{
+   background:#0288e2;
 }
 
 
