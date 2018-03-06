@@ -6,6 +6,7 @@ import search from './search.vue'
 import showWindows from './showWindow.vue'
 import shopDetails from './shopDetails.vue'
 import detailcommodity from './detailcommodity.vue'
+import commoditywindow from '../package/showWindow.vue'
 import qs from 'qs'
 export default {
   
@@ -129,7 +130,7 @@ export default {
 
     },
     showWindow() {
-      this.$root.$emit("showWindow")
+      this.$root.$emit("showWindowcommodity")
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -160,7 +161,8 @@ export default {
     showWindows,
     searchBox,
     shopDetails,
-    detailcommodity
+    detailcommodity,
+    commoditywindow
   },
 }
 

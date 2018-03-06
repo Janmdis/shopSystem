@@ -38,7 +38,7 @@
         </div>
         <detailpackage></detailpackage>
         <showWindows></showWindows>
-        
+        <detailcommodity></detailcommodity>
     </el-main>
 </template>
 <script>

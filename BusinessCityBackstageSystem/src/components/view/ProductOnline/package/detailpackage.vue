@@ -19,7 +19,7 @@
                                 <img :src="scope.row.imgurl" alt="">
                             </template>
                         </el-table-column>
-                        <el-table-column  prop="totalSales" label="数量"  >
+                        <el-table-column  prop="displayQuantity" label="数量"  >
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
@@ -296,7 +296,6 @@
 import { mapState } from 'vuex'
 // import imgUp from './userChildren/ImgUp.vue'
 export default {
-    // components:{imgUp},
     data(){
         var checkPrice=(rule,value,callback)=>{
             var pattern = /^(-?\d*.?\d*)$/;
@@ -306,6 +305,9 @@ export default {
             }
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
+            }
+            else {
+                callback()
             } 
         };
         var checkQuantity=(rule,value,callback)=>{
@@ -316,6 +318,9 @@ export default {
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
             } 
+            else {
+                callback()
+            }
         };
         var checkSales=(rule,value,callback)=>{
             var pattern = /^(-?\d*.?\d*)$/;
@@ -325,6 +330,9 @@ export default {
             else if (!pattern.test(value)) {
                 callback(new Error('请输入正确的内容'));
             } 
+            else {
+                callback()
+            }
         };
         return {
             id:'',
@@ -393,7 +401,17 @@ export default {
             this.getgoodslist();
             this.getcategory();
             this.getimglist();
-            // this.getdatemodel();
+            this.getdateperiod();
+            this.getcitys();
+        });
+        this.$root.$on('reloadpackage',(id)=>{
+            this.listtime=[];
+            this.id=id;
+            this.$refs.detail.setAttribute('class','detail on');
+            this.getpackageinfo();
+            this.getgoodslist();
+            this.getcategory();
+            this.getimglist();
             this.getdateperiod();
             this.getcitys();
         });
@@ -482,7 +500,10 @@ export default {
             console.log(value);
         },
         // 编辑商品
-        handleEdit(){},
+        handleEdit(index,row){
+            this.$root.$emit('editcomm',{comid:row.id,packageid:this.id});
+            this.$refs.detail.setAttribute('class','detail off');
+        },
         // 删除商品
         handleDelete(index,row){
             let that=this;
@@ -538,6 +559,10 @@ export default {
                         if(response.data.msg=='修改成功'){
                             that.$message.success('套餐修改成功！');
                             that.$refs.detail.setAttribute('class','detail off');
+                            that.$root.$emit('reloadpackagelist');
+                        }
+                        else{
+                            that.$message(response.data,msg);
                         }
                         console.log(response);
                     })
@@ -619,18 +644,6 @@ export default {
             .then(function(response){
                 if(response.data.msg=='查询成功'){
                     that.listmodaltime=response.data.info;
-                    // console.log();
-                    // if(that.tmid==null||that.tmid==''){
-                    //     that.tmid=that.listmodaltime[0].id;
-                    //     that.tmselected=that.listmodaltime[0].name;   
-                    // }
-                    // else{
-                    //     that.listmodaltime.forEach(item=>{
-                    //         if(that.tmid==item.id){
-
-                    //         }
-                    //     });
-                    // }
                     if(that.tmtype=='delete'){
                         that.tmid=that.listmodaltime[0].id;
                         that.tmselected=that.listmodaltime[0].name;  
@@ -799,6 +812,7 @@ export default {
             let that=this;
             this.$http.post('/api/public/period/queryMap')
             .then(function(response){
+                console.log(response);
                 if(response.data.msg=='查询成功'){
                     let listperiod=response.data.info;
                     listperiod.forEach(item=>{
@@ -812,9 +826,9 @@ export default {
                             saturday:false,
                             sunday:false,
                             periodId:item.id
-                        });
-                        that.getdatemodel();
+                        }); 
                     });
+                    that.getdatemodel();
                 }
                 else{
                     that.$message(response.data.msg);
@@ -1459,6 +1473,10 @@ export default {
                 let url=res.info;
                 this.addimg(url);
             }
+            else{
+                this.$message(res.msg);
+            }
+            
         },
         // 套餐添加图片
         addimg(url){
@@ -1534,6 +1552,8 @@ export default {
     beforeDestroy(){
         // this.$root.$off('adddata');
         this.$root.$off('editpackage');
+        this.$root.$off('reloadpackage');
+        
     }
 
 }

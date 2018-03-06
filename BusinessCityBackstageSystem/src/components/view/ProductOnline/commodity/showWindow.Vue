@@ -199,7 +199,8 @@
                 })
                 .then(function(response){
                     if(response.data.msg=='新增成功'){
-                        that.$root.$emit('editcommidity',response.data.info.id);
+                        that.$root.$emit('editcommodity',{id:response.data.info.id});
+                        that.dialogVisible=false;
                     }
                     else{
                         that.$message('操作失败');
@@ -224,13 +225,13 @@
             },
         },
         created: function() {
-            this.$root.$on('showWindow', (datas) => {
+            this.$root.$on('showWindowcommodity', (datas) => {
                 this.getType();
                 this.dialogVisible=true;
             });  
         },
         beforeDestroy(){
-            this.$root.$off('showWindow');
+            this.$root.$off('showWindowcommodity');
         }
     }
 </script>

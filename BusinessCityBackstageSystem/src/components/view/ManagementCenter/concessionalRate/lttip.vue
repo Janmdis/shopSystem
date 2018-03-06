@@ -6,11 +6,14 @@
             </h3>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
-                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                <!--<li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 上架
                 </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 下架
+                </li>!-->
+                 <li id="modificationBtn" class='other' @click="edit">
+                    <i class='el-icon-edit-outline'></i> 编辑
                 </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除

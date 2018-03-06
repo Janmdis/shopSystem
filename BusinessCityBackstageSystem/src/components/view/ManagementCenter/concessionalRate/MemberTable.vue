@@ -21,15 +21,17 @@
         <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
-        prop="couponName "
+        prop="couponName"
         label="优惠劵名称">
         </el-table-column>
         <el-table-column
         prop="starTime"
+        width='200'
         label="使用时间">
         </el-table-column>
          <el-table-column
         prop="endTime"
+        width='200'
         label="结束时间">
         </el-table-column>
         <el-table-column
@@ -45,12 +47,16 @@
         label="说明">
         </el-table-column>
         <el-table-column
-        prop="couponType"
         label="类型">
+            <template slot-scope="scope">
+                <span >{{scope.row.couponType==0?'满减':scope.row.couponType==1?"专享":'无门槛'}}</span>
+            </template>
         </el-table-column>
         <el-table-column
-        prop="couponStatus"
         label="状态">
+        <template slot-scope="scope">
+                <span >{{scope.row.couponStatus==0?'过期':scope.row.couponStatus==1?"可使用":''}}</span>
+            </template>
         </el-table-column>
     </el-table>
 </template>
