@@ -17,7 +17,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <search></search>
+                <!--<search></search>!-->
             </el-row>
         </div>
         <div class="memberMain">

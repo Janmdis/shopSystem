@@ -35,7 +35,7 @@ export default {
     })
     this.$root.$on("delBox", (data) => {
       for (var values  of data) {
-        this.delArr.push(values.id)
+        this.delArr.push({id:values.id, isActive:false})
       }
       this.clearBox()
     })
@@ -48,10 +48,10 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
     }).then(()=>{
-        this.$http.post('/api/customer/account/remove',this.delArr)
+        this.$http.post('/api/product/coupon/info/update',this.delArr)
         .then(function (response) {
             console.log(response);
-            if(response.data.msg=='删除成功'){
+            if(response.data.status=='200'){
                 that.$message({
                     type:'success',
                     message:'删除成功!'

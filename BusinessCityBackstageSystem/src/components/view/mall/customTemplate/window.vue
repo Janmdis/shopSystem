@@ -133,7 +133,7 @@
                             },
                             img:'http://img2.imgtn.bdimg.com/it/u=2862368089,191433258&fm=27&gp=0.jpg',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                             boxesDivStyle:{
                                 boxesBorShow:false,
@@ -157,7 +157,7 @@
                             },
                             img:'http://img5q.duitang.com/uploads/item/201312/05/20131205172346_TjxGy.thumb.700_0.png',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                             boxesDivStyle:{
                                 boxesBorShow:false,
@@ -181,7 +181,7 @@
                             },
                             img:'http://img5.duitang.com/uploads/item/201312/05/20131205171953_Pw4tu.thumb.700_0.jpeg',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         },{
                              boxesDivStyle:{
                                 boxesBorShow:false,
@@ -191,7 +191,7 @@
                                 lineBorShow:false,
                                 lineBorHide:true
                                 },
-                                notDivBtn:{
+                            notDivBtn:{
                                 notBtnShow:true,
                                 notBtnHide:false
                             },
@@ -205,7 +205,7 @@
                             },
                             img:'http://imgq.duitang.com/uploads/item/201312/05/20131205172408_FQefT.thumb.700_0.jpeg',
                             url:'',
-                            urlImg:''
+                            urlImg:{}
                         }
                 ]
             }
@@ -239,7 +239,7 @@
             
          },
          notBorder(index){
-             this.winImgArr[index].boxesDivStyle.boxesBorShow = false;
+              this.winImgArr[index].boxesDivStyle.boxesBorShow = false;
               this.winImgArr[index].boxesDivStyle.boxesBorHide = true;
               this.winImgArr[index].lineDivStyle.lineBorShow = false;
               this.winImgArr[index].lineDivStyle.lineBorHide = true;
@@ -410,7 +410,7 @@
 }
  .boxesDiv{
        position: absolute;
-    width: 96%;
+    width: 92%;
     height: 92%;
     top: 0%;
     left: 0%;

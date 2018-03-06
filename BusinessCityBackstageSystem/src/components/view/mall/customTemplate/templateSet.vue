@@ -33,7 +33,7 @@
                   <!-- 模板内容开始 -->
                   <div id='templateMain'>
                       <keep-alive v-for='(item,index) in comlist' :key='index'>
-                        <components :templatedata='index' :is='item'  :type='item'  class="test"   @click.native='changeEdit(index,item)'></components>
+                        <components :templatedata='index' :is='item.componentsName'  :type='item.componentsName'  class="test"   @click.native='changeEdit(index,item.componentsName)'></components>
                       </keep-alive>
                   </div>
                   <!-- 模板内容结束 -->
@@ -71,14 +71,12 @@
     <!-- 底部保存/返回 -->
          <el-col :span="24" class="template-save-div" style="">
               <el-row type="flex" class="bottom-btn" justify="center">
-                <el-col :span="2"><div class="template-save-Btn">保存</div></el-col>
+                <el-col :span="2"><div class="template-save-Btn" @click="savesss">保存</div></el-col>
                 <el-col :span="2"><div class=""></div></el-col>
                 <el-col :span="2"><div class="template-back-btn">返回</div></el-col>
               </el-row>
           </el-col>
       </el-row>
-    <!-- 上传图片模态框 -->
-    <uploadImage></uploadImage>
     <!-- 商品详情模态框 --> 
     <productDetails></productDetails>
     <!-- 自定义模态框 -->
@@ -104,8 +102,6 @@ import classification from './classification'
 
 ///////////////////////////////
 
-// 上传图片模态框
-import uploadImage from './uploadImage'
 // 商品详情模态框
 import productDetails from './productDetails'
 // 自定义模态框
@@ -118,7 +114,6 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          return{
              imgdata:'',
              prodata:'',
-             comlist:['imageAds']
          }
      },
      created:function(){
@@ -131,19 +126,20 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             }
             this.comlist=list;
          });
-        
      },
      mounted: function () {
        //控制显示对应的编辑器
             let templateEdit = document.querySelectorAll('.template-editContent-div')
             for(let value of templateEdit){
-                console.log(value)
+                //console.log(value)
                 value.style.display="none"
             }
             templateEdit[0].style.display="block";
      },
      computed:mapState({
-         templateName:state => state.adImageList.templateName
+         templateName:state => state.adImageList.templateName,
+         comlist:state => state.adImageList.comlist,
+         templateAllData:state => state.adImageList
      }),
      methods:{
          //动态添加组件
@@ -151,72 +147,69 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
              this.comlist.push('commodity');
              let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
-                console.log(value)
+                //console.log(value)
                 value.style.display="none"
             }
-             templateEdit[templateEdit.length].style.display="block";
          },
          windowAdd(){
             this.comlist.push('window');
              let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
-                console.log(value)
+                //console.log(value)
                 value.style.display="none"
             }
-             templateEdit[templateEdit.length].style.display="block";
          },
          windowsAdd(){
             this.comlist.push('window2');
              let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
-                console.log(value)
+                //console.log(value)
                 value.style.display="none"
             }
-             templateEdit[templateEdit.length].style.display="block";
          },
-         titleAdd(item){
+         titleAdd(){
              this.comlist.push('titles');
               let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
-                console.log(value)
+                //console.log(value)
                 value.style.display="none"
             }
-             templateEdit[templateEdit.length].style.display="block";
         },
          imageAdsAdd(){
-             this.comlist.push('imageAds');
+            this.$store.commit('imageAdsADD')
               let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
-                console.log(value)
+                //console.log(value)
                 value.style.display="none"
             }
-             templateEdit[templateEdit.length].style.display="block";
         },
          classificationAdd(){
              this.comlist.push('classification');
               let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
-                console.log(value)
+                //console.log(value)
                 value.style.display="none"
             }
-             templateEdit[templateEdit.length].style.display="block";
         },
         changeEdit(index,item){
-             console.log(index) //循环下标
-             console.log(item)  //点时当前的组件name
+             //console.log(index) //循环下标
+             //console.log(item)  //点时当前的组件name
             // this.$refs // ref 取值
              let jump = document.querySelectorAll('.test');
-             console.log(jump)
+             //console.log(jump)
             let dom=document.getElementsByClassName('current-style');
             dom.length?dom[0].setAttribute('class','test borderHover'):void(0);
             jump[index].setAttribute('class','current-style test borderHover');
             //控制显示对应的编辑器
             let templateEdit = document.querySelectorAll('.template-editContent-div')
             for(let value of templateEdit){
-                console.log(value)
+                //console.log(value)
                 value.style.display="none"
             }
             templateEdit[index].style.display="block";
+        },
+        savesss(){
+            console.log(this.templateAllData)
         }
      },
      components:{
@@ -226,7 +219,6 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          commodity,
          titles,
          classification,
-         uploadImage,
          productDetails,
          customLink
      }
