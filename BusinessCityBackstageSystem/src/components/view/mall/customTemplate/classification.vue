@@ -5,7 +5,7 @@
       <!-- 分类开始 -->
       <div style="overflow-x:scroll;">
           <el-row class="classNameContent" v-bind:style="classNameContent" style="overflow:hidden;">
-             <el-col class="className" v-for='(item,index) in ImgArr' :key="index">
+             <el-col class="className" v-for='(item,index) in imglist' :key="index">
               <div class="classNameTitle">{{ item.classTitle }}</div>
               <img :src="item.img" class="img">
             </el-col>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="imgLists">
                     <ul class="imgListUL">
-                        <li v-for='(item,index) in ImgArr' :key="index">
+                        <li v-for='(item,index) in imglist' :key="index">
                             <div class="carouselListInfo">
                               <div class="imgShowDiv">
                                   <div class="chooseImg">
@@ -35,12 +35,12 @@
                                   <div class="reLoadingImg">
                                        <el-upload
                                             class="avatar-uploader"
-                                            :action="importFileUrl"
+                                            :action="classDate.importFileUrl"
                                             :show-file-list="false"
-                                            :data="item.urlImg"
+                                            :data="classDate.admin"
                                             name='fileUpload'
-                                            :type='admin'
                                             :on-success="handleAvatarSuccess"
+                                            @change.native="imgUploads(index)"
                                             :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
                                         </el-upload>
                                       <p style="line-height: 1485%;font-size:14px;text-align: center;">重新上传 建议比例（4:4）</p>
@@ -50,7 +50,7 @@
                               <div class="editStyleDiv">
                                   <div class="classTitleDiv">
                                       <span class="classTitle">分类名称：</span>
-                                      <el-input v-model="item.classTitle" class="classTitleInput"></el-input>
+                                      <el-input @input.native="classInputchange($event,index)" v-model="item.classTitle" class="classTitleInput"></el-input>
                                       <div style="clear:both;"></div>
                                   </div>
                                   <div class="linkTips" style="">设置分类链接到页面地址</div>
@@ -61,7 +61,7 @@
                                         </span>
                                         <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
                                           <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
-                                          <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                                          <el-dropdown-item @click.native="opendialogSelf(index)" style="margin-top:10px;">自定义</el-dropdown-item>
                                         </el-dropdown-menu>
                                       </el-dropdown>
                                       <div style="clear:both;"></div>
@@ -78,66 +78,41 @@
     <!-- 分类组件结束 -->
 </template>
 <script>
+import { mapState,mapMutations,mapGetters } from 'vuex'
     export default{
         data() {
             return{
                 dataid:'',
-                importFileUrl:'',
-                admin:'',
+                classNameContent:{
+                    width:''
+                },
+                imglist:'',
+                classDate:'',
+                imgIndex:'',
+                images:'',
                 imageUrl:'',
-                defaultImgObj:{
-                            classTitle:'眼镜',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488955&di=f1b060007ffda0586fd4da75a253c416&imgtype=0&src=http%3A%2F%2Fpic5.photophoto.cn%2F20071221%2F0042040377755194_b.jpg",
-                            url:'',
-                            urlImg:{}
-                        },
-                        classNameContent:{
-                            width:''
-                        },
-                ImgArr:[
-                        {
-                            classTitle:'眼镜',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488955&di=f1b060007ffda0586fd4da75a253c416&imgtype=0&src=http%3A%2F%2Fpic5.photophoto.cn%2F20071221%2F0042040377755194_b.jpg",
-                            url:'',
-                            urlImg:{}
-                        },{
-                            classTitle:'数码',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488954&di=058542566eec0d937a415473a930b1b1&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F120528%2F188952-12052Q25F491.jpg",
-                            url:'',
-                            urlImg:{}
-                        },{
-                            classTitle:'家电',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488953&di=c706244511f07c831376fd56fb0e7ae0&imgtype=0&src=http%3A%2F%2Fpic122.nipic.com%2Ffile%2F20170217%2F20860925_143422405000_2.jpg",
-                            url:'',
-                            urlImg:{}
-                        },{
-                            classTitle:'食品',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488952&di=208a08cf210957a1fa56a66d3b426b5e&imgtype=0&src=http%3A%2F%2Fimg.ivsky.com%2Fimg%2Ftupian%2Fpre%2F201009%2F09%2Fmeishidacan-001.jpg",
-                            url:'',
-                            urlImg:{}
-                        },{
-                            classTitle:'衣服',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1519644488952&di=84d4428946d26a09e3f91d2211212bbc&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2F5243fbf2b211931357dcbe446f380cd790238da3.jpg",
-                            url:'',
-                            urlImg:{}
-                        }
-                    ]
             }
         },
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
+          this.imglist=this.comlist[this.dataid].componentsData.ImgArr;
+         // console.log(this.imglist)
+          this.classDate = this.comlist[this.dataid].componentsData
         },
+        computed:mapState({
+            comlist:state => state.adImageList.comlist
+        }),
         mounted:function(){
           let classNames = document.querySelectorAll('.className');
-          let length = this.ImgArr.length;
+          let length = this.imglist.length;
           let classNameWidth =  classNames[0].offsetWidth;
           let allWidth = classNameWidth * length;
           this.classNameContent.width = allWidth + 'px';
         },
         methods:{
           delete(){
-            this.$root.$emit('deleteID',this.dataid);
+            this.$store.commit('deleteTemplate',this.dataid)//对应组件的标识
                 return{
                     type:'success',
                     message:'删除成功!'
@@ -159,10 +134,26 @@
             });
             
           },
+          classInputchange($event,index){
+              console.log($event)
+              console.log(index)
+              this.imglist[index].classTitle = $event.target.value
+              console.log(this.imglist[index].classTitle)
+               let dataids = this.dataid;
+               let indexs = index;
+                let classNames = $event.target.value;
+                console.log(this.imglist);
+                // this.$store.commit('classNameInput',{dataids,indexs,classNames});//对应组件的标识
+          },
           deleteImgAd(index){
+            //删除vuex 内部 state数据
+            let indexs = index
+            let dataid = this.dataid
+            this.$store.commit('deleteImgClass',{dataid,indexs})//对应组件的标识
+            //删除组件内部数据
              let list=[];
-            for(let i=0;i<this.ImgArr.length;i++){
-                if(this.ImgArr.length <= 1){
+            for(let i=0;i<this.imglist.length;i++){
+                if(this.imglist.length <= 1){
                     this.$message({
                      type: 'warning',
                      message: '至少有一个分类！'
@@ -170,38 +161,65 @@
                     return false
                 }
                 if(index!=i){
-                    list.push(this.ImgArr[i]);
+                    list.push(this.imglist[i]);
                      this.$message({
                      type: 'success',
                      message: '删除成功！'
                     });
                 }
             }
-            this.ImgArr=list;
-                let classNames = document.querySelectorAll('.className');
-                let length = this.ImgArr.length;
-                let classNameWidth =  classNames[0].offsetWidth;
-                let allWidth = classNameWidth * length;
-                 this.classNameContent.width = allWidth + 'px';
+            this.imglist=list;
+            let classNames = document.querySelectorAll('.className');
+            let length = this.imglist.length;
+            let classNameWidth =  classNames[0].offsetWidth;
+            let allWidth = classNameWidth * length;
+            this.classNameContent.width = allWidth + 'px';
          },
           addNewImg(){
-             if(this.ImgArr.length >= 10){
+              let classificationDefault = {
+                    classTitle:'眼镜',
+                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                    url:'',
+                    imgSrc:''
+              };
+              this.$store.commit('addNewImgClass',this.dataid)//对应组件的标识
+             if(this.imglist.length >= 10){
                  this.$message({
                      type: 'warning',
                      message: '最多添加10个分类！'
                  });
-                  return false
-             }
-             this.ImgArr.push(this.defaultImgObj)
-                let classNames = document.querySelectorAll('.className');
-                let length = this.ImgArr.length;
+                 let classNames = document.querySelectorAll('.className');
+                let length = this.imglist.length;
                 let classNameWidth =  classNames[0].offsetWidth;
                 let allWidth = classNameWidth * length;
-                 this.classNameContent.width = allWidth + 'px';
+                this.classNameContent.width = allWidth + 'px';
+                  return false
+             }
+            this.imglist.push(classificationDefault)
+            let classNames = document.querySelectorAll('.className');
+            let length = this.imglist.length;
+            let classNameWidth =  classNames[0].offsetWidth;
+            let allWidth = classNameWidth * length;
+            this.classNameContent.width = allWidth + 40 + 'px';
          },
          handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-            },
+            console.log(res,file);
+            let hostName = location.hostname;
+            let port = location.port;
+            this.images = res.info;
+            this.imageUrl = 'http://' + hostName + ':' + port + '/api/sms' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
+            console.log(this.imgIndex)
+            this.imglist[this.imgIndex].img = this.imageUrl; //  显示图片需要 图片显示的地址
+            this.imglist[this.imgIndex].imgSrc = this.images; //  上传后台需要 的图片地址
+            let indexs = this.imgIndex
+            let dataid = this.dataid
+            let imageUrls = this.imageUrl
+            let imageSrc = this.images
+            this.$store.commit('adUploadImage',{dataid,indexs,imageUrls,imageSrc})//对应组件的标识
+          },
+          imgUploads(index){
+              this.imgIndex = index
+          },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isGIF = file.type === 'image/gif';
@@ -220,8 +238,13 @@
           opendialogPro(){
               this.$root.$emit('opendialogProduct',true)
           },
-          opendialogSelf(){
-              this.$root.$emit('opendialogSelf',true)
+          opendialogSelf(index){
+             this.$root.$emit('opendialogSelf',true)
+             let indexs = index;
+             let dataids = this.dataid;
+             let types = "imageAds";
+            // alert(indexs)
+             this.$root.$emit('customizeData',{indexs,dataids,types})
           }
         }
     }
