@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="30%">
+    <el-dialog :title="ruleForm.textInfo" @click="closeDialog" :visible.sync="dialogVisible" width="30%">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='24'>
@@ -13,8 +13,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span='24'>
-                    <el-form-item label="地址" prop='date1'>
-                        <el-input v-model="ruleForm.mode"></el-input>
+                    <el-form-item label="地址" prop='address'>
+                        <el-input v-model="ruleForm.address"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -41,156 +41,120 @@ import qs from 'qs'
             return {
                 dialogVisible: false,
                 ruleForm: {
-                    mode: '',
-                    name: "",
-                    date1: '',
                     textInfo: '新增会员',
+                    name: "",
+                    mode: '',
+                    address: '',
                     thisId:''
                 },
                 rules: {
                     name: [{
                         required: true,
-                        message: '请输入姓名',
+                        message: '请输入小区名称',
                         trigger: 'blur'
                     }, ],
                     mode: [{
-                        pattern: /^1[3|4|5|7|8][0-9]{9}$/g,
-                        required: true,
-                        message: '请输入正确的手机号',
+                        required: false,
+                        message: '请输入小区别名',
                          trigger: 'blur'
                     }, ],
-                    date1: [{
+                    address: [{
                         required: true,
-                        message: '请选择日期',
-                        trigger: 'change'
+                        message: '请填写详细地址',
+                        trigger: 'blur'
                     }],
 
-                }
+                },
+
             };
         },
         methods: {
-            submitForm(formName) {
-                let that = this;
-                if(this.ruleForm.textInfo == "新增会员"){
-                that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm.date1);  
-                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
-                    if (valid) {
-                        let url = '/api/customer/account/insert';
-                        this.$http({
-                                url: url,
-                                method: 'POST',
-                                // 请求体重发送的数据
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                data:[{
-                                    name: this.ruleForm.name,
-                                    mobile: this.ruleForm.mode,
-                                    birthDate: date1,
-                                }]
-                            })
-                            .then(response => {
-                                this.dialogVisible = false;
-                                this.$root.$emit('getDatezdy',1)
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                alert('网络错误，不能访问');
-                            })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-                }
-                if(this.ruleForm.textInfo == "编辑会员"){
-                that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm.date1);  
-                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
-                    if (valid) {
-                        let url = '/api/customer/account/update';
-                        this.$http({
-                                url: url,
-                                method: 'POST',
-                                // 请求体重发送的数据
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                data: {
-                                    id:this.ruleForm.thisId,
-                                    name: this.ruleForm.name,
-                                    mobile: this.ruleForm.mode,
-                                    birthDate: date1
-                                }
-                            })
-                            .then(response => {
-                                this.dialogVisible = false;
-                                this.$root.$emit('getDatezdy',1)
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                alert('网络错误，不能访问');
-                            })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-                }
+            closeDialog(){
+                this.dialogVisible = false;
+                this.$refs['ruleForm'].resetFields();
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-            }
-
-
-        },
-        created: function() {
-            this.$root.$on('showWindowss', (data) => {
-                console.log(data)
-                if (data != 'no') {
-                    console.log(data[0].id)
-                    this.ruleForm.textInfo = '编辑会员';
-                    let url = '/api/customer/account/queryMapByIds'/*'+[data[0].id]*/;
+            submitForm(formName) {
+                if(this.ruleForm.textInfo == "新增小区"){
+                    // console.log(this.ruleForm.name);
+                    // console.log(this.ruleForm.mode);
+                    // console.log(this.ruleForm.address);
+                    let url = '/api/customer/estate/insertData';
                     this.$http({
                             url: url,
-                            method: 'post',
-                            //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
-                            data:[data[0].id]
+                            method: 'POST',
+                            // 请求体重发送的数据
+                            // headers: {
+                            //     'Content-Type': 'application/json'
+                            // },
+                            data:[{
+                                'name': this.ruleForm.name,
+                                'alias': this.ruleForm.mode,
+                                'address': this.ruleForm.address,
+                            }]
                         })
-                        .then(respone => {
-                            
-                            let infos = respone.data.info[0]
-                            this.ruleForm.thisId=  infos.id
-                            this.ruleForm.mode= infos.mobile,
-                            this.ruleForm.name= infos.name,
-                            this.ruleForm.date1= infos.birthDate,
-                            this.ruleForm.old= infos.age,
-                            this.ruleForm.county= 1,
-                            this.ruleForm.ctypes= 2,
-                            this.ruleForm.panper= 1
-                            // this.ruleForm.sourceFns = respone.data.info;
-                            // console.log(this.ruleForm.sourceFns)
+                        .then(res => {
+                            this.dialogVisible = false;
+                            console.log(res.data.msg);
+                            this.$root.$emit('getDatezdy',1);
                         })
                         .catch(error => {
                             console.log(error);
                             alert('网络错误，不能访问');
                         })
-                        this.dialogVisible = true;
-                }else{
-                    this.ruleForm.textInfo = '新增会员';
-                    this.dialogVisible = true;
-                     this.ruleForm.mode= "",
-                    this.ruleForm.name= "",
-                    this.ruleForm.date1= "",
-                    this.ruleForm.old= "",
-                    this.ruleForm.county= "",
-                    this.ruleForm.ctypes= "",
-                    this.ruleForm.panper= ''
                 }
-                
+                if(this.ruleForm.textInfo == "编辑小区"){ 
+                    let url = '/api/customer/estate/updateData';
+                    this.$http({
+                            url: url,
+                            method: 'POST',
+                            // 请求体重发送的数据
+                            // headers: {
+                            //     'Content-Type': 'application/json'
+                            // },
+                            data: {
+                                'name': this.ruleForm.name,
+                                'alias': this.ruleForm.mode,
+                                'address': this.ruleForm.address,
+                                'id':this.ruleForm.thisId
+                            }
+                        })
+                        .then(response => {
+                            this.dialogVisible = false;
+                            this.$root.$emit('getDatezdy',1)
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            alert('网络错误，不能访问');
+                        })
+                }
+                this.dialogVisible = false;
+                this.$refs[formName].resetFields();
+            }
+        },
+        created: function() {
+            this.$root.$on('showWindowss', (data) => {
+                this.$nextTick(() => {
+                    if (data.type != 'no') {
+                        this.dialogVisible = true;
+                        this.ruleForm.textInfo = '编辑小区';
+                        console.log(data.rowData);
+                        this.ruleForm.thisId=  data.rowData.id
+                        this.ruleForm.mode= data.rowData.alias
+                        this.ruleForm.name= data.rowData.name
+                        this.ruleForm.address= data.rowData.address
+                    }else{
+                        this.dialogVisible = true;
+                        this.ruleForm.textInfo = '新增小区';
+                        this.ruleForm.mode= ""
+                        this.ruleForm.name= ""
+                        this.ruleForm.address= ""
+                    } 
+                })
             });
              
+        },
+        beforeDestroy(){
+            this.$root.$off('showWindowss');
         }
     }
 </script>
