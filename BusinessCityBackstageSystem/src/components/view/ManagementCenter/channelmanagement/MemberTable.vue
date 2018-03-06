@@ -33,8 +33,8 @@
         <el-table-column
         label="联系人">
             <template slot-scope="scope">
-                <i class='el-icon-check' style='color:#409EFF;position:relative;float:left;left:10px;font-size:20px;'></i>
-                <span style='position:absolute;float:left;left:50px;'>{{scope.row.leaderAdmin.adminName}}</span>
+                <!-- <i class='icon-leader' style='width:10px;height:18px;color:#409EFF;position:absolute;left:20%;top:20px;font-size:20px;background:url("static/images/icons/leader.png");'></i> -->
+                <span style='position:relative;padding-left:15px;'><i class='icon-leader' style='width:10px;height:18px;position:absolute;left:0;top:1px;background:url("static/images/icons/leader.png");'></i>{{scope.row.leaderAdmin!=null?scope.row.leaderAdmin.adminName:''}}</span>
             </template>
         </el-table-column>
         <el-table-column
@@ -123,6 +123,7 @@ export default {
                 },
             })
             .then(response => {
+                console.log(response);
                 if(response.data.status==200){
                     this.datalist=(response.data.info.list);
                     this.$root.$emit('pages',response.data.info.pages)

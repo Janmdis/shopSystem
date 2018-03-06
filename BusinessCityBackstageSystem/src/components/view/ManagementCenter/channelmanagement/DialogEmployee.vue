@@ -61,17 +61,17 @@ export default {
             type:'',
             loading:false,
             currentPage:1,
-            total:20,
+            total:0,
         }
     },
     created:function(){
         this.$root.$on('dialogemployee',(data)=>{
             // this.hasselected=data;
-            console.log(data);
             data.forEach(item=>{
                 this.hasselected.push(JSON.stringify(item));
             });
             this.dialogVisible=true;
+            console.log(this.hasselected);
             this.getEmploytype();
         });
     },
@@ -122,7 +122,7 @@ export default {
                             id:item.id,
                             adminName:item.adminName,
                             phone:item.phone,
-                            departmentName:item.departmentName,
+                            departmentName:item.manageGroupAdminList[0].departmentName,
                             employeeTypeName:item.employeeTypeName
                         });
                     });
@@ -165,7 +165,7 @@ export default {
         },
         adddata(){
             if(this.hasselected.length==0){
-                this.$message('请选择团队成员');
+                this.$message('请选择员工');
             }
             else{
                 let list=[];

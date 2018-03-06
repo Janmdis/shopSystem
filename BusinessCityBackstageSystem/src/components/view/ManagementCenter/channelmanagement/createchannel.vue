@@ -75,8 +75,10 @@
                 label="姓名"
                 width='120'>   
                     <template slot-scope="scope">
-                        <i :class='{"el-icon-check":scope.row.isLeader}' style='color:#409EFF;position:absolute;left:10px;top:18px;font-size:20px;'></i>
-                        <span style='position:absolute;left:50px;top:18px;'>{{scope.row.adminName}}</span>
+                        <span style='position:relative;padding-left:15px;'>
+                            <i :class='{"icon-leader":scope.row.isLeader}' style='background:url("static/images/icons/leader.png") no-repeat;'></i>
+                            {{scope.row.adminName}}
+                        </span>
                         
                     </template>
                 </el-table-column>
@@ -100,7 +102,7 @@
                 width='180'
                 label="操作">
                 <template slot-scope="scope" >
-                    <el-button type="text" size="small" @click="chengeLeader(scope.$index,scope.row)">指定为队长</el-button>
+                    <el-button type="text" size="small" :disabled='scope.row.isLeader' @click="chengeLeader(scope.$index,scope.row)">指定为队长</el-button>
                     <el-button type="text" size="small" :disabled='scope.row.isLeader' @click='deleteEmploy(scope.$index,scope.row)'>删除</el-button>
                 </template>
             </el-table-column>
@@ -120,6 +122,8 @@ export default {
             listLoading:false,
             datalist:[],
             beforeemployeelist:[],
+            leader_befor:'',
+            leader_after:'',
             formchannel:{
                 name:'',
                 typeId:'',
@@ -166,6 +170,7 @@ export default {
             let datalist2=[];
             datalist.forEach(item=>{
                 delete item.isLeader;
+                delete item.idrelation;
                 datalist2.push(JSON.stringify(item));
             });
             list.forEach((item,index)=>{
@@ -193,22 +198,22 @@ export default {
                     that.formchannel.typeId=data.typeId;
                     that.formchannel.levelId=data.levelId;
                     that.formchannel.remark=data.remark;
-                    that.beforeemployeelist.push({
-                        id:data.leaderAdmin.id,
-                        adminName:data.leaderAdmin.adminName,
-                        phone:data.leaderAdmin.phone,
-                        departmentName:data.leaderAdmin.departmentName,
-                        employeeTypeName:data.leaderAdmin.employeeTypeName,
-                        isLeader:true
-                    });
-                    that.datalist.push({
-                        id:data.leaderAdmin.id,
-                        adminName:data.leaderAdmin.adminName,
-                        phone:data.leaderAdmin.phone,
-                        departmentName:data.leaderAdmin.departmentName,
-                        employeeTypeName:data.leaderAdmin.employeeTypeName,
-                        isLeader:true
-                    });
+                    // that.beforeemployeelist.push({
+                    //     id:data.leaderAdmin.id,
+                    //     adminName:data.leaderAdmin.adminName,
+                    //     phone:data.leaderAdmin.phone,
+                    //     departmentName:data.leaderAdmin.departmentName,
+                    //     employeeTypeName:data.leaderAdmin.employeeTypeName,
+                    //     isLeader:true
+                    // });
+                    // that.datalist.push({
+                    //     id:data.leaderAdmin.id,
+                    //     adminName:data.leaderAdmin.adminName,
+                    //     phone:data.leaderAdmin.phone,
+                    //     departmentName:data.leaderAdmin.departmentName,
+                    //     employeeTypeName:data.leaderAdmin.employeeTypeName,
+                    //     isLeader:true
+                    // });
                     that.getTeamer();
                 }
                 else{
@@ -226,10 +231,12 @@ export default {
             let that=this;
             this.$http.post('/api/admin/teamAdmin/queryTeamAdmin',{teamId:that.idchannel})
             .then(function(response){
+                console.log(response);
                 if(response.data.msg=='查询成功'){
                     response.data.info.list.forEach(item=>{
                         that.beforeemployeelist.push({
                             id:item.adminAccount.id,
+                            idrelation:item.id,
                             adminName:item.adminAccount.adminName,
                             phone:item.adminAccount.phone,
                             departmentName:item.adminAccount.departmentName,
@@ -238,16 +245,36 @@ export default {
                         });
                         that.datalist.push({
                             id:item.adminAccount.id,
+                            idrelation:item.id,
                             adminName:item.adminAccount.adminName,
                             phone:item.adminAccount.phone,
                             departmentName:item.adminAccount.departmentName,
                             employeeTypeName:item.adminAccount.employeeTypeName,
                             isLeader:item.isLeader
                         });
+                        if(item.isLeader){
+                            that.leader_befor={
+                                id:item.adminAccount.id,
+                                idrelation:item.id,
+                                adminName:item.adminAccount.adminName,
+                                phone:item.adminAccount.phone,
+                                departmentName:item.adminAccount.departmentName,
+                                employeeTypeName:item.adminAccount.employeeTypeName,
+                                isLeader:true
+                            };
+                            that.leader_after={
+                                id:item.adminAccount.id,
+                                idrelation:item.id,
+                                adminName:item.adminAccount.adminName,
+                                phone:item.adminAccount.phone,
+                                departmentName:item.adminAccount.departmentName,
+                                employeeTypeName:item.adminAccount.employeeTypeName,
+                                isLeader:true
+                            };
+                        }
                     });
                 }
                 that.listLoading=false;
-                console.log(response);
             })
             .catch(function(response){
                 that.listLoading=false;
@@ -260,6 +287,7 @@ export default {
             let list=[];
             this.datalist.forEach(item=>{
                 delete item.isLeader;
+                delete item.idrelation;
             });
             this.$root.$emit('dialogemployee',(this.datalist));
         },
@@ -300,6 +328,80 @@ export default {
         resetForm(){
             this.$refs.channelform.resetFields();
         },
+        // 添加队员
+        addteamer(data){
+            return new Promise((resolve, reject)=>{
+                this.$http.post('/api/admin/teamAdmin/insertTeamAdmin',data)
+                .then(function(response){
+                    if(response.data.status==200){
+                        resolve(true);
+                    }
+                    else{
+                        resolve(false);
+                    }
+                })
+                .catch(function(response){
+                    resolve(false);
+                })
+            })
+            
+        },
+        // 删除队员
+        deleteteamer(data){
+            return new Promise((resolve, reject)=>{
+                this.$http.post('/api/admin/teamAdmin/removeTeamAdmin',data)
+                .then(function(response){
+                    if(response.data.status==200){
+                        resolve(true);
+                    }
+                    else{
+                        resolve(false);
+                    }
+                })
+                .catch(function(response){
+                    resolve(false);
+                })
+            })
+            
+        },
+        // 更新团队信息
+        updateTeam(data){
+            return new Promise((resolve, reject)=>{
+                this.$http.post('/api/admin/teamManagement/updateTeamManagement',data)
+                .then(function(response){
+                    if(response.data.status==200){
+                        resolve(true);
+                    }
+                    else{
+                        resolve(false);
+                    }
+                })
+                .catch(function(response){
+                    console.log(response)
+                    resolve(false);
+                });
+            })
+            
+        },
+        // 修改队员信息
+        updateTeamer(data){
+            return new Promise((resolve, reject)=>{
+                this.$http.post('/api/admin/teamAdmin/updateTeamAdmin',data)
+                .then(function(response){
+                    if(response.data.status==200){
+                        resolve(true);
+                    }
+                    else{
+                        resolve(fale);
+                    }
+                })
+                .catch(function(response){
+                    console.log(response);
+                    resolve(fale);
+                });
+            });
+            
+        },
         adddata(){
             this.$refs.channelform.validate((valid) => {
                 if(valid){
@@ -339,109 +441,134 @@ export default {
                         
                     }
                     // 修改渠道
-                    else if(this.typeopera='edit'){
-                        // 要删除的成员列表
-                        let deletelist=[];
-                        // 要添加的成员列表
-                        let addlist=[];
-                        let datalist2=[];
-                        let beforeemployeelist2=[];
-                        this.datalist.forEach(item=>{
-                            datalist2.push(JSON.stringify(item));
-                        });
+                    else if(this.typeopera=='edit'){
+                        let data={
+                            id:this.idchannel,
+                            name:this.formchannel.name,
+                            typeId:this.formchannel.typeId,
+                            levelId:this.formchannel.levelId,
+                            remark:this.formchannel.remark
+                        }
+                        // 删除的队员列表（即改变前的队员列表）
+                        let data1=[];
                         this.beforeemployeelist.forEach(item=>{
-                            beforeemployeelist2.push(JSON.stringify(item));
-                        });
-                        datalist2.forEach(item=>{
-                            if(!beforeemployeelist2.includes(item)){
-                                addlist.push(item);
+                            if(item.id!=this.leader_after.id){
+                                data1.push({
+                                    teamId:this.idchannel,
+                                    adminId:item.id
+                                });
                             }
                         });
-                        beforeemployeelist2.forEach(item=>{
-                            if(!datalist2.includes(item)){
-                                deletelist.push(item);
+                        // 加入的队员列表（改变后的队员列表）
+                        let data2=[];
+                        this.datalist.forEach(item=>{
+                            if(item.id!=this.leader_after.id){
+                                data2.push({
+                                    teamId:this.idchannel,
+                                    adminId:item.id,
+                                    isLeader:item.isLeader
+                                });
                             }
                         });
-                        this.$http.post('/api/admin/teamManagement/updateTeamManagement',{
-                            id:that.idchannel,
-                            name:that.formchannel.name,
-                            typeId:that.formchannel.typeId,
-                            levelId:that.formchannel.levelId,
-                            remark:that.formchannel.remark
-                        })
-                        .then(function(response){
-                            if(response.data.status==200){
-                                let lengthadd=addlist.length;
-                                let lengthdele=deletelist.length;
-                                if(lengthadd==0&&lengthdele==0){
-                                    that.$root.$emit('reloadchannel');
-                                    that.$message.success('修改成功');
+                        console.log(data1,data2);
+                        //如果队长改变,先进行队员信息修改
+                        if(JSON.stringify(this.leader_befor)!=JSON.stringify(this.leader_after)){
+                            let data3={
+                                id:this.leader_after.idrelation,
+                                teamId:this.idchannel,
+                                adminId:this.leader_after.id,
+                                isLeader:true
+                            };
+                            this.updateTeamer(data3)
+                            .then((issuccess)=>{
+                                if(issuccess){
+                                    return this.updateTeam(data);
+                                }
+                                else{
+                                    this.$message('修改失败');
+                                    return Promise.resolve(false);
+                                }
+                            })
+                            .then((issuccess)=>{
+                                if(issuccess){
+                                    if(data1.length>0){
+                                        return this.deleteteamer(data1);
+                                    }
+                                    else{
+                                        return Promise.resolve(true);
+                                    }
+                                }
+                                else{
+                                    this.$message('修改失败');
+                                    return Promise.resolve(false);
+                                }
+                            })
+                            .then((issuccess)=>{
+                                if(issuccess){
+                                    if(data2.length>0){
+                                        return this.addteamer(data2);
+                                    }
+                                    else{
+                                        return Promise.resolve(true);
+                                    }
+                                }
+                                else{
+                                    this.$message('修改失败');
+                                    return Promise.resolve(false);
+                                }
+                            })
+                            .then((issuccess)=>{
+                                 if(issuccess){
+                                    this.$message.success('修改成功');
+                                    this.$root.$emit('reloadchannel');
                                     document.querySelector('.createchannel').setAttribute('class','createchannel');
                                 }
-                                // 添加新队员
-                                if(lengthadd>0){
-                                    let data=[];
-                                    addlist.forEach(item=>{
-                                        let admin=JSON.parse(item);
-                                        data.push({
-                                            teamId:that.idchannel,
-                                            adminId:admin.id,
-                                            isLeader:admin.isLeader
-                                        });
-                                    });
-                                    this.$http.post('/api/admin/teamAdmin/insertTeamAdmin',data)
-                                    .then(function(response){
-                                        if(response.data.status==200){
-                                            if(lengthdele==0){
-                                                that.$root.$emit('reloadchannel');
-                                                that.$message.success('修改成功');
-                                                document.querySelector('.createchannel').setAttribute('class','createchannel');
-                                            }
-                                            // 删除队员
-                                            else{
-                                                let data1=[];
-                                                deletelist.forEach(item=>{
-                                                    let admin=JSON.parse(item);
-                                                    data1.push({
-                                                        teamId:that.idchannel,
-                                                        adminId:admin.id
-                                                    });
-                                                });
-                                                this.$http.post('/api/admin/teamAdmin/removeTeamAdmin',data1)
-                                                .then(function(response){
-                                                    if(response.data.status==200){
-                                                        that.$root.$emit('reloadchannel');
-                                                        that.$message.success('修改成功');
-                                                        document.querySelector('.createchannel').setAttribute('class','createchannel');
-                                                    }
-                                                    else{
-                                                        that.$message(response.data.msg);
-                                                    }
-                                                })
-                                                .catch(function(response){
-                                                    that.$message('修改失败');
-                                                })
-                                            }
-                                            
-                                        }
-                                        else{
-                                            that.$message(response.data.msg);
-                                        }
-                                    })
-                                    .catch(function(response){
-                                        that.$message('修改失败');
-                                    })
+                                else{
+                                    this.$message('修改失败');
                                 }
-                            }
-                            else{
-                                that.$message(response.data.msg);
-                            }
-                        })
-                        .catch(function(response){
-                            that.$message('修改失败');
-                            console.log(response);
-                        });
-                        console.log(deletelist,addlist);
+                            });
+                        }
+                        else{
+                            this.updateTeam(data)
+                            .then((issuccess)=>{
+                                if(issuccess){
+                                    if(data1.length>0){
+                                        return this.deleteteamer(data1);
+                                    }
+                                    else{
+                                        return Promise.resolve(true);
+                                    }
+                                }
+                                else{
+                                    this.$message('修改失败');
+                                    return Promise.resolve(false);
+                                }
+                            })
+                            .then((issuccess)=>{
+                                if(issuccess){
+                                    if(data2.length>0){
+                                        return this.addteamer(data2);
+                                    }
+                                    else{
+                                        return Promise.resolve(true);
+                                    }
+                                }
+                                else{
+                                    this.$message('修改失败');
+                                    return Promise.resolve(false);
+                                }
+                            })
+                            .then((issuccess)=>{
+                                 if(issuccess){
+                                    this.$message.success('修改成功');
+                                    this.$root.$emit('reloadchannel');
+                                    document.querySelector('.createchannel').setAttribute('class','createchannel');
+                                }
+                                else{
+                                    this.$message('修改失败');
+                                }
+                            });
+                        }
                     }
                     console.log(this.formchannel);
                 }
@@ -452,6 +579,7 @@ export default {
             this.datalist.forEach((item,index)=>{
                 if(indexcurr==index){
                     item.isLeader=true;
+                    this.leader_after=item;
                 }
                 else{
                     item.isLeader=false;
@@ -539,7 +667,13 @@ export default {
     height: 70%;
     padding: 10px;
 }
-
+.icon-leader{
+    width:10px;
+    height:18px;
+    position:absolute;
+    left:0px;
+    top:1px;
+}
 </style>
 <style>
 .membertable table td:nth-child(3) .cell{
