@@ -61,7 +61,28 @@ export default {
       this.$refs[formName].resetFields()
     },
     handleLoginOut() {
-      this.$router.push("/login")
+      let url = '/api/public/logout';
+      this.$http({
+          url: url,
+          method: 'get',
+         // 请求体重发送的数据
+          //headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+         //  data:qs.stringify( {
+            
+         //  }),
+      })
+        .then(response => {
+          console.log(response)
+          if (response.data.msg == "ok") {
+            this.$router.push("/login")
+          }
+          
+    })
+    .catch(error=>{
+        console.log(error);
+        alert('网络错误，不能访问');
+    })
+      
     },
     selected: function (navInfo) {
       this.activeName = navInfo
