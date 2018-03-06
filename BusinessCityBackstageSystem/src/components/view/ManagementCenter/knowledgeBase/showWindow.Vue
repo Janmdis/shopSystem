@@ -1,6 +1,24 @@
 <template>
     <el-dialog class='headerBottom' :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="40%">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-row >
+            <el-col :span='15'>
+                <el-form-item label="分类">
+                    <el-select v-model="ruleForm.classification" placeholder="请选择活动区域">
+                        <el-option v-for=' (item,index) in ruleForm.classificationData' :key="index" :label="item.sortName" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row >
+            <el-col :span='15'>
+                <el-form-item label="知识点">
+                    <el-select v-model="ruleForm.KnowledgePoint" placeholder="请选择活动区域">
+                        <el-option v-for=' (item,index) in ruleForm.KnowledgePointId' :key="index" :label="item.content" :value="item.id"></el-option>
+                    </el-select>
+                </el-form-item>
+                </el-col>
+            </el-row>
             <el-row>
                 <el-col :span='24'>
                     <el-form-item label="问题:" prop="name">
@@ -100,6 +118,10 @@
                 dialogVisible: false,
                 ruleForm: {
                     name: "",
+                    classification:'',
+                    classificationData:'',
+                    KnowledgePoint:'',
+                    KnowledgePointId:'',
                     desc: '',
                     textInfo: '新增知识库',
                     thisId: '',
@@ -137,9 +159,9 @@
                                     data: {
                                         "problemTitle": this.ruleForm.name,
                                         "problemDescription": this.ruleForm.desc,
-                                        "knowledgeSortId": "1",
-                                        "knowledgePointId": "1",
-                                        "knowledgeAnswerList": this.ruleForm.knowArr
+                                        "knowledgeAnswerList": this.ruleForm.knowArr,
+                                        "knowledgeSortId":this.ruleForm.classification,
+                                        "knowledgePointId":this.ruleForm.KnowledgePoint
                                     }
                                 })
                                 .then(response => {
@@ -165,7 +187,6 @@
                             data: this.ruleForm.delKnowArr
                         })
                         .then(respone => {
-                            
                         })
                         .catch(error => {
                             console.log(error);
@@ -185,7 +206,9 @@
                                         id: this.ruleForm.thisId,
                                         "problemTitle": this.ruleForm.name,
                                         "problemDescription": this.ruleForm.desc,
-                                        "knowledgeAnswerList": this.ruleForm.knowArr
+                                        "knowledgeAnswerList": this.ruleForm.knowArr,
+                                        "knowledgeSortId":this.ruleForm.classification,
+                                        "knowledgePointId":this.ruleForm.KnowledgePoint
                                     }
                                 })
                                 .then(response => {
@@ -238,7 +261,6 @@
         },
         created: function() {
             this.$root.$on('showWindow', (data) => {
-                console.log(data)
                 if (data != 'no') {
                     this.ruleForm.thisId = data[0].id
                     this.ruleForm.textInfo = '编辑知识库';
@@ -261,6 +283,9 @@
                             this.ruleForm.name = datas.problemTitle;
                             this.ruleForm.desc = datas.problemDescription;
                             this.ruleForm.knowArr = datas.knowledgeAnswerList;
+                            this.ruleForm.classification = datas.knowledgeSortId;
+                            this.ruleForm.KnowledgePoint = datas.knowledgePoint;
+
                             console.log(this.ruleForm.knowArr)
                         })
                         .catch(error => {
@@ -279,6 +304,42 @@
                     this.dialogVisible = true;
                 }
             });
+
+             let url = '/api/public/knowledge/sort/find' /*'+[data[0].id]*/ ;
+                    this.$http({
+                            url: url,
+                            method: 'post',
+                            //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
+                            data: {
+                                //"id": data[0].id
+                            }
+                        })
+                        .then(respone => {
+                            this.ruleForm.classificationData = respone.data.info.list;
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            alert('网络错误，不能访问');
+                        })
+            let urls = '/api/public/knowledge/point/find' /*'+[data[0].id]*/ ;
+                    this.$http({
+                            url: urls,
+                            method: 'post',
+                            //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
+                            data: {
+                                //"id": data[0].id
+                            }
+                        })
+                        .then(respone => {
+                            this.ruleForm.KnowledgePointId = respone.data.info.list;
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            alert('网络错误，不能访问');
+                        })    
+
+
+                        
         }
     }
 </script>
