@@ -34,7 +34,7 @@
             </el-table-column>
             <el-table-column  prop="phone" label="手机号码"  >
             </el-table-column>
-            <el-table-column  prop="departmentName" label="所属部门"  >
+            <el-table-column  prop="departmentName[0].departmentName" label="所属部门"  >
             </el-table-column>
             
         </el-table>
@@ -108,7 +108,7 @@ export default {
         },
         // 分页查询员工列表
         getEmployeelist(pageindex,typeid){
-            console.log(pageindex);
+            // console.log(pageindex);
             this.loading=true;
             let that=this;
             this.$http.post('/api/admin/account/multiConditionalQuery',{
@@ -124,14 +124,14 @@ export default {
                             id:item.id,
                             adminName:item.adminName,
                             phone:item.phone,
-                            departmentName:item.manageGroupAdminList[0].departmentName,
+                            departmentName:item.manageGroupAdminList,
                             employeeTypeName:item.employeeTypeName
                         });
                     });
                     // that.listemployee=response.data.info.list;
                     that.total=response.data.info.total;
                 }
-                console.log(response);
+                // console.log(response);
                 that.loading=false;
             })
             .catch(function(response){
@@ -189,7 +189,7 @@ export default {
                 this.hasselected.push(row);
                 this.ids_selected.push(row.id);
             }
-            console.log(this.ids_selected,row.id);
+            // console.log(this.ids_selected,row.id);
         },
         adddata(){
             if(this.hasselected.length==0){
@@ -197,7 +197,6 @@ export default {
             }
             else{
                 let list=[];
-                console.log(this.hasselected);
                 this.hasselected.forEach(item=>{
                     let json={
                         id:item.id,
