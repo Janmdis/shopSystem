@@ -58,8 +58,8 @@
             v-loading="listLoading"
             :stripe='true'
             class='membertable'
-            style="width: 100%;height:80%;"
-            height='80%'>
+            style="width: 100%;height:75%;"
+            height='75%'>
                 <el-table-column
                 fixed
                 type="index"
@@ -167,15 +167,14 @@ export default {
         this.$root.$on('addemployee',(list)=>{
             let isnull=this.datalist.length==0;
             let datalist=this.datalist;
-            let datalist2=[];
+            let idlist2=[];
             datalist.forEach(item=>{
                 delete item.isLeader;
                 delete item.idrelation;
-                datalist2.push(JSON.stringify(item));
+                idlist2.push(item.id);
             });
             list.forEach((item,index)=>{
-                let str=JSON.stringify(item);
-                let hasitem=datalist2.includes(str);
+                let hasitem=idlist2.includes(item.id);
                 if(!hasitem){
                     item.isLeader=(isnull&&index==0)?true:false;
                     this.datalist.push(item);
