@@ -27,7 +27,8 @@
                     </el-col>
                     <el-col :span='19'>
                         <el-form-item   prop="verificationCode">
-                            <el-input  id="codeInput" v-model="ruleForm.verificationCode" placeholder="请输入验证码" auto-complete="off"></el-input>
+                            <el-input  id="codeInput" v-model="ruleForm.verificationCode" placeholder="请输入验证码" auto-complete="off"
+                            @keyup.enter.native='logining'></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -36,7 +37,7 @@
                 </el-row>
                 <el-row class="forgMiss" >
                 <el-col :span='12'>
-                <el-checkbox v-model="ruleForm.rememberMe" name="remPassword" @change="clearCookie" >记住密码</el-checkbox></label>
+                <el-checkbox v-model="ruleForm.rememberMe" name="remPassword" @change="clearCookie">记住密码</el-checkbox>
                 </el-col>
                  <el-col :span='12'>
                 <span @click="forgetPassword">忘记密码?</span>
@@ -44,7 +45,7 @@
                 </el-row>
                 <el-row class="forgMiss" >
                 <el-form-item>
-                <el-button type="primary" class="login" @click.native="logining('ruleForm')">立即登录</el-button>
+                <el-button type="primary" class="login" @click.native='logining("ruleForm")' >立即登录</el-button>
                 </el-form-item>
                 </el-row>
         </el-form>
