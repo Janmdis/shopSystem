@@ -18,7 +18,7 @@
         style="width: 100%;height:75%;" 
         height='100%' 
         class='employeetable'
-        @selection-change="handleSelectionChange"
+        @select-all="handleSelectionChange"
         @select ='selectchange'
         v-loading='loading'>
             <el-table-column
@@ -58,28 +58,30 @@ export default {
             listtype:[],
             listemployee:[],
             hasselected:[],
+            ids_selected:[],
             type:'',
             loading:false,
             currentPage:1,
-            total:20,
+            total:0,
         }
     },
     created:function(){
         this.$root.$on('dialogemployee',(data)=>{
-            // this.hasselected=data;
-            console.log(data);
             data.forEach(item=>{
-                this.hasselected.push(JSON.stringify(item));
+                // this.hasselected.push(JSON.stringify(item));
+                this.hasselected.push(item);
+                this.ids_selected.push(item.id);
             });
             this.dialogVisible=true;
+            // console.log(data);
             this.getEmploytype();
         });
     },
     updated() {
-        // console.log(this.hasselected,this.listemployee);
         this.hasselected.forEach(row=>{
+            // let json=JSON.parse(row);
             this.listemployee.forEach(employee=>{
-                if(JSON.stringify(employee)==row){
+                if(row.id==employee.id){
                     this.$refs.employeetable.toggleRowSelection(employee,true);
                 }
             });
@@ -122,7 +124,7 @@ export default {
                             id:item.id,
                             adminName:item.adminName,
                             phone:item.phone,
-                            departmentName:item.departmentName,
+                            departmentName:item.manageGroupAdminList[0].departmentName,
                             employeeTypeName:item.employeeTypeName
                         });
                     });
@@ -146,38 +148,63 @@ export default {
             this.getEmployeelist(currentpage,this.type);
         },
         handleSelectionChange(val){
-            console.log(val);
-            for(let i=0;i<val.length;i++){
-                let currentstr=JSON.stringify(val[i]);
-                let hasit=this.hasselected.includes(currentstr);
-                if(!hasit){
-                    this.hasselected.push(currentstr);
+            let length=this.listemployee.length;
+            console.log(val.length);
+            // 全选判断
+            if(val.length==length){
+                for(let i=0;i<length;i++){
+                    let currentid=val[i].id;
+                    let hasit=this.ids_selected.includes(currentid);
+                    if(!hasit){
+                        this.hasselected.push(val[i]);
+                        this.ids_selected.push(val[i].id);
+                    }
                 }
+            }
+            // 全部取消
+            else if(val.length==0){
+                for(let i=0;i<length;i++){
+                    let currentid=this.listemployee[i].id;
+                    let hasit=this.ids_selected.includes(currentid);
+                    // console.log(val[i]);
+                    if(hasit){
+                        let index=this.ids_selected.indexOf(currentid);
+                        this.hasselected.splice(index,1);
+                        this.ids_selected.splice(index,1);
+                    }
+                    console.log(this.hasselected);
+                }
+                
             }
         },
         selectchange(selection,row){
-            let str=JSON.stringify(row);
-            let selected=selection.includes(row);
-            if(!selected){
-                let index=this.hasselected.indexOf(str);
+            let selected=this.ids_selected.includes(row.id);
+            
+            if(selected){
+                let index=this.ids_selected.indexOf(row.id);
                 this.hasselected.splice(index,1);
+                this.ids_selected.splice(index,1);
             }
+            else{
+                this.hasselected.push(row);
+                this.ids_selected.push(row.id);
+            }
+            console.log(this.ids_selected,row.id);
         },
         adddata(){
             if(this.hasselected.length==0){
-                this.$message('请选择团队成员');
+                this.$message('请选择员工');
             }
             else{
                 let list=[];
+                console.log(this.hasselected);
                 this.hasselected.forEach(item=>{
-                    // console.log(item);
-                    let items=JSON.parse(item);
                     let json={
-                        id:items.id,
-                        adminName:items.adminName,
-                        phone:items.phone,
-                        departmentName:items.departmentName,
-                        employeeTypeName:items.employeeTypeName 
+                        id:item.id,
+                        adminName:item.adminName,
+                        phone:item.phone,
+                        departmentName:item.departmentName,
+                        employeeTypeName:item.employeeTypeName 
                     }
                     list.push(json);
                 });

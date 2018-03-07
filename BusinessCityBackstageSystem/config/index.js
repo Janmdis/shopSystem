@@ -12,6 +12,8 @@ module.exports = {
             '/api': {
                 target: 'http://192.168.199.104/', //设置你调用的接口域名和端口号 别忘了加http
                 // target: 'http://192.168.199.130/',
+                // target: 'http://192.168.199.207/',
+                // target: 'http://192.168.199.106/',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': '/'
@@ -21,7 +23,7 @@ module.exports = {
             }
         },
         // Various Dev Server settings
-        host: '0.0.0.0', // can be overwritten by process.env.HOST
+        host: 'localhost', // can be overwritten by process.env.HOST
         port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
         autoOpenBrowser: false,
         errorOverlay: true,

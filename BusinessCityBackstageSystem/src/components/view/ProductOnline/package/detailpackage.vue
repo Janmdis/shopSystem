@@ -644,18 +644,6 @@ export default {
             .then(function(response){
                 if(response.data.msg=='查询成功'){
                     that.listmodaltime=response.data.info;
-                    // console.log();
-                    // if(that.tmid==null||that.tmid==''){
-                    //     that.tmid=that.listmodaltime[0].id;
-                    //     that.tmselected=that.listmodaltime[0].name;   
-                    // }
-                    // else{
-                    //     that.listmodaltime.forEach(item=>{
-                    //         if(that.tmid==item.id){
-
-                    //         }
-                    //     });
-                    // }
                     if(that.tmtype=='delete'){
                         that.tmid=that.listmodaltime[0].id;
                         that.tmselected=that.listmodaltime[0].name;  
@@ -824,6 +812,7 @@ export default {
             let that=this;
             this.$http.post('/api/public/period/queryMap')
             .then(function(response){
+                console.log(response);
                 if(response.data.msg=='查询成功'){
                     let listperiod=response.data.info;
                     listperiod.forEach(item=>{
@@ -837,9 +826,9 @@ export default {
                             saturday:false,
                             sunday:false,
                             periodId:item.id
-                        });
-                        that.getdatemodel();
+                        }); 
                     });
+                    that.getdatemodel();
                 }
                 else{
                     that.$message(response.data.msg);
