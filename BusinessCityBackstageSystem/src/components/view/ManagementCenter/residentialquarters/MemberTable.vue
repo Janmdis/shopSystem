@@ -1,6 +1,7 @@
 <template>
     <el-table
     :data="datalist"
+    :border="isBorder"
     @selection-change='showextra'
     @cell-click='showMemberInfo'
     :default-sort = "{prop: 'date', order: 'descending'}"
@@ -36,19 +37,20 @@
         prop="types"
         label="操作">
          <template slot-scope="scope">
-            <el-button type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">删除</el-button>
+            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+            <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
         </el-table-column> 
     </el-table>
 </template>
 <script>
-/ eslint-disable /
+/* eslint-disable */
 //@row-click="showMemberInfo()"
 export default {
     prop:['listLoading'],
     data(){
         return {
+            isBorder:false,
             datalist:[],
             showLeft:0,
             pageIndex:1
@@ -61,7 +63,7 @@ export default {
         })
         this.getDate(1)
         this.$root.$on('getDatezdy',(data)=>{
-             this.getDate( data)
+             this.getDate(data);
         })
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
@@ -69,20 +71,48 @@ export default {
         
     },
     methods:{
-      getDate(pageIndex) {
+        handleDelete(index, row,event) { //  删除某一种产品
+            let that = this;
+            console.log(row);
+            this.$confirm('确定删除 "'+row.name+'"吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/customer/estate/removeData',
+                        [row.id]
+                    ).then(res => {
+                        console.log(res.data.msg);
+                        that.getDate(1);
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消删除',
+                    duration:800
+                });          
+            });   
+        },
+        handleEdit(index, row,event) {
+            this.$root.$emit('showWindowss',{type:'yes',rowData:row});
+        },
+        getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/customer/account/query?page='+pageIndex+'&pageSize=10';
+            let url = '/api/customer/estate/queryDataList?page='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
-                method: 'POST',
+                method: 'GET',
                 // 请求体重发送的数据
-                headers: { 'Content-Type': 'application/json' },
+                // headers: { 'Content-Type': 'application/json' },
                 data:{},
             })
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                console.log(response.data.msg)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })
@@ -116,7 +146,11 @@ export default {
         indexMethod(index) {
             return index + 1
         },
+    },
+    beforeDestroy(){
+        this.$root.$off('pageIndex');
+        this.$root.$off('getDatezdy');
+        this.$root.$off('dataListBox')
     }
-
 }
 </script>

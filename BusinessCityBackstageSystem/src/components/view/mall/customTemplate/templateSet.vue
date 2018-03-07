@@ -18,7 +18,7 @@
           <div id='lefttemp'>
               <p class="template-name-title">模板名称：</p>
               <div class="template-name-input">
-                  <el-input  placeholder="请输入内容" v-model="templateName"></el-input>
+                  <el-input  placeholder="请输入内容" @input.native="templateNameInput($event)" v-model="templateNames"></el-input>
               </div>
               <div style="clear:both;"></div>
           </div>
@@ -114,6 +114,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          return{
              imgdata:'',
              prodata:'',
+             templateNames:''
          }
      },
      created:function(){
@@ -126,6 +127,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             }
             this.comlist=list;
          });
+         this.templateNames = this.templateName
      },
      mounted: function () {
        //控制显示对应的编辑器
@@ -142,9 +144,13 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          templateAllData:state => state.adImageList
      }),
      methods:{
+         templateNameInput($event){
+             this.templateNames = $event.target.value
+              this.$store.commit('templateNamesInput',this.templateNames);//对应组件的标识
+         },
          //动态添加组件
          commodityAdd(){
-             this.comlist.push('commodity');
+             this.$store.commit('commodityADD')
              let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
                 //console.log(value)
@@ -152,7 +158,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             }
          },
          windowAdd(){
-            this.comlist.push('window');
+             this.$store.commit('windowADD')
              let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
                 //console.log(value)
@@ -160,7 +166,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             }
          },
          windowsAdd(){
-            this.comlist.push('window2');
+           this.$store.commit('windowsADD')
              let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
                 //console.log(value)
@@ -168,7 +174,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             }
          },
          titleAdd(){
-             this.comlist.push('titles');
+             this.$store.commit('titlesADD')
               let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
                 //console.log(value)
@@ -184,7 +190,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             }
         },
          classificationAdd(){
-             this.comlist.push('classification');
+              this.$store.commit('classificationADD')
               let templateEdit = document.querySelectorAll('.template-editContent-div')
              for(let value of templateEdit){
                 //console.log(value)

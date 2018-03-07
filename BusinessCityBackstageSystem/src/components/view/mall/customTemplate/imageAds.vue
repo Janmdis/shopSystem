@@ -87,9 +87,9 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
         props:['templatedata'],// templateInfo接受父组件传入的数据
         created:function(){
           this.dataid = this.templatedata;
-          console.log(this.comlist[this.dataid])
+         // console.log(this.comlist[this.dataid])
           this.imglist=this.comlist[this.dataid].componentsData.ImgArr;
-          console.log(this.imglist)
+         // console.log(this.imglist)
           this.imgAdDate = this.comlist[this.dataid].componentsData
         },
         computed:mapState({
@@ -158,6 +158,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                 this.imglist=list;
          },
          addNewImg(){
+             let adImagedefault = {
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            url:'',
+                            imgSrc:''
+                        }
              this.$store.commit('addNewImgAD',this.dataid)//对应组件的标识
              if(this.imglist.length >= 5){
                  this.$message({
@@ -166,7 +171,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                  });
                   return false
              }
-             this.imglist.push(this.imgAdDate.defaultImgObj)
+             this.imglist.push(adImagedefault)
          },
         handleAvatarSuccess(res, file) {
             // this.imgAdDate.imageUrl = URL.createObjectURL(file.raw);
@@ -210,8 +215,10 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          opendialogSelf(index){
              this.$root.$emit('opendialogSelf',true)
              let indexs = index;
-             let dataids = this.dataid
-             this.$root.$emit('customizeData',{indexs,dataids})
+             let dataids = this.dataid;
+             let types = "imageAds";
+            // alert(indexs)
+             this.$root.$emit('customizeData',{indexs,dataids,types})
          }
         }
     }

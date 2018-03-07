@@ -4,7 +4,7 @@
       <!-- 橱窗1开始 -->
       <div>
         <el-row>
-        <el-col :span="8" v-for='(item,index) in winImgArr' :key='index'>
+        <el-col :span="8" v-for='(item,index) in imglist' :key='index'>
              <div class="imgConet">
                
                 <div>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="imgLists">
                   <ul class="imgListUL">
-                      <li v-for='(item,index) in winImgArr' :key='index'>
+                      <li v-for='(item,index) in imglist' :key='index'>
                           <div class="carouselListInfo">
                               <div class="imgShowDiv">
                                   <div class="chooseImg">
@@ -47,12 +47,12 @@
                                   <div class="reLoadingImg">
                                        <el-upload
                                             class="avatar-uploader"
-                                            :action="importFileUrl"
+                                            :action="windowDate.importFileUrl"
                                             :show-file-list="false"
-                                            :data="item.urlImg"
+                                            :data="windowDate.admin"
                                             name='fileUpload'
-                                            :type='admin'
                                             :on-success="handleAvatarSuccess"
+                                            @change.native="imgUploads(index)"
                                             :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
                                         </el-upload>
                                       <p style="line-height: 1178%;text-align: center;">重新上传 建议比例（1:1）</p>
@@ -86,7 +86,7 @@
                                       </span>
                                       <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
                                           <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
-                                          <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                                          <el-dropdown-item @click.native="opendialogSelf(index)" style="margin-top:10px;">自定义</el-dropdown-item>
                                       </el-dropdown-menu>
                                       </el-dropdown>
                                   </div>
@@ -102,169 +102,32 @@
     <!-- 橱窗组件结束 -->
 </template>
 <script>
+import { mapState,mapMutations,mapGetters } from 'vuex'
     export default{
         data() {
             return{
                 dataid:'',
-                importFileUrl:'',
-                admin:'',
-                imageUrl: '',
-                winImgArr:[
-                        {
-                            boxesDivStyle:{
-                                boxesBorShow:false,
-                                boxesBorHide:true,
-                            },
-                            lineDivStyle:{
-                                lineBorShow:false,
-                                lineBorHide:true
-                                },
-                            notDivBtn:{
-                                notBtnShow:true,
-                                notBtnHide:false
-                            },
-                            lineDivBtn:{
-                                lineBtnShow:false,
-                                lineBtnHide:true
-                            },
-                            boxesDivBtn:{
-                                boxesBtnShow:false,
-                                boxesBtnHide:true
-                            },
-                            img:'http://img4.duitang.com/uploads/item/201312/05/20131205172039_wi35Z.jpeg',
-                            url:'',
-                            urlImg:{}
-                        },{
-                            boxesDivStyle:{
-                                boxesBorShow:false,
-                                boxesBorHide:true,
-                            },
-                            lineDivStyle:{
-                                lineBorShow:false,
-                                lineBorHide:true
-                                },
-                                notDivBtn:{
-                                notBtnShow:true,
-                                notBtnHide:false
-                            },
-                            lineDivBtn:{
-                                lineBtnShow:false,
-                                lineBtnHide:true
-                            },
-                            boxesDivBtn:{
-                                boxesBtnShow:false,
-                                boxesBtnHide:true
-                            },
-                            img:'http://img5q.duitang.com/uploads/item/201312/05/20131205172424_FQzWK.jpeg',
-                            url:'',
-                            urlImg:{}
-                        },{
-                            boxesDivStyle:{
-                                boxesBorShow:false,
-                                boxesBorHide:true,
-                            },
-                            lineDivStyle:{
-                                lineBorShow:false,
-                                lineBorHide:true
-                                },
-                                notDivBtn:{
-                                notBtnShow:true,
-                                notBtnHide:false
-                            },
-                            lineDivBtn:{
-                                lineBtnShow:false,
-                                lineBtnHide:true
-                            },
-                            boxesDivBtn:{
-                                boxesBtnShow:false,
-                                boxesBtnHide:true
-                            },
-                            img:'http://img4q.duitang.com/uploads/item/201312/05/20131205172424_THnfV.thumb.700_0.jpeg',
-                            url:'',
-                            urlImg:{}
-                        },{
-                             boxesDivStyle:{
-                                boxesBorShow:false,
-                                boxesBorHide:true,
-                            },
-                            lineDivStyle:{
-                                lineBorShow:false,
-                                lineBorHide:true
-                                },
-                                notDivBtn:{
-                                notBtnShow:true,
-                                notBtnHide:false
-                            },
-                            lineDivBtn:{
-                                lineBtnShow:false,
-                                lineBtnHide:true
-                            },
-                            boxesDivBtn:{
-                                boxesBtnShow:false,
-                                boxesBtnHide:true
-                            },
-                            img:'http://cdn.duitang.com/uploads/item/201312/05/20131205172050_4ttnU.jpeg',
-                            url:'',
-                            urlImg:{}
-                        },{
-                             boxesDivStyle:{
-                                boxesBorShow:false,
-                                boxesBorHide:true,
-                            },
-                            lineDivStyle:{
-                                lineBorShow:false,
-                                lineBorHide:true
-                                },
-                                notDivBtn:{
-                                notBtnShow:true,
-                                notBtnHide:false
-                            },
-                            lineDivBtn:{
-                                lineBtnShow:false,
-                                lineBtnHide:true
-                            },
-                            boxesDivBtn:{
-                                boxesBtnShow:false,
-                                boxesBtnHide:true
-                            },
-                            img:'http://img4.duitang.com/uploads/item/201312/05/20131205172258_X5LBL.jpeg',
-                            url:'',
-                            urlImg:{}
-                        },{
-                             boxesDivStyle:{
-                                boxesBorShow:false,
-                                boxesBorHide:true,
-                            },
-                            lineDivStyle:{
-                                lineBorShow:false,
-                                lineBorHide:true
-                                },
-                                notDivBtn:{
-                                notBtnShow:true,
-                                notBtnHide:false
-                            },
-                            lineDivBtn:{
-                                lineBtnShow:false,
-                                lineBtnHide:true
-                            },
-                            boxesDivBtn:{
-                                boxesBtnShow:false,
-                                boxesBtnHide:true
-                            },
-                            img:'http://img5.duitang.com/uploads/item/201312/05/20131205172032_ydsME.jpeg',
-                            url:'',
-                            urlImg:{}
-                        }
-                ]
+                imglist:'',
+                windowDate:'',
+                imgIndex:'',
+                images:'',
+                imageUrl:''
             }
         },
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
+          // console.log(this.comlist[this.dataid])
+          this.imglist=this.comlist[this.dataid].componentsData.ImgArr;
+         // console.log(this.imglist)
+          this.windowDate = this.comlist[this.dataid].componentsData
         },
+        computed:mapState({
+            comlist:state => state.adImageList.comlist
+        }),
         methods:{
           delete(){
-            this.$root.$emit('deleteID',this.dataid);
+            this.$store.commit('deleteTemplate',this.dataid)//对应组件的标识
                 return{
                     type:'success',
                     message:'删除成功!'
@@ -287,64 +150,95 @@
             
          },
          notBorder(index){
-             this.winImgArr[index].boxesDivStyle.boxesBorShow = false;
-              this.winImgArr[index].boxesDivStyle.boxesBorHide = true;
-              this.winImgArr[index].lineDivStyle.lineBorShow = false;
-              this.winImgArr[index].lineDivStyle.lineBorHide = true;
-              this.winImgArr[index].notDivBtn.notBtnShow = true;
-              this.winImgArr[index].notDivBtn.notBtnHide = false;
-              this.winImgArr[index].lineDivBtn.lineBtnShow = false;
-              this.winImgArr[index].lineDivBtn.lineBtnHide = true;
-              this.winImgArr[index].boxesDivBtn.boxesBtnShow = false;
-              this.winImgArr[index].boxesDivBtn.boxesBtnHide = true;
+              this.imglist[index].boxesDivStyle.boxesBorShow = false;
+              this.imglist[index].boxesDivStyle.boxesBorHide = true;
+              this.imglist[index].lineDivStyle.lineBorShow = false;
+              this.imglist[index].lineDivStyle.lineBorHide = true;
+              this.imglist[index].notDivBtn.notBtnShow = true;
+              this.imglist[index].notDivBtn.notBtnHide = false;
+              this.imglist[index].lineDivBtn.lineBtnShow = false;
+              this.imglist[index].lineDivBtn.lineBtnHide = true;
+              this.imglist[index].boxesDivBtn.boxesBtnShow = false;
+              this.imglist[index].boxesDivBtn.boxesBtnHide = true;
+              let indexs = index;
+              let dataids = this.dataid
+              this.$store.commit('notBorders',{dataids,indexs})//对应组件的标识
          },
          lineBorder(index){
-             this.winImgArr[index].boxesDivStyle.boxesBorShow = false;
-              this.winImgArr[index].boxesDivStyle.boxesBorHide = true;
-              this.winImgArr[index].lineDivStyle.lineBorShow = true;
-              this.winImgArr[index].lineDivStyle.lineBorHide = false;
-              this.winImgArr[index].notDivBtn.notBtnShow = false;
-              this.winImgArr[index].notDivBtn.notBtnHide = true;
-              this.winImgArr[index].lineDivBtn.lineBtnShow = true;
-              this.winImgArr[index].lineDivBtn.lineBtnHide = false;
-              this.winImgArr[index].boxesDivBtn.boxesBtnShow = false;
-              this.winImgArr[index].boxesDivBtn.boxesBtnHide = true;
+             this.imglist[index].boxesDivStyle.boxesBorShow = false;
+              this.imglist[index].boxesDivStyle.boxesBorHide = true;
+              this.imglist[index].lineDivStyle.lineBorShow = true;
+              this.imglist[index].lineDivStyle.lineBorHide = false;
+              this.imglist[index].notDivBtn.notBtnShow = false;
+              this.imglist[index].notDivBtn.notBtnHide = true;
+              this.imglist[index].lineDivBtn.lineBtnShow = true;
+              this.imglist[index].lineDivBtn.lineBtnHide = false;
+              this.imglist[index].boxesDivBtn.boxesBtnShow = false;
+              this.imglist[index].boxesDivBtn.boxesBtnHide = true;
+              let indexs = index;
+              let dataids = this.dataid
+              this.$store.commit('lineBorders',{dataids,indexs})//对应组件的标识
          },
          boxesBorder(index){
-              this.winImgArr[index].boxesDivStyle.boxesBorShow = true;
-              this.winImgArr[index].boxesDivStyle.boxesBorHide = false;
-              this.winImgArr[index].lineDivStyle.lineBorShow = false;
-              this.winImgArr[index].lineDivStyle.lineBorHide = true;
-              this.winImgArr[index].notDivBtn.notBtnShow = false;
-              this.winImgArr[index].notDivBtn.notBtnHide = true;
-              this.winImgArr[index].lineDivBtn.lineBtnShow = false;
-              this.winImgArr[index].lineDivBtn.lineBtnHide = true;
-              this.winImgArr[index].boxesDivBtn.boxesBtnShow = true;
-              this.winImgArr[index].boxesDivBtn.boxesBtnHide = false;
+              this.imglist[index].boxesDivStyle.boxesBorShow = true;
+              this.imglist[index].boxesDivStyle.boxesBorHide = false;
+              this.imglist[index].lineDivStyle.lineBorShow = false;
+              this.imglist[index].lineDivStyle.lineBorHide = true;
+              this.imglist[index].notDivBtn.notBtnShow = false;
+              this.imglist[index].notDivBtn.notBtnHide = true;
+              this.imglist[index].lineDivBtn.lineBtnShow = false;
+              this.imglist[index].lineDivBtn.lineBtnHide = true;
+              this.imglist[index].boxesDivBtn.boxesBtnShow = true;
+              this.imglist[index].boxesDivBtn.boxesBtnHide = false;
+              let indexs = index;
+              let dataids = this.dataid
+              this.$store.commit('boxesBorders',{dataids,indexs})//对应组件的标识
          },
           handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
+            //this.imageUrl = URL.createObjectURL(file.raw);
+             console.log(res,file);
+            let hostName = location.hostname;
+            let port = location.port;
+            this.images = res.info;
+            this.imageUrl = 'http://' + hostName + ':' + port + '/api/sms' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
+            console.log(this.imgIndex)
+            this.imglist[this.imgIndex].img = this.imageUrl; //  显示图片需要 图片显示的地址
+            this.imglist[this.imgIndex].imgSrc = this.images; //  上传后台需要 的图片地址
+            let indexs = this.imgIndex
+            let dataid = this.dataid
+            let imageUrls = this.imageUrl
+            let imageSrc = this.images
+            this.$store.commit('adUploadImage',{dataid,indexs,imageUrls,imageSrc})//对应组件的标识
             },
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isGIF = file.type === 'image/gif';
-                const isPNG = file.type === 'image/png';
-                const isBMP = file.type === 'image/bmp';
-                const isLt2M = file.size / 1024 / 1024 < 2;
+        imgUploads(index){
+            //alert(index)
+            this.imgIndex = index
+        },
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg';
+            const isGIF = file.type === 'image/gif';
+            const isPNG = file.type === 'image/png';
+            const isBMP = file.type === 'image/bmp';
+            const isLt2M = file.size / 1024 / 1024 < 2;
 
-                if (!isJPG && !isPNG && !isGIF && !isBMP) {
-                this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
-                }
-                if (!isLt2M) {
-                this.common.errorTip('上传图片大小不能超过 2MB!');
-                }
-                return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
-            },
+            if (!isJPG && !isPNG && !isGIF && !isBMP) {
+            this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
+            }
+            if (!isLt2M) {
+            this.common.errorTip('上传图片大小不能超过 2MB!');
+            }
+            return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
+        },
          opendialogPro(){
              this.$root.$emit('opendialogProduct',true)
          },
-         opendialogSelf(){
-             this.$root.$emit('opendialogSelf',true)
+         opendialogSelf(index){
+              this.$root.$emit('opendialogSelf',true)
+             let indexs = index;
+             let dataids = this.dataid;
+             let types = "imageAds";
+            // alert(indexs)
+             this.$root.$emit('customizeData',{indexs,dataids,types})
          }
         }
     }
@@ -457,9 +351,9 @@
   height: 100%;
 }
  .boxesDiv{
-     position: absolute;
-    width: 88%;
-    height: 88%;
+       position: absolute;
+    width: 92%;
+    height: 92%;
     top: 0%;
     left: 0%;
   // border:10px solid #eeeeee;

@@ -4,22 +4,22 @@
       <!-- 商品开始 -->
       <div>
         <el-row>
-        <el-col :span="bigImg">
+        <el-col :span="this.commodityDate.bigImg">
           <div class="imgConet">
                <!-- 图片-->
-               <img :src="productImgSrc1" class="img">
+               <img :src="this.commodityDate.productImgSrc1" class="img">
              </div>
         </el-col>
-        <el-col :span="smallImg">
+        <el-col :span="this.commodityDate.smallImg">
           <div class="imgConet">
                <!-- 图片-->
-               <img :src="productImgSrc2" class="img">
+               <img :src="this.commodityDate.productImgSrc2" class="img">
              </div>
         </el-col>
-        <el-col :span="bigsImg">
+        <el-col :span="this.commodityDate.bigsImg">
           <div class="imgConet">
                <!-- 图片-->
-               <img :src="productImgSrc3" class="img">
+               <img :src="this.commodityDate.productImgSrc3" class="img">
              </div>
         </el-col>
         </el-row>
@@ -38,9 +38,9 @@
                             <p class="styleTitle">列表样式：</p>
                             <div class="styleBtn">
                                 <ul class="styleUl">
-                                    <li @click='switchbtn($event,1)' class="styleBorderBtn" v-bind:class="bigImgBtn">大图</li>
-                                    <li @click='switchbtn($event,2)' class="styleBorderBtn" v-bind:class="smImgBtn">小图</li>
-                                    <li @click='switchbtn($event,3)' class="styleBorderBtn" v-bind:class="bsImgBtn">一大两小</li>
+                                    <li @click='switchbtn($event,1)' class="styleBorderBtn" v-bind:class="this.commodityDate.bigImgBtn">大图</li>
+                                    <li @click='switchbtn($event,2)' class="styleBorderBtn" v-bind:class="this.commodityDate.smImgBtn">小图</li>
+                                    <li @click='switchbtn($event,3)' class="styleBorderBtn" v-bind:class="this.commodityDate.bsImgBtn">一大两小</li>
                                 </ul>
                                 <div style="clear:both;"></div>
                             </div>
@@ -51,18 +51,18 @@
                                     <div class="imgShowDiv">
                                         <div class="chooseImg">
                                             <div class="center">
-                                                <img class="microImg" src="./../../../../assets/templateImg.jpg">
+                                                <img class="microImg" :src="this.commodityDate.productImgSrc1">
                                             </div>
                                         </div>
                                         <div class="reLoadingImg">
                                             <el-upload
                                                 class="avatar-uploader"
-                                                :action="importFileUrl"
+                                                :action="commodityDate.importFileUrl"
                                                 :show-file-list="false"
-                                                :data="urlImg"
+                                                :data="commodityDate.admin"
                                                 name='fileUpload'
-                                                :type='admin'
                                                 :on-success="handleAvatarSuccess"
+                                                @change.native="commodityUpload(1)"
                                                 :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
                                             </el-upload>
                                             <p style="line-height: 1178%;text-align: center;">重新上传 建议比例（5:3）</p>
@@ -77,7 +77,7 @@
                                             </span>
                                             <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
                                                 <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
-                                                <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                                                <el-dropdown-item @click.native="opendialogSelf(1)" style="margin-top:10px;">自定义</el-dropdown-item>
                                             </el-dropdown-menu>
                                             </el-dropdown>
                                         </div>
@@ -90,18 +90,18 @@
                                     <div class="imgShowDiv">
                                         <div class="chooseImg">
                                             <div class="center">
-                                                <img class="microImg" src="./../../../../assets/templateImg.jpg">
+                                                <img class="microImg" :src="this.commodityDate.productImgSrc2">
                                             </div>
                                         </div>
                                         <div class="reLoadingImg">
                                             <el-upload
                                                 class="avatar-uploader"
-                                                :action="importFileUrl"
+                                                :action="commodityDate.importFileUrl"
                                                 :show-file-list="false"
-                                                :data="urlImg"
+                                                :data="commodityDate.admin"
                                                 name='fileUpload'
-                                                :type='admin'
                                                 :on-success="handleAvatarSuccess"
+                                                @change.native="commodityUpload(2)"
                                                 :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
                                             </el-upload>
                                             <p style="line-height: 1178%;text-align: center;">重新上传 建议比例（5:3）</p>
@@ -116,7 +116,7 @@
                                             </span>
                                             <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
                                                 <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
-                                                <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                                                <el-dropdown-item @click.native="opendialogSelf(2)" style="margin-top:10px;">自定义</el-dropdown-item>
                                             </el-dropdown-menu>
                                             </el-dropdown>
                                         </div>
@@ -129,18 +129,18 @@
                                     <div class="imgShowDiv">
                                         <div class="chooseImg">
                                             <div class="center">
-                                                <img class="microImg" src="./../../../../assets/templateImg.jpg">
+                                                <img class="microImg" :src="this.commodityDate.productImgSrc3">
                                             </div>
                                         </div>
                                         <div class="reLoadingImg">
                                             <el-upload
                                                 class="avatar-uploader"
-                                                :action="importFileUrl"
+                                                :action="commodityDate.importFileUrl"
                                                 :show-file-list="false"
-                                                :data="urlImg"
+                                                :data="commodityDate.admin"
                                                 name='fileUpload'
-                                                :type='admin'
                                                 :on-success="handleAvatarSuccess"
+                                                @change.native="commodityUpload(3)"
                                                 :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
                                             </el-upload>
                                             <p style="line-height: 1178%;text-align: center;">重新上传 建议比例（5:3）</p>
@@ -151,11 +151,11 @@
                                         <div class="dropdown"  style="padding-left: 18px;">
                                             <el-dropdown trigger="click"  style="min-width: 76px;">
                                                 <span class="el-dropdown-link" style="width:100%;height:100%;display:inline-block;">
-                                                    链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
-                                                </span>
+                                                链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
+                                            </span>
                                             <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
                                                 <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
-                                                <el-dropdown-item @click.native="opendialogSelf" style="margin-top:10px;">自定义</el-dropdown-item>
+                                                <el-dropdown-item @click.native="opendialogSelf(3)" style="margin-top:10px;">自定义</el-dropdown-item>
                                             </el-dropdown-menu>
                                             </el-dropdown>
                                         </div>
@@ -172,59 +172,28 @@
     <!-- 商品组件结束 -->
 </template>
 <script>
+import { mapState,mapMutations,mapGetters } from 'vuex'
     export default{
-      props:['templatedata'],
         data() {
             return{
                 dataid:'',
-                indexInfo:1, // 1 商品模块
-                bigImg:24,
-                smallImg:24,
-                bigsImg:24, // 列表风格 0 大图 1 小图 2 一大两小
-                bigImgBtn:{
-                    onBtn:true
-                },
-                smImgBtn:{
-                    onBtn:false
-                },
-                bsImgBtn:{
-                    onBtn:false
-                },
-                productImgURL1:'',//商品1链接地址
-                productImgSrc1:require('./../../../../assets/templateImg.jpg'),//商品1图片地址
-                productImgURL2:'',//商品2链接地址
-                productImgSrc2:require('./../../../../assets/templateImg.jpg'),//商品2图片地址
-                productImgURL3:'',//商品3链接地址
-                productImgSrc3:require('./../../../../assets/templateImg.jpg'), //商品3图片地址
-                importFileUrl:'',
-                admin:'',
-                urlImg:{}
+                commodityDate:'',
+                imgIndex:'',
+                imageUrl:'',
+                images:''
             }
         },
+        props:['templatedata'],
         created:function(){
-          console.log(this.dataid)
           this.dataid=this.templatedata;
+          this.commodityDate = this.comlist[this.dataid].componentsData;
         },
-        // mounted:function(){
-        //      if(this.bigImg == 24 && this.smallImg == 24 && this.bigsImg == 24){
-        //         this.bigImgBtn.onBtn = true;
-        //         this.smImgBtn.onBtn = false;
-        //         this.bsImgBtn.onBtn = false;
-        //       }
-        //       else if(this.bigImg == 12 && this.smallImg == 12 && this.bigsImg == 12){
-        //         this.bigImgBtn.onBtn = false;
-        //         this.smImgBtn.onBtn = true;
-        //         this.bsImgBtn.onBtn = false;
-        //       }
-        //       else if(this.bigImg == 24 && this.smallImg == 12 && this.bigsImg == 12){
-        //         this.bigImgBtn.onBtn = false;
-        //         this.smImgBtn.onBtn = false;
-        //         this.bsImgBtn.onBtn = true;
-        //       }
-        // },
+        computed:mapState({
+            comlist:state => state.adImageList.comlist
+        }),
         methods:{
           delete(){
-            this.$root.$emit('deleteID',this.dataid);
+            this.$store.commit('deleteTemplate',this.dataid)//对应组件的标识
                 return{
                     type:'success',
                     message:'删除成功!'
@@ -247,7 +216,30 @@
             
           },
           handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
+                console.log(res,file);
+                let hostName = location.hostname;
+                let port = location.port;
+                this.images = res.info;
+                this.imageUrl = 'http://' + hostName + ':' + port + '/api/sms' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
+                console.log(this.imgIndex)
+                if(this.imgIndex == 1){
+                    this.commodityDate.productImgSrc1 = this.imageUrl //  显示图片需要 图片显示的地址
+                    this.commodityDate.src1 = this.images //  上传后台需要 的图片地址
+                }else if(this.imgIndex == 2){
+                    this.commodityDate.productImgSrc2 = this.imageUrl //  显示图片需要 图片显示的地址
+                    this.commodityDate.src2 = this.images //  上传后台需要 的图片地址
+                }else if(this.imgIndex == 3){
+                    this.commodityDate.productImgSrc3 = this.imageUrl //  显示图片需要 图片显示的地址
+                    this.commodityDate.src3 = this.images //  上传后台需要 的图片地址
+                }
+                let indexs = this.imgIndex
+                let dataid = this.dataid
+                let imageUrls = this.imageUrl
+                let imageSrc = this.images
+                this.$store.commit('commodityUploadImage',{dataid,indexs,imageUrls,imageSrc})//对应组件的标识
+            },
+            commodityUpload(index){
+                this.imgIndex = index
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
@@ -268,34 +260,41 @@
               //  alert(this.datatype);
               this.$root.$emit('opendialogProduct',true)
           },
-         opendialogSelf(){
+         opendialogSelf(index){
              this.$root.$emit('opendialogSelf',true)
+             let indexs = index;
+             let dataids = this.dataid;
+             let types = "commodity";
+             this.$root.$emit('customizeData',{indexs,dataids,types})
          },
           switchbtn(e,index){
               if(index == 1){
-                this.bigImg = 24;
-                this.smallImg = 24;
-                this.bigsImg = 24;
-                this.bigImgBtn.onBtn = true;
-                this.smImgBtn.onBtn = false;
-                this.bsImgBtn.onBtn = false;
+                this.commodityDate.bigImg = 24;
+                this.commodityDate.smallImg = 24;
+                this.commodityDate.bigsImg = 24;
+                this.commodityDate.bigImgBtn.onBtn = true;
+                this.commodityDate.smImgBtn.onBtn = false;
+                this.commodityDate.bsImgBtn.onBtn = false;
               }
               else if(index == 2){
-                this.bigImg = 12;
-                this.smallImg = 12;
-                this.bigsImg = 12;
-                this.bigImgBtn.onBtn = false;
-                this.smImgBtn.onBtn = true;
-                this.bsImgBtn.onBtn = false;
+                this.commodityDate.bigImg = 12;
+                this.commodityDate.smallImg = 12;
+                this.commodityDate.bigsImg = 12;
+                this.commodityDate.bigImgBtn.onBtn = false;
+                this.commodityDate.smImgBtn.onBtn = true;
+                this.commodityDate.bsImgBtn.onBtn = false;
               }
               else if(index == 3){
-                this.bigImg = 24;
-                this.smallImg = 12;
-                this.bigsImg = 12;
-                this.bigImgBtn.onBtn = false;
-                this.smImgBtn.onBtn = false;
-                this.bsImgBtn.onBtn = true;
+                this.commodityDate.bigImg = 24;
+                this.commodityDate.smallImg = 12;
+                this.commodityDate.bigsImg = 12;
+                this.commodityDate.bigImgBtn.onBtn = false;
+                this.commodityDate.smImgBtn.onBtn = false;
+                this.commodityDate.bsImgBtn.onBtn = true;
               }
+              let switchIndex = index
+              let dataid = this.dataid
+              this.$store.commit('commoditySwitch',{dataid,switchIndex})//对应组件的标识
             //原生JS切换 改变class方法
             //   let target=e.target.tagName=='li'?e.target.parentNode:e.target;
             //   let lis=target.parentNode.getElementsByTagName('li');

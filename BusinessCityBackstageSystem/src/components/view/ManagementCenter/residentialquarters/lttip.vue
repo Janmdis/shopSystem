@@ -33,12 +33,12 @@ export default {
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
             console.log(data)
-            this.dataInfo = data.datas
+            this.dataInfo = data.datas[0]
             var dom=document.getElementsByClassName('emendation')[0];
-            let dom_edit=document.getElementById('modificationBtn');
+            // let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
-            dom.style.left=data.show?'0px':'-500px';
-            dom_edit.style.cursor=data.editcan?'':'not-allowed';
+            dom.style.left=data.show?'0px':'-570px';
+            // dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
     },
@@ -47,12 +47,32 @@ export default {
             if(this.canedit){
                 this.$root.$emit('editdialog');
                 this.$root.$emit("showWindow",this.dataInfo)
-                
             }
 
         },
         delBox(){
-            this.$root.$emit("delBox",this.dataInfo)
+            let that = this;
+            this.$confirm('确定删除 "'+this.dataInfo.name+'"吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/customer/estate/removeData',
+                        [that.dataInfo.id]
+                    ).then(res => {
+                        console.log(res.data.msg);
+                        that.$root.$emit('getDatezdy');
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消删除',
+                    duration:800
+                });          
+            });   
         }
     }
 }
@@ -97,7 +117,7 @@ export default {
 	margin-top: 26px;
 	position: absolute;
 	top: 0;
-	left:-500px;
+	left:-570px;
 	height: 32px;
     background: #fff;
     color: #555;

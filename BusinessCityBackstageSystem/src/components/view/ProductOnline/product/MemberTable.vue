@@ -140,7 +140,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:{},
+                data:{isActive:1},
             })
             .then(response => {
                 this.listLoading =  false;
