@@ -11,10 +11,10 @@
             </div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="mainTitles" v-bind:style="mainTitleStyle">{{ mainTitle }}</div>
+            <div class="mainTitles" v-bind:style="titlesDate.mainTitleStyle">{{ titlesDate.mainTitle }}</div>
           </el-col>
           <el-col :span="20" :offset="2">
-            <div class="subTitles" v-bind:style="subTitleStyle">{{ subtitle }}</div>
+            <div class="subTitles" v-bind:style="titlesDate.subTitleStyle">{{ titlesDate.subtitle }}</div>
           </el-col>
         </el-row>
          <div class="hoverClick">
@@ -30,14 +30,14 @@
                       <div class="editSelectDiv">
                             <div class="mainTitleDiv">
                                 <span class="mainTitle">主标题：</span>
-                                <el-input @input.native="inputchange($event)" v-model="mainTitle" class="mainTitleInput"></el-input>
-                                <colorPicker v-model="color1" v-on:change="headleChangeColor1"></colorPicker>
+                                <el-input @input.native="inputchange($event)" v-model="titlesDate.mainTitle" class="mainTitleInput"></el-input>
+                                <colorPicker v-model="titlesDate.color1" v-on:change="headleChangeColor1"></colorPicker>
                                 <div style="clear:both;"></div>
                             </div>
                             <div class="subtitleDiv">
                                 <span class="subtitle">副标题：</span>
-                                <el-input @input.native="subinputchange($event)" v-model="subtitle" class="subtitleInput"></el-input>
-                                <colorPicker v-model="color2" v-on:change="headleChangeColor2"></colorPicker>
+                                <el-input @input.native="subinputchange($event)" v-model="titlesDate.subtitle" class="subtitleInput"></el-input>
+                                <colorPicker v-model="titlesDate.color2" v-on:change="headleChangeColor2"></colorPicker>
                                 <div style="clear:both;"></div>
                             </div>
                         </div>
@@ -51,32 +51,28 @@
     <!-- 标题组件结束 -->
 </template>
 <script>
+  import { mapState,mapMutations,mapGetters } from 'vuex'
 //导入插件
   import colorPicker from './../../../../assets/plugin/vue-color-picker/colorPicker'
-
     export default{
         data() {
             return{
                 dataid:'',
-                mainTitle:'BACK TO SCHOOL SEASONAL DISCOUNT',
-                subtitle:'开学季优惠',
-                mainTitleStyle:{
-                  color:'#000'
-                },
-                subTitleStyle:{
-                  color:'#000'
-                },
-                color1:'#000',
-                color2:'#000'
+                titlesDate:''
              }
         },
         props:['templatedata'],
         created:function(){
           this.dataid=this.templatedata;
+          this.titlesDate = this.comlist[this.dataid].componentsData;
+          console.log(this.titlesDate)
         },
+        computed:mapState({
+            comlist:state => state.adImageList.comlist
+        }),
         methods:{
           delete(){
-            this.$root.$emit('deleteID',this.dataid);
+             this.$store.commit('deleteTemplate',this.dataid)//对应组件的标识
                 return{
                     type:'success',
                     message:'删除成功!'
@@ -99,20 +95,32 @@
             
          },
          inputchange($event){
-             this.mainTitle = $event.target.value
-             //console.log(this.mainTitle)
+             this.titlesDate.mainTitle = $event.target.value
+             //console.log(this.titlesDate.mainTitle)
+             let dataids = this.dataid;
+             let maintitles = $event.target.value;
+             this.$store.commit('titlesInput',{dataids,maintitles});//对应组件的标识
          },
          subinputchange($event){
-             this.subtitle = $event.target.value
-             //console.log(this.subtitle)
+             this.titlesDate.subtitle = $event.target.value
+             //console.log(this.titlesDate.subtitle)
+              let dataids = this.dataid;
+             let subTitle = $event.target.value;
+             this.$store.commit('subTitlesInput',{dataids,subTitle});//对应组件的标识
          },
          headleChangeColor1 (color1) {
-            console.log(`颜色值改变事件：`+ this.color1 )
-            this.mainTitleStyle.color = this.color1
+             //console.log(`颜色值改变事件：`+ this.titlesDate.color1 );
+             this.titlesDate.mainTitleStyle.color = this.titlesDate.color1
+             let dataids = this.dataid;
+             let colors1 = this.titlesDate.color1;
+             this.$store.commit('titlesColor',{dataids,colors1});//对应组件的标识
             },
          headleChangeColor2 (color2) {
-             console.log(`颜色值改变事件：`+ this.color2 )
-             this.subTitleStyle.color = this.color2
+             //console.log(`颜色值改变事件：`+ this.titlesDate.color2 );
+             this.titlesDate.subTitleStyle.color = this.titlesDate.color2;
+             let dataids = this.dataid;
+             let colors2 = this.titlesDate.color2
+             this.$store.commit('subTitlesColor',{dataids,colors2})//对应组件的标识
            }
         },
        components:{
