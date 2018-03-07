@@ -1,6 +1,6 @@
 <template>
     <el-main id="member">
-        <div class="memberNav" @click.native="closeInfo">
+        <div class="memberNav">
             <el-row class="navChild">
                 <el-col :span='15'>
                     <lttip :name='namepage'></lttip>
@@ -9,22 +9,21 @@
                     <div class="grid-content search">
                         <el-input placeholder="请输入内容" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
                         </el-input>
-                        <el-button type="primary" class="add" @click='showWindow("no")' round><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
+                        <el-button type="primary" class="add" @click='showWindowX("no")' round><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
                         <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
                         <el-button type="primary" class='msnuiMore' round><i class='icon iconfont icon-msnui-more'></i></el-button>
-                        <!--<el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button>!-->
+                        <el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button>
                     </div>
                 </el-col>
             </el-row>
             <el-row>
-                <search></search>
+              
             </el-row>
         </div>
         <div class="memberMain">
             <div class='boderBox'>
-                <Datatable></Datatable>
+               <Datatable></Datatable>
             </div>
-            <member-info class="infoCover" ref="memberInfos"></member-info>
             <el-row>
                 <el-col :span='10'>
                     <p class='lineHeight'>从1到{{this.pageS}}/共<span>{{this.totalCount}}</span>条数据</p>
@@ -38,12 +37,11 @@
             </el-row>
         </div>
         <showWindows></showWindows>
-        
     </el-main>
 </template>
 <script>
-    import Members from './Member.js';
-    export default Members
+     import template from './template.js';
+     export default template
 </script>
 <style>
     .lineHeight {
@@ -72,7 +70,7 @@
     }
 </style>
 <style scoped lang="less">
-    @import './Member.less';
+    @import '../../ManagementCenter/Member.less';
     .search {
         position: relative;
         height: 72px;

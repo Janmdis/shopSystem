@@ -21,6 +21,7 @@ export default {
             show: true,
             count: '',
             timer: null,
+            isRight: false,
             ruleForm: {
                 userName: '',
                 password: '',
@@ -117,7 +118,7 @@ export default {
                         .then(res => {
                             var msg = res.data.msg
                             console.log()
-                            sessionStorage.setItem('userInfo',JSON.stringify(res.data.info))
+                            sessionStorage.setItem('userInfo', JSON.stringify(res.data.info))
                             if (msg !== '登录成功') {
                                 this.option("用户名不存在或密码错误,请重新输入");
                                 this.ruleForm.userName = '';
@@ -173,9 +174,8 @@ export default {
         yzn() {
             let that = this
             var verifyCode = new GVerify("checkCode");
-            console.log(verifyCode.options.code)
             var codeInput = document.querySelector("#codeInput");
-            codeInput.onblur = function() {
+            codeInput.onchange = function() {
                 var res = verifyCode.validate(document.getElementById("codeInput").value);
                 console.log(res)
                 if (res) {

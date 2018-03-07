@@ -1,12 +1,13 @@
 <template>
     <el-table
     :data="datalist"
+    :border="isBorder"
     @selection-change='showextra'
     @cell-click='showMemberInfo'
     :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
-    style="width: 100%" height='500'>
+    style="width: 100%">
     <el-table-column
     fixed
     type="index"
@@ -15,75 +16,54 @@
     </el-table-column>
         <el-table-column
         fixed
-        type="selection"
-        width="55" >
+        type="selection" >
         </el-table-column>
         <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
         prop="name"
-        label="公司"
+        label="小区名称"
         >
         </el-table-column>
         <el-table-column
-        prop="contact"
-        label="联系人">
+        prop="mobile"
+        label="别名">
         </el-table-column>
         <el-table-column
-        prop="contactMobile"
-        label="电话"
-        >
+        prop="mobile"
+        label="地址">
         </el-table-column>
         <el-table-column
-        prop="categoryId"
-        label="类型"
-        >
-        </el-table-column>
-        <el-table-column
-        prop="levelId"
-        label="级别"
-        sortable>
-        </el-table-column>
-        <el-table-column
-        prop="supplierLabel"
-        label="供应商标签"
-        sortable>
-        </el-table-column>
-        <el-table-column
-        prop="source"
-        fixed="right"
+        prop="types"
         label="操作">
-        <template slot-scope="scope">
-            <el-button type="text" @click='handleWindow(scope.row)' size="small">编辑</el-button>
-            <el-button type="text" size="small" @click='handleClick(scope.row)'>删除</el-button>
+         <template slot-scope="scope">
+            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+            <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
-        </el-table-column>
-
-                
-            </el-table>
+        </el-table-column> 
+    </el-table>
 </template>
 <script>
-/ eslint-disable /
+/* eslint-disable */
 //@row-click="showMemberInfo()"
-
 export default {
     prop:['listLoading'],
     data(){
         return {
+            isBorder:false,
             datalist:[],
             showLeft:0,
             pageIndex:1
         }
     },
     created:function(){
-        
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
             this.getDate(this.pageIndex)
         })
         this.getDate(1)
         this.$root.$on('getDatezdy',(data)=>{
-             this.getDate( data)
+             this.getDate(data);
         })
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
@@ -91,23 +71,48 @@ export default {
         
     },
     methods:{
-      getDate(pageIndex) {
+        handleDelete(index, row,event) { //  删除某一种产品
+            let that = this;
+            console.log(row);
+            this.$confirm('确定删除 "'+row.name+'"吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/customer/estate/removeData',
+                        [row.id]
+                    ).then(res => {
+                        console.log(res.data.msg);
+                        that.getDate(1);
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消删除',
+                    duration:800
+                });          
+            });   
+        },
+        handleEdit(index, row,event) {
+            this.$root.$emit('showWindowss',{type:'yes',rowData:row});
+        },
+        getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/product/supplierInfo/queryPageList';
+            let url = '/api/product/mall/template/query?page='+pageIndex+'&pageSize=12';
             this.$http({
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
-                //headers: { 'Content-Type': 'application/json' },
-                data:{
-                    pageNum:pageIndex,
-                    pageSize:10
-                },
+                // headers: { 'Content-Type': 'application/json' },
+                data:{},
             })
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                console.log(response.data.msg)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })
@@ -117,6 +122,8 @@ export default {
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
+            //console.log(row,column,cell,event)
+            //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
             let labelValue = column.label
             if(labelValue == 'ID'){
                 this.showLeft = 16
@@ -139,19 +146,11 @@ export default {
         indexMethod(index) {
             return index + 1
         },
-        handleClick(row) {
-            this.delBox(row.id)
-       },
-       delBox(id){
-            this.$root.$emit("delBox",[id])
-        },
-       handleWindow(row){
-           this.showWindow([row])
-       },
-       showWindow(id) {
-            this.$root.$emit("showWindow",id);
-        },
+    },
+    beforeDestroy(){
+        this.$root.$off('pageIndex');
+        this.$root.$off('getDatezdy');
+        this.$root.$off('dataListBox')
     }
-
 }
 </script>
