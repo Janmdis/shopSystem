@@ -15,6 +15,7 @@
              <el-menu-item index="commodity">商品列表页</el-menu-item>
              <el-menu-item index="package">套餐列表页</el-menu-item>
              <el-menu-item index="product">产品列表页</el-menu-item>
+             <el-menu-item index="order">订单列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
