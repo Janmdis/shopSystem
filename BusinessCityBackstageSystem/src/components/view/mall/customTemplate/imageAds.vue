@@ -200,7 +200,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             const isBMP = file.type === 'image/bmp';
             const isLt2M = file.size / 1024 / 1024 < 2;
 
-            if (!isJPG && !isPNG &IF && !isBMP) {
+            if (!isJPG && !isPNG & !isGIF && !isBMP) {
                this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
             }
             if (!isLt2M) {

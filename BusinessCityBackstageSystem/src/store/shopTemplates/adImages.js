@@ -1,9 +1,10 @@
 import axios from 'axios'
 
 const state={
-    templateID:'',//模板ID 新增默认为 0
-    templateName:'基于VUE的商城模板组件',//模板名称
-    templateType:'',//模板类别 
+    templateID:null,//模板ID 新增默认 无
+    templateName:'模板名称',//模板名称
+    templateType:1,//模板类别 
+    description:'',//模板描述
     comlist:[
         {
             componentsName:"imageAds",
@@ -47,14 +48,25 @@ const state={
 const mutations={
     //新增/修改时 在action 里调用这个方法 （ajax 查询）
     INIT_STORE(state,data){
+        //console.log(data)
         state.templateID = data.templateID,
         state.templateName = data.templateName,
         state.templateType = data.templateType,
-        state.comlist = data.comlist
+        state.description = data.description,
+        //console.log(JSON.parse(data.comlist))
+        state.comlist = JSON.parse(data.comlist)  //字符串 转 数组对象
+    },
+    //修改模板分类
+    templateType(state,val){
+        state.templateType = val
     },
     //修改模板名字
     templateNamesInput(state,val){
         state.templateName = val
+    },
+    //修改模板描述
+    templateDes(state,val){
+        state.description = val
     },
     //删除模块
     deleteTemplate(state,id){
@@ -697,7 +709,10 @@ const mutations={
    };
 const actions={
     // 获取后台数据发送给 mutations api 方法 从而改变 state （状态库）
-   
+    editTemplate(state,data){
+        console.log(data)
+        state.commit('INIT_STORE',data);
+    }
 };
 export default{
     state,

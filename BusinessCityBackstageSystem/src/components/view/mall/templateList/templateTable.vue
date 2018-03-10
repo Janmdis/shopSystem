@@ -18,26 +18,41 @@
         fixed
         type="selection" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
+        <el-table-column class='borderRight' fixed 
+        prop="templateName" 
+        label="模板名称" 
+        width='360' height='100'>
         </el-table-column>
         <el-table-column
-        prop="name"
-        label="小区名称"
+        label="模板分类">
+        <template slot-scope="scope">
+            <span>{{ scope.row.templateType == 1?'首页模板':scope.row.templateType == 2?'活动模板':'自定义'}}</span>
+        </template>
+        </el-table-column>
+        <el-table-column
+        prop="createTime"
+        label="创建时间">
+        </el-table-column>
+        <el-table-column
+        label="模板地址">
+        <template slot-scope="scope">
+            <span>{{ 'http://www.greenCity.com?id=' + scope.row.templateID }}</span>
+        </template>
+        </el-table-column>
+        <el-table-column
+        prop="description"
+        label="模板描述"
         >
-        </el-table-column>
-        <el-table-column
-        prop="mobile"
-        label="别名">
-        </el-table-column>
-        <el-table-column
-        prop="mobile"
-        label="地址">
         </el-table-column>
         <el-table-column
         prop="types"
         label="操作">
          <template slot-scope="scope">
+             <el-button type="text"  size="small" @click="handleSee(scope.$index, scope.row,$event)">浏览</el-button>
             <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+            <el-button type="text"  size="small" @click="handleSwicth(scope.$index, scope.row,$event)">
+                <span>{{ scope.row.isEnabled == true?'停用':scope.row.isEnabled == false?'启用':''}}</span>
+                </el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
         </el-table-column> 
@@ -74,17 +89,24 @@ export default {
         handleDelete(index, row,event) { //  删除某一种产品
             let that = this;
             console.log(row);
-            this.$confirm('确定删除 "'+row.name+'"吗?', '提示', 
+            this.$confirm('确定删除 "'+row.templateName+'"吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
                 that.$message({
                     type: 'success',
-                    message: '删除成功!',
+                    message: '操作成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/customer/estate/removeData',
-                        [row.id]
+                    onClose:that.$http.post('/api/product/mall/template/remove',
+                        [row.templateID]
                     ).then(res => {
                         console.log(res.data.msg);
+                        if(res.data.msg == '删除失败'){
+                            that.$message({
+                            type: 'info',
+                            message: '请先停用该模板',
+                            duration:800
+                        }); 
+                        }
                         that.getDate(1);
                     }).catch(err => {console.log(err)})
                 });
@@ -96,12 +118,40 @@ export default {
                 });          
             });   
         },
+        handleSwicth(index,row,event){
+            let that = this;
+            console.log(row);
+            this.$confirm('确定更改 "'+row.templateName+'"的状态吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '更改成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/product/mall/template/remove',
+                        [row.templateID]
+                    ).then(res => {
+                        console.log(res.data.msg);
+                        that.getDate(1);
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消更改',
+                    duration:800
+                });          
+            });
+        },
         handleEdit(index, row,event) {
-            this.$root.$emit('showWindowss',{type:'yes',rowData:row});
+           // this.$root.$emit('showWindowss',{type:'yes',rowData:row});
+            console.log(row)
+            this.$store.dispatch('editTemplate',row)
+            this.$router.push({ path: '/mallSet' })
         },
         getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/product/mall/template/query?page='+pageIndex+'&pageSize=12';
+            let url = '/api/product/mall/template/query?page='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
