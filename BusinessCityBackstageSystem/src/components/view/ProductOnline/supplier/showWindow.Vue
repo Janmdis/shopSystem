@@ -32,14 +32,14 @@
                 <el-col :span='12'>
                     <el-form-item label="供应商类型">
                         <el-select placeholder="请选供应商类型" v-model="ruleForm.county">
-                            <el-option v-for=' (item,index) in ruleForm.sourceFns' :key="index" :label='item.createName' :value="item.companyId"></el-option>
+                            <el-option v-for=' (item,index) in ruleForm.sourceFns' :key="index" :label='item.createName' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="级别类型">
                         <el-select v-model="ruleForm.ctypes" placeholder="请选择级别类型">
-                            <el-option v-for=' (item,index) in ruleForm.curDate' :key="index" :label='item.categoryName' :value="item.companyId"></el-option>
+                            <el-option v-for=' (item,index) in ruleForm.curDate' :key="index" :label='item.createName' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -54,7 +54,7 @@
             </el-row>
             <el-row >
             <el-col :offset="1" style='padding-bottom:10px;'>
-                <el-tag :key="tag.name"  v-for="tag in dynamicTags"  :style="{background: tag.color }"  style='color:#fff;margin-right:10px;margin-bottom:10px;' closable :disable-transitions="false" @close="handleClose(tag)" >
+                <el-tag :key="tag.name"  v-for="tag in dynamicTags" :style="{background: tag.color  }"  style='color:#fff;margin-right:10px;margin-bottom:10px; ' closable :disable-transitions="false" @close="handleClose(tag)" >
                    {{tag.name}}
                 </el-tag>
                 <!--<el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue"  ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
@@ -274,15 +274,16 @@
                     })
             },
             showData() {
-                let url = '/api/product/category/query';
+                let url = '/api/product/level/query';
                 this.$http({
                         url: url,
                         method: 'post',
                         data: {}
                     })
                     .then(respone => {
-                        console.log(respone.data.info)
+                        
                         this.ruleForm.curDate = respone.data.info;
+                        console.log(respone.data.info)
                     })
                     .catch(error => {
                         console.log(error);
@@ -290,7 +291,7 @@
                     })
             },
             sourceFn() {
-                let url = '/api/product/level/query';
+                let url = '/api/product/category/query';
                 this.$http({
                         url: url,
                         method: 'post',
@@ -300,7 +301,9 @@
                         data: {}
                     })
                     .then(respone => {
+                        
                         this.ruleForm.sourceFns = respone.data.info;
+                        console.log( this.ruleForm.sourceFns)
                         
                     })
                     .catch(error => {
@@ -313,7 +316,8 @@
                 //     alert('新增无法删除');
                 //     return false;
                 // }
-                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+                //this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+                console.log(tag)
             },
             showInput() {
                 this.inputVisible = true;

@@ -115,6 +115,11 @@ export default new Router({
                     name: 'basicConfiguration',
                     component: resolve => require(['@/components/view/ManagementCenter/basicconfiguration/configuration.vue'], resolve)
                 },
+                {
+                    path: 'order', // 订单
+                    name: 'order',
+                    component: resolve => require(['@/components/view/order/order.vue'], resolve)
+                }
             ]
 
         },

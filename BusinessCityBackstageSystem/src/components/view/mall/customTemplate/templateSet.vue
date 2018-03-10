@@ -16,9 +16,16 @@
           <el-col :span="10" style="min-width: 613px;">
               <!-- 右侧开始 -->
           <div id='lefttemp'>
-              <p class="template-name-title">模板名称：</p>
+              <p class="template-name-title"><span style="color:red;">*</span>模板名称：</p>
               <div class="template-name-input">
                   <el-input  placeholder="请输入内容" @input.native="templateNameInput($event)" v-model="templateNames"></el-input>
+              </div>
+              <div style="clear:both;"></div>
+          </div>
+          <div id='lefttemp2'>
+              <p class="template-name-title"><span style="color:#fff;">*</span>模板描述：</p>
+              <div class="template-name-input2">
+                  <el-input  placeholder="请输入内容" @input.native="templateDesInput($event)" v-model="descriptions"></el-input>
               </div>
               <div style="clear:both;"></div>
           </div>
@@ -73,7 +80,7 @@
               <el-row type="flex" class="bottom-btn" justify="center">
                 <el-col :span="2"><div class="template-save-Btn" @click="savesss">保存</div></el-col>
                 <el-col :span="2"><div class=""></div></el-col>
-                <el-col :span="2"><div class="template-back-btn">返回</div></el-col>
+                <el-col :span="2"><div class="template-back-btn" @click="backtrack">返回</div></el-col>
               </el-row>
           </el-col>
       </el-row>
@@ -114,7 +121,8 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          return{
              imgdata:'',
              prodata:'',
-             templateNames:''
+             templateNames:'',
+             descriptions:''
          }
      },
      created:function(){
@@ -128,6 +136,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             this.comlist=list;
          });
          this.templateNames = this.templateName
+         this.descriptions = this.description
      },
      mounted: function () {
        //控制显示对应的编辑器
@@ -140,6 +149,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
      },
      computed:mapState({
          templateName:state => state.adImageList.templateName,
+         description:state => state.adImageList.description,
          comlist:state => state.adImageList.comlist,
          templateAllData:state => state.adImageList
      }),
@@ -147,6 +157,10 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          templateNameInput($event){
              this.templateNames = $event.target.value
               this.$store.commit('templateNamesInput',this.templateNames);//对应组件的标识
+         },
+         templateDesInput($event){
+             this.descriptions = $event.target.value
+             this.$store.commit('templateDes',this.descriptions);//对应组件的标识
          },
          //动态添加组件
          commodityAdd(){
@@ -216,6 +230,81 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
         },
         savesss(){
             console.log(this.templateAllData)
+            //新增
+            if(this.templateAllData.templateID == null){
+               // alert(111)
+                let url = '/api/product/mall/template/insertOne';
+                let datas = this.templateAllData
+                let comlists = JSON.stringify(datas.comlist)
+                let templateTypes = parseInt(datas.templateType)
+               // console.log(datas.templateType)
+                //console.log(templateTypes)
+                //console.log(comlists)
+                this.$http({
+                    url: url,
+                    method: 'POST',
+                   // headers:{
+                   //     'Content-Type':'application/json'
+                   // },
+                    data:{
+                        'templateName':datas.templateName,
+                        'comlist':comlists,
+                        'description':datas.description,
+                        'templateType':templateTypes
+                    }
+                })
+                .then(response => {
+                    this.$message({
+                        type: 'success',
+                        message: '新增成功！'
+                        });
+                   // console.log(response)
+                    this.$router.push({ path: '/templateList' })    
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$message({
+                        type: 'warning',
+                        message: '网络错误，不能访问！'
+                        });
+                })
+            }else{
+                //编辑
+                let url = '/api/product/mall/template/update';
+                let datas = this.templateAllData
+                let comlists = JSON.stringify(datas.comlist)
+                let templateTypes = parseInt(datas.templateType)
+                this.$http({
+                    url: url,
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    data:{
+                        'templateID':datas.templateID,
+                        'templateName':datas.templateName,
+                        'comlist':comlists,
+                        'description':datas.description
+                    }
+                })
+                .then(response => {
+                    this.$message({
+                        type: 'success',
+                        message: '修改成功！'
+                        });
+                    this.$router.push({ path: '/templateList' })    
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$message({
+                        type: 'warning',
+                        message: '网络错误，不能访问！'
+                        });
+                })
+            }
+        },
+        backtrack(){
+            this.$router.push({ path: '/templateList' })
         }
      },
      components:{
@@ -246,6 +335,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 }
 #lefttemp{
     margin-top:30px;margin-bottom:20px;min-width: 630px;position: absolute;
+    left: 660px;
+    top: 56px;
+}
+#lefttemp2{
+    margin-top:90px;margin-bottom:20px;min-width: 630px;position: absolute;
     left: 660px;
     top: 56px;
 }
@@ -326,6 +420,10 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     width:32%;
     float:left;
 }
+.template-name-input2{
+    width:60%;
+    float:left;
+}
 .template-editContent-div{
     margin-top:40px;
     position:relative;
@@ -345,8 +443,12 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     line-height: 34px;
     border-radius: 25px;
     color: #fff;
-    background: #00adab;
+    background: #27a1f2;
     text-align: center;
+    cursor: pointer;
+}
+.template-save-Btn:hover{
+    background: #38abf8;
 }
 .template-back-btn{
     line-height: 34px;
@@ -354,5 +456,9 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     color: #fff;
     background: #ef7747;
     text-align: center;
+    cursor: pointer;
+}
+.template-back-btn:hover{
+    background: #f09470;
 }
 </style>
