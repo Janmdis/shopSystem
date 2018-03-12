@@ -102,7 +102,7 @@ export default {
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                //console.log(this.datalist)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })

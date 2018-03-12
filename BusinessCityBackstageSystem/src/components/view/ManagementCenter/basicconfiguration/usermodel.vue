@@ -55,7 +55,8 @@ export default {
                 url:i,
                 method:type,
                 data:{},
-            }).then(res => {       
+            }).then(res => {
+                console.log(res)       
                 if(index == 3){
                     this.datalist=(res.data.info);
                 }else{
