@@ -198,6 +198,7 @@ export default {
         showContent(text,index){
             this.loadInfo=true;
             this.defaultTitle = text;
+            this.desData = [];
             if(text == '产品模块'){
                 text = productModel;
                 this.desData = this.productData;

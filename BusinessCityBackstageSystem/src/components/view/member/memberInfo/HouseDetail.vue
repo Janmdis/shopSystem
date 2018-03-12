@@ -354,7 +354,7 @@ export default {
         searchInfo(){
             //  查询地址信息
             let that = this;
-            this.$http.get('/api/public/region/findParent?levels=3')
+            this.$http.get('/api/public/region/findParent?parentId=0&levels=3')
             .then(res => {
                 if (res.data.info == null) {
                     alert(res.data.error)
