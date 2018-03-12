@@ -9,16 +9,21 @@
                 </el-col>
             </el-row>
         </div>
-        <el-form ref="roleform" class='roleform' :model='formrole' label-width="80px" :rules="rules">
-            <el-row :gutter='0'>
+        <el-form ref="roleform" class='roleform' :model='formrole' label-width="80px" :rules="rules" v-if='showinput'>
+            <el-row :gutter='10'>
                 <el-col :span='6'>
                     <el-form-item label="角色名称"  size='small' prop='name'>
                         <el-input placeholder="角色名称" v-model='formrole.name'></el-input>
                     </el-form-item>
                 </el-col>
+                <el-col :span='6'>
+                    <el-form-item label="角色编号"  size='small' prop='number'>
+                        <el-input placeholder="角色编号" v-model='formrole.number'></el-input>
+                    </el-form-item>
+                </el-col>
                 <el-col :span='5'>
-                    <el-form-item label="所属部门" size='small' prop='typeId'>
-                        <el-select  placeholder="请选择" v-model='formrole.depid'>
+                    <el-form-item label="所属部门" size='small' prop='depid'>
+                        <el-select  placeholder="请选择" v-model='formrole.depid' @change='changedep'>
                             <el-option
                             v-for="item in deplist"
                             :key="item.id"
@@ -64,7 +69,7 @@
                 </el-table-column>
              </el-table>
         </div>
-         <el-button type="primary" style='width:120px;margin:0 auto;display:block;'>保存</el-button>
+         <el-button type="primary" style='width:120px;margin:0 auto;display:block;' @click='savedata'>保存</el-button>
     </div>
 </template>
 <script>
@@ -73,10 +78,13 @@ export default {
     data(){
         return{
             name:'新增角色',
+            id:'',
             listLoading:false,
             formrole:{
                 name:'',
-                depid:''
+                number:'',
+                depid:'',
+                depname:''
             },  
             checkedPromise:[],
             checkAll:[],
@@ -85,7 +93,15 @@ export default {
                 name:[
                     { required: true, message: '请输入名称', trigger: 'blur' }
                 ],
-            }
+                number:[
+                    { required: true, message: '请输入角色编号', trigger: 'blur' }
+                ],
+                depid:[
+                    { required: true, message: '请选择部门', trigger: 'change' }
+                ]
+            },
+            type:'create',
+            showinput:true
         }
     },
     updated() {
@@ -104,13 +120,122 @@ export default {
     },
     created:function(){
         this.$root.$on("exportvisrole",(datas)=>{
+            console.log(datas);
+            this.type=datas.type;
+            if(this.type=='edit'){
+                this.showinput=false;
+                this.name='编辑权限';
+                this.id=datas.id;
+                this.checkedPromise=[];
+                this.promiseslist.forEach((item,index)=>{
+                    this.checkedPromise[index]=[];
+                    datas.permissionid.split(',').forEach(perssionid=>{
+                        item.children.forEach(item2=>{
+                            if(item2.id==perssionid){
+                                this.checkedPromise[index].push(perssionid);
+                            }
+                        });
+                    });
+                });
+                console.log(this.checkedPromise);
+            }
             document.querySelector('.createrole').setAttribute('class','createrole on');
         });
     },
     methods:{
+        // 保存角色信息
+        savedata(){
+            let that=this;    
+            let checkedlist=[];
+            let checks=[];
+            this.checkedPromise.forEach((item,index)=>{
+                checks[index]=item.slice(0);
+            });
+            checks.forEach((item,index)=>{
+                let length=item.length;
+                if(length>0){
+                    checks[index].push(this.promiseslist[index].id);
+                }
+            });
+            checks.forEach((item)=>{
+                item.forEach(item1=>{
+                    checkedlist.push(item1);
+                });
+            });
+            let checkedids=checkedlist.join(',');
+            console.log(checkedids);      
+            if(this.type=='create'){
+                this.$refs.roleform.validate((valid)=>{
+                    if(valid){
+                        
+                        this.$http.post('/api/admin/manage/group/insert',{
+                            departmentId:that.formrole.depid,
+                            groupName:that.formrole.name,
+                            groupNumber:that.formrole.number,
+                            departmentName:that.formrole.depname,
+                            permissionsId:checkedids
+                        })
+                        .then(function(response){
+                            console.log(response);
+                            let data=response.data;
+                            if(data.status==200){
+                                that.$message.success(data.msg);
+                                that.$store.dispatch('getRolelist',{depid:that.depid});
+                                document.querySelector('.createrole').setAttribute('class','createrole');
+                            }
+                            else{
+                                that.$message(data.msg);
+                            }
+                            
+                        })
+                        .catch(function(response){
+                            console.log(response);
+                            that.$message('创建失败');
+                        })
+                    }
+                })
+            }
+            else{
+                // console.log(this.id,checkedids);
+                this.$http.post('/api/admin/manage/group/update',[{
+                    id:this.id,
+                    permissionsId:checkedids
+                }])
+                .then(function(response){
+                    if(response.data.status==200){
+                        that.$message.success(response.data.msg);
+                        that.$store.dispatch('getRolelist',{depid:that.depid});
+                        document.querySelector('.createrole').setAttribute('class','createrole');
+                    }
+                    else{
+                        that.$message(response.data.msg);
+                    }
+                })
+                .catch(function(response){
+                    console.log(response);
+                    that.$message('修改失败');
+                })
+            }
+        },
+        changedep(value){
+            this.formrole.depid=value;
+            // console.log(this.deplist.length);
+            this.deplist.forEach(item=>{
+                if(item.id==value){
+                    this.formrole.depname=item.departmentName;
+                }
+            });
+            // console.log(value);
+        },
         handleCheckedPromiseChange(value,list,index){
+            // console.log(value);
             let checkedCount = value.length;
             this.$set(this.checkAll,index,checkedCount == list.length);
+            this.checkedPromise[index]=[];
+            value.forEach(item=>{
+                this.checkedPromise[index].push(item);
+            });
+            // console.log(this.checkedPromise[index]);
             this.isIndeterminate = checkedCount > 0 && checkedCount < list.length;
         },
         handleCheckAllChange(val,list,index) {
@@ -120,6 +245,7 @@ export default {
                     this.checkedPromise[index].push(item.id);
                 });
             }
+            // this.checkedPromise[index].push(this.promiseslist[index].id);
             this.isIndeterminate = false;
         },
         selectpromisechange(val,row){
@@ -156,10 +282,15 @@ export default {
     top: -18px;
     right:-2000px;
     z-index: 99;
+    display: none;
     background-color: #fff;
 }
 .createrole.on{
     left:0;
+    display: block;
+}
+.roleform{
+    margin-left: 10px;
 }
 .productDesignation{
     height: 72px;

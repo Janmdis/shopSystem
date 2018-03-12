@@ -14,6 +14,7 @@ const actions={
     getPromiselist({commit,state}){
         axios.post('/api/admin/permissions/find?type=1')
         .then(function (response) {
+            // console.log(response);
             let data=response.data;
             if(data.msg=='查询成功'){
                 commit({
