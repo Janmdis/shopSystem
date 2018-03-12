@@ -5,7 +5,7 @@
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>活动详情</template>
             <el-menu-item-group>
-              <el-menu-item index="mallSet">商城模板</el-menu-item>
+              <el-menu-item index="templateList">模板管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
@@ -15,6 +15,7 @@
              <el-menu-item index="commodity">商品列表页</el-menu-item>
              <el-menu-item index="package">套餐列表页</el-menu-item>
              <el-menu-item index="product">产品列表页</el-menu-item>
+             <el-menu-item index="order">订单列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

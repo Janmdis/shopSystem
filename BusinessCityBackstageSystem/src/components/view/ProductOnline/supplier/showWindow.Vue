@@ -1,5 +1,5 @@
 <template id='windowBox'>
-    <el-dialog :title="ruleForm.textInfo"  :visible.sync="dialogVisible" width="50%" >
+    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='12'>
@@ -27,20 +27,19 @@
                         <el-input v-model="ruleForm.mode"></el-input>
                     </el-form-item>
                 </el-col>
-                
             </el-row>
             <el-row>
                 <el-col :span='12'>
                     <el-form-item label="供应商类型">
-                        <el-select placeholder="请选供应商类型" @click.native='sourceFn' v-model="ruleForm.county">
-                            <el-option v-for=' (item,index) in this.ruleForm.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
+                        <el-select placeholder="请选供应商类型" v-model="ruleForm.county">
+                            <el-option v-for=' (item,index) in ruleForm.sourceFns' :key="index" :label='item.createName' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="级别类型">
-                        <el-select v-model="ruleForm.ctypes" @click.native='showData' placeholder="请选择级别类型">
-                            <el-option v-for=' (item,index) in this.ruleForm.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
+                        <el-select v-model="ruleForm.ctypes" placeholder="请选择级别类型">
+                            <el-option v-for=' (item,index) in ruleForm.curDate' :key="index" :label='item.createName' :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -51,6 +50,16 @@
                             <el-option label="注销" value="1"></el-option>
                         </el-select>
                     </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row >
+            <el-col :offset="1" style='padding-bottom:10px;'>
+                <el-tag :key="tag.name"  v-for="tag in dynamicTags" :style="{background: tag.color  }"  style='color:#fff;margin-right:10px;margin-bottom:10px; ' closable :disable-transitions="false" @close="handleClose(tag)" >
+                   {{tag.name}}
+                </el-tag>
+                <!--<el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue"  ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+                </el-input>
+                <el-button v-else class="button-new-tag" size="small" @click="showInput">新增标签</el-button>!-->
                 </el-col>
             </el-row>
             <el-form-item>
@@ -69,8 +78,8 @@
     .lineBline {
         border-bottom: 1px solid #ddd;
     }
-    #windowBox .el-col-12{
-        height:50px;
+    #windowBox .el-col-12 {
+        height: 60px;
     }
 </style>
 <script>
@@ -95,6 +104,10 @@
             }
             return {
                 dialogVisible: false,
+                dynamicTags: [],
+                inputVisible: false,
+                inputValue: '',
+                color:["#3f86fd","#32a1ff","#28c0f8","#0ecad1","#0dd980"],
                 ruleForm: {
                     Cname: '',
                     backname: '',
@@ -107,6 +120,7 @@
                     ctypes: '',
                     panper: '',
                     curDate: [],
+                    Label: '',
                     sourceFns: [],
                     textInfo: '新增会员',
                     thisId: ''
@@ -159,19 +173,13 @@
                                         "name": this.ruleForm.Cname,
                                         "contact": this.ruleForm.name,
                                         "contactMobile": this.ruleForm.mode,
-                                        "bankName":this.ruleForm.backname,
-                                        "bankNumber":this.ruleForm.backaccount,
+                                        "bankName": this.ruleForm.backname,
+                                        "bankNumber": this.ruleForm.backaccount,
                                         //'createTime':this.ruleForm.date1,
-                                        //'accountState ':this.ruleForm.panper,
-                                        "categoryId": 1,
-                                        "levelId": 1,
-                                        "supplierLabel": [{
-                                                "id": "d264a608-07e1-11e8-a896-6c4b901e385d"
-                                            },
-                                            {
-                                                "id": "ff775481-07e2-11e8-a896-6c4b901e385d"
-                                            }
-                                        ]
+                                        'accountState':this.ruleForm.panper,
+                                        "categoryId": this.ruleForm.county-0,
+                                        "levelId": this.ruleForm.ctypes-0,
+                                        "supplierLabel": this.dynamicTags
                                     }
                                 })
                                 .then(response => {
@@ -205,8 +213,8 @@
                                         "name": this.ruleForm.Cname,
                                         "contact": this.ruleForm.name,
                                         "contactMobile": this.ruleForm.mode,
-                                        "bankName":this.ruleForm.backname,
-                                        "bankNumber":this.ruleForm.backaccount,
+                                        "bankName": this.ruleForm.backname,
+                                        "bankNumber": this.ruleForm.backaccount,
                                         //'createTime':this.ruleForm.date1,
                                         //'accountState':this.ruleForm.panper,
                                         "categoryId": 1,
@@ -239,18 +247,43 @@
             // this.dialogVisible = false;
             // this.$refs['ruleForm'].resetFields();
             // },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
+            resetForm() {
+                this.$refs['ruleForm'].resetFields();
             },
-            showData() {
-                let url = '/api/product/category/query';
+            searchLabel() {
+                let url = '/api/product/label/query';
                 this.$http({
                         url: url,
                         method: 'post',
                         data: {}
                     })
                     .then(respone => {
+                        for(let i = 0 ;i<respone.data.info.length;i++){
+                                this.dynamicTags.push({
+                                    name: respone.data.info[i].name,
+                                    color:respone.data.info[i].color,
+                                    id:respone.data.info[i].id
+                                })
+                        }
+                        
+                        console.log(respone.data.info)
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        alert('网络错误，不能访问');
+                    })
+            },
+            showData() {
+                let url = '/api/product/level/query';
+                this.$http({
+                        url: url,
+                        method: 'post',
+                        data: {}
+                    })
+                    .then(respone => {
+                        
                         this.ruleForm.curDate = respone.data.info;
+                        console.log(respone.data.info)
                     })
                     .catch(error => {
                         console.log(error);
@@ -258,7 +291,7 @@
                     })
             },
             sourceFn() {
-                let url = '/api/product/level/query';
+                let url = '/api/product/category/query';
                 this.$http({
                         url: url,
                         method: 'post',
@@ -268,41 +301,67 @@
                         data: {}
                     })
                     .then(respone => {
+                        
                         this.ruleForm.sourceFns = respone.data.info;
+                        console.log( this.ruleForm.sourceFns)
+                        
                     })
                     .catch(error => {
                         console.log(error);
                         alert('网络错误，不能访问');
                     })
             },
-            // getData() {
-            // }
+            handleClose(tag) {
+                // if (this.ruleForm.textInfo == "新增会员") {
+                //     alert('新增无法删除');
+                //     return false;
+                // }
+                //this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+                console.log(tag)
+            },
+            showInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                let i = this.dynamicTags.length % 5
+                if (inputValue) {
+                    this.dynamicTags.push({
+                        name: inputValue,
+                        color:this.color[i]
+                    })
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            }
         },
         created: function() {
             this.$root.$on('showWindow', (data) => {
-                 console.log(data)
+                console.log(data)
                 if (data != 'no') {
-                    
                     this.ruleForm.textInfo = '编辑会员';
+                    console.log(data[0].panper)
                     this.ruleForm.mode = data[0].contactMobile,
-                    this.ruleForm.name = data[0].contact,
-                    this.ruleForm.backname = data[0].bankName,
-                    this.ruleForm.backaccount = data[0].bankNumber,
-                    this.ruleForm.Cname = data[0].name,
-                    this.ruleForm.ids=data[0].id,
-                    this.dialogVisible = true;
-                    
+                        this.ruleForm.name = data[0].contact,
+                        this.ruleForm.backname = data[0].bankName,
+                        this.ruleForm.backaccount = data[0].bankNumber,
+                        this.ruleForm.Cname = data[0].name,
+                        this.ruleForm.ids = data[0].id,
+                        this.ruleForm.panper = data[0].panper,
+                        this.ruleForm.sourceFns = data[0].ctypes,
+                        this.ruleForm.curDate = data[0].county,
+                        this.dialogVisible = true;
                 } else {
-                    // this.ruleForm.textInfo = '新增会员';
+                    this.ruleForm.textInfo = '新增会员';
                     this.dialogVisible = true;
-                    this.$nextTick(() => {
-                        this.ruleForm = {textInfo : '新增会员'};
-                        this.$refs['ruleForm'].resetFields();
-                    })
                 }
             });
-           // this.sourceFn();
-           // this.showData();
+            this.sourceFn();
+            this.showData();
+            this.searchLabel();
         }
     }
 </script>

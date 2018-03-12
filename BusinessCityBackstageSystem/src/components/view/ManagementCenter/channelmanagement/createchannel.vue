@@ -89,7 +89,7 @@
                 </el-table-column>
                 
                 <el-table-column
-                prop="departmentName"
+                prop="departmentName[0].departmentName"
                 label="所属部门"
                 >
                 </el-table-column>
@@ -180,7 +180,8 @@ export default {
                     this.datalist.push(item);
                 }
             });
-            console.log(isnull,list,this.datalist);
+            console.log(this.datalist);
+            // console.log(isnull,list,this.datalist);
         });
     },
     methods:{
@@ -232,13 +233,14 @@ export default {
             .then(function(response){
                 console.log(response);
                 if(response.data.msg=='查询成功'){
+                    console.log(response);
                     response.data.info.list.forEach(item=>{
                         that.beforeemployeelist.push({
                             id:item.adminAccount.id,
                             idrelation:item.id,
                             adminName:item.adminAccount.adminName,
                             phone:item.adminAccount.phone,
-                            departmentName:item.adminAccount.departmentName,
+                            departmentName:item.adminAccount.manageGroupAdminList,
                             employeeTypeName:item.adminAccount.employeeTypeName,
                             isLeader:item.isLeader
                         });
@@ -247,7 +249,7 @@ export default {
                             idrelation:item.id,
                             adminName:item.adminAccount.adminName,
                             phone:item.adminAccount.phone,
-                            departmentName:item.adminAccount.departmentName,
+                            departmentName:item.adminAccount.manageGroupAdminList,
                             employeeTypeName:item.adminAccount.employeeTypeName,
                             isLeader:item.isLeader
                         });

@@ -49,7 +49,7 @@
         :total="total">
         </el-pagination>
         <div style='text-align:center;position:absolute;bottom:3%;left:0;right:0;'>
-            <el-button type="primary" style="height：30px;line-height:7px;" @click="adddata">保存</el-button>
+            <el-button type="primary" style="height:30px;line-height:7px;" @click="adddata">保存</el-button>
         </div>
     </el-dialog>
 </template>

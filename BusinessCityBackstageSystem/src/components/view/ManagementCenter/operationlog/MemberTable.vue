@@ -21,28 +21,28 @@
         <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
-        prop="name"
+        prop="departmentName"
         label="部门"
         >
         </el-table-column>
         <el-table-column
-        prop="adminName"
+        prop="object.adminName"
         label="姓名">
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="content"
         label="敏感操作">
         </el-table-column>
         <el-table-column
-        prop="types"
+        prop="model"
         label="操作详情">
         </el-table-column>
         <el-table-column
-        prop="quarters"
+        prop="createTime"
         label="操作时间">
         </el-table-column>
         <el-table-column
-        prop="state"
+        prop="ip"
         label="员工IP">
         </el-table-column>  
     </el-table>
@@ -86,8 +86,11 @@ export default {
             })
             .then(response => {
                 this.listLoading =  false;
-                this.datalist=(response.data.info.list);
-                console.log(response.data)
+                
+                //for(let i = 0 ;i<response.data.info.list.length;i++){
+                            this.datalist = response.data.info.list
+                //}
+                console.log( this.datalist)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })

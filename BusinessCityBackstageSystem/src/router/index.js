@@ -51,7 +51,12 @@ export default new Router({
                     component: resolve => require(['@/components/view/organize/rolemanage/role.vue'], resolve)
                 },
                 {
-                    path: 'mallSet', // 商城模板
+                    path: 'templateList', // 模板管理
+                    name: 'templateList',
+                    component: resolve => require(['@/components/view/mall/templateList/templateList.vue'], resolve)
+                },
+                {
+                    path: 'mallSet', // 模板设置
                     name: 'mallSet',
                     component: resolve => require(['@/components/view/mall/customTemplate/templateSet.vue'], resolve)
                 },
@@ -110,6 +115,11 @@ export default new Router({
                     name: 'basicConfiguration',
                     component: resolve => require(['@/components/view/ManagementCenter/basicconfiguration/configuration.vue'], resolve)
                 },
+                {
+                    path: 'order', // 订单
+                    name: 'order',
+                    component: resolve => require(['@/components/view/order/order.vue'], resolve)
+                }
             ]
 
         },

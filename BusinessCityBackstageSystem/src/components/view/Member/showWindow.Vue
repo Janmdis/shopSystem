@@ -34,7 +34,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
-                    <el-form-item label="客户类型">
+                    <el-form-item label="客户类型" prop='ctypes'>
                         <el-select v-model="ruleForm.ctypes" @click.native='showData' placeholder="请选择客户类型">
                             <el-option v-for=' (item,index) in this.ruleForm.curDate ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
@@ -117,7 +117,7 @@ import qs from 'qs'
                         pattern: /^1[3|4|5|7|8][0-9]{9}$/g,
                         required: true,
                         message: '请输入正确的手机号',
-                         trigger: 'blur'
+                        trigger: 'blur'
                     }, ],
                     date1: [{
                         required: true,
@@ -128,6 +128,11 @@ import qs from 'qs'
                         validator: checkAge,
                         trigger: 'blur',
                         required: true
+                    }],
+                    ctypes: [{
+                        required: true,
+                        message: '选择客户类型',
+                        trigger: 'change'
                     }],
                 }
             };
@@ -160,6 +165,10 @@ import qs from 'qs'
                                 }]
                             })
                             .then(response => {
+                                if(response.data.status == 300){
+                                    alert(response.data.msg)
+                                    return false
+                                }
                                 this.dialogVisible = false;
                                 this.$root.$emit('getDatezdy',1)
                             })
@@ -214,7 +223,7 @@ import qs from 'qs'
                 }
             },
             resetForm(formName) {
-                this.$refs[formName].resetFields();
+                this.$refs['formName'].resetFields();
             },
             changeCount() {
                 if (this.ruleForm.date1 == "") {
@@ -286,6 +295,7 @@ import qs from 'qs'
                         data: {}
                     })
                     .then(respone => {
+                       
                         this.ruleForm.curDate = respone.data.info;
                     })
                     .catch(error => {
@@ -316,9 +326,8 @@ import qs from 'qs'
             // getData() {
             // }
         },
-        w: function() {
+        created: function() {
             this.$root.$on('showWindow', (data) => {
-                console.log(data)
                 if (data != 'no') {
                     console.log(data[0].id)
                     this.ruleForm.textInfo = '编辑会员';

@@ -165,6 +165,7 @@
                         <el-table-column
                             prop='date'
                             min-width='100'
+                            fixed
                             label="">
                             <template slot-scope="scope" :span='10'>
                                 <!-- <el-time-picker
