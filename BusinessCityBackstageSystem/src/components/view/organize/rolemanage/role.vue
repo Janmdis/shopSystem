@@ -9,7 +9,8 @@
             </el-col>
         </el-row>
         <Dialogedit></Dialogedit>
-        <Dialogaddrole></Dialogaddrole>
+        <!-- <Dialogaddrole></Dialogaddrole> -->
+        <Rolepromise></Rolepromise>
         <Dialogpromise></Dialogpromise>
     </el-main>
 </template>
@@ -17,10 +18,11 @@
 import Deplist from "../usermanage/deplist.vue";
 import Rolelist from "./rolelist.vue"
 import Dialogedit from "./dialogedit.vue"
-import Dialogaddrole from "./dialogaddrole.vue"
+// import Dialogaddrole from "./dialogaddrole.vue"
+import Rolepromise from '../rolepromise.vue'
 import Dialogpromise from "./dialogpromise.vue"
 export default {
-    components:{Deplist,Rolelist,Dialogedit,Dialogaddrole,Dialogpromise},
+    components:{Deplist,Rolelist,Dialogedit,Dialogpromise,Rolepromise},
     created:function(){
         this.$store.dispatch('getDeplisttree');
     },

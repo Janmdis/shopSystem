@@ -84,7 +84,7 @@ export default {
         },
         opendialogrole(){
             this.$store.dispatch('getPromiselist');
-            this.$root.$emit("exportvisrole",{depid:this.depid,depname:this.depname});
+            this.$root.$emit("exportvisrole",{depid:this.depid,depname:this.depname,type:'create'});
         },
         selectrole(e){
             let dom=document.getElementsByClassName('tbactive');

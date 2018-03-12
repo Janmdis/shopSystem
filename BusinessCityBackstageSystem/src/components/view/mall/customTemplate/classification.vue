@@ -43,7 +43,7 @@
                                             @change.native="imgUploads(index)"
                                             :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
                                         </el-upload>
-                                      <p style="line-height: 1485%;font-size:14px;text-align: center;">重新上传 建议比例（4:4）</p>
+                                      <p style="line-height: 1211%;font-size:13px;text-align: center;">重新上传 建议比例（4:4）</p>
                                       <div class="delete-img" @click="deleteImgAd(index)">&times;</div>
                                   </div>
                               </div>
@@ -424,8 +424,8 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 //样式 主标题 副标题 
  .linkTips{font-size:16px;margin-top:38px;margin-bottom:20px;text-align: left;}
  .carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
- .imgShowDiv{width:30%;background:#fff;margin-left:10px;margin-right:65px;margin-top:5px;float:left;position: relative;}
- .chooseImg{width: 165px;height:224px;}
+ .imgShowDiv{width:30.5%;background:#fff;margin-left:10px;margin-right:65px;margin-top:5px;float:left;position: relative;}
+ .chooseImg{width: 165px;height:165px;}
  .editStyleDiv{width:50%;background:#fff;margin-left:10px;margin-top:40px;float:left;}
  .calssTitleDiv{margin-top:20px;margin-bottom:20px;}
  .el-dropdown{border: 1px solid #aaaaaa;padding: 7px;}

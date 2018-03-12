@@ -30,7 +30,7 @@
               <div style="clear:both;"></div>
           </div>
               <!-- 模板最外层容器开始 -->
-              <div style="margin:20px 10px 922px 36px;border: 1px solid #aaaaaa;border-radius: 3px;">
+              <div style="margin:20px 10px 2422px 36px;border: 1px solid #aaaaaa;border-radius: 3px;">
                   <!-- 模板内容头部开始 -->
                   <div style="    height: 105px;width:100%">
                       <img class="Imgsize" src="./../../../../assets/templateHeader.png">
@@ -53,7 +53,7 @@
                           <el-row :gutter="15" class="template-buttom-content">
                             <el-col style="width:20%;min-width:60px;"><div class="newContentBtn" @click="commodityAdd">商品</div></el-col>
                             <el-col style="width:20%;min-width: 60px;"><div class="newContentBtn" @click="titleAdd">标题</div></el-col>
-                            <el-col style="width:20%;min-width: 60px;"><div class="newContentBtn" @click="imageAdsAdd">图片广告</div></el-col>
+                            <el-col style="width:20%;min-width: 60px;"><div class="newContentBtn" @click="imageAdsAdd">轮播图片</div></el-col>
                             <el-col style="width:20%;min-width: 60px;"><div class="newContentBtn" @click="classificationAdd">分类</div></el-col>
                             <el-col style="width:20%;min-width: 76px;">
                                 <el-dropdown class="newContentBtn" trigger="click">
@@ -66,6 +66,7 @@
                                     </el-dropdown-menu>
                                 </el-dropdown>
                             </el-col>
+                            <el-col style="width:20%;min-width: 60px;padding-top: 12.5px;"><div class="newContentBtn" @click="detailsPictureAdd">详情图片</div></el-col>
                           </el-row>
                       </el-col>
                       <div style="clear:both;"></div>
@@ -106,7 +107,8 @@ import commodity from './commodity'
 import titles from './titles'
 // 分类展示组件
 import classification from './classification'
-
+// 详情图片组件
+import detailsImage from './detailsImage'
 ///////////////////////////////
 
 // 商品详情模态框
@@ -211,6 +213,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                 value.style.display="none"
             }
         },
+        detailsPictureAdd(){
+            this.$store.commit('detailsPictureADD')
+            let templateEdit = document.querySelectorAll('.template-editContent-div')
+             for(let value of templateEdit){
+                //console.log(value)
+                value.style.display="none"
+            }
+        },
         changeEdit(index,item){
              //console.log(index) //循环下标
              //console.log(item)  //点时当前的组件name
@@ -230,6 +240,13 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
         },
         savesss(){
             console.log(this.templateAllData)
+            if(this.templateAllData.templateName ==''){
+                this.$message({
+                    type: 'warning',
+                    message: '请填写模板名称'
+                });
+                return false
+            }
             //新增
             if(this.templateAllData.templateID == null){
                // alert(111)
@@ -314,6 +331,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          commodity,
          titles,
          classification,
+         detailsImage,
          productDetails,
          customLink
      }
