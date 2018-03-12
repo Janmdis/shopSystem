@@ -24,6 +24,7 @@
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>
+            <member-info class="infoCover" ref="memberInfos"></member-info>
             <el-row>
                 <el-col :span='10'>
                     <p class='lineHeight'>从1到{{this.pageS}}/共<span>{{this.totalCount}}</span>条数据</p>

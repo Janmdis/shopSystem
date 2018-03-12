@@ -22,7 +22,7 @@ export default{
         }
     },
     created(){
-        console.log(this.houseCount);
+        // console.log(this.houseCount);
     },
     methods: {
         handleCurrentChange(val) {
