@@ -5,6 +5,7 @@ import threeOrder from './Order.vue'
 import fourVisit from './Visit.vue'
 import fiveRelatedPeople from './RelatedPeople.vue'
 import { setTimeout } from 'timers';
+import { mapState } from 'Vuex'
 export default {
     name: 'memberInfo',
     data() {
@@ -37,9 +38,9 @@ export default {
             which_to_show: '',
             default1: true,
             personnelInfo: {},
-            customerCategory: {},
+            customerCategory: [],
             customerIdentity: {},
-            recommendedSource: {},
+            recommendedSource: [],
             memberHouse: {},
             houseCount: {},
             memberId: '',
@@ -61,6 +62,18 @@ export default {
         });
         this.isShow('房屋');
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
+            this.userInfo();
+            for (let item in this.info1.data) {
+                this.customerCategory.push({ id: item - 0, name: this.info1.data[item] });
+            }
+            for (let item in this.info2.data) {
+                this.recommendedSource.push({ id: item - 0, name: this.info2.data[item] });
+            }
+            // this.promise.then(value => {
+            //     console.log(value);
+            // })
+            console.log(this.customerCategory);
+            console.log(this.recommendedSource);
             this.searchInfo(ids);
             this.memberId = ids;
             this.getData(ids);
@@ -83,20 +96,37 @@ export default {
         this.$root.$on('pageType', (res) => {
             this.typeWord = res;
             // console.log(this.typeWord);
+
+
         });
+
     },
+    computed: mapState({
+        info1: state => state.memberInfo.customerCategory,
+        info2: state => state.memberInfo.recommendedSource,
+        info3: state => state.memberInfo.memberHouse,
+    }),
     methods: {
+        userInfo() {
+            let promise = new Promise((resolve, reject) => {
+                this.$http.get(
+                    '/api/public/region/findParent?grade=2'
+                ).then(res => {
+                    this.cities = res.data.info;
+                    resolve(true);
+                }).catch(err => {
+                    console.log(err)
+                    reject(false)
+                });
+            })
+        },
         editInfo(event) {
             let that = this;
             let text = event.currentTarget.innerHTML;
             if (text == '编辑') {
                 event.currentTarget.innerHTML = '完成';
                 this.ruleForm.active = false;
-                this.$http.get(
-                    '/api/public/region/findParent?grade=2'
-                ).then(res => {
-                    this.cities = res.data.info;
-                }).catch(err => { console.log(err) });
+                this.userInfo();
             } else {
                 event.currentTarget.innerHTML = '编辑';
                 this.ruleForm.active = true;
@@ -108,8 +138,8 @@ export default {
                     mobile: this.ruleForm.userPhone,
                     // order: this.ruleForm.userOrder,
                     birthDate: this.ruleForm.userBirth,
-                    // writer: this.ruleForm.writer,
-                    // time: this.ruleForm.inputTime,
+                    createUser: this.ruleForm.writer,
+                    createTime: this.ruleForm.inputTime,
                     cityId: this.ruleForm.userCity,
                     categoryId: this.ruleForm.userType,
                     estateId: this.ruleForm.userVillage,
@@ -159,23 +189,25 @@ export default {
                 this.ruleForm.userBirth = this.personnelInfo.birthDate;
                 this.ruleForm.writer = this.personnelInfo.createUser == null ? '未知' : this.personnelInfo.createUser;
                 this.ruleForm.inputTime = this.personnelInfo.createTime;
-                this.ruleForm.userCity = this.personnelInfo.cityName;
+                this.ruleForm.userCity = this.personnelInfo.cityId;
+                this.ruleForm.userType = this.personnelInfo.categoryId;
+                this.ruleForm.userOrigin = this.personnelInfo.recommendedSourceId;
+                this.ruleForm.userVillage = this.personnelInfo.estateId;
                 this.which_to_show = 'twoHouse';
 
-                this.$http.post( //  获取客户类型接口
-                    '/api/customer/customerCategory/findCategory?key=id&value=name'
-                ).then(res => {
-                    if (res.data.info == null) {
-                        alert(res.data.msg)
-                    } else {
-                        // console.log(this.customerCategory)
-                        //this.customerCategory = res.data.info.get(id);  // map数据,前端可以当做数组进行处理
-                        this.customerCategory = res.data.info;
-                        this.defaultCategory = (res.data.info[this.personnelInfo.categoryId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.categoryId]);
-                        this.ruleForm.userType = this.defaultCategory;
-                    }
-                    //console.log(res.data.info)
-                }).catch(err => { console.log(err) });
+                // this.$http.post( //  获取客户类型接口
+                //     '/api/customer/customerCategory/findCategory?key=id&value=name'
+                // ).then(res => {
+                //     if (res.data.info == null) {
+                //         alert(res.data.msg)
+                //     } else {
+                //         console.log(this.customerCategory)
+                //             //this.customerCategory = res.data.info.get(id);  // map数据,前端可以当做数组进行处理
+                //             // that.customerCategory = res.data.info;
+                //             // that.defaultCategory = (res.data.info[this.personnelInfo.categoryId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.categoryId]);
+                //     }
+                //     //console.log(res.data.info)
+                // }).catch(err => { console.log(err) });
 
                 this.$http.post( //  获取会员身份接口
                     '/api/customer/identity/findIdentity?key=id&value=name'
@@ -183,25 +215,24 @@ export default {
                     if (res.data.info == null) {
                         alert(res.data.msg)
                     } else {
-                        this.customerIdentity = res.data.info;
-                        this.defaultIdentity = (res.data.info[this.personnelInfo.identity] == null ? res.data.info[1] : res.data.info[this.personnelInfo.identity]);
+                        that.customerIdentity = res.data.info;
+                        that.defaultIdentity = (res.data.info[this.personnelInfo.identity] == null ? res.data.info[1] : res.data.info[this.personnelInfo.identity]);
                     }
                     //console.log(this.customerIdentity)
                 }).catch(err => { console.log(err); });
 
-                this.$http.post( //  获取推荐来源接口
-                    '/api/customer/recommendedSource/findSource?key=id&value=name'
-                ).then(res => {
-                    //console.log(res.data.info)
-                    if (res.data.info == null) {
-                        alert(res.data.msg)
-                    } else {
-                        this.recommendedSource = res.data.info;
-                        this.defaultSource = (res.data.info[this.personnelInfo.recommendedSourceId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.recommendedSourceId]);
-                        this.ruleForm.userOrigin = this.defaultSource;
-                    }
-                    //console.log(this.recommendedSource)
-                }).catch(err => { console.log(err); });
+                // this.$http.post( //  获取推荐来源接口
+                //     '/api/customer/recommendedSource/findSource?key=id&value=name'
+                // ).then(res => {
+                //     //console.log(res.data.info)
+                //     if (res.data.info == null) {
+                //         alert(res.data.msg)
+                //     } else {
+                //         that.recommendedSource = res.data.info;
+                //         that.defaultSource = (res.data.info[this.personnelInfo.recommendedSourceId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.recommendedSourceId]);
+                //     }
+                //     //console.log(this.recommendedSource)
+                // }).catch(err => { console.log(err); });
 
                 this.$http.post( //  查询房屋类型信息
                     '/api/customer/housingCategory/queryCategory?key=id&value=name'
@@ -209,7 +240,7 @@ export default {
                     if (res.data.info == null) {
                         alert(res.data.msg)
                     } else {
-                        this.houseCategory = res.data.info;
+                        that.houseCategory = res.data.info;
                         //console.log(this.houseCategory)
                     }
                 }).catch(err => { console.log(err) });

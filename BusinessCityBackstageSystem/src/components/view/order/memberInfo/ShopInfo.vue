@@ -63,8 +63,13 @@ export default{
             this.items.origin = this.defaultSource;
         }
     },
+    created(){
+        this.searchInfo();
+    },
     methods:{
-
+        searchInfo(){
+            this.$root.$emit('load',false);
+        },
     }
 }
 </script>
