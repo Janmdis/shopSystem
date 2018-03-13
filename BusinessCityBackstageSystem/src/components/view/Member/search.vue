@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form ref="form" :model="form" label-width="80px" id='searcher' v-show="false">
+        <el-form ref="form" :model="form" label-width="80px" id='searcher' v-show="form.isShow">
             <el-row>
                 <el-col :span="24">
                     <el-col :span="5">
@@ -94,7 +94,8 @@
                     Customer: '',
                     Visit: '',
                     curDate: [],
-                    sourceFns: []
+                    sourceFns: [],
+                    isShow:true,
                 }
             }
         },
@@ -105,6 +106,9 @@
         methods: {
             resetForm() {
                 this.$refs['form'].resetFields();
+            },
+            isShowBox(){
+                this.form.isShow = false;
             },
             formClear() {
                 this.form.iphone = "";
@@ -121,7 +125,7 @@
                 let Order = this.form.Order;
                 let Customer = this.form.Customer;
                 let Visit = this.form.Visit;
-                console.log(iphone, quarters, source, Customer)
+                
             },
             changeValue(value) {
                 console.log(value);
@@ -138,6 +142,8 @@
                     })
                     .then(respone => {
                         this.form.curDate = respone.data.info;
+                        
+                       
                     })
                     .catch(error => {
                         console.log(error);

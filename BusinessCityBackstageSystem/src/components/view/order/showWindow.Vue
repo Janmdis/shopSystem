@@ -373,8 +373,11 @@
                     sourceId:this.ruleForm.sourceId
                 }
                 if (this.ruleForm.textInfo == "新增会员") {
+                     this.handleClose();
                     that.$refs[formName].validate((valid) => {
+                        
                         if (valid) {
+                           
                             let url = '/api/product/coupon/info/insert';
                             this.$http({
                                     url: url,
@@ -386,7 +389,7 @@
                                     data: dataInfo
                                 })
                                 .then(response => {
-                                    this.handleClose();
+                                    
                                     this.dialogVisible = false;
                                     this.$root.$emit('getDatezdy', 1)
                                 })
@@ -550,7 +553,6 @@
             },
             handleClose() {　　
                 this.$refs['ruleForm'].resetFields();
-                this.dialogVisible = false;
             },
             resetForm() {
                 this.$refs['ruleForm'].resetFields();
@@ -584,7 +586,7 @@
                 }
             });
             this.getclassificationBox();
-            this.getShopBox()
+            this.getShopBox();
         }
     }
 </script>
