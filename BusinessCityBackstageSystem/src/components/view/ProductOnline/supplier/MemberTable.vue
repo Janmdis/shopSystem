@@ -45,9 +45,12 @@
         sortable>
         </el-table-column>
         <el-table-column
-        prop="supplierLabel"
         label="供应商标签"
+        width='500'
         sortable>
+         <template slot-scope="scope">
+            <el-button v-for='(item,index) in scope.row.supplierLabel' :style="{background: item.color  }" style='color:#fff;' :kye='index'>{{item.name}}</el-button>
+        </template>
         </el-table-column>
         <el-table-column
         prop="source"
@@ -107,7 +110,7 @@ export default {
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                console.log(this.datalist.supplierLabel)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })
@@ -140,9 +143,10 @@ export default {
             return index + 1
         },
         handleClick(row) {
-            this.delBox(row.id)
+            this.delBox(row)
        },
        delBox(id){
+           console.log(id)
             this.$root.$emit("delBox",[id])
         },
        handleWindow(row){

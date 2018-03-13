@@ -78,7 +78,7 @@ const mutations={
         }
         state.comlist=list;
     },
-    //新增图片广告模块
+    //新增轮播广告模块
     imageAdsADD(state){
         let imageAdsDefault = {
             componentsName:"imageAds",
@@ -119,7 +119,7 @@ const mutations={
         };
         state.comlist.push(imageAdsDefault)
     },
-    //删除图片广告 图片的方法
+    //删除轮播广告 图片的方法
     deleteImgAD(state,data){
             let list=[];
             let id = data.dataid;
@@ -137,7 +137,7 @@ const mutations={
             }
             state.comlist[id].componentsData.ImgArr=list;
     },
-    //新增图片广告 图片的方法
+    //新增轮播广告 图片的方法
     addNewImgAD(state,id){
         let adImagedefault = {
             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
@@ -149,7 +149,7 @@ const mutations={
         }
         state.comlist[id].componentsData.ImgArr.push(adImagedefault)
     },
-    //图片广告 图片上传更换方法
+    //轮播广告 图片上传更换方法
     adUploadImage(state,data){
         let id = data.dataid;
         let index = data.indexs;
@@ -175,6 +175,35 @@ const mutations={
                 state.comlist[id].componentsData.productImgURL3 = urls
             }
         }
+    },
+    //新增详情图片模块
+    detailsPictureADD(state){
+        let imageAdsDefault = {
+            componentsName:"detailsImage",
+            componentsData:{
+                importFileUrl:'api/sms/file/fileUpload',
+                admin:{
+                    type:'product'
+                },
+                defaultImgObj:{
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            url:'',
+                            imgSrc:''
+                        },
+                ImgArr:[
+                        {
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            url:'',
+                            imgSrc:''
+                        },{
+                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
+                            url:'',
+                            imgSrc:''
+                        }
+                    ]
+            }
+        };
+        state.comlist.push(imageAdsDefault)
     },
     //新增分类模块
     classificationADD(state){
@@ -257,12 +286,12 @@ const mutations={
             url:'',
             imgSrc:''
          };
-        if(state.comlist[id].componentsData.ImgArr.length > 10){
-            let classNames = document.querySelectorAll('.className');
-            let length = this.imglist.length;
-            let classNameWidth =  classNames[0].offsetWidth;
-            let allWidth = classNameWidth * length;
-            this.classNameContent.width = allWidth + 'px';
+        if(state.comlist[id].componentsData.ImgArr.length >= 10){
+           // let classNames = document.querySelectorAll('.className');
+           // let length = state.comlist[id].componentsData.ImgArr.length;
+            //let classNameWidth =  classNames[0].offsetWidth;
+           // let allWidth = classNameWidth * length;
+            //this.classNameContent.width = allWidth + 'px';
              return false
         }
         console.log(id)

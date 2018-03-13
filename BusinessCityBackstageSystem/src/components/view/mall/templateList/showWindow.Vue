@@ -7,6 +7,7 @@
                         <el-select v-model="ruleForm.type" placeholder="请选择类型">
                             <el-option label="商城模板" value="1"></el-option>
                             <el-option label="活动模板" value="2"></el-option>
+                            <el-option label="详情模板" value="3"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>

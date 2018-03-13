@@ -16,11 +16,12 @@
                     </div>
                 </el-col>
             </el-row>
+           
+        </div>
+        <div class="memberMain">
             <el-row>
                 <search></search>
             </el-row>
-        </div>
-        <div class="memberMain">
             <div class='boderBox'>
                 <Datatable></Datatable>
             </div>
