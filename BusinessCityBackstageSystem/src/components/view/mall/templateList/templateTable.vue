@@ -26,7 +26,7 @@
         <el-table-column
         label="模板分类">
         <template slot-scope="scope">
-            <span>{{ scope.row.templateType == 1?'首页模板':scope.row.templateType == 2?'活动模板':'自定义'}}</span>
+            <span>{{ scope.row.templateType == 1?'首页模板':scope.row.templateType == 2?'活动模板':scope.row.templateType == 3?'详情模板':'自定义'}}</span>
         </template>
         </el-table-column>
         <el-table-column
@@ -51,7 +51,7 @@
              <el-button type="text"  size="small" @click="handleSee(scope.$index, scope.row,$event)">浏览</el-button>
             <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
             <el-button type="text"  size="small" @click="handleSwicth(scope.$index, scope.row,$event)">
-                <span>{{ scope.row.isEnabled == true?'停用':scope.row.isEnabled == false?'启用':''}}</span>
+                <span>{{ scope.row.isEnabled == true?'启用中':scope.row.isEnabled == false?'停用中':''}}</span>
                 </el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
@@ -86,7 +86,7 @@ export default {
         
     },
     methods:{
-        handleDelete(index, row,event) { //  删除某一种产品
+        handleDelete(index, row,event) { //  删除某一个模板
             let that = this;
             console.log(row);
             this.$confirm('确定删除 "'+row.templateName+'"吗?', '提示', 
@@ -121,6 +121,8 @@ export default {
         handleSwicth(index,row,event){
             let that = this;
             console.log(row);
+            console.log(row.isEnabled)
+            let stateBl = !row.isEnabled
             this.$confirm('确定更改 "'+row.templateName+'"的状态吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
@@ -128,7 +130,7 @@ export default {
                     type: 'success',
                     message: '更改成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/remove',
+                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value='+stateBl,
                         [row.templateID]
                     ).then(res => {
                         console.log(res.data.msg);

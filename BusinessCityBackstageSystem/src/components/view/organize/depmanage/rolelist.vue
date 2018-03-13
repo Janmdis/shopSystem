@@ -24,14 +24,16 @@
             </table>
             
         </div> 
-        <Dialogrole :ishow='dialogroleVisible'></Dialogrole>  
+        <!-- <Dialogrole :ishow='dialogroleVisible'></Dialogrole>   -->
+        <Rolepromise :ishow='dialogroleVisible'></Rolepromise>  
     </div>
 </template>
 <script>
 import Dialogrole from './dialogrole'
+import Rolepromise from '../rolepromise.vue'
 import { mapState } from 'vuex'
 export default {
-    components:{Dialogrole},
+    components:{Dialogrole,Rolepromise},
     data(){
         return {
             dialogroleVisible:false,
@@ -82,8 +84,7 @@ export default {
         },
         opendialogrole(){
             this.$store.dispatch('getPromiselist');
-            
-            this.$root.$emit("exportvisrole",{depid:this.depid,depname:this.depname});
+            this.$root.$emit("exportvisrole",{depid:this.depid,depname:this.depname,type:'create'});
         },
         selectrole(e){
             let dom=document.getElementsByClassName('tbactive');

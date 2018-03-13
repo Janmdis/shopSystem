@@ -293,7 +293,7 @@ export default{
 </style>
 <style scoped lang="less">
 #visit{
-    padding:20px 20px 80px;
+    padding:40px 20px 40px;
     height:500px;
     overflow-y:scroll;
     .visitHeader{

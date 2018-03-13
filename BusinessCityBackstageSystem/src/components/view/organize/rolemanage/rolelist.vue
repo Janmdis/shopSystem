@@ -91,7 +91,7 @@ export default {
         addrole(){
             this.$store.dispatch('getPromiselist');
             this.$store.dispatch('getDeplistall');
-            this.$root.$emit('addroledialog');
+            this.$root.$emit('exportvisrole',{type:'create'});
         },
         researchdata(){
             this.getrolelist(1,this.pagesize);
@@ -147,7 +147,9 @@ export default {
             });
         },
         handlePromise(row){
-            this.$root.$emit('showpromise',{id:row.id,depid:this.depid,permissionid:row.permissionsId});
+            // this.$root.$emit('showpromise',{id:row.id,depid:this.depid,permissionid:row.permissionsId});
+            this.$root.$emit('exportvisrole',{id:row.id,permissionid:row.permissionsId,type:'edit'});
+            
         },
         handleCurrentChange(currentPage){
             this.getrolelist(currentPage,this.pagesize);

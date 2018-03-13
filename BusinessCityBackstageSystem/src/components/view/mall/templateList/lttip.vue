@@ -6,14 +6,17 @@
             </h3>
             <ul class="emendation">
                  <li>已选中<span class="nums">0</span>项</li>
-                 <li id="modificationBtn" class='other' @click="edit">
+                 <li id="browseBtn" class='other' >
                     <i class='el-icon-edit-outline'></i> 浏览
                 </li>
                 <li id="modificationBtn" class='other' @click="edit">
                     <i class='el-icon-edit-outline'></i> 编辑
                 </li>
-                <li class='other' data-toggle="modal" data-target="#delModal" @click="delBox">
-                    <i class='el-icon-delete'></i> 启用/停用
+                <li class='other' data-toggle="modal" data-target="#delModal" @click="swicthOFF">
+                    <i class='el-icon-delete'></i> 启用
+                </li>
+                <li class='other' data-toggle="modal" data-target="#delModal" @click="swicthStop">
+                    <i class='el-icon-delete'></i> 停用
                 </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
@@ -29,44 +32,63 @@ export default {
         return{
             listname:'',
             canedit:true,
-            dataInfo:''
+            dataInfo:'',
+            dataArr:''
         }
     },
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
-            console.log(data)
+            //console.log(data)
             this.dataInfo = data.datas[0]
+            this.dataArr = data.datas
             var dom=document.getElementsByClassName('emendation')[0];
-             let dom_edit=document.getElementById('modificationBtn');
+             let dom_edit = document.getElementById('modificationBtn');
+             let dom_browse = document.getElementById('browseBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
-            dom.style.left=data.show?'0px':'-760px';
+            dom.style.left=data.show?'0px':'-900px';
             dom_edit.style.cursor=data.editcan?'':'not-allowed';
+            dom_browse.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
     },
     methods:{
         edit(){
             if(this.canedit){
-                this.$root.$emit('editdialog');
-                this.$root.$emit("showWindow",this.dataInfo)
+                // this.$root.$emit('editdialog');
+                // this.$root.$emit("showWindow",this.dataInfo)
+                //console.log(this.dataInfo)
+                this.$store.dispatch('editTemplate',this.dataInfo)
+                this.$router.push({ path: '/mallSet' })
             }
-
         },
         delBox(){
             let that = this;
-            this.$confirm('确定删除 "'+this.dataInfo.name+'"吗?', '提示', 
+           // console.log(this.dataArr)
+            let arrLength = this.dataArr.length;
+            let newArr = [];
+            for(let i = 0;i< arrLength;i++){
+                newArr.push(this.dataArr[i].templateID)
+            }
+            this.$confirm('确定删除这 '+arrLength+'项吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
                 that.$message({
                     type: 'success',
-                    message: '删除成功!',
+                    message: '操作成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/customer/estate/removeData',
-                        [that.dataInfo.id]
+                    onClose:that.$http.post('/api/product/mall/template/remove',
+                        newArr
                     ).then(res => {
-                        console.log(res.data.msg);
-                        that.$root.$emit('getDatezdy');
+                       // console.log(res.data.msg);
+                        if(res.data.msg == '删除失败'){
+                            that.$message({
+                            type: 'info',
+                            message: '请先停用该模板',
+                            duration:800
+                        }); 
+                        }
+                        that.$root.$emit('getDatezdy',1);
                     }).catch(err => {console.log(err)})
                 });
             }).catch(() => {
@@ -76,6 +98,66 @@ export default {
                     duration:800
                 });          
             });   
+        },
+        swicthOFF(){
+            let that = this;
+            //console.log(this.dataArr)
+            let arrLength = this.dataArr.length;
+            let newArr = [];
+            for(let i = 0;i< arrLength;i++){
+                newArr.push(this.dataArr[i].templateID)
+            }
+            this.$confirm('确定操作这 '+arrLength+'项吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '操作成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value=true',
+                        newArr
+                    ).then(res => {
+                       // console.log(res.data.msg);
+                        that.$root.$emit('getDatezdy',1);
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消更改',
+                    duration:800
+                });          
+            });   
+        },
+        swicthStop(){
+            let that = this;
+            //console.log(this.dataArr)
+            let arrLength = this.dataArr.length;
+            let newArr = [];
+            for(let i = 0;i< arrLength;i++){
+                newArr.push(this.dataArr[i].templateID)
+            }
+            this.$confirm('确定操作这 '+arrLength+'项吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '操作成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value=false',
+                        newArr
+                    ).then(res => {
+                        //console.log(res.data.msg);
+                        that.$root.$emit('getDatezdy',1);
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消更改',
+                    duration:800
+                });          
+            }); 
         }
     }
 }
@@ -120,7 +202,7 @@ export default {
 	margin-top: 26px;
 	position: absolute;
 	top: 0;
-	left:-760px;
+	left:-900px;
 	height: 32px;
     background: #fff;
     color: #555;

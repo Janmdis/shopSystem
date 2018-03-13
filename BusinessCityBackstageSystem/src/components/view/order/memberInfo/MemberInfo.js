@@ -1,19 +1,17 @@
 /* eslint-disable */
-import onePersonnel from './Personnel.vue'
-import twoHouse from './House.vue'
-import threeOrder from './Order.vue'
+import oneShopInfo from './ShopInfo.vue'
+import twoGiftIntegral from './GiftIntegral.vue'
+import threePayInfo from './PayInfo.vue'
 import fourVisit from './Visit.vue'
-import fiveRelatedPeople from './RelatedPeople.vue'
 import { setTimeout } from 'timers';
 export default {
     name: 'memberInfo',
     data() {
         return {
             infoText: [
-                { title: '房屋', imgSrc: '/static/images/Member/personnel-house.png', bgColor: 'background:#e16938;', number: 2 },
-                { title: '订单', imgSrc: '/static/images/Member/dingdan.jpg', bgColor: 'background:#00c0be;', number: 2 },
-                { title: '报告', imgSrc: '/static/images/Member/personnel-info.png', bgColor: 'background:#7a9df7;', number: 2 },
-                { title: '相关联会员', imgSrc: '/static/images/Member/personnel-related.png', bgColor: 'background:#ffaf48;', number: 2 },
+                { title: '商品/活动信息', imgSrc: '/static/images/Member/personnel-house.png', bgColor: 'background:#e16938;', number: 2 },
+                { title: '赠送积分信息', imgSrc: '/static/images/Member/dingdan.jpg', bgColor: 'background:#00c0be;', number: 2 },
+                { title: '支付信息', imgSrc: '/static/images/Member/personnel-info.png', bgColor: 'background:#7a9df7;', number: 2 },
                 { title: '回访', imgSrc: '/static/images/Member/personnel-visit.png', bgColor: 'background:#e39eef;', number: 2 },
             ],
             visitTypes: [],
@@ -32,7 +30,7 @@ export default {
                 inputTime: '',
                 active: true
             },
-            isActive: '房屋',
+            isActive: '商品/活动信息',
             isLoading: true,
             which_to_show: '',
             default1: true,
@@ -59,7 +57,7 @@ export default {
         this.$root.$on('title', (title) => {
             this.which_to_show = title
         });
-        this.isShow('房屋');
+        this.isShow('商品/活动信息');
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
             this.searchInfo(ids);
             this.memberId = ids;
@@ -82,7 +80,6 @@ export default {
         });
         this.$root.$on('pageType', (res) => {
             this.typeWord = res;
-            // console.log(this.typeWord);
         });
     },
     methods: {
@@ -242,15 +239,12 @@ export default {
             this.default1 = false;
             this.isActive = text;
             this.isLoading = true;
-            if (text == '房屋') {
-                text = twoHouse;
-            } else if (text == '订单') {
-                text = threeOrder;
-            } else if (text == '报告') {
-                text = onePersonnel;
-            } else if (text == '相关联会员') {
-                text = fiveRelatedPeople;
-                this.$root.$emit('loadFn3', this.memberId);
+            if (text == '商品/活动信息') {
+                text = oneShopInfo;
+            } else if (text == '赠送积分信息') {
+                text = twoGiftIntegral;
+            } else if (text == '支付信息') {
+                text = threePayInfo;
             } else if (text == '回访') {
                 text = fourVisit;
             }
@@ -265,11 +259,10 @@ export default {
         },
     },
     components: {
-        onePersonnel,
-        twoHouse,
-        threeOrder,
-        fourVisit,
-        fiveRelatedPeople,
+        oneShopInfo,
+        twoGiftIntegral,
+        threePayInfo,
+        fourVisit
     },
     beforeDestroy() {
         this.$root.$off('searchPersonnelInfo');

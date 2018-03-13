@@ -38,7 +38,10 @@ export default{
     created:function(){
        this.$root.$on('detailShow',() => {
             this.isSwitchOrderDetail = true
-        })
+        });
+        setTimeout(() =>{
+            this.$root.$emit('load',false);
+        },1000);
     },
     methods:{
         jumpOrderDetail () {

@@ -5,18 +5,14 @@
                 <el-form :model="ruleForm" ref="ruleForm" 
                 label-width="100px" class="demo-ruleForms" >
                     <el-col class="item-header" :span="22">
-                        <el-form-item class="visit-item header-item1" label="" prop="userName">
-                            <img class="images images1" src="/static/images/Member/personnel-character.png" alt="">
+                        <el-form-item class="visit-item header-item1" label="NO." prop="userName">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.userName"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item header-item2" label="积分:" prop="userPoint">
-                            <img class="images" src="/static/images/Member/personnel-integral.png" alt="">
+                        <el-form-item class="visit-item header-item2" label="订单状态 :" prop="userPoint">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.userPoint"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item header-item3" label="钻石会员:" prop="userLevel">
-                            <img class="images images3" src="/static/images/Member/personnel-level.png" alt="">
+                        <el-form-item class="visit-item header-item3" label="手机 :" prop="userLevel">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.userLevel"></el-input>
-                            <span>300经验值</span>
                         </el-form-item>
                         <el-col class="header-btn" :span="5">
                             <div class="infoLine1Right">
@@ -26,63 +22,31 @@
                         </el-col>
                     </el-col>
                     <el-col class="item-body" :span="24">
-                        <el-form-item class="visit-item item-padding" label="手机号:" prop="userPhone">
+                        <el-form-item class="visit-item item-padding" label="下单时间" prop="userPhone">
                             <el-input :disabled='ruleForm.active' v-model="ruleForm.userPhone"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item" label="客户类型:" prop="userType">
-                            <el-col :span="22"><el-select v-model="ruleForm.userType" :disabled="ruleForm.active" placeholder="请选择">
-                                <el-option
-                                :popper-append-to-body="false"
-                                v-for="(item,index) in customerCategory"
-                                :key="index"
-                                :label="item"
-                                :value="index">
-                                </el-option></el-select>
-                            </el-col>
+                        <el-form-item class="visit-item" label="订单金额" prop="userType">
+                            <el-input :disabled='ruleForm.active' v-model="ruleForm.userPhone"></el-input>
                         </el-form-item>   
-                        <el-form-item class="visit-item" label="城市:" prop="userCity">
-                            <el-col :span="22"><el-select v-model="ruleForm.userCity" clearable  filterable :disabled="ruleForm.active" placeholder="请选择">
-                                <el-option
-                                :popper-append-to-body="false"
-                                v-for="(item,index) in cities"
-                                :key="index"
-                                :label="item.regionName"
-                                :value="item.id">
-                                </el-option></el-select>
-                            </el-col>
+                        <el-form-item class="visit-item" label="支付金额" prop="userCity">
+                            <el-input :disabled='ruleForm.active' v-model="ruleForm.userPhone"></el-input>
                         </el-form-item>  
-                        <el-form-item class="visit-item" label="小区:" prop="userVillage">
-                            <el-col :span="22"><el-select v-model="ruleForm.userVillage" :disabled="ruleForm.active" placeholder="请选择">
-                                <el-option
-                                :popper-append-to-body="false"
-                                v-for="(item,index) in memberHouse"
-                                :key="index"
-                                :label="item.housingEstate.name"
-                                :value="item.housingEstate.id">
-                                </el-option></el-select>
-                            </el-col>
+                        <el-form-item class="visit-item" label="未付款金额" prop="userVillage">
+                            <el-input :disabled='ruleForm.active' v-model="ruleForm.userPhone"></el-input>
                         </el-form-item>  
-                        <el-form-item class="visit-item" label="订单详情:" prop="userOrder">
+                        <el-form-item class="visit-item" label="退款金额" prop="userOrder">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.userOrder"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item" label="来源:" prop="userOrigin">
-                            <el-col :span="22"><el-select v-model="ruleForm.userOrigin" :disabled="ruleForm.active" placeholder="请选择">
-                                <el-option
-                                :popper-append-to-body="false"
-                                v-for="(item,index) in recommendedSource"
-                                :key="index"
-                                :label="item"
-                                :value="index">
-                                </el-option></el-select>
-                            </el-col>
+                        <el-form-item class="visit-item" label="业主姓名" prop="userOrigin">
+                            <el-input :disabled='ruleForm.active' v-model="ruleForm.userPhone"></el-input>
                         </el-form-item>  
-                        <el-form-item class="visit-item" label="生日:" prop="userBirth">
+                        <el-form-item class="visit-item" label="地址" prop="userBirth">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.userBirth"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item" label="录入人:" prop="writer">
-                            <el-input :disabled="ruleForm.active" v-model="ruleForm.writer"></el-input>
+                        <el-form-item class="visit-item" label="会员等级" prop="writer">
+                            <el-input :disabled='ruleForm.active' v-model="ruleForm.userPhone"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item" label="录入时间:" prop="inputTime">
+                        <el-form-item class="visit-item" label="来源人" prop="inputTime">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.inputTime"></el-input>
                         </el-form-item>
                     </el-col>
@@ -132,38 +96,42 @@ export default memberInfos;
             .el-form-item__content{
                 line-height:10px;
                 .el-input__inner{
-                    padding:0 0 0 5px;
+                    padding:0 0 0 15px;
                     height:25px;
                     border:none;
                     border-bottom: 1px solid #dcdfe6;
                 }
-                .images{
-                    position: absolute;
-                    z-index:80;
-                    left:-70px;
-                    top:3px;
-                }
-                .images1{
-                    left:-25px;
-                }
-                .images3{
-                    left:-100px;
-                }
             }
         }
         .header-item1{
+            .el-form-item__label{
+                width:40px !important;
+                border:1px solid #409EFF;
+                color:#409EFF;
+                text-align:center;
+                padding:0 0;
+                border-bottom:2px solid #409EFF;
+                // box-shadow:40px 20px 2px 2px #f00 outset;
+            }
             .el-form-item__content{
                 margin-left:50px !important;
             }
         }
         .header-item2{
+            margin-left:20px;
             .el-input{
                 width: 80%;
             }
         }
         .header-item3{
+            .el-form-item__label{
+                width: 60px !important;
+            }
+            .el-form-item__content{
+                margin-left:47px !important;
+            }
             .el-input{
-                width: 50%;
+                width: 80%;
             }
         }
         .header-btn{
@@ -207,15 +175,15 @@ export default memberInfos;
         .el-form-item{
             .el-form-item__label{
                 line-height:25px;
-                text-align:center;
+                text-align:left;
                 width: 100% !important;
+                color:#409EFF;
             }
             .el-form-item__content{
                 margin-left:0 !important;
                 line-height:10px;
                 .el-input__inner{
-                    // height:25px;
-                    text-align:center;
+                    padding:0 0;
                     border:none;
                     border-bottom: 1px solid #dcdfe6;
                 }
