@@ -49,7 +49,7 @@
         width='500'
         sortable>
          <template slot-scope="scope">
-            <el-button v-for='(item,index) in scope.row.supplierLabel' :style="{background: item.color  }" style='color:#fff;' :kye='index'>{{item.name}}</el-button>
+            <el-button v-for='(item,index) in scope.row.supplierLabel' :key="index" :style="{background: item.color  }" style='color:#fff;' :kye='index'>{{item.name}}</el-button>
         </template>
         </el-table-column>
         <el-table-column
