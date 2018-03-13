@@ -28,7 +28,7 @@
                                 <div class="bannerEditContent">
                                     <div class="chooseImg" style="width: 243px;height:141px;">
                                         <div class="center">
-                                        <img :src="item.img" class="microImg avatar">
+                                        <img :src="item.img" class="microImg adimgcontent">
                                         </div>
                                     </div>
                                     <div class="reLoadingImg">
@@ -257,7 +257,8 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     overflow: hidden;
   }
 .avatar-uploader .el-upload:hover {
-     border-color: #ffffff !important; }
+     border-color: #ffffff !important; 
+     }
  .carouselListInfo .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
@@ -266,9 +267,9 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     line-height: 178px;
     text-align: center;
   }
- .carouselListInfo .avatar {
-    width: 248px;
-    height: 178px;
+ .carouselListInfo .adimgcontent {
+    width: 243px;
+    height: 145px;
     display: block;
   }
   /* input file 样式 */

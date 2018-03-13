@@ -36,8 +36,7 @@
         label="标题">
         </el-table-column>
         <el-table-column
-        prop="productId"
-        width='120'
+        width='200'
         style='height:60px;'
         label="商品组">
             <template slot-scope="scope">
@@ -343,12 +342,15 @@ export default {
 }
 .packagetable .cell{
     width:100% !important;
-    height:50px !important;
-    line-height:50px;
-    overflow:auto;
+    /* height:50px !important; */
+    /* line-height:50px; */
+    overflow-x:auto;
+}
+.packagetable td:nth-child(6) .cell p{
+    text-align:center;
 }
 .packagetable .cell p{
-    width:max-content;
+    /* width:max-content; */
     line-height:20px;
 }
 </style>
