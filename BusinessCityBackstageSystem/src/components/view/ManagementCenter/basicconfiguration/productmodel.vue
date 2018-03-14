@@ -26,6 +26,7 @@ export default {
                 {id:'unitId',url:'/api/product/unit/find?pageSize=0',des:'来源',name:'unitName'},
                 {id:'unitId',url:'/api/product/unit/find?pageSize=0',des:'单位',name:'unitName'},
                 {id:'id',url:'/api/product/type/find?pageSize=0',des:'类型',name:'productName'},
+                {id:'specificationId',url:'/api/product/specification/find?pageSize=0',des:'规格',name:'specificationName'}
             ],
             datalist:[]
         }
@@ -45,6 +46,7 @@ export default {
             this.typeData[index].isActive = true;
         },
         findInfo(index,i){
+            this.datalist = [];
             this.$root.$emit('loadInfo',true);
             this.getDate(index,i);
         },

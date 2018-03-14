@@ -68,7 +68,7 @@
             </template>
         </el-table-column>
         <el-table-column
-        width='120'
+        width='200'
         prop="address"
         label="推荐商品"
         >
@@ -333,8 +333,8 @@ export default {
     height:50px;
 }
 .commodity .recommendlist{
-    height:50px;
-    overflow:auto;
+    /* height:50px; */
+    overflow-x:auto;
     position: relative;
     top:10px;
 }
@@ -343,6 +343,6 @@ export default {
     top:10px;
 }
 .commodity .recommendlist p{
-    width:max-content;
+    /* width:max-content; */
 }
 </style>

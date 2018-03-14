@@ -30,6 +30,12 @@
                                     :label="ruleForm.nameDes"
                                     >
                                 </el-table-column>
+                                <el-table-column
+                                    v-if="levelShows"
+                                    prop="gradeLevel"
+                                    :label="ruleForm.levelDes"
+                                    >
+                                </el-table-column>
                                 <el-table-column prop="opration" label="操作" width="120">
                                     <template slot-scope="scope">
                                         <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -53,6 +59,9 @@
                     class="demo-ruleForm">
                         <el-form-item :label="ruleForm.nameDes" prop="name">
                             <el-input v-model="ruleForm.name"></el-input>
+                        </el-form-item>
+                        <el-form-item v-show="levelShow" :label="ruleForm.levelDes" prop="gradeLevel">
+                            <el-input v-model="ruleForm.gradeLevel"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm">保存</el-button>
@@ -78,6 +87,8 @@ export default {
             isLoading:true,
             isBorder:true,
             loadInfo:true,
+            levelShow:false,
+            levelShows:false,
             isData:[],
             dialogVisible: false,
             flag:true,
@@ -95,20 +106,24 @@ export default {
             ],
             name:'brandName',
             id:'brandId',
+            // gradeLevel:'十级',
             parentId:0,
             number:0,
             tableData:[],
             ruleForm:{
                 id:'',title:'新增品牌',
                 nameDes:'品牌名称',name:'',
-                color:''
+                color:'',gradeLevel:'',levelDes:'账户等级',
             },
             color:["#3f86fd","#32a1ff","#28c0f8","#0ecad1","#0dd980"],
             num:0,
             rules:{
                 name: [
                     { required: true, message: '请输入名称', trigger: 'blur' },
-                ]
+                ],
+                gradeLevel: [
+                    { required: true, message: '请输入等级', trigger: 'blur' },
+                ],
             },
             productData:[
                 {id:'brandId',delUrl:'/api/product/brand/update',des:'品牌名称',name:'brandName',addUrl:'/api/product/brand/insert'},
@@ -116,7 +131,7 @@ export default {
                 {id:'unitId',delUrl:'/api/product/unit/update',des:'产品来源',name:'unitName',addUrl:'/api/product/unit/insert'},
                 {id:'unitId',delUrl:'/api/product/unit/update',des:'单位名称',name:'unitName',addUrl:'/api/product/unit/insert'},
                 {id:'id',delUrl:'/api/product/type/update',des:'产品类型',name:'productName',addUrl:'/api/product/type/insert'},
-                {id:'id',delUrl:'/api/product/type/update',des:'规格大小',name:'productName',addUrl:'/api/product/type/insert'},
+                {id:'specificationId',delUrl:'/api/product/specification/update',des:'规格',name:'specificationName',addUrl:'/api/product/specification/insert'},
             ],
             shopData:[
                 {id:'id',delUrl:'/api/product/commodity/category/remove',des:'商品类型',name:'name',
@@ -140,7 +155,7 @@ export default {
             userData:[
                 {id:'id',delUrl:'/api/product/serviceType/update',des:'服务类型',name:'serName',addUrl:'/api/product/serviceType/insert'}, 
                 {id:'id',delUrl:'/api/product/type/update',des:'产品类型',name:'productName',addUrl:'/api/product/type/insert'},
-                {id:'id',delUrl:'/api/admin/grade/update',des:'账户等级',name:'gradeName',addUrl:'/api/admin/grade/insert'}, 
+                {id:'id',delUrl:'/api/admin/grade/update',des:'账户名称',name:'gradeName',addUrl:'/api/admin/grade/insert'}, 
                 {id:'id',delUrl:'/api/admin/employeetype/delete',des:'员工类型',name:'employeeTypeName',addUrl:'/api/admin/employeetype/insert'}
             ],
             houseData:[
@@ -158,7 +173,7 @@ export default {
     created(){
         this.showContent('产品模块',0);
         this.$root.$on('searchInfo',(data) => {
-            console.log(data);
+            // console.log(data);
             this.name = data[0];
             this.tableData = data[1];
             this.number = data[2];
@@ -222,7 +237,14 @@ export default {
             }else if(text == '用户模块'){
                 text = userModel;
                 this.desData = this.userData;
-                this.modelIndex = 5;   
+                this.modelIndex = 5;
+                this.$root.$on('showLevel',data => {
+                    if(this.modelIndex == 5 && data == 2){
+                        this.levelShows = true;
+                    }else{
+                        this.levelShows = false;
+                    }
+                });
             }else if(text == '房屋模块'){
                 text = houseModel;
                 this.desData = this.houseData;
@@ -232,6 +254,7 @@ export default {
                 this.desData = this.channelData;
                 this.modelIndex = 7;   
             }
+            this.levelShows = false;
             this.list_item = text;
             setTimeout(() =>{
                 this.isLoading = false;
@@ -319,6 +342,11 @@ export default {
                     this.num = 0;
                 }
             }
+            if(this.modelIndex == 5 && this.number == 2){
+                this.levelShow = true;
+            }else{
+                this.levelShow = false;
+            }
         },
         submitForm(){
             let that = this;
@@ -341,8 +369,13 @@ export default {
                     data[modelName] = this.ruleForm.name;
                 }     
             }else if(this.modelIndex == 5){
-                var data = {};
-                data[modelName] = this.ruleForm.name;   
+                if(this.number == 2){
+                    var data = {'gradeLevel':this.ruleForm.gradeLevel};
+                    data[modelName] = this.ruleForm.name;
+                }else{
+                    var data = {};
+                    data[modelName] = this.ruleForm.name;   
+                }
             }else if(this.modelIndex == 6){
                 var data =[{"name":this.ruleForm.name}];
             }else if(this.modelIndex == 7){
@@ -393,6 +426,7 @@ export default {
     beforeDestroy(){
         this.$root.$off('searchInfo');
         this.$root.$off('loadInfo');
+        this.$root.$off('showLevel');
     }
 }
 </script>

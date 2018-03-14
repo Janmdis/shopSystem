@@ -1,6 +1,6 @@
 <template>
 <div class="borderHover" :index='dataid' style="padding:0 0 0 0;">
-  <!-- 轮播开始 -->
+  <!-- 详情图片开始 -->
         <div>
             <el-row>
                 <el-col :span="24" v-for='(item,index) in imglist' :key='index'>
@@ -15,7 +15,7 @@
                 <a href="#addnewContent"><span >添加新内容</span></a> 
             </div>
         </div>
-    <!-- 轮播结束 -->
+    <!-- 详情图片结束 -->
         <div class="template-editContent-div" >
             <div class="arrow"></div>
             <div>
@@ -27,7 +27,7 @@
                          <li  v-for='(item,index) in imglist' :key='index'>
                             <div class="carouselListInfo">
                                 <div class="bannerEditContent">
-                                    <div class="chooseImg" style="width: 243px;height:141px;">
+                                    <div class="chooseImgs" style="width: 222px;height:222px;">
                                         <div class="center">
                                         <img :src="item.img" class="microImg avatar">
                                         </div>
@@ -43,7 +43,7 @@
                                             @change.native="imgUploads(index)"
                                             :before-upload="beforeAvatarUpload" style="position:absolute;top:0;left:0;width:100%;height:100%;">
                                         </el-upload>
-                                        <p style="line-height: 887%;text-align: center;">重新上传 建议比例（15:7）</p>
+                                        <p style="line-height: 1323%;text-align: center;">重新上传 建议比例（1:1）</p>
                                         <div class="delete-img" @click="deleteImgAd(index)">&times;</div>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                     if(this.imglist.length <= 1){
                         this.$message({
                         type: 'warning',
-                        message: '至少有一张图片广告！'
+                        message: '至少有一张详情图片！'
                         });
                         return false
                     }
@@ -164,14 +164,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                             url:'',
                             imgSrc:''
                         }
-             this.$store.commit('addNewImgAD',this.dataid)//对应组件的标识
-             if(this.imglist.length >= 5){
-                 this.$message({
-                     type: 'warning',
-                     message: '最多添加5张图片广告！'
-                 });
-                  return false
-             }
+             this.$store.commit('addNewImgDetail',this.dataid)//对应组件的标识
+            //  if(this.imglist.length >= 5){
+            //      this.$message({
+            //          type: 'warning',
+            //          message: '最多添加5张图片广告！'
+            //      });
+            //       return false
+            //  }
              this.imglist.push(adImagedefault)
          },
         handleAvatarSuccess(res, file) {
@@ -225,26 +225,6 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     }
 </script>
 <style>
-/* 轮播图组件样式 */
-.el-carousel__indicator.is-active button {
-    opacity: 1;
-    background-color: #27a1f2;
-}
-.el-carousel__button {
-    display: block;
-    opacity: 1;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: transparent;
-    border: 1px solid #27a1f2;
-    }
-.el-carousel__arrow,el-carousel__arrow--left{
-   filter:alpha(opacity=0);
-   -moz-opacity:0;
-    -khtml-opacity: 0;
-    opacity: 0; 
-}
 /* 添加图片样式 */
 .avatar-uploader .el-upload {
    border: 1px dashed #ffffff !important;
@@ -421,7 +401,7 @@ height: 100%;
     height: 100%;
 }
 .carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
-.bannerEditContent{width:45%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;}
+.bannerEditContent{width:41%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;}
 .bannerLinkSrc{width:50%;background:#fff;margin-left:10px;margin-top:5px;float:left;}
 .linkTips{font-size:16px;margin-top:20px;margin-bottom:20px;}
  .el-dropdown{border: 1px solid #aaaaaa;padding: 7px;}

@@ -2,16 +2,19 @@ import axios from 'axios'
 
 
 const state={
-    promiselist:[]
+    promiselist:[],
+    loading:false
 };
 const mutations={
     getPromiselist(state,data){
         state.promiselist=data.data;
+        state.loading=false;
     }
 }
 const actions={
     // 获取列表
     getPromiselist({commit,state}){
+        state.loading=true;
         axios.post('/api/admin/permissions/find?type=1')
         .then(function (response) {
             // console.log(response);

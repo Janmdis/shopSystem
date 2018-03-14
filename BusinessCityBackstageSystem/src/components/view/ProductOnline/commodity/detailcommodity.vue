@@ -379,6 +379,7 @@ export default {
                     that.formmsg.brand=data.brand;
                     that.tmid=data.periodTemplateId;
                     that.areamid=data.regionTemplateId;
+                    // console.log(that.formmsg.categoryId);
                 }
                 else{
                     that.$message(response.data.msg);
@@ -392,7 +393,7 @@ export default {
         // 获取产品分类
         getcategory(){
             let that=this;
-            this.$http.post('/api/product/commodity/category/queryMap')
+            this.$http.post('/api/product/commodity/category/queryMap',{})
             .then(function(response){
                 if(response.data.msg=='查询成功'){
                     that.goodstype=response.data.info;
@@ -638,7 +639,7 @@ export default {
         // 获取时间模板
         getdatemodel(){
             let that=this;
-            this.$http.post('/api/product/commodity/periodTemplate/queryMap')
+            this.$http.post('/api/product/commodity/periodTemplate/queryMap',{})
             .then(function(response){
                 if(response.data.msg=='查询成功'){
                     that.listmodaltime=response.data.info;
@@ -1030,7 +1031,7 @@ export default {
 // 地区模板处理
         getareamodel(){
             let that=this;
-            this.$http.post('/api/product/commodity/regionTemplate/queryMap')
+            this.$http.post('/api/product/commodity/regionTemplate/queryMap',{})
             .then(function(response){
                 if(response.data.msg=='查询成功'){
                     that.listmodalarea=response.data.info;
@@ -1075,7 +1076,7 @@ export default {
         // 查询所有城市
         getcitys(){
             let that=this;
-            this.$http.get('/api/public/region/findParent?parentId&levels=3')
+            this.$http.get('/api/public/region/findParent?parentId=0&levels=3',{})
             .then(function(response){
                 if(response.data.msg=='查询成功'){
                     let list=response.data.info;

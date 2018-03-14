@@ -40,6 +40,7 @@
             <header style='padding:10px;background-color: #edf9ff;'>权限</header>
             <el-table
             ref="multipleTable"
+            v-loading='loading'
             :data="promiseslist"
             @select='selectpromisechange'
             @select-all='selectpromiseall'
@@ -265,6 +266,7 @@ export default {
     computed: {
         ...mapState({
             promiseslist: state => state.promiselist.promiselist,
+            loading:state => state.promiselist.loading,
             deplist: state => state.deplist.deplistall
         })
     },
