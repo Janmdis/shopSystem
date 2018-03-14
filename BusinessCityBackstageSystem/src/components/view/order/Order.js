@@ -1,5 +1,5 @@
 /* eslint-disable */
-import memberInfo from './memberInfo/MemberInfo.vue'
+import orderInfo from './orderInfo/OrderInfo.vue'
 import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
@@ -143,6 +143,6 @@ export default {
         Datatable,
         showWindows,
         searchBox,
-        memberInfo
+        orderInfo
     },
 }

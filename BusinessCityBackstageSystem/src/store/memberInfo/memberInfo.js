@@ -4,7 +4,7 @@ import axios from 'axios'
 const state = {
     customerCategory: [],
     recommendedSource: [],
-    memberHouse: []
+    shopInfo: []
 };
 const mutations = {
     editCatogery(state, data) {
@@ -13,9 +13,9 @@ const mutations = {
     editOrigin(state, data) {
         state.recommendedSource = data;
     },
-    // editVillage(state, data) {
-    //     state.memberHouse = data;
-    // }
+    shopMessage(state, data) {
+        state.shopInfo = data;
+    }
 };
 const actions = {
     // 获取会员类型
@@ -50,17 +50,17 @@ const actions = {
                 console.log(response);
             });
     },
-    // getVillage({ commit, state }, data) { //  获取会员房屋信息接口
-    //     console.log(data)
-    //     axios.get(
-    //             '/api/customer/customerHousing/findHousingInfoPage?id=' + data.id + '&pageNum=' + data.pageNum + '&pageSize=' + data.pageSize
+    // getShopMessage({ commit, state }, data) { //  获取订单详情信息
+    //     axios.post(
+    //             '/api/product/order/queryOrderDetails',
+    //             data.id
     //         ).then(function(response) {
     //             let data = response.data;
+    //             console.log(data)
     //             if (data.status == 200) {
-    //                 console.log(data.info.list);
     //                 commit({
-    //                     type: 'editVillage',
-    //                     data: data.info.list
+    //                     type: 'shopMessage',
+    //                     data: data.info
     //                 });
     //             }
     //         })

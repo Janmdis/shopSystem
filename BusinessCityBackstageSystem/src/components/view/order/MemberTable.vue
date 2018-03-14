@@ -18,45 +18,52 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-        </el-table-column>
         <el-table-column
-        prop="couponName"
-        label="优惠劵名称">
+        prop="createTime"
+        width="180"
+        label="下单时间">
         </el-table-column>
+        <el-table-column 
+        class='borderRight' fixed 
+        prop="number"
+        label="订单号"
+        width='200'>
+        </el-table-column> 
         <el-table-column
-        prop="starTime"
-        width='200'
-        label="使用时间">
+        prop="paidMoney"
+        label="支付金额">
         </el-table-column>
          <el-table-column
-        prop="endTime"
-        width='200'
-        label="结束时间">
+        prop="refundMoney"
+        label="退款金额">
         </el-table-column>
         <el-table-column
-        prop="couponAmount"
-        label="数量">
+        prop="name"
+        label="业主姓名">
         </el-table-column>
         <el-table-column
-        prop="fullAmount"
-        label="数额">
+        prop="phone"
+        label="手机">
         </el-table-column>
         <el-table-column
-        prop="explain"
-        label="说明">
+        prop="sourceId"
+        label="来源">
         </el-table-column>
         <el-table-column
-        label="类型">
-            <template slot-scope="scope">
-                <span >{{scope.row.couponType==0?'满减':scope.row.couponType==1?"专享":'无门槛'}}</span>
-            </template>
+        prop="orderDetails"
+        label="明细">
         </el-table-column>
         <el-table-column
-        label="状态">
-        <template slot-scope="scope">
-                <span >{{scope.row.couponStatus==0?'过期':scope.row.couponStatus==1?"可使用":''}}</span>
-            </template>
+        prop="orderState"
+        label="订单状态">
+        </el-table-column>
+        <el-table-column
+        prop="remark"
+        label="备注">
+        </el-table-column>
+        <el-table-column
+        prop="operatorId"
+        label="操作人">
         </el-table-column>
     </el-table>
 </template>
@@ -84,12 +91,11 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
-        
     },
     methods:{
       getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/product/coupon/info/find?pageNo='+pageIndex+'&pageSize=10';
+            let url = '/api/product/order/queryPageList?pageNo='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
@@ -109,14 +115,24 @@ export default {
               alert('网络错误，不能访问');
           })
         },
-        showMemberInfo(row,column,cell,event){//  点击显示侧滑
-            //console.log(row,column,cell,event)
+        showMemberInfo(row,column,cell,event,index){//  点击显示侧滑
+            // console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
-            let labelValue = column.label
-            if(labelValue == 'ID'){
+            let labelValue = column.label;
+            let that = this;
+            if(labelValue == '订单号'){
                 this.showLeft = 16
-                this.$root.$emit('infoCoverShow',this.showLeft)
-                this.$root.$emit('searchPersonnelInfo',row.id)
+                this.$http.post(
+                    '/api/product/order/queryPageList',
+                    {id:row.id}
+                ).then(res => {
+                    if(res.data.status == 200){
+                        that.$root.$emit('orderCoverShow',that.showLeft)
+                        that.$root.$emit('searchOrderInfo',[row.id,res.data.info.list[0]]);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
             }
         },      
         showextra(val){

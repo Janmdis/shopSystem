@@ -515,7 +515,7 @@
                             }
                         })
                         .then(respone => {
-                            console.log(respone)
+                            // console.log(respone)
                             this.ruleForm.classificationBox = respone.data.info.list;
                             
                         })
@@ -528,7 +528,6 @@
                 this.getShopBox();
             },
             getShopBox(){
-                console.log(this.ruleForm.classification)
                 let url  = 'api/product/commodity/info/query';
                 this.$http({
                             url: url,
@@ -541,7 +540,7 @@
                         })
                         .then(respone => {
                             this.ruleForm.shopBox = respone.data.info.list
-                            console.log(this.ruleForm.shopBox)
+                            // console.log(this.ruleForm.shopBox)
                         })
                         .catch(error => {
                             console.log(error);

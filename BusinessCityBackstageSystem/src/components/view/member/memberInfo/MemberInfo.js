@@ -103,8 +103,7 @@ export default {
     },
     computed: mapState({
         info1: state => state.memberInfo.customerCategory,
-        info2: state => state.memberInfo.recommendedSource,
-        info3: state => state.memberInfo.memberHouse,
+        info2: state => state.memberInfo.recommendedSource
     }),
     methods: {
         userInfo() {

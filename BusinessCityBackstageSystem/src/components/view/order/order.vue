@@ -24,7 +24,7 @@
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>
-            <member-info class="infoCover" ref="memberInfos"></member-info>
+            <order-info class="infoCover" ref="memberInfos"></order-info>
             <el-row>
                 <el-col :span='10'>
                     <p class='lineHeight'>从1到{{this.pageS}}/共<span>{{this.totalCount}}</span>条数据</p>
@@ -41,8 +41,8 @@
     </el-main>
 </template>
 <script>
-     import Members from './Member.js';
-     export default Members
+     import Order from './Order.js';
+     export default Order
 </script>
 <style>
     .lineHeight {
@@ -71,7 +71,7 @@
     }
 </style>
 <style scoped lang="less">
-    @import './Member.less';
+    @import './Order.less';
     .search {
         position: relative;
         height: 72px;
