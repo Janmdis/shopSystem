@@ -38,8 +38,11 @@ export default{
         }
     },
     created(){
-        this.searchInfo();
+        // this.searchInfo();
         this.memberIde = this.memberId;
+        this.$root.$on('loadFn',data =>{
+            this.searchInfo();
+        });
     },
     methods:{
         searchInfo(){

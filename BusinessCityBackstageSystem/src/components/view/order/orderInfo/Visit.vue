@@ -123,6 +123,9 @@ export default{
     created(){
         this.searchInfo();
         this.memberIde = this.memberId;
+        this.$root.$on('loadFn',data =>{
+            this.searchInfo();
+        });
     },
     methods:{
         diagShow(){
@@ -155,12 +158,10 @@ export default{
             this.$refs.diagForm.resetFields();
         },
         editData(index,event) { 
-            console.log(this.dataList[index]);
             this.edit[index] = false;
             this.numbers = index;
         },
         submitForm(index) {
-            console.log(this.dataList[index]);
             let that = this;
             this.edit[index] = true;
             let data = {

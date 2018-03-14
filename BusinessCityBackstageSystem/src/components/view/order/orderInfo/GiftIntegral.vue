@@ -34,7 +34,10 @@ export default{
         }
     },
     created(){
-        this.searchInfo();
+        // this.searchInfo();
+        this.$root.$on('loadFn',data =>{
+            this.searchInfo();
+        });
     },
     methods:{
         searchInfo(id) { //  通过接口获取订单商品详情
@@ -49,7 +52,6 @@ export default{
                 if (res.data.status == 200) {
                     console.log(res.data.msg)
                     that.dataInfo = res.data.info;
-                    console.log(res.data.info[0])
                     that.$root.$emit('load',false);
                 }
                 that.which_to_show = 'oneShopInfo';

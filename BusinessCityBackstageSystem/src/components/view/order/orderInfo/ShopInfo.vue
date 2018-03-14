@@ -43,10 +43,13 @@ export default{
         }
     },
     created(){
-        this.searchInfo();
+        this.searchInfo1();
+        this.$root.$on('loadFn',data =>{
+            this.searchInfo1();
+        });
     },
     methods:{
-        searchInfo(id) { //  通过接口获取订单商品详情
+        searchInfo1(id) { //  通过接口获取订单商品详情
             let that = this;
             this.$http({
                 url: '/api/product/order/queryOrderDetails?orderId=' + this.orderId,
@@ -56,7 +59,7 @@ export default{
                 headers: { 'Content-Type': 'application/json' }
             }).then(res => {
                 if (res.data.status == 200) {
-                    console.log(res.data.msg)
+                    // console.log(res.data.msg)
                     that.dataInfo = res.data.info;
                     that.$root.$emit('load',false);
                 }

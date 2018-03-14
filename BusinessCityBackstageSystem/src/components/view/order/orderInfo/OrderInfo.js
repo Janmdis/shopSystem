@@ -71,7 +71,6 @@ export default {
     },
     methods: {
         upData() {
-            console.log(this.order);
             this.ruleForm.orderNumber = this.order.number;
             this.ruleForm.orderMoney = this.order.orderMoney;
             this.ruleForm.orderState = this.order.serviceState;
@@ -161,6 +160,7 @@ export default {
                 text = fourVisit;
             }
             this.$root.$emit('title', text);
+            this.$root.$emit('loadFn');
             this.$root.$on('load', data => {
                 this.isLoading = data;
             });
@@ -177,6 +177,7 @@ export default {
         this.$root.$off('orderCoverShow');
         this.$root.$off('searchInfo');
         this.$root.$off('housePage');
+        this.$root.$off('loadFn');
         this.$root.$off('load');
     }
 }

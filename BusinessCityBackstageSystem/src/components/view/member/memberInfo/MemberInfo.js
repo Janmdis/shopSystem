@@ -96,8 +96,6 @@ export default {
         this.$root.$on('pageType', (res) => {
             this.typeWord = res;
             // console.log(this.typeWord);
-
-
         });
 
     },
@@ -194,20 +192,6 @@ export default {
                 this.ruleForm.userVillage = this.personnelInfo.estateId;
                 this.which_to_show = 'twoHouse';
 
-                // this.$http.post( //  获取客户类型接口
-                //     '/api/customer/customerCategory/findCategory?key=id&value=name'
-                // ).then(res => {
-                //     if (res.data.info == null) {
-                //         alert(res.data.msg)
-                //     } else {
-                //         console.log(this.customerCategory)
-                //             //this.customerCategory = res.data.info.get(id);  // map数据,前端可以当做数组进行处理
-                //             // that.customerCategory = res.data.info;
-                //             // that.defaultCategory = (res.data.info[this.personnelInfo.categoryId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.categoryId]);
-                //     }
-                //     //console.log(res.data.info)
-                // }).catch(err => { console.log(err) });
-
                 this.$http.post( //  获取会员身份接口
                     '/api/customer/identity/findIdentity?key=id&value=name'
                 ).then(res => {
@@ -219,19 +203,6 @@ export default {
                     }
                     //console.log(this.customerIdentity)
                 }).catch(err => { console.log(err); });
-
-                // this.$http.post( //  获取推荐来源接口
-                //     '/api/customer/recommendedSource/findSource?key=id&value=name'
-                // ).then(res => {
-                //     //console.log(res.data.info)
-                //     if (res.data.info == null) {
-                //         alert(res.data.msg)
-                //     } else {
-                //         that.recommendedSource = res.data.info;
-                //         that.defaultSource = (res.data.info[this.personnelInfo.recommendedSourceId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.recommendedSourceId]);
-                //     }
-                //     //console.log(this.recommendedSource)
-                // }).catch(err => { console.log(err); });
 
                 this.$http.post( //  查询房屋类型信息
                     '/api/customer/housingCategory/queryCategory?key=id&value=name'
