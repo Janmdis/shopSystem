@@ -234,6 +234,7 @@ export default {
         this.$http.get('/api/public/region/findMapList')
         .then(res => {
             that.allAddress = res.data.info;  
+            // console.log( that.allAddress )
             sessionStorage.setItem('address',JSON.stringify(that.allAddress));
         }).catch(err => {console.log(err)});
     },

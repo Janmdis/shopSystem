@@ -9,7 +9,7 @@ const state={
         {
             componentsName:"imageAds",
             componentsData:{
-                importFileUrl:'api/sms/file/fileUpload',
+                importFileUrl:'api/zuul/sms/file/fileUpload',
                 admin:{
                     type:'product'
                 },
@@ -83,7 +83,7 @@ const mutations={
         let imageAdsDefault = {
             componentsName:"imageAds",
             componentsData:{
-                importFileUrl:'api/sms/file/fileUpload',
+                importFileUrl:'api/zuul/sms/file/fileUpload',
                 admin:{
                     type:'product'
                 },
@@ -204,6 +204,18 @@ const mutations={
             }
         };
         state.comlist.push(imageAdsDefault)
+    },
+    //新增轮播广告 图片的方法
+    addNewImgDetail(state,id){
+        let adImagedefault = {
+            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+            url:'',
+            imgSrc:''
+        }
+        // if(state.comlist[id].componentsData.ImgArr.length >= 5){
+        //      return false
+        // }
+        state.comlist[id].componentsData.ImgArr.push(adImagedefault)
     },
     //新增分类模块
     classificationADD(state){

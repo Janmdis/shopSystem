@@ -17,7 +17,7 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360'height='100'>
+        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -86,7 +86,8 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
-        
+        this.$store.dispatch('getCatogery'); 
+        this.$store.dispatch('getOrigin'); 
     },
     methods:{
       getDate(pageIndex) {
@@ -119,6 +120,11 @@ export default {
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
                 this.$root.$emit('searchPersonnelInfo',row.id)
+                // this.$store.dispatch('getVillage',{
+                //     id:row.id,
+                //     pageNum:1,
+                //     pageSize:3
+                // }); 
             }
         },      
         showextra(val){
