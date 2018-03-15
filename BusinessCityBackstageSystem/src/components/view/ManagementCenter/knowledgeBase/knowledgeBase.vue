@@ -52,9 +52,7 @@
         top: 24px;
         color: #6f6f6f;
     }
-    table td:nth-child(3) .cell {
-        border: 1px solid #ddd;
-    }
+
     table td:nth-child(3) {
         padding-right: 10px;
     }

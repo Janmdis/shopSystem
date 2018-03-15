@@ -83,9 +83,7 @@
     .typeselect .el-input__inner{
         height: 30px;
     }
-     table td:nth-child(3) .cell{
-        border:none !important;
-    }
+  
     .el-dialog__wrapper{
         width:100%;
         height:100%;
