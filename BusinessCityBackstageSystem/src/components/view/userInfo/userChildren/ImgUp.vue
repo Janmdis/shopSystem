@@ -54,9 +54,11 @@ export default {
     },
     methods: {
       handleAvatarSuccess(res, file) {
+         let hostName = location.hostname;
+            let port = location.port;
         this.imageUrl = URL.createObjectURL(file.raw);
         this.imageUrl = res.info
-        console.log(file)
+        console.log(this.imageUrl)
       },
       saveImg(){
        let url = '/apiadmin/account/updateadminaccount'

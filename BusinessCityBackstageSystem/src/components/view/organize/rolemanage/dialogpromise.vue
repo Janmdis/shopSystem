@@ -105,8 +105,8 @@ export default {
 }
 .el-button{
     width: 100px;
-    background-color: #00aeaa;
-    border-color: #00aeaa;
+    background-color: 27a1f2;
+    border-color: 27a1f2;
 }
 </style>
 

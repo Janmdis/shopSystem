@@ -14,7 +14,7 @@ export default {
         return {
             valuesearch: '',
             loadOk: true,
-            namepage: '客户资料',
+            namepage: '会员资料',
             currentPage1: 1,
             searchFn: '',
             isActive: false,

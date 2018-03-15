@@ -69,8 +69,8 @@
         left: 359px;
     }
     .add {
-        background: #00aeaa;
-        border: 1px solid #00aeaa;
+        background: 27a1f2;
+        border: 1px solid 27a1f2;
     }
 </style>
 <style scoped lang="less">
@@ -99,7 +99,7 @@
     .shuaxin {
         background: none;
         border: none;
-        color: #00adab;
+        color: 27a1f2;
         font-size: 40px;
         padding: 0;
         width: 10%;

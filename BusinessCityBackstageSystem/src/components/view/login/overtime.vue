@@ -5,7 +5,7 @@
 </template>
 <style scoped>
 .btnstyle{
-    background: #00aeaa;
+    background: 27a1f2;
     width: 100%;
     padding: 12px 0;
     border: none;

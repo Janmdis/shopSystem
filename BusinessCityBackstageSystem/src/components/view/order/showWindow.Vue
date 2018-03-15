@@ -27,8 +27,8 @@
                     <el-form-item label="订单号" prop='number'>
                         <el-input v-model="ruleForm.number"></el-input>
                     </el-form-item>
-                    <el-form-item label="支付金额" prop='paidMoney'>
-                        <el-input v-model="ruleForm.paidMoney" type='number'></el-input>
+                    <el-form-item label="支付金额" prop='actualMoney'>
+                        <el-input v-model="ruleForm.actualMoney" type='number'></el-input>
                     </el-form-item>
                     <el-form-item label="来源明细" prop='sourceDetail'>
                         <el-input v-model="ruleForm.sourceDetail"></el-input>
@@ -131,14 +131,18 @@
                 </el-table>
                 </el-col>
             </el-row>
-            <el-row class='textInfo' style='margin-top:50px;'>
+            <!--<el-row class='textInfo' style='margin-top:50px;'>
                 <span>支付信息</span>
             </el-row>
             <el-row >
             <el-col :span='6'>
-                <el-form-item label="支付方式" >
-                    <el-input v-model="ruleForm.starTime"></el-input>
-                </el-form-item>
+                <el-form-item label="订单类型" prop='starTime'>
+                        <el-select v-model="ruleForm.starTime" placeholder="请选择样式">
+                            <el-option label="支付宝" value="1"></el-option>
+                            <el-option label="微信" value="1"></el-option>
+                            <el-option label="管家代收" value="2"></el-option>
+                        </el-select>
+                    </el-form-item>
             </el-col>
             <el-col :span='6'>
                 <el-form-item label="支付时间" prop="payTime">
@@ -155,14 +159,18 @@
                     <el-input v-model="ruleForm.paidMoney" type='number'></el-input>
                 </el-form-item>
             </el-col>
-            </el-row>
-            <el-form-item>
-                <el-button class='mTop' type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            </el-row>!-->
+            <el-form-item class='boxsss'>
+                <el-button class='mTop' type="primary" style='margin-left:0;' @click="submitForm('ruleForm')">保存</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
 </template>
 <style>
+    .boxsss .el-form-item__content{
+        margin-left: 0 !important;
+        text-align: center;
+    }
     .textInfo {
         position: relative;
         left: -20px;
@@ -291,6 +299,7 @@
                 addNewBox: [],
                 i: 0,
                 ruleForm: {
+                    createTime:'',
                     isShoAdd: false,
                     textInfo: '新增订单',
                     starTime: '', //开始时间
@@ -317,7 +326,8 @@
                     remark: '',
                     now: -1,
                     Addnow: -1,
-                    payTime: '',
+                    orderId:'',
+                    //payTime: '',
                     actualMoney: '',
                     paidMoney: '',
                     sourceAccount: '',
@@ -358,6 +368,7 @@
             submitForm(formName) {
                 let that = this;
                 let dataInfo = {
+                    id:this.ruleForm.orderId,
                     orderMoney: this.ruleForm.orderMoney,
                     phone: this.ruleForm.phone,
                     number: this.ruleForm.number,
@@ -369,16 +380,18 @@
                     orderType: this.ruleForm.orderType,
                     refundMoney: this.ruleForm.refundMoney - 0,
                     remark: this.ruleForm.remark,
-                    payTime: this.ruleForm.payTime,
+                    //payTime: this.ruleForm.payTime,
                     actualMoney: this.ruleForm.actualMoney - 0,
                     paidMoney: this.ruleForm.paidMoney - 0,
                     sourceAccount: this.ruleForm.sourceAccount,
                     sourceId: this.ruleForm.sourceId,
                     hasContract: false,
+                    createTime:this.goTime(this.ruleForm.createTime),
                     orderDetails: this.ruleForm.pushAdd
                 }
                 if (this.ruleForm.textInfo == "新增订单") {
-                    //this.handleClose();
+                    
+                    this.ruleForm.orderId='',
                     that.$refs[formName].validate((valid) => {
                         if (valid) {
                             let url = '/api/product/order/insert';
@@ -394,6 +407,7 @@
                                 .then(response => {
                                     this.dialogVisible = false;
                                     this.$root.$emit('getDatezdy', 1)
+                                    this.clearForm();
                                 })
                                 .catch(error => {
                                     console.log(error);
@@ -408,7 +422,7 @@
                 if (this.ruleForm.textInfo == "编辑订单") {
                     that.$refs[formName].validate((valid) => {
                         if (valid) {
-                            let url = '/api/product/coupon/info/update';
+                            let url = '/api/product/order/update';
                             this.$http({
                                     url: url,
                                     method: 'POST',
@@ -416,7 +430,7 @@
                                     headers: {
                                         'Content-Type': 'application/json'
                                     },
-                                    data: {}
+                                    data: dataInfo
                                 })
                                 .then(response => {
                                     this.dialogVisible = false;
@@ -506,6 +520,13 @@
                         console.log(error);
                         alert('网络错误，不能访问');
                     })
+            },
+            goTime(tiem) {
+                let strtime = tiem;
+                // 可以这样做
+                let date = new Date(strtime);
+                let time1 = date.getTime();
+                return time1
             },
             cityAdd(name) {
                 this.ruleForm.phone = name;
@@ -708,6 +729,9 @@
                 this.$refs['ruleForm'].resetFields();
                 this.dialogVisible = false;
             },
+            clearForm() {　　
+                this.$refs['ruleForm'].resetFields();
+            },
             crearVip() {
                 let url = '/api/customer/account/insert';
                 this.$http({
@@ -757,9 +781,44 @@
         created: function() {
             this.$root.$on('showWindow', (data) => {
                 let dataId = data[0].id
+                console.log(dataId)
                 if (data != 'no') {
                     this.ruleForm.textInfo = '编辑订单';
-                    let url = '/api/product/coupon/info/find';
+
+                    let shopUrl = '/api/product/order/queryOrderDetails'
+                    this.$http({
+                            url: shopUrl,
+                            method: 'post',
+                            headers: {
+                                'Content-Type': ' application/x-www-form-urlencoded'
+                            },
+                            data: qs.stringify({
+                                orderId: dataId
+                            })
+                        })
+                        .then(respone => {
+                            console.log(respone)
+                            let datas = respone.data.info;
+                            let dataArr = [];
+                            for(let i = 0 ;i<datas.length;i++){
+                                console.log(datas[i].orderId)
+                                console.log(dataId)
+                                console.log(dataId==datas[i].orderId)
+                                if(datas[i].orderId == dataId ){
+                                    dataArr.push(datas[i])
+                                    console.log(dataArr)
+                                }
+                            }
+                            
+
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            alert('网络错误，不能访问');
+                        })
+
+
+                    let url = '/api/product/order/queryPageList';
                     this.$http({
                             url: url,
                             method: 'post',
@@ -770,7 +829,30 @@
                                 id: dataId
                             }
                         })
-                        .then(respone => {})
+                        .then(respone => {
+                            
+                        this.clearForm();
+                        let data = respone.data.info.list[0]
+                        console.log(data)
+                        
+                        this.ruleForm.orderId = data.id;
+                        this.ruleForm.orderMoney = data.orderMoney;
+                        this.ruleForm.phone = data.phone;
+                        this.ruleForm.number = data.number;
+                        this.ruleForm.sourceDetail = data.sourceDetail;
+                        this.ruleForm.name = data.name;
+                        this.ruleForm.orderState = data.orderState;
+                        this.ruleForm.unpaidMoney = data.unpaidMoney;
+                        this.ruleForm.detailAddress = data.detailAddress;
+                        this.ruleForm.orderType = data.orderType;
+                        this.ruleForm.refundMoney = data.refundMoney;
+                        this.ruleForm.remark = data.remark;
+                        this.ruleForm.paidMoney = data.paidMoney;
+                        this.ruleForm.sourceAccount = data.sourceAccount;
+                        this.ruleForm.sourceId = data.sourceId;
+                        this.ruleForm.createTime = data.createTime;
+                        this.ruleForm.newBox = data.orderDetailId
+                        })
                         .catch(error => {
                             console.log(error);
                             alert('网络错误，不能访问');

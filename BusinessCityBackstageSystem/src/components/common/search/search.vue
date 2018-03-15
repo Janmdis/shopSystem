@@ -348,8 +348,8 @@
 <style>
     .searcharea .btnW {
         width: 100%;
-        background: #00aeaa;
-        border: 1px solid #00aeaa;
+        background: 27a1f2;
+        border: 1px solid 27a1f2;
     }
     .searcharea #searcher {
         position: relative;

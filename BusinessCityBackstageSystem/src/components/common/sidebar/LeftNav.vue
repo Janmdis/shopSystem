@@ -15,11 +15,11 @@ export default leatNavs
 </script>
 <style>
 .el-submenu__title{
-  background:#102935;
+  background:#102a42;
   color:#fff;
 }
 .el-submenu__title:hover{
-  background:#1ec1af;
+  background:#409EFF;
 }
 .el-submenu__title:hover i{
       color:#fff;
@@ -28,11 +28,11 @@ export default leatNavs
 padding:0;
 }
 .el-menu-item:focus,.el-menu-item.is-active, .el-menu-item:hover{
-  background: #1ec1af;
+  background: #409EFF;
   color:#fff;
 }
 .el-menu-item,.el-submenu__title{
-  background: #102935;
+  background: #102a42;
   color:#fff;
 }
 </style>

@@ -163,7 +163,7 @@ export default {
 .el-dialog__footer .el-button{
     width:140px;
     font-size:14px;
-    background:#00adab;
+    background:27a1f2;
     margin:0 auto;
     display: block;
 }
@@ -194,7 +194,7 @@ export default {
 	padding:5px 10px;
 } */
 .el-dialog  .infoText{
-    color:#00adab;
+    color:27a1f2;
     display: block;
     text-align: right;
 }
