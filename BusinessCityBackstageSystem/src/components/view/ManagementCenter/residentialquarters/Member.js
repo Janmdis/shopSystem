@@ -22,9 +22,32 @@ export default {
             pageS: 0,
             listLoading: false,
             delArr: [],
-
+            importUrl: '/api/customer/customer/excel/in', //后台接口config.admin_url+'rest/schedule/import/'
+            importHeaders: {
+                enctype: 'multipart/form-data',
+            },
+            state: true,
+            fileList: [],
+            dataForm: [],
+            idList: [],
+            dataHref: '',
+            isShowList: false
         }
 
+    },
+    created() {
+        this.$root.$on('loading', data => {
+            this.loadOk = data;
+        })
+        this.$root.$on('output', data => {
+            this.dataForm = data;
+            data.forEach((e, i) => {
+                this.idList.push(e.id);
+            })
+            let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
+            let ids = id.replace(/\"|"/g, "");
+            this.dataHref = '/api/customer/customer/excel/out?id=' + ids;
+        })
     },
     mounted() {
         this.$root.$on('total', (data) => {
@@ -41,6 +64,29 @@ export default {
         })
     },
     methods: {
+        handlePreview(file) {
+            //可以通过 file.response 拿到服务端返回数据
+        },
+        beforeUpload(file) {
+            //上传前配置
+            let excelfileExtend = ".xls,.xlsx" //设置文件格式
+            let fileExtend = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+            if (excelfileExtend.indexOf(fileExtend) <= -1) {
+                this.$message.error('文件格式错误')
+                return false
+            }
+        },
+        //上传成功
+        uploadSuccess(response, file, fileList) {
+            console.log(response)
+            if (response.status === 300) {
+                this.$message.info(response.msg)
+            } else if (response.status === 200) {
+                this.$message.info(response.msg)
+            }
+        },
+
+
         clearBox() {
             let that = this;
             this.$confirm('确认删除？', '提示', {
@@ -79,7 +125,7 @@ export default {
         },
         show: function(val) {
             // console.log(valuesearch);
-            this.$root.$emit('search',{name:this.valuesearch})
+            this.$root.$emit('search', { name: this.valuesearch })
         },
         searchUsers() {
             let para = {
@@ -144,4 +190,11 @@ export default {
         showWindows,
         searchBox
     },
+    beforeDestroy() {
+        this.$root.$on('loading');
+        this.$root.$on('total');
+        this.$root.$on('delBox');
+        this.$root.$on('pages');
+        this.$root.$on('output');
+    }
 }

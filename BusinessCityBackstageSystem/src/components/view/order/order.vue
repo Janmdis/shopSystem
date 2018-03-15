@@ -11,8 +11,36 @@
                         </el-input>
                         <el-button type="primary" class="add" @click='showWindowx("no")' round><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
                         <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
-                        <el-button type="primary" class='msnuiMore' round><i class='icon iconfont icon-msnui-more'></i></el-button>
-                        <!--<el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button>!-->
+                        <el-dropdown trigger="click" class='msnuiMore'>
+                            <span class="el-dropdown-link">
+                                <i class='icon iconfont icon-msnui-more'></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-upload class="upload-demo"
+                                        id="file-upload"
+                                        style="width:100%;text-align:left;"
+                                        :action="importUrl"
+                                        name ="multipartFile"
+                                        :headers="importHeaders"
+                                        :on-preview="handlePreview"
+                                        file.response 
+                                        :show-file-list="isShowList"
+                                        :before-upload="beforeUpload"
+                                        :on-success="uploadSuccess"
+                                        :file-list="fileList"
+                                        >
+                                        导入
+                                    </el-upload>
+                                </el-dropdown-item>
+                                <el-dropdown-item class="outPut">
+                                    <a class="btn-download" :href="dataHref">导出</a>
+                                </el-dropdown-item>
+                                <el-dropdown-item class="outPut">
+                                    <a class="btn-download" href="/api/customer/customer/excelModel/out">导出导入模板</a>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                     </div>
                 </el-col>
             </el-row>
@@ -66,8 +94,17 @@
         left: 359px;
     }
     .add {
-        background: 27a1f2;
-        border: 1px solid 27a1f2;
+        background: #00aeaa;
+        border: 1px solid #00aeaa;
+    }
+    #file-upload .el-upload{
+        width: 100% !important;
+        text-align: left;
+    }
+    .outPut a{
+        display:inline-block;
+        width: 100% !important;
+        text-align: left;
     }
 </style>
 <style scoped lang="less">
@@ -96,7 +133,7 @@
     .shuaxin {
         background: none;
         border: none;
-        color: 27a1f2;
+        color: #00adab;
         font-size: 40px;
         padding: 0;
         width: 10%;

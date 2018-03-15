@@ -102,12 +102,12 @@ export default {
                 data:{},
             })
             .then(response => {
-                that.listLoading =  false;
-                that.datalist=(response.data.info.list);
+                that.listLoading =  false
+                that.datalist=(response.data.info.list)
                 //console.log(this.datalist)
-                that.$root.$emit('output',that.datalist);
-                that.$root.$emit('pages',response.data.info.pages)
-                that.$root.$emit('total',response.data.info.total)
+                that.$root.$emit('output1',that.datalist)
+                that.$root.$emit('pages1',response.data.info.pages)
+                that.$root.$emit('total1',response.data.info.total)
           })
           .catch(error=>{
               console.log(error);

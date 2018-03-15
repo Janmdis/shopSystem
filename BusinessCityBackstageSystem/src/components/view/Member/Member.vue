@@ -18,23 +18,25 @@
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item>
                                     <el-upload class="upload-demo"
-                                        :data-id="uploadTip"
+                                        id="file-upload"
+                                        style="width:100%;text-align:left;"
                                         :action="importUrl"
-                                        :name ="name"
+                                        name ="multipartFile"
+                                        :show-file-list="isShowList"
                                         :headers="importHeaders"
                                         :on-preview="handlePreview"
                                         file.response 
-                                        :on-remove="handleRemove"
                                         :before-upload="beforeUpload"
-                                        :on-error="uploadFail"
                                         :on-success="uploadSuccess"
-                                        :file-list="fileList"
-                                        :with-credentials="withCredentials">
+                                        >
                                         导入
                                     </el-upload>
                                 </el-dropdown-item>
-                                <el-dropdown-item>
-                                    <a class="btn-download" @click="download">导出</a>
+                                <el-dropdown-item class="outPut">
+                                    <a class="btn-download" :href="dataHref">导出</a>
+                                </el-dropdown-item>
+                                <el-dropdown-item class="outPut">
+                                    <a class="btn-download" href="/api/customer/customer/excelModel/out">导出导入模板</a>
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
@@ -45,7 +47,7 @@
         </div>
         <div class="memberMain">
             <el-row>
-                <search></search>
+                <!-- <search></search> -->
             </el-row>
             <div class='boderBox'>
                 <Datatable></Datatable>
@@ -93,6 +95,15 @@
     .add {
         background: 27a1f2;
         border: 1px solid 27a1f2;
+    }
+    #file-upload .el-upload{
+        width: 100% !important;
+        text-align: left;
+    }
+    .outPut a{
+        display:inline-block;
+        width: 100% !important;
+        text-align: left;
     }
 </style>
 <style scoped lang="less">
