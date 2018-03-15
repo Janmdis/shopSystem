@@ -13,9 +13,9 @@ const mutations = {
     editOrigin(state, data) {
         state.recommendedSource = data;
     },
-    shopMessage(state, data) {
-        state.shopInfo = data;
-    }
+    // shopMessage(state, data) {
+    //     state.shopInfo = data;
+    // }
 };
 const actions = {
     // 获取会员类型
