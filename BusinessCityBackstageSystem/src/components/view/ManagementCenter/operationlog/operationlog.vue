@@ -7,7 +7,7 @@
                 </el-col>
                 <el-col :span='7'>
                     <div class="grid-content search">
-                        <el-input placeholder="请输入内容" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
+                        <el-input placeholder="请输入操作名" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
                         </el-input>
                         <!--<el-button type="primary" class="add" @click='showWindowx("no")' round><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
                         <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
@@ -20,7 +20,10 @@
               
             </el-row>
         </div>
-        <div class="memberMain">
+        <div class="memberMain" style='height:auto;margin-bottom:80px;'>
+            <el-row>
+                <search :type='type'></search>
+            </el-row>
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>

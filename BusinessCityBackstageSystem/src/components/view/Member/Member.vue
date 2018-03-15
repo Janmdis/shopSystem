@@ -11,12 +11,37 @@
                         </el-input>
                         <el-button type="primary" class="add" @click='showWindow("no")' round><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
                         <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
-                        <el-button type="primary" class='msnuiMore' round><i class='icon iconfont icon-msnui-more'></i></el-button>
+                        <el-dropdown trigger="click" class='msnuiMore'>
+                            <span class="el-dropdown-link">
+                                <i class='icon iconfont icon-msnui-more'></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-upload class="upload-demo"
+                                        :data-id="uploadTip"
+                                        :action="importUrl"
+                                        :name ="name"
+                                        :headers="importHeaders"
+                                        :on-preview="handlePreview"
+                                        file.response 
+                                        :on-remove="handleRemove"
+                                        :before-upload="beforeUpload"
+                                        :on-error="uploadFail"
+                                        :on-success="uploadSuccess"
+                                        :file-list="fileList"
+                                        :with-credentials="withCredentials">
+                                        导入
+                                    </el-upload>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <a class="btn-download" @click="download">导出</a>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                         <!--<el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button>!-->
                     </div>
                 </el-col>
             </el-row>
-           
         </div>
         <div class="memberMain">
             <el-row>
@@ -25,7 +50,7 @@
             <div class='boderBox'>
                 <Datatable></Datatable>
             </div>
-            <member-info class="infoCover" ref="memberInfos"></member-info>
+            <member-info class="infoCover" ref="memberInfos" v-loading="loadOk"></member-info>
             <el-row>
                 <el-col :span='10'>
                     <p class='lineHeight'>从1到{{this.pageS}}/共<span>{{this.totalCount}}</span>条数据</p>
@@ -100,5 +125,6 @@
         font-size: 40px;
         padding: 0;
         width: 10%;
+        margin-left: 10px;
     }
 </style>

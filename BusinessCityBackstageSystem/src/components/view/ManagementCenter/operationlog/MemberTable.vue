@@ -71,10 +71,18 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
-        
+        this.$root.$on('search',(datas)=>{
+            let data={
+                userId:datas.userid,
+                content:datas.operate,
+                beginTime:datas.daterange[0],
+                endTime:datas.daterange[1],
+            };
+            this.getDate(1,data)
+        });
     },
     methods:{
-      getDate(pageIndex) {
+      getDate(pageIndex,data) {
             this.listLoading =  true;
             let url = '/api/public/logger/findLog?pageNum='+pageIndex+'&pageSize=10';
             this.$http({
@@ -82,7 +90,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:{},
+                data:data==undefined?{}:data,
             })
             .then(response => {
                 this.listLoading =  false;
@@ -124,6 +132,9 @@ export default {
         indexMethod(index) {
             return index + 1
         },
+    },
+    beforeDestry(){
+        this.$root.$off('search');
     }
 
 }

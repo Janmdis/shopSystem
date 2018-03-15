@@ -21,6 +21,9 @@
             </el-row>
         </div>
         <div class="memberMain">
+            <el-row>
+                <search :type='type'></search>
+            </el-row>
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>

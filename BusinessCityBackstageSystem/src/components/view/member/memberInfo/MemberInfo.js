@@ -57,26 +57,32 @@ export default {
         }
     },
     created() {
+        let that = this;
         this.$root.$on('title', (title) => {
             this.which_to_show = title
         });
         this.isShow('房屋');
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
-            this.userInfo();
             for (let item in this.info1.data) {
                 this.customerCategory.push({ id: item - 0, name: this.info1.data[item] });
             }
             for (let item in this.info2.data) {
                 this.recommendedSource.push({ id: item - 0, name: this.info2.data[item] });
             }
-            // this.promise.then(value => {
-            //     console.log(value);
-            // })
-            console.log(this.customerCategory);
-            console.log(this.recommendedSource);
-            this.searchInfo(ids);
+            this.userInfo().then(res => {
+                if (res) {
+                    return this.getData(ids);
+                } else {
+                    Promise.resolve(false)
+                }
+            }).then(res => {
+                if (res) {
+                    this.searchInfo(ids);
+                } else {
+                    Promise.resolve(false)
+                }
+            });
             this.memberId = ids;
-            this.getData(ids);
         });
         this.$root.$on('infoCoverShow', (left) => { //  显示侧滑框的方法
             var left1 = 100;
@@ -96,19 +102,16 @@ export default {
         this.$root.$on('pageType', (res) => {
             this.typeWord = res;
             // console.log(this.typeWord);
-
-
         });
 
     },
     computed: mapState({
         info1: state => state.memberInfo.customerCategory,
-        info2: state => state.memberInfo.recommendedSource,
-        info3: state => state.memberInfo.memberHouse,
+        info2: state => state.memberInfo.recommendedSource
     }),
     methods: {
         userInfo() {
-            let promise = new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 this.$http.get(
                     '/api/public/region/findParent?grade=2'
                 ).then(res => {
@@ -155,18 +158,24 @@ export default {
             }
         },
         getData(id) {
-            // console.log(this.memberId)
-            this.$http.get( //  获取会员房屋信息
-                '/api/customer/customerHousing/findHousingInfoPage?id=' + id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize
-            ).then(res => {
-                if (res.data.info == null) {
-                    alert(res.data.msg);
-                } else {
-                    this.memberHouse = res.data.info.list;
-                    this.houseCount = res.data.info;
-                    // console.log(this.memberHouse);
-                }
-            }).catch(err => { console.log(err) });
+            let that = this;
+            return new Promise((resolve, reject) => {
+                this.$http.get( //  获取会员房屋信息
+                    '/api/customer/customerHousing/findHousingInfoPage?id=' + id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize
+                ).then(res => {
+                    if (res.data.info == null) {
+                        console.log(res.data.msg);
+                        resolve(false);
+                    } else {
+                        that.memberHouse = res.data.info.list;
+                        that.houseCount = res.data.info;
+                        resolve(true);
+                    }
+                }).catch(err => {
+                    console.log(err)
+                    reject(false)
+                });
+            });
         },
         searchInfo(id) { //  点击ID事件,通过接口获取用户信息
             let that = this;
@@ -194,21 +203,7 @@ export default {
                 this.ruleForm.userOrigin = this.personnelInfo.recommendedSourceId;
                 this.ruleForm.userVillage = this.personnelInfo.estateId;
                 this.which_to_show = 'twoHouse';
-
-                // this.$http.post( //  获取客户类型接口
-                //     '/api/customer/customerCategory/findCategory?key=id&value=name'
-                // ).then(res => {
-                //     if (res.data.info == null) {
-                //         alert(res.data.msg)
-                //     } else {
-                //         console.log(this.customerCategory)
-                //             //this.customerCategory = res.data.info.get(id);  // map数据,前端可以当做数组进行处理
-                //             // that.customerCategory = res.data.info;
-                //             // that.defaultCategory = (res.data.info[this.personnelInfo.categoryId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.categoryId]);
-                //     }
-                //     //console.log(res.data.info)
-                // }).catch(err => { console.log(err) });
-
+                this.$root.$emit('loading', false);
                 this.$http.post( //  获取会员身份接口
                     '/api/customer/identity/findIdentity?key=id&value=name'
                 ).then(res => {
@@ -220,19 +215,6 @@ export default {
                     }
                     //console.log(this.customerIdentity)
                 }).catch(err => { console.log(err); });
-
-                // this.$http.post( //  获取推荐来源接口
-                //     '/api/customer/recommendedSource/findSource?key=id&value=name'
-                // ).then(res => {
-                //     //console.log(res.data.info)
-                //     if (res.data.info == null) {
-                //         alert(res.data.msg)
-                //     } else {
-                //         that.recommendedSource = res.data.info;
-                //         that.defaultSource = (res.data.info[this.personnelInfo.recommendedSourceId] == null ? res.data.info[1] : res.data.info[this.personnelInfo.recommendedSourceId]);
-                //     }
-                //     //console.log(this.recommendedSource)
-                // }).catch(err => { console.log(err); });
 
                 this.$http.post( //  查询房屋类型信息
                     '/api/customer/housingCategory/queryCategory?key=id&value=name'

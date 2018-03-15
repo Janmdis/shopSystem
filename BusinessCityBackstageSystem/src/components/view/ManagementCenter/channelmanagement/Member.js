@@ -2,7 +2,7 @@
 import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
-import search from './search.vue'
+import search from '../../../common/search/search.vue'
 import createchannel from './createchannel.vue'
 import dialogemployee from './DialogEmployee.vue'
 import qs from 'qs'
@@ -23,6 +23,7 @@ export default {
       pageS: 0,
       listLoading: false,
       delArr:[],
+      type:'channel'
     }
 
   },

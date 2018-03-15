@@ -2,7 +2,7 @@
 import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
-import search from './search.vue'
+import search from '../../../common/search/search.vue'
 import showWindows from './showWindow.vue'
 import qs from 'qs'
 
@@ -12,7 +12,7 @@ export default {
     data() {
         return {
             valuesearch: '',
-            namepage: '套餐',
+            namepage: '小区',
             currentPage1: 1,
             searchFn: '',
             isActive: false,
@@ -78,7 +78,8 @@ export default {
             })
         },
         show: function(val) {
-            this.searchUsers()
+            // console.log(valuesearch);
+            this.$root.$emit('search',{name:this.valuesearch})
         },
         searchUsers() {
             let para = {

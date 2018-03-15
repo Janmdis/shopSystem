@@ -2,7 +2,7 @@
 import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
-import search from './search.vue'
+import search from '../../../common/search/search.vue'
 import showWindows from './showWindow.vue'
 import qs from 'qs'
 
@@ -22,7 +22,7 @@ export default {
       pageS: 0,
       listLoading: false,
       delArr:[],
-
+      type:'knowledge'
     }
 
   },
@@ -79,7 +79,13 @@ export default {
     })
     },
     show: function (val) {
-      this.searchUsers()
+      let data={
+        knowledge:{
+          problemTitle:this.valuesearch
+        }
+      }
+      this.$root.$emit('search',data);
+      // this.searchUsers()
     },
     searchUsers() {
       let para = {

@@ -65,10 +65,19 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
+         this.$root.$on('search',(datas)=>{
+             let data={
+                 problemTitle:datas.knowledge.problemTitle,
+                 knowledgeSortId:datas.knowledge.knowledgeSortId,
+                 knowledgePointId:datas.knowledge.knowledgePointId
+             };
+             this.getDate(1,data);
+             console.log(data);
+         })
         
     },
     methods:{
-      getDate(pageIndex) {
+      getDate(pageIndex,data) {
             this.listLoading =  true;
             let url = '/api/public/knowledge/library/find?pageNo='+pageIndex+'&pageSize=10';
             this.$http({
@@ -76,7 +85,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:{},
+                data:data,
             })
             .then(response => {
                 this.listLoading =  false;

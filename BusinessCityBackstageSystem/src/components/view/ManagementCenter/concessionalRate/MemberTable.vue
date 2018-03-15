@@ -84,10 +84,20 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
-        
+        this.$root.$on('search',(datas)=>{
+             
+            let data={
+                couponName:datas.coupon.couponName,
+                couponType:datas.coupon.couponType,
+                couponStatus:datas.coupon.couponStatus,
+                starTime:datas.coupon.daterange[0],
+                endTime:datas.coupon.daterange[1]
+            };
+            this.getDate(1,data);
+        })
     },
     methods:{
-      getDate(pageIndex) {
+      getDate(pageIndex,data) {
             this.listLoading =  true;
             let url = '/api/product/coupon/info/find?pageNo='+pageIndex+'&pageSize=10';
             this.$http({
@@ -95,7 +105,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:{},
+                data:data,
             })
             .then(response => {
                 this.listLoading =  false;
@@ -134,6 +144,12 @@ export default {
         indexMethod(index) {
             return index + 1
         },
+    },
+    beforeDestroy(){
+        this.$root.$off('pageIndex');
+        this.$root.$off('getDatezdy');
+        this.$root.$off('dataListBox');
+        this.$root.$off('search');
     }
 
 }
