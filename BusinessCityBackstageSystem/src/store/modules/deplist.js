@@ -36,6 +36,7 @@ const actions = {
             });
     },
     getDeplistall({ commit, state }) {
+        // console.log(111);
         axios.post('/api/admin/manage/department/find?type=0&range=0&pageSize=0', {
                 isActive: '1'
             })

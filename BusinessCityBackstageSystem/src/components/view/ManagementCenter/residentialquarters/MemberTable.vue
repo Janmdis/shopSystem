@@ -59,16 +59,23 @@ export default {
     created:function(){
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
-            this.getDate(this.pageIndex)
+            this.getDate(this.pageIndex,{})
         })
-        this.getDate(1)
+        this.getDate(1,{})
         this.$root.$on('getDatezdy',(data)=>{
-             this.getDate(data);
+             this.getDate(data,{});
         })
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
-        
+        this.$root.$on('search',(datas)=>{
+            let data={
+                name:datas.name,
+                alias:datas.alias
+            };
+            // console.log(data);
+            this.getDate(1,data);
+        })
     },
     methods:{
         handleDelete(index, row,event) { //  删除某一种产品
@@ -85,7 +92,7 @@ export default {
                         [row.id]
                     ).then(res => {
                         console.log(res.data.msg);
-                        that.getDate(1);
+                        that.getDate(1,{});
                     }).catch(err => {console.log(err)})
                 });
             }).catch(() => {
@@ -99,9 +106,9 @@ export default {
         handleEdit(index, row,event) {
             this.$root.$emit('showWindowss',{type:'yes',rowData:row});
         },
-        getDate(pageIndex) {
+        getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/customer/estate/queryDataList?page='+pageIndex+'&pageSize=10';
+            let url = '/api/customer/estate/queryDataList?page='+pageIndex+'&pageSize=10'+(JSON.stringify(data)=="{}"?'':'&name='+data.name)
             this.$http({
                 url: url,
                 method: 'GET',
@@ -150,7 +157,8 @@ export default {
     beforeDestroy(){
         this.$root.$off('pageIndex');
         this.$root.$off('getDatezdy');
-        this.$root.$off('dataListBox')
+        this.$root.$off('dataListBox');
+        this.$root.$off('search');
     }
 }
 </script>
