@@ -24,7 +24,9 @@
         label="图片"
         width='120'
         >
-        
+        <template slot-scope="scope">
+            <img :src="imgSrc" alt="" style="display:inline-block;width:120px;height:50px;border:1px solid #eee;">
+        </template>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -89,7 +91,8 @@ export default {
             datalist:[],
             showLeft:0,
             pageIndex:1,
-            clickType:false
+            clickType:false,
+            imgSrc:''
         }
     },
     created:function(){

@@ -11,7 +11,15 @@
             <el-form-item class="sec_form_item" label='图片   :' prop="picture">
                 <el-row>
                     <el-col class="sec_item" :span="24">
-                        <el-upload id="upload_file" class="avatar-uploader" action="api/sms/file/fileUpload" list-type="picture" name="fileUpload" :show-file-list="isSave" :limit="limitNumber" :drag="isDrag" :multiple="isMultiple" :data="admin" :on-exceed="exceedLimit" :on-success="handleAvatarSuccess"
+                        <el-upload id="upload_file" class="avatar-uploader" 
+                        action="api/sms/file/fileUpload" 
+                        list-type="picture" 
+                        name="fileUpload" 
+                        :show-file-list="isSave" 
+                        :limit="limitNumber" :drag="isDrag" 
+                        :multiple="isMultiple" :data="admin" 
+                        :on-exceed="exceedLimit" 
+                        :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload">
                             <i class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>

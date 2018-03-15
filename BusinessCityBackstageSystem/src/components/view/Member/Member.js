@@ -6,6 +6,7 @@ import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
 import qs from 'qs'
+import moment from "moment"
 
 export default {
 
@@ -24,36 +25,39 @@ export default {
             pageS: 0,
             listLoading: false,
             delArr: [],
-            importUrl: 'www.baidu.com', //后台接口config.admin_url+'rest/schedule/import/'
+            importUrl: '/api/customer/customer/excel/in', //后台接口config.admin_url+'rest/schedule/import/'
             importHeaders: {
                 enctype: 'multipart/form-data',
-                cityCode: ''
             },
-            name: 'import',
+            state: true,
             fileList: [],
-            uploadTip: '点击上传',
-            errorResults: [],
-            importFlag: 1,
-            processing: false,
-            withCredentials: true,
-            dataForm: []
+            dataForm: [],
+            idList: [],
+            dataHref: '',
+            isShowList: false
         }
 
     },
     created() {
         this.$root.$on('loading', data => {
             this.loadOk = data;
+
         })
-        this.$root.$on('output', data => {
+        this.$root.$on('output1', data => {
             this.dataForm = data;
-            // console.log(this.dataForm)
+            data.forEach((e, i) => {
+                this.idList.push(e.id);
+            })
+            let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
+            let ids = id.replace(/\"|"/g, "");
+            this.dataHref = '/api/customer/customer/excel/out?id=' + ids;
         })
     },
     mounted() {
-        this.$root.$on('total', (data) => {
+        this.$root.$on('total1', (data) => {
             this.totalCount = data
         })
-        this.$root.$on('pages', (data) => {
+        this.$root.$on('pages1', (data) => {
             this.pageS = data
         })
         this.$root.$on("delBox", (data) => {
@@ -64,98 +68,78 @@ export default {
         })
     },
     methods: {
-        importData() {
-            this.importFlag = 1
-            this.fileList = []
-            this.uploadTip = '点击上传'
-            this.processing = false
-            this.dialogImportVisible = true
-        },
-        outportData() {
-            scheduleApi.downloadTemplate()
-        },
         handlePreview(file) {
             //可以通过 file.response 拿到服务端返回数据
-        },
-        handleRemove(file, fileList) {
-            //文件移除
+            console.log(file.response);
         },
         beforeUpload(file) {
             //上传前配置
-            this.importHeaders.cityCode = '上海' //可以配置请求头
             let excelfileExtend = ".xls,.xlsx" //设置文件格式
             let fileExtend = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
             if (excelfileExtend.indexOf(fileExtend) <= -1) {
                 this.$message.error('文件格式错误')
                 return false
             }
-            this.uploadTip = '正在处理中...'
-            this.processing = true
-        },
-        //上传错误
-        uploadFail(err, file, fileList) {
-            this.uploadTip = '点击上传'
-            this.processing = false
-            this.$message.error(err)
         },
         //上传成功
         uploadSuccess(response, file, fileList) {
-            this.uploadTip = '点击上传'
-            this.processing = false
-            if (response.status === -1) {
-                this.errorResults = response.data
-                if (this.errorResults) {
-                    this.importFlag = 2
-                } else {
-                    this.dialogImportVisible = false
-                    this.$message.error(response.errorMsg)
-                }
-            } else {
-                this.importFlag = 3
-                this.dialogImportVisible = false
-                this.$message.info('导入成功')
-                this.doSearch()
+            console.log(response)
+            if (response.status === 300) {
+                this.$message.info(response.msg)
+            } else if (response.status === 200) {
+                this.$message.info(response.msg)
             }
         },
         //下载模板
-        download() {
+        // outData() {    
+        //     console.log(id);
+        //     this.$http.get(
+        //         '/api/customer/customer/excel/out?id=' + id
+        //     ).then(res => {
+        //         console.log(res)
+        //     }).catch(err => {
+        //         console.log(err);
+        //     })
+        // },
+        // download() {
 
-            //调用后台模板方法,和导出类似
-            // scheduleApi.downloadTemplate()
-            this.$confirm('此操作将导出excel文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.excelData = this.dataForm //你要导出的数据list。
-                this.export2Excel()
-            }).catch((err) => {
-                console.log(err);
-            });
+        //     //调用后台模板方法,和导出类似
+        //     // scheduleApi.downloadTemplate()
+        //     this.$confirm('此操作将导出excel文件, 是否继续?', '提示', {
+        //         confirmButtonText: '确定',
+        //         cancelButtonText: '取消',
+        //         type: 'warning'
+        //     }).then(() => {
+        //         this.outData();
+        //         // this.excelData = this.dataForm //你要导出的数据list。
+        //         // this.export2Excel()
+        //     }).catch((err) => {
+        //         console.log(err);
+        //     });
 
-        },
-        export2Excel() {
-            var that = this;
-            require.ensure([], () => {
-                const { export_json_to_excel } = require('@/excel/Export2Excel'); //这里必须使用绝对路径
-                const tHeader = ['id', 'name', 'mobile', 'types', 'city', 'quarters', 'state', 'source', 'Inputtiem', 'address']; // 导出的表头名
-                const filterVal = ['id', 'name', 'mobile', 'types', 'city', 'quarters', 'state', 'source', 'Inputtiem', 'address']; // 导出的表头字段名
-                const list = that.excelData;
-                const data = that.formatJson(filterVal, list);
-                console.log(data);
-                let time1, time2 = '';
-                if (this.start !== '') {
-                    time1 = that.moment(that.start).format('YYYY-MM-DD')
-                }
-                if (this.end !== '') {
-                    time2 = that.moment(that.end).format('YYYY-MM-DD')
-                }
-                export_json_to_excel(tHeader, data, `[${time1}-${time2}]提现管理excel`); // 导出的表格名称，根据需要自己命名
-            })
-        },
-        formatJson(filterVal, jsonData) {
-            return jsonData.map(v => filterVal.map(j => v[j]))
-        },
+        // },
+        // export2Excel() {
+        //     var that = this;
+        //     require.ensure([], () => {
+        //         const { export_json_to_excel } = require('@/excel/Export2Excel'); //这里必须使用绝对路径
+        //         const tHeader = ['id', '姓名', '手机号', '客户类型', '城市', '小区', '订单状态', '来源', '录入时间', '小区地址']; // 导出的表头名
+        //         const filterVal = ['id', 'name', 'mobile', 'types', 'city', 'quarters', 'state', 'source', 'Inputtiem', 'address']; // 导出的表头字段名
+        //         const list = that.excelData;
+        //         const data = that.formatJson(filterVal, list);
+        //         console.log(data);
+        //         let time1, time2 = '';
+        //         if (this.start !== '') {
+        //             time1 = moment(that.start).format('YYYY-MM-DD')
+        //         }
+        //         if (this.end !== '') {
+        //             time2 = moment(that.end).format('YYYY-MM-DD')
+        //         }
+        //         export_json_to_excel(tHeader, data, `[${time1}-${time2}]提现管理excel`); // 导出的表格名称，根据需要自己命名
+        //     })
+        // },
+        // formatJson(filterVal, jsonData) {
+        //     return jsonData.map(v => filterVal.map(j => v[j]))
+        // },
 
 
 
@@ -283,9 +267,9 @@ export default {
     },
     beforeDestroy() {
         this.$root.$on('loading');
-        this.$root.$on('total');
+        this.$root.$on('total1');
         this.$root.$on('delBox');
-        this.$root.$on('pages');
-        this.$root.$on('output');
+        this.$root.$on('pages1');
+        this.$root.$on('output1');
     }
 }
