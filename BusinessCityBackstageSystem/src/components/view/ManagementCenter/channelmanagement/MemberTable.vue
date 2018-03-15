@@ -86,20 +86,20 @@ export default {
     created:function(){
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
-            this.getDate(this.pageIndex)
+            this.getDate(this.pageIndex,{})
         })
         this.getDate(1)
         this.$root.$on('getDatezdy',(data)=>{
-             this.getDate( data)
+             this.getDate( 1,data)
         })
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
         this.$root.$on('searchchannellist',(name)=>{
-            this.getDate(1,name);
+            this.getDate(1,{name:name});
         });
         this.$root.$on('reloadchannel',()=>{
-            this.getDate(1);
+            this.getDate(1,{});
         });
         this.$root.$on('deletedata',(datas)=>{
             let ids=[];
@@ -108,9 +108,18 @@ export default {
             });
             this.deletedata(ids);
         });
+        this.$root.$on('search',(datas)=>{
+            let data={
+                name:datas.channel.name,
+                typeId:datas.channel.typeId,
+                levelId:datas.channel.levelId
+            }
+            console.log(data);
+            this.getDate(1,data);
+        });
     },
     methods:{
-        getDate(pageIndex,name) {
+        getDate(pageIndex,data) {
             this.listLoading =  true;
             let url = '/api/admin/teamManagement/queryTeamManagement?pageNum='+pageIndex+'&pageSize=10';
             this.$http({
@@ -118,9 +127,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:{
-                    name:name
-                },
+                data:data,
             })
             .then(response => {
                 console.log(response);
@@ -137,6 +144,7 @@ export default {
           .catch(error=>{
               console.log(error);
               alert('网络错误，不能访问');
+              this.listLoading =  false;
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
