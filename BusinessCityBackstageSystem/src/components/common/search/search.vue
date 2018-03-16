@@ -746,7 +746,7 @@
     .red label{
         color: red;
     }
-    .el-form-item{
+    .searcharea .el-form-item{
         margin-bottom: 10px;
     }
     /* .rangeprice */

@@ -442,7 +442,7 @@ export default {
                         else{
                             that.$message(response.data,msg);
                         }
-                        cosnole.log(response);
+                        // console.log(response);
                     })
                     .catch(function(response){
                         console.log(response);

@@ -71,7 +71,7 @@
             </el-row>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                <el-button @click="handleClose">重置</el-button>
+                <el-button @click="resetForm">重置</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -137,8 +137,9 @@
                 },
                 rules: {
                     backaccount: [{
+                        pattern: /^[0-9]*$/g ,
                         required: true,
-                        message: '请输入银行账户',
+                        message: '请输入正确的银行账户',
                         trigger: 'blur'
                     }, ],
                     backname: [{
@@ -399,6 +400,19 @@
                 }
                 this.inputVisible = false;
                 this.inputValue = '';
+            },
+            resetForm() {
+                this.ruleForm.mode ='';
+                this.ruleForm.name ='';
+                this.ruleForm.backname ='';
+                this.ruleForm.backaccount = '';
+                this.ruleForm.Cname = '';
+                this.ruleForm.ids = '';
+                this.ruleForm.panper = '';
+                this.ruleForm.county = '';
+                this.ruleForm.ctypes = '';
+                this.Tagbox=[];
+                // this.$refs.ruleForm.resetFields();
             }
         },
         created: function() {
@@ -427,6 +441,15 @@
                         this.dialogVisible = true;
                 } else {
                     this.ruleForm.textInfo = '新增供应商';
+                    this.ruleForm.mode ='';
+                    this.ruleForm.name ='';
+                    this.ruleForm.backname ='';
+                    this.ruleForm.backaccount = '';
+                    this.ruleForm.Cname = '';
+                    this.ruleForm.ids = '';
+                    this.ruleForm.panper = '';
+                    this.ruleForm.county = '';
+                    this.ruleForm.ctypes = '';
                     this.dialogVisible = true;
                 }
             });
