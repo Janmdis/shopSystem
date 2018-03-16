@@ -131,14 +131,6 @@ export default {
             this.getemployeelist(1);
         });
         this.$root.$on('search',(datas)=>{
-            // let data={
-            //     adminName:datas.users.adminName===''?null:datas.users.adminName,
-            //     phone:datas.users.phone===''?null:datas.users.phone,
-            //     accStatus:datas.users.accStatus===''?null:datas.users.accStatus,
-            //     employeeTypeId:datas.users.employeeTypeId===''?null:datas.users.employeeTypeId,
-            //     serStaTime:datas.users.daterange[0],
-            //     serEndTime:datas.users.daterange[1]
-            // };
             this.data.adminName=datas.users.adminName===''?null:datas.users.adminName;
             this.data.phone=datas.users.phone===''?null:datas.users.phone;
             this.data.accStatus=datas.users.accStatus===''?null:datas.users.accStatus;

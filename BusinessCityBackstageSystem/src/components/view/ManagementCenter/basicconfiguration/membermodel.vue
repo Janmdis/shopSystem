@@ -69,7 +69,7 @@ export default {
         }
     },
     beforeDestroy(){
-        this.$root.$off('transFn');
+        this.$root.$off('transFn2');
     }
 }
 </script>

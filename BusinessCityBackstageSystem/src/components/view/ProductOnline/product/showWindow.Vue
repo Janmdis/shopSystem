@@ -517,6 +517,7 @@
                     this.dialogVisible = false;
                     this.$refs[formName].resetFields();
                 } else {
+                    console.log(this.ruleForm.productImage);
                     this.$http({ //  新增产品
                         url: '/api/product/info/insert',
                         method: 'POST',

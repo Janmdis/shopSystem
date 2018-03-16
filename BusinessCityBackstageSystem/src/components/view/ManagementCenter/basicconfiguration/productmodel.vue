@@ -15,7 +15,7 @@ export default {
             typeData:[
                 {'index':1,'icon':'el-icon-edit','isActive':true,'name':'品牌'},
                 {'index':2,'icon':'el-icon-menu','isActive':false,'name':'分类'},
-                {'index':3,'icon':'el-icon-sold-out','isActive':false,'name':'来源'},
+                // {'index':3,'icon':'el-icon-sold-out','isActive':false,'name':'来源'},
                 {'index':4,'icon':'el-icon-document','isActive':false,'name':'单位'},
                 {'index':5,'icon':'el-icon-news','isActive':false,'name':'类型'},
                 {'index':6,'icon':'el-icon-menu','isActive':false,'name':'规格'}
@@ -23,7 +23,7 @@ export default {
             urlList:[
                 {id:'brandId',url:'/api/product/brand/find?pageSize=0',des:'品牌',name:'brandName'},
                 {id:'id',url:'/api/product/sort/find?pageSize=0',des:'分类',name:'name'},
-                {id:'unitId',url:'/api/product/unit/find?pageSize=0',des:'来源',name:'unitName'},
+                // {id:'unitId',url:'/api/product/unit/find?pageSize=0',des:'来源',name:'unitName'},
                 {id:'unitId',url:'/api/product/unit/find?pageSize=0',des:'单位',name:'unitName'},
                 {id:'id',url:'/api/product/type/find?pageSize=0',des:'类型',name:'productName'},
                 {id:'specificationId',url:'/api/product/specification/find?pageSize=0',des:'规格',name:'specificationName'}

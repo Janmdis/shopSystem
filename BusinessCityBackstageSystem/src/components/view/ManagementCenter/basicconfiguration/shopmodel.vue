@@ -28,6 +28,8 @@ export default {
     created(){
         this.getDate(0,this.urlList[0].url); 
         this.$root.$on('transFn1', data => {
+            console.log(data);
+            console.log(this.urlList);
             this.getDate(data,this.urlList[data].url);
         });
     },
@@ -50,6 +52,7 @@ export default {
                 data:{},
                 // headers:{'content-type':'application/json'}
             }).then(res => {
+                // console.log(res);
                 if(res.data.status != 403){
                    if(res.data.info.list == null){
                        this.datalist=(res.data.info);

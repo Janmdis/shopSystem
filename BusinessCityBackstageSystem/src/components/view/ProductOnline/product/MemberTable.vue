@@ -164,6 +164,7 @@ export default {
                 data:data,
             })
             .then(response => {
+                console.log(response);
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
                 // console.log(this.datalist)
