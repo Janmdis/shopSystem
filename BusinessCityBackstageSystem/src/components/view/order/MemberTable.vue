@@ -109,6 +109,7 @@ export default {
                 console.log(this.datalist)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
+                this.$root.$emit('output',this.datalist);
           })
           .catch(error=>{
               console.log(error);

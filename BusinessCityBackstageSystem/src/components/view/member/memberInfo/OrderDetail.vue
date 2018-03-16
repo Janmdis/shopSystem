@@ -77,7 +77,7 @@ export default{
                 align-items: center;
                 margin-bottom:50px;
                 font-size: 14px;
-                color:#102935;
+                color:#102a42;
                 span{
                     display: block;
                     width: 200px;
@@ -86,13 +86,13 @@ export default{
             }
             .lineAddress{
                 font-size: 14px;
-                color:#102935;
+                color:#102a42;
                 margin-bottom:50px;
             }
             .lineOriginDetail,.lineRepairRecord{
                 margin-bottom:50px;
                 font-size: 14px;
-                color:#102935;
+                color:#102a42;
                 display:flex;
                 span{
                     display: block;

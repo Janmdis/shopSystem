@@ -45,12 +45,12 @@ export default password
     background: #0b9c9b;
 }
 .el-button--success:focus, .el-button--success:hover{
-    background-color: #00adab;
-    border-color: #00adab;
+    background-color: 27a1f2;
+    border-color: 27a1f2;
 }
 .el-button--success{
-    background-color: #00adab;
-    border-color: #00adab;
+    background-color: 27a1f2;
+    border-color: 27a1f2;
 }
 </style>
 

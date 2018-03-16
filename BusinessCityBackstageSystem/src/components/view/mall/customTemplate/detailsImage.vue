@@ -4,7 +4,7 @@
         <div>
             <el-row>
                 <el-col :span="24" v-for='(item,index) in imglist' :key='index'>
-                    <div class="imgConet">
+                    <div class="imgConet" style="font-size: 0;">
                     <!-- 图片-->
                      <img :src="item.img" class="Imgsize">
                     </div>

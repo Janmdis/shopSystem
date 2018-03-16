@@ -36,7 +36,7 @@
                 <div id="checkCode" style="width: 200px;height: 50px;margin-left:21%;maring-bottom:15px;"></div>
                 </el-row>
                 <el-row class="forgMiss" >
-                <el-col :span='12'>
+                <el-col :span='12' >
                 <el-checkbox v-model="ruleForm.rememberMe" name="remPassword" @change="clearCookie">记住密码</el-checkbox>
                 </el-col>
                  <el-col :span='12'>
@@ -70,7 +70,13 @@
 </style>
 <style lang = 'less'>
 #login{
-
+    .el-checkbox__input.is-checked+.el-checkbox__label{
+        color: #0fb8a980;
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+        background-color: #0fb8a980;
+        border-color: #0fb8a980;
+    }
 .el-input__inner{
     height:40px;
 }
@@ -95,13 +101,13 @@
     }
 
     .login{
-        background:#00aeaa;
-        border:1px solid #00aeaa;
+        background:#0fb8a980;
+        border:1px solid #0fb8a980;
         width:80%;
     }
     .login:hover{
-        background:#00aeaa;
-        border:1px solid #00aeaa;
+        background:#0fb8a980;
+        border:1px solid #0fb8a980;
     }
     
     .el-form-item__label{

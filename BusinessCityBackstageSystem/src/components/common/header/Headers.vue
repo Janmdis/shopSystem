@@ -13,23 +13,23 @@
       </el-col>
       <el-col :span="6">
       <ul class="leftName">
-        <li>商城前台</li>
+       
         <li>
           <el-dropdown :hide-on-click="false">
             <span class="el-dropdown-link">
-              系统消息
+               <i class="icon iconfont icon-lingdang"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item >黄金糕</el-dropdown-item>
-              <el-dropdown-item divided>狮子头</el-dropdown-item>
-              <el-dropdown-item divided>螺蛳粉</el-dropdown-item>
+              <el-dropdown-item >消息提醒1</el-dropdown-item>
+              <el-dropdown-item divided>消息提醒2</el-dropdown-item>
+              <el-dropdown-item divided>消息提醒3</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </li>
         <li>
           <el-dropdown :hide-on-click="false">
             <span class="el-dropdown-link">
-              个人信息
+              <i class="icon iconfont icon-shezhi1"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item >
@@ -40,6 +40,10 @@
             </el-dropdown-menu>
           </el-dropdown>
         </li>
+        
+         <li class='userinofBox'>
+          <img src='./user.png'><span>郭湘君</span>
+         </li>
       </ul>
       </el-col>
     </el-row>
@@ -104,7 +108,7 @@ export default headers;
     width: 144px;
     border-radius: 20px;
     color: #fff;
-    background: #00adab;
+    background: 27a1f2;
     margin:0 5%;
     display: inline-block;
 }

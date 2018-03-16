@@ -110,7 +110,7 @@ export default {
 .el-form-item .el-button{
     width:140px;
     font-size:14px;
-    background:#00adab;
+    background:27a1f2;
     margin:0 auto;
     display: block;
 }

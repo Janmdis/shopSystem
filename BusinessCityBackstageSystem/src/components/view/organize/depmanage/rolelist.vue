@@ -110,7 +110,7 @@ export default {
 <style scoped>
 .grid-content{
     height:80%;
-	border:1px solid #00adab;
+	border:1px solid 27a1f2;
 	border-radius:5px;
     background:#fff;
     overflow:hidden;
@@ -130,8 +130,8 @@ export default {
 	cursor:pointer;
 }
 .rolHeader .pull-right button{
-    background:#00adab;
-    border-color:#00adab;
+    background:27a1f2;
+    border-color:27a1f2;
     color:#fff;
     display: inline-block;
     cursor: pointer;
@@ -166,11 +166,11 @@ export default {
     text-align: center;
 }
 .roleSection .roles td span{
-	color:#00adab;
+	color:27a1f2;
 	cursor:pointer;
 }
 .tbactive{
-    background-color: #00adab !important;
+    background-color: 27a1f2 !important;
     color:#fff;
 }
 </style>

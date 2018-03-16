@@ -91,6 +91,7 @@ export default {
     },
     methods:{
       getDate(pageIndex) {
+            let that = this;
             this.listLoading =  true;
             let url = '/api/customer/account/query?page='+pageIndex+'&pageSize=10';
             this.$http({
@@ -101,11 +102,12 @@ export default {
                 data:{},
             })
             .then(response => {
-                this.listLoading =  false;
-                this.datalist=(response.data.info.list);
+                that.listLoading =  false
+                that.datalist=(response.data.info.list)
                 //console.log(this.datalist)
-                this.$root.$emit('pages',response.data.info.pages)
-                this.$root.$emit('total',response.data.info.total)
+                that.$root.$emit('output1',that.datalist)
+                that.$root.$emit('pages1',response.data.info.pages)
+                that.$root.$emit('total1',response.data.info.total)
           })
           .catch(error=>{
               console.log(error);
@@ -120,11 +122,6 @@ export default {
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
                 this.$root.$emit('searchPersonnelInfo',row.id)
-                // this.$store.dispatch('getVillage',{
-                //     id:row.id,
-                //     pageNum:1,
-                //     pageSize:3
-                // }); 
             }
         },      
         showextra(val){

@@ -196,16 +196,16 @@ export default {
     height:37px;
     line-height: 0;
     border-radius: 20px;
-    background-color: #00adab;
+    background-color: 27a1f2;
     /* margin-left: 15px; */
 }
 /* .search .el-button--primary:hover{
-    background-color: #00adab;
+    background-color: 27a1f2;
 } */
 .search .research{
     background: none;
     border: none;
-    color:#00adab;
+    color:27a1f2;
     font-size: 40px;
     padding: 0;
 }
@@ -242,7 +242,7 @@ export default {
     height: 85% !important;
 }
 table .el-button--text{
-    color:#00adab;
+    color:27a1f2;
     font-size:14px;
 }
 .el-button--text{
