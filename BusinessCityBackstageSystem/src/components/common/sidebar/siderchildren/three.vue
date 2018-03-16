@@ -5,7 +5,13 @@
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>活动详情</template>
             <el-menu-item-group>
-              <el-menu-item index="templateList">模板管理</el-menu-item>
+              <el-menu-item index="templateList">商城模板管理</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group>
+              <el-menu-item index="eventTemplateList">活动模板管理</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group>
+              <el-menu-item index="detailTemplateList">详情模板管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">

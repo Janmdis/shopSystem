@@ -30,14 +30,19 @@
         </template>
         </el-table-column>
         <el-table-column
+        label="模板状态">
+        <template slot-scope="scope">
+            <span :templateStaus="templateStu(scope.row.templateID)">{{ templateStauss }}</span>
+        </template>
+        </el-table-column>
+        <el-table-column
         prop="createTime"
         label="创建时间">
         </el-table-column>
         <el-table-column
         label="模板地址">
         <template slot-scope="scope">
-            <span>{{ 'http://www.greenCity.com' }}</span> 
-            <!-- +scope.row.templateID -->
+            <span>{{ 'http://www.greenCity.com'+scope.row.templateID }}</span>
         </template>
         </el-table-column>
         <el-table-column
@@ -51,9 +56,6 @@
          <template slot-scope="scope">
              <el-button type="text"  size="small" @click="handleSee(scope.$index, scope.row,$event)">浏览</el-button>
             <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
-            <el-button type="text"  size="small" @click="handleSwicth(scope.$index, scope.row,$event)">
-                <span>{{ scope.row.isEnabled == true?'启用中':scope.row.isEnabled == false?'停用中':''}}</span>
-                </el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
         </el-table-column> 
@@ -68,16 +70,18 @@ export default {
         return {
             isBorder:false,
             datalist:[],
+            proTemplate:'',
+            templateStauss:'...',
             showLeft:0,
             pageIndex:1
         }
     },
     created:function(){
+        this.getDate(1)
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
             this.getDate(this.pageIndex)
         })
-        this.getDate(1)
         this.$root.$on('getDatezdy',(data)=>{
              this.getDate(data);
         })
@@ -89,7 +93,7 @@ export default {
     methods:{
         handleDelete(index, row,event) { //  删除某一个模板
             let that = this;
-            console.log(row);
+           // console.log(row);
             this.$confirm('确定删除 "'+row.templateName+'"吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
@@ -104,7 +108,7 @@ export default {
                         if(res.data.msg == '删除失败'){
                             that.$message({
                             type: 'info',
-                            message: '请先停用该模板',
+                            message: '请选择停用中的模板',
                             duration:800
                         }); 
                         }
@@ -119,33 +123,6 @@ export default {
                 });          
             });   
         },
-        handleSwicth(index,row,event){
-            let that = this;
-           // console.log(row);
-           // console.log(row.isEnabled)
-            let stateBl = !row.isEnabled
-            this.$confirm('确定更改 "'+row.templateName+'"的状态吗?', '提示', 
-                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
-            .then(() => {
-                that.$message({
-                    type: 'success',
-                    message: '更改成功!',
-                    duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value='+stateBl,
-                        [row.templateID]
-                    ).then(res => {
-                        //console.log(res.data.msg);
-                        that.getDate(1);
-                    }).catch(err => {console.log(err)})
-                });
-            }).catch(() => {
-                that.$message({
-                    type: 'info',
-                    message: '已取消更改',
-                    duration:800
-                });          
-            });
-        },
         handleEdit(index, row,event) {
            // this.$root.$emit('showWindowss',{type:'yes',rowData:row});
            // console.log(row)
@@ -153,6 +130,40 @@ export default {
             window.sessionStorage.setItem ("Template_AllData",datas);
             //this.$store.dispatch('editTemplate',row)
             this.$router.push({ path: '/mallSet' })
+        },
+        getProduct(templateIdArr){
+            let that = this;
+            let url = '/product/commodity/info/queryListByDetailTemplateIds'
+            this.$http.post('/api/product/commodity/info/queryListByDetailTemplateIds',
+             templateIdArr
+            ).then(res => {
+               // console.log(res)
+                let templateIdArrs = [];
+                let productArr = res.data.info
+                if(productArr.length == 0){
+                    this.templateStauss = '停用中'
+                }
+                for(let i = 0;i<productArr.length;i++){
+                    templateIdArrs.push(productArr[i].detailTemplateId)
+                }
+                //console.log(templateIdArrs)
+                that.proTemplate = templateIdArrs
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        templateStu(id){
+          //console.log(id)
+           let ids = id
+           let arr = this.proTemplate
+           //console.log(arr)
+            for(let i=0;i<arr.length;i++){
+                if(ids == arr[i]){
+                    return this.templateStauss = '启用中'
+                }else{
+                     this.templateStauss = '停用中'
+                }
+            }
         },
         getDate(pageIndex) {
             this.listLoading =  true;
@@ -163,15 +174,23 @@ export default {
                 // 请求体重发送的数据
                 // headers: { 'Content-Type': 'application/json' },
                 data:{
-                    'templateType':1
+                    'templateType':3
                 },
             })
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(response.data.msg)
+                //console.log(response.data.msg)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
+                let templateIdArr = [];
+                let dataArr = response.data.info.list
+                //console.log(dataArr)
+                for(let i = 0;i<dataArr.length;i++){
+                    templateIdArr.push(dataArr[i].templateID)
+                }
+               // console.log(templateIdArr)
+                this.getProduct(templateIdArr)
           })
           .catch(error=>{
               console.log(error);
