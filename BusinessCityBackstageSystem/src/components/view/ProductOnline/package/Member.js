@@ -91,11 +91,11 @@ export default {
       // this.searchUsers()
       let data={
         commodity:{
-          categoryId:null,
-          isOnSale:null,
-          maxPrice:null,
-          minPrice:null,
-          name:this.valuesearch
+          'categoryId':null,
+          'isOnSale':null,
+          'maxPrice':null,
+          'minPrice':null,
+          'name':this.valuesearch
         }
       }
       this.$root.$emit("search",data);

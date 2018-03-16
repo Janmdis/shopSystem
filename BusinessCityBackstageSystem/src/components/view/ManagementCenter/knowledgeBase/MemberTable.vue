@@ -143,6 +143,11 @@ export default {
         indexMethod(index) {
             return index + 1
         },
+    },
+    beforeDestroy(){
+        this.$root.$off('search');
+        this.$root.$off('pageIndex');
+
     }
 
 }

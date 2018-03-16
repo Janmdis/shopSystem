@@ -191,7 +191,7 @@ export default {
             return index + 1
         },
     },
-    beforeDestry(){
+    beforeDestroy(){
         this.$root.$off('search');
     }
 

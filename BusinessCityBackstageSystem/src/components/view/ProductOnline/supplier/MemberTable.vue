@@ -178,6 +178,9 @@ export default {
        showWindow(id) {
             this.$root.$emit("showWindow",id);
         },
+    },
+    beforeDestroy(){
+        this.$root.$off('search');
     }
 
 }
