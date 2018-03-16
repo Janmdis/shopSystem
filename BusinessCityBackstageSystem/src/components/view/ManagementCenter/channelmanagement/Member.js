@@ -41,6 +41,18 @@ export default {
       this.clearBox()
     })
   },
+  created(){
+    this.$root.$on('switch',(flag)=>{
+        console.log(flag);
+        let dom=document.querySelector("#member");
+        if(flag){
+            dom.setAttribute('class','el-main on');
+        }
+        else{
+            dom.setAttribute('class','el-main');
+        }
+    });
+  },
   methods: {
     clearBox() {
       let that = this;
@@ -80,7 +92,15 @@ export default {
     })
     },
     show: function (val) {
-      this.$root.$emit('searchchannellist',this.valuesearch);
+      let data={
+        channel:{
+          name:this.valuesearch,
+          typeId:null,
+          levelId:null
+        }
+      };
+      
+      this.$root.$emit('search',data);
       // this.searchUsers()
     },
     research(){
@@ -127,6 +147,7 @@ export default {
     closeInfo() {
     },
     handleSizeChange(val) {
+      console.log(val)
       this.pageSize = val;
       this.$root.$emit('pageSize', {
         value: this.pageSize
@@ -140,6 +161,9 @@ export default {
 
     },
 
+  },
+  beofreDestroy(){
+    this.$root.$off('switch');
   },
   components: {
     Lttip,

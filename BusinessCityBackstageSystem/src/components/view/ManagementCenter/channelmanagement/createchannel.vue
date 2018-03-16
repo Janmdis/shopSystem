@@ -149,6 +149,14 @@ export default {
     created:function(){
         this.$root.$on("createchannel",()=>{
             this.typeopera='create';
+            this.formchannel={
+                name:'',
+                typeId:'',
+                levelId:'',
+                remark:''
+            };
+            this.beforeemployeelist=[];
+            this.datalist=[];
             document.querySelector('.createchannel').setAttribute('class','createchannel on');
             this.getChanneltype();
             this.getLevelList();

@@ -128,6 +128,7 @@ export default {
                 this.name='编辑权限';
                 this.id=datas.id;
                 this.checkedPromise=[];
+                console.log(datas);
                 this.promiseslist.forEach((item,index)=>{
                     this.checkedPromise[index]=[];
                     datas.permissionid.split(',').forEach(perssionid=>{

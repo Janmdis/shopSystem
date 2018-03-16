@@ -4,7 +4,7 @@
     @selection-change='showextra'
     @cell-click='showMemberInfo'
     :default-sort = "{prop: 'date', order: 'descending'}"
-    v-loading="this.listLoading"
+    v-loading="listLoading"
     :stripe='true'
     style="width: 100%" height='500'>
     <el-table-column
@@ -75,7 +75,15 @@ export default {
         return {
             datalist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
+            data:{
+                categoryId:null,
+                contactMobile:null,
+                labelId:null,
+                levelId:null,
+                name:null,
+                pageSize:10
+            }
         }
     },
     created:function(){
@@ -91,28 +99,43 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
+        this.$root.$on('search',(datas)=>{
+            console.log(datas);
+            this.data.categoryId=datas.supplier.categoryId===''?null:datas.supplier.categoryId;
+            this.data.contactMobile=datas.supplier.contactMobile===''?null:datas.supplier.contactMobile;
+            this.data.labelId=datas.supplier.labelId===''?null:datas.supplier.labelId;
+            this.data.levelId=datas.supplier.levelId===''?null:datas.supplier.levelId;
+            this.data.name=datas.supplier.name===''?null:datas.supplier.name;
+            this.getDate(1);
+            // console.log(datas.supplier);
+            // this.datalist = data
+        })
         
     },
     methods:{
       getDate(pageIndex) {
             this.listLoading =  true;
+            this.data.pageNum=pageIndex;
             let url = '/api/product/supplierInfo/queryPageList';
             this.$http({
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
                 //headers: { 'Content-Type': 'application/json' },
-                data:{
-                    pageNum:pageIndex,
-                    pageSize:10
-                },
+                data:this.data,
             })
             .then(response => {
+                console.log(response);
                 this.listLoading =  false;
-                this.datalist=(response.data.info.list);
-                console.log(this.datalist.supplierLabel)
-                this.$root.$emit('pages',response.data.info.pages)
-                this.$root.$emit('total',response.data.info.total)
+                if(response.data.info==null){
+                    this.datalist=[];
+                }
+                else{
+                    this.datalist=(response.data.info.list);
+                    this.$root.$emit('pages',response.data.info.pages)
+                    this.$root.$emit('total',response.data.info.total)
+                }
+                
           })
           .catch(error=>{
               console.log(error);

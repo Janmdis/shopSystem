@@ -179,7 +179,7 @@ import { mapState } from 'vuex'
             },
             getType(){
                 let that=this;
-                this.$http.post('/api/product/commodity/category/queryMap',)
+                this.$http.post('/api/product/commodity/category/queryMap',{})
                 .then(function (response) {
                     let data=response.data;
                     if(data.msg=='查询成功'){

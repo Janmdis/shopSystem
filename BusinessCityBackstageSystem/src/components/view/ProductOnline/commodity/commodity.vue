@@ -1,5 +1,5 @@
 <template>
-    <el-main id="member">
+    <el-main id="member" style='padding-bottom:80px;'>
         <div class="memberNav" @click.native="closeInfo">
             <el-row class="navChild">
                 <el-col :span='15'>
@@ -21,6 +21,9 @@
             </el-row>
         </div>
         <div class="memberMain commodity" v-show="showTable" >
+            <el-row>
+                <search :type='type'></search>
+            </el-row>
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>

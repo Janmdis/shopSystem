@@ -17,7 +17,10 @@
                 </el-col>
             </el-row>
         </div>
-        <div class="memberMain">
+        <div class="memberMain" style='height:88%;' >
+            <el-row>
+                <search :type='type'></search>
+            </el-row>
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>

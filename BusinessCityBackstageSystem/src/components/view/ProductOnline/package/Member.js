@@ -2,7 +2,7 @@
 import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
-import search from './search.vue'
+import search from '../../../common/search/search.vue'
 import showWindows from './showWindow.vue'
 import detailpackage from './detailpackage.vue'
 import  detailcommodity from '@/components/view/ProductOnline/commodity/detailcommodity.vue'
@@ -23,7 +23,8 @@ export default {
       pageSize: 10,
       pageS: 0,
       listLoading: false,
-      delArr:[]
+      delArr:[],
+      type:'commodity'
     }
 
   },
@@ -88,7 +89,16 @@ export default {
     },
     show: function (val) {
       // this.searchUsers()
-      this.$root.$emit("search",this.valuesearch);
+      let data={
+        commodity:{
+          categoryId:null,
+          isOnSale:null,
+          maxPrice:null,
+          minPrice:null,
+          name:this.valuesearch
+        }
+      }
+      this.$root.$emit("search",data);
     },
     searchUsers() {
       let para = {
