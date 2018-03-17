@@ -6,6 +6,7 @@ import search from '../../../common/search/search.vue'
 import createchannel from './createchannel.vue'
 import dialogemployee from './DialogEmployee.vue'
 import qs from 'qs'
+import dialogqrcide from '../../../common/dialog/qrcode.vue'
 
 export default {
   
@@ -171,7 +172,8 @@ export default {
     Datatable,
     searchBox,
     createchannel,
-    dialogemployee
+    dialogemployee,
+    dialogqrcide
   },
 }
 

@@ -91,7 +91,7 @@ export default {
 }
 .grid-content{
   background-color: white;
-  height: 400px;
+  height: 410px;
   padding-top: 20px;
   border-radius: 10px;
   text-align: center;

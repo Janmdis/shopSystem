@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-content">
+  <div :class="{'grid-content':true,'large':objdata.idname=='charts1','small':objdata.idname=='charts2'}">
         <div class="h-t">
             <el-col class='tip' :span='8'>
                 <img :src="imgurl" alt="">
@@ -60,8 +60,8 @@ export default {
                     title: {
                         text:this.objdata.totaltip+' \n',
                         left:'center',
-                        top:datalist.length>3?'35%':'55%',
-                        left:datalist.length>3?'45%':'35%',
+                        top:datalist.length>3?'15%':'40%',
+                        left:datalist.length>3?'60%':'50%',
                         x:'center',
                         y:'bottom',
                         padding:[65,0],
@@ -79,17 +79,18 @@ export default {
                     },
                     legend: {
                         data:listdatetype,
-                        orient:'horizontal',
+                        orient:'vertical',
                         icon: 'circle',
                         padding:[20,0],
-                        top:'0%'
+                        top:'5%',
+                        left:'5%'
                     },
                     series: [
                         {
                             name:this.tips,
                             type:'pie',
-                            radius:datalist.length>3?['40%', '50%']:['0','50%'],
-                            center:['50%', datalist.length>3?'65%':'50%'],
+                            radius:datalist.length>3?['25%', '35%']:['0','40%'],
+                            center:['65%', datalist.length>3?'40%':'40%'],
                             avoidLabelOverlap: false,
                             itemStyle:{ 
                                 normal:{ 
@@ -146,7 +147,7 @@ export default {
     padding-top: 7px;
 }
 .grid-content{
-    height: 310px;
+    height: 280px;
     margin-bottom: 20px;
     background-color: white;
     padding-top: 20px;
@@ -154,6 +155,9 @@ export default {
     /* text-align: center; */
     position: relative;
     color:#606266;
+}
+.grid-content.large{
+    height:350px;
 }
 .echar{
     width: 100%;

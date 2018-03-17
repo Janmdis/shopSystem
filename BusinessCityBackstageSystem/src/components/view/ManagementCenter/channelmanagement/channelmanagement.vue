@@ -42,6 +42,7 @@
         <!-- <showWindows></showWindows> -->
         <createchannel></createchannel>
         <dialogemployee></dialogemployee>
+        <dialogqrcide></dialogqrcide>
     </el-main>
 </template>
 <script>

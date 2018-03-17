@@ -416,6 +416,9 @@ export default {
             this.getdateperiod();
             this.getcitys();
         });
+        this.$root.$on('reloadcommidity',(id)=>{
+            this.getgoodslist();
+        });
     },
     computed: {
         ...mapState({
