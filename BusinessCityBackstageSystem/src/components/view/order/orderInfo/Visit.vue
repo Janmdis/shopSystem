@@ -247,7 +247,7 @@ export default{
 }
 #chatting-box{ 
     .el-dialog__header{
-        background: #409EFF;
+            border-bottom: 4px solid #409eff;
     }
     .el-form-item__content{
         margin-left: 0 !important;

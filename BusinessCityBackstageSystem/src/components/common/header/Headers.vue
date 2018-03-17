@@ -89,11 +89,14 @@ export default headers;
 .el-select{
   width:84%;
 }
-
+.icon-lingdang , .icon-shezhi1 {
+  color:#fff;
+}
 .el-dialog__footer{
   text-align: center;
 }
 .el-dialog{
+  
 .dialog-footer .clearBtn{
     height: 42px;
     width: 144px;
@@ -108,13 +111,14 @@ export default headers;
     width: 144px;
     border-radius: 20px;
     color: #fff;
-    background: 27a1f2;
+    background: #27a1f2;
     margin:0 5%;
     display: inline-block;
 }
 }
 .el-dialog__header{
   background:@hederTbg;
+      border-bottom: 4px solid #409eff;
   padding:15px;
  
  .el-dialog__title{

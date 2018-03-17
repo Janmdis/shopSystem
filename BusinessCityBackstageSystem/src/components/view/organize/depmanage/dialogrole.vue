@@ -197,7 +197,7 @@ input[type='checkbox']{
 /* 模态框 */
 
 .el-dialog__header{
-    background:#109997;
+       border-bottom: 4px solid #409eff;
     padding:20px 32px;
 }
 .el-dialog__title,.el-dialog__headerbtn .el-dialog__close{
@@ -229,7 +229,7 @@ input[type='checkbox']{
 .el-dialog__footer .el-button{
     width:140px;
     font-size:14px;
-    background:27a1f2;
+    background:#27a1f2;
     margin:0 auto;
     display: block;
 }
@@ -265,7 +265,7 @@ input[type='checkbox']{
     padding-left: 15px;
 }
 .el-dialog .grid-content .infoText{
-    color:27a1f2;
+    color:#27a1f2;
     display: block;
     text-align: right;
     padding-right: 12%;

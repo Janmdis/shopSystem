@@ -94,8 +94,8 @@
         left: 359px;
     }
     .add {
-        background: #00aeaa;
-        border: 1px solid #00aeaa;
+        background: #27a1f2;
+        border: 1px solid #27a1f2;
     }
     #file-upload .el-upload{
         width: 100% !important;

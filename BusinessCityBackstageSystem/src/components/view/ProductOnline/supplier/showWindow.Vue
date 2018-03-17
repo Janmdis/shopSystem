@@ -436,8 +436,8 @@
                         this.ruleForm.Cname = data[0].name,
                         this.ruleForm.ids = data[0].id,
                         this.ruleForm.panper = status,
-                        this.ruleForm.county = data[0].levelId,
-                        this.ruleForm.ctypes = data[0].categoryId
+                        this.ruleForm.county = data[0].categoryId,
+                        this.ruleForm.ctypes = data[0].levelId
                         this.dialogVisible = true;
                 } else {
                     this.ruleForm.textInfo = '新增供应商';

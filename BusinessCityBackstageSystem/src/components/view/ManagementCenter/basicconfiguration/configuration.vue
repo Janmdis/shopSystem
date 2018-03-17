@@ -476,7 +476,7 @@ export default {
         .el-dialog{
             width:40% !important;
             .el-dialog__header{
-                background: #409EFF;
+                    border-bottom: 4px solid #409eff;
             }
             .el-form{
                 .el-form-item{

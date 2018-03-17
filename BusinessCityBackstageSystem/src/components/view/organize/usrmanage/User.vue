@@ -79,7 +79,7 @@ table td:nth-child(3) {
 <style scoped lang="less">
 @import './User.less';
 .add {
-    background:27a1f2;
+    background:#27a1f2;
 }
 .search {
     height: 72px;
@@ -103,7 +103,7 @@ table td:nth-child(3) {
 .shengrizhuanqu,.msnuiMore,.shuaxin{
     background: none;
     border: none;
-    color: 27a1f2;
+    color: #27a1f2;
     font-size: 40px;
     padding: 0;
     width:10%;

@@ -154,7 +154,7 @@ export default {
     border-radius: 10px;
     /* text-align: center; */
     position: relative;
-    color:#606266;
+    color:#fff;
 }
 .grid-content.large{
     height:350px;

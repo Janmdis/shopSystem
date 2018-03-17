@@ -70,8 +70,8 @@
 <style>
     .btnW {
         width: 100%;
-        background: 27a1f2;
-        border: 1px solid 27a1f2;
+        background: #27a1f2;
+        border: 1px solid #27a1f2;
     }
     #searcher {
         position: relative;
