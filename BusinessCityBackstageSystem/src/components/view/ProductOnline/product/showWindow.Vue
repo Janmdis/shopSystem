@@ -107,7 +107,8 @@
             min-width: 700px;
             margin-top: 9vh !important;
             .el-dialog__header {
-                background: #27a1f2;
+                //background: #27a1f2;
+                    border-bottom: 4px solid #409eff;
             }
             .el-dialog__body {
                 padding: 30px 25px;

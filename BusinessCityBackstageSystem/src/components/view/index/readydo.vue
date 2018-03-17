@@ -54,7 +54,7 @@ export default {
   padding: 20px;
   border-radius: 10px;
   position: relative;
-  color:#606266;
+  color:#fff;
 }
 .tip{
     position: relative;
@@ -92,7 +92,7 @@ export default {
     align-items: center;
 }
 /* .data{
-  color:#606266;
+  color:#fff;
   padding-bottom: 15px;
   padding-top: 15px;
   vertical-align: middle;

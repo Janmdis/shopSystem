@@ -131,7 +131,7 @@ export default {
     width:40%;
 }
 .el-dialog__header{
-    background:#109997;
+        border-bottom: 4px solid #409eff;
     padding:20px 32px;
 }
 .el-dialog__title,.el-dialog__headerbtn .el-dialog__close{
@@ -163,7 +163,7 @@ export default {
 .el-dialog__footer .el-button{
     width:140px;
     font-size:14px;
-    background:27a1f2;
+    background:#27a1f2;
     margin:0 auto;
     display: block;
 }
@@ -194,7 +194,7 @@ export default {
 	padding:5px 10px;
 } */
 .el-dialog  .infoText{
-    color:27a1f2;
+    color:#27a1f2;
     display: block;
     text-align: right;
 }

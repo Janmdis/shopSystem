@@ -322,7 +322,7 @@ export default {
     color:red;
 }
 .onsale{
-    color:27a1f2;
+    color:#27a1f2;
 }
 </style>
 <style>

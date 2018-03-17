@@ -1754,7 +1754,7 @@ export default {
 .title.none.el-input.is-disabled .el-input__inner,
 .timemodel .is-disabled,
 .timemodel .el-range-editor.is-disabled input{
-    color:#606266 !important;
+    color:#fff !important;
     background-color:#fff;
 }
 .timemodel .el-date-editor{

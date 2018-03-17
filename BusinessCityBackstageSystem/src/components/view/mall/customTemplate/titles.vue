@@ -225,7 +225,7 @@
 .mainTitles{margin-bottom:25px;text-align: center;font-size: 18px;overflow: hidden;}
 .subTitles{text-align: center;overflow: hidden;}
 
-.add-new-Btn{ line-height: 34px; border-radius: 5px; color: #fff; display:inline-block; padding: 0 15px 0 15px; margin-left: 12px; background: 27a1f2; position: relative; }
+.add-new-Btn{ line-height: 34px; border-radius: 5px; color: #fff; display:inline-block; padding: 0 15px 0 15px; margin-left: 12px; background: #27a1f2; position: relative; }
  .carouselListInfo{ padding:30px 30px 30px; border-bottom:1px solid #d2d2d2}
  .editSelectDiv{ width:100%; background:#fff; margin-left:10px; margin-top:5px;}
  .mainTitleDiv{ margin-top:20px; margin-bottom:20px;}

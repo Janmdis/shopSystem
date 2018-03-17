@@ -2,12 +2,16 @@
 .header{
   width:100%;
   height:70px;
-  background:@headerBg;
+  background:#3caefa; /* 一些不支持背景渐变的浏览器 */  
+  background:-moz-linear-gradient(left, #3caefa, #55b9fc);  
+  background:-webkit-gradient(left, #3caefa, #55b9fc); 
+  background:-o-linear-gradient(left, #3caefa, #55b9fc); 
   //float:right;
   padding:0;
   margin:0;
  
 }
+
 .navBox{
   height: 100%;
   i{

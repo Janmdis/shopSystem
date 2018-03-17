@@ -367,7 +367,7 @@ export default{
             float: right;
         }
         .addHouseBtn:hover{
-                background:27a1f2;
+                background:#27a1f2;
                 color:#fff;
         }
     }

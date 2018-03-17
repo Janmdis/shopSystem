@@ -107,26 +107,60 @@
                 <el-col :span='2' :offset='1'>
                     <el-button @click='addTable'>添加</el-button>
                 </el-col>
-                <el-col :span='20' :offset='2'>
-                    <el-table ref="multipleTable" :data="ruleForm.addBox" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+                <el-col :span='22' :offset='1'>
+                    <el-table id='overclear' style="width: 100%" @selection-change="handleSelectionChange">
                         <el-table-column type="selection" width="55">
                         </el-table-column>
-                        <el-table-column label="商品名称" prop='name'>
+                        <el-table-column label="商品名称">
                         </el-table-column>
-                        <el-table-column prop="specificationValue" label="规格">
+                        <el-table-column label="规格">
                         </el-table-column>
-                        <el-table-column prop="displayQuantity" label="数量">
+                        <el-table-column label="数量">
                         </el-table-column>
-                        <el-table-column prop="inventoryQuantity" label="产品库存" show-overflow-tooltip>
+                        <el-table-column label="产品库存" show-overflow-tooltip>
                         </el-table-column>
-                        <el-table-column prop="discount_price" label="单价" show-overflow-tooltip>
+                        <el-table-column label='购买数量' width="110" show-overflow-tooltip>
                         </el-table-column>
-                        <el-table-column prop="current_price" label="实际单价" show-overflow-tooltip>
+                        <el-table-column label="单价" show-overflow-tooltip>
+                        </el-table-column>
+                        <el-table-column label="实际单价" show-overflow-tooltip>
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
-                                                    <span @click='delBox(scope.row)' >删除</span>
+                                    <span @click='delBox(scope.row)' >删除</span>
 </template>
+                    </el-table-column>
+                </el-table>
+                </el-col>
+                <el-col :span='22' id="overBox" :offset='1' v-for='(item,index) in ruleForm.addBox' :key="index" style="position: relative;z-index: 999;">
+                    <el-table  ref="multipleTable" :data="item" tooltip-effect="dark"   style="width: 100%;background:red;" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName" >
+                        <el-table-column type="selection" width="55">
+                        </el-table-column>
+                        <el-table-column  prop='name'>
+                        </el-table-column>
+                        <el-table-column prop="specificationValue" >
+                        </el-table-column>
+                        <el-table-column prop="displayQuantity">
+                        </el-table-column>
+                        <el-table-column prop="inventoryQuantity"  >
+                        </el-table-column>
+                        <el-table-column  width="110">
+                                <template slot-scope="scope"  >
+                                    <div v-show="scope.row.trues=='yes'?false:true">
+                                       <span style="width:20px;height:20px;line-height:20px;display:inline-block;border:1px solid #ddd; cursor:pointer;" @click='subFn'>-</span>
+                                       <input style="width:30px;height:20px;display:inline-block;text-align:center;" v-model='scope.index'></input>
+                                       <span style="width:20px;height:20px;line-height:20px;display:inline-block;border:1px solid #ddd;cursor:pointer;" @click='addFn'>+</span>
+                                    </div>
+                                </template>
+                        </el-table-column>
+                        <el-table-column prop="discount_price"  >
+                        </el-table-column>
+                        <el-table-column prop="current_price"  >
+                        </el-table-column>
+                        <el-table-column >
+                    <template slot-scope="scope">
+                        <span @click='delBox(scope.row,index)' v-show="scope.row.trues=='yes'?false:true">删除</span>
+                    </template>
                     </el-table-column>
                 </el-table>
                 </el-col>
@@ -167,7 +201,16 @@
     </el-dialog>
 </template>
 <style>
-    .boxsss .el-form-item__content{
+    .el-table .warning-row {
+        background: #f0f9eb;
+    }
+    .el-table .success-row {
+        background: #f0f9eb;
+    }
+    .headerBottom .el-table__empty-block {
+        display: none;
+    }
+    .boxsss .el-form-item__content {
         margin-left: 0 !important;
         text-align: center;
     }
@@ -184,6 +227,9 @@
     .textareaBox textarea {
         height: 148px;
         resize: none;
+    }
+    #overBox .el-table th {
+        display: none;
     }
     .clreaMarng .el-form-item__content {
         margin-left: 0 !important;
@@ -297,9 +343,10 @@
                 vipaddShow: false,
                 vipaddShowArr: [],
                 addNewBox: [],
+                nums:1,
                 i: 0,
                 ruleForm: {
-                    createTime:'',
+                    createTime: '',
                     isShoAdd: false,
                     textInfo: '新增订单',
                     starTime: '', //开始时间
@@ -326,7 +373,7 @@
                     remark: '',
                     now: -1,
                     Addnow: -1,
-                    orderId:'',
+                    orderId: '',
                     //payTime: '',
                     actualMoney: '',
                     paidMoney: '',
@@ -365,10 +412,20 @@
             };
         },
         methods: {
+            tableRowClassName({
+                row,
+                rowIndex
+            }) {
+                //console.log(row)
+                if (row.bg === "#f5f7fa") {
+                    return 'warning-row';
+                }
+                return '';
+            },
             submitForm(formName) {
                 let that = this;
                 let dataInfo = {
-                    id:this.ruleForm.orderId,
+                    id: this.ruleForm.orderId,
                     orderMoney: this.ruleForm.orderMoney,
                     phone: this.ruleForm.phone,
                     number: this.ruleForm.number,
@@ -386,38 +443,38 @@
                     sourceAccount: this.ruleForm.sourceAccount,
                     sourceId: this.ruleForm.sourceId,
                     hasContract: false,
-                    createTime:this.goTime(this.ruleForm.createTime),
+                    createTime: this.goTime(this.ruleForm.createTime),
                     orderDetails: this.ruleForm.pushAdd
                 }
                 if (this.ruleForm.textInfo == "新增订单") {
-                    
-                    this.ruleForm.orderId='',
-                    that.$refs[formName].validate((valid) => {
-                        if (valid) {
-                            let url = '/api/product/order/insert';
-                            this.$http({
-                                    url: url,
-                                    method: 'POST',
-                                    // 请求体重发送的数据
-                                    // headers: {
-                                    //     'Content-Type': 'application/json'
-                                    // },
-                                    data: dataInfo
-                                })
-                                .then(response => {
-                                    this.dialogVisible = false;
-                                    this.$root.$emit('getDatezdy', 1)
-                                    this.clearForm();
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                    alert('网络错误，不能访问');
-                                })
-                        } else {
-                            console.log('error submit!!');
-                            return false;
-                        }
-                    });
+                    this.ruleForm.orderId = '',
+                        that.$refs[formName].validate((valid) => {
+                            if (valid) {
+                                let url = '/api/product/order/insert';
+                                this.$http({
+                                        url: url,
+                                        method: 'POST',
+                                        // 请求体重发送的数据
+                                        // headers: {
+                                        //     'Content-Type': 'application/json'
+                                        // },
+                                        data: dataInfo
+                                    })
+                                    .then(response => {
+                                        this.dialogVisible = false;
+                                        this.$root.$emit('getDatezdy', 1);
+                                        this.clearForm();
+                                        this.ruleForm.newBox = [];
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                        alert('网络错误，不能访问');
+                                    })
+                            } else {
+                                console.log('error submit!!');
+                                return false;
+                            }
+                        });
                 }
                 if (this.ruleForm.textInfo == "编辑订单") {
                     that.$refs[formName].validate((valid) => {
@@ -464,7 +521,6 @@
                     })
                     .then(response => {
                         let data = response.data.info;
-                        console.log(data == "")
                         if (data == '' || data == null) {
                             this.vipaddShow = false;
                             return false;
@@ -538,49 +594,109 @@
                 this.vipaddShow = false;
             },
             addTable() {
-                this.$set(this.ruleForm.addBox, this.i++, this.ruleForm.newBox[0]);
-                var hash = {};
-                this.ruleForm.addBox = this.ruleForm.addBox.reduce(function(item, next) {
-                    hash[next.id] ? '' : hash[next.id] = true && item.push(next);
-                    return item
-                }, []);
-                console.log(this.ruleForm.addBox)
-                let newbxo = this.ruleForm.addBox;
-                let that = this;
-                for (let i = 0; i < newbxo.length; i++) {
-                    that.ruleForm.pushAdd.push({
-                        commodityId: newbxo[i].id,
-                        commodityName: newbxo[i].name,
-                        saleNumber: newbxo[i].displayQuantity
-                    })
+                if (this.ruleForm.newBox[0].isPackage == true) {
+                    let url = '/api/product/commodity/package/queryCommodityInfoByPackageId';
+                    this.$http({
+                            url: url,
+                            method: 'post',
+                            headers: {
+                                'Content-Type': ' application/x-www-form-urlencoded'
+                            },
+                            data: qs.stringify({
+                                packageId: this.ruleForm.newBox[0].id
+                            })
+                        })
+                        .then(respone => {
+                            //添加套餐
+                            let flag = true;
+                            for(let k in this.ruleForm.addBox){
+                                for(let i = 0;i <this.ruleForm.addBox[k].length;i++){
+                                    console.log(this.ruleForm.addBox[k][0].id)
+                                    console.log(this.ruleForm.newBox[0].id)
+                                    if(this.ruleForm.addBox[k][0].id == this.ruleForm.newBox[0].id){
+                                        flag = false;
+                                        
+                                    }
+                                }
+                            }
+                            
+                            if(flag){
+                                let newArr = [];
+                                newArr.push(this.ruleForm.newBox[0]);
+                                
+                                for (let i = 0; i < respone.data.info.length; i++) {
+                                    newArr.push(respone.data.info[i]);
+                                    respone.data.info[i].bg = '#f5f7fa';
+                                    respone.data.info[i].trues = 'yes';
+                                }
+                                this.ruleForm.newBox[0].bg = '#f5f7fa';
+                                this.$set(this.ruleForm.addBox, this.i++, newArr);
+                                flag = false;
+                            }
+                            
+                            
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            alert('网络错误，不能访问');
+                        })
                 }
-                var hashId = {};
-                that.ruleForm.pushAdd = that.ruleForm.pushAdd.reduce(function(item, next) {
-                    hashId[next.commodityId] ? '' : hashId[next.commodityId] = true && item.push(next);
-                    return item
-                }, []);
-                console.log(that.ruleForm.pushAdd)
+                if (this.ruleForm.newBox[0].isPackage == false) {
+                    let flag = true;
+                            for(let k in this.ruleForm.addBox){
+                                for(let i = 0;i <this.ruleForm.addBox[k].length;i++){
+                                    console.log(this.ruleForm.addBox[k][0].id)
+                                    console.log(this.ruleForm.newBox[0].id)
+                                    if(this.ruleForm.addBox[k][0].id == this.ruleForm.newBox[0].id){
+                                         this.ruleForm.newBox[0].specificationValue += this.ruleForm.newBox[0].specificationValue
+                                        flag = false;
+                                        console.log(flag)
+                                    }
+                                }
+                            }
+
+                    //添加商品
+                    if(flag){
+                        let shopArr = [];
+                        shopArr.push(this.ruleForm.newBox[0])
+                        this.$set(this.ruleForm.addBox, this.i++, shopArr);
+                        flag = false;
+                    }
+                    
+                }
+                
+                
             },
-            delBox(indexs) {
+            delBox(indexs, index) {
+                console.log(index)
                 var liArr = this.ruleForm.addBox;
-                var indexArr;
-                    for (var i = 0; i < liArr.length; i++) {
-                        if ((liArr[i].id).indexOf(indexs.id) > -1) {
-                            indexArr = i;
-                            liArr.splice(indexArr, 1);
-                        }
-                    }
-                var li = this.ruleForm.pushAdd;
-                var index;
-                    for (var i = 0; i < li.length; i++) {
-                        if ((li[i].commodityId).indexOf(indexs.id) > -1) {
-                            index = i;
-                            li.splice(index, 1);
-                        }
-                    }
-                    this.ruleForm.pushAdd = li
+                liArr.splice(index, 1);
+                //this.i--;
+                // var li = this.ruleForm.pushAdd;
+                // var index;
+                //     for (var i = 0; i < li.length; i++) {
+                //         if ((li[i].commodityId).indexOf(indexs.id) > -1) {
+                //             index = i;
+                //             li.splice(index, 1);
+                //         }
+                //     }
+                //     this.ruleForm.pushAdd = li
+            },
+            addFn(){
+                if(this.nums>=100){
+                    alert("数量不能超过1000")
+                }
+                this.nums++;
+            },
+            subFn(){
+                if(this.nums<=0){
+                    alert("数量不能为负数")
+                    return false
+                }
+                this.nums--;
             },
             changeTable(value) {
+                //把选中添加到选中按钮中。
                 this.ruleForm.newBox = [];
                 for (let i = 0; i < this.ruleForm.tableBox.length; i++) {
                     if (this.ruleForm.tableBox[i].id == value) {
@@ -616,7 +732,7 @@
                     })
                     .then(respone => {
                         //that.addArrBox = [];
-                        console.log(respone)
+                        // console.log(respone)
                         if (respone.data.info.length == 0) {
                             this.ruleForm.isShoAdd = false;
                             this.vipShow = true;
@@ -636,12 +752,12 @@
                 if (event.keyCode == 38 || event.keyCode == 40) return;
                 if (event.keyCode == 13) {
                     this.vipaddShow = false;
-                    console.log(this.ruleForm.detailAddress);
+                    //console.log(this.ruleForm.detailAddress);
                 }
             },
             selectDown: function() {
                 this.ruleForm.now++;
-                console.log(this.ruleForm.now)
+                //console.log(this.ruleForm.now)
                 if (this.ruleForm.now == this.ruleForm.myData.length) this.ruleForm.now = -1;
                 if (this.ruleForm.myData[this.ruleForm.now] == undefined) {
                     return false
@@ -652,7 +768,7 @@
             },
             selectUp: function() {
                 this.ruleForm.now--;
-                console.log(this.ruleForm.now)
+                //console.log(this.ruleForm.now)
                 if (this.ruleForm.now == -2) this.ruleForm.now = this.ruleForm.myData.length - 1;
                 if (this.ruleForm.myData[this.ruleForm.now] == undefined) {
                     return false
@@ -663,7 +779,7 @@
             },
             addDown: function() {
                 this.ruleForm.Addnow++;
-                console.log(this.ruleForm.Addnow)
+                //console.log(this.ruleForm.Addnow)
                 if (this.ruleForm.Addnow == this.addNewBox.length) this.ruleForm.Addnow = -1;
                 if (this.addNewBox[this.ruleForm.Addnow] == undefined) {
                     return false
@@ -672,7 +788,7 @@
             },
             addUp: function() {
                 this.ruleForm.Addnow--;
-                console.log(this.ruleForm.Addnow)
+                //console.log(this.ruleForm.Addnow)
                 if (this.ruleForm.Addnow == -2) this.ruleForm.Addnow = this.addNewBox.length - 1;
                 if (this.addNewBox[this.ruleForm.Addnow] == undefined) {
                     return false
@@ -784,40 +900,6 @@
                 console.log(dataId)
                 if (data != 'no') {
                     this.ruleForm.textInfo = '编辑订单';
-
-                    let shopUrl = '/api/product/order/queryOrderDetails'
-                    this.$http({
-                            url: shopUrl,
-                            method: 'post',
-                            headers: {
-                                'Content-Type': ' application/x-www-form-urlencoded'
-                            },
-                            data: qs.stringify({
-                                orderId: dataId
-                            })
-                        })
-                        .then(respone => {
-                            console.log(respone)
-                            let datas = respone.data.info;
-                            let dataArr = [];
-                            for(let i = 0 ;i<datas.length;i++){
-                                console.log(datas[i].orderId)
-                                console.log(dataId)
-                                console.log(dataId==datas[i].orderId)
-                                if(datas[i].orderId == dataId ){
-                                    dataArr.push(datas[i])
-                                    console.log(dataArr)
-                                }
-                            }
-                            
-
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            alert('网络错误，不能访问');
-                        })
-
-
                     let url = '/api/product/order/queryPageList';
                     this.$http({
                             url: url,
@@ -830,33 +912,61 @@
                             }
                         })
                         .then(respone => {
-                            
-                        this.clearForm();
-                        let data = respone.data.info.list[0]
-                        console.log(data)
-                        
-                        this.ruleForm.orderId = data.id;
-                        this.ruleForm.orderMoney = data.orderMoney;
-                        this.ruleForm.phone = data.phone;
-                        this.ruleForm.number = data.number;
-                        this.ruleForm.sourceDetail = data.sourceDetail;
-                        this.ruleForm.name = data.name;
-                        this.ruleForm.orderState = data.orderState;
-                        this.ruleForm.unpaidMoney = data.unpaidMoney;
-                        this.ruleForm.detailAddress = data.detailAddress;
-                        this.ruleForm.orderType = data.orderType;
-                        this.ruleForm.refundMoney = data.refundMoney;
-                        this.ruleForm.remark = data.remark;
-                        this.ruleForm.paidMoney = data.paidMoney;
-                        this.ruleForm.sourceAccount = data.sourceAccount;
-                        this.ruleForm.sourceId = data.sourceId;
-                        this.ruleForm.createTime = data.createTime;
-                        this.ruleForm.newBox = data.orderDetailId
+                            //this.clearForm();
+                            let data = respone.data.info.list[0]
+                            //console.log(data)
+                            this.ruleForm.orderId = data.id;
+                            this.ruleForm.orderMoney = data.orderMoney;
+                            this.ruleForm.phone = data.phone;
+                            this.ruleForm.number = data.number;
+                            this.ruleForm.sourceDetail = data.sourceDetail;
+                            this.ruleForm.name = data.name;
+                            this.ruleForm.orderState = data.orderState;
+                            this.ruleForm.unpaidMoney = data.unpaidMoney;
+                            this.ruleForm.detailAddress = data.detailAddress;
+                            this.ruleForm.orderType = data.orderType;
+                            this.ruleForm.refundMoney = data.refundMoney;
+                            this.ruleForm.remark = data.remark;
+                            this.ruleForm.paidMoney = data.paidMoney;
+                            this.ruleForm.sourceAccount = data.sourceAccount;
+                            this.ruleForm.sourceId = data.sourceId;
+                            this.ruleForm.createTime = data.createTime;
+                            //this.ruleForm.newBox = data.orderDetailId
                         })
                         .catch(error => {
                             console.log(error);
                             alert('网络错误，不能访问');
                         })
+                    //     let shopUrl = '/api/product/order/queryOrderDetails'
+                    // this.$http({
+                    //         url: shopUrl,
+                    //         method: 'post',
+                    //         headers: {
+                    //             'Content-Type': ' application/x-www-form-urlencoded'
+                    //         },
+                    //         data: qs.stringify({
+                    //             orderId: dataId
+                    //         })
+                    //     })
+                    //     .then(respone => {
+                    //         console.log(respone)
+                    //         let datas = respone.data.info;
+                    //         let dataArr = [];
+                    //         for(let i = 0 ;i<datas.length;i++){
+                    //             console.log(datas[i].orderId)
+                    //             console.log(dataId)
+                    //             console.log(dataId==datas[i].orderId)
+                    //             if(datas[i].orderId == dataId ){
+                    //                 dataArr.push(datas[i])
+                    //                  this.ruleForm.newBox = dataArr;
+                    //                  this.$set(this.ruleForm.addBox, this.i++, this.ruleForm.newBox[0]);
+                    //             }
+                    //         }
+                    //     })
+                    //     .catch(error => {
+                    //         console.log(error);
+                    //         alert('网络错误，不能访问');
+                    //     })
                     this.dialogVisible = true;
                 } else {
                     this.ruleForm.textInfo = '新增订单';
