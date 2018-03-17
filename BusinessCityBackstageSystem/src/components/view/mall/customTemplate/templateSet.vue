@@ -128,17 +128,25 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          }
      },
      created:function(){
-         this.$root.$on('deleteID',(id)=>{
-            let list=[];
-            for(let i=0;i<this.comlist.length;i++){
-                if(id!=i){
-                    list.push(this.comlist[i]);
+             let templateAllData = sessionStorage.getItem ("Template_AllData");
+            // console.log(templateAllData)
+             let templateAllDatas = JSON.parse(templateAllData)
+             if(templateAllDatas.isNewAdd == '1'){
+                 this.$store.commit('newAddTemplate')//如果为新增 重置vuex
+             }else{
+                 this.$store.dispatch('editTemplate',templateAllData) //编辑时存好的本地数据分发给vuex
+             }
+             this.$root.$on('deleteID',(id)=>{
+                let list=[];
+                for(let i=0;i<this.comlist.length;i++){
+                    if(id!=i){
+                        list.push(this.comlist[i]);
+                    }
                 }
-            }
-            this.comlist=list;
-         });
-         this.templateNames = this.templateName
-         this.descriptions = this.description
+                this.comlist=list;
+            });
+            this.templateNames = this.templateName
+            this.descriptions = this.description
      },
      mounted: function () {
        //控制显示对应的编辑器
@@ -153,7 +161,8 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
          templateName:state => state.adImageList.templateName,
          description:state => state.adImageList.description,
          comlist:state => state.adImageList.comlist,
-         templateAllData:state => state.adImageList
+         templateAllData:state => state.adImageList,
+         templateID:state => state.templateID,
      }),
      methods:{
          templateNameInput($event){

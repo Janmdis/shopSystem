@@ -2,7 +2,7 @@
 import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
-import search from './search.vue'
+import search from '../../../common/search/search.vue'
 import showWindows from './showWindow.vue'
 import qs from 'qs'
 
@@ -21,11 +21,21 @@ export default {
       pageSize: 10,
       pageS: 0,
       listLoading: false,
-      delArr:[]
+      delArr:[],
+      type:'supplier'
     }
 
   },
   mounted() {
+    this.$root.$on('switch',(flag)=>{
+      let dom=document.querySelector('#member');
+        if(flag){
+            dom.style.paddingBottom="80px";
+        }
+        else{
+          dom.style.paddingBottom="0";
+        }
+    });
     this.$root.$on('total', (data) => {
       this.totalCount = data
     })
@@ -78,7 +88,17 @@ export default {
     })
     },
     show: function (val) {
-      this.searchUsers()
+      let data={
+        supplier:{
+          categoryId:null,
+          contactMobile:null,
+          levelId:null,
+          name:this.valuesearch,
+          labelId:null
+        }
+      };
+      this.$root.$emit('search',data);
+      // this.searchUsers()
     },
     searchUsers() {
       let para = {

@@ -24,9 +24,7 @@
         label="图片"
         width='120'
         >
-        <template slot-scope="scope">
-            <img :src="imgSrc" alt="" style="display:inline-block;width:120px;height:50px;border:1px solid #eee;">
-        </template>
+        
         </el-table-column>
         <el-table-column
         prop="name"
@@ -92,18 +90,38 @@ export default {
             showLeft:0,
             pageIndex:1,
             clickType:false,
-            imgSrc:''
+            data:{
+                name:null,
+                classificationId:null,
+                typeId:null,
+                brandId:null,
+                inventoryQuantity:null,
+                isActive:1
+            }
         }
     },
     created:function(){
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
-            this.getDate(this.pageIndex)
+            this.getDate(this.pageIndex,{isActive:1})
         })
-        this.getDate(1)
+        this.getDate(1,{isActive:1})
         this.$root.$on('getDatezdy',(data)=>{
              this.getDate( data)
-        })   
+        })
+        this.$root.$on('search',(datas)=>{
+            let data={
+                name:datas.product.name===''?null:datas.product.name,
+                classificationId:datas.product.classificationId===''?null:datas.product.classificationId,
+                typeId:datas.product.typeId===''?null:datas.product.typeId,
+                brandId:datas.product.brandId===''?null:datas.product.brandId,
+                inventoryQuantity:datas.product.inventoryQuantity===''?null:datas.product.inventoryQuantity,
+                isActive:1
+            };
+            
+            this.getDate(1,data);
+            // console.log(datas);
+        });
     },
     methods:{
         handleDelete(index, row,event) { //  删除某一种产品
@@ -120,7 +138,7 @@ export default {
                         [{id:row.id,isActive:0}]
                     ).then(res => {
                         console.log(res.data.msg);
-                        that.getDate();
+                        that.getDate(1,{isActive:1});
                     }).catch(err => {console.log(err)})
                 });
             }).catch(() => {
@@ -132,10 +150,10 @@ export default {
             });   
         },
         handleEdit(index, row,event) {
-            let getDate = this.getDate();
+            let getDate = this.getDate(1,{isActive:1});
             this.$root.$emit('showWindow',{type:this.clickType,rowData:row});
         },
-        getDate(pageIndex) {
+        getDate(pageIndex,data) {
             this.listLoading =  true;
             let url = '/api/product/info/find?page='+pageIndex+'&pageSize=10';
             this.$http({
@@ -143,9 +161,10 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:{isActive:1},
+                data:data,
             })
             .then(response => {
+                console.log(response);
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
                 // console.log(this.datalist)
@@ -172,6 +191,9 @@ export default {
         indexMethod(index) {
             return index + 1
         },
+    },
+    beforeDestroy(){
+        this.$root.$off('search');
     }
 
 }

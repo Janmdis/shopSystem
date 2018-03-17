@@ -371,6 +371,7 @@ export default {
             }else if(this.modelIndex == 5){
                 if(this.number == 2){
                     var data = {'gradeLevel':this.ruleForm.gradeLevel};
+                    // console.log(data);
                     data[modelName] = this.ruleForm.name;
                 }else{
                     var data = {};

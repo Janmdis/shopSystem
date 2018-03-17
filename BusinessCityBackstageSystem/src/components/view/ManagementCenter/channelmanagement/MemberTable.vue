@@ -80,12 +80,18 @@ export default {
             datalist:[],
             showLeft:0,
             pageIndex:1,
-            listLoading:false
+            listLoading:false,
+            data:{
+                name:null,
+                typeId:null,
+                levelId:null
+            }
         }
     },
     created:function(){
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
+            console.log(data)
             this.getDate(this.pageIndex,{})
         })
         this.getDate(1)
@@ -109,17 +115,19 @@ export default {
             this.deletedata(ids);
         });
         this.$root.$on('search',(datas)=>{
-            let data={
-                name:datas.channel.name,
-                typeId:datas.channel.typeId,
-                levelId:datas.channel.levelId
-            }
-            console.log(data);
-            this.getDate(1,data);
+            // let data={
+            //     name:datas.channel.name,
+            //     typeId:datas.channel.typeId,
+            //     levelId:datas.channel.levelId
+            // }
+            this.data.name=datas.channel.name;
+            this.data.typeId=datas.channel.typeId;
+            this.data.levelId=datas.channel.levelId;
+            this.getDate(1);
         });
     },
     methods:{
-        getDate(pageIndex,data) {
+        getDate(pageIndex) {
             this.listLoading =  true;
             let url = '/api/admin/teamManagement/queryTeamManagement?pageNum='+pageIndex+'&pageSize=10';
             this.$http({
@@ -127,7 +135,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:data,
+                data:this.data,
             })
             .then(response => {
                 console.log(response);
@@ -207,7 +215,9 @@ export default {
             
         }
     },
-    beforeDestry(){
+    beforeDestroy(){
+        this.$root.$off('search');
+        
         this.$root.$off('pageIndex');
         this.$root.$off('getDatezdy')
         this.$root.$off('dataListBox')

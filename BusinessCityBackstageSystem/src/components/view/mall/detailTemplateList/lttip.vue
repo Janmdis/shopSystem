@@ -12,12 +12,6 @@
                 <li id="modificationBtn" class='other' @click="edit">
                     <i class='el-icon-edit-outline'></i> 编辑
                 </li>
-                <li id="swicthTrue" class='other' data-toggle="modal" data-target="#delModal" @click="swicthOFF">
-                    <i class='el-icon-delete'></i> 启用
-                </li>
-                <li class='other' data-toggle="modal" data-target="#delModal" @click="swicthStop">
-                    <i class='el-icon-delete'></i> 停用
-                </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
                 </li>
@@ -100,66 +94,6 @@ export default {
                     duration:800
                 });          
             });   
-        },
-        swicthOFF(){
-            let that = this;
-            //console.log(this.dataArr)
-            let arrLength = this.dataArr.length;
-            let newArr = [];
-            for(let i = 0;i< arrLength;i++){
-                newArr.push(this.dataArr[i].templateID)
-            }
-            this.$confirm('确定操作这 '+arrLength+'项吗?', '提示', 
-                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
-            .then(() => {
-                that.$message({
-                    type: 'success',
-                    message: '操作成功!',
-                    duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value=true',
-                        newArr
-                    ).then(res => {
-                       // console.log(res.data.msg);
-                        that.$root.$emit('getDatezdy',1);
-                    }).catch(err => {console.log(err)})
-                });
-            }).catch(() => {
-                that.$message({
-                    type: 'info',
-                    message: '已取消更改',
-                    duration:800
-                });          
-            });   
-        },
-        swicthStop(){
-            let that = this;
-            //console.log(this.dataArr)
-            let arrLength = this.dataArr.length;
-            let newArr = [];
-            for(let i = 0;i< arrLength;i++){
-                newArr.push(this.dataArr[i].templateID)
-            }
-            this.$confirm('确定操作这 '+arrLength+'项吗?', '提示', 
-                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
-            .then(() => {
-                that.$message({
-                    type: 'success',
-                    message: '操作成功!',
-                    duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value=false',
-                        newArr
-                    ).then(res => {
-                        //console.log(res.data.msg);
-                        that.$root.$emit('getDatezdy',1);
-                    }).catch(err => {console.log(err)})
-                });
-            }).catch(() => {
-                that.$message({
-                    type: 'info',
-                    message: '已取消更改',
-                    duration:800
-                });          
-            }); 
         }
     }
 }

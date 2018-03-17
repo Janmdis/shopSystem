@@ -82,8 +82,8 @@ export default {
       let data={
         coupon:{
           couponName:this.valuesearch,
-          couponType:'',
-          couponStatus:'',
+          couponType:null,
+          couponStatus:null,
           daterange:''
         }
           

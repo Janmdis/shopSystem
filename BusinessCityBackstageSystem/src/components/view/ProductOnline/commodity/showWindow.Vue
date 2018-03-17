@@ -142,11 +142,12 @@
                 .then(function (response) {
                     if(response.data.msg=='查询成功'){
                         let data=response.data.info;
-                        that.listgoods=data.list; 
+                        that.listgoods=data.list;
                         that.listgoods.forEach(item=>{
-                            item.productImage='http://'+window.location.host+'/api/sms'+item.productImage;
+                            let imglist=item.productImage.split(';');
+                            item.productImage='http://'+window.location.host+'/api/sms'+imglist[0];
                         });
-                        console.log(data);
+                        
                     }
                     else{
                         that.$message(response.data.msg);

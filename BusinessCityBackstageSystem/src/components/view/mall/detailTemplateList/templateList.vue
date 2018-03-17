@@ -1,18 +1,18 @@
 <template>
-    <el-main id="member" style='padding-bottom:100px;'>
-        <div class="memberNav" @click.native="closeInfo">
+    <el-main id="member">
+        <div class="memberNav">
             <el-row class="navChild">
                 <el-col :span='15'>
                     <lttip :name='namepage'></lttip>
                 </el-col>
                 <el-col :span='9'>
                     <div class="grid-content search">
-                        <el-input placeholder="请输入问题" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
+                        <el-input placeholder="请输入内容" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
                         </el-input>
-                        <el-button type="primary" class="add" @click='showWindowx("no")' round><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
+                        <el-button type="primary" class="add" @click='showWindowX("no")' round><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
                         <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
-                        <el-button type="primary" class='msnuiMore' round><i class='icon iconfont icon-msnui-more'></i></el-button>
-                        <!--<el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button>!-->
+                        <!-- <el-button type="primary" class='msnuiMore' round><i class='icon iconfont icon-msnui-more'></i></el-button>
+                        <el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button> -->
                     </div>
                 </el-col>
             </el-row>
@@ -21,9 +21,6 @@
             </el-row>
         </div>
         <div class="memberMain">
-            <el-row>
-                <search :type='type'></search>
-            </el-row>
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>
@@ -43,8 +40,8 @@
     </el-main>
 </template>
 <script>
-     import Members from './Member.js';
-     export default Members
+     import template from './template.js';
+     export default template
 </script>
 <style>
     .lineHeight {
@@ -66,12 +63,12 @@
         left: 359px;
     }
     .add {
-        background: #27a1f2;
-        border: 1px solid #27a1f2;
+        background: #00aeaa;
+        border: 1px solid #00aeaa;
     }
 </style>
 <style scoped lang="less">
-    @import '../Member.less';
+    @import '../../ManagementCenter/Member.less';
     .search {
         position: relative;
         height: 72px;
@@ -96,7 +93,7 @@
     .shuaxin {
         background: none;
         border: none;
-        color: #27a1f2;
+        color: #00adab;
         font-size: 40px;
         padding: 0;
         width: 10%;

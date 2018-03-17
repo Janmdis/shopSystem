@@ -90,7 +90,7 @@
                 </el-col>
                 <el-col :span="5" >
                     <el-form-item label="状态">
-                        <el-select v-model="form.coupon.couponStatus" placeholder="请选择类型">
+                        <el-select v-model="form.coupon.couponStatus" placeholder="请选择状态">
                             <el-option v-for='(item,index) in couponstate' :key='index' :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
@@ -107,6 +107,152 @@
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
+            </el-row>
+            <!-- 供应商 -->
+            <el-row v-if='showsupplier'>
+                <el-col :span="5">
+                    <el-form-item label="名称">
+                        <el-input v-model="form.supplier.name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="类型">
+                        <el-select v-model="form.supplier.categoryId" placeholder="请选择类型">
+                            <el-option v-for='(item,index) in suppliertype' :key='index' :label="item.categoryName" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="等级">
+                        <el-select v-model="form.supplier.levelId" placeholder="请选择等级">
+                            <el-option v-for='(item,index) in supplierlevel' :key='index' :label="item.levelName" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                    <el-form-item label="电话">
+                        <el-input v-model="form.supplier.contactMobile"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="标签">
+                        <el-select v-model="form.supplier.labelId" placeholder="请选择标签">
+                            <el-option v-for='(item,index) in supplierlabel' :key='index' :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <!-- 套餐/商品 -->
+            <el-row v-if='showcommodity'>
+                <el-col :span="5">
+                    <el-form-item label="名称">
+                        <el-input v-model="form.commodity.name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="分类">
+                        <el-select v-model="form.commodity.categoryId" placeholder="请选择类型">
+                            <el-option v-for='(item,index) in commoditytype' :key='index' :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="状态">
+                        <el-select v-model="form.commodity.isOnSale" placeholder="请选择状态">
+                            <el-option v-for='(item,index) in commoditystate' :key='index' :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6" >
+                    <el-form-item label="价格区间" class='rangeprice'>
+                        <el-col :span='10'>
+                            <el-input v-model.number="form.commodity.minPrice"></el-input>
+                        </el-col>
+                        <span class='el-icon-minus' :span='2' style='float:left;height:40px;line-height:40px;display:inline-block;'></span>
+                        <el-col :span='10'>
+                            <el-input v-model.number="form.commodity.maxPrice"></el-input>
+                        </el-col>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <!-- 产品管理 -->
+            <el-row v-if='showproduct'>
+                <el-col :span="5">
+                    <el-form-item label="名称">
+                        <el-input v-model="form.product.name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="4" >
+                    <el-form-item label="分类">
+                        <el-select v-model="form.product.classificationId" placeholder="请选择分类">
+                            <el-option v-for='(item,index) in productclassify' :key='index' :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="4" >
+                    <el-form-item label="类别">
+                        <el-select v-model="form.product.typeId" placeholder="请选择类别">
+                            <el-option v-for='(item,index) in producttype' :key='index' :label="item.productName" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="4" >
+                    <el-form-item label="品牌">
+                        <el-select v-model="form.product.brandId" placeholder="请选择品牌">
+                            <el-option v-for='(item,index) in productbrand' :key='index' :label="item.brandName" :value="item.brandId"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                    <el-form-item label="库存" class='red'>
+                        <el-input v-model.number="form.product.inventoryQuantity"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <!-- 员工 -->
+            <el-row v-if='showusers'>
+                <el-row>
+                    <el-col :span="5">
+                        <el-form-item label="姓名">
+                            <el-input v-model="form.users.adminName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="手机号">
+                            <el-input v-model="form.users.phone"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="状态">
+                            <el-select v-model="form.users.accStatus" placeholder="请选择">
+                                <el-option v-for='(item,index) in useraccStatus' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="类型">
+                            <el-select v-model="form.users.employeeTypeId" placeholder="请选择">
+                                <el-option v-for='(item,index) in useremployeetype' :key='index' :label="item.employeeTypeName" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                
+                <el-row>
+                    <el-col :span='10'>
+                        <el-form-item label="时间段" :span='10' class='datepick'>
+                            <el-date-picker
+                            v-model="form.users.daterange"
+                            value-format='yyyy-MM-dd'
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                
             </el-row>
             <el-row style='border-top:1px solid #ddd; padding-top:20px; '>
                 <el-col :span="2" style="margin-left:44%;">
@@ -147,6 +293,34 @@
                         couponStatus:'',
                         couponType:'',
                         daterange:''
+                    },
+                    supplier:{
+                        name:'',
+                        categoryId:'',
+                        levelId:'',
+                        contactMobile:'',
+                        labelId:''
+                    },
+                    commodity:{
+                        name:'',
+                        categoryId:'',
+                        isOnSale:'',
+                        minPrice:'',
+                        maxPrice:''
+                    },
+                    product:{
+                        name:'',
+                        classificationId:'',
+                        typeId:'',
+                        brandId:'',
+                        inventoryQuantity:''
+                    },
+                    users:{
+                        adminName:'',
+                        phone:'',
+                        accStatus:'',
+                        employeeTypeId:'',
+                        daterange:''
                     }
                 },
                 userlist:[],
@@ -178,10 +352,42 @@
                         name:'无门槛'
                     }
                 ],
+                suppliertype:[],
+                supplierlevel:[],
+                supplierlabel:[],
+                commoditytype:[],
+                commoditystate:[
+                    {
+                        id:false,
+                        name:'未上架'
+                    },
+                    {
+                        id:true,
+                        name:'上架中'
+                    }
+                ],
+                productclassify:[],
+                producttype:[],
+                productbrand:[],
+                useraccStatus:[
+                    {
+                        id:0,
+                        name:'停用'
+                    },
+                    {
+                        id:1,
+                        name:'正常'
+                    }
+                ],
+                useremployeetype:[],
                 showlog:this.type=='operalog'?true:false,
                 showchannel:this.type=='channel'?true:false,
                 showknowledge:this.type=='knowledge'?true:false,
                 showcoupon:this.type=='coupon'?true:false,
+                showsupplier:this.type=='supplier'?true:false,
+                showcommodity:this.type=='commodity'?true:false,
+                showproduct:this.type=='product'?true:false,
+                showusers:this.type=='users'?true:false,
                 propslog: {
                     label:'label',
                     value: 'depid',
@@ -199,8 +405,41 @@
                 case 'knowledge':{
                     this.getKnowledgetype();
                     this.getKnowledgepoint();
+                    break;
+                }
+                case 'supplier':{
+                    this.getSuppliertype();
+                    this.getSupplierlevel();
+                    this.getSupplierlabel();
+                    break;
+                }
+                case 'commodity':{
+                    this.getCommodity();
+                    break;
+                }
+                case 'product':{
+                    this.getProductclassify();
+                    this.getProducttype();
+                    this.getProductbrand();
+                    break;
+                }
+                case 'users':{
+                    this.getUsertype();
+                    break;
+                }
+                default:{
+                    break;
                 }
             }
+            this.$root.$on('switch',(flag)=>{
+                let dom=document.querySelector('.searcharea');
+                if(flag){
+                    dom.setAttribute('class','searcharea on');
+                }
+                else{
+                    dom.setAttribute('class','searcharea');
+                }
+            });
         },
         methods: {
             resetForm() {
@@ -318,9 +557,146 @@
                     that.$message('知识点查询失败');
                 })
             },
+            // 获取供应商类型
+            getSuppliertype(){
+                let that=this;
+                this.$http.post('/api/product/category/query',{})
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.suppliertype=res.data.info
+                    }
+                    else{
+                        that.$message(res.data.msg);
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                    that.$message('供应商获取失败');
+                })
+            },
+            // 获取供应商等级
+            getSupplierlevel(){
+                let that=this;
+                this.$http.post('/api/product/level/query',{})
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.supplierlevel=res.data.info
+                    }
+                    else{
+                        that.$message(res.data.msg);
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                    that.$message('供应商等级失败');
+                })
+            },
+            // 获取供应商标签
+            getSupplierlabel(){
+                let that=this;
+                this.$http.post('/api/product/label/query',{})
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.supplierlabel=res.data.info
+                    }
+                    else{
+                        that.$message(res.data.msg);
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                    that.$message('供应商标签失败');
+                })
+            },
+            // 获取商品分类
+            getCommodity(){
+                let that=this;
+                this.$http.post('/api/product/commodity/category/queryMap',{parentId:0})
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.commoditytype=res.data.info;
+                    }
+                    else{
+                        that.$message(res.data.msg);
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                    that.$message('商品分类获取失败');
+                })
+            },
+            // 获取产品分类
+            getProductclassify(){
+                let that=this;
+                this.$http.post('/api/product/sort/find?pageSize=0')
+                .then(res=>{
+                    if(res.data.status=200){
+                        that.productclassify=res.data.info.list;
+                    }
+                    else{
+                        that.$message(res.data.msg);
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                    that.$message('产品分类获取失败');
+                })
+            },
+            // 获取产品类别
+            getProducttype(){
+                let that=this;
+                this.$http.post('/api/product/type/find?pageSize=0')
+                .then(res=>{
+                    if(res.data.status=200){
+                        that.producttype=res.data.info.list;
+                    }
+                    else{
+                        that.$message(res.data.msg);
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                    that.$message('产品类别获取失败');
+                })
+            },
+            // 获取品牌类别
+            getProductbrand(){
+                let that=this;
+                this.$http.post('/api/product/brand/find?pageSize=0')
+                .then(res=>{
+                    if(res.data.status=200){
+                        that.productbrand=res.data.info.list;
+                    }
+                    else{
+                        that.$message(res.data.msg);
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                    that.$message('产品品牌获取失败');
+                })
+            },
+            // 获取员工类型
+            getUsertype(){
+                let that=this;
+                this.$http.get('/api/admin/employeetype/queryList')
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.useremployeetype=res.data.info;
+                    }
+                    else{
+                        that.$message(res.data.msg);
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                    that.$message('员工类型获取失败');
+                });
+            },
             searchdata(){
                 this.$root.$emit('search',this.form);
-                // console.log(this.form);
+                let dom=document.querySelector('.searcharea');
+                dom.setAttribute('class','searcharea');
             }
         },
         computed:{
@@ -346,6 +722,12 @@
     }
 </script>
 <style>
+    .searcharea{
+        display: none;
+    }
+    .searcharea.on{
+        display: block;
+    }
     .searcharea .btnW {
         width: 100%;
         background: #27a1f2;
@@ -361,4 +743,11 @@
     .datepick .el-form-item__content .el-date-editor{
         width:100% !important;
     }
+    .red label{
+        color: red;
+    }
+    .searcharea .el-form-item{
+        margin-bottom: 10px;
+    }
+    /* .rangeprice */
 </style>

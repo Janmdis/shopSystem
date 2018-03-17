@@ -4,6 +4,8 @@
             <h3 class="listName pull-left">{{listname}}
                 <i class="icon-double-angle-right"></i>
             </h3>
+            <el-button type="primary" :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
+
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
                 <!--<li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
@@ -29,7 +31,8 @@ export default {
         return{
             listname:'',
             canedit:true,
-            dataInfo:''
+            dataInfo:'',
+            searchtext:'展开搜索'
         }
     },
     created:function(){
@@ -44,6 +47,9 @@ export default {
             dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
+        this.$root.$on('search',()=>{
+            this.searchtext='展开搜索';
+        });
     },
     methods:{
         edit(){
@@ -56,6 +62,13 @@ export default {
         },
         delBox(){
             this.$root.$emit("delBox",this.dataInfo)
+        },
+        switchsearch(){
+            // console.log(this.searchtext);
+            let organtext=this.searchtext;
+            let flag=organtext=='展开搜索';
+            this.searchtext=organtext=='展开搜索'?'收起搜索':'展开搜索';
+            this.$root.$emit('switch',flag);
         }
     }
 }
@@ -68,6 +81,11 @@ export default {
 }
 .productDesignation>i {
 	color: #3da4c3;
+}
+.productDesignation .btn-search{
+    position: absolute;
+    left: 115px;
+    top:22px;
 }
 .productDesignation h3 {
 	padding-top: 25px;

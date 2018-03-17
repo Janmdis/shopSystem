@@ -31,14 +31,6 @@ const state={
                             img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517226158648&di=17f12755288182fb3d22662116b917aa&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16838_sc115.com.jpg",
                             url:'',
                             imgSrc:''
-                        },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304770&di=fd7f38f44865d3dd961d24dea0e265f7&imgtype=0&src=http%3A%2F%2Fpic22.nipic.com%2F20120718%2F5135035_193813111000_2.jpg",
-                            url:'',
-                            imgSrc:''
-                        },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=23cccc5f58a5cab6420036e616b83a5f&imgtype=0&src=http%3A%2F%2Fpic107.nipic.com%2Ffile%2F20160816%2F20860925_080643495000_2.jpg",
-                            url:'',
-                            imgSrc:''
                         }
                     ]
             }
@@ -46,6 +38,48 @@ const state={
     ]
 }
 const mutations={
+    //新增模板
+    newAddTemplate(state){
+        let comlists = [
+                    {
+                    componentsName:"imageAds",
+                    componentsData:{
+                        importFileUrl:'api/zuul/sms/file/fileUpload',
+                        admin:{
+                            type:'product'
+                        },
+                        defaultImgObj:{
+                                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                                    url:'',
+                                    imgSrc:''
+                                },
+                        ImgArr:[
+                                {
+                                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                                    url:'',
+                                    imgSrc:''
+                                },{
+                                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
+                                    url:'',
+                                    imgSrc:''
+                                },{
+                                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517226158648&di=17f12755288182fb3d22662116b917aa&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16838_sc115.com.jpg",
+                                    url:'',
+                                    imgSrc:''
+                                }
+                            ]
+                    }
+                }
+            ]
+        state.comlist = comlists
+        state.templateID = null
+        let templateType = sessionStorage.getItem ("Template_Type");
+        let templateNames = sessionStorage.getItem ("Template_Names");
+        let templateDes = sessionStorage.getItem ("Template_Des");
+        state.templateType = templateType
+        state.templateName = templateNames
+        state.description = templateDes
+    },
     //新增/修改时 在action 里调用这个方法 （ajax 查询）
     INIT_STORE(state,data){
         //console.log(data)
@@ -53,20 +87,7 @@ const mutations={
         state.templateName = data.templateName,
         state.templateType = data.templateType,
         state.description = data.description,
-        //console.log(JSON.parse(data.comlist))
-        state.comlist = JSON.parse(data.comlist)  //字符串 转 数组对象
-    },
-    //修改模板分类
-    templateType(state,val){
-        state.templateType = val
-    },
-    //修改模板名字
-    templateNamesInput(state,val){
-        state.templateName = val
-    },
-    //修改模板描述
-    templateDes(state,val){
-        state.description = val
+        state.comlist = JSON.parse(data.comlist)
     },
     //删除模块
     deleteTemplate(state,id){
@@ -181,7 +202,7 @@ const mutations={
         let imageAdsDefault = {
             componentsName:"detailsImage",
             componentsData:{
-                importFileUrl:'api/sms/file/fileUpload',
+                importFileUrl:'api/zuul/sms/file/fileUpload',
                 admin:{
                     type:'product'
                 },
@@ -222,7 +243,7 @@ const mutations={
         let classificationDefault = {
             componentsName:"classification",
             componentsData:{
-                importFileUrl:'api/sms/file/fileUpload',
+                importFileUrl:'api/zuul/sms/file/fileUpload',
                 admin:{
                     type:'product'
                 },
@@ -314,7 +335,7 @@ const mutations={
         let windowDefault = {
             componentsName:"window",
             componentsData:{
-                importFileUrl:'api/sms/file/fileUpload',
+                importFileUrl:'api/zuul/sms/file/fileUpload',
                 admin:{
                     type:'product'
                 },
@@ -426,7 +447,7 @@ const mutations={
         let windowDefault = {
             componentsName:"window2",
             componentsData:{
-                importFileUrl:'api/sms/file/fileUpload',
+                importFileUrl:'api/zuul/sms/file/fileUpload',
                 admin:{
                     type:'product'
                 },
@@ -631,7 +652,7 @@ const mutations={
         let commodityDefault = {
             componentsName:"commodity",
             componentsData:{
-                importFileUrl:'api/sms/file/fileUpload',
+                importFileUrl:'api/zuul/sms/file/fileUpload',
                 admin:{
                     type:'product'
                 },
@@ -751,8 +772,9 @@ const mutations={
 const actions={
     // 获取后台数据发送给 mutations api 方法 从而改变 state （状态库）
     editTemplate(state,data){
-        console.log(data)
-        state.commit('INIT_STORE',data);
+        //console.log(data)
+        let datas = JSON.parse(data)
+        state.commit('INIT_STORE',datas);
     }
 };
 export default{
