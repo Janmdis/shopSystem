@@ -1,7 +1,7 @@
 <template>
 <div class="borderHover" :index='dataid' style="padding:0 0 0 0;">
   <!-- 轮播开始 -->
-        <div>
+        <div id="imageAdss">
             <div class="block">
                 <el-carousel trigger="click" width='614px'>
                     <el-carousel-item v-for='(item,index) in imglist' :key='index'>
@@ -225,11 +225,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 </script>
 <style>
 /* 轮播图组件样式 */
-.el-carousel__indicator.is-active button {
+#imageAdss .el-carousel__indicator.is-active button {
     opacity: 1;
     background-color: #27a1f2;
 }
-.el-carousel__button {
+#imageAdss .el-carousel__button {
     display: block;
     opacity: 1;
     width: 12px;
@@ -238,17 +238,17 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     background-color: transparent;
     border: 1px solid #27a1f2;
     }
-.el-carousel__arrow,el-carousel__arrow--left{
+#imageAdss .el-carousel__arrow,el-carousel__arrow--left{
    filter:alpha(opacity=0);
    -moz-opacity:0;
     -khtml-opacity: 0;
     opacity: 0; 
 }
 /* 添加图片样式 */
-.avatar-uploader .el-upload {
+#imageAdss .avatar-uploader .el-upload {
    border: 1px dashed #ffffff !important;
 }
-.carouselListInfo .avatar-uploader .el-upload {
+#imageAdss .carouselListInfo .avatar-uploader .el-upload {
     /* border: 1px dashed #d9d9d9; */
     /* background: #409EFF; */
     border-radius: 6px;
@@ -256,10 +256,10 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     position: relative;
     overflow: hidden;
   }
-.avatar-uploader .el-upload:hover {
+#imageAdss .avatar-uploader .el-upload:hover {
      border-color: #ffffff !important; 
      }
- .carouselListInfo .avatar-uploader-icon {
+#imageAdss .carouselListInfo .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
     width: 178px;
@@ -267,13 +267,13 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     line-height: 178px;
     text-align: center;
   }
- .carouselListInfo .adimgcontent {
+#imageAdss .carouselListInfo .adimgcontent {
     width: 243px;
     height: 145px;
     display: block;
   }
   /* input file 样式 */
- .carouselListInfo .el-upload--text{
+#imageAdss .carouselListInfo .el-upload--text{
   width: 100%;
     height: 100%;
 }

@@ -6,9 +6,6 @@
             </h3>
             <ul class="emendation">
                  <li>已选中<span class="nums">0</span>项</li>
-                 <li id="browseBtn" class='other' >
-                    <i class='el-icon-edit-outline'></i> 浏览
-                </li>
                 <li id="modificationBtn" class='other' @click="edit">
                     <i class='el-icon-edit-outline'></i> 编辑
                 </li>
