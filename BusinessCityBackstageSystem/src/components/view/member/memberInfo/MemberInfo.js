@@ -165,7 +165,7 @@ export default {
                 ).then(res => {
                     if (res.data.info == null) {
                         console.log(res.data.msg);
-                        resolve(false);
+                        resolve(true);
                     } else {
                         that.memberHouse = res.data.info.list;
                         that.houseCount = res.data.info;
