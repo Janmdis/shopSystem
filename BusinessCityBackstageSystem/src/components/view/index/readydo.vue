@@ -54,7 +54,7 @@ export default {
   padding: 20px;
   border-radius: 10px;
   position: relative;
-  color:#fff;
+  color:rgb(96, 98, 102);
 }
 .tip{
     position: relative;

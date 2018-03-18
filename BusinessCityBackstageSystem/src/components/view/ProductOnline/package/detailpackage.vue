@@ -19,7 +19,10 @@
                                 <img :src="scope.row.imgurl" alt="">
                             </template>
                         </el-table-column>
-                        <el-table-column  prop="displayQuantity" label="数量"  >
+                        <el-table-column  prop="nums" label="数量"  >
+                            <template slot-scope="scope">
+                                <input type="text" :disabled='scope.row.disable' @blur="editcommidityrecord(scope.$index, scope.row)" v-model="scope.row.nums" style='text-align:center;width:100%;'>
+                            </template>
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
@@ -456,18 +459,42 @@ export default {
             this.loadinggoods=true;
             this.$http.post('/api/product/commodity/package/queryCommodityInfoByPackageId?packageId='+this.id+'&pageSize=50')
             .then(function(response){
-                if(response.data.msg=="查询成功"){
+                if(response.status==200){
                     that.listgoods=response.data.info;
-                    that.listgoods.forEach(item=>{
-                        let imgurl='';
-                        that.imglist.forEach(img=>{
-                            if(img.commodityId==item.id&&imgurl==''){
-                                imgurl='http://'+window.location.host+'/api/sms'+img.url;;
-                            }
-                        })
-                        that.$set(item,'imgurl',imgurl);
+                    
+                    let recordidlist=[];
+                    that.$http.post('/api/product/commodity/package/queryMap',{packageCommodityId:that.id})
+                    .then(res=>{
+                        if(res.data.status==200){
+                            recordidlist=res.data.info;
+                            that.listgoods.forEach(item=>{
+                                let imgurl='';
+                                that.$set(item,'disable',true);
+                                that.imglist.forEach(img=>{
+                                    if(img.commodityId==item.id&&imgurl==''){
+                                        imgurl='http://'+window.location.host+'/api/sms'+img.url;;
+                                    }
+                                })
+                                let nums=0;
+                                let recordids='';
+                                recordidlist.forEach(record=>{
+                                    if(record.commodityId==item.id){
+                                        nums++;
+                                        recordids=recordids+record.id+',';
+                                    }
+                                });
+                                that.$set(item,'imgurl',imgurl);
+                                that.$set(item,'nums',nums);
+                                that.$set(item,'recordids',recordids);
+                            });
+                        }
+                        console.log(that.listgoods);
+                    })
+                    .catch(err=>{
+                        console.log(err);
                     });
-                    console.log(that.listgoods);
+                    console.log(response.data.info);
+                    
                 }
                 else{
                     that.$message(response.data.msg);
@@ -505,8 +532,67 @@ export default {
         },
         // 编辑商品
         handleEdit(index,row){
-            this.$root.$emit('editcomm',{comid:row.id,packageid:this.id});
-            this.$refs.detail.setAttribute('class','detail off');
+            this.listgoods[index].disable=false;
+            // this.$root.$emit('editcomm',{comid:row.id,packageid:this.id});
+            // this.$refs.detail.setAttribute('class','detail off');
+        },
+        // 修改商品记录
+        editcommidityrecord(index,row){
+            let recordids=row.recordids.split(',');
+            recordids.pop();
+            let Originalnums=recordids.length;
+            let currentnums=row.nums;
+            let url='';
+            let data=[];
+            if(Originalnums!=currentnums){
+                // 删除映射关系
+                if(Originalnums>currentnums){
+                    let length=Originalnums-currentnums;
+                    url='product/commodity/package/removeByIds';
+                    data=recordids.splice(0,length);
+                }
+                else{
+                    let length=currentnums-Originalnums;
+                    url='product/commodity/package/insert';
+                    for(let i=0;i<length;i++){
+                        data.push({
+                            commodityId:row.id,
+                            packageCommodityId:this.id
+                        })
+                    }
+                }
+                let that=this;
+                this.$confirm('确认修改?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.post('/api/'+url,data)
+                    .then(res=>{
+                        if(res.data.status==200){
+                            that.$message.success('修改成功！');
+                            that.listgoods[index].disable=true;
+                            that.getgoodslist();
+                        }
+                        else{
+                            that.$message(res.data.msg);
+                        }
+                    })
+                    .catch(err=>{
+                        that.$message('修改失败！');
+                    });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消修改'
+                    });        
+                    that.listgoods[index].disable=true;  
+                });
+            }
+            else{
+                this.listgoods[index].disable=true;  
+            }
         },
         // 删除商品
         handleDelete(index,row){
@@ -1964,5 +2050,12 @@ export default {
 }
 .areaservice .el-cascader__label{
     height:30px;
+}
+input:disabled{
+    background-color:initial;
+    border:none;
+}
+input{
+    border:1px solid #909399;
 }
 </style>
