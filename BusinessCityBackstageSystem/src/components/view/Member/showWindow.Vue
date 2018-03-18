@@ -27,7 +27,7 @@
             </el-row>
             <el-row>
                 <el-col :span='12'>
-                    <el-form-item label="来源">
+                    <el-form-item label="来源" prop='county'>
                         <el-select placeholder="请选择来源" @click.native='sourceFn' v-model="ruleForm.county">
                             <el-option v-for=' (item,index) in this.ruleForm.sourceFns ' :key="index" :label='item.name' :value="item.id"></el-option>
                         </el-select>
@@ -41,7 +41,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
-                    <el-form-item label="身份">
+                    <el-form-item label="身份" prop='panper'>
                         <el-select v-model="ruleForm.panper" placeholder="请选择身份">
                             <el-option label="男主人" value="0"></el-option>
                             <el-option label="女主人" value="1"></el-option>
@@ -53,6 +53,23 @@
                             <el-option label="儿媳" value="7"></el-option>
                         </el-select>
                     </el-form-item>
+                </el-col>
+                <el-col :span='12'>
+                    <el-form-item label="标签">
+                        <el-select v-model="ruleForm.tages" placeholder="请选择级别类型" @change='changes'>
+                            <el-option v-for=' (item,index) in dynamicTags' :key="index" :label='item.name' :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :offset="1" style='padding-bottom:10px;'>
+                    <el-tag :key="tag.name" v-for="(tag,index) in Tagbox" :style="{background: tag.color}" style='color:#fff;margin-right:10px;margin-bottom:10px; ' closable :disable-transitions="false" @close="handleCloses(index)">
+                        {{tag.name}}
+                    </el-tag>
+                    <!--<el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue"  ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+                        </el-input>
+                        <el-button v-else class="button-new-tag" size="small" @click="showInput">新增标签</el-button>!-->
                 </el-col>
             </el-row>
             <el-form-item>
@@ -94,8 +111,12 @@ import qs from 'qs'
             }
             return {
                 dialogVisible: false,
+                dynamicTags: [],
+                Tagbox:[],
+                TagboxId:[],
                 ruleForm: {
                     mode: '',
+                     tages: '',
                     name: "",
                     date1: '',
                     old: '',
@@ -159,9 +180,9 @@ import qs from 'qs'
                                     birthDate: youWant,
                                     categoryId: this.ruleForm.ctypes,
                                     recommendedSourceId: this.ruleForm.county,
-                                    consumptionPoints: 0,
-                                    level: 0,
-                                    identity: this.ruleForm.panper
+                                    level: this.ruleForm.ctypes,
+                                    identity: this.ruleForm.panper,
+                                    customerAccountLabels:this.TagboxId
                                 }]
                             })
                             .then(response => {
@@ -169,6 +190,7 @@ import qs from 'qs'
                                     alert(response.data.msg)
                                     return false
                                 }
+                                this.Tagbox = [];
                                 this.dialogVisible = false;
                                 this.$root.$emit('getDatezdy',1)
                             })
@@ -187,6 +209,33 @@ import qs from 'qs'
                    var d = new Date(this.ruleForm.date1);  
                     var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
                     if (valid) {
+                        let panperSF = ''
+                        if( this.ruleForm.panper == '男主人'){
+                                panperSF = 0
+                            }else  if( this.ruleForm.panper == "女主人"){
+                                 panperSF = 1
+                            }else  if( this.ruleForm.panper == "父亲"){
+                                 panperSF = 2
+                            }else  if( this.ruleForm.panper == "母亲"){
+                                 panperSF = 3
+                            }else  if( this.ruleForm.panper == "女儿"){
+                                 panperSF = 4
+                            }else  if( this.ruleForm.panper == "女婿"){
+                                 panperSF = 5
+                            }else  if( this.ruleForm.panper == "儿子"){
+                                 panperSF = 6
+                            }else  if( this.ruleForm.panper == "儿媳"){
+                                 panperSF = 7
+                            }
+                            let newId =[]
+                        for (let i = 0; i < this.Tagbox.length; i++) {
+                            newId.push({
+                                accountId: this.ruleForm.thisId,
+                                labelId: this.Tagbox[i].id
+                            })
+                        }
+                                
+                          
                         let url = '/api/customer/account/update';
                         this.$http({
                                 url: url,
@@ -202,14 +251,16 @@ import qs from 'qs'
                                     birthDate: youWant,
                                     categoryId: this.ruleForm.ctypes,
                                     recommendedSourceId: this.ruleForm.county,
-                                    consumptionPoints: 0,
-                                    level: 0,
-                                    identity: this.ruleForm.panper
+                                    level: this.ruleForm.ctypes,
+                                    identity: panperSF,
+                                    customerAccountLabels:newId
                                 }
                             })
                             .then(response => {
                                 this.dialogVisible = false;
-                                this.$root.$emit('getDatezdy',1)
+                                this.$root.$emit('getDatezdy',1);
+                                this.Tagbox = [];
+                                
                             })
                             .catch(error => {
                                 console.log(error);
@@ -222,8 +273,73 @@ import qs from 'qs'
                 });
                 }
             },
-            resetForm(formName) {
-                this.$refs['formName'].resetFields();
+            handleCloses(index) {
+                 let list = [];
+                for (let i = 0; i < this.Tagbox.length; i++) {
+                    if (index != i) {
+                        list.push(this.Tagbox[i]);
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功！'
+                        });
+                    }
+                }
+                this.Tagbox = list;
+            },
+            searchLabel() {
+                let url = '/api/customer/label/query/label';
+                this.$http({
+                        url: url,
+                        method: 'post',
+                        data: {}
+                    })
+                    .then(respone => {
+                        console.log(respone)
+                        for (let i = 0; i < respone.data.info.length; i++) {
+                            this.dynamicTags.push({
+                                name: respone.data.info[i].name,
+                                color: respone.data.info[i].color,
+                                id: respone.data.info[i].id
+                            })
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        alert('网络错误，不能访问');
+                    })
+            },
+            changes(value) {
+                let obj = {};
+                let newObj = {};
+                obj = this.dynamicTags.find((item) => {
+                    if (item.id === value) {
+                        if (value !== "" || value !== null) {
+                            newObj = {
+                                labelId: item.id,
+                                accountId: this.ruleForm.thisId
+                            }
+                            this.TagboxId.push(newObj)
+                        }
+                    }
+                    return item.id === value;
+                });
+                this.Tagbox.push(obj);
+                //过滤重复项
+                var hash = {};
+                this.Tagbox = this.Tagbox.reduce(function(item, next) {
+                    hash[next.name] ? '' : hash[next.name] = true && item.push(next);
+                    return item
+                }, [])
+                //过滤id
+                var hashId = {};
+                this.TagboxId = this.TagboxId.reduce(function(item, next) {
+                    hashId[next.labelId] ? '' : hashId[next.labelId] = true && item.push(next);
+                    return item
+                }, []);
+            },
+            resetForm() {
+                this.$refs['ruleForm'].resetFields();
+                this.Tagbox = [];
             },
             changeCount() {
                 if (this.ruleForm.date1 == "") {
@@ -316,6 +432,7 @@ import qs from 'qs'
                     .then(respone => {
                         this.ruleForm.sourceFns = respone.data.info;
                         //console.log(this.ruleForm.sourceFns)
+
                         
                     })
                     .catch(error => {
@@ -339,16 +456,34 @@ import qs from 'qs'
                             data:[data[0].id]
                         })
                         .then(respone => {
-                            
-                            let infos = respone.data.info[0]
+                            let infos = respone.data.info[0];
+                            let panperSF = '';
+                            if(infos.identity == 0){
+                                panperSF = "男主人"
+                            }else  if(infos.identity == 1){
+                                 panperSF = "女主人"
+                            }else  if(infos.identity == 2){
+                                 panperSF = "父亲"
+                            }else  if(infos.identity == 3){
+                                 panperSF = "母亲"
+                            }else  if(infos.identity == 4){
+                                 panperSF = "女儿"
+                            }else  if(infos.identity == 5){
+                                 panperSF = "女婿"
+                            }else  if(infos.identity == 6){
+                                 panperSF = "儿子"
+                            }else  if(infos.identity == 7){
+                                 panperSF = "儿媳"
+                            }
+                                
                             this.ruleForm.thisId=  infos.id
                             this.ruleForm.mode= infos.mobile,
                             this.ruleForm.name= infos.name,
                             this.ruleForm.date1= infos.birthDate,
                             this.ruleForm.old= infos.age,
-                            this.ruleForm.county= 1,
-                            this.ruleForm.ctypes= 2,
-                            this.ruleForm.panper= 1
+                            this.ruleForm.county= infos.recommendedSourceId,
+                            this.ruleForm.ctypes= infos.level,
+                            this.ruleForm.panper= panperSF
                             // this.ruleForm.sourceFns = respone.data.info;
                             // console.log(this.ruleForm.sourceFns)
                         })
@@ -356,6 +491,33 @@ import qs from 'qs'
                             console.log(error);
                             alert('网络错误，不能访问');
                         })
+                        let urls = '/api/customer/customerAndLabel/findLabel?id='+[data[0].id];
+                        this.$http({
+                            url: urls,
+                            method: 'get',
+                            //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
+                            //data:[data[0].id]
+                        })
+                        .then(respone => {
+                            this.Tagbox=[];
+                            for (let i = 0; i < respone.data.info.length; i++) {
+                                this.Tagbox.push(respone.data.info[i]);
+                            this.dynamicTags.push({
+                                name: respone.data.info[i].name,
+                                color: respone.data.info[i].color,
+                                id: respone.data.info[i].id
+                            })
+                        }
+                        
+                        
+                        
+                        console.log(this.Tagbox)
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            alert('网络错误，不能访问');
+                        })
+                        
                         this.dialogVisible = true;
                 }else{
                     this.ruleForm.textInfo = '新增会员';
@@ -372,6 +534,7 @@ import qs from 'qs'
             });
             this.sourceFn();
             this.showData();
+            this.searchLabel();
              
         }
     }

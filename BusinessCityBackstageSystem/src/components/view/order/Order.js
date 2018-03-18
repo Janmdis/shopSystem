@@ -54,7 +54,7 @@ export default {
         })
         this.$root.$on("delBox", (data) => {
             for (var values of data) {
-                this.delArr.push({ id: values.id, isActive: false })
+                this.delArr.push( values.id)
             }
             this.clearBox()
         })
@@ -90,7 +90,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$http.post('/api/product/coupon/info/update', this.delArr)
+                this.$http.post('/api/product/order/delete', this.delArr)
                     .then(function(response) {
                         console.log(response);
                         if (response.data.status == '200') {

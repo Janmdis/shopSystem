@@ -35,14 +35,14 @@
               <el-dropdown-item >
                 <router-link to="userInfos">个人设置</router-link>
               </el-dropdown-item>
-              <el-dropdown-item divided @click.native="dialogVisible = true">切换企业</el-dropdown-item>
+              <!--<el-dropdown-item divided @click.native="dialogVisible = true">切换企业</el-dropdown-item>!-->
               <el-dropdown-item divided @click.native='handleLoginOut'>安全退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </li>
         
          <li class='userinofBox'>
-          <img src='./user.png'><span>郭湘君</span>
+          <img :src="imgUrl==null?'./user.png':imgUrl"><span>{{userName}}</span>
          </li>
       </ul>
       </el-col>

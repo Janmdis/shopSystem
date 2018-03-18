@@ -48,6 +48,9 @@ export default {
       }
       this.clearBox()
     })
+    this.$root.$on("showMark", (data) => {
+        console.log(data)
+    })
   },
   methods: {
     clearBox() {

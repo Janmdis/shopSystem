@@ -13,6 +13,7 @@
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
                 </li>
+               
             </ul>
         </div>
     </div>
@@ -36,7 +37,7 @@ export default {
             var dom=document.getElementsByClassName('emendation')[0];
             let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
-            dom.style.left=data.show?'0px':'-500px';
+            dom.style.left=data.show?'0px':'-600px';
             //dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
@@ -110,7 +111,7 @@ export default {
 	margin-top: 26px;
 	position: absolute;
 	top: 0;
-	left:-500px;
+	left:-600px;
 	height: 32px;
     background: #fff;
     color: #555;

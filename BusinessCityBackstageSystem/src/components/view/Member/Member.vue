@@ -71,7 +71,7 @@
 </template>
 <script>
     import Members from './Member.js';
-    export default Members
+    export default Members;
 </script>
 <style>
     .lineHeight {

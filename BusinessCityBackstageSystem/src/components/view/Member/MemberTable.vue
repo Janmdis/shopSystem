@@ -21,8 +21,7 @@
         </el-table-column>
         <el-table-column
         prop="name"
-        label="客户姓名"
-        >
+        label="客户姓名">
         </el-table-column>
         <el-table-column
         prop="mobile"
@@ -30,15 +29,24 @@
         label="手机号">
         </el-table-column>
         <el-table-column
-        prop="types"
         label="客户类型">
+            <template slot-scope='scope'>
+                <span >
+                {{getMember(scope.row.categoryId, memberInfo.info)}}
+                </span>
+            </template>
         </el-table-column>
         <el-table-column
-        prop="city"
         label="城市">
+            <template slot-scope='scope'>
+                <span >
+                {{getMember(scope.row.cityId, address)}}
+                </span>
+            </template>
         </el-table-column>
         <el-table-column
         prop="quarters"
+         width='300'
         label="小区">
         </el-table-column>
         <el-table-column
@@ -46,17 +54,21 @@
         label="订单状态">
         </el-table-column>
         <el-table-column
-        prop="source"
         label="来源">
+        <template slot-scope='scope'>
+                <span >
+                {{getMember(scope.row.recommendedSourceId, findSource.info)}}
+                </span>
+            </template>
         </el-table-column>
         <el-table-column
-        prop="Inputtiem"
-        width='100'
+        prop="createTime"
+        width='500'
         label="录入时间">
         </el-table-column>
         <el-table-column
         width='260'
-        prop="address"
+        prop="quartersAdd"
         label="小区地址">
     </el-table-column>
                 
@@ -65,13 +77,18 @@
 <script>
 / eslint-disable /
 //@row-click="showMemberInfo()"
+import { mapState } from 'Vuex'
 export default {
     prop:['listLoading'],
     data(){
         return {
             datalist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
+            memberInfo:[],
+            findSource:[],
+            address:[],
+            idBox:[]
         }
     },
     created:function(){
@@ -86,10 +103,44 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
-        this.$store.dispatch('getCatogery'); 
-        this.$store.dispatch('getOrigin'); 
+        this.memberInfo = JSON.parse(sessionStorage.getItem("member"));
+        this.findSource = JSON.parse(sessionStorage.getItem("findSource"));
+        this.address = JSON.parse(sessionStorage.getItem("address"));
+       
     },
     methods:{
+        getMember(id,obj){
+            let i = 0
+            for (name in obj){
+                if(name ==id){
+                    return obj[name]
+                }
+            }
+        },
+        getResidential (idBox){
+            let url = '/api/customer/estate/queryByIdList';
+            this.$http({
+                url: url,
+                method: 'POST',
+                // 请求体重发送的数据
+                headers: { 'Content-Type': 'application/json' },
+                data:idBox,
+            })
+            .then(response => {
+                //console.log(response.data.info)
+                
+                this.datalist.forEach(item=>{
+                        if( item.estateId !=''&&item.estateId !=null){
+                            this.$set(item, 'quarters', response.data.info[0].alias);
+                            this.$set(item, 'quartersAdd', response.data.info[0].address);
+                        }
+                    });
+          })
+          .catch(error=>{
+              console.log(error);
+              alert('网络错误，不能访问');
+          })
+        },
       getDate(pageIndex) {
             let that = this;
             this.listLoading =  true;
@@ -103,8 +154,13 @@ export default {
             })
             .then(response => {
                 that.listLoading =  false
-                that.datalist=(response.data.info.list)
-                //console.log(this.datalist)
+                that.datalist=(response.data.info.list);
+                //console.log(that.datalist)
+                for(let name in this.datalist){
+                    this.idBox.push(this.datalist[name].estateId)
+                }
+                //console.log(this.idBox)
+                this.getResidential(this.idBox)
                 that.$root.$emit('output1',that.datalist)
                 that.$root.$emit('pages1',response.data.info.pages)
                 that.$root.$emit('total1',response.data.info.total)

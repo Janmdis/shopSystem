@@ -26,7 +26,7 @@
 export default {
     data() {
       return {
-        importFileUrl:'api/admin/account/queryadminaccount',
+        importFileUrl:'api/sms/file/fileUpload',
         imageUrl: '',
         admin:'admin',
         urlImg:{
@@ -53,12 +53,18 @@ export default {
         })
     },
     methods: {
+      option(test,status) {
+        this.$message({
+            message: test,
+            type:status?status:'warning'
+      })
+    },
       handleAvatarSuccess(res, file) {
-         let hostName = location.hostname;
+        let hostName = location.hostname;
             let port = location.port;
-        this.imageUrl = URL.createObjectURL(file.raw);
-        this.imageUrl = res.info
-        console.log(this.imageUrl)
+            this.images = res.info;
+            this.imageUrl = 'http://' + hostName + ':' + port + '/api/sms' + this.images; //  后台返
+       sessionStorage.setItem('imageUrl',this.imageUrl)
       },
       saveImg(){
        let url = '/apiadmin/account/updateadminaccount'
@@ -71,7 +77,7 @@ export default {
         }
       })
         .then(respone => {
-          if (respone.msg == '修改成功') {
+          if (respone.status == 200) {
             this.option(respone.data.msg,'success')
          }
         })

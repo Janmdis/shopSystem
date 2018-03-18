@@ -103,12 +103,11 @@ export default {
             this.typeWord = res;
             // console.log(this.typeWord);
         });
-
+        this.$store.dispatch('getCatogery'); 
+        this.$store.dispatch('getOrigin'); 
     },
-    computed: mapState({
-        info1: state => state.memberInfo.customerCategory,
-        info2: state => state.memberInfo.recommendedSource
-    }),
+    
+    
     methods: {
         userInfo() {
             return new Promise((resolve, reject) => {
@@ -165,7 +164,7 @@ export default {
                 ).then(res => {
                     if (res.data.info == null) {
                         console.log(res.data.msg);
-                        resolve(false);
+                        resolve(true);
                     } else {
                         that.memberHouse = res.data.info.list;
                         that.houseCount = res.data.info;

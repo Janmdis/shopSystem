@@ -4,7 +4,8 @@ import axios from 'axios'
 const state = {
     customerCategory: [],
     recommendedSource: [],
-    shopInfo: []
+    shopInfo: [],
+    member:[]
 };
 const mutations = {
     editCatogery(state, data) {
@@ -13,9 +14,13 @@ const mutations = {
     editOrigin(state, data) {
         state.recommendedSource = data;
     },
-    // shopMessage(state, data) {
-    //     state.shopInfo = data;
-    // }
+    // editInfo(state, data) {
+    //     state.member = data;
+    // },
+     shopMessage(state, data) {
+        let member = sessionStorage.getItem("member");
+         state.member = member;
+     }
 };
 const actions = {
     // 获取会员类型
@@ -29,6 +34,7 @@ const actions = {
                     type: 'editCatogery',
                     data: data.info
                 });
+                sessionStorage.setItem("member",JSON.stringify(data))
             }
         }).catch(function(response) {
             console.log(response);
@@ -44,12 +50,21 @@ const actions = {
                         type: 'editOrigin',
                         data: data.info
                     });
+                    sessionStorage.setItem("findSource",JSON.stringify(data))
                 }
             })
             .catch(function(response) {
                 console.log(response);
             });
     },
+    
+    // eidtIfo({commit ,state }) {
+    //     let member = sessionStorage.getItem("member");
+    //     commit({
+    //         type: 'editInfo',
+    //         data: member
+    //     });
+    // }
     // getShopMessage({ commit, state }, data) { //  获取订单详情信息
     //     axios.post(
     //             '/api/product/order/queryOrderDetails',

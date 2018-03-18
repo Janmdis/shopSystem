@@ -9,6 +9,8 @@ export default {
     }
     return {
       dialogVisible: false,
+      userName: '',
+      imgUrl:'',
       ruleForm: {
         region: '',
         newPass: ''
@@ -41,7 +43,9 @@ export default {
       this.which_to_show = infoText
     })
     let status = window.sessionStorage.getItem('status')
-    this.selected(status)
+    console.log(JSON.parse(sessionStorage.getItem('userInfo')))
+    this.userName = (JSON.parse(sessionStorage.getItem('userInfo')).createName);
+    this.imgUrl = sessionStorage.getItem('imageUrl');
   },
   methods: {
     // refn() {

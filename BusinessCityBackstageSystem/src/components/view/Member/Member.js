@@ -8,10 +8,12 @@ import showWindows from './showWindow.vue'
 import qs from 'qs'
 import moment from "moment"
 
+
 export default {
 
     name: 'member',
     data() {
+       
         return {
             valuesearch: '',
             loadOk: true,
@@ -34,7 +36,8 @@ export default {
             dataForm: [],
             idList: [],
             dataHref: '',
-            isShowList: false
+            isShowList: false,
+            memberInfo:[]
         }
 
     },
@@ -51,7 +54,8 @@ export default {
             let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
             let ids = id.replace(/\"|"/g, "");
             this.dataHref = '/api/customer/customer/excel/out?id=' + ids;
-        })
+        });
+       
     },
     mounted() {
         this.$root.$on('total1', (data) => {
