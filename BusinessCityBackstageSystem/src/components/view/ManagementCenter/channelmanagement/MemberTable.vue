@@ -218,24 +218,8 @@ export default {
         },
         createercode(row){
             let id=row.id;
-            let that=this;
-            this.$http.get('/api/customer/resource/qrCode.png?content="http://localhost:8080/inviting"&id='+id)
-            .then(res=>{
-                if(res.status==200){
-                    let data=res.data;
-                    let test='http://192.168.199.102/customer/resource/qrCode.png?content=http://localhost:8080/inviting';
-                    that.$root.$emit('qrcode',test);
-                }
-                else{
-                    that.$message('二维码生成失败');
-                }
-                // console.log(res);
-            })
-            .catch(err=>{
-                console.log(err);
-                that.$message('二维码生成失败');
-            });
-            // console.log(row);
+            let url='http://192.168.199.102/customer/resource/qrCode.png?content=http://localhost:8080/inviting?id='+id;
+            that.$root.$emit('qrcode',url);
         }
     },
     beforeDestroy(){

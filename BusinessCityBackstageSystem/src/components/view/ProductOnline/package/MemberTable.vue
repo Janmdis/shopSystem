@@ -219,10 +219,28 @@ export default {
                 .then(function(response){
                     if(response.data.msg=='查询成功'){
                         let commoditys=[];
-                        response.data.info.forEach(item=>{
-                            commoditys.push(item.name+'*'+item.displayQuantity);
+                        let recordidlist=[];
+                        that.$http.post('/api/product/commodity/package/queryMap',{packageCommodityId:packageid})
+                        .then(res=>{
+                            if(res.data.status==200){
+                                recordidlist=res.data.info;
+                                
+                                response.data.info.forEach(item=>{
+                                    let nums=0;
+                                    recordidlist.forEach(record=>{
+                                        if(record.commodityId==item.id){
+                                            nums++;
+                                        }
+                                    });
+                                    commoditys.push(item.name+'*'+nums);
+                                });
+                                resolve(commoditys); 
+                            }
+                        })
+                        .catch(err=>{
+                            console.log(err);
                         });
-                        resolve(commoditys);                    
+                                           
                     }
                     else{
                         resolve();

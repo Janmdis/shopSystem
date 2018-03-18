@@ -443,7 +443,59 @@
         },
         methods: {
             resetForm() {
+                this.form={
+                    log:{
+                        userid:'',
+                        operate:'',
+                        daterange:''
+                    },
+                    channel:{
+                        name:'',
+                        typeId:'',
+                        levelId:''
+                    },
+                    knowledge:{
+                        problemTitle:'',
+                        knowledgeSortId:'',
+                        knowledgePointId:''
+                    },
+                    coupon:{
+                        couponName:'',
+                        couponStatus:'',
+                        couponType:'',
+                        daterange:''
+                    },
+                    supplier:{
+                        name:'',
+                        categoryId:'',
+                        levelId:'',
+                        contactMobile:'',
+                        labelId:''
+                    },
+                    commodity:{
+                        name:'',
+                        categoryId:'',
+                        isOnSale:'',
+                        minPrice:'',
+                        maxPrice:''
+                    },
+                    product:{
+                        name:'',
+                        classificationId:'',
+                        typeId:'',
+                        brandId:'',
+                        inventoryQuantity:''
+                    },
+                    users:{
+                        adminName:'',
+                        phone:'',
+                        accStatus:'',
+                        employeeTypeId:'',
+                        daterange:''
+                    }
+                };
                 this.$refs['form'].resetFields();
+                
             },
             handleItemChange(val){
                 let index1='';

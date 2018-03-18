@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title='商品列表'  :visible.sync="dialogVisible"  width="60%">
+    <el-dialog title='商品列表'  :visible.sync="dialogVisible"  width="60%"  class='goods'>
         <el-row style='padding-bottom:10px;'>
             <el-col :span="4">
                 <el-select v-model="type" placeholder="分类" class='typeselect' @change='changetype'>
@@ -88,11 +88,11 @@
         width:100%;
         height:100%;
     }
-    .el-dialog{
+    .goods .el-dialog{
         height:80%;
         padding-bottom:0px;
     }
-    .el-dialog__body{
+    .goods .el-dialog__body{
         height:80%;
         padding-top:10px;
     }
@@ -236,7 +236,7 @@ import { mapState } from 'vuex'
                                 })
                                 that.$set(item,'imgurl',imgurl);
                                 let str=JSON.stringify(item);
-                                that.selectedgoods.push(str);
+                                // that.selectedgoods.push(str);
                             });
                             // console.log(that.selectedgoods);
                         }
@@ -318,14 +318,15 @@ import { mapState } from 'vuex'
             addgoods(list){
                 let that=this;
                 console.log(list);
-                if(this.flag=='addrecommend'){
-                    this.$http.post('/api/product/commodity/relationship/insert',list)
+                if(this.flag=='create'){
+                    this.$http.post('/api/product/commodity/package/insert',list)
                     .then(function(response){
+                        console.log(response);
                         if(response.data.msg=='新增成功'){
                             that.$message.success('商品添加成功！');
-                            that.$root.$emit('reloadlist');
+                            // that.$root.$emit('reloadlist');
                             that.dialogVisible=false;
-                            // that.$root.$emit('editpackage',{list,id:response.data.info.id});
+                            that.$root.$emit('editpackage',{list,id:response.data.info[0].packageCommodityId});
                             // that.dialogVisible=false;
                         }
                         else{

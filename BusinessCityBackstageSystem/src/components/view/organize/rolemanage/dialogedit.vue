@@ -13,7 +13,7 @@
                     </div>
             </el-form-item>
             <el-form-item class='btns'>
-                <el-button type="primary" round   @click="editdata">确定</el-button>
+                <el-button class='btn' type="primary" round   @click="editdata">确定</el-button>
             </el-form-item>
         </el-form>
         <!-- <div slot="footer" class="dialog-footer" :center='true'>
@@ -91,6 +91,16 @@ export default {
     }
 }
 </script>
+<style scoped>
+.btn{
+    width:140px;
+    font-size:14px;
+    background:#27a1f2;
+    margin:0 auto;
+    display: block;
+}
+</style>
+
 <style>
 .el-row{
     vertical-align: middle;
@@ -107,13 +117,13 @@ export default {
     width: 80%;
     margin: 0 auto;
 }
-.el-form-item .el-button{
+/* .el-form-item .el-button{
     width:140px;
     font-size:14px;
     background:#27a1f2;
     margin:0 auto;
     display: block;
-}
+} */
 .btns .el-form-item__content{
     margin-left: 0 !important;
 }

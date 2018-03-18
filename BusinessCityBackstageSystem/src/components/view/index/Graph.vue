@@ -81,6 +81,7 @@ export default {
   font-size: 16px;
   padding-left: 20px;
   overflow: hidden;
+  color: rgb(96, 98, 102);
 }
 .title img,
 .title span{

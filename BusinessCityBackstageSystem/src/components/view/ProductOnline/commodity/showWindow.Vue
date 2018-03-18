@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title='产品列表'  :visible.sync="dialogVisible"  width="60%">
+    <el-dialog title='产品列表'  :visible.sync="dialogVisible"  width="60%" class='commoditydialog'>
         <el-row style='padding-bottom:10px;'>
             <el-col :span="4">
                 <el-select v-model="type" placeholder="分类" class='typeselect' @change='changetype'>
@@ -93,11 +93,11 @@
         width:100%;
         height:100%;
     }
-    .el-dialog{
+    .commoditydialog .el-dialog{
         height:80%;
         padding-bottom:0px;
     }
-    .el-dialog__body{
+    .commoditydialog .el-dialog__body{
         height:80%;
         padding-top:10px;
     }
