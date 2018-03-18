@@ -234,7 +234,7 @@ export default {
             this.list_item = text;
             setTimeout(() =>{
                 this.isLoading = false;
-            },500);   
+            },500);
         },
         handleClose(done){
             this.dialogVisible = false;
