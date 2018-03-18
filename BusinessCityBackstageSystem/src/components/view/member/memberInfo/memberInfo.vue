@@ -186,7 +186,7 @@ export default memberInfos;
                     cursor: pointer;
                 }
                 .editInfo{
-                    background:27a1f2;
+                    background:#27a1f2;
                     color:#fff;
                     cursor: pointer;
                     padding:7px 25px;
@@ -196,7 +196,7 @@ export default memberInfos;
                     background:#409EFf;
                 }
                 .line1CloseBtn:hover{
-                    background:27a1f2;
+                    background:#27a1f2;
                     color:#fff;
                 }
             }

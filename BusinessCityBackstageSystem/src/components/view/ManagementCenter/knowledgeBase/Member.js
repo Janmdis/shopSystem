@@ -81,6 +81,8 @@ export default {
     show: function (val) {
       let data={
         knowledge:{
+          knowledgeSortId:null,
+          knowledgePointId:null,
           problemTitle:this.valuesearch
         }
       }

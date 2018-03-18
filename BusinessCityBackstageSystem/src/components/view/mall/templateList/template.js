@@ -12,7 +12,7 @@ export default {
     data() {
         return {
             valuesearch: '',
-            namepage: '模板管理',
+            namepage: '商城模板管理',
             currentPage1: 1,
             searchFn: '',
             isActive: false,

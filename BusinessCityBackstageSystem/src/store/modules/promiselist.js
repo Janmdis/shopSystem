@@ -25,6 +25,7 @@ const actions={
                     data:data.info.allPermissionsList.children
                 });
             }
+            console.log(data);
         })
         .catch(function (response) {
             console.log(response);

@@ -120,14 +120,14 @@
     .btngb {
         width: 100%;
         margin-top: 40px;
-        background: 27a1f2;
-        border: 27a1f2;
+        background: #27a1f2;
+        border: #27a1f2;
         display: inline-block;
     }
     .el-button--primary:focus,
     .el-button--primary:hover {
-        background: 27a1f2;
-        border: 27a1f2;
+        background: #27a1f2;
+        border: #27a1f2;
     }
     }
 </style>

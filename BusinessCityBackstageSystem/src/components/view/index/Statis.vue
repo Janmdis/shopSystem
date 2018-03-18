@@ -66,7 +66,7 @@ export default {
   position: relative;
 }
 .data{
-  color:#606266;
+  color:#fff;
   padding-bottom: 15px;
   padding-top: 15px;
   vertical-align: middle;

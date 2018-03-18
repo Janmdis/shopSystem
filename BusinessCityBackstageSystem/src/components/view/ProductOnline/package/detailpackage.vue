@@ -416,6 +416,9 @@ export default {
             this.getdateperiod();
             this.getcitys();
         });
+        this.$root.$on('reloadcommidity',(id)=>{
+            this.getgoodslist();
+        });
     },
     computed: {
         ...mapState({
@@ -1918,7 +1921,7 @@ export default {
 .title.none.el-input.is-disabled .el-input__inner,
 .timemodel .is-disabled,
 .timemodel .el-range-editor.is-disabled input{
-    color:#606266 !important;
+    color:#fff !important;
     background-color:#fff;
 }
 .timemodel .el-date-editor{

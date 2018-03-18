@@ -36,7 +36,8 @@
         <el-table-column
         label="模板地址">
         <template slot-scope="scope">
-            <span>{{ 'http://www.greenCity.com?id=' + scope.row.templateID }}</span>
+            <span>{{ 'http://www.greenCity.com' }}</span> 
+            <!-- +scope.row.templateID -->
         </template>
         </el-table-column>
         <el-table-column
@@ -120,8 +121,8 @@ export default {
         },
         handleSwicth(index,row,event){
             let that = this;
-            console.log(row);
-            console.log(row.isEnabled)
+           // console.log(row);
+           // console.log(row.isEnabled)
             let stateBl = !row.isEnabled
             this.$confirm('确定更改 "'+row.templateName+'"的状态吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
@@ -133,7 +134,7 @@ export default {
                     onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value='+stateBl,
                         [row.templateID]
                     ).then(res => {
-                        console.log(res.data.msg);
+                        //console.log(res.data.msg);
                         that.getDate(1);
                     }).catch(err => {console.log(err)})
                 });
@@ -147,8 +148,10 @@ export default {
         },
         handleEdit(index, row,event) {
            // this.$root.$emit('showWindowss',{type:'yes',rowData:row});
-            console.log(row)
-            this.$store.dispatch('editTemplate',row)
+           // console.log(row)
+            let datas = JSON.stringify(row)
+            window.sessionStorage.setItem ("Template_AllData",datas);
+            //this.$store.dispatch('editTemplate',row)
             this.$router.push({ path: '/mallSet' })
         },
         getDate(pageIndex) {
@@ -159,7 +162,9 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 // headers: { 'Content-Type': 'application/json' },
-                data:{},
+                data:{
+                    'templateType':1
+                },
             })
             .then(response => {
                 this.listLoading =  false;

@@ -1,5 +1,5 @@
 <template>
-    <el-main id="member">
+    <el-main id="member" style='padding-bottom:80px;'>
         <div class="memberNav" @click.native="closeInfo">
             <el-row class="navChild">
                 <el-col :span='15'>
@@ -21,6 +21,9 @@
             </el-row>
         </div>
         <div class="memberMain">
+            <el-row>
+                <search :type='type'></search>
+            </el-row>
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>
@@ -65,8 +68,8 @@
         left: 359px;
     }
     .add {
-        background: 27a1f2;
-        border: 1px solid 27a1f2;
+        background: #27a1f2;
+        border: 1px solid #27a1f2;
     }
     .block{
         text-align: right;
@@ -115,7 +118,7 @@
     .shuaxin {
         background: none;
         border: none;
-        color: 27a1f2;
+        color: #27a1f2;
         font-size: 40px;
         padding: 0;
         width: 10%;

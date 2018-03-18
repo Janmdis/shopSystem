@@ -51,9 +51,19 @@ export default new Router({
                     component: resolve => require(['@/components/view/organize/rolemanage/role.vue'], resolve)
                 },
                 {
-                    path: 'templateList', // 模板管理
+                    path: 'templateList', // 首页模板管理
                     name: 'templateList',
                     component: resolve => require(['@/components/view/mall/templateList/templateList.vue'], resolve)
+                },
+                {
+                    path: 'eventTemplateList', // 活动模板管理
+                    name: 'eventTemplateList',
+                    component: resolve => require(['@/components/view/mall/eventTemplateList/templateList.vue'], resolve)
+                },
+                {
+                    path: 'detailTemplateList', // 详情模板管理
+                    name: 'detailTemplateList',
+                    component: resolve => require(['@/components/view/mall/detailTemplateList/templateList.vue'], resolve)
                 },
                 {
                     path: 'mallSet', // 模板设置

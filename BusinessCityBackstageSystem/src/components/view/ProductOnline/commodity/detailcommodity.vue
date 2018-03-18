@@ -442,7 +442,7 @@ export default {
                         else{
                             that.$message(response.data,msg);
                         }
-                        cosnole.log(response);
+                        // console.log(response);
                     })
                     .catch(function(response){
                         console.log(response);
@@ -1754,7 +1754,7 @@ export default {
 .title.none.el-input.is-disabled .el-input__inner,
 .timemodel .is-disabled,
 .timemodel .el-range-editor.is-disabled input{
-    color:#606266 !important;
+    color:#fff !important;
     background-color:#fff;
 }
 .timemodel .el-date-editor{

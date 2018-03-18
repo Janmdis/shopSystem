@@ -30,6 +30,7 @@ export default {
     created(){
         this.getDate(0,this.urlList[0].url);
         this.$root.$on('transFn5',data => {
+            // console.log(data);
             this.getDate(data,this.urlList[data].url);
         });
     },

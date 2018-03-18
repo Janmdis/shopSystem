@@ -104,14 +104,22 @@ export default {
         return {
             datalist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
+            data:{
+                categoryId:null,
+                isOnSale:null,
+                maxPrice:null,
+                minPrice:null,
+                name:null,
+                isPackage:0
+            }
         }
     },
     created:function(){
-        this.getDate(1);
+        this.getDate(1,{isPackage:0});
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
-            this.getDate(this.pageIndex)
+            this.getDate(this.pageIndex,{isPackage:0})
         })
         this.$root.$on('getDatezdy',(data)=>{
              this.getDate( data)
@@ -119,8 +127,20 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
-        this.$root.$on('searchcommodity',(name)=>{
-            this.getDate(1,name);
+        this.$root.$on('search',(datas)=>{
+            // let data={
+            //     categoryId:datas.commodity.categoryId===''?null:datas.commodity.categoryId,
+            //     isOnSale:datas.commodity.isOnSale===''?null:datas.commodity.isOnSale,
+            //     maxPrice:datas.commodity.maxPrice===''?null:datas.commodity.maxPrice,
+            //     minPrice:datas.commodity.minPrice===''?null:datas.commodity.minPrice,
+            //     name:datas.commodity.name===''?null:datas.commodity.name
+            // } ;
+            this.data.categoryId=datas.commodity.categoryId===''?null:datas.commodity.categoryId;
+            this.data.isOnSale=datas.commodity.isOnSale===''?null:datas.commodity.isOnSale;
+            this.data.maxPrice=datas.commodity.maxPrice===''?null:datas.commodity.maxPrice;
+            this.data.minPrice=datas.commodity.minPrice===''?null:datas.commodity.minPrice;
+            this.data.name=datas.commodity.name===''?null:datas.commodity.name;
+            this.getDate(1);
         });
         this.$root.$on('operate',(datas)=>{
             let list=datas.data;
@@ -139,7 +159,7 @@ export default {
             }
         });
         this.$root.$on('reloadlist',()=>{
-            this.getDate(1);
+            this.getDate(1,{isPackage:0});
         });
     },
     computed: {
@@ -148,15 +168,15 @@ export default {
         })
     },
     methods:{
-        getDate(pageIndex,name) {
+        getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/product/commodity/info/query?page='+pageIndex+'&pageSize=10';
+            let url = '/api/product/commodity/info/fluzzQuery?page='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:{isPackage:0,name:name},
+                data:this.data,
             })
             .then(response => {
                 if(response.data.msg=='查询成功'){
@@ -244,7 +264,7 @@ export default {
                 .then(function(response){
                     if(response.data.msg=='删除成功'){
                         that.$message.success('删除成功！');
-                        that.getDate(1);
+                        that.getDate(1,{isPackage:0});
                     }
                     else{
                         that.$message(response.data.msg);
@@ -272,7 +292,7 @@ export default {
             .then(function(response){
                 if(response.data.msg=='修改成功'){
                     that.$message.success(status?'上架成功！':'下架成功！');
-                    that.getDate(1);
+                    that.getDate(1,{isPackage:0});
                 }
                 else{
                     that.$message('操作失败！');
@@ -301,7 +321,7 @@ export default {
     },
     beforeDestroy(){
         this.$root.$off('pageIndex');
-        this.$root.$off('getDatezdy');
+        this.$root.$off('search');
         this.$root.$off('dataListBox');
         this.$root.$off('operate');
         this.$root.$off('reloadlist');
@@ -314,7 +334,7 @@ export default {
     color:red;
 }
 .onsale{
-    color:27a1f2;
+    color:#27a1f2;
 }
 </style>
 <style>

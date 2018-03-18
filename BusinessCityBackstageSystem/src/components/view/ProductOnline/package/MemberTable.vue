@@ -111,24 +111,46 @@ export default {
             showLeft:0,
             pageIndex:1,
             commoditylist:[],
-            packageids:[]
+            packageids:[],
+            data:{
+                categoryId:null,
+                isOnSale:null,
+                maxPrice:null,
+                minPrice:null,
+                name:null,
+                isPackage:1
+            }
         }
     },
     created:function(){
         // this.getimg();
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
-            this.getDate(this.pageIndex)
+            this.getDate(this.pageIndex,{isPackage:1})
         })
-        this.getDate(1);
+        this.getDate(1,{isPackage:1});
         this.$root.$on('getDatezdy',(data)=>{
              this.getDate(data)
         })
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
-        this.$root.$on("search",(data)=>{
-            this.getDate(1,data);
+        this.$root.$on("search",(datas)=>{
+            // let data={
+            //     categoryId:datas.commodity.categoryId===''?null:datas.commodity.categoryId,
+            //     isOnSale:datas.commodity.isOnSale===''?null:datas.commodity.isOnSale,
+            //     maxPrice:datas.commodity.maxPrice===''?null:datas.commodity.maxPrice,
+            //     minPrice:datas.commodity.minPrice===''?null:datas.commodity.minPrice,
+            //     name:datas.commodity.name===''?null:datas.commodity.name
+            // } ;
+            this.data.categoryId=datas.commodity.categoryId===''?null:datas.commodity.categoryId;
+            this.data.isOnSale=datas.commodity.isOnSale===''?null:datas.commodity.isOnSale;
+            this.data.maxPrice=datas.commodity.maxPrice===''?null:datas.commodity.maxPrice;
+            this.data.minPrice=datas.commodity.minPrice===''?null:datas.commodity.minPrice;
+            this.data.name=datas.commodity.name===''?null:datas.commodity.name;
+            this.getDate(1);
+            // console.log(datas.commodity);
+            // this.getDate(1,data);
         });
         this.$root.$on("operate",(datas)=>{
             let data=datas.data;
@@ -145,19 +167,19 @@ export default {
             }
         });
         this.$root.$emit('reloadpackagelist',()=>{
-            this.getDate(1);
+            this.getDate(1,{isPackage:1});
         });
         
     },
     methods:{
-        getDate(pageIndex,name) {
+        getDate(pageIndex) {
             this.listLoading =  true;
-            let url = '/api/product/commodity/info/query?page='+pageIndex+'&pageSize=10';
+            let url = '/api/product/commodity/info/fluzzQuery?page='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                data:{isPackage:1,name:name}
+                data:this.data
             })
             .then(response => {
                 this.listLoading =  false;
@@ -234,7 +256,7 @@ export default {
             .then(function(response){
                 if(response.data.msg=='修改成功'){
                     that.$message.success(state==0?'下架成功！':'上架成功！');
-                    that.getDate(1);
+                    that.getDate(1,{isPackage:1});
                 }
                 else{
                     that.$message(response.data.msg);
@@ -283,7 +305,7 @@ export default {
                 .then(function(response){
                     if(response.data.msg=="删除成功"){
                         that.$message.success('删除成功');
-                        that.getDate(1);
+                        that.getDate(1,{isPackage:1});
                     }
                     else{
                         that.$message(response.data.msg);
@@ -322,7 +344,7 @@ export default {
     color:red;
 }
 .onsale{
-    color:27a1f2;
+    color:#27a1f2;
 }
 </style>
 <style>

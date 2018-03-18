@@ -177,7 +177,7 @@ import { mapState } from 'vuex'
             },
             getType(){
                 let that=this;
-                this.$http.post('/api/product/commodity/category/queryMap',)
+                this.$http.post('/api/product/commodity/category/queryMap',{})
                 .then(function (response) {
                     let data=response.data;
                     if(data.msg=='查询成功'){
@@ -198,7 +198,8 @@ import { mapState } from 'vuex'
             // 获取套餐内商品
             getgoodsinpackage(){
                 let that=this;
-                if(this.flag='addrecommend'){
+                // console.log(this.flag=='addrecommend');
+                if(this.flag=='addrecommend'){
                     this.$http.post('/api/product/commodity/relationship/queryLinkedCommodityListByCommodityId?pageSize=50&commodityId='+this.id)
                     .then(function(response){
                         if(response.data.msg=='查询成功'){
@@ -225,6 +226,7 @@ import { mapState } from 'vuex'
                     .then(function(response){
                         if(response.data.msg=='查询成功'){
                             let list=response.data.info;
+                            console.log(list);
                             list.forEach(item=>{
                                 let imgurl='';
                                 that.imglist.forEach(img=>{
@@ -236,6 +238,7 @@ import { mapState } from 'vuex'
                                 let str=JSON.stringify(item);
                                 that.selectedgoods.push(str);
                             });
+                            // console.log(that.selectedgoods);
                         }
                     })
                     .catch(function(response){
@@ -250,12 +253,14 @@ import { mapState } from 'vuex'
             },
             adddata(){
                 let length=this.selectedgoods.length;
+                console.log(this.selectedgoods);
                 if(!length){
                     this.$message('请先选择商品！');
                 }
                 else{
                     let list=[];
                     let recommendlist=[];
+                    
                     this.selectedgoods.forEach(item=>{
                         let json={
                             commodityId:JSON.parse(item).id,
@@ -317,7 +322,7 @@ import { mapState } from 'vuex'
                     this.$http.post('/api/product/commodity/relationship/insert',list)
                     .then(function(response){
                         if(response.data.msg=='新增成功'){
-                            that.$message.success('推荐商品添加成功！');
+                            that.$message.success('商品添加成功！');
                             that.$root.$emit('reloadlist');
                             that.dialogVisible=false;
                             // that.$root.$emit('editpackage',{list,id:response.data.info.id});
@@ -336,7 +341,7 @@ import { mapState } from 'vuex'
                     .then(function(response){
                         if(response.data.msg=='新增成功'){
                             that.$message.success('商品添加成功！');
-                            that.$root.$emit('editpackage',{id:that.id});
+                            that.$root.$emit('reloadcommidity');
                             that.dialogVisible=false;
                             // that.$root.$emit('editpackage',{list,id:response.data.info.id});
                             // that.dialogVisible=false;
@@ -378,7 +383,9 @@ import { mapState } from 'vuex'
         },
         created: function() {
             this.$root.$on('showWindow', (datas) => {
+                
                 this.flag=datas.flag;
+                console.log(this.flag);
                 this.id=datas.id;
                 this.getType();
                 if(datas.flag=='edit'){

@@ -371,6 +371,7 @@ export default {
             }else if(this.modelIndex == 5){
                 if(this.number == 2){
                     var data = {'gradeLevel':this.ruleForm.gradeLevel};
+                    // console.log(data);
                     data[modelName] = this.ruleForm.name;
                 }else{
                     var data = {};
@@ -475,7 +476,7 @@ export default {
         .el-dialog{
             width:40% !important;
             .el-dialog__header{
-                background: #409EFF;
+                    border-bottom: 4px solid #409eff;
             }
             .el-form{
                 .el-form-item{

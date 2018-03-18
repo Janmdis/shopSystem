@@ -41,6 +41,7 @@ export default {
     created() {
         this.$root.$on('loading', data => {
             this.loadOk = data;
+
         })
         this.$root.$on('output1', data => {
             this.dataForm = data;
@@ -203,7 +204,7 @@ export default {
                 })
                 .then(response => {
                     console.log(response)
-                        //  this.listLoadzing =  false;
+                        //  this.listLoading =  false;
                     this.datalist = (response.data.info.list);
                     this.$root.$emit('dataListBox', this.datalist)
                     this.$root.$emit('pages', response.data.info.pages)

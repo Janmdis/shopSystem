@@ -69,7 +69,14 @@ export default {
         return {
             datalist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
+            data:{
+                couponName:null,
+                couponType:null,
+                couponStatus:null,
+                starTime:null,
+                endTime:null
+            }
         }
     },
     created:function(){
@@ -86,18 +93,23 @@ export default {
         })
         this.$root.$on('search',(datas)=>{
              
-            let data={
-                couponName:datas.coupon.couponName,
-                couponType:datas.coupon.couponType,
-                couponStatus:datas.coupon.couponStatus,
-                starTime:datas.coupon.daterange[0],
-                endTime:datas.coupon.daterange[1]
-            };
-            this.getDate(1,data);
+            // let data={
+            //     couponName:datas.coupon.couponName===''?null:datas.coupon.couponName,
+            //     couponType:datas.coupon.couponType===''?null:datas.coupon.couponType,
+            //     couponStatus:datas.coupon.couponStatus===''?null:datas.coupon.couponStatus,
+            //     starTime:datas.coupon.daterange[0],
+            //     endTime:datas.coupon.daterange[1]
+            // };
+            this.data.couponName=datas.coupon.couponName===''?null:datas.coupon.couponNamel;
+            this.data.couponType=datas.coupon.couponType===''?null:datas.coupon.couponType;
+            this.data.couponStatus=datas.coupon.couponStatus===''?null:datas.coupon.couponStatus;
+            this.data.starTime=datas.coupon.daterange[0];
+            this.data.endTime=datas.coupon.daterange[1];
+            this.getDate(1);
         })
     },
     methods:{
-      getDate(pageIndex,data) {
+      getDate(pageIndex) {
             this.listLoading =  true;
             let url = '/api/product/coupon/info/find?pageNo='+pageIndex+'&pageSize=10';
             this.$http({
@@ -105,7 +117,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:data,
+                data:this.data,
             })
             .then(response => {
                 this.listLoading =  false;

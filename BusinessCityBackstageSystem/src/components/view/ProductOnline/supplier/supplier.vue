@@ -17,7 +17,10 @@
                 </el-col>
             </el-row>
         </div>
-        <div class="memberMain">
+        <div class="memberMain" style='height:88%;' >
+            <el-row>
+                <search :type='type'></search>
+            </el-row>
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>
@@ -60,8 +63,8 @@
         left: 359px;
     }
     .add {
-        background: 27a1f2;
-        border: 1px solid 27a1f2;
+        background: #27a1f2;
+        border: 1px solid #27a1f2;
     }
 </style>
 <style scoped lang="less">
@@ -90,7 +93,7 @@
     .shuaxin {
         background: none;
         border: none;
-        color: 27a1f2;
+        color: #27a1f2;
         font-size: 40px;
         padding: 0;
         width: 10%;

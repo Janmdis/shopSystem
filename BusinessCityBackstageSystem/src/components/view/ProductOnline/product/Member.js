@@ -2,7 +2,7 @@
 import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
-import search from './search.vue'
+import search from '../../../common/search/search.vue'
 import showWindows from './showWindow.vue'
 import qs from 'qs'
 
@@ -23,7 +23,8 @@ export default {
             pageS: 0,
             listLoading: false,
             delArr: [],
-            clickType: true
+            clickType: true,
+            type:'product'
         }
 
     },
@@ -79,7 +80,17 @@ export default {
             })
         },
         show: function(val) {
-            this.searchUsers()
+            let data={
+                product:{
+                    name:this.valuesearch,
+                    classificationId:null,
+                    typeId:null,
+                    brandId:null,
+                    inventoryQuantity:null
+                }
+                
+            };
+            this.$root.$emit('search',data);
         },
         searchUsers() {
             let para = {

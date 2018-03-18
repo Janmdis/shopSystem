@@ -70,7 +70,7 @@
                                     </el-select>
                                 </el-form-item>
                             </li>
-                            <li class="list_li_right" style="position:relative;"><span style="position:absolute;left:-1px;top:0;color:#f56c6c;">*</span>库存&nbsp;:&nbsp;&nbsp;&nbsp;
+                            <li class="list_li_right">库存&nbsp;:&nbsp;&nbsp;&nbsp;
                                 <el-form-item prop="productStock">
                                     <el-input class="stock" v-model="ruleForm.productStock"></el-input>
                                 </el-form-item>
@@ -517,6 +517,7 @@
                     this.dialogVisible = false;
                     this.$refs[formName].resetFields();
                 } else {
+                    console.log(this.ruleForm.productImage);
                     this.$http({ //  新增产品
                         url: '/api/product/info/insert',
                         method: 'POST',

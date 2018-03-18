@@ -62,11 +62,13 @@
         </el-table-column>  
         <el-table-column 
         fixed="right"
-        width='120'
+        width='200'
         label="操作">
         <template slot-scope="scope" >
             <el-button type="text" size="small" @click="handleEdit(scope.row)">编辑</el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button type="text" size="small" @click="createercode(scope.row)">生成邀请码</el-button>
+            
         </template>
     </el-table-column>
     </el-table>
@@ -80,12 +82,18 @@ export default {
             datalist:[],
             showLeft:0,
             pageIndex:1,
-            listLoading:false
+            listLoading:false,
+            data:{
+                name:null,
+                typeId:null,
+                levelId:null
+            }
         }
     },
     created:function(){
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
+            console.log(data)
             this.getDate(this.pageIndex,{})
         })
         this.getDate(1)
@@ -109,17 +117,19 @@ export default {
             this.deletedata(ids);
         });
         this.$root.$on('search',(datas)=>{
-            let data={
-                name:datas.channel.name,
-                typeId:datas.channel.typeId,
-                levelId:datas.channel.levelId
-            }
-            console.log(data);
-            this.getDate(1,data);
+            // let data={
+            //     name:datas.channel.name,
+            //     typeId:datas.channel.typeId,
+            //     levelId:datas.channel.levelId
+            // }
+            this.data.name=datas.channel.name;
+            this.data.typeId=datas.channel.typeId;
+            this.data.levelId=datas.channel.levelId;
+            this.getDate(1);
         });
     },
     methods:{
-        getDate(pageIndex,data) {
+        getDate(pageIndex) {
             this.listLoading =  true;
             let url = '/api/admin/teamManagement/queryTeamManagement?pageNum='+pageIndex+'&pageSize=10';
             this.$http({
@@ -127,7 +137,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:data,
+                data:this.data,
             })
             .then(response => {
                 console.log(response);
@@ -205,9 +215,32 @@ export default {
             });
             
             
+        },
+        createercode(row){
+            let id=row.id;
+            let that=this;
+            this.$http.get('/api/customer/resource/qrCode.png?content="http://localhost:8080/inviting"&id='+id)
+            .then(res=>{
+                if(res.status==200){
+                    let data=res.data;
+                    let test='http://192.168.199.102/customer/resource/qrCode.png?content=http://localhost:8080/inviting';
+                    that.$root.$emit('qrcode',test);
+                }
+                else{
+                    that.$message('二维码生成失败');
+                }
+                // console.log(res);
+            })
+            .catch(err=>{
+                console.log(err);
+                that.$message('二维码生成失败');
+            });
+            // console.log(row);
         }
     },
-    beforeDestry(){
+    beforeDestroy(){
+        this.$root.$off('search');
+        
         this.$root.$off('pageIndex');
         this.$root.$off('getDatezdy')
         this.$root.$off('dataListBox')

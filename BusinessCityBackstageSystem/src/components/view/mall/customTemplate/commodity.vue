@@ -344,7 +344,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
   display:inline-block;
   padding: 0 15px 0 15px;
   margin-left: 12px;
-  background: 27a1f2;
+  background: #27a1f2;
   position: relative;
 }
 //选中的模块/鼠标停留的时候 边框样式

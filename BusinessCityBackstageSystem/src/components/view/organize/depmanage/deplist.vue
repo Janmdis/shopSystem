@@ -121,7 +121,7 @@ export default {
 <style scoped>
 .grid-content{
     height:80%;
-	border:1px solid 27a1f2;
+	border:1px solid #27a1f2;
 	border-radius:5px;
     background:#fff;
     overflow: hidden;

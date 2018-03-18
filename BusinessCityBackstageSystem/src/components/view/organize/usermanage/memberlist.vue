@@ -1,9 +1,10 @@
 <template>
-    <div class="grid-content content">
+    <div class="grid-content content" id='users'>
         <el-row class='head-top'>
             <el-col :span='8'>
                 <div class="grid-content">
                     <p class='title'>员工列表</p>
+                    <el-button type="primary" :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
                 </div>
             </el-col>
             <el-col :span='12' :offset='4'>
@@ -22,10 +23,13 @@
                 
             </el-col>
         </el-row>
+        <el-row>
+            <search :type='type'></search>
+        </el-row>
         <div class='list table-list'>
             <el-table
             :data="datalist"
-            style="width: 100%;height:90%"
+            :style="styledata"
             v-loading=loading
             :stripe='true'>
                 <el-table-column
@@ -93,7 +97,9 @@
     </div>
 </template>
 <script>
+import search from '../../../common/search/search.vue'
 export default {
+    components:{search},
     data(){
         return {
             searchvalue:'',
@@ -102,7 +108,21 @@ export default {
             loading:false,
             pagesize:10,
             currentpage:1,
-            total:0
+            total:0,
+            type:'users',
+            searchtext:'展开搜索',
+            styledata:{
+                width: '100%',
+                height:'90%'
+            },
+            data:{
+                adminName:null,
+                phone:null,
+                accStatus:null,
+                employeeTypeId:null,
+                serStaTime:null,
+                serEndTime:null
+            }
         }
     },
     created:function(){
@@ -110,19 +130,48 @@ export default {
             this.depid=depid;
             this.getemployeelist(1);
         });
+        this.$root.$on('search',(datas)=>{
+            this.data.adminName=datas.users.adminName===''?null:datas.users.adminName;
+            this.data.phone=datas.users.phone===''?null:datas.users.phone;
+            this.data.accStatus=datas.users.accStatus===''?null:datas.users.accStatus;
+            this.data.employeeTypeId=datas.users.employeeTypeId===''?null:datas.users.employeeTypeId;
+            this.data.serStaTime=datas.users.daterange[0];
+            this.data.serEndTime=datas.users.daterange[1];
+            this.getemployeelist(1);
+            this.switchsearch();
+            // console.log(data);
+        });
         this.getemployeelist(1);
     },
     methods:{
+        switchsearch(){
+            // console.log(this.searchtext);
+            let organtext=this.searchtext;
+            let flag=organtext=='展开搜索';
+            this.searchtext=organtext=='展开搜索'?'收起搜索':'展开搜索';
+            let dom=document.querySelector('#users');
+            if(flag){
+                this.styledata={
+                    width: '100%',
+                    height:'40%'
+                }
+            }
+            else{
+                this.styledata={
+                    width: '100%',
+                    height:'90%'
+                }
+            }
+            this.$root.$emit('switch',flag);
+        },
         //获取员工列表
-        getemployeelist(pagenum,value){
+        getemployeelist(pagenum){
             let that=this;
             this.loading=true;
-            this.$http.post('/api/admin/account/multiConditionalQuery',{
-                departmentId:that.depid,
-                pageSize:this.pageSize,
-                pageNum:pagenum,
-                adminName:value
-            })
+            this.data.pageSize=this.pageSize;
+            this.data.departmentId=this.depid;
+            this.data.pageNum=pagenum;
+            this.$http.post('/api/admin/account/multiConditionalQuery',this.data)
             .then(function (response) {
                 let data=response.data;
                 if(data.status==200){
@@ -182,7 +231,13 @@ export default {
             this.$root.$emit('opendialogemploy',{iscreate:true});
         },
         searchdata(){
-            this.getemployeelist(1,this.searchvalue);
+            this.data.adminName=null;
+            this.data.phone=null;
+            this.data.accStatus=null;
+            this.data.employeeTypeId=null;
+            this.data.serStaTime=null;
+            this.data.serEndTime=null;
+            this.getemployeelist(1);
         },
         refreshdata(){
             this.getemployeelist(1);
@@ -206,7 +261,11 @@ export default {
 	line-height:90px;
     font-size: 16px;
 }
-
+.head-top .btn-search{
+    position: absolute;
+    left: 70px;
+    top:30px;
+}
 .search{
     display: flex;
     justify-content: center;
@@ -222,16 +281,16 @@ export default {
     height:37px;
     line-height: 0;
     border-radius: 20px;
-    background-color: 27a1f2;
+    background-color: #27a1f2;
     /* margin-left: 15px; */
 }
 /* .search .el-button--primary:hover{
-    background-color: 27a1f2;
+    background-color: #27a1f2;
 } */
 .search .refresh{
     background: none;
     border: none;
-    color:27a1f2;
+    color:#27a1f2;
     font-size: 40px;
     padding: 0;
 }
@@ -271,7 +330,7 @@ export default {
     height: 85% !important;
 }
 table .el-button--text{
-    color:27a1f2;
+    color:#27a1f2;
     font-size:14px;
 }
 .el-button--text{
