@@ -25,7 +25,7 @@
         width='120'
         >
         <template slot-scope="scope">
-            <img :src="imgSrc" alt="" style="display:inline-block;width:120px;height:50px;border:1px solid #eee;">
+            <img :src="scope.row.imgurl" alt="" style="display:inline-block;width:120px;height:50px;border:1px solid #eee;">
         </template>
         </el-table-column>
         <el-table-column
@@ -146,9 +146,18 @@ export default {
                 data:{isActive:1},
             })
             .then(response => {
-                this.listLoading =  false;
-                this.datalist=(response.data.info.list);
-                // console.log(this.datalist)
+                this.listLoading =  false
+                this.datalist = response.data.info.list
+                console.log(this.datalist)
+                this.datalist.forEach(item=>{
+                    let imgurl = item.productImage   
+                    if(imgurl == '' || imgurl == null){
+                        imgurl == ''
+                    }else{
+                        imgurl='http://'+window.location.host+'/api/sms'+imgurl.split(";")[0]
+                    }
+                    this.$set(item,'imgurl',imgurl)
+                })
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })

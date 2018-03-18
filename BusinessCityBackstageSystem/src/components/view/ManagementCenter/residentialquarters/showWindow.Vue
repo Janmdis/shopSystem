@@ -1,10 +1,10 @@
 <template>
-    <el-dialog :title="ruleForm.textInfo" @click="closeDialog" :visible.sync="dialogVisible" width="30%">
+    <el-dialog id="addEstate" :title="ruleForm.textInfo" :before-close="closeDialog" :visible.sync="dialogVisible" width="30%">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='24'>
                     <el-form-item label="小区名称" prop="name">
-                        <el-input v-model="ruleForm.name"></el-input>
+                        <el-input @change="checkName" v-model.trim="ruleForm.name"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span='24'>
@@ -18,13 +18,14 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+            <el-form-item class="estate-btn">
+                <el-button type="primary" :disabled="cantSubmit" @click="submitForm('ruleForm')">保存</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
 </template>
-<style>
+<style lang="less">
+#addEstate{
     .imgBox {
         width: 100px;
         height: 100px;
@@ -33,6 +34,13 @@
     .lineBline {
         border-bottom: 1px solid #ddd;
     }
+    .estate-btn{
+        .el-form-item__content{
+            text-align: center;
+            margin-left: 0 !important;
+        }
+    }
+}
 </style>
 <script>
 import qs from 'qs'
@@ -40,6 +48,7 @@ import qs from 'qs'
         data() {
             return {
                 dialogVisible: false,
+                cantSubmit:true,
                 ruleForm: {
                     textInfo: '新增会员',
                     name: "",
@@ -59,7 +68,7 @@ import qs from 'qs'
                          trigger: 'blur'
                     }, ],
                     address: [{
-                        required: true,
+                        required: false,
                         message: '请填写详细地址',
                         trigger: 'blur'
                     }],
@@ -69,15 +78,25 @@ import qs from 'qs'
             };
         },
         methods: {
-            closeDialog(){
+            closeDialog(done){
                 this.dialogVisible = false;
                 this.$refs['ruleForm'].resetFields();
+                this.ruleForm.name = ''
+            },
+            checkName(){
+                if(this.ruleForm.name == ''){
+                    this.cantSubmit = true
+                    this.$message({
+                    message: '小区名不能为空',
+                    type: 'warning',
+                    duration:1000
+                    })
+                }else{
+                    this.cantSubmit = false
+                }
             },
             submitForm(formName) {
-                if(this.ruleForm.textInfo == "新增小区"){
-                    // console.log(this.ruleForm.name);
-                    // console.log(this.ruleForm.mode);
-                    // console.log(this.ruleForm.address);
+                if(this.ruleForm.textInfo == "新增小区"){    
                     let url = '/api/customer/estate/insertData';
                     this.$http({
                             url: url,
