@@ -92,7 +92,7 @@
         color:black;
     }
     #windowBox .el-dialog{
-        height:67%;
+        padding-bottom: 10px;
     }
 </style>
 <script>

@@ -614,7 +614,12 @@ export default {
             });
         },
         // 生成二维码
-        createercode(row){}
+        createercode(row){
+            let recommendedAdminId=row.id;
+            let recommendedTeamId=this.idchannel;
+            let url='http://192.168.199.102/customer/resource/qrCode.png?content=http://localhost:8080/inviting?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
+            this.$root.$emit('qrcode',url);
+        }
     },
     beforeDestroy(){
         this.$root.$off("createchannel");

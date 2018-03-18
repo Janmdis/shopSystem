@@ -98,7 +98,7 @@
         padding-bottom:0px;
     }
     .commoditydialog .el-dialog__body{
-        height:80%;
+        height:75%;
         padding-top:10px;
     }
     .table-product tr td:nth-child(2){

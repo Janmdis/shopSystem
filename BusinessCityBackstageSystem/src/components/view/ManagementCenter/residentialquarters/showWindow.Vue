@@ -40,6 +40,9 @@
             margin-left: 0 !important;
         }
     }
+    .el-dialog{
+        padding-bottom: 5px;
+    }
 }
 </style>
 <script>

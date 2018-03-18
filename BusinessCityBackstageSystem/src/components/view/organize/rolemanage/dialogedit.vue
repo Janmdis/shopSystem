@@ -1,5 +1,5 @@
 <template>
-    <el-dialog  width='30%' top='40px'  title="编辑信息" :visible="visiableedit" :modal='true' :before-close="ai_dialog_close"> 
+    <el-dialog class='roledialog'  width='30%' top='40px'  title="编辑信息" :visible="visiableedit" :modal='true' :before-close="ai_dialog_close"> 
         <el-form @submit.native.prevent :model='dataform' status-icon ref="roleForm2" :rules="rules"  label-width="100px" class="demo-ruleForm">
             <el-form-item label="角色名称：" prop="groupName">
                 <el-input placeholder="请输入角色名称" v-model="dataform.groupName" auto-complete="off"></el-input>
@@ -129,6 +129,9 @@ export default {
 }
 .el-dialog__body{
     padding-bottom: 5px;
+}
+.roledialog .el-dialog{
+    padding-bottom:5px;
 }
 </style>
 <style scoped>

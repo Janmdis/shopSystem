@@ -218,8 +218,8 @@ export default {
         },
         createercode(row){
             let id=row.id;
-            let url='http://192.168.199.102/customer/resource/qrCode.png?content=http://localhost:8080/inviting?id='+id;
-            that.$root.$emit('qrcode',url);
+            let url='http://192.168.199.102/customer/resource/qrCode.png?content=http://localhost:8080/inviting?recommendedAdminId='+id;
+            this.$root.$emit('qrcode',url);
         }
     },
     beforeDestroy(){

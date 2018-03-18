@@ -254,12 +254,12 @@
                 </el-row>
                 
             </el-row>
-            <el-row style='border-top:1px solid #ddd; padding-top:20px; '>
+            <el-row style=' padding-top:20px; '>
                 <el-col :span="2" style="margin-left:44%;">
-                    <el-button type="primary" class='btnW' round @click="searchdata">查询</el-button>
+                    <el-button type="primary" class='btnW' size="medium"  @click="searchdata">查询</el-button>
                 </el-col>
                 <el-col :span="2" style='margin-left:10px;'>
-                    <el-button type="primary" class='btnW' @click='resetForm' round>重置</el-button>
+                    <el-button type="primary" class='btnW' size="medium" @click='resetForm'>重置</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -776,6 +776,7 @@
 <style>
     .searcharea{
         display: none;
+        background-color: #f9f9f9;
     }
     .searcharea.on{
         display: block;
@@ -788,8 +789,8 @@
     .searcharea #searcher {
         position: relative;
         z-index: 10;
-        background: #fff;
-        border: 1px solid #ddd;
+        /* background: #fff; */
+        /* border: 1px solid #ddd; */
         padding: 20px 0;
     }
     .datepick .el-form-item__content .el-date-editor{

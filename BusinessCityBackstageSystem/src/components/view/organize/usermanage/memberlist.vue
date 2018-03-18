@@ -280,7 +280,7 @@ export default {
     /* width: 90px; */
     height:37px;
     line-height: 0;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     background-color: #27a1f2;
     /* margin-left: 15px; */
 }
