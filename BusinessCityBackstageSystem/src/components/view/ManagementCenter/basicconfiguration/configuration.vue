@@ -141,7 +141,8 @@ export default {
                 {id:'id',delUrl:'/api/customer/recommendedSource/remove',des:'推荐来源',name:'name',addUrl:'/api/customer/recommendedSource/insert'},
                 {id:'id',delUrl:'/api/customer/customerCategory/remove',des:'客户类型',name:'name',addUrl:'/api/customer/customerCategory/insert'},
                 {id:'id',delUrl:'/api/customer/identity/remove',des:'客户身份',name:'name',addUrl:'/api/customer/identity/addIdentity'},
-                {id:'id',delUrl:'/api/customer/relationshipGroupCategory/remove',des:'客户关系组类型',name:'name',addUrl:'/api/customer/relationshipGroupCategory/insert'}       
+                {id:'id',delUrl:'/api/customer/relationshipGroupCategory/remove',des:'关系组类型',name:'name',addUrl:'/api/customer/relationshipGroupCategory/insert'},
+                {id:'id',delUrl:'/api/customer/label/remove',des:'会员标签',name:'name',addUrl:'/api/customer/label/insert'}       
             ],
             publicData:[
                 {id:'id',delUrl:'/api/product/mall/templateCategory/remove',des:'模板分类',name:'name',addUrl:'/api/product/mall/templateCategory/insert'},
@@ -173,7 +174,6 @@ export default {
     created(){
         this.showContent('产品模块',0);
         this.$root.$on('searchInfo',(data) => {
-            // console.log(data);
             this.name = data[0];
             this.tableData = data[1];
             this.number = data[2];
@@ -184,30 +184,6 @@ export default {
         this.$root.$on('loadInfo',data => {
             this.loadInfo = data;
         });
-        // this.$root.$on('loadInfo0',data => {
-        //     this.loadInfo = data;
-        // });
-        // this.$root.$on('loadInfo1',data => {
-        //     this.loadInfo = data;
-        // });
-        // this.$root.$on('loadInfo2',data => {
-        //     this.loadInfo = data;
-        // });
-        // this.$root.$on('loadInfo3',data => {
-        //     this.loadInfo = data;
-        // });
-        // this.$root.$on('loadInfo4',data => {
-        //     this.loadInfo = data;
-        // });
-        // this.$root.$on('loadInfo5',data => {
-        //     this.loadInfo = data;
-        // });
-        // this.$root.$on('loadInfo6',data => {
-        //     this.loadInfo = data;
-        // });
-        // this.$root.$on('loadInfo7',data => {
-        //     this.loadInfo = data;
-        // });
     },
     methods:{
         showContent(text,index){
@@ -335,6 +311,13 @@ export default {
         },
         addContent(){
             this.dialogVisible = true;
+            if(this.modelIndex == 2 && this.number == 4){ 
+                this.ruleForm.color = this.color[this.num];
+                this.num++;
+                if(this.num > this.color.length - 1){
+                    this.num = 0;
+                }
+            }
             if(this.modelIndex == 4 && this.number == 0){ 
                 this.ruleForm.color = this.color[this.num];
                 this.num++;
@@ -358,7 +341,13 @@ export default {
                 var data = [{parentId:0}];
                 data[0][modelName] = this.ruleForm.name;   
             }else if(this.modelIndex == 2){
-                var data = [{"name":this.ruleForm.name}];
+                if(this.number == 4){
+                    var data =[{"name":this.ruleForm.name,"color":this.ruleForm.color}];
+                    console.log(data);
+                }else{
+                    var data ={};
+                    data[modelName] = this.ruleForm.name;
+                }  
             }else if(this.modelIndex == 3){
                 var data =[{"name":this.ruleForm.name}];
             }else if(this.modelIndex == 4){
