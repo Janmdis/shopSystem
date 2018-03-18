@@ -75,6 +75,9 @@
     .headerBottom .mTop {
         text-align: center;
     }
+    .headerBottom .el-dialog{
+        padding-bottom: 5px;
+    }
     .icon-tianjia {
         position: absolute;
         right: 1%;

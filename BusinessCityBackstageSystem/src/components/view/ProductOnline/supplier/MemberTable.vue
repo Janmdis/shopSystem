@@ -55,6 +55,7 @@
         <el-table-column
         prop="source"
         fixed="right"
+        width='120'
         label="操作">
         <template slot-scope="scope">
             <el-button type="text" @click='handleWindow(scope.row)' size="small">编辑</el-button>

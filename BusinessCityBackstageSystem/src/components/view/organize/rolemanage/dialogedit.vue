@@ -1,5 +1,5 @@
 <template>
-    <el-dialog  width='30%' top='40px'  title="编辑信息" :visible="visiableedit" :modal='true' :before-close="ai_dialog_close"> 
+    <el-dialog class='roledialog'  width='30%' top='40px'  title="编辑信息" :visible="visiableedit" :modal='true' :before-close="ai_dialog_close"> 
         <el-form @submit.native.prevent :model='dataform' status-icon ref="roleForm2" :rules="rules"  label-width="100px" class="demo-ruleForm">
             <el-form-item label="角色名称：" prop="groupName">
                 <el-input placeholder="请输入角色名称" v-model="dataform.groupName" auto-complete="off"></el-input>
@@ -13,7 +13,7 @@
                     </div>
             </el-form-item>
             <el-form-item class='btns'>
-                <el-button type="primary" round   @click="editdata">确定</el-button>
+                <el-button class='btn' type="primary" round   @click="editdata">确定</el-button>
             </el-form-item>
         </el-form>
         <!-- <div slot="footer" class="dialog-footer" :center='true'>
@@ -91,6 +91,16 @@ export default {
     }
 }
 </script>
+<style scoped>
+.btn{
+    width:140px;
+    font-size:14px;
+    background:#27a1f2;
+    margin:0 auto;
+    display: block;
+}
+</style>
+
 <style>
 .el-row{
     vertical-align: middle;
@@ -107,18 +117,21 @@ export default {
     width: 80%;
     margin: 0 auto;
 }
-.el-form-item .el-button{
+/* .el-form-item .el-button{
     width:140px;
     font-size:14px;
     background:#27a1f2;
     margin:0 auto;
     display: block;
-}
+} */
 .btns .el-form-item__content{
     margin-left: 0 !important;
 }
 .el-dialog__body{
     padding-bottom: 5px;
+}
+.roledialog .el-dialog{
+    padding-bottom:5px;
 }
 </style>
 <style scoped>

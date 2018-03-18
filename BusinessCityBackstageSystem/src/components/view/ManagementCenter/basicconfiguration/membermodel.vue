@@ -16,13 +16,15 @@ export default {
                 {'index':1,'icon':'el-icon-edit','isActive':true,'name':'推荐来源'},
                 {'index':2,'icon':'el-icon-menu','isActive':false,'name':'客户类型'},
                 {'index':3,'icon':'el-icon-sold-out','isActive':false,'name':'客户身份'},
-                {'index':4,'icon':'el-icon-document','isActive':false,'name':'客户关系组类型'},
+                {'index':4,'icon':'el-icon-document','isActive':false,'name':'关系组类型'},
+                {'index':5,'icon':'el-icon-document','isActive':false,'name':'会员标签'}
             ],
             urlList:[
                 {id:'id',url:'/api/customer/recommendedSource/findSource',des:'推荐来源',name:'name'},
                 {id:'id',url:'/api/customer/customerCategory/findCategory',des:'客户类型',name:'name'},
                 {id:'id',url:'/api/customer/identity/findIdentity',des:'客户身份',name:'name'},
-                {id:'id',url:'/api/customer/relationshipGroupCategory/queryMap',des:'客户关系组类型',name:'name'},
+                {id:'id',url:'/api/customer/relationshipGroupCategory/queryMap',des:'关系组类型',name:'name'},
+                {id:'id',url:'/api/customer/label/query/label',des:'会员标签',name:'name'}
             ],
             datalist:[],
             originList:[],

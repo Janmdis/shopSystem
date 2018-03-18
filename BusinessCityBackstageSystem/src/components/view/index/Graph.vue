@@ -81,6 +81,7 @@ export default {
   font-size: 16px;
   padding-left: 20px;
   overflow: hidden;
+  color: rgb(96, 98, 102);
 }
 .title img,
 .title span{
@@ -91,7 +92,7 @@ export default {
 }
 .grid-content{
   background-color: white;
-  height: 400px;
+  height: 410px;
   padding-top: 20px;
   border-radius: 10px;
   text-align: center;

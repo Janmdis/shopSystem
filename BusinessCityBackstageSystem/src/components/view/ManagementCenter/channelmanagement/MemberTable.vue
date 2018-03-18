@@ -62,11 +62,13 @@
         </el-table-column>  
         <el-table-column 
         fixed="right"
-        width='120'
+        width='200'
         label="操作">
         <template slot-scope="scope" >
             <el-button type="text" size="small" @click="handleEdit(scope.row)">编辑</el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button type="text" size="small" @click="createercode(scope.row)">生成邀请码</el-button>
+            
         </template>
     </el-table-column>
     </el-table>
@@ -213,6 +215,11 @@ export default {
             });
             
             
+        },
+        createercode(row){
+            let id=row.id;
+            let url='http://192.168.199.102/customer/resource/qrCode.png?content=http://localhost:8080/inviting?recommendedAdminId='+id;
+            this.$root.$emit('qrcode',url);
         }
     },
     beforeDestroy(){

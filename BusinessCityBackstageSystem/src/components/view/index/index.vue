@@ -1,41 +1,49 @@
 <template>
     <el-main >
-        <el-row :gutter="20" type='flex' justify='center'>
-            <el-col>
-                <Statis :data="list[0]"></Statis>
+        <p style='padding-bottom:10px;font-size:12px;color:#606266'>数据刷新：{{data}}<a href='' style='padding-left:10px;color:#26bba4;'>刷新</a></p>
+        <el-row :gutter="20" style='margin-bottom:5px;'>
+            <el-col :span='16'  >
+                 <el-row :gutter="20">
+                    <el-col :span='8' >
+                        <Statis :data="list[0]"></Statis>
+                    </el-col>
+                    <el-col :span='8'>
+                        <Statis :data="list[1]"></Statis>
+                    </el-col>
+                    <el-col :span='8'>
+                        <Statis :data="list[2]"></Statis>
+                    </el-col>
+                 </el-row>
+                
             </el-col>
-            <el-col>
-                <Statis :data="list[1]"></Statis>
-            </el-col>
-            <el-col>
-                <Statis :data="list[2]"></Statis>
-            </el-col>
-            <el-col>
-                <Statis :data="list[3]"></Statis>
-            </el-col>
-            <el-col>
-                <Statis :data="list[4]"></Statis>
+            <el-col :span='8'>
+                <Readydo></Readydo>
             </el-col>
         </el-row>
-        <el-row :gutter='20'>
-            <el-col :span="16" >
+        <el-row :gutter="20" style='padding-bottom:80px;'>
+            <el-col :span='16'>
                 <el-row :gutter="20">
-                    <el-col :span='10' >
-                        <Statis :data="list[5]"></Statis>
-                    </el-col>
-                    <el-col :span='14'>
-                        <Readydo></Readydo>
-                    </el-col>
+                        <el-col :span='8'>
+                            <Statis :data="list[3]"></Statis>
+                        </el-col>
+                        <el-col :span='8'>
+                            <Statis :data="list[4]"></Statis>
+                        </el-col>
+                        <el-col :span='8'>
+                            <Statis :data="list[5]"></Statis>
+                        </el-col>
                 </el-row>
                 <el-row>
-                    <el-col style='margin-bottom:65px;'>
-                        <Graph></Graph>
-                    </el-col>
-                </el-row>
+                    <Graph></Graph>
+                </el-row>                
             </el-col>
-            <el-col :span="8">
-                <Pie :objdata='objclient' ></Pie>
-                <Pie :objdata='objorder'></Pie>
+            <el-col :span='8'>
+                <el-row>
+                    <Pie :objdata='objclient' ></Pie>
+                </el-row>
+                <el-row>
+                    <Pie :objdata='objorder'></Pie>
+                </el-row>
             </el-col>
         </el-row>
     </el-main>
@@ -111,7 +119,8 @@ export default {
                 listdata:[100,200,300],
                 totaltip:'订单总数',
                 idname:'charts2'
-            }
+            },
+            data:'2018-2-17 0:00:00'
       }
   }
 }
@@ -142,6 +151,8 @@ export default {
     .el-row:nth-child(1){
         margin-bottom: 20px;
     }
+    .grid-content{
+        margin-bottom: 0 !important;
+    }
 </style>
-
 

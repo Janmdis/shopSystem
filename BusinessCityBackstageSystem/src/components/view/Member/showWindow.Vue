@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%">
+    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%" class='memberdialog'>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='12'>
@@ -87,6 +87,9 @@
     }
     .lineBline {
         border-bottom: 1px solid #ddd;
+    }
+    .memberdialog .el-dialog{
+        height:60%;
     }
 </style>
 <script>

@@ -1,5 +1,6 @@
 <template>
     <el-table
+    id="product-table"
     :data="datalist"
     @selection-change='showextra'
     :default-sort = "{prop: 'date', order: 'descending'}"
@@ -20,11 +21,14 @@
         <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column>
         <el-table-column
+        class="img-row"
         prop='productImage'
         label="图片"
         width='120'
         >
-        
+        <template slot-scope="scope">
+                <img :src="scope.row.imgurl" alt="">
+            </template>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -79,6 +83,18 @@
                 
             </el-table>
 </template>
+<style lang="less">
+#product-table{
+    .el-table__row{
+        td:nth-child(4){
+            img{
+                width: 100%;
+                height: 55px;
+            }
+        }
+    }
+}
+</style>
 <script>
 
 export default {
@@ -164,10 +180,18 @@ export default {
                 data:data,
             })
             .then(response => {
-                console.log(response);
                 this.listLoading =  false;
-                this.datalist=(response.data.info.list);
-                // console.log(this.datalist)
+                this.datalist = response.data.info.list
+                console.log(this.datalist)
+                this.datalist.forEach(item=>{
+                    let imgurl = item.productImage   
+                    if(imgurl == '' || imgurl == null){
+                        imgurl == ''
+                    }else{
+                        imgurl='http://'+window.location.host+'/api/sms'+imgurl.split(";")[0]
+                    }
+                    this.$set(item,'imgurl',imgurl)
+                })
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })

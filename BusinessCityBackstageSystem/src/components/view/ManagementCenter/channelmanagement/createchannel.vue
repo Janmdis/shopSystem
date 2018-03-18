@@ -99,11 +99,12 @@
                 >
                 </el-table-column>
                 <el-table-column 
-                width='180'
+                width='200'
                 label="操作">
                 <template slot-scope="scope" >
                     <el-button type="text" size="small" :disabled='scope.row.isLeader' @click="chengeLeader(scope.$index,scope.row)">指定为队长</el-button>
                     <el-button type="text" size="small" :disabled='scope.row.isLeader' @click='deleteEmploy(scope.$index,scope.row)'>删除</el-button>
+                    <el-button type="text" size="small"  @click='createercode(scope.row)'>生成邀请码</el-button>                    
                 </template>
             </el-table-column>
              </el-table>
@@ -611,6 +612,13 @@ export default {
                     message:'已取消删除'
                 });
             });
+        },
+        // 生成二维码
+        createercode(row){
+            let recommendedAdminId=row.id;
+            let recommendedTeamId=this.idchannel;
+            let url='http://192.168.199.102/customer/resource/qrCode.png?content=http://localhost:8080/inviting?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
+            this.$root.$emit('qrcode',url);
         }
     },
     beforeDestroy(){

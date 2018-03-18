@@ -1,5 +1,5 @@
-<template id='windowBox'>
-    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%" :before-close="handleClose">
+<template >
+    <el-dialog :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="50%" :before-close="handleClose" id='windowBox'>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='12'>
@@ -87,6 +87,12 @@
     }
     #windowBox .el-col-12 {
         height: 60px;
+    }
+    .el-dialog__title{
+        color:black;
+    }
+    #windowBox .el-dialog{
+        padding-bottom: 10px;
     }
 </style>
 <script>
