@@ -98,8 +98,10 @@ export default {
       })
         .then(respone => {
           if (respone.data.msg == '修改成功') {
-            this.option(respone.data.msg,'success')
+            this.option(respone.data.msg, 'success');
+            this.$router.push({ path: '/login' })
           }
+
         })
         .catch(error => {
           console.log(error)

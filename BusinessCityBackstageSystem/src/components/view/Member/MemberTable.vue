@@ -198,7 +198,7 @@ export default {
             .then(response => {
                 that.listLoading =  false
                 that.datalist=(response.data.info.list);
-                //console.log(that.datalist)
+                console.log(that.datalist)
                 for(let name in this.datalist){
                     this.idBox.push(this.datalist[name].estateId)
                 }

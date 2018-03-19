@@ -22,14 +22,14 @@
                     </el-radio-group>
                 </el-form-item>
 
-                  <el-form-item label='出生日期' >
+                  <el-form-item label='出生日期' prop='date1' >
                     <el-col :span="8">
                          <el-date-picker   v-on:blur="changeCount"    type="date" placeholder="选择日期" v-model="ruleForm1.date1" style="width: 100%;"></el-date-picker>
                     </el-col>
                 </el-form-item>
                 <el-form-item label='用户年龄' prop='age'>
                     <el-col :span="8">
-                        <el-input v-model.number="ruleForm1.age" placeholder="请输入内容"></el-input>
+                        <el-input v-model.number="ruleForm1.age" disabled=true placeholder="请输入内容"></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item label='部门'>
@@ -57,13 +57,8 @@
     export default user
 </script>
 <style>
-    .el-radio__input.is-checked+.el-radio__label {
-        color: #0b9c9b;
-    }
-    .el-radio__input.is-checked .el-radio__inner {
-        border-color: #0b9c9b;
-        background: #0b9c9b;
-    }
+
+    
     .el-button--success:focus,
     .el-button--success:hover {
         background-color: #27a1f2;

@@ -13,7 +13,7 @@
         :type='admin'
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload">
-        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+        <img v-if="imageUrl" :src="imageUrl" class="avatar" style='width:178px;height:178px;'>
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <el-col :span="24" ><el-button type="success" @click="saveImg">保存</el-button></el-col>

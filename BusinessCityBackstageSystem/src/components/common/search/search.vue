@@ -18,7 +18,7 @@
                         ></el-cascader>
                     </el-form-item>
                 </el-col>
-                <el-col :span='8'>
+                <el-col style='width:728px;'>
                     <el-form-item label="时间段" :span='10' class='datepick'>
                         <el-date-picker
                         v-model="form.log.daterange"

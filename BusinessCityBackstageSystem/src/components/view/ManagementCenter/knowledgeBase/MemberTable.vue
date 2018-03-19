@@ -19,7 +19,9 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
+        <el-table-column class='borderRight' fixed prop="problemTitle" label="问题"  height='100'>
+        </el-table-column>
+        <el-table-column class='borderRight' fixed prop="problemDescription" label="描述"  height='100'>
         </el-table-column>
         <el-table-column
         prop="knowledgeSortName"
@@ -36,7 +38,6 @@
          <template slot-scope="scope">
             <el-button type="text" size="small"  @click='handleWindow(scope.row)' >编辑</el-button>
             <el-button type="text" size="small"  @click='handleClick(scope.row)' >删除</el-button>
-            <el-button type="text" size="small">下架</el-button>
         </template>
         </el-table-column>
     </el-table>

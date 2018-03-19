@@ -37,13 +37,7 @@ export default password
 
 </script>
 <style>
-.el-radio__input.is-checked+.el-radio__label{
-  color:#0b9c9b;
-}
-.el-radio__input.is-checked .el-radio__inner{
-    border-color: #0b9c9b;
-    background: #0b9c9b;
-}
+
 .el-button--success:focus, .el-button--success:hover{
     background-color: #27a1f2;
     border-color: #27a1f2;

@@ -397,9 +397,7 @@ export default {
     text-align: right;
     padding-right: 12%;
 }
-.el-radio__input.is-checked .el-radio__inner{
-    background:#0b9c9b;
-}
+
 .el-radio__label{
     color:black !important;
 }

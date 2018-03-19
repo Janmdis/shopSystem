@@ -286,7 +286,7 @@
                             this.ruleForm.desc = datas.problemDescription;
                             this.ruleForm.knowArr = datas.knowledgeAnswerList;
                             this.ruleForm.classification = datas.knowledgeSortId;
-                            this.ruleForm.KnowledgePoint = datas.knowledgePoint;
+                            this.ruleForm.KnowledgePoint = datas.knowledgePointId;
                         })
                         .catch(error => {
                             console.log(error);
@@ -315,6 +315,7 @@
                 })
                 .then(respone => {
                     this.ruleForm.classificationData = respone.data.info.list;
+                    console.log(respone)
                 })
                 .catch(error => {
                     console.log(error);
@@ -330,7 +331,9 @@
                     }
                 })
                 .then(respone => {
+                    
                     this.ruleForm.KnowledgePointId = respone.data.info.list;
+                    console.log(this.ruleForm.KnowledgePointId)
                 })
                 .catch(error => {
                     console.log(error);

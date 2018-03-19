@@ -8,8 +8,8 @@ export default {
         if (!Number.isInteger(value)) {
           callback(new Error('请输入数字值'))
         } else {
-          if (value < 18) {
-            callback(new Error('必须年满18岁'))
+          if (value < 6) {
+            callback(new Error('必须年满6岁'))
           } else {
             callback()
           }
@@ -45,8 +45,8 @@ export default {
           { validator: checkAge, trigger: 'blur', required: true }
         ],
         date1: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-        ]
+          { required: true, message: '请选择出生日期', trigger: 'change'  }
+        ],
       }
     }
   },
