@@ -37,7 +37,7 @@
         <el-table-column
         label="模板地址">
         <template slot-scope="scope">
-            <span>{{ 'http://www.greenCity.com' }}</span> 
+            <span>{{ '101.89.175.155' }}</span> 
             <!-- +scope.row.templateID -->
         </template>
         </el-table-column>
@@ -107,6 +107,7 @@ export default {
         .then(function(response){
           console.log(response)
           that.iframeLink = "http://localhost:8080/navBottom?id="+id
+        //   101.89.175.155 服务器地址
         })
         .catch(function(response){
          console.log(response)

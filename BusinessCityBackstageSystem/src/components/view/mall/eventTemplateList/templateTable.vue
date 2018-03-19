@@ -102,6 +102,7 @@ export default {
           window.sessionStorage.setItem ("isBrowse",true); //设置为可浏览状态
           let id = row.templateID
           this.iframeLink = 'http://localhost:8080/eventTemplate?id='+id
+           //   101.89.175.155 服务器地址
           console.log(this.iframeLink)
           window.sessionStorage.setItem ("eventTemplateUrl",this.iframeLink);
           document.getElementById('dialog').style.display = 'block';
