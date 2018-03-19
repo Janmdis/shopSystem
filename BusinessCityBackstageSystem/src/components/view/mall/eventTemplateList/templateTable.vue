@@ -180,11 +180,11 @@ export default {
                 var dialogH = document.getElementById('dialog').offsetHeight;
                 var maxX = pageW - dialogW;       //X轴可拖动最大值
                 var maxY = pageH - dialogH;       //Y轴可拖动最大值
-                moveX = Math.min(Math.max(0,moveX),maxX);     //X轴可拖动范围
-                moveY = Math.min(Math.max(0,moveY),maxY);     //Y轴可拖动范围
+                //moveX = Math.min(Math.max(0,moveX),maxX);     //X轴可拖动范围
+               // moveY = Math.min(Math.max(0,moveY),maxY);     //Y轴可拖动范围
 
-                document.getElementById('dialog').style.left = moveX +'px';       //重新设置对话框的left
-                document.getElementById('dialog').style.top =  moveY +'px';        //重新设置对话框的top
+                //document.getElementById('dialog').style.left = moveX +'px';       //重新设置对话框的left
+                //document.getElementById('dialog').style.top =  moveY +'px';        //重新设置对话框的top
             },
         handleDelete(index, row,event) { //  删除某一个模板
             let that = this;
