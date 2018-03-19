@@ -370,17 +370,24 @@ export default {
             }else if(this.modelIndex == 7){
                 var data =[{"name":this.ruleForm.name}];
             };
-            if(that.ruleForm.name == ''){
+            if(this.ruleForm.name == ''){
                 alert("内容不能为空!");
                 return false;
             }
-            that.tableData.forEach(function(e,i){
-                that.isData.push(e[modelName]);
-            });
-            if(that.isData.indexOf(that.ruleForm.name) != -1){
+            if(this.tableData == null){
+                this.tableData = []
+                this.tableData.forEach(function(e,i){
+                    that.isData.push(e[modelName]);
+                });
+            }else{
+                this.tableData.forEach(function(e,i){
+                    that.isData.push(e[modelName]);
+                });
+            }
+            if(this.isData.indexOf(this.ruleForm.name) != -1){
                 alert("该内容已存在,请重新输入!");
             }else{
-                that.$http({
+                this.$http({
                     url:that.desData[that.number].addUrl,
                     method:'POST',
                     data:data,
