@@ -18,12 +18,13 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-        </el-table-column>
+        <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
+        </el-table-column> -->
         <el-table-column
         class="img-row"
         prop='productImage'
         label="图片"
+        fixed
         width='120'
         >
         <template slot-scope="scope">
@@ -32,7 +33,7 @@
         </el-table-column>
         <el-table-column
         prop="name"
-        width='120'
+        width='150'
         label="名称">
         </el-table-column>
         <el-table-column
@@ -86,7 +87,7 @@
 <style lang="less">
 #product-table{
     .el-table__row{
-        td:nth-child(4){
+        td:nth-child(3){
             img{
                 width: 100%;
                 height: 55px;

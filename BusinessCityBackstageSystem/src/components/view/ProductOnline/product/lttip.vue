@@ -76,6 +76,10 @@ export default {
     position: absolute;
     left: 115px;
     top:22px;
+    background-color: #fff;
+    color: #27a1f2;
+    border:none;
+    font-size: 13px;
 }
 .productDesignation>i {
 	color: #3da4c3;

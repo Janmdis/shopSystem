@@ -46,7 +46,7 @@
                     </div>
                 </el-col>
                 <el-dialog
-                    id="chatting-box"
+                    id="chatting-box1"
                     :title="ruleForm.title"
                     :visible.sync="dialogVisible"
                     width="30%"
@@ -461,8 +461,9 @@ export default {
             }
         }
     }
-    #chatting-box{
+    #chatting-box1{
         .el-dialog{
+            padding-bottom:5px;
             width:40% !important;
             .el-dialog__header{
                     border-bottom: 4px solid #409eff;

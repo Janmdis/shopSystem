@@ -18,9 +18,10 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-        </el-table-column>
+        <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
+        </el-table-column> -->
         <el-table-column
+        width='200'
         prop="couponName"
         label="优惠劵名称">
         </el-table-column>

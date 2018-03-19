@@ -20,8 +20,8 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-        </el-table-column>
+        <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
+        </el-table-column> -->
         <el-table-column
         label="图片"
         width='120'
@@ -366,17 +366,17 @@ export default {
 }
 </style>
 <style>
-.packagetable tr td:nth-child(4){
+.packagetable tr td:nth-child(3){
     padding:0;
 }
-.packagetable tr td:nth-child(4) .cell{
+.packagetable tr td:nth-child(3) .cell{
     width:80%;
     height:55px;
     margin:0 auto;
     /* padding:0; */
     background-color:#ebeef5;
 }
-.packagetable tr td:nth-child(4) .cell img{
+.packagetable tr td:nth-child(3) .cell img{
     width:100%;
     height:55px;
 }
@@ -386,7 +386,7 @@ export default {
     /* line-height:50px; */
     overflow-x:auto;
 }
-.packagetable td:nth-child(6) .cell p{
+.packagetable td:nth-child(5) .cell p{
     text-align:center;
 }
 .packagetable .cell p{

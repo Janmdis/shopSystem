@@ -86,6 +86,10 @@ export default {
     position: absolute;
     left: 115px;
     top:22px;
+    background-color: #fff;
+    color: #27a1f2;
+    border:none;
+    font-size: 13px;
 }
 .productDesignation h3 {
 	padding-top: 25px;

@@ -32,11 +32,11 @@
             :style="styledata"
             v-loading=loading
             :stripe='true'>
-                <el-table-column
+                <!-- <el-table-column
                 prop="id"
                 label="员工编号"
                 align='center'>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                 prop="adminName"
                 label="姓名"
@@ -265,6 +265,10 @@ export default {
     position: absolute;
     left: 70px;
     top:30px;
+    background-color: #fff;
+    color: #27a1f2;
+    border:none;
+    font-size: 13px;
 }
 .search{
     display: flex;
