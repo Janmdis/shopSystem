@@ -63,6 +63,7 @@ export default {
         });
         this.isShow('房屋');
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
+            console.log(this.info1)
             for (let item in this.info1.data) {
                 this.customerCategory.push({ id: item - 0, name: this.info1.data[item] });
             }
@@ -104,11 +105,12 @@ export default {
             this.typeWord = res;
             // console.log(this.typeWord);
         });
-        this.$store.dispatch('getCatogery'); 
-        this.$store.dispatch('getOrigin'); 
+
     },
-    
-    
+    computed: mapState({
+        info1: state => state.memberInfo.customerCategory,
+        info2: state => state.memberInfo.recommendedSource
+    }),
     methods: {
         userInfo() {
             return new Promise((resolve, reject) => {
