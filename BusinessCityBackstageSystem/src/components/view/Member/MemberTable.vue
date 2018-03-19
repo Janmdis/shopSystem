@@ -140,13 +140,21 @@ export default {
                 data:idBox,
             })
             .then(response => {
-                console.log(response.data.info)
-                
-                this.datalist.forEach(item=>{
-                
-                            this.$set(item, 'quarters', response.data.info[item]);
-                            this.$set(item, 'quartersAdd', response.data.info[item]);
+                console.log(response.data.info);
+                response.data.info.forEach(item1=>{
+                    console.log(item1)
+                    this.datalist.forEach((item,i)=>{
+                        if(item1.id == item.estateId){
+                            console.log(item)
+                            this.$set(item, 'quarters', item1.alias);
+                            this.$set(item, 'quartersAdd', item1.address);
+                        }
+                            
                     });
+                })
+                
+                
+                    console.log( this.datalist)
           })
           .catch(error=>{
               console.log(error);
