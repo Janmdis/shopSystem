@@ -61,12 +61,12 @@
                 align='center'>
                 </el-table-column>
                  <el-table-column
-                prop="departmentName"
+                prop="manageGroupAdminList[0].departmentName"
                 label="部门"
                 align='center'>
                 </el-table-column>
                  <el-table-column
-                prop="groupName"
+                prop="manageGroupAdminList[0].groupName"
                 label="角色"
                 align='center' >
                 </el-table-column>

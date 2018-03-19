@@ -336,6 +336,9 @@
                     console.log(error);
                     alert('网络错误，不能访问3');
                 })
+        },
+        beforeDestroy(){
+            this.$root.$off('showWindow');
         }
     }
 </script>

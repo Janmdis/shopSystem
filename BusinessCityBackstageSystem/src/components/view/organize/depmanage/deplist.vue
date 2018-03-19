@@ -115,8 +115,8 @@ export default {
         })
     },
     watch:{
-        list(){
-            console.log(111);
+        list(value){
+            this.$store.dispatch('getRolelist',{depid:value[0].id});
             // console.log(this.$refs.tree);
             // this.pick()
         }
@@ -145,7 +145,7 @@ export default {
 	cursor:pointer;
 }
 .pull-right span:nth-child(1){
-	color:#03aeac;
+	color:#27a1f2;
 }
 .pull-right span:nth-child(2){
 	color:#e56838;
@@ -164,7 +164,7 @@ li{
     overflow:auto;
 }
 .el-tree-node__expand-icon{
-    color:rgb(0, 173, 171);
+    color:#27a1f2;
     font-size:14px;
 }
 .el-tree-node__expand-icon.expanded{
@@ -191,7 +191,7 @@ li{
     border-radius:5px;
 }
 .el-tree-node__label.on{
-    background-color: rgb(0, 173, 171);
+    background-color: #27a1f2;
     color:#fff;
 }
 .fade-enter-active, .fade-leave-active {

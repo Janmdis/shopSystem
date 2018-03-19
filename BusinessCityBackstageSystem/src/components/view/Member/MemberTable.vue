@@ -101,7 +101,16 @@ export default {
             idBox:[],
             orderState:'',
             quarters:'',
-            quartersAdd:''
+            quartersAdd:'',
+            data:{
+                mobile:null,
+                categoryId:null,
+                level:null,
+                cityId:null,
+                estateId:null,
+                recommendedSourceId:null,
+                birthDate:null
+            }
         }
     },
     created:function(){
@@ -115,6 +124,16 @@ export default {
         })
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
+        })
+        this.$root.$on('search',datas=>{
+            this.data.mobile=datas.account.mobile===''?null:datas.account.mobile;
+            this.data.categoryId=datas.account.categoryId===''?null:datas.account.categoryId;
+            this.data.level=datas.account.level===''?null:datas.account.level;
+            this.data.cityId=datas.account.cityId===''?null:datas.account.cityId;
+            this.data.estateId=datas.account.estateId===''?null:datas.account.estateId;
+            this.data.recommendedSourceId=datas.account.recommendedSourceId===''?null:datas.account.recommendedSourceId;
+            this.data.birthDate=datas.account.birthDatecheck?new Date():null;
+            this.getDate(1);
         })
         this.memberInfo = JSON.parse(sessionStorage.getItem("member"));
         this.findSource = JSON.parse(sessionStorage.getItem("findSource"));
@@ -193,7 +212,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:{},
+                data:this.data,
             })
             .then(response => {
                 that.listLoading =  false
