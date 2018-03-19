@@ -54,9 +54,12 @@ export default {
   font-size: 16px;
 } */
 .top-img{
+  margin:0 auto;
+  display: block;
+  margin-bottom: 15px;
   /* width: 20px; */
-  position: relative;
-  left: 0px;
+  /* position: relative;
+  left: 0px; */
 }
 .grid-content{
   background-color: white;
@@ -69,6 +72,7 @@ export default {
   color:rgb(96, 98, 102);
   padding-bottom: 15px;
   padding-top: 15px;
+  padding-left: 20px;
   vertical-align: middle;
   height:30px;
   line-height: 30px;
@@ -78,14 +82,17 @@ export default {
   height: 30px;
   line-height: 30px;
   display: inline-block;
+  padding-right: 15px;
   /* vertical-align: middle; */
 }
 .data .numsline1{
   color:#ef7747;
   font-size: 25px;
+  position: relative;
+  top:2px;
 }
 .data .numslline2{
-  color:#26bba4;
+  color:#27a1f2;
   font-size: 16px;
 }
 </style>

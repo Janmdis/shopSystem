@@ -183,11 +183,13 @@ export default {
     margin-left: 0;
     margin-top: 3px;
     font-size: 12px;
-    background-color: #00c0be;
-    border-color: #00c0be;
+    background-color: #fff;
+    border-color: #27a1f2;
+    color: #27a1f2;
 }
 .btnsPie .on{
-    background-color: #0d908f;
-    border-color: #0d908f;
+    background-color: #27a1f2;
+    color:#fff;
+    /* border-color: #27a1f2; */
 }
 </style>

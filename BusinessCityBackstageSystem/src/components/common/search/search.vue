@@ -1,17 +1,18 @@
 <template>
-    <div class='searcharea'>
+    <div class='searchareabox'>
         <el-form ref="form" :model="form" label-width="80px" id='searcher'>
             <!-- 日志 -->
             <el-row v-if='showlog'>
                 <el-col :span="5">
                     <el-form-item label="操作名称" prop='opearte' >
-                        <el-input v-model="form.log.operate"></el-input>
+                        <el-input v-model="form.log.content"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5" >
                     <el-form-item label="操作人" prop='deplist'>
                         <el-cascader
                         :options="deplist"
+                        @change='changeuser'
                         @active-item-change="handleItemChange"
                         :props="propslog"
                         ></el-cascader>
@@ -259,7 +260,7 @@
                     <el-button type="primary" class='btnW' size="medium"  @click="searchdata">查询</el-button>
                 </el-col>
                 <el-col :span="2" style='margin-left:10px;'>
-                    <el-button type="primary" class='btnW' size="medium" @click='resetForm'>重置</el-button>
+                    <el-button type="primary" class='btnW' size="medium" @click='resetForm' style='background-color:#fff;color:#27a1f2;'>重置</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -274,8 +275,8 @@
             return {
                 form: {
                     log:{
-                        userid:'',
-                        operate:'',
+                        userId:'',
+                        content:'',
                         daterange:''
                     },
                     channel:{
@@ -432,12 +433,12 @@
                 }
             }
             this.$root.$on('switch',(flag)=>{
-                let dom=document.querySelector('.searcharea');
+                let dom=document.querySelector('.searchareabox');
                 if(flag){
-                    dom.setAttribute('class','searcharea on');
+                    dom.setAttribute('class','searchareabox on');
                 }
                 else{
-                    dom.setAttribute('class','searcharea');
+                    dom.setAttribute('class','searchareabox');
                 }
             });
         },
@@ -498,6 +499,7 @@
                 
             },
             handleItemChange(val){
+                console.log(val);
                 let index1='';
                 this.deplist.forEach((item,index)=>{
                     if(item.depid==val[0]){
@@ -515,6 +517,10 @@
                 }, 300)
                 // console.log(val[0]);
             },
+            changeuser(value){
+                let userid=value[1];
+                this.form.log.userId=userid;
+            },
             // 获取部门下的员工
             getUsers(depid){
                 return new Promise((resolve,reject)=>{
@@ -525,7 +531,17 @@
                     })
                     .then(res=>{
                         if(res.data.status==200){
-                            that.userlist=res.data.info;
+                            // cosnole.log();
+                            let list=res.data.info.list;
+                            that.userlist=[];
+                            list.forEach(item=>{
+                                let json={
+                                    label:item.adminName,
+                                    depid:item.id
+                                }
+                                that.userlist.push(json);
+                            });
+                            console.log(that.userlist);
                             resolve(true);
                         }
                         else{
@@ -747,8 +763,8 @@
             },
             searchdata(){
                 this.$root.$emit('search',this.form);
-                let dom=document.querySelector('.searcharea');
-                dom.setAttribute('class','searcharea');
+                let dom=document.querySelector('.searchareabox');
+                dom.setAttribute('class','searchareabox');
             }
         },
         computed:{
@@ -774,19 +790,19 @@
     }
 </script>
 <style>
-    .searcharea{
+    .searchareabox{
         display: none;
         background-color: #f9f9f9;
     }
-    .searcharea.on{
+    .searchareabox.on{
         display: block;
     }
-    .searcharea .btnW {
+    .searchareabox .btnW {
         width: 100%;
         background: #27a1f2;
         border: 1px solid #27a1f2;
     }
-    .searcharea #searcher {
+    .searchareabox #searcher {
         position: relative;
         z-index: 10;
         /* background: #fff; */
@@ -799,7 +815,7 @@
     .red label{
         color: red;
     }
-    .searcharea .el-form-item{
+    .searchareabox .el-form-item{
         margin-bottom: 10px;
     }
     /* .rangeprice */

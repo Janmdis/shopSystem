@@ -4,7 +4,7 @@
     @selection-change='showextra'
     @cell-click='showMemberInfo'
     :default-sort = "{prop: 'date', order: 'descending'}"
-    v-loading="this.listLoading"
+    v-loading="listLoading"
     :stripe='true'
     style="width: 100%">
     <el-table-column
@@ -51,12 +51,19 @@
 / eslint-disable /
 //@row-click="showMemberInfo()"
 export default {
-    prop:['listLoading'],
+    // prop:['listLoading'],
     data(){
         return {
             datalist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
+            listLoading:false,
+            data:{
+                userId:null,
+                content:null,
+                beginTime:null,
+                endTime:null,
+            }
         }
     },
     created:function(){
@@ -72,13 +79,11 @@ export default {
             this.datalist = data
         })
         this.$root.$on('search',(datas)=>{
-            let data={
-                userId:datas.userid,
-                content:datas.operate,
-                beginTime:datas.daterange[0],
-                endTime:datas.daterange[1],
-            };
-            this.getDate(1,data)
+            this.data.userId=datas.log.userId===''?null:datas.log.userId;
+            this.data.content=datas.log.content===''?null:datas.log.content;
+            this.data.beginTime=datas.log.daterange[0];
+            this.data.endTime=datas.log.daterange[1];
+            this.getDate(1)
         });
     },
     methods:{
@@ -90,7 +95,7 @@ export default {
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:data==undefined?{}:data,
+                data:this.data,
             })
             .then(response => {
                 this.listLoading =  false;
@@ -103,6 +108,7 @@ export default {
                 this.$root.$emit('total',response.data.info.total)
           })
           .catch(error=>{
+              this.listLoading =  false;
               console.log(error);
               alert('网络错误，不能访问');
           })

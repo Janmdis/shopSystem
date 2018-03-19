@@ -82,7 +82,17 @@ export default {
     })
     },
     show: function (val) {
-      this.$root.$emit('search',{content:this.valuesearch})
+      let data={
+        commodity:{
+          'categoryId':null,
+          'isOnSale':null,
+          'maxPrice':null,
+          'minPrice':null,
+          'name':this.valuesearch
+        }
+      }
+      this.$root.$emit("search",data);
+      // this.$root.$emit('search',{content:this.valuesearch})
     },
     searchUsers() {
       let para = {
