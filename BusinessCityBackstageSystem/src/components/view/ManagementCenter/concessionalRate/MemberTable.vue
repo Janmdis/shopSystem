@@ -59,6 +59,15 @@
                 <span >{{scope.row.couponStatus==0?'过期':scope.row.couponStatus==1?"可使用":''}}</span>
             </template>
         </el-table-column>
+        <el-table-column 
+        fixed="right"
+        width='120'
+        label="操作">
+            <template slot-scope="scope" >
+                <el-button type="text" size="small" @click="handleEdit(scope.row)">编辑</el-button>
+                <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
+            </template>
+        </el-table-column>
     </el-table>
 </template>
 <script>
@@ -93,24 +102,18 @@ export default {
             this.datalist = data
         })
         this.$root.$on('search',(datas)=>{
-             
-            // let data={
-            //     couponName:datas.coupon.couponName===''?null:datas.coupon.couponName,
-            //     couponType:datas.coupon.couponType===''?null:datas.coupon.couponType,
-            //     couponStatus:datas.coupon.couponStatus===''?null:datas.coupon.couponStatus,
-            //     starTime:datas.coupon.daterange[0],
-            //     endTime:datas.coupon.daterange[1]
-            // };
-            this.data.couponName=datas.coupon.couponName===''?null:datas.coupon.couponNamel;
+            console.log(datas);
+            this.data.couponName=datas.coupon.couponName===''?null:datas.coupon.couponName;
             this.data.couponType=datas.coupon.couponType===''?null:datas.coupon.couponType;
             this.data.couponStatus=datas.coupon.couponStatus===''?null:datas.coupon.couponStatus;
             this.data.starTime=datas.coupon.daterange[0];
             this.data.endTime=datas.coupon.daterange[1];
+            console.log(this.data);
             this.getDate(1);
         })
     },
     methods:{
-      getDate(pageIndex) {
+        getDate(pageIndex) {
             this.listLoading =  true;
             let url = '/api/product/coupon/info/find?pageNo='+pageIndex+'&pageSize=10';
             this.$http({
@@ -157,6 +160,13 @@ export default {
         indexMethod(index) {
             return index + 1
         },
+        handleEdit(row){
+            // console.log(row);
+            this.$root.$emit("showWindow",[row])
+        },
+        handleDelete(row){
+            this.$root.$emit("delBox",[row])
+        }
     },
     beforeDestroy(){
         this.$root.$off('pageIndex');

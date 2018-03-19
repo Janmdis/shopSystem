@@ -763,8 +763,8 @@
             },
             searchdata(){
                 this.$root.$emit('search',this.form);
-                let dom=document.querySelector('.searchareabox');
-                dom.setAttribute('class','searchareabox');
+                // let dom=document.querySelector('.searchareabox');
+                // dom.setAttribute('class','searchareabox');
             }
         },
         computed:{
