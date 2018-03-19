@@ -52,7 +52,7 @@
              <el-button type="text"  size="small" @click="handleSee(scope.$index, scope.row,$event)">浏览</el-button>
             <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
             <el-button type="text"  size="small" @click="handleSwicth(scope.$index, scope.row,$event)">
-                <span>{{ scope.row.isEnabled == true?'启用中':scope.row.isEnabled == false?'停用中':''}}</span>
+                <span :class="scope.row.isEnabled == true?'templateStausColorGreen':scope.row.isEnabled == false?'templateStausColorRed':''">{{ scope.row.isEnabled == true?'启用中':scope.row.isEnabled == false?'停用中':''}}</span>
                 </el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
@@ -313,6 +313,12 @@ export default {
 }
 </script>
 <style lang="" scoped>
+.templateStausColorGreen{
+    color:#50c380;
+}
+.templateStausColorRed{
+    color:#ff3b30
+}
 a{text-decoration: none; color: #eee; display: block;}
     .button{       
          width: 35px;
