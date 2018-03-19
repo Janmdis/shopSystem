@@ -14,21 +14,21 @@ const state={
                     type:'product'
                 },
                 defaultImgObj:{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            img: require('./../templateImage/yidong.jpg'),
                             url:'',
                             imgSrc:''
                         },
                 ImgArr:[
                         {
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            img: require('./../templateImage/yidong.jpg'),
                             url:'',
                             imgSrc:''
                         },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
+                            img: require('./../templateImage/yidong2.jpg'),
                             url:'',
                             imgSrc:''
                         },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517226158648&di=17f12755288182fb3d22662116b917aa&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16838_sc115.com.jpg",
+                            img: require('./../templateImage/yidong3.jpg'),
                             url:'',
                             imgSrc:''
                         }
@@ -49,21 +49,21 @@ const mutations={
                             type:'product'
                         },
                         defaultImgObj:{
-                                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                                    img: require('./../templateImage/yidong.jpg'),
                                     url:'',
                                     imgSrc:''
                                 },
                         ImgArr:[
                                 {
-                                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                                    img: require('./../templateImage/yidong.jpg'),
                                     url:'',
                                     imgSrc:''
                                 },{
-                                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
+                                    img: require('./../templateImage/yidong2.jpg'),
                                     url:'',
                                     imgSrc:''
                                 },{
-                                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517226158648&di=17f12755288182fb3d22662116b917aa&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16838_sc115.com.jpg",
+                                    img: require('./../templateImage/yidong3.jpg'),
                                     url:'',
                                     imgSrc:''
                                 }
@@ -109,29 +109,21 @@ const mutations={
                     type:'product'
                 },
                 defaultImgObj:{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            img: require('./../templateImage/yidong.jpg'),
                             url:'',
                             imgSrc:''
                         },
                 ImgArr:[
                         {
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            img: require('./../templateImage/yidong.jpg'),
                             url:'',
                             imgSrc:''
                         },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
+                            img: require('./../templateImage/yidong2.jpg'),
                             url:'',
                             imgSrc:''
                         },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517226158648&di=17f12755288182fb3d22662116b917aa&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16838_sc115.com.jpg",
-                            url:'',
-                            imgSrc:''
-                        },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304770&di=fd7f38f44865d3dd961d24dea0e265f7&imgtype=0&src=http%3A%2F%2Fpic22.nipic.com%2F20120718%2F5135035_193813111000_2.jpg",
-                            url:'',
-                            imgSrc:''
-                        },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=23cccc5f58a5cab6420036e616b83a5f&imgtype=0&src=http%3A%2F%2Fpic107.nipic.com%2Ffile%2F20160816%2F20860925_080643495000_2.jpg",
+                            img: require('./../templateImage/yidong3.jpg'),
                             url:'',
                             imgSrc:''
                         }
@@ -161,7 +153,7 @@ const mutations={
     //新增轮播广告 图片的方法
     addNewImgAD(state,id){
         let adImagedefault = {
-            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+            img: require('./../templateImage/yidong.jpg'),
             url:'',
             imgSrc:''
         }
@@ -207,17 +199,17 @@ const mutations={
                     type:'product'
                 },
                 defaultImgObj:{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            img: require('./../templateImage/1.jpg'),
                             url:'',
                             imgSrc:''
                         },
                 ImgArr:[
                         {
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            img: require('./../templateImage/1.jpg'),
                             url:'',
                             imgSrc:''
                         },{
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
+                            img: require('./../templateImage/2.jpg'),
                             url:'',
                             imgSrc:''
                         }
@@ -226,10 +218,10 @@ const mutations={
         };
         state.comlist.push(imageAdsDefault)
     },
-    //新增轮播广告 图片的方法
+    //新增 详情图片的方法
     addNewImgDetail(state,id){
         let adImagedefault = {
-            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+            img: require('./../templateImage/1.jpg'),
             url:'',
             imgSrc:''
         }
@@ -248,35 +240,35 @@ const mutations={
                     type:'product'
                 },
                 defaultImgObj:{
-                            classTitle:'眼镜',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            classTitle:'分类1',
+                            img: require('./../templateImage/1.jpg'),
                             url:'',
                             imgSrc:''
                         },
                 ImgArr:[
                         {
-                            classTitle:'眼镜',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+                            classTitle:'分类1',
+                            img: require('./../templateImage/1.jpg'),
                             url:'',
                             imgSrc:''
                         },{
-                            classTitle:'数码',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225306681&di=b0cba1dd817a12c4793f9470e0862c52&imgtype=0&src=http%3A%2F%2Fimg.taopic.com%2Fuploads%2Fallimg%2F140514%2F318754-1405140A44778.jpg",
+                            classTitle:'分类2',
+                            img: require('./../templateImage/2.jpg'),
                             url:'',
                             imgSrc:''
                         },{
-                            classTitle:'家电',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517226158648&di=17f12755288182fb3d22662116b917aa&imgtype=0&src=http%3A%2F%2Fimg.sc115.com%2Fuploads1%2Fsc%2Fjpgs%2F1512%2Fapic16838_sc115.com.jpg",
+                            classTitle:'分类3',
+                            img: require('./../templateImage/window1-1.jpg'),
                             url:'',
                             imgSrc:''
                         },{
-                            classTitle:'食品',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304770&di=fd7f38f44865d3dd961d24dea0e265f7&imgtype=0&src=http%3A%2F%2Fpic22.nipic.com%2F20120718%2F5135035_193813111000_2.jpg",
+                            classTitle:'分类4',
+                            img: require('./../templateImage/window1-2.jpg'),
                             url:'',
                             imgSrc:''
                         },{
-                            classTitle:'衣服',
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=23cccc5f58a5cab6420036e616b83a5f&imgtype=0&src=http%3A%2F%2Fpic107.nipic.com%2Ffile%2F20160816%2F20860925_080643495000_2.jpg",
+                            classTitle:'分类5',
+                            img: require('./../templateImage/window1-3.jpg'),
                             url:'',
                             imgSrc:''
                         }
@@ -314,8 +306,8 @@ const mutations={
     //新增分类 图片的方法
     addNewImgClass(state,id){
         let classificationDefault = {
-            classTitle:'眼镜',
-            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+            classTitle:'分类1',
+            img: require('./../templateImage/1.jpg'),
             url:'',
             imgSrc:''
          };
@@ -361,7 +353,7 @@ const mutations={
                             boxesBtnShow:false,
                             boxesBtnHide:true
                         },
-                        img:'http://img4q.duitang.com/uploads/item/201312/05/20131205172424_THnfV.thumb.700_0.jpeg',
+                        img: require('./../templateImage/window1-1.jpg'),
                         imgSrc:'',
                         url:''
                         },{
@@ -385,7 +377,7 @@ const mutations={
                                 boxesBtnShow:false,
                                 boxesBtnHide:true
                             },
-                            img:'http://img3.imgtn.bdimg.com/it/u=1065849504,1419999489&fm=27&gp=0.jpg',
+                            img: require('./../templateImage/window1-2.jpg'),
                             imgSrc:'',
                             url:''
                         },{
@@ -409,7 +401,7 @@ const mutations={
                                 boxesBtnShow:false,
                                 boxesBtnHide:true
                             },
-                            img:'http://img5.duitang.com/uploads/item/201312/05/20131205172412_cRm2v.jpeg',
+                            img: require('./../templateImage/window1-3.jpg'),
                             imgSrc:'',
                             url:''
                         },{
@@ -433,7 +425,7 @@ const mutations={
                                 boxesBtnShow:false,
                                 boxesBtnHide:true
                             },
-                            img:'http://img5.duitang.com/uploads/item/201312/05/20131205172409_jk5cu.jpeg',
+                            img: require('./../templateImage/window1-4.jpg'),
                             imgSrc:'',
                             url:''
                         }
@@ -473,7 +465,7 @@ const mutations={
                             boxesBtnShow:false,
                             boxesBtnHide:true
                         },
-                        img:'http://img4q.duitang.com/uploads/item/201312/05/20131205172424_THnfV.thumb.700_0.jpeg',
+                        img: require('./../templateImage/window1-1.jpg'),
                         imgSrc:'',
                         url:''
                         },{
@@ -497,7 +489,7 @@ const mutations={
                                 boxesBtnShow:false,
                                 boxesBtnHide:true
                             },
-                            img:'http://img3.imgtn.bdimg.com/it/u=1065849504,1419999489&fm=27&gp=0.jpg',
+                            img: require('./../templateImage/window1-2.jpg'),
                             imgSrc:'',
                             url:''
                         },{
@@ -521,7 +513,7 @@ const mutations={
                                 boxesBtnShow:false,
                                 boxesBtnHide:true
                             },
-                            img:'http://img5.duitang.com/uploads/item/201312/05/20131205172412_cRm2v.jpeg',
+                            img: require('./../templateImage/window1-3.jpg'),
                             imgSrc:'',
                             url:''
                         },{
@@ -545,7 +537,7 @@ const mutations={
                                 boxesBtnShow:false,
                                 boxesBtnHide:true
                             },
-                            img:'http://img5.duitang.com/uploads/item/201312/05/20131205172409_jk5cu.jpeg',
+                            img: require('./../templateImage/window1-4.jpg'),
                             imgSrc:'',
                             url:''
                         },{
@@ -569,7 +561,7 @@ const mutations={
                                 boxesBtnShow:false,
                                 boxesBtnHide:true
                             },
-                            img:'http://img5.duitang.com/uploads/item/201312/05/20131205172409_jk5cu.jpeg',
+                            img: require('./../templateImage/1.jpg'),
                             imgSrc:'',
                             url:''
                         },{
@@ -593,7 +585,7 @@ const mutations={
                                 boxesBtnShow:false,
                                 boxesBtnHide:true
                             },
-                            img:'http://img5.duitang.com/uploads/item/201312/05/20131205172409_jk5cu.jpeg',
+                            img: require('./../templateImage/2.jpg'),
                             imgSrc:'',
                             url:''
                         }
@@ -670,13 +662,13 @@ const mutations={
                 },
                 src1:'',
                 productImgURL1:'',//商品1链接地址
-                productImgSrc1:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",//商品1图片地址
+                productImgSrc1: require('./../templateImage/window1-1.jpg'),//商品1图片地址
                 src2:'',
                 productImgURL2:'',//商品2链接地址
-                productImgSrc2:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",//商品2图片地址
+                productImgSrc2: require('./../templateImage/window1-2.jpg'),//商品2图片地址
                 src3:'',
                 productImgURL3:'',//商品3链接地址
-                productImgSrc3:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg", //商品3图片地址
+                productImgSrc3: require('./../templateImage/window1-3.jpg'), //商品3图片地址
             }
         };
         state.comlist.push(commodityDefault)
