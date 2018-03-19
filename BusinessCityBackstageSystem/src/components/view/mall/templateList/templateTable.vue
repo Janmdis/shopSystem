@@ -62,7 +62,7 @@
      <div class="dialog" id="dialog">
         <div class="dialog_head" id="move_part" @mouseover="phoneDialog()">可拖拽部分</div>
         <div class="dialog_content">
-            <iframe :src="iframeLink" frameborder="0" class="template_iframe"></iframe>
+            <iframe :src="iframeLink" frameborder="0" name="ifrmname" class="template_iframe"></iframe>
         </div>
         <div class="button close_button" id="close" @click="closeBower"><a href="#" style="font-size:23px;">&times;</a>
         </div>
@@ -99,14 +99,18 @@ export default {
     },
     methods:{
         handleSee(index, row,event){ // 浏览某个模板
-       // alert(111)
-          //console.log(row);
-          window.sessionStorage.setItem("isBrowses",true); //设置为可浏览状态
           let id = row.templateID
-           this.iframeLink = "http://localhost:8080/navBottom?id="+id
-           console.log(this.iframeLink)
-           console.log(sessionStorage.getItem("isBrowses"))
-          window.sessionStorage.setItem("templateUrl",this.iframeLink);
+          //给后台设置浏览的ID
+          let that=this;
+        this.$http.post('/api//product/mall/template/setString?str='+id
+        )
+        .then(function(response){
+          console.log(response)
+          that.iframeLink = "http://localhost:8080/navBottom?id="+id
+        })
+        .catch(function(response){
+         console.log(response)
+        })
           document.getElementById('dialog').style.display = 'block';
           this.autoCenter(document.getElementById('dialog'));
         },
