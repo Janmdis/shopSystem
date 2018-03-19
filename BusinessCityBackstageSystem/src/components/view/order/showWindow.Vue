@@ -1,7 +1,7 @@
 <template>
     <el-dialog class='headerBottom' :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-row style="height: 230px;overflow: hidden;">
+            <el-row style="height: 230px;">
                 <el-col :span='6'>
                     <el-form-item label="下单时间" prop="createTime">
                         <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.createTime" style="width: 100%;"></el-date-picker>
@@ -18,7 +18,7 @@
                         <el-input type="text" v-model="ruleForm.phone" :disabled='disabShow' @keyup.native="gets($event)" @keydown.native.down.prevent="selectDown" @keydown.native.up.prevent="selectUp"></el-input>
                     </el-form-item>
                     <el-form-item prop='isShoAdd' class='isShoAdd'>
-                        <ul class='addName' v-show='ruleForm.isShoAdd'>
+                        <ul class='addName' v-show='ruleForm.isShoAdd' style='position:absolute;top:-22px;'>
                             <li class="text-center" @click="cityAdd(item.mobile)" v-for="(item,index) in  ruleForm.myData" :key="index" :label='item.mobile' :value="item.id">{{item.mobile}}</li>
                         </ul>
                     </el-form-item>
@@ -49,7 +49,7 @@
                         <el-input v-model="ruleForm.unpaidMoney" type='number'></el-input>
                     </el-form-item>
                     <el-form-item label="推荐人" prop='sourceAccount'>
-                        <el-input v-model="ruleForm.sourceAccount"></el-input>
+                        <el-input v-model="ruleForm.sourceAccount" :disabled='disabShow'></el-input>
                     </el-form-item>
                     <el-form-item label="会员等级">
                         <el-input v-model="ruleForm.level" :disabled='viplevelIS'></el-input>
@@ -69,61 +69,71 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-form-item class='boxs' v-show='addShow' >
+                <el-form-item class='boxs' v-show='addShow'>
                     <el-col :span='24' style='margint-top:15px;'>
-                        <el-col :span='4' :offset='1' style='position:relative;'>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
                             <span>
-                                    <el-select v-model="houseForm.bigDistrict" @change="bigDis" placeholder="请选择">
-                                        <el-option v-for="(item,index) in houseInfo" :key="index" :label="item.regionName" :value="index+1"></el-option> 
-                                    </el-select>
-                                    <strong class='citys'>大区</strong>
-                                </span>
+                                                                    <el-select v-model="houseForm.estate"  placeholder="请选择">
+                                                                        <el-option v-for="(item,index) in estateArr" :key="index" :label="item.name" :value="item.id"></el-option>
+                                                                    </el-select>
+                                                                    <strong class="street citys">小区</strong>
+                                                                </span>
                         </el-col>
-                        <el-col :span='3' :offset='1' style='position:relative;'>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
                             <span>
-                                    <el-select v-model="houseForm.provinceValue" @change="proDis" placeholder="请选择">
-                                        <el-option v-for="(item,index) in proDisId" :key="index" :label="item" :value="index"></el-option>
-                                    </el-select><strong  class='citys'>省</strong>
-                                </span>
+                                                                    <el-select v-model="houseForm.bigDistrict" @change="bigDis" placeholder="请选择">
+                                                                        <el-option v-for="(item,index) in houseInfo" :key="index" :label="item.regionName" :value="index+1"></el-option> 
+                                                                    </el-select>
+                                                                    <strong class='citys'>大区</strong>
+                                                                </span>
                         </el-col>
-                        <el-col :span='3' :offset='1' style='position:relative;'>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
                             <span>
-                                    <el-select v-model="houseForm.cityValue" @change="cityDis" placeholder="请选择">
-                                         <el-option v-for="(item,index) in cityDisId" :key="index" :label="item" :value="index"></el-option>
-                                    </el-select><strong  class='citys'>市</strong>
-                                </span>
+                                                                    <el-select v-model="houseForm.provinceValue" @change="proDis" placeholder="请选择">
+                                                                        <el-option v-for="(item,index) in proDisId" :key="index" :label="item" :value="index"></el-option>
+                                                                    </el-select><strong  class='citys'>省</strong>
+                                                                </span>
                         </el-col>
-                        <el-col :span='3' :offset='1' style='position:relative;'>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
                             <span>
-                                    <el-select v-model="houseForm.countyDistrict" @change="countyDis" placeholder="请选择">
-                                        <el-option v-for="(item,index) in countyInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
-                                    </el-select>
-                                    <strong  class='citys'>县区</strong>
-                                </span>
+                                                                    <el-select v-model="houseForm.cityValue" @change="cityDis" placeholder="请选择">
+                                                                         <el-option v-for="(item,index) in cityDisId" :key="index" :label="item" :value="index"></el-option>
+                                                                    </el-select><strong  class='citys'>市</strong>
+                                                                </span>
                         </el-col>
-                        <el-col :span='4' :offset='1' style='position:relative;'>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
                             <span>
-                                    <el-select v-model="houseForm.streetValue" @change="streetDis" placeholder="请选择">
-                                        <el-option v-for="(item,index) in streetInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
-                                    </el-select>
-                                    <strong class="street citys">街道</strong>
-                                </span>
+                                                                    <el-select v-model="houseForm.countyDistrict" @change="countyDis" placeholder="请选择">
+                                                                        <el-option v-for="(item,index) in countyInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
+                                                                    </el-select>
+                                                                    <strong  class='citys'>县区</strong>
+                                                                </span>
                         </el-col>
-                        <el-col :span='4' :offset='1' style='position:relative;'>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
+                            <span>
+                                                                    <el-select v-model="houseForm.streetValue" @change="streetDis" placeholder="请选择">
+                                                                        <el-option v-for="(item,index) in streetInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
+                                                                    </el-select>
+                                                                    <strong class="street citys">街道</strong>
+                                                                </span>
+                        </el-col>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
                             <input type="text" v-model="houseForm.streetMore" placeholder="请输入详细地址" class="detailAddress">
                         </el-col>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="地址" prop='detailAddresst' style='margin-top:15px;' v-show='addyeAdd'>
-                    <el-col :span='12'>
-                        <el-input v-model="ruleForm.detailAddresst" :disabled='disabShow'  @keyup.native="getAdds($event)" @keydown.native.down.prevent="addDown" @keydown.native.up.prevent="addUp"></el-input>
-                        <el-form-item prop='isShoAdd' class='isShoAdd'>
-                            <ul class='addName' v-show='vipaddShow'>
-                                <li class="text-center" v-for="(item,index) in addNewBox" :key="index" :label='item.alladd' @click='checkAdd(item.alladd)' :value='item.alladd'>{{item.alladd}}</li>
-                            </ul>
+                <el-row style='height:100px;marging-top:-10px;' v-show='addyeAdd'>
+                    <el-col :span='18'>
+                        <el-form-item label="地址" prop='detailAddresst' style='margin-top:15px;position: absolute;left:0;width:50%;'>
+                            <el-input v-model="ruleForm.detailAddresst" style='width:80%;' :disabled='disabShow' @keyup.native="getAdds($event)" @keydown.native.down.prevent="addDown" @keydown.native.up.prevent="addUp"></el-input>
+                            <el-form-item prop='isShoAdd' class='isShoAdd'>
+                                <ul class='addName' v-show='vipaddShow'>
+                                    <li class="text-center" v-for="(item,index) in addNewBox" :key="index" :label='item.alladd' @click='checkAdd(item.alladd)' :value='item.alladd'>{{item.alladd}}</li>
+                                </ul>
+                            </el-form-item>
                         </el-form-item>
                     </el-col>
-                </el-form-item>
+                </el-row>
             </el-row>
             <el-row v-show='vipShow'>
                 <el-form-item>
@@ -158,7 +168,7 @@
                     <el-input style='width:60px;' type='number' v-model='shopNum'></el-input>
                 </el-col>
                 <el-col :span='2' :offset='1'>
-                    <el-button @click='addTable'>添加</el-button>
+                    <el-button @click='addTable' :disabled='disabShow'>添加</el-button>
                 </el-col>
                 <el-col :span='22' :offset='1'>
                     <el-table id='overclear' style="width: 100%" @selection-change="handleSelectionChange">
@@ -167,20 +177,20 @@
                         <el-table-column label="商品名称" width="200">
                         </el-table-column>
                         <!--<el-table-column label="规格">
-                                    </el-table-column>!-->
+                                                                    </el-table-column>!-->
                         <el-table-column label="数量">
                         </el-table-column>
                         <!--<el-table-column label="产品库存" show-overflow-tooltip>
-                                    </el-table-column>!-->
+                                                                    </el-table-column>!-->
                         <el-table-column label='购买数量' show-overflow-tooltip>
                         </el-table-column>
                         <!--<el-table-column label="单价" show-overflow-tooltip>
-                                    </el-table-column>!-->
+                                                                    </el-table-column>!-->
                         <!--<el-table-column label="实际单价" show-overflow-tooltip>
-                                    </el-table-column>!-->
+                                                                    </el-table-column>!-->
                         <el-table-column label="操作">
                             <template slot-scope="scope">
-                                                    <span @click='delBox(scope.row)' >删除</span>
+                                                                                    <span @click='delBox(scope.row)' >删除</span>
 </template>
                     </el-table-column>
                 </el-table>
@@ -255,19 +265,22 @@
 </template>
 <style>
     .detailAddress {
-        width: 80%;
+        width: 100%;
+        display: inline-block;
         border-bottom: 1px solid #eee;
         outline: none;
         padding-left: 20px;
+        height: 39px;
     }
     .headerBottom .boxs .el-form-item__content {
         margin-left: 50px !important;
         margin-top: 10px !important;
+        line-height: 0;
     }
     .headerBottom .citys {
         position: absolute;
-        top: 0;
-        left: -30px;
+        top: 21px;
+        left: -35px;
     }
     .el-table .warning-row {
         background: #f0f9eb;
@@ -404,9 +417,9 @@
     export default {
         data() {
             return {
-                disabShow:false,
-                addShow:true,
-                addyeAdd:false,
+                disabShow: false,
+                addShow: true,
+                addyeAdd: false,
                 companyIds: '',
                 dialogVisible: false,
                 vipShow: false,
@@ -418,6 +431,7 @@
                 shopNum: 1,
                 i: 0,
                 houseForm: {
+                    estate: '',
                     smallDistrict: '',
                     houseType: null,
                     houseState: null,
@@ -434,6 +448,7 @@
                     kitchen: null,
                     square: 0
                 },
+                estateArr: [],
                 houseInfo: [],
                 proInfoList: [],
                 proInfo: [],
@@ -467,6 +482,7 @@
                     orderState: '',
                     unpaidMoney: '',
                     detailAddresst: '',
+                    newdetailAddresst: '',
                     orderType: '',
                     refundMoney: '',
                     remark: '',
@@ -487,7 +503,12 @@
                         message: '填写订单金额',
                         trigger: 'blur'
                     }],
-                    paidMoney: [{
+                    phone: [{
+                        pattern: /^1[3|4|5|7|8][0-9]{9}$/g,
+                        required: true,
+                        message: '请输入正确的手机号'
+                    }],
+                    actualMoney: [{
                         required: true,
                         message: '填写支付金额',
                         trigger: 'blur'
@@ -521,9 +542,20 @@
                 }
                 return '';
             },
-            submitForm(formName) {
-                
-                let addTree = this.bigDisId[this.houseForm.bigDistrict] + this.proDisId[this.houseForm.provinceValue] + this.cityDisId[this.houseForm.cityValue];
+            gteAddr(id,arr){
+                if(arr.length!=0){
+                console.log(arr)
+                let obj = {};
+                obj = arr.find((item)=>{
+                    return item.id === id;
+                });
+                console.log(obj)
+                return obj.regionName
+                }
+               
+            },
+            submitForm(formName) {                   
+            console.log()
                 for (var i = 0; i < this.ruleForm.addBox.length; i++) {
                     if (this.ruleForm.addBox[i] == "" || typeof(this.ruleForm.addBox[i]) == "undefined") {
                         this.ruleForm.addBox.splice(i, 1);
@@ -540,6 +572,32 @@
                         })
                     }
                 }
+                if (this.ruleForm.pushAdd.length==0) {
+                    alert("订单详情不能为空");
+                    return false;
+                }
+                let orderInfo = '';
+                let textInfo = '';
+                if (this.ruleForm.orderType == '新增服务订单') {
+                    textInfo = 0
+                } else if (this.ruleForm.orderType == '新增上门订单') {
+                    textInfo = 1
+                } else if (this.ruleForm.orderType == '追单') {
+                    textInfo = 2
+                } else {
+                    textInfo = this.ruleForm.orderType
+                }
+                if (this.ruleForm.orderState == '未完成') {
+                    orderInfo = 0
+                } else if (this.ruleForm.orderState == '已完成') {
+                    orderInfo = 1
+                } else if (this.ruleForm.orderState == '异常订单') {
+                    orderInfo = 2
+                } else {
+                    orderInfo = this.ruleForm.orderState
+                }
+                console.log(this.ruleForm.detailAddresst)
+                console.log((this.bigDisId[this.houseForm.bigDistrict] + this.proDisId[this.houseForm.provinceValue] + this.cityDisId[this.houseForm.cityValue] +  this.gteAddr(this.houseForm.countyDistrict,this.countyInfo)   + this.gteAddr(this.houseForm.streetValue,this.streetInfo) +this.houseForm.streetMore))
                 let that = this;
                 let dataInfo = {
                     id: this.ruleForm.orderId,
@@ -548,10 +606,10 @@
                     number: this.ruleForm.number,
                     sourceDetail: this.ruleForm.sourceDetail,
                     name: this.ruleForm.name,
-                    orderState: this.ruleForm.orderState,
+                    orderState: orderInfo,
                     unpaidMoney: this.ruleForm.unpaidMoney - 0,
-                    detailAddress: this.ruleForm.detailAddresst,
-                    orderType: this.ruleForm.orderType,
+                    detailAddress: this.ruleForm.detailAddresst == '' ? (this.bigDisId[this.houseForm.bigDistrict] + this.proDisId[this.houseForm.provinceValue] + this.cityDisId[this.houseForm.cityValue] +  this.gteAddr(this.houseForm.countyDistrict,this.countyInfo)   + this.gteAddr(this.houseForm.streetValue,this.streetInfo) +this.houseForm.streetMore) : this.ruleForm.detailAddresst,
+                    orderType: textInfo,
                     refundMoney: this.ruleForm.refundMoney - 0,
                     remark: this.ruleForm.remark,
                     //payTime: this.ruleForm.payTime,
@@ -579,10 +637,12 @@
                                         data: dataInfo
                                     })
                                     .then(response => {
+                                        alert(response.data.msg)
                                         this.dialogVisible = false;
                                         this.$root.$emit('getDatezdy', 1);
                                         this.clearForm();
                                         this.ruleForm.newBox = [];
+                                        this.ruleForm.addBox = [];
                                     })
                                     .catch(error => {
                                         console.log(error);
@@ -595,11 +655,8 @@
                         });
                 }
                 if (this.ruleForm.textInfo == "编辑订单") {
-                    
-                  
                     that.$refs[formName].validate((valid) => {
                         if (valid) {
-                            
                             let url = '/api/product/order/update';
                             this.$http({
                                     url: url,
@@ -613,6 +670,7 @@
                                 .then(response => {
                                     this.dialogVisible = false;
                                     this.$root.$emit('getDatezdy', 1)
+                                    this.ruleForm.addBox = [];
                                 })
                                 .catch(error => {
                                     console.log(error);
@@ -665,6 +723,7 @@
                     return
                 }
                 this.vipaddShow = true;
+                //获取地址接口
                 let url = '/api/customer/customerHousing/findHousingInfo?phone=' + this.ruleForm.phone;
                 this.$http({
                         url: url,
@@ -678,9 +737,23 @@
                     .then(response => {
                         let data = response.data.info;
                         console.log(data)
+                        
                         if (data == '' || data == null) {
-                            this.vipaddShow = false;
+                            this.$nextTick(()=>{
+                                this.vipaddShow = true;
+                            this.addyeAdd = false;
+                            this.addShow = true;
+                            this.vipShow = true;
+                            })
+                            
                             return false;
+                        } else {
+                            this.vipaddShow = false;
+                            this.addyeAdd = true;
+                            this.addShow = false;
+                            this.vipShow = false;
+                            // this.vipaddShow = false;
+                            // this.addShow = false;
                         }
                         let adds = [];
                         for (let i = 0; i < data.length; i++) {
@@ -728,6 +801,7 @@
                             })
                         }
                         //console.log(this.addNewBox)
+                        this.addNewBox = [];
                     })
                     .catch(error => {
                         console.log(error);
@@ -751,7 +825,6 @@
                 this.vipaddShow = false;
             },
             addTable() {
-                
                 if (this.shopNum <= 0) {
                     alert('数量不能小于0')
                 }
@@ -830,9 +903,9 @@
             delBox(indexs, index) {
                 // console.log(indexs)
                 // console.log(index)
-                // var liArr = this.ruleForm.addBox;
-                // console.log(index)
-                // liArr.splice(index, 1);
+                var liArr = this.ruleForm.addBox;
+                console.log(index)
+                liArr.splice(index, 1);
                 //console.log(this.ruleForm.addBox.splice(index, 1))
             },
             addFn(index) {
@@ -863,12 +936,13 @@
                 if (event.keyCode == 38 || event.keyCode == 40) return;
                 if (event.keyCode == 13) {
                     this.ruleForm.isShoAdd = false;
-                    this.getAdd();
                     for (let i = 0; i < this.ruleForm.myData.length; i++) {
                         if (this.ruleForm.myData[i].mobile == this.ruleForm.phone) {
                             this.ruleForm.addBoxArr = this.ruleForm.myData[i].mobile
                         }
                     }
+                    this.getAdd();
+                    
                 }
                 let url = '/api/customer/account/fluzzQuery';
                 this.$http({
@@ -882,14 +956,17 @@
                     .then(respone => {
                         //that.addArrBox = [];
                         // console.log(respone)
+                        //判断手机是否存在
                         if (respone.data.info.length == 0) {
                             this.ruleForm.isShoAdd = false;
-                            //this.vipShow = true;
-                             this.addShow = true
+                            this.vipShow = true;
+                            this.addShow = true
+                            this.addyeAdd = false
                         } else {
                             //this.ruleForm.isShoAdd = true;
                             this.vipShow = false;
                             this.addShow = false;
+                            this.addyeAdd = true
                         }
                         this.ruleForm.myData = respone.data.info
                     })
@@ -957,7 +1034,8 @@
                         data: {}
                     })
                     .then(respone => {
-                        //console.log(respone)
+                        //地址
+                        console.log(respone)
                         this.ruleForm.classificationBox = respone.data.info.list;
                     })
                     .catch(error => {
@@ -999,8 +1077,27 @@
             clearForm() {　　
                 this.$refs['ruleForm'].resetFields();
             },
+            getquck() {
+                let url = 'api/customer/estate/queryData';
+                this.$http({
+                        url: url,
+                        method: 'get',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data: {}
+                    })
+                    .then(respone => {
+                        console.log(respone.data.info)
+                        this.estateArr = respone.data.info
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        alert('网络错误，不能访问');
+                    })
+            },
             crearVip() {
-                let url = '/api/customer/account/insert';
+                let url = 'api/customer/account/insertOne';
                 this.$http({
                         url: url,
                         method: 'post',
@@ -1010,12 +1107,46 @@
                         data: {
                             mobile: this.ruleForm.phone,
                             name: this.ruleForm.name,
-                            detailAddress: this.ruleForm.detailAddresst
+                            //detailAddress: this.ruleForm.detailAddresst
                         }
                     })
                     .then(respone => {
-                        this.ruleForm.sourceArr = respone.data.info;
-                        //console.log(this.ruleForm.this.ruleForm.sourceArr)
+                        if (respone.data.status == 200) {
+                            let url = 'api/customer/housingInfo/addHousingInfo?customerId=' + [respone.data.info];
+                            this.$http({
+                                    url: url,
+                                    method: 'post',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    data: [{
+                                        areaId: this.houseForm.bigDistrict,
+                                        provinceId: this.houseForm.provinceValue,
+                                        cityId: this.houseForm.cityValue,
+                                        districtId: this.houseForm.countyDistrict,
+                                        regionId: this.houseForm.streetValue,
+                                        estateId: this.houseForm.estate,
+                                        address: this.houseForm.streetMore,
+                                        categoryId: 0,
+                                        acreage: 0,
+                                        rentalStatusId: 0,
+                                        //detailAddress: this.ruleForm.detailAddresst
+                                    }]
+                                })
+                                .then(respone => {
+                                    if (respone.data.status == 200) {
+                                        alert('创建会员成功')
+                                    }
+                                    //this.ruleForm.sourceArr = respone.data.info;
+                                    //console.log(this.ruleForm.this.ruleForm.sourceArr)
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    alert('网络错误，不能访问');
+                                })
+                        } else {
+                            alert(respone.data.msg)
+                        }
                     })
                     .catch(error => {
                         console.log(error);
@@ -1102,6 +1233,13 @@
                 //console.log(street);
                 street.focus();
             },
+            changeValue(value) {
+                let obj = {};
+                obj = this.houseForm.countyDistrict.find((item) => {
+                    return item.value === value;
+                });
+                console.log(obj.label);
+            }
         },
         created: function() {
             this.searchInfo();
@@ -1109,9 +1247,9 @@
                 let dataId = data[0].id
                 console.log(dataId)
                 if (data != 'no') {
-                      this.disabShow = true;
-                      this.addShow = false;
-                      this.addyeAdd = true;
+                    this.disabShow = true;
+                    this.addShow = false;
+                    this.addyeAdd = true;
                     console.log(this.disabShow)
                     this.ruleForm.textInfo = '编辑订单';
                     let url = '/api/product/order/queryPageList';
@@ -1127,21 +1265,38 @@
                         })
                         .then(respone => {
                             //this.clearForm();
-                            let data = respone.data.info.list[0]
+                            let data = respone.data.info.list[0];
                             console.log(data)
+                            let orderInfo = '';
+                            let textInfo = '';
+                            if (data.orderType == 0) {
+                                orderInfo = '新增服务订单'
+                            } else if (data.orderType == 1) {
+                                orderInfo = '新增上门订单'
+                            } else if (data.orderType == 2) {
+                                orderInfo = '追单'
+                            }
+                            if (data.orderState == 0) {
+                                textInfo = '未完成'
+                            } else if (data.orderState == 1) {
+                                textInfo = '已完成'
+                            } else if (data.orderState == 2) {
+                                textInfo = '异常订单'
+                            }
                             this.ruleForm.orderId = data.id;
                             this.ruleForm.orderMoney = data.orderMoney;
                             this.ruleForm.phone = data.phone;
                             this.ruleForm.number = data.number;
                             this.ruleForm.sourceDetail = data.sourceDetail;
                             this.ruleForm.name = data.name;
-                            this.ruleForm.orderState = data.orderState;
+                            this.ruleForm.orderState = textInfo
                             this.ruleForm.unpaidMoney = data.unpaidMoney;
                             this.ruleForm.detailAddress = data.detailAddresst;
-                            this.ruleForm.orderType = data.orderType;
+                            this.ruleForm.orderType = orderInfo;
                             this.ruleForm.refundMoney = data.refundMoney;
                             this.ruleForm.remark = data.remark;
                             this.ruleForm.paidMoney = data.paidMoney;
+                            this.ruleForm.actualMoney = data.actualMoney;
                             this.ruleForm.sourceAccount = data.sourceAccount;
                             this.ruleForm.sourceId = data.sourceId;
                             this.ruleForm.createTime = data.createTime;
@@ -1163,37 +1318,34 @@
                             })
                         })
                         .then(respone => {
-                            
                             console.log(respone.data.info)
-                             let newArr = [];
+                            let newArr = [];
                             let shopArr = [];
-                            let newArrId =0;
-                            let shopArrId =0;
-                             for (let i = 0; i < respone.data.info.length; i++) {
-                           
-                            if (respone.data.info[i].commodityInfo.commodityInfos != null ) {
-                                      if (respone.data.info[i].commodityInfo.commodityInfos.length > null ) {
-                                         newArrId=i;
-                                    newArr.push({
-                                        'name': respone.data.info[i].commodityName,
-                                        'id': respone.data.info[i].commodityId,
-                                        'num': respone.data.info[i].saleNumber,
-                                        'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
-                                        'bg': '#f5f7fa',
-                                        'trues': 'yes'
-                                    })
-                                    for (let j = 0; j < respone.data.info[i].commodityInfo.commodityInfos.length; j++) {
+                            let newArrId = 0;
+                            let shopArrId = 0;
+                            for (let i = 0; i < respone.data.info.length; i++) {
+                                if (respone.data.info[i].commodityInfo.commodityInfos != null) {
+                                    if (respone.data.info[i].commodityInfo.commodityInfos.length > null) {
+                                        newArrId = i;
                                         newArr.push({
-                                            'name': respone.data.info[i].commodityInfo.commodityInfos[j].name,
-                                            'id': respone.data.info[i].commodityInfo.commodityInfos[j].id,
-                                            'num': respone.data.info[i].commodityInfo.commodityInfos[j].saleNumber,
-                                            'displayQuantity': respone.data.info[i].commodityInfo.commodityInfos[j].displayQuantity, //数量
+                                            'name': respone.data.info[i].commodityName,
+                                            'id': respone.data.info[i].commodityId,
+                                            'num': respone.data.info[i].saleNumber,
+                                            'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
                                             'bg': '#f5f7fa',
                                             'trues': 'yes'
                                         })
+                                        for (let j = 0; j < respone.data.info[i].commodityInfo.commodityInfos.length; j++) {
+                                            newArr.push({
+                                                'name': respone.data.info[i].commodityInfo.commodityInfos[j].name,
+                                                'id': respone.data.info[i].commodityInfo.commodityInfos[j].id,
+                                                'num': respone.data.info[i].commodityInfo.commodityInfos[j].saleNumber,
+                                                'displayQuantity': respone.data.info[i].commodityInfo.commodityInfos[j].displayQuantity, //数量
+                                                'bg': '#f5f7fa',
+                                                'trues': 'yes'
+                                            })
+                                        }
                                     }
-                                   
-                                      }
                                     // var hash = {};
                                     // newArr = newArr.reduce(function(item, next) {
                                     //     hash[next.id] ? '' : hash[next.id] = true && item.push(next);
@@ -1201,14 +1353,12 @@
                                     // }, []);
                                 } else {
                                     shopArr.push({
-                                            'name': respone.data.info[i].commodityName,
-                                            'id': respone.data.info[i].commodityId,
-                                            'num': respone.data.info[i].saleNumber,
-                                            'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
-                                            'trues': 'yes'
-                                        })
-                                       
-                                         
+                                        'name': respone.data.info[i].commodityName,
+                                        'id': respone.data.info[i].commodityId,
+                                        'num': respone.data.info[i].saleNumber,
+                                        'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
+                                        'trues': 'yes'
+                                    })
                                     // var hash = {};
                                     // newArr = newArr.reduce(function(item, next) {
                                     //     hash[next.id] ? '' : hash[next.id] = true && item.push(next);
@@ -1216,10 +1366,10 @@
                                     // }, []);
                                 }
                             }
+                            this.ruleForm.pushAdd = [];
                             this.ruleForm.addBox = [];
                             this.ruleForm.addBox.push(shopArr);
                             this.ruleForm.addBox.push(newArr);
-                                     
                         })
                         .catch(error => {
                             console.log(error);
@@ -1230,13 +1380,15 @@
                     this.ruleForm.textInfo = '新增订单';
                     this.dialogVisible = true;
                     this.ruleForm.addBox = [];
-                     this.disabShow = false;
-                     this.addShow = true
+                    this.disabShow = false;
+                    this.addShow = true;
+                    this.addyeAdd = false;
                     console.log(this.disabShow)
                 }
             });
             this.getclassificationBox();
             //this.getShopBox();
+            this.getquck();
             this.getScour();
         }
     }

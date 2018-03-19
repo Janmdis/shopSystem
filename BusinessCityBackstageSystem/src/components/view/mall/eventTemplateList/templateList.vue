@@ -63,8 +63,8 @@
         left: 359px;
     }
     .add {
-        background: #00aeaa;
-        border: 1px solid #00aeaa;
+        /* background: #00aeaa;
+        border: 1px solid #00aeaa; */
     }
 </style>
 <style scoped lang="less">

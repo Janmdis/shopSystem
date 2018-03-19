@@ -191,10 +191,10 @@ export default {
         searchBox
     },
     beforeDestroy() {
-        this.$root.$on('loading');
-        this.$root.$on('total');
-        this.$root.$on('delBox');
-        this.$root.$on('pages');
-        this.$root.$on('output');
+        this.$root.$off('loading');
+        this.$root.$off('total');
+        this.$root.$off('delBox');
+        this.$root.$off('pages');
+        this.$root.$off('output');
     }
 }

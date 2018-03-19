@@ -222,7 +222,7 @@ export default {
             //console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
             let labelValue = column.label
-            if(labelValue == 'ID'){
+            if(labelValue == '客户姓名'){
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
                 this.$root.$emit('searchPersonnelInfo',row.id)

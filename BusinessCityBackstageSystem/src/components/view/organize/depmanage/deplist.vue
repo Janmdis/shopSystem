@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="list ">
-            <el-tree :data="list" :props="defaultProps" :default-expand-all='true' :expand-on-click-node='false' @node-click='pick'></el-tree>
+            <el-tree ref='tree' :data="list"  node-key="id" :props="defaultProps" :default-expand-all='true' :expand-on-click-node='false' @node-click='pick'></el-tree>
         </div>
         <Dialogadddep :ishow='dialogDepVisible'></Dialogadddep>
         
@@ -90,6 +90,7 @@ export default {
             });
         },
         pick(data,node,vuecomponent){
+            console.log(data,node,vuecomponent);
             let dom_current=vuecomponent.$el.firstChild.lastChild;
             let classname=dom_current.getAttribute('class');
             let don_on=document.getElementsByClassName('on');
@@ -112,6 +113,13 @@ export default {
         ...mapState({
             list: state => state.deplist.deplisttree
         })
+    },
+    watch:{
+        list(){
+            console.log(111);
+            // console.log(this.$refs.tree);
+            // this.pick()
+        }
     },
     beforeDestroy:function(){
         this.$root.$off('undatadep');

@@ -147,6 +147,8 @@ export default {
     beforeDestroy(){
         this.$root.$off('search');
         this.$root.$off('pageIndex');
+        this.$root.$off('getDatezdy');
+        this.$root.$off('dataListBox');
 
     }
 
