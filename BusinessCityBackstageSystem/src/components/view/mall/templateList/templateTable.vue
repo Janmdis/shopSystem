@@ -37,7 +37,7 @@
         <el-table-column
         label="模板地址">
         <template slot-scope="scope">
-            <span>{{ '101.89.175.155' }}</span> 
+            <span>{{ apis+'navBottom?id='+scope.row.templateID }}</span> 
             <!-- +scope.row.templateID -->
         </template>
         </el-table-column>
@@ -80,7 +80,8 @@ export default {
             datalist:[],
             showLeft:0,
             pageIndex:1,
-            iframeLink:''
+            iframeLink:'',
+            apis:'http://101.89.175.155/'
         }
     },
     created:function(){
@@ -106,7 +107,7 @@ export default {
         )
         .then(function(response){
           console.log(response)
-          that.iframeLink = "http://localhost:8080/navBottom?id="+id
+          that.iframeLink = that.apis+"navBottom?id="+id
         //   101.89.175.155 服务器地址
         })
         .catch(function(response){

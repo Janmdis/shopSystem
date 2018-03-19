@@ -43,7 +43,7 @@
         <el-table-column
         label="模板地址">
         <template slot-scope="scope">
-            <span>{{ 'http://www.greenCity.com'+scope.row.templateID }}</span>
+            <span>{{ apis+'detailTemplate?id='+scope.row.templateID }}</span>
         </template>
         </el-table-column>
         <el-table-column
@@ -84,7 +84,8 @@ export default {
             templateStauss:'...',
             showLeft:0,
             pageIndex:1,
-            iframeLink:''
+            iframeLink:'',
+            apis:'http://101.89.175.155/'
         }
     },
     created:function(){
@@ -106,7 +107,7 @@ export default {
           //console.log(row);
           window.sessionStorage.setItem ("isBrowse",true); //设置为可浏览状态
           let id = row.templateID
-          this.iframeLink = 'http://localhost:8080/detailTemplate?id='+id
+          this.iframeLink = this.apis+"detailTemplate?id="+id
            //   101.89.175.155 服务器地址
           console.log(this.iframeLink)
           window.sessionStorage.setItem ("detailTemplateUrl",this.iframeLink);
