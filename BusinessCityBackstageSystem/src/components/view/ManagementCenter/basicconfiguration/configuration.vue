@@ -174,6 +174,7 @@ export default {
     created(){
         this.showContent('产品模块',0);
         this.$root.$on('searchInfo',(data) => {
+            console.log(data)
             this.name = data[0];
             this.tableData = data[1];
             this.number = data[2];
@@ -337,6 +338,7 @@ export default {
             if(this.modelIndex == 0){
                 var data = {};
                 data[modelName] = this.ruleForm.name;
+                console.log(data)
             }else if(this.modelIndex == 1){
                 var data = [{parentId:0}];
                 data[0][modelName] = this.ruleForm.name;   
@@ -456,14 +458,15 @@ export default {
             }
         }
         .el-col.basic-right{
-            .el-table__body-wrapper{
-                // overflow: hidden;
+            td:nth-child(3) .cell{
+                border:none !important;
             }
         }
     }
     #chatting-box{
         .el-dialog{
             width:40% !important;
+            padding-bottom:10px;
             .el-dialog__header{
                     border-bottom: 4px solid #409eff;
             }

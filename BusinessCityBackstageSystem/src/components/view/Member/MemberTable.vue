@@ -106,7 +106,8 @@ export default {
         this.memberInfo = JSON.parse(sessionStorage.getItem("member"));
         this.findSource = JSON.parse(sessionStorage.getItem("findSource"));
         this.address = JSON.parse(sessionStorage.getItem("address"));
-       
+        this.$store.dispatch('getCatogery');
+        this.$store.dispatch('getOrigin');
     },
     methods:{
         getMember(id,obj){
