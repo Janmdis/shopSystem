@@ -67,6 +67,7 @@ export default {
     },
     created:function(){
         this.$root.$on('dialogemployee',(data)=>{
+            console.log(data);
             data.forEach(item=>{
                 // this.hasselected.push(JSON.stringify(item));
                 this.hasselected.push(item);
@@ -87,7 +88,7 @@ export default {
             });
         });  
     },
-    beforeDestroy(){
+    beforeDestory(){
         this.$root.$off('dialogemployee');
     },
     methods:{

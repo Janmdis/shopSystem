@@ -47,7 +47,7 @@
         </div>
         <div class="memberMain">
             <el-row>
-                <!-- <search></search> -->
+                <search :type='type'></search>
             </el-row>
             <div class='boderBox'>
                 <Datatable></Datatable>

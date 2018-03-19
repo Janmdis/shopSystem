@@ -821,6 +821,9 @@
             this.getShop();
             this.getShops();
             //this.addSearchFn();
+        },
+        beforeDestroy(){
+            this.$root.$off('showWindow');
         }
     }
 </script>
