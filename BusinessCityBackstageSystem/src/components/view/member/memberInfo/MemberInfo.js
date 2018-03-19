@@ -70,6 +70,7 @@ export default {
             for (let item in this.info2.data) {
                 this.recommendedSource.push({ id: item - 0, name: this.info2.data[item] });
             }
+            console.log(this.info1)
             this.userInfo().then(res => {
                 if (res) {
                     return this.getData(ids);

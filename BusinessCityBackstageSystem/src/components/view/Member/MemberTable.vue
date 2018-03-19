@@ -17,10 +17,12 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-        </el-table-column>
+        <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
+        </el-table-column> -->
         <el-table-column
         prop="name"
+        fixed
+        width='200'
         label="客户姓名">
         </el-table-column>
         <el-table-column
@@ -45,13 +47,19 @@
             </template>
         </el-table-column>
         <el-table-column
-        prop="quarters"
          width='300'
         label="小区">
+            <template slot-scope='scope'>
+                 {{scope.row.quarters}}
+             </template>
+             
         </el-table-column>
         <el-table-column
         prop="state"
         label="订单状态">
+         <template slot-scope='scope'>
+             {{scope.row.orderState}}
+             </template>
         </el-table-column>
         <el-table-column
         label="来源">
@@ -68,8 +76,10 @@
         </el-table-column>
         <el-table-column
         width='260'
-        prop="quartersAdd"
         label="小区地址">
+         <template slot-scope='scope'>
+                 {{scope.row.quartersAdd}}
+             </template>
     </el-table-column>
                 
             </el-table>
@@ -88,7 +98,10 @@ export default {
             memberInfo:[],
             findSource:[],
             address:[],
-            idBox:[]
+            idBox:[],
+            orderState:'',
+            quarters:'',
+            quartersAdd:''
         }
     },
     created:function(){
@@ -128,14 +141,43 @@ export default {
                 data:idBox,
             })
             .then(response => {
-                //console.log(response.data.info)
-                
-                this.datalist.forEach(item=>{
-                        if( item.estateId !=''&&item.estateId !=null){
-                            this.$set(item, 'quarters', response.data.info[0].alias);
-                            this.$set(item, 'quartersAdd', response.data.info[0].address);
+                console.log(response.data.info);
+                response.data.info.forEach(item1=>{
+                    console.log(item1)
+                    this.datalist.forEach((item,i)=>{
+                        if(item1.id == item.estateId){
+                            console.log(item)
+                            this.$set(item, 'quarters', item1.alias);
+                            this.$set(item, 'quartersAdd', item1.address);
                         }
+                            
                     });
+                })
+                
+                
+                    console.log( this.datalist)
+          })
+          .catch(error=>{
+              console.log(error);
+              alert('网络错误，不能访问');
+          })
+        },
+        getDeil (dielArr){
+            let url = '/api/product/order/queryOrderStateByMemberIds';
+            this.$http({
+                url: url,
+                method: 'POST',
+                // 请求体重发送的数据
+                headers: { 'Content-Type': 'application/json' },
+                data:dielArr,
+            })
+            .then(response => {
+                console.log(response.data.info)
+                this.datalist.forEach(item=>{
+                        this.orderState = response.data.info[item.id]
+                        this.$set(item,'orderState',this.orderState)
+                    });
+                
           })
           .catch(error=>{
               console.log(error);
@@ -160,6 +202,11 @@ export default {
                 for(let name in this.datalist){
                     this.idBox.push(this.datalist[name].estateId)
                 }
+                let dielArr = []
+                for(let name in this.datalist){
+                    dielArr.push(this.datalist[name].id)
+                }
+                this.getDeil (dielArr)
                 //console.log(this.idBox)
                 this.getResidential(this.idBox)
                 that.$root.$emit('output1',that.datalist)

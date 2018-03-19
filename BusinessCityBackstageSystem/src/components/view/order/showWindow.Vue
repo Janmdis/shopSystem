@@ -1,5 +1,5 @@
 <template>
-    <el-dialog class='headerBottom oederdialog' :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
+    <el-dialog class='headerBottom' :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row style="height: 230px;overflow: hidden;">
                 <el-col :span='6'>
@@ -15,7 +15,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="手机号" prop='phone'>
-                        <el-input type="text" v-model="ruleForm.phone" @keyup.native="gets($event)" @keydown.native.down.prevent="selectDown" @keydown.native.up.prevent="selectUp"></el-input>
+                        <el-input type="text" v-model="ruleForm.phone" :disabled='disabShow' @keyup.native="gets($event)" @keydown.native.down.prevent="selectDown" @keydown.native.up.prevent="selectUp"></el-input>
                     </el-form-item>
                     <el-form-item prop='isShoAdd' class='isShoAdd'>
                         <ul class='addName' v-show='ruleForm.isShoAdd'>
@@ -34,7 +34,7 @@
                         <el-input v-model="ruleForm.sourceDetail"></el-input>
                     </el-form-item>
                     <el-form-item label="业主姓名" prop='name'>
-                        <el-input v-model="ruleForm.name"></el-input>
+                        <el-input v-model="ruleForm.name" :disabled='disabShow'></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span='6'>
@@ -69,54 +69,54 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-form-item class='boxs'>
-                    <el-col :span='24'>
+                <el-form-item class='boxs' v-show='addShow' >
+                    <el-col :span='24' style='margint-top:15px;'>
                         <el-col :span='4' :offset='1' style='position:relative;'>
                             <span>
-                                            <el-select v-model="houseForm.bigDistrict" @change="bigDis" placeholder="请选择">
-                                                <el-option v-for="(item,index) in houseInfo" :key="index" :label="item.regionName" :value="index+1"></el-option> 
-                                            </el-select>
-                                            <strong class='citys'>大区</strong>
-                                        </span>
+                                    <el-select v-model="houseForm.bigDistrict" @change="bigDis" placeholder="请选择">
+                                        <el-option v-for="(item,index) in houseInfo" :key="index" :label="item.regionName" :value="index+1"></el-option> 
+                                    </el-select>
+                                    <strong class='citys'>大区</strong>
+                                </span>
                         </el-col>
                         <el-col :span='3' :offset='1' style='position:relative;'>
                             <span>
-                                            <el-select v-model="houseForm.provinceValue" @change="proDis" placeholder="请选择">
-                                                <el-option v-for="(item,index) in proDisId" :key="index" :label="item" :value="index"></el-option>
-                                            </el-select><strong  class='citys'>省</strong>
-                                        </span>
+                                    <el-select v-model="houseForm.provinceValue" @change="proDis" placeholder="请选择">
+                                        <el-option v-for="(item,index) in proDisId" :key="index" :label="item" :value="index"></el-option>
+                                    </el-select><strong  class='citys'>省</strong>
+                                </span>
                         </el-col>
                         <el-col :span='3' :offset='1' style='position:relative;'>
                             <span>
-                                            <el-select v-model="houseForm.cityValue" @change="cityDis" placeholder="请选择">
-                                                 <el-option v-for="(item,index) in cityDisId" :key="index" :label="item" :value="index"></el-option>
-                                            </el-select><strong  class='citys'>市</strong>
-                                        </span>
+                                    <el-select v-model="houseForm.cityValue" @change="cityDis" placeholder="请选择">
+                                         <el-option v-for="(item,index) in cityDisId" :key="index" :label="item" :value="index"></el-option>
+                                    </el-select><strong  class='citys'>市</strong>
+                                </span>
                         </el-col>
                         <el-col :span='3' :offset='1' style='position:relative;'>
                             <span>
-                                            <el-select v-model="houseForm.countyDistrict" @change="countyDis" placeholder="请选择">
-                                                <el-option v-for="(item,index) in countyInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
-                                            </el-select>
-                                            <strong  class='citys'>县区</strong>
-                                        </span>
+                                    <el-select v-model="houseForm.countyDistrict" @change="countyDis" placeholder="请选择">
+                                        <el-option v-for="(item,index) in countyInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
+                                    </el-select>
+                                    <strong  class='citys'>县区</strong>
+                                </span>
                         </el-col>
                         <el-col :span='4' :offset='1' style='position:relative;'>
                             <span>
-                                            <el-select v-model="houseForm.streetValue" @change="streetDis" placeholder="请选择">
-                                                <el-option v-for="(item,index) in streetInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
-                                            </el-select>
-                                            <strong class="street citys">街道</strong>
-                                        </span>
+                                    <el-select v-model="houseForm.streetValue" @change="streetDis" placeholder="请选择">
+                                        <el-option v-for="(item,index) in streetInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
+                                    </el-select>
+                                    <strong class="street citys">街道</strong>
+                                </span>
                         </el-col>
                         <el-col :span='4' :offset='1' style='position:relative;'>
                             <input type="text" v-model="houseForm.streetMore" placeholder="请输入详细地址" class="detailAddress">
                         </el-col>
                     </el-col>
                 </el-form-item>
-                <el-form-item label="地址" prop='detailAddresst'>
+                <el-form-item label="地址" prop='detailAddresst' style='margin-top:15px;' v-show='addyeAdd'>
                     <el-col :span='12'>
-                        <el-input v-model="ruleForm.detailAddresst" @keyup.native="getAdds($event)" @keydown.native.down.prevent="addDown" @keydown.native.up.prevent="addUp"></el-input>
+                        <el-input v-model="ruleForm.detailAddresst" :disabled='disabShow'  @keyup.native="getAdds($event)" @keydown.native.down.prevent="addDown" @keydown.native.up.prevent="addUp"></el-input>
                         <el-form-item prop='isShoAdd' class='isShoAdd'>
                             <ul class='addName' v-show='vipaddShow'>
                                 <li class="text-center" v-for="(item,index) in addNewBox" :key="index" :label='item.alladd' @click='checkAdd(item.alladd)' :value='item.alladd'>{{item.alladd}}</li>
@@ -160,56 +160,93 @@
                 <el-col :span='2' :offset='1'>
                     <el-button @click='addTable'>添加</el-button>
                 </el-col>
-                <el-col :span='24'>
-                    <table class="gridtable">
-                        <thead>
-                            <tr>
-                                <th>商品名称</th>
-                                <th>单价</th>
-                                <th>购买量</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tr>
-                            <td>商品名称</td>
-                            <td>单价</td>
-                            <td>购买量</td>
-                            <td><a>删除</a></td>
-                        </tr>
-                        <tbody>
-                        </tbody>
-                    </table>
+                <el-col :span='22' :offset='1'>
+                    <el-table id='overclear' style="width: 100%" @selection-change="handleSelectionChange">
+                        <el-table-column type="selection" width="55">
+                        </el-table-column>
+                        <el-table-column label="商品名称" width="200">
+                        </el-table-column>
+                        <!--<el-table-column label="规格">
+                                    </el-table-column>!-->
+                        <el-table-column label="数量">
+                        </el-table-column>
+                        <!--<el-table-column label="产品库存" show-overflow-tooltip>
+                                    </el-table-column>!-->
+                        <el-table-column label='购买数量' show-overflow-tooltip>
+                        </el-table-column>
+                        <!--<el-table-column label="单价" show-overflow-tooltip>
+                                    </el-table-column>!-->
+                        <!--<el-table-column label="实际单价" show-overflow-tooltip>
+                                    </el-table-column>!-->
+                        <el-table-column label="操作">
+                            <template slot-scope="scope">
+                                                    <span @click='delBox(scope.row)' >删除</span>
+</template>
+                    </el-table-column>
+                </el-table>
+                </el-col>
+                <el-col :span='22' id="overBox" :offset='1' v-for='(item,index) in ruleForm.addBox' :key="index" style="position: relative;z-index: 999;">
+                    <el-table  ref="multipleTable" :data="item" tooltip-effect="dark"   style="width: 100%;background:red;" @selection-change="handleSelectionChange" :row-class-name="tableRowClassName" >
+                        <el-table-column type="selection" width="55">
+                        </el-table-column>
+                        <el-table-column  prop='name' width="200">
+                        </el-table-column>
+                        <!--<el-table-column prop="specificationValue" >
+                        </el-table-column>!-->
+                        <el-table-column prop="displayQuantity" >
+                        </el-table-column>
+                        <!--<el-table-column prop="inventoryQuantity"  >
+                        </el-table-column>!-->
+                        <el-table-column  >
+<template slot-scope="scope">
+    <div v-show="scope.row.trues=='yes'?false:true">
+        <!--<span style="width:20px;height:20px;line-height:20px;display:inline-block;border:1px solid #ddd; cursor:pointer;" @click='subFn(index)'>-</span>!-->
+        <span style="width:30px;height:20px;display:inline-block;text-align:center;">{{scope.row.num}}</span>
+        <!--<span style="width:20px;height:20px;line-height:20px;display:inline-block;border:1px solid #ddd;cursor:pointer;" @click='addFn(index)'>+</span>!-->
+    </div>
+</template>
+                        </el-table-column>
+                        <!--<el-table-column prop="discount_price"  >
+                        </el-table-column>
+                        <el-table-column prop="current_price"  >
+                        </el-table-column>!-->
+                        <el-table-column  >
+<template slot-scope="scope">
+    <span @click='delBox(scope.row,index)' v-show="scope.row.trues=='yes'?false:true">删除</span>
+</template>
+                    </el-table-column>
+                </el-table>
                 </el-col>
             </el-row>
             <!--<el-row class='textInfo' style='margin-top:50px;'>
-                        <span>支付信息</span>
-                    </el-row>
-                    <el-row >
-                    <el-col :span='6'>
-                        <el-form-item label="订单类型" prop='starTime'>
-                                <el-select v-model="ruleForm.starTime" placeholder="请选择样式">
-                                    <el-option label="支付宝" value="1"></el-option>
-                                    <el-option label="微信" value="1"></el-option>
-                                    <el-option label="管家代收" value="2"></el-option>
-                                </el-select>
-                            </el-form-item>
-                    </el-col>
-                    <el-col :span='6'>
-                        <el-form-item label="支付时间" prop="payTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.payTime" style="width: 100%;"></el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span='6'>
-                        <el-form-item label="实付金额" prop='actualMoney'>
-                            <el-input v-model="ruleForm.actualMoney" type='number'></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span='6'>
-                        <el-form-item label="已付金额" prop='paidMoney'>
-                            <el-input v-model="ruleForm.paidMoney" type='number'></el-input>
-                        </el-form-item>
-                    </el-col>
-                    </el-row>!-->
+                <span>支付信息</span>
+            </el-row>
+            <el-row >
+            <el-col :span='6'>
+                <el-form-item label="订单类型" prop='starTime'>
+                        <el-select v-model="ruleForm.starTime" placeholder="请选择样式">
+                            <el-option label="支付宝" value="1"></el-option>
+                            <el-option label="微信" value="1"></el-option>
+                            <el-option label="管家代收" value="2"></el-option>
+                        </el-select>
+                    </el-form-item>
+            </el-col>
+            <el-col :span='6'>
+                <el-form-item label="支付时间" prop="payTime">
+                    <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.payTime" style="width: 100%;"></el-date-picker>
+                </el-form-item>
+            </el-col>
+            <el-col :span='6'>
+                <el-form-item label="实付金额" prop='actualMoney'>
+                    <el-input v-model="ruleForm.actualMoney" type='number'></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span='6'>
+                <el-form-item label="已付金额" prop='paidMoney'>
+                    <el-input v-model="ruleForm.paidMoney" type='number'></el-input>
+                </el-form-item>
+            </el-col>
+            </el-row>!-->
             <el-form-item class='boxsss'>
                 <el-button class='mTop' type="primary" style='margin-left:0;' @click="submitForm('ruleForm')">保存</el-button>
             </el-form-item>
@@ -217,30 +254,6 @@
     </el-dialog>
 </template>
 <style>
-    table.gridtable {
-        font-family: verdana, arial, sans-serif;
-        font-size: 11px;
-        color: #333333;
-        border-width: 1px;
-        margin-left: 10%;
-        width: 80%;
-        border-color: #666666;
-        border-collapse: collapse;
-    }
-    table.gridtable th {
-        width: 18%;
-        border-width: 1px;
-        padding: 8px;
-        border: 1px solid #f0f9eb;
-    }
-    table.gridtable td {
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #f0f9eb;
-        text-align:center;
-        background-color: #ffffff;
-    }
     .detailAddress {
         width: 80%;
         border-bottom: 1px solid #eee;
@@ -391,6 +404,9 @@
     export default {
         data() {
             return {
+                disabShow:false,
+                addShow:true,
+                addyeAdd:false,
                 companyIds: '',
                 dialogVisible: false,
                 vipShow: false,
@@ -506,6 +522,7 @@
                 return '';
             },
             submitForm(formName) {
+                
                 let addTree = this.bigDisId[this.houseForm.bigDistrict] + this.proDisId[this.houseForm.provinceValue] + this.cityDisId[this.houseForm.cityValue];
                 for (var i = 0; i < this.ruleForm.addBox.length; i++) {
                     if (this.ruleForm.addBox[i] == "" || typeof(this.ruleForm.addBox[i]) == "undefined") {
@@ -546,6 +563,7 @@
                     createTime: this.goTime(this.ruleForm.createTime),
                     orderDetails: this.ruleForm.pushAdd
                 }
+                console.log(dataInfo);
                 if (this.ruleForm.textInfo == "新增订单") {
                     this.ruleForm.orderId = '',
                         that.$refs[formName].validate((valid) => {
@@ -577,8 +595,11 @@
                         });
                 }
                 if (this.ruleForm.textInfo == "编辑订单") {
+                    
+                  
                     that.$refs[formName].validate((valid) => {
                         if (valid) {
+                            
                             let url = '/api/product/order/update';
                             this.$http({
                                     url: url,
@@ -730,6 +751,7 @@
                 this.vipaddShow = false;
             },
             addTable() {
+                
                 if (this.shopNum <= 0) {
                     alert('数量不能小于0')
                 }
@@ -862,10 +884,12 @@
                         // console.log(respone)
                         if (respone.data.info.length == 0) {
                             this.ruleForm.isShoAdd = false;
-                            this.vipShow = true;
+                            //this.vipShow = true;
+                             this.addShow = true
                         } else {
                             //this.ruleForm.isShoAdd = true;
                             this.vipShow = false;
+                            this.addShow = false;
                         }
                         this.ruleForm.myData = respone.data.info
                     })
@@ -964,6 +988,9 @@
                         console.log(error);
                         alert('网络错误，不能访问');
                     })
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
             },
             handleClose() {　　
                 this.$refs['ruleForm'].resetFields();
@@ -1082,6 +1109,10 @@
                 let dataId = data[0].id
                 console.log(dataId)
                 if (data != 'no') {
+                      this.disabShow = true;
+                      this.addShow = false;
+                      this.addyeAdd = true;
+                    console.log(this.disabShow)
                     this.ruleForm.textInfo = '编辑订单';
                     let url = '/api/product/order/queryPageList';
                     this.$http({
@@ -1132,36 +1163,37 @@
                             })
                         })
                         .then(respone => {
-                            this.ruleForm.addBox = [];
+                            
                             console.log(respone.data.info)
-                            let newArr = [];
+                             let newArr = [];
                             let shopArr = [];
-                            let newArrId = 0;
-                            let shopArrId = 0;
-                            for (let i = 0; i < respone.data.info.length; i++) {
-                                if (respone.data.info[i].commodityInfo.commodityInfos != null) {
-                                    if (respone.data.info[i].commodityInfo.commodityInfos.length > null) {
-                                        newArrId = i;
+                            let newArrId =0;
+                            let shopArrId =0;
+                             for (let i = 0; i < respone.data.info.length; i++) {
+                           
+                            if (respone.data.info[i].commodityInfo.commodityInfos != null ) {
+                                      if (respone.data.info[i].commodityInfo.commodityInfos.length > null ) {
+                                         newArrId=i;
+                                    newArr.push({
+                                        'name': respone.data.info[i].commodityName,
+                                        'id': respone.data.info[i].commodityId,
+                                        'num': respone.data.info[i].saleNumber,
+                                        'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
+                                        'bg': '#f5f7fa',
+                                        'trues': 'yes'
+                                    })
+                                    for (let j = 0; j < respone.data.info[i].commodityInfo.commodityInfos.length; j++) {
                                         newArr.push({
-                                            'name': respone.data.info[i].commodityName,
-                                            'id': respone.data.info[i].commodityId,
-                                            'num': respone.data.info[i].saleNumber,
-                                            'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
+                                            'name': respone.data.info[i].commodityInfo.commodityInfos[j].name,
+                                            'id': respone.data.info[i].commodityInfo.commodityInfos[j].id,
+                                            'num': respone.data.info[i].commodityInfo.commodityInfos[j].saleNumber,
+                                            'displayQuantity': respone.data.info[i].commodityInfo.commodityInfos[j].displayQuantity, //数量
                                             'bg': '#f5f7fa',
-                                            'trues': ''
+                                            'trues': 'yes'
                                         })
-                                        console.log(respone.data.info[i].commodityInfo.commodityInfos)
-                                        for (let j = 0; j < respone.data.info[i].commodityInfo.commodityInfos.length; j++) {
-                                            newArr.push({
-                                                'name': respone.data.info[i].commodityInfo.commodityInfos[j].name,
-                                                'id': respone.data.info[i].commodityInfo.commodityInfos[j].id,
-                                                'num': respone.data.info[i].commodityInfo.commodityInfos[j].saleNumber,
-                                                'displayQuantity': respone.data.info[i].commodityInfo.commodityInfos[j].displayQuantity, //数量
-                                                'bg': '#f5f7fa',
-                                                'trues': 'yes'
-                                            })
-                                        }
                                     }
+                                   
+                                      }
                                     // var hash = {};
                                     // newArr = newArr.reduce(function(item, next) {
                                     //     hash[next.id] ? '' : hash[next.id] = true && item.push(next);
@@ -1169,11 +1201,14 @@
                                     // }, []);
                                 } else {
                                     shopArr.push({
-                                        'name': respone.data.info[i].commodityName,
-                                        'id': respone.data.info[i].commodityId,
-                                        'num': respone.data.info[i].saleNumber,
-                                        'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity
-                                    })
+                                            'name': respone.data.info[i].commodityName,
+                                            'id': respone.data.info[i].commodityId,
+                                            'num': respone.data.info[i].saleNumber,
+                                            'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
+                                            'trues': 'yes'
+                                        })
+                                       
+                                         
                                     // var hash = {};
                                     // newArr = newArr.reduce(function(item, next) {
                                     //     hash[next.id] ? '' : hash[next.id] = true && item.push(next);
@@ -1181,8 +1216,10 @@
                                     // }, []);
                                 }
                             }
+                            this.ruleForm.addBox = [];
                             this.ruleForm.addBox.push(shopArr);
                             this.ruleForm.addBox.push(newArr);
+                                     
                         })
                         .catch(error => {
                             console.log(error);
@@ -1193,6 +1230,9 @@
                     this.ruleForm.textInfo = '新增订单';
                     this.dialogVisible = true;
                     this.ruleForm.addBox = [];
+                     this.disabShow = false;
+                     this.addShow = true
+                    console.log(this.disabShow)
                 }
             });
             this.getclassificationBox();

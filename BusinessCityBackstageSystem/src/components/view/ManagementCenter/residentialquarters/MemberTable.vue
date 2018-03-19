@@ -18,8 +18,8 @@
         fixed
         type="selection" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-        </el-table-column>
+        <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
+        </el-table-column> -->
         <el-table-column
         prop="name"
         label="小区名称"

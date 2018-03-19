@@ -18,11 +18,13 @@
         type="selection"
         width="55" >
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-        </el-table-column>
+        <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
+        </el-table-column> -->
         <el-table-column
         prop="name"
         label="公司"
+        fixed
+        width='200'
         >
         </el-table-column>
         <el-table-column

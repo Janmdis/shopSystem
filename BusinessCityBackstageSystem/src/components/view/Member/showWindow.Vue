@@ -97,7 +97,7 @@ import qs from 'qs'
     export default {
         data() {
             var checkAge = (rule, value, callback) => {
-                if (!value) {
+                if (value==='') {
                     return callback(new Error('年龄不能为空'))
                 }
                 setTimeout(() => {
@@ -190,7 +190,8 @@ import qs from 'qs'
                             })
                             .then(response => {
                                 if(response.data.status == 300){
-                                    alert(response.data.msg)
+                                    this.$message(response.data.msg);
+                                    // alert(response.data.msg)
                                     return false
                                 }
                                 this.Tagbox = [];

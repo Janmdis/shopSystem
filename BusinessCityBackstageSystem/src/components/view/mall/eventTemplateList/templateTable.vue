@@ -1,4 +1,5 @@
 <template>
+    <div>
     <el-table
     :data="datalist"
     :border="isBorder"
@@ -36,7 +37,7 @@
         <el-table-column
         label="模板地址">
         <template slot-scope="scope">
-            <span>{{ 'http://www.greenCity.com?id=' + scope.row.templateID }}</span>
+            <span>{{ 'http://localhost:8080/eventTemplate?id=' + scope.row.templateID }}</span>
         </template>
         </el-table-column>
         <el-table-column
@@ -57,6 +58,15 @@
         </template>
         </el-table-column> 
     </el-table>
+     <div class="dialog" id="dialog">
+        <div class="dialog_head" id="move_part" @mouseover="phoneDialog()">可拖拽部分</div>
+        <div class="dialog_content">
+            <iframe :src="iframeLink" frameborder="0" class="template_iframe"></iframe>
+        </div>
+        <div class="button close_button" id="close" @click="closeBower"><a href="#" style="font-size:23px;">&times;</a>
+        </div>
+    </div>
+    </div>
 </template>
 <script>
 /* eslint-disable */
@@ -68,7 +78,8 @@ export default {
             isBorder:false,
             datalist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
+            iframeLink:'http://localhost:8080/eventTemplate?id='
         }
     },
     created:function(){
@@ -83,9 +94,98 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
-        
+        this.phoneDragFn()
     },
     methods:{
+         handleSee(index, row,event){ // 浏览某个模板
+          //console.log(row);
+          window.sessionStorage.setItem ("isBrowse",true); //设置为可浏览状态
+          let id = row.templateID
+          this.iframeLink = 'http://localhost:8080/eventTemplate?id='+id
+          console.log(this.iframeLink)
+          window.sessionStorage.setItem ("eventTemplateUrl",this.iframeLink);
+          document.getElementById('dialog').style.display = 'block';
+          this.autoCenter(document.getElementById('dialog'));
+        },
+        closeBower(){
+             document.getElementById('dialog').style.display = 'none';
+        },
+        autoCenter(el){
+            //获取可见窗口大小
+            var bodyW = document.documentElement.clientWidth;
+            var bodyH = document.documentElement.clientHeight;
+            //获取对话框宽、高
+            var elW = el.offsetWidth;
+            var elH = el.offsetHeight;
+
+            el.style.left = (bodyW - elW)/8 + 'px';
+            el.style.top = (bodyH - elH)/10 + 'px';
+        },
+        phoneDragFn(){
+            //禁止选中对话框内容
+            if(document.attachEvent) {//ie的事件监听，拖拽div时禁止选中内容，firefox与chrome已在css中设置过-moz-user-select: none; -webkit-user-select: none;
+                document.getElementById('dialog').attachEvent('onselectstart', function() {
+                return false;
+                });
+            }
+            function autoCenter(el){
+                //获取可见窗口大小
+                var bodyW = document.documentElement.clientWidth;
+                var bodyH = document.documentElement.clientHeight;
+                //获取对话框宽、高
+                var elW = el.offsetWidth;
+                var elH = el.offsetHeight;
+                el.style.left = (bodyW - elW)/8 + 'px';
+                el.style.top = (bodyH - elH)/10 + 'px';
+            };
+            //窗口大小改变时，对话框始终居中
+            window.onresize = function(){
+                autoCenter( document.getElementById('dialog'));
+            };
+        },
+        phoneDialog(){
+                //alert(111)
+                //声明需要用到的变量
+                let mx = 0,my = 0;      //鼠标x、y轴坐标（相对于left，top）
+                let dx = 0,dy = 0;      //对话框坐标（同上）
+                let isDraging = false;      //不可拖动
+                //鼠标按下
+                document.getElementById('move_part').addEventListener('mousedown',function(e){
+                    var e = e || window.event;
+                    mx = e.pageX;      //点击时鼠标X坐标
+                    my = e.pageY;      //点击时鼠标Y坐标
+                    dx = document.getElementById('dialog').offsetLeft;
+                    dy = document.getElementById('dialog').offsetTop;
+                    isDraging = true;      //标记对话框可拖动
+                });
+                document.onmousemove = function(e){
+                    var e = e || window.event;
+                    var x = e.pageX;      //移动时鼠标X坐标
+                    var y = e.pageY;      //移动时鼠标Y坐标
+                    if(isDraging){        //判断对话框能否拖动
+                        var moveX = dx + x - mx;      //移动后对话框新的left值
+                        var moveY = dy + y - my;      //移动后对话框新的top值
+                        document.getElementById('dialog').style.left = moveX +'px';       //重新设置对话框的left
+                        document.getElementById('dialog').style.top =  moveY +'px';     //重新设置对话框的top
+
+                    };
+                };
+                document.getElementById('move_part').addEventListener('mouseup',function(){
+                            isDraging = false;
+                        });
+                //设置拖动范围
+                var pageW = document.documentElement.clientWidth;
+                var pageH = document.documentElement.clientHeight;
+                var dialogW = document.getElementById('dialog').offsetWidth;
+                var dialogH = document.getElementById('dialog').offsetHeight;
+                var maxX = pageW - dialogW;       //X轴可拖动最大值
+                var maxY = pageH - dialogH;       //Y轴可拖动最大值
+                moveX = Math.min(Math.max(0,moveX),maxX);     //X轴可拖动范围
+                moveY = Math.min(Math.max(0,moveY),maxY);     //Y轴可拖动范围
+
+                document.getElementById('dialog').style.left = moveX +'px';       //重新设置对话框的left
+                document.getElementById('dialog').style.top =  moveY +'px';        //重新设置对话框的top
+            },
         handleDelete(index, row,event) { //  删除某一个模板
             let that = this;
             console.log(row);
@@ -210,3 +310,53 @@ export default {
     }
 }
 </script>
+<style lang="" scoped>
+a{text-decoration: none; color: #eee; display: block;}
+    .button{       
+         width: 35px;
+        height: 35px;}
+    .callout_button{background:#FF5B5B;margin:0 auto; }
+    .callout_button:hover{background: red;}
+    .close_button{ 
+        width: 35px;
+        height: 35px;
+        border-radius: 50px;
+        text-align: center;
+        line-height: 32px;
+        position: absolute;
+        top: 20px;
+        left: 264px;   
+        background: #272424;
+        margin: 0 auto;
+    }
+    .close_button:hover{background: black;}
+    /* .mask{width: 100%;height: 100%;background:#000;position: absolute;top: 0px;left:0px;opacity: 0.4;z-index: 8000; display: none;-moz-user-select: none; -webkit-user-select: none;} */
+    .dialog{ position: absolute;z-index: 666; display: none;-moz-user-select: none; -webkit-user-select: none;}
+    .dialog_head{
+        width: 320px;
+        height: 695px;
+        line-height: 50px;
+        color: #eee;
+        cursor: move;
+        padding: 100px 16px;
+        background-image: url(../templateList/phone.5909f66.png);
+        background-repeat: no-repeat;
+        background-size: 100%;
+        box-sizing: border-box;
+        border-radius: 45px;
+        background-color: black;
+    }
+    .dialog_content{
+        width: 92%;
+        margin-left: 12px;
+        height: 518px;
+        position: absolute;
+        background-color: #ffffff;
+        top: 82px;
+    }
+    .template_iframe{
+        width: 100%;
+        height: 518px;
+        background-color: #fff;
+    }
+</style>
