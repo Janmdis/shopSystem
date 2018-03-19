@@ -128,7 +128,6 @@ export default {
             productData:[
                 {id:'brandId',delUrl:'/api/product/brand/update',des:'品牌名称',name:'brandName',addUrl:'/api/product/brand/insert'},
                 {id:'id',delUrl:'/api/product/sort/update',des:'产品分类',name:'name',addUrl:'/api/product/sort/insert'},
-                {id:'unitId',delUrl:'/api/product/unit/update',des:'产品来源',name:'unitName',addUrl:'/api/product/unit/insert'},
                 {id:'unitId',delUrl:'/api/product/unit/update',des:'单位名称',name:'unitName',addUrl:'/api/product/unit/insert'},
                 {id:'id',delUrl:'/api/product/type/update',des:'产品类型',name:'productName',addUrl:'/api/product/type/insert'},
                 {id:'specificationId',delUrl:'/api/product/specification/update',des:'规格',name:'specificationName',addUrl:'/api/product/specification/insert'},
@@ -174,7 +173,6 @@ export default {
     created(){
         this.showContent('产品模块',0);
         this.$root.$on('searchInfo',(data) => {
-            console.log(data)
             this.name = data[0];
             this.tableData = data[1];
             this.number = data[2];
@@ -244,7 +242,6 @@ export default {
         handleDelete(index,row) {
             let that = this;
             let modelId = this.id;
-            console.log(row);
             if(this.modelIndex == 0){
                 if(this.number == 0){
                     this.id = 'brandId'
@@ -253,9 +250,9 @@ export default {
                 }else if(this.number == 2){
                     this.id = 'unitId'
                 }else if(this.number == 3){
-                    this.id = 'unitId'
-                }else if(this.number == 4){
                     this.id = 'id'
+                }else if(this.number == 4){
+                    this.id = 'specificationId'
                 }
                 var data = {isActive:0};
                 data[modelId] = row[this.id];
