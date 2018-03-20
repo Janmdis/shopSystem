@@ -41,12 +41,10 @@ export default {
             this.dataArr = data.datas
             var dom=document.getElementsByClassName('emendation')[0];
              let dom_edit = document.getElementById('modificationBtn');
-             let dom_browse = document.getElementById('browseBtn');
              let dom_swicthTrue = document.getElementById('swicthTrue');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
             dom.style.left=data.show?'0px':'-900px';
             dom_edit.style.cursor=data.editcan?'':'not-allowed';
-            dom_browse.style.cursor=data.editcan?'':'not-allowed';
             dom_swicthTrue.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
