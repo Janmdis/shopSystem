@@ -135,6 +135,7 @@ export default memberInfos;
                     height:25px;
                     border:none;
                     border-bottom: 1px solid #dcdfe6;
+                    text-align:center;
                 }
                 .images{
                     position: absolute;
