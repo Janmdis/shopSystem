@@ -37,8 +37,25 @@
     .lineBline {
         border-bottom: 1px solid #ddd;
     }
+    @media screen and (min-width:1200px){
+    .tempdialog .el-dialog{
+        height:45%;
+    }
+    }
+    @media screen and (min-width:1700px){
+     .tempdialog .el-dialog{
+        height:45%;
+    }
+    }
+    @media screen and (min-width:1800px){
+     .tempdialog .el-dialog{
+        height:45%;
+    }
+    }
+    @media screen and (min-width:1900px){
     .tempdialog .el-dialog{
         height:37%;
+    }
     }
 </style>
 <script>
