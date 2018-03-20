@@ -49,7 +49,7 @@ export default{
 </script>
 <style scoped lang="less">
 #orderDetail{
-    //min-width: 750px;
+    min-width: 750px;
     padding:20px 20px;
     background: #fff;
     .detailHeader{
@@ -58,10 +58,10 @@ export default{
         line-height: 30px;
         text-align: center;
         border-radius:50%;
-        border:2px solid #00c0be;
+        border:2px solid #409EFF;
         cursor: pointer;
         i{
-            color:#00c0be;
+            color:#409EFF;
             font-size:20px;
             font-weight:900;
         }

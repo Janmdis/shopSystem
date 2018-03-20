@@ -2,7 +2,7 @@
 <div class="borderHover" :index='dataid' style="padding:0 0 0 0;">
   <!-- 轮播开始 -->
         <div id="imageAdss">
-            <div class="block">
+            <div>
                 <el-carousel trigger="click" width='614px'>
                     <el-carousel-item v-for='(item,index) in imglist' :key='index'>
                         <h3 class="Imgsize"><a href="javascript:;"><img class="Imgsize" :src="item.img" /></a></h3>
@@ -158,11 +158,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                 this.imglist=list;
          },
          addNewImg(){
-             let adImagedefault = {
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
-                            url:'',
-                            imgSrc:''
-                        }
+            //  let adImagedefault = {
+            //                 img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+            //                 url:'',
+            //                 imgSrc:''
+            //             }
              this.$store.commit('addNewImgAD',this.dataid)//对应组件的标识
              if(this.imglist.length >= 5){
                  this.$message({
@@ -171,7 +171,9 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                  });
                   return false
              }
-             this.imglist.push(adImagedefault)
+            //  this.imglist.push(adImagedefault)
+              this.imglist = this.$store.state.adImageList.comlist[this.dataid].componentsData.ImgArr;
+              this.imgAdDate = this.$store.state.adImageList.comlist[this.dataid].componentsData;
          },
         handleAvatarSuccess(res, file) {
             // this.imgAdDate.imageUrl = URL.createObjectURL(file.raw);
@@ -247,6 +249,10 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 /* 添加图片样式 */
 #imageAdss .avatar-uploader .el-upload {
    border: 1px dashed #ffffff !important;
+   filter:alpha(opacity=0);  
+      -moz-opacity:0;  
+      -khtml-opacity: 0;  
+      opacity: 0;
 }
 #imageAdss .carouselListInfo .avatar-uploader .el-upload {
     /* border: 1px dashed #d9d9d9; */

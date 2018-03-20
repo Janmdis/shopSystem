@@ -42,7 +42,12 @@
         </li>
         
          <li class='userinofBox'>
-          <img :src="imgUrl==null?'./user.png':imgUrl"><span>{{userName}}</span>
+          <div v-if='imgUrl'>
+              <img :src="imgUrl"><span>{{userName}}</span>
+          </div>
+          <div v-else>
+            <img src="./user.png"><span>{{userName}}</span>
+          </div>
          </li>
       </ul>
       </el-col>

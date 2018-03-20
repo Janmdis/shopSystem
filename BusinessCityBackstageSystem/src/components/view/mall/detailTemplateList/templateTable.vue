@@ -8,7 +8,8 @@
     :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
-    style="width: 100%">
+    style="width: 100%"
+    height='500'>
     <el-table-column
     fixed
     type="index"
@@ -17,12 +18,13 @@
     </el-table-column>
         <el-table-column
         fixed
-        type="selection" >
+        type="selection"
+        width="55">
         </el-table-column>
         <el-table-column class='borderRight' fixed 
         prop="templateName" 
         label="模板名称" 
-        width='360' height='100'>
+        width='260'>
         </el-table-column>
         <el-table-column
         label="模板分类">
@@ -38,10 +40,12 @@
         </el-table-column>
         <el-table-column
         prop="createTime"
-        label="创建时间">
+        label="创建时间"
+        width='170'>
         </el-table-column>
         <el-table-column
-        label="模板地址">
+        label="模板地址"
+        width='260'>
         <template slot-scope="scope">
             <span>{{ apis+'detailTemplate?id='+scope.row.templateID }}</span>
         </template>
@@ -49,10 +53,12 @@
         <el-table-column
         prop="description"
         label="模板描述"
+         width='200'
         >
         </el-table-column>
         <el-table-column
         prop="types"
+         width='220'
         label="操作">
          <template slot-scope="scope">
              <el-button type="text"  size="small" @click="handleSee(scope.$index, scope.row,$event)">浏览</el-button>

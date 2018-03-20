@@ -10,10 +10,10 @@
                 <el-form-item class="visit-item">
                     <p class="visit-round"></p>
                     <ul class="visit-des">
-                        <li>{{item.createTime}}</li>
-                        <li>回访时间 : {{item.time}}</li>
-                        <li>回访人 : {{item.customerAccount.name}}</li>
-                        <li>类型 : {{item.visitType}}</li>
+                        <li><span>{{item.createTime}}</span></li>
+                        <li>回访时间 : <span>{{item.time}}&nbsp;m</span></li>
+                        <li>回访人 : <span>{{item.customerAccount.name}}</span></li>
+                        <li>类型 : <span>{{item.visitType}}</span></li>
                     </ul>
                     <el-form-item label="客户反馈:" prop="Feedback">
                         <el-input class="text" type="textarea" :disabled='edit[index]' v-model="item.feedback"></el-input>
@@ -40,13 +40,10 @@
             label-width="100px" 
             class="demo-diagForm">
                 <el-form-item class="visit-item" label="回访时长:" prop="time">
-                    <el-input v-model="diagForm.time"></el-input>
-                </el-form-item>
-                <el-form-item class="visit-item" label="回访用户:" prop="userId">
-                    <el-input v-model="diagForm.userId"></el-input>
+                    <el-col :span="8"><el-input v-model="diagForm.time"></el-input></el-col>
                 </el-form-item>
                 <el-form-item class="visit-item" label="回访类型:" prop="visitType">
-                    <el-col :span="10">
+                    <el-col :span="8">
                     <el-select v-model="diagForm.visitType" placeholder="请选择">
                         <el-option
                         :popper-append-to-body="false"
@@ -59,10 +56,10 @@
                     </el-col>
                 </el-form-item>   
                 <el-form-item label="客户反馈:" prop="Feedback">
-                    <el-input type="textarea" v-model="diagForm.Feedback"></el-input>
+                    <el-input type="textarea" v-model="diagForm.Feedback" :autosize="{ minRows: 4}"></el-input>
                 </el-form-item>
                 <el-form-item label="回访内容:" prop="report">
-                    <el-input type="textarea" v-model="diagForm.report"></el-input>
+                    <el-input type="textarea" v-model="diagForm.report" :autosize="{ minRows: 4}"></el-input>
                 </el-form-item>
                 <el-form-item class="visit-btn">
                     <el-button type="primary" @click="submitDiag">保存</el-button>
@@ -79,11 +76,9 @@ export default{
             if(!value){
                 return callback(new Error('时长不能为空'));
             }
-            setTimeout(() => {
-                if(isNaN(value)){
-                    callback(new Error('请输入数字类型'));
-                }
-            },500);
+            if(isNaN(value)){
+                callback(new Error('请输入数字类型'));
+            }
         };
         return {
             dialogVisible: false,
@@ -100,9 +95,6 @@ export default{
             },
             visitTypes:[],
             rules: {
-                userId: [
-                    { required: true, message: '请输入回访用户', trigger: 'blur' }
-                ],
                 time: [
                     { validator: validateTime, trigger: 'blur' }
                 ],
@@ -141,8 +133,10 @@ export default{
                 method:'POST'
             }).then((res) => {
                 that.dataList = res.data.info.list;
-                for(let i =  0;i<this.dataList.length;i++){
-                    this.$set(this.edit,i,true);// 进行数据跟踪以便于动态数据渲染
+                that.$root.$emit('showNumber',that.dataList)
+                for(let i =  0;i<that.dataList.length;i++){
+                    this.$set(that.edit,i,true);// 进行数据跟踪以便于动态数据渲染
+                    this.$set(that.dataList[i],'createTime',that.dataList[i].createTime.slice(0,19));
                 }
                 that.isLoading = false;
                 that.$root.$emit('load',false);
@@ -160,7 +154,6 @@ export default{
             this.numbers = index;
         },
         submitForm(index) {
-            console.log(this.dataList[index]);
             let that = this;
             this.edit[index] = true;
             let data = {
@@ -180,17 +173,18 @@ export default{
         submitDiag(){
             let that = this;
             let data = [{
-                adminUserId:this.diagForm.adminUserId,//回访用户ID
                 feedback:this.diagForm.Feedback,
                 report:this.diagForm.report,
                 time:this.diagForm.time,              //回访时长
                 visitTypeId:this.diagForm.visitTypeId,
                 customerId:this.memberIde             //会员的ID
             }];
+            console.log("111")
             this.$refs['diagForm'].validate((valid) => {
+                console.log(valid)
                 if (valid) {
                     data.forEach((e,i) => {
-                        if(e.adminUserId == '' || e.feedback == '' || e.report == '' || e.visitTypeId == '' || e.customerId == ''){
+                        if(e.feedback == '' || e.report == '' || e.visitTypeId == '' || e.customerId == ''){
                             this.$message.error('内容不能有空!');
                             return false;
                         }else{
@@ -349,10 +343,15 @@ export default{
                 display:flex;
                 margin-left:25px;
                 color:#777;
-                // letter-spacing:1px;
                 margin-bottom: 20px;
+                li{
+                    font-weight: bold;
+                    span{
+                        font-weight: normal;
+                    }
+                }
                 li:nth-child(n+2){
-                    margin-left:30px;
+                    margin-left:20px;
                 }
             }
             .el-form-item{
