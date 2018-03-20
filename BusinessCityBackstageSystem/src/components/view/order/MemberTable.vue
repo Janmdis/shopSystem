@@ -46,16 +46,21 @@
         label="手机">
         </el-table-column>
         <el-table-column
-        prop="sourceId"
+      
         label="来源">
+            <template slot-scope='scope'>
+                {{scope.row.sourceId}}
+            </template>
         </el-table-column>
         <el-table-column
-        prop="orderDetails"
+        prop="sourceDetail"
         label="明细">
         </el-table-column>
         <el-table-column
-        prop="orderState"
         label="订单状态">
+            <template slot-scope='scope'>
+                {{scope.row.orderState==0?'新增服务订单':scope.row.orderState==1?'新增上门订单':scope.row.orderState==2?'追单':'暂无'}}
+            </template>
         </el-table-column>
         <el-table-column
         prop="remark"

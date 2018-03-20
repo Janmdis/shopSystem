@@ -102,13 +102,13 @@ export default {
             this.datalist = data
         })
         this.$root.$on('search',(datas)=>{
-            console.log(datas);
+            // console.log(datas);
             this.data.couponName=datas.coupon.couponName===''?null:datas.coupon.couponName;
             this.data.couponType=datas.coupon.couponType===''?null:datas.coupon.couponType;
             this.data.couponStatus=datas.coupon.couponStatus===''?null:datas.coupon.couponStatus;
             this.data.starTime=datas.coupon.daterange[0];
             this.data.endTime=datas.coupon.daterange[1];
-            console.log(this.data);
+            // console.log(this.data);
             this.getDate(1);
         })
     },

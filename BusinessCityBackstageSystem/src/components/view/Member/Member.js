@@ -1,9 +1,9 @@
 /* eslint-disable */
 import memberInfo from './memberInfo/MemberInfo.vue'
 import Datatable from './MemberTable.vue'
-import Lttip from '@/components/common/tipspage/lttip.vue'
+import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
-import search from './search.vue'
+import search from '../../common/search/search.vue'
 import showWindows from './showWindow.vue'
 import qs from 'qs'
 import moment from "moment"
@@ -37,7 +37,8 @@ export default {
             idList: [],
             dataHref: '',
             isShowList: false,
-            memberInfo: []
+            memberInfo: [],
+            type:'member'
         }
 
     },

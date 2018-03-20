@@ -33,7 +33,7 @@
         <el-table-column
         label="模板状态">
         <template slot-scope="scope">
-            <span :templateStaus="templateStu(scope.row.templateID)">{{ templateStauss }}</span>
+            <span :class="templateStaussColor == true?'templateStausColorGreen':templateStaussColor == false?'templateStausColorRed':''" :templateStaus="templateStu(scope.row.templateID)">{{ templateStauss }}</span>
         </template>
         </el-table-column>
         <el-table-column
@@ -43,7 +43,7 @@
         <el-table-column
         label="模板地址">
         <template slot-scope="scope">
-            <span>{{ 'http://www.greenCity.com'+scope.row.templateID }}</span>
+            <span>{{ apis+'detailTemplate?id='+scope.row.templateID }}</span>
         </template>
         </el-table-column>
         <el-table-column
@@ -82,9 +82,11 @@ export default {
             datalist:[],
             proTemplate:'',
             templateStauss:'...',
+            templateStaussColor:'',
             showLeft:0,
             pageIndex:1,
-            iframeLink:''
+            iframeLink:'',
+            apis:'http://101.89.175.155/'
         }
     },
     created:function(){
@@ -106,7 +108,7 @@ export default {
           //console.log(row);
           window.sessionStorage.setItem ("isBrowse",true); //设置为可浏览状态
           let id = row.templateID
-          this.iframeLink = 'http://localhost:8080/detailTemplate?id='+id
+          this.iframeLink = this.apis+"detailTemplate?id="+id
            //   101.89.175.155 服务器地址
           console.log(this.iframeLink)
           window.sessionStorage.setItem ("detailTemplateUrl",this.iframeLink);
@@ -260,9 +262,11 @@ export default {
            //console.log(arr)
             for(let i=0;i<arr.length;i++){
                 if(ids == arr[i]){
+                    this.templateStaussColor = true
                     return this.templateStauss = '启用中'
                 }else{
                      this.templateStauss = '停用中'
+                     this.templateStaussColor = false
                 }
             }
         },
@@ -332,6 +336,12 @@ export default {
 }
 </script>
 <style lang="" scoped>
+.templateStausColorGreen{
+    color:#50c380;
+}
+.templateStausColorRed{
+    color:#ff3b30
+}
 a{text-decoration: none; color: #eee; display: block;}
     .button{       
          width: 35px;

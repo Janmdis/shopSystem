@@ -30,6 +30,12 @@ export default {
             this.$root.$emit('getemploy',data.id);
         }
     },
+    watch:{
+        list(value){
+            this.$root.$emit('getrole',value[0].id);
+            this.$root.$emit('getemploy',value[0].id);
+        }
+    },
     computed: {
         ...mapState({
             list: state => state.deplist.deplisttree
@@ -92,7 +98,7 @@ export default {
     border-radius:5px;
 }
 .el-tree-node__label.on{
-    background-color: rgb(0, 173, 171);
+    background-color: #27a1f2;
     color:#fff;
 }
 

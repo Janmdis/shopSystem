@@ -18,7 +18,7 @@
                         ></el-cascader>
                     </el-form-item>
                 </el-col>
-                <el-col :span='8'>
+                <el-col style='width:728px;'>
                     <el-form-item label="时间段" :span='10' class='datepick'>
                         <el-date-picker
                         v-model="form.log.daterange"
@@ -255,6 +255,122 @@
                 </el-row>
                 
             </el-row>
+            <!-- 会员 -->
+            <el-row v-if='showaccount'>
+                <el-col :span="5">
+                    <el-form-item label="手机号">
+                        <el-input v-model="form.account.mobile"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="客户类型">
+                        <el-select v-model="form.account.categoryId" placeholder="请选择">
+                            <el-option v-for='(item,index) in accounttype' :key='index' :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="会员等级">
+                        <el-select v-model="form.account.level" placeholder="请选择">
+                            <el-option v-for='(item,index) in accountlevel' :key='index' :label="item.levelName" :value="item.level"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="城市">
+                        <el-cascader
+                        :options="citys"
+                        :show-all-levels="false"
+                        @change='changcity'
+                        :props="propslog2"
+                        ></el-cascader>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="小区">
+                        <el-select v-model="form.account.estateId" placeholder="请选择">
+                            <el-option v-for='(item,index) in estats' :key='index' :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="5" >
+                    <el-form-item label="来源">
+                        <el-select v-model="form.account.recommendedSourceId" placeholder="请选择">
+                            <el-option v-for='(item,index) in accountrecommendedSource' :key='index' :label="item.name" :value="item.id"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="2" :offset='1'>
+                    <el-checkbox v-model="form.account.birthDatecheck">今日生日</el-checkbox>
+                </el-col>
+            </el-row>
+            <!-- 订单 -->
+            <el-row v-if='showorder'>
+                <el-row>
+                    <el-col :span="5">
+                        <el-form-item label="订单号">
+                            <el-input v-model="form.order.number"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="手机号">
+                            <el-input v-model="form.order.phone"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="小区">
+                            <el-select v-model="form.order.communityName" placeholder="请选择">
+                                <el-option v-for='(item,index) in estats' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="来源">
+                            <el-select v-model="form.order.sourceId" placeholder="请选择">
+                                <el-option v-for='(item,index) in ordersourse' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="5" >
+                        <el-form-item label="交易状态">
+                            <el-select v-model="form.order.payState" placeholder="请选择">
+                                <el-option v-for='(item,index) in orderpayState' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="订单状态">
+                            <el-select v-model="form.order.orderState" placeholder="请选择">
+                                <el-option v-for='(item,index) in orderStatelist' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="订单类型">
+                            <el-select v-model="form.order.orderType" placeholder="请选择">
+                                <el-option v-for='(item,index) in orderType' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span='8'>
+                        <el-form-item label="时间段" :span='10' class='datepick'>
+                            <el-date-picker
+                            v-model="form.order.daterange"
+                            value-format='yyyy-MM-dd'
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-col :span="5" :offset='1'>
+                    <el-checkbox v-model="form.order.refundStatas">是否退款</el-checkbox>
+                </el-col>
+            </el-row>
             <el-row style=' padding-top:20px; '>
                 <el-col :span="2" style="margin-left:44%;">
                     <el-button type="primary" class='btnW' size="medium"  @click="searchdata">查询</el-button>
@@ -321,7 +437,28 @@
                         phone:'',
                         accStatus:'',
                         employeeTypeId:'',
-                        daterange:''
+                        daterange:'',
+                        birthDate:''
+                    },
+                    account:{
+                        mobile:'',
+                        categoryId:'',
+                        level:'',
+                        cityId:'',
+                        estateId:'',
+                        recommendedSourceId:'',
+                        birthDatecheck:false
+                    },
+                    order:{
+                        number:'',
+                        phone:'',
+                        communityName:'',
+                        sourceId:'',
+                        daterange:'',
+                        payState:'',
+                        orderState:'',
+                        orderType:'',
+                        refundStatas:false
                     }
                 },
                 userlist:[],
@@ -381,18 +518,73 @@
                     }
                 ],
                 useremployeetype:[],
-                showlog:this.type=='operalog'?true:false,
-                showchannel:this.type=='channel'?true:false,
-                showknowledge:this.type=='knowledge'?true:false,
-                showcoupon:this.type=='coupon'?true:false,
-                showsupplier:this.type=='supplier'?true:false,
-                showcommodity:this.type=='commodity'?true:false,
-                showproduct:this.type=='product'?true:false,
-                showusers:this.type=='users'?true:false,
+                accounttype:[],
+                accountlevel:[],
+                citys:[],
+                estats:[],
+                accountrecommendedSource:[],
+                orderStatelist:[
+                    {
+                        id:1,
+                        name:'未完成'
+                    },
+                    {
+                        id:2,
+                        name:'已完成'
+                    },
+                    {
+                        id:3,
+                        name:'异常'
+                    }
+                ],
+                orderpayState:[
+                    {
+                        id:1,
+                        name:'已支付'
+                    },
+                    {
+                        id:2,
+                        name:'未支付'
+                    },
+                    {
+                        id:3,
+                        name:'已过期'
+                    }
+                ],
+                orderType:[
+                    {
+                        id:1,
+                        name:'新增服务订单'
+                    },
+                    {
+                        id:2,
+                        name:'新增上门订单'
+                    },
+                    {
+                        id:3,
+                        name:'追单'
+                    }
+                ],
+                ordersourse:[],
+                showlog:this.type=='operalog',
+                showchannel:this.type=='channel',
+                showknowledge:this.type=='knowledge',
+                showcoupon:this.type=='coupon',
+                showsupplier:this.type=='supplier',
+                showcommodity:this.type=='commodity',
+                showproduct:this.type=='product',
+                showusers:this.type=='users',
+                showaccount:this.type=='member',
+                showorder:this.type=='order',
                 propslog: {
                     label:'label',
                     value: 'depid',
                     children: 'users'
+                },
+                propslog2: {
+                    label:'regionName',
+                    value: 'id',
+                    children: 'sysRegionList'
                 },
             }
         },
@@ -426,6 +618,18 @@
                 }
                 case 'users':{
                     this.getUsertype();
+                    break;
+                }
+                case 'member':{
+                    this.getMembertype();
+                    this.getMemberlevel();
+                    this.getCitys();
+                    this.getEstate();
+                    this.getRecommendedSource();
+                    break;
+                }
+                case 'order':{
+                    this.getEstate();
                     break;
                 }
                 default:{
@@ -493,6 +697,14 @@
                         accStatus:'',
                         employeeTypeId:'',
                         daterange:''
+                    },
+                    account:{
+                        mobile:'',
+                        categoryId:'',
+                        level:'',
+                        cityId:'',
+                        estateId:'',
+                        recommendedSourceId:''
                     }
                 };
                 this.$refs['form'].resetFields();
@@ -521,6 +733,10 @@
                 let userid=value[1];
                 this.form.log.userId=userid;
             },
+            changcity(val){
+                this.form.account.cityId=val[2]
+                // console.log(val);
+            },
             // 获取部门下的员工
             getUsers(depid){
                 return new Promise((resolve,reject)=>{
@@ -531,7 +747,7 @@
                     })
                     .then(res=>{
                         if(res.data.status==200){
-                            // cosnole.log();
+                            // cosnole.log(that.userlist);
                             let list=res.data.info.list;
                             that.userlist=[];
                             list.forEach(item=>{
@@ -541,7 +757,7 @@
                                 }
                                 that.userlist.push(json);
                             });
-                            console.log(that.userlist);
+                            // console.log(that.userlist);
                             resolve(true);
                         }
                         else{
@@ -761,10 +977,75 @@
                     that.$message('员工类型获取失败');
                 });
             },
+            // 获取会员类型
+            getMembertype(){
+                let that=this;
+                this.$http.post('/api/customer/customerCategory/findCategory')
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.accounttype=res.data.info
+                    }
+                    
+                })
+                .catch(err=>{
+                    console.log(err);
+                });
+            },
+            // 获取会员等级
+            getMemberlevel(){
+                let that=this;
+                this.$http.post('/api/customer/customerLevelComputing/query')
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.accountlevel=res.data.info
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            },
+            // 查询城市
+            getCitys(){
+                let that=this;
+                this.$http.get('/api/public/region/findParent?levels=3&parentId=0')
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.citys=res.data.info
+                    }
+                    // console.log(res);
+                })
+                .catch(err=>{
+                    console.log(err);
+                });
+            },
+            // 获取小区
+            getEstate(){
+                let that=this;
+                this.$http.get('/api/customer/estate/queryDataList?pageSize=1000')
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.estats=res.data.info.list;
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            },
+            // 获取推荐来源
+            getRecommendedSource(){
+                let that=this;
+                this.$http.post('/api/customer/recommendedSource/findSource')
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.accountrecommendedSource=res.data.info;
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            },
             searchdata(){
                 this.$root.$emit('search',this.form);
-                // let dom=document.querySelector('.searchareabox');
-                // dom.setAttribute('class','searchareabox');
             }
         },
         computed:{

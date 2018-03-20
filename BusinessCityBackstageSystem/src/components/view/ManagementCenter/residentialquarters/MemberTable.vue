@@ -108,7 +108,7 @@ export default {
         },
         getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/customer/estate/queryDataList?page='+pageIndex+'&pageSize=10'+(JSON.stringify(data)=="{}"?'':'&name='+data.name)
+            let url = '/api/customer/estate/queryDataList?pageNum='+pageIndex+'&pageSize=10'+(JSON.stringify(data)=="{}"?'':'&name='+data.name)
             this.$http({
                 url: url,
                 method: 'GET',

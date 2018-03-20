@@ -74,7 +74,7 @@
             </el-row>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-button  @click="resetForm('ruleForm')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -104,8 +104,8 @@ import qs from 'qs'
                     if (!Number.isInteger(value)) {
                         callback(new Error('请输入数字值'))
                     } else {
-                        if (value < 18) {
-                            callback(new Error('必须年满18岁'))
+                        if (value < 6) {
+                            callback(new Error('必须年满6岁'))
                         } else {
                             callback()
                         }

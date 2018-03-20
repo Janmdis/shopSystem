@@ -7,18 +7,15 @@
             <el-button type="primary" :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
-                <!--<li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
-                    <i class='el-icon-delete'></i> 上架
-                </li>
-                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
-                    <i class='el-icon-delete'></i> 下架
-                </li>!-->
-                 <li id="modificationBtn" class='other' @click="edit">
+                <li id="modificationBtn" class='other' @click="edit">
                     <i class='el-icon-edit-outline'></i> 编辑
                 </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
                 </li>
+                <!--<li class="other"    @click='showMark'>
+                    <i class='el-icon-delete'></i> 打标签
+                </li>!-->
             </ul>
         </div>
     </div>
@@ -42,7 +39,7 @@ export default {
             var dom=document.getElementsByClassName('emendation')[0];
             let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
-            dom.style.left=data.show?'0px':'-700px';
+            dom.style.left=data.show?'0px':'-600px';
             dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
@@ -63,11 +60,15 @@ export default {
             this.$root.$emit("delBox",this.dataInfo)
         },
         switchsearch(){
+            // console.log(this.searchtext);
             let organtext=this.searchtext;
             let flag=organtext=='展开搜索';
             this.searchtext=organtext=='展开搜索'?'收起搜索':'展开搜索';
             this.$root.$emit('switch',flag);
         }
+        // showMark(){
+        //     this.$root.$emit("showMark",this.dataInfo)
+        // },
     }
 }
 </script>
@@ -80,6 +81,12 @@ export default {
 .productDesignation>i {
 	color: #3da4c3;
 }
+.productDesignation h3 {
+	padding-top: 25px;
+	font-size: 20px;
+	color: #0D4156;
+	padding-left: 20px;
+}
 .productDesignation .btn-search{
     position: absolute;
     left: 115px;
@@ -88,12 +95,6 @@ export default {
     color: #27a1f2;
     border:none;
     font-size: 13px;
-}
-.productDesignation h3 {
-	padding-top: 25px;
-	font-size: 20px;
-	color: #0D4156;
-	padding-left: 20px;
 }
 .productDesignation h3:before {
 	content: "";
@@ -120,7 +121,7 @@ export default {
 	margin-top: 26px;
 	position: absolute;
 	top: 0;
-	left:-700px;
+	left:-600px;
 	height: 32px;
     background: #fff;
     color: #555;

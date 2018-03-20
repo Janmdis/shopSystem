@@ -37,7 +37,7 @@
         <el-table-column
         label="模板地址">
         <template slot-scope="scope">
-            <span>{{ '101.89.175.155' }}</span> 
+            <span>{{ apis+'navBottom?id='+scope.row.templateID }}</span> 
             <!-- +scope.row.templateID -->
         </template>
         </el-table-column>
@@ -53,7 +53,7 @@
              <el-button type="text"  size="small" @click="handleSee(scope.$index, scope.row,$event)">浏览</el-button>
             <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
             <el-button type="text"  size="small" @click="handleSwicth(scope.$index, scope.row,$event)">
-                <span>{{ scope.row.isEnabled == true?'启用中':scope.row.isEnabled == false?'停用中':''}}</span>
+                <span :class="scope.row.isEnabled == true?'templateStausColorGreen':scope.row.isEnabled == false?'templateStausColorRed':''">{{ scope.row.isEnabled == true?'启用中':scope.row.isEnabled == false?'停用中':''}}</span>
                 </el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
@@ -80,7 +80,8 @@ export default {
             datalist:[],
             showLeft:0,
             pageIndex:1,
-            iframeLink:''
+            iframeLink:'',
+            apis:'http://101.89.175.155/'
         }
     },
     created:function(){
@@ -106,7 +107,7 @@ export default {
         )
         .then(function(response){
           console.log(response)
-          that.iframeLink = "http://localhost:8080/navBottom?id="+id
+          that.iframeLink = that.apis+"navBottom?id="+id
         //   101.89.175.155 服务器地址
         })
         .catch(function(response){
@@ -319,6 +320,12 @@ export default {
 }
 </script>
 <style lang="" scoped>
+.templateStausColorGreen{
+    color:#50c380;
+}
+.templateStausColorRed{
+    color:#ff3b30
+}
 a{text-decoration: none; color: #eee; display: block;}
     .button{       
          width: 35px;

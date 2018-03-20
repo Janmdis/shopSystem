@@ -38,7 +38,7 @@
         border-bottom: 1px solid #ddd;
     }
     .eventtempdialog .el-dialog{
-        height:50%;
+        height:37%;
     }
 </style>
 <script>

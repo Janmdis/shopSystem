@@ -1,5 +1,5 @@
 <template>
-    <el-main >
+    <el-main id='usrinfo'>
         <el-container>
             <el-header>
                 <div class="linkHieht">
@@ -53,6 +53,10 @@ import Password from './userChildren/Password.vue'
 }
 .el-tabs--left .el-tabs__item.is-left{
     text-align: center;
+}
+#usrinfo .tablist , #usrinfo .el-tabs--left .el-tabs__item.is-left{
+    background:#fff;
+    color:#525252;
 }
 </style>
 

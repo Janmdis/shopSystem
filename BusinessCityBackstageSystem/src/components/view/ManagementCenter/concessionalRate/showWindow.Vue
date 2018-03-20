@@ -150,8 +150,8 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item>
-                <el-button class='mTop' type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-form-item >
+                <el-button class='mTop'  type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -320,13 +320,29 @@
                         message: '请输入数量',
                         trigger: 'blur'
                     }, ],
+                    couponMoney:[{
+                        required: true,
+                        message: '请输入金额',
+                        trigger: 'blur'
+                    }, ],
+                    couponName:[{
+                        required: true,
+                        message: '请输入名称',
+                        trigger: 'blur'
+                    }, ],
                     starTime: [{
                         required: true,
                         message: '请选择开日期',
                         trigger: 'change'
                     }],
+                    couponType:[{
+                        required: true,
+                        message: '请选择类型',
+                        trigger: 'change'
+                    }],
                     endTime: [{
                         validator: checkAge,
+                        message: '请选择结束日期',
                         trigger: 'change'
                     }],
                 }
@@ -335,7 +351,7 @@
         methods: {
             submitForm(formName) {
                 let that = this;
-                if (this.ruleForm.textInfo == "新增会员") {
+                if (this.ruleForm.textInfo == "新增优惠劵") {
                     that.$refs[formName].validate((valid) => {
                         this.onChange();
                         if (valid) {
@@ -367,7 +383,7 @@
                         }
                     });
                 }
-                if (this.ruleForm.textInfo == "编辑会员") {
+                if (this.ruleForm.textInfo == "编辑优惠劵") {
                     that.$refs[formName].validate((valid) => {
                         this.onChange();
                         if (valid) {
@@ -478,8 +494,9 @@
                             this.ruleForm.addBoxArr = this.ruleForm.myData[i].sysRegionList
                         }
                     }
+                    this.ruleForm.shopAdd = '';
                 }
-                let url = '/api/public/region/fulzz?name=' + this.ruleForm.city + '&grade=3';
+                let url = '/api/public/region/fulzz?name=' + this.ruleForm.city + '&grade=2';
                 this.$http({
                         url: url,
                         method: 'get',
@@ -487,6 +504,7 @@
                     })
                     .then(respone => {
                         //that.addArrBox = [];
+                        console.log(respone)
                         this.ruleForm.myData = respone.data.info
                     })
                     .catch(error => {
@@ -739,7 +757,7 @@
             this.$root.$on('showWindow', (data) => {
                 let dataId = data[0].id
                 if (data != 'no') {
-                    this.ruleForm.textInfo = '编辑会员';
+                    this.ruleForm.textInfo = '编辑优惠劵';
                     let url = '/api/product/coupon/info/find';
                     this.$http({
                             url: url,
@@ -796,13 +814,16 @@
                         })
                     this.dialogVisible = true;
                 } else {
-                    this.ruleForm.textInfo = '新增会员';
+                    this.ruleForm.textInfo = '新增优惠劵';
                     this.dialogVisible = true;
                 }
             });
             this.getShop();
             this.getShops();
             //this.addSearchFn();
+        },
+        beforeDestroy(){
+            this.$root.$off('showWindow');
         }
     }
 </script>

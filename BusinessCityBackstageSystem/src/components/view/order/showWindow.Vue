@@ -118,7 +118,7 @@
                                                                 </span>
                         </el-col>
                         <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
-                            <input type="text" v-model="houseForm.streetMore" placeholder="请输入详细地址" class="detailAddress">
+                            <input type="text" v-model="houseForm.streetMore" placeholder="请输入详细地址" style='padding:0;' class="detailAddress">
                         </el-col>
                     </el-col>
                 </el-form-item>
@@ -168,7 +168,7 @@
                     <el-input style='width:60px;' type='number' v-model='shopNum'></el-input>
                 </el-col>
                 <el-col :span='2' :offset='1'>
-                    <el-button @click='addTable' :disabled='disabShow'>添加</el-button>
+                    <el-button @click='addTable' :disabled='disabShow' >添加</el-button>
                 </el-col>
                 <el-col :span='22' :offset='1'>
                     <el-table id='overclear' style="width: 100%" @selection-change="handleSelectionChange">
@@ -279,7 +279,7 @@
     }
     .headerBottom .citys {
         position: absolute;
-        top: 21px;
+        top: 3px;
         left: -35px;
     }
     .el-table .warning-row {
@@ -901,11 +901,11 @@
                 }
             },
             delBox(indexs, index) {
-                // console.log(indexs)
+                console.log(this.ruleForm.addBox)
                 // console.log(index)
-                var liArr = this.ruleForm.addBox;
-                console.log(index)
-                liArr.splice(index, 1);
+                // var liArr = this.ruleForm.addBox;
+                // console.log(index)
+                // liArr.splice(index, 1);
                 //console.log(this.ruleForm.addBox.splice(index, 1))
             },
             addFn(index) {
@@ -1157,7 +1157,7 @@
                 this.$refs['ruleForm'].resetFields();
             },
             getScour() {
-                let url = '/api/customer/recommendedSource/findSource';
+                let url = '/api/product/order/source/query';
                 this.$http({
                         url: url,
                         method: 'post',
@@ -1167,6 +1167,7 @@
                         data: {}
                     })
                     .then(respone => {
+                        console.log(respone)
                         this.ruleForm.sourceArr = respone.data.info;
                         //console.log(this.ruleForm.this.ruleForm.sourceArr)
                     })
@@ -1291,7 +1292,7 @@
                             this.ruleForm.name = data.name;
                             this.ruleForm.orderState = textInfo
                             this.ruleForm.unpaidMoney = data.unpaidMoney;
-                            this.ruleForm.detailAddress = data.detailAddresst;
+                            this.ruleForm.detailAddresst = data.detailAddress;
                             this.ruleForm.orderType = orderInfo;
                             this.ruleForm.refundMoney = data.refundMoney;
                             this.ruleForm.remark = data.remark;
@@ -1326,7 +1327,7 @@
                             for (let i = 0; i < respone.data.info.length; i++) {
                                 if (respone.data.info[i].commodityInfo.commodityInfos != null) {
                                     if (respone.data.info[i].commodityInfo.commodityInfos.length > null) {
-                                        newArrId = i;
+                                        
                                         newArr.push({
                                             'name': respone.data.info[i].commodityName,
                                             'id': respone.data.info[i].commodityId,
@@ -1346,11 +1347,6 @@
                                             })
                                         }
                                     }
-                                    // var hash = {};
-                                    // newArr = newArr.reduce(function(item, next) {
-                                    //     hash[next.id] ? '' : hash[next.id] = true && item.push(next);
-                                    //     return item
-                                    // }, []);
                                 } else {
                                     shopArr.push({
                                         'name': respone.data.info[i].commodityName,
@@ -1359,11 +1355,6 @@
                                         'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
                                         'trues': 'yes'
                                     })
-                                    // var hash = {};
-                                    // newArr = newArr.reduce(function(item, next) {
-                                    //     hash[next.id] ? '' : hash[next.id] = true && item.push(next);
-                                    //     return item
-                                    // }, []);
                                 }
                             }
                             this.ruleForm.pushAdd = [];

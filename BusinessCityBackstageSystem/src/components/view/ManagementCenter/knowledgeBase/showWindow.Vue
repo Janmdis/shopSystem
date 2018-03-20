@@ -1,8 +1,8 @@
 <template>
-    <el-dialog class='headerBottom' :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="40%">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-dialog class='headerBottom' :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="40% ">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" style='height: 500px; overflow-y: scroll;'>
             <el-row>
-                <el-col :span='15'>
+                <el-col :span='22'>
                     <el-form-item label="分类">
                         <el-select v-model="ruleForm.classification" placeholder="请选择活动区域">
                             <el-option v-for=' (item,index) in ruleForm.classificationData' :key="index" :label="item.sortName" :value="item.id"></el-option>
@@ -11,7 +11,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span='15'>
+                <el-col :span='22'>
                     <el-form-item label="知识点">
                         <el-select v-model="ruleForm.KnowledgePoint" placeholder="请选择活动区域">
                             <el-option v-for=' (item,index) in ruleForm.KnowledgePointId' :key="index" :label="item.content" :value="item.id"></el-option>
@@ -286,7 +286,7 @@
                             this.ruleForm.desc = datas.problemDescription;
                             this.ruleForm.knowArr = datas.knowledgeAnswerList;
                             this.ruleForm.classification = datas.knowledgeSortId;
-                            this.ruleForm.KnowledgePoint = datas.knowledgePoint;
+                            this.ruleForm.KnowledgePoint = datas.knowledgePointId;
                         })
                         .catch(error => {
                             console.log(error);
@@ -315,6 +315,7 @@
                 })
                 .then(respone => {
                     this.ruleForm.classificationData = respone.data.info.list;
+                    console.log(respone)
                 })
                 .catch(error => {
                     console.log(error);
@@ -330,12 +331,17 @@
                     }
                 })
                 .then(respone => {
+                    
                     this.ruleForm.KnowledgePointId = respone.data.info.list;
+                    console.log(this.ruleForm.KnowledgePointId)
                 })
                 .catch(error => {
                     console.log(error);
                     alert('网络错误，不能访问3');
                 })
+        },
+        beforeDestroy(){
+            this.$root.$off('showWindow');
         }
     }
 </script>
