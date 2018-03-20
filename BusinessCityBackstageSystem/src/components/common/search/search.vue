@@ -300,7 +300,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="2" :offset='1'>
+                <el-col :span="2" :offset='1' style='line-height:40px;'>
                     <el-checkbox v-model="form.account.birthDatecheck">今日生日</el-checkbox>
                 </el-col>
             </el-row>
@@ -705,7 +705,19 @@
                         level:'',
                         cityId:'',
                         estateId:'',
-                        recommendedSourceId:''
+                        recommendedSourceId:'',
+                        birthDatecheck:false
+                    },
+                    order:{
+                        number:'',
+                        phone:'',
+                        communityName:'',
+                        sourceId:'',
+                        daterange:'',
+                        payState:'',
+                        orderState:'',
+                        orderType:'',
+                        isrefund:false
                     }
                 };
                 this.$refs['form'].resetFields();
