@@ -1,9 +1,9 @@
 
 <template>
   <!-- 分类组件开始 -->
-    <div class="borderHover" :index='dataid'>
+    <div id="classificationss" class="borderHover" :index='dataid'>
       <!-- 分类开始 -->
-      <div style="overflow-x:scroll;" id="classificationss">
+      <div style="overflow-x:scroll;">
           <el-row class="classNameContent" v-bind:style="classNameContent" style="overflow:hidden;">
              <el-col class="className" v-for='(item,index) in imglist' :key="index">
               <div class="classNameTitle">{{ item.classTitle }}</div>
@@ -60,7 +60,7 @@
                                           链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                         </span>
                                         <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
-                                          <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                          <!-- <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item> -->
                                           <el-dropdown-item @click.native="opendialogSelf(index)" style="margin-top:10px;">自定义</el-dropdown-item>
                                         </el-dropdown-menu>
                                       </el-dropdown>
@@ -256,10 +256,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 }
 #classificationss .avatar-uploader .el-upload {
    border: 1px dashed #ffffff !important;
-   filter:alpha(opacity=0);  
-      -moz-opacity:0;  
-      -khtml-opacity: 0;  
-      opacity: 0;
+}
+#classificationss .el-upload {
+    filter:alpha(opacity=0) !important;  
+    -moz-opacity:0 !important;  
+    -khtml-opacity: 0 !important;  
+    opacity: 0 !important;
+    width: 100% !important; 
+    height: 100% !important;
 }
 </style>
 <style scoped lang="less">
