@@ -10,10 +10,10 @@
                     <i class='el-icon-edit-outline'></i> 编辑
                 </li>
                 <li class='other' data-toggle="modal" data-target="#delModal" @click="swicthOFF">
-                    <i class='el-icon-delete'></i> 启用
+                    <i class='icon iconfont icon-plus-start'></i> 启用
                 </li>
                 <li class='other' data-toggle="modal" data-target="#delModal" @click="swicthStop">
-                    <i class='el-icon-delete'></i> 停用
+                    <i class='icon iconfont icon-tingyong'></i> 停用
                 </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
