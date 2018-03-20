@@ -93,14 +93,14 @@ export default{
                 }
                 .el-button{
                     background:#fff;
-                    color:#00c0be;
+                    color:#409EFF;
                     border-radius:30px;
                 }
                 .el-button:nth-child(n+2){
                    padding:12px 30px;
                 }
                 .el-button:hover{
-                    background:#00c0be;
+                    background:#409EFF;
                     color:#fff;
                 }
             }

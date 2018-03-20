@@ -4,7 +4,7 @@
             <div class="houseHeader"><span class="addHouseBtn" @click="addCover">新增</span></div>
             <ul class="houseMain" >
                 <li v-for="(info,index) in memberHouse" :key="index" >
-                    <div class="houseDiv"><span>小区/写字楼 : {{info.estateId}}</span><span>房屋类型 : {{houseCategory[info.categoryId]}}</span></div>
+                    <div class="houseDiv"><span>小区/写字楼 : {{smallDisInfos[info.estateId]}}</span><span>房屋类型 : {{houseCategory[info.categoryId]}}</span></div>
                     <div class="houseDiv"><span>地址 : {{info.address}}</span><span>租住状态 : {{rentalStatus[info.rentalStatusId]}}</span></div>
                     <div class="houseBtn" :dataId="index">
                         <el-button @click="jumpHouseDetail($event)" :dataId="index" >查看详情</el-button>
@@ -106,6 +106,7 @@ export default{
                 toilet:null,kitchen:null,square:0
             },
             smallDisInfo:[],
+            smallDisInfos:{},
             houseInfo:[],
             proInfoList:[],
             proInfo:[],
@@ -175,7 +176,11 @@ export default{
             this.$http.get('/api/customer/estate/queryData')
             .then(res => {
                 this.smallDisInfo = res.data.info;
-                //console.log(this.smallDisInfo);
+                // console.log(this.smallDisInfo);
+                this.smallDisInfo.forEach((e,i) => {
+                    this.$set(this.smallDisInfos,e.id,e.name)
+                })
+                // console.log(this.smallDisInfos)
             }).catch(err => {console.log(err)});
         },
         addCover(){ //  新增房屋事件
@@ -406,13 +411,13 @@ export default{
                 height: 45px;
                 .el-button{
                     background:#fff;
-                    color:#00c0be;
+                    color:#409EFF;
                     position: absolute;
                     right:30px;
                     border-radius:30px;
                 }
                 .el-button:hover{
-                    background:#00c0be;
+                    background:#409EFF;
                     color:#fff;
                 }
             }
