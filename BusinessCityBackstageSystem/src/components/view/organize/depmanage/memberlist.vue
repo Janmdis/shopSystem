@@ -147,6 +147,7 @@ export default {
     display: inline-block;
     cursor: pointer;
     border: 1px solid transparent;
+    padding: 5px;
 }
 .roleSection{
     /* height: 600px; */

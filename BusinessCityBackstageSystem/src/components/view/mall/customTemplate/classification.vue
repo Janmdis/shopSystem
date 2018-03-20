@@ -1,7 +1,7 @@
 
 <template>
   <!-- 分类组件开始 -->
-    <div class="borderHover" :index='dataid'>
+    <div id="classificationss" class="borderHover" :index='dataid'>
       <!-- 分类开始 -->
       <div style="overflow-x:scroll;">
           <el-row class="classNameContent" v-bind:style="classNameContent" style="overflow:hidden;">
@@ -60,7 +60,7 @@
                                           链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                         </span>
                                         <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
-                                          <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                          <!-- <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item> -->
                                           <el-dropdown-item @click.native="opendialogSelf(index)" style="margin-top:10px;">自定义</el-dropdown-item>
                                         </el-dropdown-menu>
                                       </el-dropdown>
@@ -176,12 +176,12 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             this.classNameContent.width = allWidth + 'px';
          },
           addNewImg(){
-              let classificationDefault = {
-                    classTitle:'眼镜',
-                    img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
-                    url:'',
-                    imgSrc:''
-              };
+            //   let classificationDefault = {
+            //         classTitle:'眼镜',
+            //         img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+            //         url:'',
+            //         imgSrc:''
+            //   };
               this.$store.commit('addNewImgClass',this.dataid)//对应组件的标识
              if(this.imglist.length >= 10){
                  this.$message({
@@ -195,7 +195,8 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                 this.classNameContent.width = allWidth + 'px';
                   return false
              }
-            this.imglist.push(classificationDefault)
+              this.imglist = this.$store.state.adImageList.comlist[this.dataid].componentsData.ImgArr;
+            // this.imglist.push(classificationDefault)
             let classNames = document.querySelectorAll('.className');
             let length = this.imglist.length;
             let classNameWidth =  classNames[0].offsetWidth;
@@ -252,6 +253,17 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 <style>
 .carouselListInfo .el-input__inner{
     height: 30px;
+}
+#classificationss .avatar-uploader .el-upload {
+   border: 1px dashed #ffffff !important;
+}
+#classificationss .el-upload {
+    filter:alpha(opacity=0) !important;  
+    -moz-opacity:0 !important;  
+    -khtml-opacity: 0 !important;  
+    opacity: 0 !important;
+    width: 100% !important; 
+    height: 100% !important;
 }
 </style>
 <style scoped lang="less">

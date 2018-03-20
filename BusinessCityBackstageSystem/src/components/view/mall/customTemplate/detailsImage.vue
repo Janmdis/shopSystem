@@ -1,5 +1,5 @@
 <template>
-<div class="borderHover" :index='dataid' style="padding:0 0 0 0;">
+<div id="detailsImagess" class="borderHover" :index='dataid' style="padding:0 0 0 0;">
   <!-- 详情图片开始 -->
         <div>
             <el-row>
@@ -55,7 +55,7 @@
                                             链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                         </span>
                                         <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
-                                            <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                            <!-- <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item> -->
                                             <el-dropdown-item @click.native="opendialogSelf(index)" style="margin-top:10px;">自定义</el-dropdown-item>
                                         </el-dropdown-menu>
                                         </el-dropdown>
@@ -159,20 +159,15 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                 this.imglist=list;
          },
          addNewImg(){
-             let adImagedefault = {
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
-                            url:'',
-                            imgSrc:''
-                        }
+            //  let adImagedefault = {
+            //                 img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+            //                 url:'',
+            //                 imgSrc:''
+            //             }
              this.$store.commit('addNewImgDetail',this.dataid)//对应组件的标识
-            //  if(this.imglist.length >= 5){
-            //      this.$message({
-            //          type: 'warning',
-            //          message: '最多添加5张图片广告！'
-            //      });
-            //       return false
-            //  }
-             this.imglist.push(adImagedefault)
+            // this.imglist.push(adImagedefault)
+            this.imglist = this.$store.state.adImageList.comlist[this.dataid].componentsData.ImgArr;
+            this.imgAdDate = this.$store.state.adImageList.comlist[this.dataid].componentsData;
          },
         handleAvatarSuccess(res, file) {
             // this.imgAdDate.imageUrl = URL.createObjectURL(file.raw);
@@ -226,10 +221,18 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 </script>
 <style>
 /* 添加图片样式 */
-.avatar-uploader .el-upload {
+#detailsImagess .avatar-uploader .el-upload {
    border: 1px dashed #ffffff !important;
 }
-.carouselListInfo .avatar-uploader .el-upload {
+#detailsImagess .el-upload{
+    filter:alpha(opacity=0) !important;  
+    -moz-opacity:0 !important;  
+    -khtml-opacity: 0 !important;  
+    opacity: 0 !important;
+    width: 100% !important; 
+    height: 100% !important;
+}
+#detailsImagess .carouselListInfo .avatar-uploader .el-upload {
     /* border: 1px dashed #d9d9d9; */
     /* background: #409EFF; */
     border-radius: 6px;
@@ -237,9 +240,9 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     position: relative;
     overflow: hidden;
   }
-.avatar-uploader .el-upload:hover {
+#detailsImagess .avatar-uploader .el-upload:hover {
      border-color: #ffffff !important; }
- .carouselListInfo .avatar-uploader-icon {
+#detailsImagess .carouselListInfo .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
     width: 178px;
@@ -247,14 +250,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     line-height: 178px;
     text-align: center;
   }
- .carouselListInfo .avatar {
+#detailsImagess .carouselListInfo .avatar {
     width: 248px;
     height: 178px;
     display: block;
   }
   /* input file 样式 */
- .carouselListInfo .el-upload--text{
-  width: 100%;
+#detailsImagess .carouselListInfo .el-upload--text{
+    width: 100%;
     height: 100%;
 }
 </style>

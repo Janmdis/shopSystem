@@ -1,8 +1,8 @@
 <template>
-<div class="borderHover" :index='dataid' style="padding:0 0 0 0;">
+<div id="imageAdss" class="borderHover" :index='dataid' style="padding:0 0 0 0;">
   <!-- 轮播开始 -->
-        <div id="imageAdss">
-            <div class="block">
+        <div>
+            <div>
                 <el-carousel trigger="click" width='614px'>
                     <el-carousel-item v-for='(item,index) in imglist' :key='index'>
                         <h3 class="Imgsize"><a href="javascript:;"><img class="Imgsize" :src="item.img" /></a></h3>
@@ -54,7 +54,7 @@
                                             链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                         </span>
                                         <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
-                                            <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                            <!-- <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item> -->
                                             <el-dropdown-item @click.native="opendialogSelf(index)" style="margin-top:10px;">自定义</el-dropdown-item>
                                         </el-dropdown-menu>
                                         </el-dropdown>
@@ -158,11 +158,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                 this.imglist=list;
          },
          addNewImg(){
-             let adImagedefault = {
-                            img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
-                            url:'',
-                            imgSrc:''
-                        }
+            //  let adImagedefault = {
+            //                 img:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517225304769&di=9dc8aef46668f5f48a87293a77a41282&imgtype=0&src=http%3A%2F%2Fpic110.nipic.com%2Ffile%2F20160927%2F20860925_093853370000_2.jpg",
+            //                 url:'',
+            //                 imgSrc:''
+            //             }
              this.$store.commit('addNewImgAD',this.dataid)//对应组件的标识
              if(this.imglist.length >= 5){
                  this.$message({
@@ -171,7 +171,9 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                  });
                   return false
              }
-             this.imglist.push(adImagedefault)
+            //  this.imglist.push(adImagedefault)
+              this.imglist = this.$store.state.adImageList.comlist[this.dataid].componentsData.ImgArr;
+              this.imgAdDate = this.$store.state.adImageList.comlist[this.dataid].componentsData;
          },
         handleAvatarSuccess(res, file) {
             // this.imgAdDate.imageUrl = URL.createObjectURL(file.raw);
@@ -247,6 +249,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 /* 添加图片样式 */
 #imageAdss .avatar-uploader .el-upload {
    border: 1px dashed #ffffff !important;
+}
+#imageAdss .el-upload {
+    filter:alpha(opacity=0) !important;  
+    -moz-opacity:0 !important;  
+    -khtml-opacity: 0 !important;  
+    opacity: 0 !important;
+    width: 100% !important; 
+    height: 100% !important;
 }
 #imageAdss .carouselListInfo .avatar-uploader .el-upload {
     /* border: 1px dashed #d9d9d9; */

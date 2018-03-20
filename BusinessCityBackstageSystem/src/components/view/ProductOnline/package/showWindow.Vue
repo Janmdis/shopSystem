@@ -337,6 +337,25 @@ import { mapState } from 'vuex'
                         that.$message('商品添加失败！');
                     }); 
                 }
+                else if(this.flag=='addrecommend'){
+                    this.$http.post('/api/product/commodity/relationship/insert',list)
+                    .then(function(response){
+                        if(response.data.msg=='新增成功'){
+                            that.$message.success('推荐商品修改成功！');
+                            that.$root.$emit('reloadlist');
+                            that.dialogVisible=false;
+                            // that.$root.$emit('editpackage',{list,id:response.data.info.id});
+                            // that.dialogVisible=false;
+                        }
+                        else{
+                            that.$message(response.data.msg);
+                        }
+                        // console.log(response);
+                    })
+                    .catch(function(response){
+                        that.$message('推荐商品修改失败！');
+                    }); 
+                }
                 else{
                     this.$http.post('/api/product/commodity/package/insert',list)
                     .then(function(response){

@@ -81,8 +81,9 @@ export default {
         this.$root.$on('search',(datas)=>{
             this.data.userId=datas.log.userId===''?null:datas.log.userId;
             this.data.content=datas.log.content===''?null:datas.log.content;
-            this.data.beginTime=datas.log.daterange[0];
-            this.data.endTime=datas.log.daterange[1];
+            this.data.beginTime=datas.log.daterange?datas.log.daterange[0]+' 0:00:00':null;
+            this.data.endTime=datas.log.daterange?datas.log.daterange[1]+' 0:00:00':null;
+            // console.log(this.data);
             this.getDate(1)
         });
     },

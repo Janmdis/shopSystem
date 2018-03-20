@@ -106,8 +106,8 @@ export default {
             this.data.couponName=datas.coupon.couponName===''?null:datas.coupon.couponName;
             this.data.couponType=datas.coupon.couponType===''?null:datas.coupon.couponType;
             this.data.couponStatus=datas.coupon.couponStatus===''?null:datas.coupon.couponStatus;
-            this.data.starTime=datas.coupon.daterange[0];
-            this.data.endTime=datas.coupon.daterange[1];
+            this.data.starTime=datas.coupon.daterange?Date.parse(datas.coupon.daterange[0]):null;
+            this.data.endTime=datas.coupon.daterange?Date.parse(datas.coupon.daterange[1]):null;
             // console.log(this.data);
             this.getDate(1);
         })

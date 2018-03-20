@@ -41,9 +41,9 @@ export default {
             //dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
-        this.$root.$on('search',()=>{
-            this.searchtext='展开搜索';
-        });
+        // this.$root.$on('search',()=>{
+        //     this.searchtext='展开搜索';
+        // });
     },
     methods:{
         edit(){

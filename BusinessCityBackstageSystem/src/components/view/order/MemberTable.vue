@@ -81,7 +81,21 @@ export default {
         return {
             datalist:[],
             showLeft:0,
-            pageIndex:1
+            pageIndex:1,
+            data:{
+                number:null,
+                phone:null,
+                communityName:null,
+                sourceId:null,
+                createTimeStart:null,
+                createTimeEnd:null,
+                payState:null,
+                orderState:null,
+                orderType:null,
+                refundStatas:0,
+                pageSize:10,
+                pageNum:1
+            }
         }
     },
     created:function(){
@@ -96,17 +110,32 @@ export default {
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
+        this.$root.$on('search',datas=>{
+            this.data.number=datas.order.number===''?null:datas.order.number;
+            this.data.phone=datas.order.phone===''?null:datas.order.phone;
+            this.data.communityName=datas.order.communityName===''?null:datas.order.communityName;
+            this.data.sourceId=datas.order.sourceId===''?null:datas.order.sourceId;
+            this.data.payState=datas.order.payState===''?null:datas.order.payState;
+            this.data.orderState=datas.order.orderState===''?null:datas.order.orderState;
+            this.data.orderType=datas.order.orderType===''?null:datas.order.orderType;
+            this.data.refundStatas=datas.order.isrefund?1:0;
+            this.data.createTimeStart=datas.order.daterange?Date.parse(datas.order.daterange[0]):null;
+            this.data.createTimeEnd=datas.order.daterange?Date.parse(datas.order.daterange[1]):null;
+            this.getDate(1);
+            // console.log(this.data,datas);
+        });
     },
     methods:{
       getDate(pageIndex) {
+          this.data.pageNum=pageIndex;
             this.listLoading =  true;
-            let url = '/api/product/order/queryPageList?pageNo='+pageIndex+'&pageSize=10';
+            let url = '/api/product/order/queryPageList';
             this.$http({
                 url: url,
                 method: 'POST',
                 // 请求体重发送的数据
                 headers: { 'Content-Type': 'application/json' },
-                data:{},
+                data:this.data,
             })
             .then(response => {
                 this.listLoading =  false;

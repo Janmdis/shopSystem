@@ -300,7 +300,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="2" :offset='1'>
+                <el-col :span="2" :offset='1' style='line-height:40px;'>
                     <el-checkbox v-model="form.account.birthDatecheck">今日生日</el-checkbox>
                 </el-col>
             </el-row>
@@ -320,7 +320,7 @@
                     <el-col :span="5" >
                         <el-form-item label="小区">
                             <el-select v-model="form.order.communityName" placeholder="请选择">
-                                <el-option v-for='(item,index) in estats' :key='index' :label="item.name" :value="item.id"></el-option>
+                                <el-option v-for='(item,index) in estats' :key='index' :label="item.name" :value="item.name"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -368,7 +368,7 @@
                     </el-col>
                 </el-row>
                 <el-col :span="5" :offset='1'>
-                    <el-checkbox v-model="form.order.refundStatas">是否退款</el-checkbox>
+                    <el-checkbox v-model="form.order.isrefund">是否退款</el-checkbox>
                 </el-col>
             </el-row>
             <el-row style=' padding-top:20px; '>
@@ -458,7 +458,7 @@
                         payState:'',
                         orderState:'',
                         orderType:'',
-                        refundStatas:false
+                        isrefund:false
                     }
                 },
                 userlist:[],
@@ -630,6 +630,7 @@
                 }
                 case 'order':{
                     this.getEstate();
+                    this.getOrdersource();
                     break;
                 }
                 default:{
@@ -704,7 +705,19 @@
                         level:'',
                         cityId:'',
                         estateId:'',
-                        recommendedSourceId:''
+                        recommendedSourceId:'',
+                        birthDatecheck:false
+                    },
+                    order:{
+                        number:'',
+                        phone:'',
+                        communityName:'',
+                        sourceId:'',
+                        daterange:'',
+                        payState:'',
+                        orderState:'',
+                        orderType:'',
+                        isrefund:false
                     }
                 };
                 this.$refs['form'].resetFields();
@@ -1038,6 +1051,21 @@
                 .then(res=>{
                     if(res.data.status==200){
                         that.accountrecommendedSource=res.data.info;
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            },
+            // 获取订单来源
+            getOrdersource(){
+                let that=this;
+                this.$http.post('/api/product/order/source/query')
+                .then(res=>{
+                    if(res.data.status==200){
+                        that.ordersourse=res.data.info
+                        // console.log(res);
+                        // that.accountrecommendedSource=res.data.info;
                     }
                 })
                 .catch(err=>{
