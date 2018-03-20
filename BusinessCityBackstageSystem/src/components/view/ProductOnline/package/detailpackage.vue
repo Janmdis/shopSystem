@@ -160,6 +160,7 @@
                         </el-col>
                     </el-row>
                     <el-table
+                    class='sss'
                     :data="listtime"
                     border
                     size='mini'
@@ -1122,7 +1123,7 @@ export default {
                     .then(function(response){
                         if(response.data.msg=='修改成功'){
                             that.deletedaterelation(ids,'edit',data,'模板修改成功！');
-                            that.getdatemodel();
+                            // that.getdatemodel();
                         }
                         else{
                             that.$message('模板修改失败');
@@ -2057,5 +2058,8 @@ input:disabled{
 }
 input{
     border:1px solid #909399;
+}
+.detail table td:nth-child(3) .cell{
+    border:none !important;
 }
 </style>

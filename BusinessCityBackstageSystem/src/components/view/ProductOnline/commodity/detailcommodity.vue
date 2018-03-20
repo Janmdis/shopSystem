@@ -17,7 +17,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span='12'>
-                                <el-form-item label="商品分类：">
+                                <el-form-item label="分类：" prop='categoryId'>
                                     <el-select v-model="formmsg.categoryId" placeholder="请选择" @change='changegoodstype'>
                                         <el-option
                                         v-for="item in goodstype"
@@ -118,6 +118,7 @@
                         </el-col>
                     </el-row>
                     <el-table
+                    class='ssss'
                     :data="listtime"
                     border
                     size='mini'
@@ -330,13 +331,16 @@ export default {
                     { required: true, message: '请输入标题', trigger: 'blur' }
                 ],
                 originalPrice:[
-                    { validator: checkPrice, trigger: 'blur' }
+                    { required:true,validator: checkPrice, trigger: 'blur' }
                 ],
                 displayQuantity:[
                     { validator: checkQuantity, trigger: 'blur' }
                 ],
                 totalSales:[
                     { validator: checkSales, trigger: 'blur' }
+                ],
+                categoryId:[
+                    { required: true, message: '请选择商品', trigger: 'change' }
                 ]
             }
         }
@@ -375,7 +379,7 @@ export default {
                     that.formmsg.displayQuantity=data.displayQuantity.toString();
                     that.formmsg.originalPrice=data.originalPrice.toString();
                     that.formmsg.totalSales=data.totalSales.toString();
-                    that.formmsg.categoryId=data.categoryId;
+                    that.formmsg.categoryId=data.categoryId==0?null:data.categoryId;
                     that.formmsg.brand=data.brand;
                     that.tmid=data.periodTemplateId;
                     that.areamid=data.regionTemplateId;
@@ -1012,7 +1016,7 @@ export default {
                     .then(function(response){
                         if(response.data.msg=='修改成功'){
                             that.deletedaterelation(ids,'edit',data,'模板修改成功！');
-                            that.getdatemodel();
+                            // that.getdatemodel();
                         }
                         else{
                             that.$message('模板修改失败');
@@ -1797,5 +1801,8 @@ export default {
 }
 .areaservice .el-cascader__label{
     height:30px;
+}
+.detail table td:nth-child(3) .cell{
+    border:none !important;
 }
 </style>

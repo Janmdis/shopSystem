@@ -25,7 +25,8 @@ export default {
       listLoading: false,
       delArr: [],
       showTable: true,
-      type:'commodity'
+      type:'commodity',
+      show:true
     }
 
   },
@@ -34,6 +35,10 @@ export default {
     this.$store.dispatch('getImglistcommodity');
     this.$root.$on('editcommodity',()=>{
       this.namepage='商品详情';
+      this.show=false;
+    });
+    this.$root.$on('reloadlist',()=>{
+      this.show=true;
     });
   },
   mounted() {
@@ -163,6 +168,8 @@ export default {
     this.$root.$off('pages');
     this.$root.$off('delBox');
     this.$root.$off('editcommodity');
+    this.$root.$off('reloadlist');
+    
   },
   components: {
     Lttip,
