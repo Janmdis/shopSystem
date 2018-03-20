@@ -10,10 +10,10 @@
                     <i class='el-icon-edit-outline'></i> 编辑
                 </li>
                 <li id="swicthTrue" class='other' data-toggle="modal" data-target="#delModal" @click="swicthOFF">
-                    <i class='el-icon-delete'></i> 启用
+                    <i class='icon iconfont icon-plus-start'></i> 启用
                 </li>
                 <li class='other' data-toggle="modal" data-target="#delModal" @click="swicthStop">
-                    <i class='el-icon-delete'></i> 停用
+                    <i class='icon iconfont icon-tingyong'></i> 停用
                 </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
@@ -41,12 +41,10 @@ export default {
             this.dataArr = data.datas
             var dom=document.getElementsByClassName('emendation')[0];
              let dom_edit = document.getElementById('modificationBtn');
-             let dom_browse = document.getElementById('browseBtn');
              let dom_swicthTrue = document.getElementById('swicthTrue');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
             dom.style.left=data.show?'0px':'-900px';
             dom_edit.style.cursor=data.editcan?'':'not-allowed';
-            dom_browse.style.cursor=data.editcan?'':'not-allowed';
             dom_swicthTrue.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
