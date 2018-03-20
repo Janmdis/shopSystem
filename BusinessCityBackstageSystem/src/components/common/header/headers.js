@@ -44,7 +44,12 @@ export default {
     })
     let status = window.sessionStorage.getItem('status')
     this.userName = (JSON.parse(sessionStorage.getItem('userInfo')).createName);
-    this.imgUrl = JSON.parse(sessionStorage.getItem('userInfo')).adminHeadImg
+    this.imgUrl = JSON.parse(sessionStorage.getItem('userInfo')).adminHeadImg;
+    this.$root.$on('useImgOF', data => {
+      console.log(data)
+      this.imgUrl = data;
+    });
+    this.imgUrl = localStorage.getItem('useImgOF');  
   },
   methods: {
     // refn() {
