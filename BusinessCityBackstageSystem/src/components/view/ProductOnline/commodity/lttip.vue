@@ -4,7 +4,7 @@
             <h3 class="listName pull-left">{{name}}
                 <i class="icon-double-angle-right"></i>
             </h3>
-            <el-button type="primary" :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
+            <el-button v-show='show' type="primary" :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
                 <li id="modificationBtn"></li>
@@ -29,7 +29,8 @@ export default {
             listname:'',
             canedit:true,
             dataInfo:'',
-            searchtext:'展开搜索'
+            searchtext:'展开搜索',
+            show:true
         }
     },
     created:function(){
@@ -46,6 +47,12 @@ export default {
         });
         this.$root.$on('search',()=>{
             this.searchtext='展开搜索';
+        });
+        this.$root.$on('editcommodity',()=>{
+            this.show=false;
+        });
+        this.$root.$on('reloadlist',()=>{
+            this.show=true;
         });
     },
     methods:{
@@ -71,6 +78,10 @@ export default {
     },
     beforeDestroy(){
         this.$root.$off('showlttip');
+        this.$root.$off('search');
+        this.$root.$off('editcommodity');
+        this.$root.$off('reloadlist');
+
     }
 }
 </script>

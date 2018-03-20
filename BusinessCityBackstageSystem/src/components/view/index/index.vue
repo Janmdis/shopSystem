@@ -66,42 +66,49 @@ export default {
                     describe1:'订单数',
                     describe2:'订单数',
                     value1:'100',
-                    value2:'200'
+                    value2:'200',
+                    special:false
+
                 },
                 {
                     type:2,
                     describe1:'总成交额',
                     describe2:'总成交额',
                     value1:'100',
-                    value2:'200'
+                    value2:'200',
+                    special:false
                 },
                 {
                     type:3,
                     describe1:'总访客',
                     describe2:'总访客',
                     value1:'100',
-                    value2:'200'
+                    value2:'200',
+                    special:false
                 },
                 {
                     type:4,
                     describe1:'总流量',
                     describe2:'总流量',
                     value1:'100M',
-                    value2:'200M'
+                    value2:'200M',
+                    special:false
                 },
                 {
                     type:5,
                     describe1:'客单价',
                     describe2:'客单价',
                     value1:'100',
-                    value2:'200'
+                    value2:'200',
+                    special:false
                 },
                 {
                     type:6,
                     describe1:'移动访客',
                     describe2:'移动流量',
                     value1:'100',
-                    value2:'200M'
+                    value2:'200M',
+                    special:true
                 }
             ],
             objclient:{

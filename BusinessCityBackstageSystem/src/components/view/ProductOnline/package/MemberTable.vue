@@ -359,10 +359,10 @@ export default {
 </script>
 <style scoped>
 .nosale{
-    color:red;
+    color:#ff3b30;
 }
 .onsale{
-    color:#27a1f2;
+    color:#50c380;
 }
 </style>
 <style>
@@ -373,7 +373,7 @@ export default {
     width:80%;
     height:55px;
     margin:0 auto;
-    /* padding:0; */
+    padding:0;
     background-color:#ebeef5;
 }
 .packagetable tr td:nth-child(3) .cell img{

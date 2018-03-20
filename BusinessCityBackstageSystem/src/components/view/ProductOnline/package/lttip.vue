@@ -4,7 +4,7 @@
             <h3 class="listName pull-left">{{listname}}
                 <i class="icon-double-angle-right"></i>
             </h3>
-            <el-button type="primary" :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
+            <el-button v-show='show' type="primary" :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="operate('onsale')">
@@ -28,7 +28,8 @@ export default {
             listname:'',
             canedit:true,
             dataInfo:'',
-            searchtext:'展开搜索'
+            searchtext:'展开搜索',
+            show:true
         }
     },
     created:function(){
@@ -46,6 +47,12 @@ export default {
         this.$root.$on('search',()=>{
             this.searchtext='展开搜索';
         });
+        this.$root.$on('editpackage',()=>{
+            this.show=false;
+        });
+        this.$root.$on('reloadpackagelist',()=>{
+            this.show=true;
+        });
     },
     methods:{
         operate(type){
@@ -58,6 +65,14 @@ export default {
             this.searchtext=organtext=='展开搜索'?'收起搜索':'展开搜索';
             this.$root.$emit('switch',flag);
         }
+    },
+    beforeDestroy(){
+        this.$root.$off('showlttip');
+        this.$root.$off('search');
+        this.$root.$off('editpackage');
+        this.$root.$off('reloadpackagelist');
+        
+        
     }
 }
 </script>

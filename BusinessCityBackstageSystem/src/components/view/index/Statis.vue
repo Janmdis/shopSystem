@@ -5,9 +5,13 @@
       <label for="">今日{{this.datas.describe1}}</label>
       <span class="numsline1" :value="this.datas.value1">{{this.datas.value1}}</span>
     </div>
-    <div class='data'>
+    <div class='data' v-show="!datas.special">
       <label for="">昨日{{this.datas.describe2}}</label>
       <span class="numslline2" :value="this.datas.value2">{{this.datas.value2}}</span>
+    </div>
+    <div class='data' v-show='datas.special'>
+      <label for="">今日{{this.datas.describe2}}</label>
+      <span class="numsline1" :value="this.datas.value2">{{this.datas.value2}}</span>
     </div>
   </div>
 </template>
@@ -15,7 +19,7 @@
 export default {
   data(){
     return {
-      datas:{}
+      datas:{},
     }
   },
   props:['data'],

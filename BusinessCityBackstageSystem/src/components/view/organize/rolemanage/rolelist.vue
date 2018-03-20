@@ -46,7 +46,7 @@
                 label="权限"
                 align='center'>
                 </el-table-column> -->
-                <el-table-column prop="opera" label="操作" align='center' width='180'>
+                <el-table-column prop="opera" label="操作" align='center' width='170'>
                     <template slot-scope="scope">
                         <el-button size="mini" type='text' @click="handleEdit(scope.row)">编辑</el-button>
                         <el-button size="mini" type='text' @click="handlePromise(scope.row)">权限管理</el-button>

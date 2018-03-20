@@ -71,7 +71,7 @@ export default {
     overflow:auto;
 }
 .el-tree-node__expand-icon{
-    color:rgb(0, 173, 171);
+    color:#27a1f2;
     font-size:14px;
 }
 .el-tree-node__expand-icon.expanded{
