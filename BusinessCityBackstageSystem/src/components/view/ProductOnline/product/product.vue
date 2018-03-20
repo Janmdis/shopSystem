@@ -1,5 +1,5 @@
 <template>
-    <el-main id="member" style='padding-bottom:80px;'>
+    <el-main id="member" >
         <div class="memberNav" @click.native="closeInfo">
             <el-row class="navChild">
                 <el-col :span='15'>

@@ -6,7 +6,8 @@
     :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
-    style="width: 100%">
+    style="width: 100%"
+    height='500'>
     <el-table-column
     fixed 
     type="index"

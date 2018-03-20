@@ -1,5 +1,5 @@
 <template>
-    <el-main id="member" style='padding-bottom:80px;'>
+    <el-main id="member">
         <div class="memberNav" @click.native="closeInfo">
             <el-row class="navChild">
                 <el-col :span='15'>
@@ -89,7 +89,7 @@
     }
     .boderBox{
         width: 100%;
-        height: 100%;
+        // height: 100%;
     }
     .memberMain{
         top:0 !important;
