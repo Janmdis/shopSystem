@@ -284,7 +284,8 @@ export default {
             },
             getLable(data){
                 let les = []
-                data.forEach((item,index)=>{
+                if(data!=null){
+                    data.forEach((item,index)=>{
                     this.leable.forEach((items,indexs)=>{
                         if(item.labelId==items.id){
                            les.push(items)
@@ -292,6 +293,8 @@ export default {
                     })
                     
                 });
+                
+                }
                 return les
             },
         indexMethod(index) {
