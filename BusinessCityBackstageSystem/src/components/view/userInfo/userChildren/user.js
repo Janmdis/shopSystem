@@ -79,19 +79,22 @@ export default {
         data: {}
       })
         .then(respone => {
+          console.log(respone)
           let data = respone.data.info
+          console.log(data.manageGroupAdminList[0].departmentName);
+          console.log(data.manageGroupAdminList[0].groupName)
           this.ruleForm1.iPhone = data.phone
           this.ruleForm1.userName = data.adminName
           this.ruleForm1.resource = data.adminSex + ''
           this.ruleForm1.date1 = data.adminBirthday
           this.ruleForm1.age = this.jsGetAge(data.adminBirthday+"")
-          this.ruleForm1.role = data.departmentName
-          this.ruleForm1.jon = data.groupName
+          this.ruleForm1.role = data.manageGroupAdminList[0].departmentName
+          this.ruleForm1.jon = data.manageGroupAdminList[0].groupName
           this.changeCount('2000-01-12')
         })
         .catch(error => {
           console.log(error)
-          alert('网络错误，不能访问')
+         // alert('网络错误，不能访问')
         })
     },
     showData() {

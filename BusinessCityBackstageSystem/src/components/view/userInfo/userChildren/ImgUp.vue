@@ -13,7 +13,12 @@
         :type='admin'
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload">
-        <img v-if="imageUrl" :src="imageUrl" class="avatar" style='width:178px;height:178px;'>
+        <div v-if="imageUrl">
+            <img  :src="imageUrl" class="avatar" >
+        </div>
+        <div v-else>
+          <img  src="./user.png" class='avatar'>
+        </div>
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <el-col :span="24" ><el-button type="success" @click="saveImg">保存</el-button></el-col>
@@ -106,21 +111,21 @@ export default {
 
 </script>
 <style>
-    #userInfo .avatar-uploader{
-    width: 178px;
-    height: 178px;
+    #userInfo .el-upload{
+    
+    height: 100%;
     }
-     .avatar-uploader .el-upload {
+     #userInfo .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
   }
-  .avatar-uploader .el-upload:hover {
+   #userInfo .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
-  .avatar-uploader-icon {
+   #userInfo .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
     width: 178px;
@@ -128,7 +133,7 @@ export default {
     line-height: 178px;
     text-align: center;
   }
-  .avatar {
+   #userInfo .avatar {
     width: 178px;
     height: 178px;
     display: block;

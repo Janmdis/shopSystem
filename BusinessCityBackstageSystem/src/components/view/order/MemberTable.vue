@@ -49,7 +49,7 @@
       
         label="来源">
             <template slot-scope='scope'>
-                {{scope.row.sourceId}}
+                {{scope.row.sourceName}}
             </template>
         </el-table-column>
         <el-table-column

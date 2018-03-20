@@ -39,7 +39,7 @@
                 </el-form-item>
                 <el-form-item label='职位'>
                     <el-col :span="8">
-                        <el-input v-model='ruleForm1.job' placeholder="请输入内容" readonly></el-input>
+                        <el-input v-model='ruleForm1.jon' placeholder="请输入内容" readonly></el-input>
                     </el-col>
                 </el-form-item>
                 <el-form-item>
