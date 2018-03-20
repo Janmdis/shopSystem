@@ -91,7 +91,7 @@
         <template slot-scope="scope">
             <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-            <el-button type="text" size="small" @click="handleChangesale(scope.$index, scope.row)">{{scope.row.isOnSale==0?'上架':scope.row.isOnSale==1?"下架":''}}</el-button>
+            <el-button type="text" size="small" :class='{onsale:scope.row.isOnSale==0,nosale:scope.row.isOnSale==1}' @click="handleChangesale(scope.$index, scope.row)">{{scope.row.isOnSale==0?'上架':scope.row.isOnSale==1?"下架":''}}</el-button>
         </template>
         
     </el-table-column>

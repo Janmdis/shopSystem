@@ -1,6 +1,6 @@
 <template>
     <el-main >
-        <p style='padding-bottom:10px;font-size:12px;color:#606266'>数据刷新：{{data}}<a href='' style='padding-left:10px;color:#26bba4;'>刷新</a></p>
+        <p style='padding-bottom:10px;font-size:12px;color:#606266'>数据刷新：{{data}}<a href='' style='padding-left:10px;color:#27a1f2;'>刷新</a></p>
         <el-row :gutter="20" style='margin-bottom:5px;'>
             <el-col :span='16'  >
                  <el-row :gutter="20">

@@ -257,52 +257,57 @@
             </el-row>
             <!-- 会员 -->
             <el-row v-if='showaccount'>
-                <el-col :span="5">
-                    <el-form-item label="手机号">
-                        <el-input v-model="form.account.mobile"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="5" >
-                    <el-form-item label="客户类型">
-                        <el-select v-model="form.account.categoryId" placeholder="请选择">
-                            <el-option v-for='(item,index) in accounttype' :key='index' :label="item.name" :value="item.id"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="5" >
-                    <el-form-item label="会员等级">
-                        <el-select v-model="form.account.level" placeholder="请选择">
-                            <el-option v-for='(item,index) in accountlevel' :key='index' :label="item.levelName" :value="item.level"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="5" >
-                    <el-form-item label="城市">
-                        <el-cascader
-                        :options="citys"
-                        :show-all-levels="false"
-                        @change='changcity'
-                        :props="propslog2"
-                        ></el-cascader>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="5" >
-                    <el-form-item label="小区">
-                        <el-select v-model="form.account.estateId" placeholder="请选择">
-                            <el-option v-for='(item,index) in estats' :key='index' :label="item.name" :value="item.id"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="5" >
-                    <el-form-item label="来源">
-                        <el-select v-model="form.account.recommendedSourceId" placeholder="请选择">
-                            <el-option v-for='(item,index) in accountrecommendedSource' :key='index' :label="item.name" :value="item.id"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="2" :offset='1' style='line-height:40px;'>
-                    <el-checkbox v-model="form.account.birthDatecheck">今日生日</el-checkbox>
-                </el-col>
+                <el-row>
+                    <el-col :span="5">
+                        <el-form-item label="手机号">
+                            <el-input v-model="form.account.mobile"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="客户类型">
+                            <el-select v-model="form.account.categoryId" placeholder="请选择">
+                                <el-option v-for='(item,index) in accounttype' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="会员等级">
+                            <el-select v-model="form.account.level" placeholder="请选择">
+                                <el-option v-for='(item,index) in accountlevel' :key='index' :label="item.levelName" :value="item.level"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="城市">
+                            <el-cascader
+                            :options="citys"
+                            :show-all-levels="false"
+                            @change='changcity'
+                            :props="propslog2"
+                            ></el-cascader>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="5" >
+                        <el-form-item label="小区">
+                            <el-select v-model="form.account.estateId" placeholder="请选择">
+                                <el-option v-for='(item,index) in estats' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="来源">
+                            <el-select v-model="form.account.recommendedSourceId" placeholder="请选择">
+                                <el-option v-for='(item,index) in accountrecommendedSource' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="2" :offset='1' style='line-height:40px;'>
+                        <el-checkbox v-model="form.account.birthDatecheck">今日生日</el-checkbox>
+                    </el-col>
+                </el-row>
+                
             </el-row>
             <!-- 订单 -->
             <el-row v-if='showorder'>
