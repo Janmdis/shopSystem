@@ -461,8 +461,9 @@ import qs from 'qs'
                         })
                         .then(respone => {
                             let infos = respone.data.info[0];
-                            let panperSF = '';
-                            if(infos.identity == 0){
+                             let panperSF = '';
+                            if(infos.identity!=null){
+                                 if(infos.identity == 0){
                                 panperSF = "男主人"
                             }else  if(infos.identity == 1){
                                  panperSF = "女主人"
@@ -479,6 +480,9 @@ import qs from 'qs'
                             }else  if(infos.identity == 7){
                                  panperSF = "儿媳"
                             }
+                            }
+                           
+                           
                                 
                             this.ruleForm.thisId=  infos.id
                             this.ruleForm.mode= infos.mobile,
@@ -539,7 +543,9 @@ import qs from 'qs'
             this.sourceFn();
             this.showData();
             this.searchLabel();
-             
+        },
+         beforeDestroy(){
+            this.$root.$off('showWindow');
         }
     }
 </script>
