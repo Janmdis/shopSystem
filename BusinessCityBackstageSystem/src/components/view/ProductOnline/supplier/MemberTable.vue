@@ -6,7 +6,7 @@
     :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="listLoading"
     :stripe='true'
-    style="width: 100%" height='500'>
+    style="width: 100%" >
     <el-table-column
     fixed
     type="index"
@@ -37,12 +37,12 @@
         >
         </el-table-column>
         <el-table-column
-        prop="categoryId"
+        prop="categoryName"
         label="类型"
         >
         </el-table-column>
         <el-table-column
-        prop="levelId"
+        prop="levelName"
         label="级别"
         sortable>
         </el-table-column>
