@@ -1,8 +1,8 @@
 <template>
    <!-- 商品组件开始 -->
-    <div class="borderHover" :index='dataid'>
+    <div id="commodityss" class="borderHover" :index='dataid'>
       <!-- 商品开始 -->
-      <div id="commodityss">
+      <div>
         <el-row>
         <el-col :span="this.commodityDate.bigImg">
           <div class="imgConet">
@@ -76,7 +76,7 @@
                                                 链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                             </span>
                                             <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
-                                                <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                                <!-- <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item> -->
                                                 <el-dropdown-item @click.native="opendialogSelf(1)" style="margin-top:10px;">自定义</el-dropdown-item>
                                             </el-dropdown-menu>
                                             </el-dropdown>
@@ -115,7 +115,7 @@
                                                 链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                             </span>
                                             <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
-                                                <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                                <!-- <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item> -->
                                                 <el-dropdown-item @click.native="opendialogSelf(2)" style="margin-top:10px;">自定义</el-dropdown-item>
                                             </el-dropdown-menu>
                                             </el-dropdown>
@@ -154,7 +154,7 @@
                                                 链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                             </span>
                                             <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
-                                                <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                                <!-- <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item> -->
                                                 <el-dropdown-item @click.native="opendialogSelf(3)" style="margin-top:10px;">自定义</el-dropdown-item>
                                             </el-dropdown-menu>
                                             </el-dropdown>
@@ -309,10 +309,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 <style>
 #commodityss .avatar-uploader .el-upload {
    border: 1px dashed #ffffff !important;
-   filter:alpha(opacity=0);  
-      -moz-opacity:0;  
-      -khtml-opacity: 0;  
-      opacity: 0;
+}
+#commodityss .el-upload{
+    filter:alpha(opacity=0) !important;  
+    -moz-opacity:0 !important;  
+    -khtml-opacity: 0 !important;  
+    opacity: 0 !important;
+    width: 100% !important; 
+    height: 100% !important;
 }
 </style>
 

@@ -1,7 +1,7 @@
 <template>
-<div class="borderHover" :index='dataid' style="padding:0 0 0 0;">
+<div id="detailsImagess" class="borderHover" :index='dataid' style="padding:0 0 0 0;">
   <!-- 详情图片开始 -->
-        <div id="detailsImagess">
+        <div>
             <el-row>
                 <el-col :span="24" v-for='(item,index) in imglist' :key='index'>
                     <div class="imgConet" style="font-size: 0;">
@@ -55,7 +55,7 @@
                                             链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                         </span>
                                         <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
-                                            <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item>
+                                            <!-- <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item> -->
                                             <el-dropdown-item @click.native="opendialogSelf(index)" style="margin-top:10px;">自定义</el-dropdown-item>
                                         </el-dropdown-menu>
                                         </el-dropdown>
@@ -223,10 +223,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
 /* 添加图片样式 */
 #detailsImagess .avatar-uploader .el-upload {
    border: 1px dashed #ffffff !important;
-   filter:alpha(opacity=0);  
-      -moz-opacity:0;  
-      -khtml-opacity: 0;  
-      opacity: 0;
+}
+#detailsImagess .el-upload{
+    filter:alpha(opacity=0) !important;  
+    -moz-opacity:0 !important;  
+    -khtml-opacity: 0 !important;  
+    opacity: 0 !important;
+    width: 100% !important; 
+    height: 100% !important;
 }
 #detailsImagess .carouselListInfo .avatar-uploader .el-upload {
     /* border: 1px dashed #d9d9d9; */
