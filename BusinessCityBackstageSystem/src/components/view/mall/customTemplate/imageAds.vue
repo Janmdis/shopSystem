@@ -2,7 +2,7 @@
 <div class="borderHover" :index='dataid' style="padding:0 0 0 0;">
   <!-- 轮播开始 -->
         <div id="imageAdss">
-            <div class="block">
+            <div>
                 <el-carousel trigger="click" width='614px'>
                     <el-carousel-item v-for='(item,index) in imglist' :key='index'>
                         <h3 class="Imgsize"><a href="javascript:;"><img class="Imgsize" :src="item.img" /></a></h3>
