@@ -184,6 +184,7 @@ export default {
               //alert('网络错误，不能访问');
           })
         },
+        //订单状态
         getDeil (dielArr){
             let url = '/api/product/order/queryOrderStateByMemberIds';
             this.$http({
