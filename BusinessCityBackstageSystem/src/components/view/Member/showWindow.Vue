@@ -481,9 +481,6 @@ import qs from 'qs'
                                  panperSF = "儿媳"
                             }
                             }
-                           
-                           
-                                
                             this.ruleForm.thisId=  infos.id
                             this.ruleForm.mode= infos.mobile,
                             this.ruleForm.name= infos.name,
@@ -516,9 +513,6 @@ import qs from 'qs'
                                 id: respone.data.info[i].id
                             })
                         }
-                        
-                        
-                        
                         console.log(this.Tagbox)
                         })
                         .catch(error => {
@@ -544,8 +538,8 @@ import qs from 'qs'
             this.showData();
             this.searchLabel();
         },
-         beforeDestroy(){
-            this.$root.$off('showWindow');
-        }
+        //  beforeDestroy(){
+        //     this.$root.$off('showWindow');
+        // }
     }
 </script>

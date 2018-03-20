@@ -43,9 +43,8 @@ export default {
       this.which_to_show = infoText
     })
     let status = window.sessionStorage.getItem('status')
-    console.log(JSON.parse(sessionStorage.getItem('userInfo')))
     this.userName = (JSON.parse(sessionStorage.getItem('userInfo')).createName);
-    this.imgUrl = sessionStorage.getItem('imageUrl');
+    this.imgUrl = JSON.parse(sessionStorage.getItem('userInfo')).adminHeadImg
   },
   methods: {
     // refn() {

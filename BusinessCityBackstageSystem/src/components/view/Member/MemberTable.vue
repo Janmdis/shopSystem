@@ -65,10 +65,14 @@
             </template>
         </el-table-column>
         <el-table-column
-        prop="createTime"
         width='500'
         label="会员标签">
+                <template slot-scope='scope'>
+                    <el-button v-for='(item,index) in getLable(scope.row.customerAccountLabels)' :style="{background: item.color  }" style='color:#fff;' :key='index'>{{item.name}}</el-button>
+                    </template>
+                </el-table-column>
         </el-table-column>
+            
         <el-table-column
         prop="createTime"
         width='500'
@@ -92,6 +96,7 @@ export default {
     prop:['listLoading'],
     data(){
         return {
+            leable:[],
             datalist:[],
             showLeft:0,
             pageIndex:1,
@@ -172,8 +177,6 @@ export default {
                             
                     });
                 })
-                
-                
                     // console.log( this.datalist)
           })
           .catch(error=>{
@@ -217,7 +220,10 @@ export default {
             .then(response => {
                 that.listLoading =  false
                 that.datalist=(response.data.info.list);
-                // console.log(that.datalist)
+                 console.log(that.datalist)
+
+                 this.searchLabel(that.datalist);
+                
                 for(let name in this.datalist){
                     this.idBox.push(this.datalist[name].estateId)
                 }
@@ -259,6 +265,33 @@ export default {
             }
              this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
         },
+        searchLabel(data) {
+                let url = '/api/customer/label/query/label';
+                this.$http({
+                        url: url,
+                        method: 'post',
+                        data: {}
+                    })
+                    .then(respone => {
+                        this.leable = respone.data.info;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        alert('网络错误，不能访问');
+                    })
+            },
+            getLable(data){
+                let les = []
+                data.forEach((item,index)=>{
+                    this.leable.forEach((items,indexs)=>{
+                        if(item.labelId==items.id){
+                           les.push(items)
+                        }
+                    })
+                    
+                });
+                return les
+            },
         indexMethod(index) {
             return index + 1
         },
