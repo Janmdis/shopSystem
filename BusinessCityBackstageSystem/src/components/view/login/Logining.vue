@@ -3,7 +3,7 @@
       <el-row>
         <el-col :sm="8" :md="8" :lg="8" :offset="16">
             <div class="contentRight">
-                <h3>欢迎进入净润家管理系统</h3>
+                <h3>欢迎进入绿城&nbsp;<span>·</span>&nbsp;到家服务管理系统</h3>
                 <h5> Background management system </h5>
                 <router-view></router-view>
             </div>

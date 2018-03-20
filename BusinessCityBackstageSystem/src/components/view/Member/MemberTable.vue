@@ -203,7 +203,7 @@ export default {
               //alert('网络错误，不能访问');
           })
         },
-      getDate(pageIndex) {
+        getDate(pageIndex) {
             let that = this;
             this.listLoading =  true;
             let url = '/api/customer/account/query?page='+pageIndex+'&pageSize=10';
@@ -241,6 +241,7 @@ export default {
             //console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
             let labelValue = column.label
+            console.log(row.id)
             if(labelValue == '客户姓名'){
                 this.showLeft = 16
                 this.$root.$emit('infoCoverShow',this.showLeft)
@@ -262,6 +263,12 @@ export default {
         indexMethod(index) {
             return index + 1
         },
+    },
+    beforeDestroy(){
+        this.$root.$off('pageIndex')
+        this.$root.$off('getDatezdy')
+        this.$root.$off('dataListBox')
+        this.$root.$off('search')
     }
 
 }

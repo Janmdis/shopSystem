@@ -5,6 +5,7 @@
                <i class="icon iconfont icon-home"></i>
            </div>
            <div id="relation"></div>
+           <img id="re-img" :src="imgSrc" alt="">
        </el-col>
     </div>
 </template>
@@ -25,7 +26,8 @@ export default{
             myItemStyle:{},
             myItemStyles:{},
             links:[],
-            label:{}
+            label:{},
+            imgSrc:require('../../../../../static/images/Member/relative-people.jpg')
         }
     },
     created(){
@@ -45,7 +47,6 @@ export default{
                 [this.memberId]
             ).then(res =>{
                 if(res.data.status == 200){
-                    console.log(res.info);
                     this.itemStyle0 = {
                         normal: {
                             show: false,
@@ -193,11 +194,15 @@ export default{
             }).catch(err => {console.log(err)});
         },
         
+    },
+    beforeDestroy(){
+        this.$root.$off('loadFn3')
     }
 }
 </script>
 <style scoped lang="less">
 #related{
+    position: relative;
     background: #fff;
     height: 600px;
     padding:20px 25px 100px;
@@ -227,6 +232,14 @@ export default{
     #relation{
         width:100%;
         height: 600px;  
+    }
+    #re-img{
+        display:block;
+        position:absolute;
+        width:100%;
+        height:600px;
+        top: 0;
+        z-index: 5;
     }
 }
 </style>

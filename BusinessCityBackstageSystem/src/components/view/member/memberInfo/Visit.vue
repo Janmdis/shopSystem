@@ -73,12 +73,13 @@ export default{
     props:['memberId'],
     data () {
         var validateTime = (rule,value,callback) => {
-            if(!value){
+            if(value === ''){
                 return callback(new Error('时长不能为空'));
             }
             if(isNaN(value)){
                 callback(new Error('请输入数字类型'));
             }
+            callback()
         };
         return {
             dialogVisible: false,
@@ -102,12 +103,10 @@ export default{
                     { required: true, message: '请输入回访类型', trigger: 'blur' }
                 ],
                 Feedback: [
-                    { required: true, message: '请输入反馈内容', trigger: 'blur' },
-                    { min: 3, max: 200, message: '长度在 3 到 200个字符', trigger: 'blur' }
+                    { required: true, message: '请输入反馈内容', trigger: 'blur' }
                 ],
                 report: [
-                    { required: true, message: '请输入回访内容', trigger: 'blur' },
-                    { min: 3, max: 200, message: '长度在 3 到 200个字符', trigger: 'blur' }
+                    { required: true, message: '请输入回访内容', trigger: 'blur' }
                 ]
             }
         }
@@ -181,7 +180,6 @@ export default{
             }];
             console.log("111")
             this.$refs['diagForm'].validate((valid) => {
-                console.log(valid)
                 if (valid) {
                     data.forEach((e,i) => {
                         if(e.feedback == '' || e.report == '' || e.visitTypeId == '' || e.customerId == ''){
@@ -264,6 +262,9 @@ export default{
         display:flex;
         .el-form-item__content{
             width:100%;
+        }
+        .el-textarea{
+            width: 90%;
         }
         .el-textarea__inner{
             resize:none;

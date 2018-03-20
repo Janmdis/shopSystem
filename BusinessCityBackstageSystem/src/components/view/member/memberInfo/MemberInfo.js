@@ -7,7 +7,6 @@ import fiveRelatedPeople from './RelatedPeople.vue'
 import { setTimeout } from 'timers';
 import { mapState } from 'Vuex'
 export default {
-    name: 'memberInfo',
     data() {
         return {
             infoText: [
@@ -20,6 +19,7 @@ export default {
             visitTypes: [],
             ruleForm: {
                 userName: '',
+                userExperience: 0,
                 userPoint: '',
                 userLevel: '',
                 userPhone: '',
@@ -42,7 +42,8 @@ export default {
             customerCategory: [],
             customerIdentity: {},
             recommendedSource: [],
-            memberHouse: {},
+            memberHouse: [],
+            house: [],
             houseCount: {},
             memberId: '',
             houseCategory: {},
@@ -75,13 +76,13 @@ export default {
                 if (res) {
                     return this.getData(ids);
                 } else {
-                    Promise.resolve(false)
+                    return Promise.resolve(false)
                 }
             }).then(res => {
                 if (res) {
                     this.searchInfo(ids);
                 } else {
-                    Promise.resolve(false)
+                    return Promise.resolve(false)
                 }
             });
             this.memberId = ids;
@@ -134,6 +135,7 @@ export default {
                     '/api/public/region/findParent?grade=2'
                 ).then(res => {
                     this.cities = res.data.info;
+                    // console.log(this.cities);
                     resolve(true);
                 }).catch(err => {
                     console.log(err)
@@ -147,6 +149,7 @@ export default {
             if (text == '编辑') {
                 event.currentTarget.innerHTML = '完成';
                 this.ruleForm.active = false
+                this.active = true
                 this.userInfo();
             } else {
                 event.currentTarget.innerHTML = '编辑';
@@ -154,8 +157,8 @@ export default {
                 let data = {
                     id: this.memberId,
                     name: this.ruleForm.userName,
-                    consumptionPoints: this.ruleForm.userPoint,
-                    level: this.ruleForm.userLevel,
+                    // consumptionPoints: this.ruleForm.userPoint,
+                    // level: this.ruleForm.userLevel,
                     mobile: this.ruleForm.userPhone,
                     // order: this.ruleForm.userOrder,
                     birthDate: this.ruleForm.userBirth,
@@ -177,6 +180,7 @@ export default {
         },
         getData(id) {
             let that = this;
+            this.house = []
             return new Promise((resolve, reject) => {
                 this.$http.get( //  获取会员房屋信息
                     '/api/customer/customerHousing/findHousingInfoPage?id=' + id + '&pageNum=' + this.pageNum + '&pageSize=' + this.pageSize
@@ -185,7 +189,14 @@ export default {
                         console.log(res.data.msg);
                         resolve(true);
                     } else {
-                        that.memberHouse = res.data.info.list;
+                        // console.log(res.data.info.list)
+                        res.data.info.list.forEach((e) => {
+                            if (e.housingEstate == null) {
+                                console.log("小区不存在")
+                            } else {
+                                that.memberHouse = res.data.info.list;
+                            }
+                        })
                         that.$set(that.infoText[0], 'number', that.memberHouse.length);
                         if (that.memberHouse.length > 0) {
                             that.$set(that.infoText[0], 'brackets', true);
@@ -197,7 +208,7 @@ export default {
                     }
                 }).catch(err => {
                     console.log(err)
-                    reject(false)
+                    resolve(false)
                 });
             });
         },
@@ -214,13 +225,12 @@ export default {
                 let dataInfo = res.data.info.list[0];
                 console.log(dataInfo)
                 this.personnelInfo = dataInfo;
-                this.ruleForm.userName = this.personnelInfo.name;
-                this.ruleForm.userPoint = this.personnelInfo.consumptionPoints;
-                this.ruleForm.userLevel = this.personnelInfo.level;
+                that.ruleForm.userName = that.personnelInfo.name;
+                this.ruleForm.userPoint = this.personnelInfo.consumptionPoints == null ? 0 : this.personnelInfo.createUser;
+                this.ruleForm.userExperience = this.personnelInfo.experience == null ? '0经验值' : this.personnelInfo.experience + '经验值';
+                this.ruleForm.userLevel = this.personnelInfo.levelName + ':';
                 this.ruleForm.userPhone = this.personnelInfo.mobile;
-                this.ruleForm.userOrder = '未知';
                 this.ruleForm.userBirth = this.personnelInfo.birthDate;
-                this.ruleForm.writer = this.personnelInfo.createUser == null ? '未知' : this.personnelInfo.createUser;
                 this.ruleForm.inputTime = this.personnelInfo.createTime;
                 this.ruleForm.userCity = this.personnelInfo.cityId;
                 this.ruleForm.userType = this.personnelInfo.categoryId;
@@ -228,11 +238,35 @@ export default {
                 this.ruleForm.userVillage = this.personnelInfo.estateId;
                 this.which_to_show = 'twoHouse';
                 this.$root.$emit('loading', false);
+
+                this.$http({ //  获取录入人接口
+                    method: 'POST',
+                    url: '/api/admin/account/queryListByIds?key=id&value=adminName',
+                    data: [this.personnelInfo.createUser],
+                    headers: { 'content-type': 'application/json' }
+                }).then(res => {
+                    if (res.status == 200) {
+                        // console.log(res)
+                        this.ruleForm.writer = res.data.info[this.personnelInfo.createUser] == null ? 'admin' : res.data.info[this.personnelInfo.createUser];
+                    } else {
+                        console.log(res.data.msg)
+                    }
+                }).catch(err => { console.log(err); });
+                this.$http.post( //  获取订单状态接口
+                    '/api/product/order/queryOrderStateByMemberIds', [this.personnelInfo.id]
+                ).then(res => {
+                    if (res.status == 200) {
+                        // console.log(res.data.info)
+                        this.ruleForm.userOrder = res.data.info[this.personnelInfo.id] == null ? '' : res.data.info[this.personnelInfo.id];
+                    } else {
+                        console.log(res.data.msg)
+                    }
+                }).catch(err => { console.log(err); });
                 this.$http.post( //  获取会员身份接口
                     '/api/customer/identity/findIdentity?key=id&value=name'
                 ).then(res => {
                     if (res.data.info == null) {
-                        alert(res.data.msg)
+                        console.log(res.data.msg)
                     } else {
                         that.customerIdentity = res.data.info;
                         that.defaultIdentity = (res.data.info[this.personnelInfo.identity] == null ? res.data.info[1] : res.data.info[this.personnelInfo.identity]);
@@ -244,7 +278,7 @@ export default {
                     '/api/customer/housingCategory/queryCategory?key=id&value=name'
                 ).then(res => {
                     if (res.data.info == null) {
-                        alert(res.data.msg)
+                        console.log(res.data.msg)
                     } else {
                         that.houseCategory = res.data.info;
                         //console.log(this.houseCategory)
@@ -255,7 +289,7 @@ export default {
                     '/api/customer/housingRentalStatus/queryStatus?key=id&value=name'
                 ).then(res => {
                     if (res.data.info == null) {
-                        alert(res.data.msg)
+                        console.log(res.data.msg)
                     } else {
                         this.rentalStatus = res.data.info;
                         //console.log(this.rentalStatus)
@@ -310,12 +344,11 @@ export default {
     },
     beforeDestroy() {
         this.$root.$off('searchPersonnelInfo');
-        this.$root.$off('searchInfo');
+        this.$root.$off('infoCoverShow');
         this.$root.$off('housePage');
-        this.$root.$off('typeWord');
+        this.$root.$off('pageType');
         this.$root.$off('load');
-        this.$root.$off('loadFn');
-        this.$root.$off('loadFn3');
+        this.$root.$off('title');
         this.$root.$off('showNumber');
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <el-table
-    id="product-table"
+    id="product-table0"
     :data="datalist"
     @selection-change='showextra'
     :default-sort = "{prop: 'date', order: 'descending'}"
@@ -82,9 +82,10 @@
             </el-table>
 </template>
 <style lang="less">
-#product-table{
+#product-table0{
     .el-table__row{
         td:nth-child(3){
+            border:none !important;
             img{
                 width: 100%;
                 height: 55px;

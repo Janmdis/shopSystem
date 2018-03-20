@@ -13,13 +13,13 @@
                             <img class="images" src="/static/images/Member/personnel-integral.png" alt="">
                             <el-input :disabled="active" v-model="ruleForm.userPoint"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item header-item3" label="钻石会员:" prop="userLevel">
+                        <el-form-item class="visit-item header-item3" :label="ruleForm.userLevel" prop="userLevel">
                             <img class="images images3" src="/static/images/Member/personnel-level.png" alt="">
-                            <el-input :disabled="active" v-model="ruleForm.userLevel"></el-input>
+                            <el-input :disabled="active" v-model="ruleForm.userExperience"></el-input>
                         </el-form-item>
                         <el-col class="header-btn" :span="5">
                             <div class="infoLine1Right">
-                                <span class="editInfo" @click="editInfo($event)">编辑</span>
+                                <span class="editInfo" style="border-radius:4px;" @click="editInfo($event)">编辑</span>
                                 <span class="line1CloseBtn el-icon-close" @click="closeInfo"></span>
                             </div>
                         </el-col>
@@ -51,18 +51,20 @@
                             </el-col>
                         </el-form-item>  
                         <el-form-item class="visit-item" label="小区:" prop="userVillage">
-                            <el-col :span="22"><el-select v-model="ruleForm.userVillage" :disabled="ruleForm.active" placeholder="请选择">
-                                <el-option
-                                :popper-append-to-body="false"
-                                v-for="(item,index) in memberHouse"
-                                :key="index"
-                                :label="item.housingEstate.name"
-                                :value="item.housingEstate.id">
-                                </el-option></el-select>
+                            <el-col :span="22">
+                                <el-select v-model="ruleForm.userVillage" :disabled="ruleForm.active" placeholder="请选择">
+                                    <el-option
+                                    :popper-append-to-body="false"
+                                    v-for="(item,index) in memberHouse"
+                                    :key="index"
+                                    :label="item.housingEstate.name"
+                                    :value="item.housingEstate.id">
+                                    </el-option>
+                                </el-select>
                             </el-col>
                         </el-form-item>  
-                        <el-form-item class="visit-item" label="订单详情:" prop="userOrder">
-                            <el-input :disabled="ruleForm.active" v-model="ruleForm.userOrder"></el-input>
+                        <el-form-item class="visit-item" label="订单状态:" prop="userOrder">
+                            <el-input :disabled="active" v-model="ruleForm.userOrder"></el-input>
                         </el-form-item>
                         <el-form-item class="visit-item" label="来源:" prop="userOrigin">
                             <el-col :span="22"><el-select v-model="ruleForm.userOrigin" :disabled="ruleForm.active" placeholder="请选择">
@@ -163,7 +165,7 @@ export default memberInfos;
         }
         .header-item3{
             .el-input{
-                width: 50%;
+                width: 85%;
             }
         }
         .header-btn{

@@ -45,6 +45,9 @@ export default{
             this.$root.$emit('detailShow')
         },
     },
+    beforeDestroy(){
+        this.$root.$off('orderShow')
+    }
 }
 </script>
 <style scoped lang="less">

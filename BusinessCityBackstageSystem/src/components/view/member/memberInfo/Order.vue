@@ -7,10 +7,10 @@
                     <div class="orderDiv"><span>下单时间 : {{info.orderTime}}</span><span>订单状态 : {{info.orderState}}</span><span>服务人员 : {{info.servicePeople}}</span></div>
                     <div class="orderBtn">
                         <div class="btnGroup">
-                            <el-button @click="jumpOrderDetail">查看详情</el-button>
-                            <el-button>回访</el-button>
-                            <el-button>追单</el-button>
-                            <el-button>退款</el-button>
+                            <el-button @click="jumpOrderDetail" style="border-radius:4px;background:#409EFF;color:#fff;">查看详情</el-button>
+                            <el-button style="border-radius:4px;background:#409EFF;color:#fff;">回访</el-button>
+                            <el-button style="border-radius:4px;background:#409EFF;color:#fff;">追单</el-button>
+                            <el-button style="border-radius:4px;background:#409EFF;color:#fff;">退款</el-button>
                         </div>
                     </div>
                 </li>
@@ -53,6 +53,9 @@ export default{
         publicPagination,
         orderDetails,
     },
+    beforeDestroy(){
+        this.$root.$off('detailShow')
+    }
 }
 </script>
 <style scoped lang="less">

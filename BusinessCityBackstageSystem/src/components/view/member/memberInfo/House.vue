@@ -7,7 +7,7 @@
                     <div class="houseDiv"><span>小区/写字楼 : {{smallDisInfos[info.estateId]}}</span><span>房屋类型 : {{houseCategory[info.categoryId]}}</span></div>
                     <div class="houseDiv"><span>地址 : {{info.address}}</span><span>租住状态 : {{rentalStatus[info.rentalStatusId]}}</span></div>
                     <div class="houseBtn" :dataId="index">
-                        <el-button @click="jumpHouseDetail($event)" :dataId="index" >查看详情</el-button>
+                        <el-button @click="jumpHouseDetail($event)" style="border-radius:4px;background:#409EFF;color:#fff;" :dataId="index" >查看详情</el-button>
                     </div>
                 </li>
             </ul>
@@ -290,6 +290,10 @@ export default{
         houseDetails,
         publicPagination,
     },
+    beforeDestroy(){
+        this.$root.$off('houseShow')
+        this.$root.$off('loadFn')
+    }
 }
 </script>
 <style lang="less">
@@ -361,15 +365,16 @@ export default{
         overflow: hidden;
         .addHouseBtn{
             display:inline-block;
-            width: 118px;
+            width: 100px;
             height: 38px;
             line-height: 38px;
-            color:#6c757b;
             border:1px solid #dcdedc;
-            border-radius:25px;
+            border-radius:4px;
             text-align: center;
             cursor: pointer;
             float: right;
+            background:#409EFF;
+            color:#fff;
         }
         .addHouseBtn:hover{
                 background:#27a1f2;

@@ -2,7 +2,7 @@
     <div id="houseDetail" v-show="isSwitchHouse">
         <div class="detailHeader" >
             <p class="return_back" @click="returnBack"><i class="el-icon-back" ></i></p>
-            <p class="edit_btn" @click="editBtn">编辑</p>
+            <p class="edit_btn" @click="editBtn" style="border-radius:4px;background:#409EFF;color:#fff;">编辑</p>
         </div>
         <el-form class="houseDetailHeader" :model="houseProps" ref="houseProps" >
             <el-form-item class="houseDetailDiv1">
@@ -52,7 +52,7 @@
         </el-form>
         <div class="houseDetailMain">
             <div class="mainTable" >
-                <div class="tableDes" data-name="家用" data-id="0">家用信息表<el-button class="btn1" @click="handleAdd($event)" data-id="0" data-name="家用" round>新增</el-button><span class="titleSpan1">( 共{{number1}}条 )</span><span @click="showTables($event)">收起</span></div>
+                <div class="tableDes" data-name="家用" data-id="0">家用信息表<el-button class="btn1" style="border-radius:4px;background:#409EFF;color:#fff;" @click="handleAdd($event)" data-id="0" data-name="家用" round>新增</el-button><span class="titleSpan1">( 共{{number1}}条 )</span><span @click="showTables($event)">收起</span></div>
                 <el-collapse-transition>
                     <div v-show="showTable1">
                         <el-table class="transition-box" v-show="showTable1" :data="houseEquipment1" height="208" border style="width: 99%">
@@ -72,7 +72,7 @@
                 </el-collapse-transition>
             </div>
             <div class="mainTable" >
-                <div class="tableDes" data-name="家装" data-id="1">家装信息表<el-button class="btn1 btn2" @click="handleAdd($event)" data-name="家装" data-id="1" round>新增</el-button><span class="titleSpan1">( 共{{number2}}条 )</span><span @click="showTables($event)">收起</span></div>
+                <div class="tableDes" data-name="家装" data-id="1">家装信息表<el-button class="btn1 btn2" style="border-radius:4px;background:#409EFF;color:#fff;" @click="handleAdd($event)" data-name="家装" data-id="1" round>新增</el-button><span class="titleSpan1">( 共{{number2}}条 )</span><span @click="showTables($event)">收起</span></div>
                 <el-collapse-transition>
                     <div v-show="showTable2">
                         <el-table  :data="houseEquipment2" border style="width: 99%" height="208" >

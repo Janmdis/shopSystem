@@ -1065,9 +1065,9 @@
                 } 
             })
         },
-        // beforeDestroy(){
-        //     this.$root.$off('');
-        // }
+        beforeDestroy(){
+            this.$root.$off('switch');
+        }
     }
 </script>
 <style>

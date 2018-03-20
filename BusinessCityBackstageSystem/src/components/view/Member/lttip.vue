@@ -69,6 +69,10 @@ export default {
         // showMark(){
         //     this.$root.$emit("showMark",this.dataInfo)
         // },
+    },
+    beforeDestroy(){
+        this.$root.$off('showlttip')
+        this.$root.$off('search')
     }
 }
 </script>
