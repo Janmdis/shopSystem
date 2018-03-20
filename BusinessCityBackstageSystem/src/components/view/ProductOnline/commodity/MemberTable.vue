@@ -360,10 +360,11 @@ export default {
     overflow-x:auto;
     position: relative;
     top:10px;
+    margin-bottom:5px;
 }
 .commodity .recommendlist+button{
     position: relative;
-    top:10px;
+    /* top:10px; */
 }
 .commodity .recommendlist p{
     /* width:max-content; */

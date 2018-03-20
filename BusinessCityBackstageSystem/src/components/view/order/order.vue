@@ -1,5 +1,5 @@
 <template>
-    <el-main id="member">
+    <el-main id="member" class='order'>
         <div class="memberNav" @click.native="closeInfo">
             <el-row class="navChild">
                 <el-col :span='15'>
@@ -81,10 +81,10 @@
         top: 24px;
         color: #6f6f6f;
     }
-    table td:nth-child(3) .cell {
+    .order table td:nth-child(3) .cell {
         border: 1px solid #ddd;
     }
-    table td:nth-child(3) {
+    .order table td:nth-child(3) {
         padding-right: 10px;
     }
     .icon-shuaxin1 {

@@ -24,13 +24,20 @@ export default {
       pageS: 0,
       listLoading: false,
       delArr:[],
-      type:'commodity'
+      type:'commodity',
+      show:true
     }
 
   },
   created:function(){
     // 获取商品图片
     this.$store.dispatch('getImglistcommodity');
+    this.$root.$on('editpackage',()=>{
+      this.show=false;
+    });
+    this.$root.$on('reloadpackagelist',()=>{
+      this.show=true;
+    });
   },
   mounted() {
     this.$root.$on('total', (data) => {
@@ -158,7 +165,9 @@ export default {
     this.$root.$off('pages');
     this.$root.$off('delBox');
     this.$root.$off('adddata');
-    this.$root.$off('editcommodity');
+    this.$root.$off('editpackage');
+    this.$root.$off('reloadpackagelist');
+    
   },
   components: {
     Lttip,

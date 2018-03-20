@@ -188,7 +188,7 @@
                 let that=this;
                 this.$http.post('/api/product/commodity/info/insertOne',{
                     name:row.name,
-                    categoryId:1,
+                    categoryId:0,
                     originalPrice:0,
                     discountPrice:0,
                     currentPrice:0,
