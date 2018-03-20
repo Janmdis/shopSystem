@@ -7,7 +7,8 @@
     v-loading="listLoading"
     :stripe='true'
     class='channeltable'
-    style="width: 100%">
+    style="width: 100%"
+    height='500'>
     <el-table-column
     fixed
     type="index"
@@ -218,7 +219,7 @@ export default {
         },
         createercode(row){
             let id=row.id;
-            let url='http://192.168.199.102/customer/resource/qrCode.png?content=http://localhost:8080/inviting?recommendedAdminId='+id;
+            let url='http://192.168.199.102/customer/resource/qrCode.png?content=http://101.89.175.155:81/invitingGift?recommendedAdminId='+id;
             this.$root.$emit('qrcode',url);
         }
     },

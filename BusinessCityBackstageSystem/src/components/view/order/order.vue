@@ -56,7 +56,7 @@
                <Datatable></Datatable>
             </div>
             <order-info class="infoCover" ref="memberInfos"></order-info>
-            <el-row>
+            <el-row style='margin-bottom:80px;'>
                 <el-col :span='10'>
                     <p class='lineHeight'>从1到{{this.pageS}}/共<span>{{this.totalCount}}</span>条数据</p>
                 </el-col>
