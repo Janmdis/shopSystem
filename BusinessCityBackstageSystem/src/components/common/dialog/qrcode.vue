@@ -4,12 +4,11 @@
             <img :src="url" alt="" style='margin:0 auto;display:block;'>
         </div>
         <div slot="footer" class="dialog-footer" :center='true'>
-            <a :href="url" download='filename'>
+            <a :href="url" download='filename' target="_blank">
                 <el-button type="primary" round>保存图片</el-button>
             </a>
             
         </div>
-        <a :href="url" download='filename'></a>
     </el-dialog>
 </template>
 <script>
