@@ -33,6 +33,7 @@ export default {
                 inputTime: '',
                 active: true
             },
+            active: true,
             isActive: '房屋',
             isLoading: true,
             which_to_show: '',
@@ -146,8 +147,6 @@ export default {
             if (text == '编辑') {
                 event.currentTarget.innerHTML = '完成';
                 this.ruleForm.active = false
-                this.ruleForm[1].active = true
-                this.ruleForm[2].active = true
                 this.userInfo();
             } else {
                 event.currentTarget.innerHTML = '编辑';

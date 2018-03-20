@@ -162,10 +162,10 @@ export default {
             .then(response => {
                 console.log(response.data.info);
                 response.data.info.forEach(item1=>{
-                    console.log(item1)
+                    // console.log(item1)
                     this.datalist.forEach((item,i)=>{
                         if(item1.id == item.estateId){
-                            console.log(item)
+                            // console.log(item)
                             this.$set(item, 'quarters', item1.alias);
                             this.$set(item, 'quartersAdd', item1.address);
                         }
@@ -174,7 +174,7 @@ export default {
                 })
                 
                 
-                    console.log( this.datalist)
+                    // console.log( this.datalist)
           })
           .catch(error=>{
               console.log(error);
@@ -191,7 +191,7 @@ export default {
                 data:dielArr,
             })
             .then(response => {
-                console.log(response.data.info)
+                // console.log(response.data.info)
                 this.datalist.forEach(item=>{
                         this.orderState = response.data.info[item.id]
                         this.$set(item,'orderState',this.orderState)
@@ -217,7 +217,7 @@ export default {
             .then(response => {
                 that.listLoading =  false
                 that.datalist=(response.data.info.list);
-                console.log(that.datalist)
+                // console.log(that.datalist)
                 for(let name in this.datalist){
                     this.idBox.push(this.datalist[name].estateId)
                 }
