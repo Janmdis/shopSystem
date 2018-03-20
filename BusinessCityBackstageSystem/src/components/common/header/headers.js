@@ -27,13 +27,13 @@ export default {
       navInfo: [
         { infoText: '首页', imgClass: 'icon iconfont icon-user' },
         { infoText: '会员在线', imgClass: 'icon iconfont icon-user' },
-        { infoText: '产品在线', imgClass: 'icon iconfont  icon-chanpin' },
-        { infoText: '运营在线', imgClass: 'icon iconfont icon-weibiaoti-' },
-        { infoText: '员工在线', imgClass: 'icon iconfont icon-yunying' },
-        { infoText: '管理在线', imgClass: 'icon iconfont icon-302010' },
-        { infoText: '品牌管理', imgClass: 'icon iconfont icon-baobiaoguanli' },
-        { infoText: '品牌在线', imgClass: 'icon iconfont icon-pinpai' },
-        { infoText: '管理中心', imgClass: 'icon iconfont icon-guanlizhongxin' }
+        { infoText: '商城在线', imgClass: 'icon iconfont  icon-chanpin' },
+        // { infoText: '运营在线', imgClass: 'icon iconfont icon-weibiaoti-' },
+        // { infoText: '员工在线', imgClass: 'icon iconfont icon-yunying' },
+        { infoText: '组织管理', imgClass: 'icon iconfont icon-302010' },
+        // { infoText: '品牌管理', imgClass: 'icon iconfont icon-baobiaoguanli' },
+        // { infoText: '品牌在线', imgClass: 'icon iconfont icon-pinpai' },
+        { infoText: '基础配置', imgClass: 'icon iconfont icon-guanlizhongxin' }
       ],
       activeName: 'one'
     }
@@ -100,19 +100,19 @@ export default {
        this.$router.push("/index")
       } else if (navInfo == '会员在线') {
         navInfo = 'two'
-      } else if (navInfo == '产品在线') {
+      } else if (navInfo == '商城在线') {
         navInfo = 'three'
       } else if (navInfo == '运营在线') {
         navInfo = 'four'
       } else if (navInfo == '员工在线') {
         navInfo = 'five'
-      } else if (navInfo == '管理在线') {
+      } else if (navInfo == '组织管理') {
         navInfo = 'six'
       } else if (navInfo == '品牌管理') {
         navInfo = 'sevent'
       } else if (navInfo == '品牌在线') {
         navInfo = 'eight'
-      } else if (navInfo == '管理中心') {
+      } else if (navInfo == '基础配置') {
         navInfo = 'night'
       }
       

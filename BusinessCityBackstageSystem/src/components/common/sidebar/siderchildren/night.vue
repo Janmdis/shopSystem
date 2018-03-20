@@ -3,14 +3,12 @@
       <el-aside style="overflow-x: hidden;" >
         <el-menu :default-openeds="['1']" router>
           <el-submenu index="1">
-            <template slot="title"><i class="el-icon-message"></i>管理中心</template>
+            <template slot="title"><i class="icon iconfont icon-jichupeizhi" style='margin-right: 10px;'></i>基础配置</template>
             <el-menu-item-group>
+              <el-menu-item index="residentialquarters">小区库</el-menu-item>
+               <el-menu-item index="knowledgeBase">知识库</el-menu-item>
               <el-menu-item index="operationlog">操作日志</el-menu-item>
-              <el-menu-item index="channelmanagement">渠道管理</el-menu-item>
-              <el-menu-item index="residentialquarters">小区</el-menu-item>
-              <el-menu-item index="knowledgeBase">知识库</el-menu-item>
-              <el-menu-item index="concessionalRate">优惠劵</el-menu-item>
-              <el-menu-item index="basicConfiguration">基础配置</el-menu-item>
+              <el-menu-item index="basicConfiguration">后台数据配置</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

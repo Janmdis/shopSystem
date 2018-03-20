@@ -3,10 +3,10 @@
       <el-aside style="overflow-x: hidden;">
         <el-menu :default-openeds="['1']" router>
           <el-submenu index="1">
-            <template slot="title"><i class="el-icon-message"></i>会员管理</template>
+            <template slot="title"><i class="icon iconfont icon-huiyuan" style='margin-right: 10px;'></i>会员资料</template>
             <el-menu-item-group>
               <el-menu-item index="member">
-                会员档案
+                会员资料
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
