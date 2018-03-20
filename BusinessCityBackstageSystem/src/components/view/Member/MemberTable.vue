@@ -39,12 +39,8 @@
             </template>
         </el-table-column>
         <el-table-column
+        prop='cityName'
         label="城市">
-            <template slot-scope='scope'>
-                <span >
-                {{getMember(scope.row.cityId, address)}}
-                </span>
-            </template>
         </el-table-column>
         <el-table-column
          width='300'
@@ -52,7 +48,6 @@
             <template slot-scope='scope'>
                  {{scope.row.quarters}}
              </template>
-             
         </el-table-column>
         <el-table-column
         prop="state"
@@ -68,6 +63,11 @@
                 {{getMember(scope.row.recommendedSourceId, findSource.info)}}
                 </span>
             </template>
+        </el-table-column>
+        <el-table-column
+        prop="createTime"
+        width='500'
+        label="会员标签">
         </el-table-column>
         <el-table-column
         prop="createTime"
@@ -137,7 +137,7 @@ export default {
         })
         this.memberInfo = JSON.parse(sessionStorage.getItem("member"));
         this.findSource = JSON.parse(sessionStorage.getItem("findSource"));
-        this.address = JSON.parse(sessionStorage.getItem("address"));
+        //this.address = JSON.parse(sessionStorage.getItem("address"));
         this.$store.dispatch('getCatogery');
         this.$store.dispatch('getOrigin');
     },
@@ -178,7 +178,7 @@ export default {
           })
           .catch(error=>{
               console.log(error);
-              alert('网络错误，不能访问');
+              //alert('网络错误，不能访问');
           })
         },
         getDeil (dielArr){
@@ -200,7 +200,7 @@ export default {
           })
           .catch(error=>{
               console.log(error);
-              alert('网络错误，不能访问');
+              //alert('网络错误，不能访问');
           })
         },
       getDate(pageIndex) {
@@ -234,7 +234,7 @@ export default {
           })
           .catch(error=>{
               console.log(error);
-              alert('网络错误，不能访问');
+              //alert('网络错误，不能访问');
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑

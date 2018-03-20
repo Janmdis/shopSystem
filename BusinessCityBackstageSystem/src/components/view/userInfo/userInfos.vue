@@ -54,7 +54,7 @@ import Password from './userChildren/Password.vue'
 .el-tabs--left .el-tabs__item.is-left{
     text-align: center;
 }
-#usrinfo .tablist , #usrinfo .el-tabs--left .el-tabs__item.is-left{
+#usrinfo .tablist , #usrinfo .el-tabs--left .el-tabs__item.is-left,#usrinfo .el-tabs__nav-scroll{
     background:#fff;
     color:#525252;
 }

@@ -1,31 +1,31 @@
 <template>
     <el-dialog class='headerBottom' :title="ruleForm.textInfo" :visible.sync="dialogVisible" width="40% ">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" style='height: 500px; overflow-y: scroll;'>
-            <el-row>
+            <el-row class='idBox'>
                 <el-col :span='22'>
-                    <el-form-item label="分类">
+                    <el-form-item label="分类" prop='classification'>
                         <el-select v-model="ruleForm.classification" placeholder="请选择活动区域">
                             <el-option v-for=' (item,index) in ruleForm.classificationData' :key="index" :label="item.sortName" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
+            <el-row class='idBox'>
                 <el-col :span='22'>
-                    <el-form-item label="知识点">
+                    <el-form-item label="知识点" prop='KnowledgePoint'>
                         <el-select v-model="ruleForm.KnowledgePoint" placeholder="请选择活动区域">
-                            <el-option v-for=' (item,index) in ruleForm.KnowledgePointId' :key="index" :label="item.content" :value="item.id"></el-option>
+                            <el-option v-for=' (item,index) in ruleForm.KnowledgePointId' :key="index" :label="item.content" :value="(item.id-0)"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
+            <el-row class='showBox'>
                 <el-col :span='24'>
                     <el-form-item label="问题:" prop="name">
                         <el-input v-model="ruleForm.name" class='wNight'></el-input>
                     </el-form-item>
                     <el-form-item label="描述:">
-                        <el-input type="textarea" v-model="ruleForm.desc" class='wNight'></el-input>
+                        <el-input type="textarea" style='width:95%;' v-model="ruleForm.desc" class='wNight'></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -35,7 +35,7 @@
                     <i v-else class='icon iconfont icon-icon--' @click="delInof(index,item.id)"></i>
                     <div class='know'>
                         <el-form-item :label="'答'+(index+1)">
-                            <el-input type="textarea" v-model="item.answer" class='wNight'></el-input>
+                            <el-input type="textarea" style='width:95%;' v-model="item.answer" class='wNight'></el-input>
                         </el-form-item>
                         <el-form-item label="场景:">
                             <el-input v-model="item.scenes" class='wNight'></el-input>
@@ -50,6 +50,10 @@
     </el-dialog>
 </template>
 <style>
+    .idBox .el-select__caret {
+        position: relative;
+        left: -20px;
+    }
     .imgBox {
         width: 100px;
         height: 100px;
@@ -75,7 +79,7 @@
     .headerBottom .mTop {
         text-align: center;
     }
-    .headerBottom .el-dialog{
+    .headerBottom .el-dialog {
         padding-bottom: 5px;
     }
     .icon-tianjia {
@@ -95,6 +99,9 @@
         color: #3a8ee6;
         z-index: 5;
         cursor: pointer;
+    }
+    .showBox .el-textarea__inner{
+        width:95%;
     }
 </style>
 <script>
@@ -126,7 +133,7 @@
                     KnowledgePoint: '',
                     KnowledgePointId: '',
                     desc: '',
-                    textInfo: '新增知识库',
+                    textInfo: '新增知识点',
                     thisId: '',
                     knowArr: [{
                         "answer": '',
@@ -141,14 +148,24 @@
                         required: true,
                         message: '请输入姓名',
                         trigger: 'blur'
-                    }, ]
+                    }, ],
+                    classification: [{
+                        required: true,
+                        message: '请选择分类',
+                        trigger: 'change'
+                    }, ],
+                    KnowledgePoint: [{
+                        required: true,
+                        message: '请选择知识点',
+                        trigger: 'change'
+                    }, ],
                 }
             };
         },
         methods: {
             submitForm(formName) {
                 let that = this;
-                if (this.ruleForm.textInfo == "新增知识库") {
+                if (this.ruleForm.textInfo == "新增知识点") {
                     that.$refs[formName].validate((valid) => {
                         if (valid) {
                             let url = '/api/public/knowledge/library/insert';
@@ -181,7 +198,7 @@
                         }
                     });
                 }
-                if (this.ruleForm.textInfo == "编辑知识库") {
+                if (this.ruleForm.textInfo == "编辑知识点") {
                     let url = '/api/public/knowledge/answer/update' /*'+[data[0].id]*/ ;
                     this.$http({
                             url: url,
@@ -265,7 +282,7 @@
             this.$root.$on('showWindow', (data) => {
                 if (data != 'no') {
                     this.ruleForm.thisId = data[0].id
-                    this.ruleForm.textInfo = '编辑知识库';
+                    this.ruleForm.textInfo = '编辑知识点';
                     let url = '/api/public/knowledge/library/find' /*'+[data[0].id]*/ ;
                     this.$http({
                             url: url,
@@ -294,7 +311,7 @@
                         })
                     this.dialogVisible = true;
                 } else {
-                    this.ruleForm.textInfo = '新增知识库',
+                    this.ruleForm.textInfo = '新增知识点',
                         this.ruleForm.name = '';
                     this.ruleForm.desc = '';
                     this.ruleForm.knowArr = [{
@@ -331,7 +348,6 @@
                     }
                 })
                 .then(respone => {
-                    
                     this.ruleForm.KnowledgePointId = respone.data.info.list;
                     console.log(this.ruleForm.KnowledgePointId)
                 })
@@ -340,7 +356,7 @@
                     alert('网络错误，不能访问3');
                 })
         },
-        beforeDestroy(){
+        beforeDestroy() {
             this.$root.$off('showWindow');
         }
     }

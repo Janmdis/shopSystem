@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container id='userInfo'>
         <el-header>
                 修改头像
         </el-header>
@@ -106,6 +106,10 @@ export default {
 
 </script>
 <style>
+    #userInfo .avatar-uploader{
+    width: 178px;
+    height: 178px;
+    }
      .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;

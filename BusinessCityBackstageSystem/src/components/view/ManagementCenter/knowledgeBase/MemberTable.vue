@@ -21,8 +21,7 @@
         </el-table-column>
         <el-table-column class='borderRight' fixed prop="problemTitle" label="问题"  height='100'>
         </el-table-column>
-        <el-table-column class='borderRight' fixed prop="problemDescription" label="描述"  height='100'>
-        </el-table-column>
+
         <el-table-column
         prop="knowledgeSortName"
         label="分类"
