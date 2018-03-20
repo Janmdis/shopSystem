@@ -24,7 +24,7 @@
             <div class='boderBox'>
                <Datatable></Datatable>
             </div>
-            <el-row>
+            <el-row style="padding-bottom:100px;">
                 <el-col :span='10'>
                     <p class='lineHeight'>从1到{{this.pageS}}/共<span>{{this.totalCount}}</span>条数据</p>
                 </el-col>
