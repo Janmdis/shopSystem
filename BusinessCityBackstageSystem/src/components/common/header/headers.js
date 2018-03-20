@@ -25,9 +25,9 @@ export default {
         ]
       },
       navInfo: [
-        { infoText: '首页', imgClass: 'icon iconfont icon-user' },
+        { infoText: '首页', imgClass: 'icon iconfont icon-shouye' },
         { infoText: '会员在线', imgClass: 'icon iconfont icon-user' },
-        { infoText: '商城在线', imgClass: 'icon iconfont  icon-chanpin' },
+        { infoText: '在线商城', imgClass: 'icon iconfont  icon-chanpin' },
         // { infoText: '运营在线', imgClass: 'icon iconfont icon-weibiaoti-' },
         // { infoText: '员工在线', imgClass: 'icon iconfont icon-yunying' },
         { infoText: '组织管理', imgClass: 'icon iconfont icon-302010' },
@@ -100,7 +100,7 @@ export default {
        this.$router.push("/index")
       } else if (navInfo == '会员在线') {
         navInfo = 'two'
-      } else if (navInfo == '商城在线') {
+      } else if (navInfo == '在线商城') {
         navInfo = 'three'
       } else if (navInfo == '运营在线') {
         navInfo = 'four'
