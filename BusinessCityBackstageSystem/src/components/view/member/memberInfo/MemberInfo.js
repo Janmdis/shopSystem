@@ -11,11 +11,11 @@ export default {
     data() {
         return {
             infoText: [
-                { title: '房屋', imgSrc: '/static/images/Member/personnel-house.png', bgColor: 'background:#e16938;', number: 2 },
-                { title: '订单', imgSrc: '/static/images/Member/dingdan.jpg', bgColor: 'background:#00c0be;', number: 2 },
-                { title: '报告', imgSrc: '/static/images/Member/personnel-info.png', bgColor: 'background:#7a9df7;', number: 2 },
-                { title: '相关联会员', imgSrc: '/static/images/Member/personnel-related.png', bgColor: 'background:#ffaf48;', number: 2 },
-                { title: '回访', imgSrc: '/static/images/Member/personnel-visit.png', bgColor: 'background:#e39eef;', number: 2 },
+                { title: '房屋', imgSrc: '/static/images/Member/personnel-house.png', bgColor: 'background:#e16938;', number: 0, brackets: false },
+                { title: '订单', imgSrc: '/static/images/Member/dingdan.jpg', bgColor: 'background:#00c0be;', number: 0, brackets: false },
+                { title: '报告', imgSrc: '/static/images/Member/personnel-info.png', bgColor: 'background:#7a9df7;', number: 0, brackets: false },
+                { title: '相关联会员', imgSrc: '/static/images/Member/personnel-related.png', bgColor: 'background:#ffaf48;', number: 5, brackets: false },
+                { title: '回访', imgSrc: '/static/images/Member/personnel-visit.png', bgColor: 'background:#e39eef;', number: 4, brackets: false }
             ],
             visitTypes: [],
             ruleForm: {
@@ -63,14 +63,13 @@ export default {
         });
         this.isShow('房屋');
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
-            console.log(this.info1)
+            this.showNum();
             for (let item in this.info1.data) {
                 this.customerCategory.push({ id: item - 0, name: this.info1.data[item] });
             }
             for (let item in this.info2.data) {
                 this.recommendedSource.push({ id: item - 0, name: this.info2.data[item] });
             }
-            console.log(this.info1)
             this.userInfo().then(res => {
                 if (res) {
                     return this.getData(ids);
@@ -105,13 +104,29 @@ export default {
             this.typeWord = res;
             // console.log(this.typeWord);
         });
-
+        this.$root.$on('showNumber', data => {
+            this.$set(this.infoText[4], 'number', data.length);
+            if (data.length > 0) {
+                this.$set(this.infoText[4], 'brackets', true);
+            } else {
+                this.$set(this.infoText[4], 'brackets', false);
+            }
+        })
     },
     computed: mapState({
         info1: state => state.memberInfo.customerCategory,
         info2: state => state.memberInfo.recommendedSource
     }),
     methods: {
+        showNum() {
+            this.infoText.forEach((e, i) => {
+                if (e.number > 0) {
+                    this.$set(e, 'brackets', true);
+                } else {
+                    this.$set(e, 'brackets', false);
+                }
+            })
+        },
         userInfo() {
             return new Promise((resolve, reject) => {
                 this.$http.get(
@@ -130,7 +145,9 @@ export default {
             let text = event.currentTarget.innerHTML;
             if (text == '编辑') {
                 event.currentTarget.innerHTML = '完成';
-                this.ruleForm.active = false;
+                this.ruleForm.active = false
+                this.ruleForm[1].active = true
+                this.ruleForm[2].active = true
                 this.userInfo();
             } else {
                 event.currentTarget.innerHTML = '编辑';
@@ -170,6 +187,12 @@ export default {
                         resolve(true);
                     } else {
                         that.memberHouse = res.data.info.list;
+                        that.$set(that.infoText[0], 'number', that.memberHouse.length);
+                        if (that.memberHouse.length > 0) {
+                            that.$set(that.infoText[0], 'brackets', true);
+                        } else {
+                            that.$set(that.infoText[0], 'brackets', false);
+                        }
                         that.houseCount = res.data.info;
                         resolve(true);
                     }
@@ -294,5 +317,6 @@ export default {
         this.$root.$off('load');
         this.$root.$off('loadFn');
         this.$root.$off('loadFn3');
+        this.$root.$off('showNumber');
     }
 }

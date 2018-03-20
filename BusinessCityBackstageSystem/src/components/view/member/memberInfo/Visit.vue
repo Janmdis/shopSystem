@@ -10,10 +10,10 @@
                 <el-form-item class="visit-item">
                     <p class="visit-round"></p>
                     <ul class="visit-des">
-                        <li>{{item.createTime}}</li>
-                        <li>回访时间 : {{item.time}}</li>
-                        <li>回访人 : {{item.customerAccount.name}}</li>
-                        <li>类型 : {{item.visitType}}</li>
+                        <li><span>{{item.createTime}}</span></li>
+                        <li>回访时间 : <span>{{item.time}}&nbsp;m</span></li>
+                        <li>回访人 : <span>{{item.customerAccount.name}}</span></li>
+                        <li>类型 : <span>{{item.visitType}}</span></li>
                     </ul>
                     <el-form-item label="客户反馈:" prop="Feedback">
                         <el-input class="text" type="textarea" :disabled='edit[index]' v-model="item.feedback"></el-input>
@@ -141,6 +141,7 @@ export default{
                 method:'POST'
             }).then((res) => {
                 that.dataList = res.data.info.list;
+                that.$root.$emit('showNumber',that.dataList)
                 for(let i =  0;i<this.dataList.length;i++){
                     this.$set(this.edit,i,true);// 进行数据跟踪以便于动态数据渲染
                 }
@@ -349,10 +350,15 @@ export default{
                 display:flex;
                 margin-left:25px;
                 color:#777;
-                // letter-spacing:1px;
                 margin-bottom: 20px;
+                li{
+                    font-weight: bold;
+                    span{
+                        font-weight: normal;
+                    }
+                }
                 li:nth-child(n+2){
-                    margin-left:30px;
+                    margin-left:20px;
                 }
             }
             .el-form-item{

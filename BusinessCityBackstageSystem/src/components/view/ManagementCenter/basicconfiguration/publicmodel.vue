@@ -14,11 +14,11 @@ export default {
         return {
             typeData:[
                 {'index':1,'icon':'el-icon-edit','isActive':true,'name':'模板分类'},
-                {'index':2,'icon':'el-icon-menu','isActive':false,'name':'服务时间'}
+                // {'index':2,'icon':'el-icon-menu','isActive':false,'name':'服务时间'}
             ],
             urlList:[
                 {id:'id',url:'/api/product/mall/templateCategory/queryMap',des:'模板类型',name:'name'},
-                {id:'id',url:'/api/product/commodity/periodTemplate/queryMap',des:'服务时间',name:'name'}
+                // {id:'id',url:'/api/product/commodity/periodTemplate/queryMap',des:'服务时间',name:'name'}
             ],
             datalist:[]
         }

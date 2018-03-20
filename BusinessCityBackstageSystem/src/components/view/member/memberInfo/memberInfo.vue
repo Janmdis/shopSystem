@@ -16,7 +16,7 @@
                         <el-form-item class="visit-item header-item3" label="钻石会员:" prop="userLevel">
                             <img class="images images3" src="/static/images/Member/personnel-level.png" alt="">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.userLevel"></el-input>
-                            <span>300经验值</span>
+                            <span>经验值</span>
                         </el-form-item>
                         <el-col class="header-btn" :span="5">
                             <div class="infoLine1Right">
@@ -98,7 +98,7 @@
                             @click="isShow(info.title)"
                             >
                             <div class="list2Img" :style="info.bgColor"><img :src="info.imgSrc" alt=""></div>
-                            <p>{{info.title}}&nbsp;(<span>{{info.number}}</span>)</p>
+                            <p>{{info.title}}&nbsp;<span v-show="info.brackets">({{info.number}})</span></p>
                         </li>
                     </ul>
                 </el-aside>

@@ -6,7 +6,7 @@
     :default-sort = "{prop: 'date', order: 'descending'}"
     v-loading="this.listLoading"
     :stripe='true'
-    style="width: 100%" height='500'>
+    style="width: 100%" height='880'>
     <el-table-column
     fixed
     type="index"
@@ -56,18 +56,15 @@
         sortable>
         </el-table-column>
         <el-table-column
-        width='120'
         prop="classificationName"
         label="分类">
         </el-table-column>
         <el-table-column
-        width='120'
         prop="typeName"
         label="类型">
         </el-table-column>
         <el-table-column
         prop="brand"
-        width='100'
         label="品牌">
         </el-table-column>
         <el-table-column

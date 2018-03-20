@@ -55,7 +55,7 @@
                 <div class="tableDes" data-name="家用" data-id="0">家用信息表<el-button class="btn1" @click="handleAdd($event)" data-id="0" data-name="家用" round>新增</el-button><span class="titleSpan1">( 共{{number1}}条 )</span><span @click="showTables($event)">收起</span></div>
                 <el-collapse-transition>
                     <div v-show="showTable1">
-                        <el-table class="transition-box" v-show="showTable1" :data="houseEquipment1" height="208" border style="width: 100%">
+                        <el-table class="transition-box" v-show="showTable1" :data="houseEquipment1" height="208" border style="width: 99%">
                             <el-table-column prop="name" label='家用设备'></el-table-column>
                             <el-table-column prop="brand" label="品牌"></el-table-column>
                             <el-table-column prop="specification" label="型号"></el-table-column>
@@ -75,7 +75,7 @@
                 <div class="tableDes" data-name="家装" data-id="1">家装信息表<el-button class="btn1 btn2" @click="handleAdd($event)" data-name="家装" data-id="1" round>新增</el-button><span class="titleSpan1">( 共{{number2}}条 )</span><span @click="showTables($event)">收起</span></div>
                 <el-collapse-transition>
                     <div v-show="showTable2">
-                        <el-table  :data="houseEquipment2" border style="width: 100%" height="208">
+                        <el-table  :data="houseEquipment2" border style="width: 99%" height="208" >
                             <el-table-column prop="name" label="家用设备"></el-table-column>
                             <el-table-column prop="brand" label="品牌"></el-table-column>
                             <el-table-column prop="specification" label="型号"></el-table-column>
@@ -648,10 +648,10 @@ export default {
     }
     .el-button.btn1{
         background:#fff;
-        color:#00c0be;
+        color:#409EFF;
     }
     .el-button.btn1:hover{
-        background:#00c0be;
+        background:#409EFF;
         color:#fff;
     }
 } 
@@ -700,10 +700,10 @@ export default {
         line-height: 30px;
         text-align: center;
         border-radius:50%;
-        border:2px solid #00c0be;
+        border:2px solid #409EFF;
         cursor: pointer;
         i{
-            color:#00c0be;
+            color:#409EFF;
             font-size:20px;
             font-weight:900;
         }
@@ -714,11 +714,11 @@ export default {
         text-align: center;
         border-radius:20px;
         border:1px solid #ccc;
-        color:#00c0be;
+        color:#409EFF;
         margin-right:10%;
     }
     .edit_btn:hover{
-        background: #00c0be;
+        background: #409EFF;
         color:#fff;
     }
 }
@@ -794,8 +794,13 @@ export default {
                 span:nth-of-type(n+4){
                     margin-top: 20px;
                 }
+                span:nth-of-type(4){
+                    margin-left: 60px;
+                }
                 input:last-child{
+                    width: 70% !important;
                     margin-top: 20px;
+                    margin-left: 60px;
                 }
                 .detailAddress{
                     height:10px;
@@ -813,7 +818,7 @@ export default {
                 margin:35px 0;
                 font-size:17px;
                 font-weight:500;
-                color:#00c0be;
+                color:#409EFF;
                 position: relative;
                 span{
                     cursor: pointer;
@@ -829,13 +834,13 @@ export default {
                 .el-button{
                     width: 100px;
                     background:#fff;
-                    color:#00c0be;
+                    color:#409EFF;
                     margin-left:45px;
                     position: absolute;
                     top:-12px;
                 }
                 .el-button:hover{
-                    background:#00c0be;
+                    background:#409EFF;
                     color:#fff;
                 }   
             }

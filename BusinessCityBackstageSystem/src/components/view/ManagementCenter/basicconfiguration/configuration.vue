@@ -145,7 +145,7 @@ export default {
             ],
             publicData:[
                 {id:'id',delUrl:'/api/product/mall/templateCategory/remove',des:'模板分类',name:'name',addUrl:'/api/product/mall/templateCategory/insert'},
-                {id:'id',delUrl:'/api/product/commodity/periodTemplate/remove',des:'服务时间',name:'name',addUrl:'/api/product/commodity/periodTemplate/insert'}     
+                // {id:'id',delUrl:'/api/product/commodity/periodTemplate/remove',des:'服务时间',name:'name',addUrl:'/api/product/commodity/periodTemplate/insert'}     
             ],
             supplierData:[
                 {id:'id',delUrl:'/api/product/label/delete',des:'供应商标签',name:'name',addUrl:'/api/product/label/insert'}, 
