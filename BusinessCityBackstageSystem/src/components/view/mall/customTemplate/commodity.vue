@@ -2,7 +2,7 @@
    <!-- 商品组件开始 -->
     <div class="borderHover" :index='dataid'>
       <!-- 商品开始 -->
-      <div>
+      <div id="commodityss">
         <el-row>
         <el-col :span="this.commodityDate.bigImg">
           <div class="imgConet">
@@ -306,6 +306,16 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
         }
     }
 </script>
+<style>
+#commodityss .avatar-uploader .el-upload {
+   border: 1px dashed #ffffff !important;
+   filter:alpha(opacity=0);  
+      -moz-opacity:0;  
+      -khtml-opacity: 0;  
+      opacity: 0;
+}
+</style>
+
 <style scoped lang="less">
 @import "../../../../assets/less/color";
 .template-editContent-div{

@@ -2,7 +2,7 @@
   <!-- 橱窗组件开始 -->
     <div class="borderHover" :index='dataid'>
       <!-- 橱窗1开始 -->
-      <div>
+      <div id="windowss">
         <el-row>
         <el-col :span="12" v-for='(item,index) in imglist' :key='index'>
              <div class="imgConet">
@@ -244,7 +244,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
     }
 </script>
 <style>
-.carouselListInfo .el-input__inner{
+#windowss .avatar-uploader .el-upload {
+   border: 1px dashed #ffffff !important;
+   filter:alpha(opacity=0);  
+      -moz-opacity:0;  
+      -khtml-opacity: 0;  
+      opacity: 0;
+}
+#windowss .carouselListInfo .el-input__inner{
     height: 30px;
 }
 </style>
