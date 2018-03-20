@@ -13,7 +13,7 @@
                             <img class="images" src="/static/images/Member/personnel-integral.png" alt="">
                             <el-input :disabled="active" v-model="ruleForm.userPoint"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item header-item3" :label="ruleForm.userLevel" prop="userLevel">
+                        <el-form-item class="visit-item header-items3" :label="ruleForm.userLevel" prop="userLevel">
                             <img class="images images3" src="/static/images/Member/personnel-level.png" alt="">
                             <el-input :disabled="active" v-model="ruleForm.userExperience"></el-input>
                         </el-form-item>
@@ -163,7 +163,7 @@ export default memberInfos;
                 width: 80%;
             }
         }
-        .header-item3{
+        .header-items3{
             .el-input{
                 width: 85%;
             }

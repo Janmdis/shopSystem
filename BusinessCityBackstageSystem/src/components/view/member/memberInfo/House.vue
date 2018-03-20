@@ -357,7 +357,16 @@ export default{
 }
 #house{
     background: #fff;
+    height:600px;
     //min-width:750px;
+    position: relative;
+    .block{
+        position:absolute;
+        bottom:50px;
+        left: 0;
+        right:0; 
+        margin:auto;
+    }
     .houseHeader{
         padding-top:20px;
         padding-right: 30px;

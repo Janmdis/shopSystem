@@ -1,5 +1,5 @@
 <template>
-    <div id="memberInfo">
+    <div id="order-info">
         <el-container>
             <el-header id="infoHeader">
                 <el-form :model="ruleForm" ref="ruleForm" 
@@ -82,6 +82,7 @@ export default OrderInfos;
 @import "./OrderInfo.less";
 </style>
 <style lang="less">
+#order-info{
 #infoHeader{
     .item-header{
         display:flex;
@@ -200,5 +201,7 @@ export default OrderInfos;
         text-align:center;
     }
 }
+}
+
 </style>
 

@@ -241,7 +241,7 @@ export default{
         background-size: 100% 100%;
         position:absolute;
         top:10%;
-        left: 15%;
+        left: 5%;
         z-index: 5;
     }
 }
