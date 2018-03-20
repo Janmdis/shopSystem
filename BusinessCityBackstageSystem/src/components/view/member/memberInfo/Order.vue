@@ -7,10 +7,10 @@
                     <div class="orderDiv"><span>下单时间 : {{info.orderTime}}</span><span>订单状态 : {{info.orderState}}</span><span>服务人员 : {{info.servicePeople}}</span></div>
                     <div class="orderBtn">
                         <div class="btnGroup">
-                            <el-button @click="jumpOrderDetail" style="border-radius:4px;background:#409EFF;color:#fff;">查看详情</el-button>
-                            <el-button style="border-radius:4px;background:#409EFF;color:#fff;">回访</el-button>
-                            <el-button style="border-radius:4px;background:#409EFF;color:#fff;">追单</el-button>
-                            <el-button style="border-radius:4px;background:#409EFF;color:#fff;">退款</el-button>
+                            <el-button @click="jumpOrderDetail" type="primary" style="border-radius:4px;">查看详情</el-button>
+                            <el-button type="primary" style="border-radius:4px;">回访</el-button>
+                            <el-button type="primary" style="border-radius:4px;">追单</el-button>
+                            <el-button type="primary" style="border-radius:4px;">退款</el-button>
                         </div>
                     </div>
                 </li>

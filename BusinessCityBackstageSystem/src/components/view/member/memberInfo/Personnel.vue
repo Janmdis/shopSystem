@@ -1,6 +1,10 @@
 <template>
     <div id="report">
-        <el-row :span="20"><div class="report-top" :style="{background:'url(' + bgSrc + ')'}"></div></el-row>
+        <el-row :span="20">
+            <div class="report-top">
+                <img :src="bgSrc" alt="">
+            </div>
+        </el-row>
         <!-- <div class="report-bottom">
             <p>Sorry,the page is missing!</p>
             <p>对不起 ,  页面丢失了!</p>
@@ -31,9 +35,11 @@ export default{
     .report-top{
         width: 100%;
         height:600px;
-        background-repeat:no-repeat;
-        background-size: 100% 100% !important;
-        background-position: center center;
+        img{
+            width: 70%;
+            // height:100%;
+            margin:80px 0 0 10%;
+        }
     }
     // .report-bottom{
     //     width:250px;
