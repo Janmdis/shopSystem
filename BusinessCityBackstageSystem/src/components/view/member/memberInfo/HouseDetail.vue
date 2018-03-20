@@ -52,7 +52,7 @@
         </el-form>
         <div class="houseDetailMain">
             <div class="mainTable" >
-                <div class="tableDes" data-name="家用" data-id="0">家用信息表<el-button class="btn1" style="border-radius:4px;background:#409EFF;color:#fff;" @click="handleAdd($event)" data-id="0" data-name="家用" round>新增</el-button><span class="titleSpan1">( 共{{number1}}条 )</span><span @click="showTables($event)">收起</span></div>
+                <div class="tableDes" data-name="家用" data-id="0">家用信息表<el-button class="btn1" style="border-radius:4px;background:#409EFF;color:#fff;" @click="handleAdd($event)" data-id="0" data-name="家用" round>新&nbsp;增</el-button><span class="titleSpan1">( 共{{number1}}条 )</span><span @click="showTables($event)">收起</span></div>
                 <el-collapse-transition>
                     <div v-show="showTable1">
                         <el-table class="transition-box" v-show="showTable1" :data="houseEquipment1" height="208" border style="width: 99%">
@@ -72,7 +72,7 @@
                 </el-collapse-transition>
             </div>
             <div class="mainTable" >
-                <div class="tableDes" data-name="家装" data-id="1">家装信息表<el-button class="btn1 btn2" style="border-radius:4px;background:#409EFF;color:#fff;" @click="handleAdd($event)" data-name="家装" data-id="1" round>新增</el-button><span class="titleSpan1">( 共{{number2}}条 )</span><span @click="showTables($event)">收起</span></div>
+                <div class="tableDes" data-name="家装" data-id="1">家装信息表<el-button class="btn1 btn2" style="border-radius:4px;background:#409EFF;color:#fff;" @click="handleAdd($event)" data-name="家装" data-id="1" round>新&nbsp;增</el-button><span class="titleSpan1">( 共{{number2}}条 )</span><span @click="showTables($event)">收起</span></div>
                 <el-collapse-transition>
                     <div v-show="showTable2">
                         <el-table  :data="houseEquipment2" border style="width: 99%" height="208" >
@@ -710,7 +710,7 @@ export default {
     }
     .edit_btn{
         cursor: pointer;
-        padding:8px 30px;
+        padding:9.5px 25px;
         text-align: center;
         border-radius:20px;
         border:1px solid #ccc;
@@ -832,12 +832,14 @@ export default {
                     color:#666;
                 }
                 .el-button{
-                    width: 100px;
+                    // width: 100px;
                     background:#fff;
                     color:#409EFF;
                     margin-left:45px;
                     position: absolute;
                     top:-12px;
+                    font-size: 16px;
+                    padding:10px 24px;
                 }
                 .el-button:hover{
                     background:#409EFF;

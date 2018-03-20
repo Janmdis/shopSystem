@@ -1,7 +1,7 @@
 <template>
     <div id="visit">
         <div class="visitHeader">
-            <el-button type="primary" @click="diagShow">新增</el-button>
+            <el-button type="primary" @click="diagShow">新&nbsp;增</el-button>
         </div>
         <div class="visitMain" v-loading="isLoading">
             <el-form :model="dataList[index]" ref="ruleForm" 
@@ -295,9 +295,10 @@ export default{
         position: relative;
         height:40px;
         .el-button{
-            padding:10px 20px;
             position:absolute;
-            right:0;
+            right:5%;
+            font-size:16px;
+            padding:9px 23px;
         }
     }
     .visitHeader::before{

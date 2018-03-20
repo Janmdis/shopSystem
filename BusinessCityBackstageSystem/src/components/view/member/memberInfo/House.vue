@@ -1,13 +1,13 @@
 <template>
     <div id="house" >
         <div class="houseHome" v-show="isSwitchHouseDetail">
-            <div class="houseHeader"><span class="addHouseBtn" @click="addCover">新增</span></div>
+            <div class="houseHeader"><span class="addHouseBtn" @click="addCover">新&nbsp;增</span></div>
             <ul class="houseMain" >
                 <li v-for="(info,index) in memberHouse" :key="index" >
                     <div class="houseDiv"><span>小区/写字楼 : {{smallDisInfos[info.estateId]}}</span><span>房屋类型 : {{houseCategory[info.categoryId]}}</span></div>
                     <div class="houseDiv"><span>地址 : {{info.address}}</span><span>租住状态 : {{rentalStatus[info.rentalStatusId]}}</span></div>
                     <div class="houseBtn" :dataId="index">
-                        <el-button @click="jumpHouseDetail($event)" style="border-radius:4px;background:#409EFF;color:#fff;" :dataId="index" >查看详情</el-button>
+                        <el-button @click="jumpHouseDetail($event)" type="primary" style="border-radius:4px;" :dataId="index" >查看详情</el-button>
                     </div>
                 </li>
             </ul>
@@ -365,10 +365,10 @@ export default{
         overflow: hidden;
         .addHouseBtn{
             display:inline-block;
-            width: 100px;
-            height: 38px;
-            line-height: 38px;
             border:1px solid #dcdedc;
+            width: 82px;
+            height: 36px;
+            line-height:36px;
             border-radius:4px;
             text-align: center;
             cursor: pointer;

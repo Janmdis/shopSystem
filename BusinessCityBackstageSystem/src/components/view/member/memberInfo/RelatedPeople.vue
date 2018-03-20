@@ -1,11 +1,11 @@
 <template>
     <div id="related">
        <el-col :span="24">
-           <div class="relation-center">
+           <!-- <div class="relation-center">
                <i class="icon iconfont icon-home"></i>
            </div>
-           <div id="relation"></div>
-           <img id="re-img" :src="imgSrc" alt="">
+           <div id="relation"></div> -->
+           <div id="re-div" :style="{background:'url(' + imgSrc + ')'}"></div>
        </el-col>
     </div>
 </template>
@@ -205,40 +205,43 @@ export default{
     position: relative;
     background: #fff;
     height: 600px;
-    padding:20px 25px 100px;
-    min-width: 700px;
-    .el-col{
-        position:relative;
-        padding:0px 0px 100px;
-        height:600px;
-    }
-    .relation-center{
-        width: 100px;
-        height: 100px;
-        line-height: 100px;
-        text-align: center;
-        border-radius:50%; 
-        background: #409EFF;
+    // padding:20px 25px 100px;
+    // min-width: 700px;
+    // .el-col{
+    //     position:relative;
+    //     padding:0px 0px 100px;
+    //     height:600px;
+    // }
+    // .relation-center{
+    //     width: 100px;
+    //     height: 100px;
+    //     line-height: 100px;
+    //     text-align: center;
+    //     border-radius:50%; 
+    //     background: #409EFF;
+    //     position:absolute;
+    //     left: 43%;
+    //     top: 42%;
+    //     margin: auto;
+    //     z-index:1;
+    //     i{
+    //         font-size: 70px;
+    //         color:#fff;
+    //     }
+    // }
+    // #relation{
+    //     width:100%;
+    //     height: 600px;  
+    // }
+    #re-div{
+        width: 100%;
+        height:500px;
+        background-repeat:no-repeat !important;
+        background-position: center center;
+        background-size: 100% 100%;
         position:absolute;
-        left: 43%;
-        top: 42%;
-        margin: auto;
-        z-index:1;
-        i{
-            font-size: 70px;
-            color:#fff;
-        }
-    }
-    #relation{
-        width:100%;
-        height: 600px;  
-    }
-    #re-img{
-        display:block;
-        position:absolute;
-        width:100%;
-        height:600px;
-        top: 0;
+        top:10%;
+        left: 15%;
         z-index: 5;
     }
 }
