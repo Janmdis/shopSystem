@@ -57,6 +57,7 @@
         width='220'
         label="操作">
          <template slot-scope="scope">
+              <!-- <el-button type="text"  size="small" @click="qRcodeSee(scope.$index, scope.row,$event)">二维码</el-button> -->
              <el-button type="text"  size="small" @click="handleSee(scope.$index, scope.row,$event)">浏览</el-button>
             <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
             <el-button type="text"  size="small" @click="handleSwicth(scope.$index, scope.row,$event)">
