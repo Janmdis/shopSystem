@@ -3,7 +3,7 @@
         <div class="rolHeader">
             部门列表
             <div class="pull-right">
-                <span class="addRole" data-toggle="modal" data-target="#productModal" type="button" @click="opendialogDep">添加</span>
+                <span class="addRole" data-toggle="modal" data-target="#productModal" type="button" @click="opendialogDep" v-show='addshow'>添加</span>
                 <transition name="fade">
                     <span class="clearBorder" data-toggle="modal" data-target="#delModal" @click='deletedep' v-show="deleteshow">删除</span>                    
                 </transition>
@@ -29,6 +29,7 @@ export default {
                 label: 'info'
             },
             deleteshow:false,
+            addshow:false,
             currentid:'',
             currentname:'',
             curentnum:'',
@@ -99,6 +100,7 @@ export default {
             // console.log(node);
            // 修改‘删除’按钮状态
             this.deleteshow=data.children?false:true;
+            this.addshow=true;
             this.currentid=data.id;
             this.currentname=data.info;
             this.curentnum=data.number;
