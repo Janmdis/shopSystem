@@ -987,7 +987,7 @@
                         that.useremployeetype=res.data.info;
                     }
                     else{
-                        that.$message(res.data.msg);
+                        // that.$message(res.data.msg);
                     }
                 })
                 .catch(err=>{

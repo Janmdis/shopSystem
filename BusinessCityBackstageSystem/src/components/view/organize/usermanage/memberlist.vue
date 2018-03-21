@@ -179,7 +179,6 @@ export default {
                     that.total=data.info.total;
                     that.currentpage=pagenum;
                 }
-                console.log(response);
                 that.loading=false;
             })
             .catch(function (response) {
