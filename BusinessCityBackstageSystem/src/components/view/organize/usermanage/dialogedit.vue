@@ -88,7 +88,7 @@
             </el-row>
             <el-row>
                 <el-col :span="10" :offset='2'>
-                    <el-form-item label="所属部门：" >
+                    <el-form-item label="所属部门："  prop='departmentId'>
                         <el-select v-model="dataform.departmentId"  placeholder="请选择" @change='selectdep'>
                             <el-option
                             v-for="item in deplist"
@@ -101,7 +101,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col  :span="10">
-                    <el-form-item label="所属角色：">
+                    <el-form-item label="所属角色：" prop='groupId'>
                         <el-select v-model="dataform.groupId"  placeholder="请选择" @change='selectrole'>
                             <el-option
                             v-for="item in rolelist"
@@ -180,6 +180,12 @@ export default {
                 ],
                 phone:[
                     {pattern: /^1[3|4|5|7|8][0-9]{9}$/g,required:true,message:'请输入正确的手机号码',trigger:'blur'}
+                ],
+                departmentId:[
+                    {required:true,message:'请选择部门',trigger:'change'}
+                ],
+                groupId:[
+                    {required:true,message:'请选择角色',trigger:'change'},
                 ]
             },
             pickerOptions:{

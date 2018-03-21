@@ -51,6 +51,9 @@ export default {
             this.searchtext=organtext=='展开搜索'?'收起搜索':'展开搜索';
             this.$root.$emit('switch',flag);
         }
+    },
+    beforeDestroy(){
+        this.$root.$off('showlttip');
     }
 }
 </script>

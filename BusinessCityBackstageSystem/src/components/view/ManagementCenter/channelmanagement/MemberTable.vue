@@ -219,7 +219,7 @@ export default {
         },
         createercode(row){
             let id=row.id;
-            let url='http://192.168.199.102/customer/resource/qrCode.png?content=http://101.89.175.155:81/invitingGift?recommendedAdminId='+id;
+            let url='http://101.89.175.155:8777/customer/resource/qrCode.png?content=http://101.89.175.155:81/invitingGift?recommendedAdminId='+id;
             this.$root.$emit('qrcode',url);
         }
     },

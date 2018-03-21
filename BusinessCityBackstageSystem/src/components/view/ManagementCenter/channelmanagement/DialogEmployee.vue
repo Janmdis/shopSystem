@@ -4,9 +4,9 @@
             <el-col :span="4">
                 <el-select v-model="type" placeholder="分类" class='typeselect' @change='changetype'>
                     <el-option
-                    v-for="item in listtype"
+                    v-for="item in list"
                     :key="item.id"
-                    :label="item.employeeTypeName"
+                    :label="item.departmentName"
                     :value="item.id">
                     </el-option>
                 </el-select>
@@ -51,6 +51,7 @@
     </el-dialog>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
     data(){
         return{
@@ -75,7 +76,7 @@ export default {
             });
             this.dialogVisible=true;
             // console.log(data);
-            this.getEmploytype();
+            // this.getEmploytype();
         });
     },
     updated() {
@@ -108,14 +109,14 @@ export default {
             })
         },
         // 分页查询员工列表
-        getEmployeelist(pageindex,typeid){
+        getEmployeelist(pageindex,depid){
             // console.log(pageindex);
             this.loading=true;
             let that=this;
             this.$http.post('/api/admin/account/multiConditionalQuery',{
                 pageSize:10,
                 pageNum:pageindex,
-                // employeeTypeId:typeid
+                departmentId:depid
             })
             .then(function(response){
                 if(response.data.status==200){
@@ -129,7 +130,7 @@ export default {
                             employeeTypeName:item.employeeTypeName
                         });
                     });
-                    // that.listemployee=response.data.info.list;
+                    that.listemployee=response.data.info.list;
                     that.total=response.data.info.total;
                 }
                 // console.log(response);
@@ -143,7 +144,6 @@ export default {
         changetype(value){
             this.type=value;
             this.getEmployeelist(1,value);
-            console.log(value);
         },
         handleCurrentChange(currentpage){
             this.getEmployeelist(currentpage,this.type);
@@ -212,7 +212,12 @@ export default {
                 this.dialogVisible=false;
             }
         }
-    }
+    },
+    computed: {
+        ...mapState({
+            list: state => state.deplist.deplistall
+        })
+    },
 }
 </script>
 <style scoped>

@@ -270,10 +270,10 @@ export default {
         searchBox
     },
     beforeDestroy() {
-        this.$root.$on('loading');
-        this.$root.$on('total1');
-        this.$root.$on('delBox');
-        this.$root.$on('pages1');
-        this.$root.$on('output1');
+        this.$root.$off('loading');
+        this.$root.$off('total1');
+        this.$root.$off('delBox');
+        this.$root.$off('pages1');
+        this.$root.$off('output1');
     }
 }

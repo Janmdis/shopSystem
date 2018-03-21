@@ -43,6 +43,7 @@ export default {
     })
   },
   created(){
+    this.$store.dispatch('getDeplistall');
     this.$root.$on('switch',(flag)=>{
         console.log(flag);
         let dom=document.querySelector("#member");
