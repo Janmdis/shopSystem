@@ -84,7 +84,7 @@ export default {
         .then(respone => {
           if (respone.status == 200) {
             this.option(respone.data.msg,'success');
-            this.$root.$emit("useImgOF",this.imageUrl)
+            this.$root.$emit("useImgOF",this.imageUrl);
             localStorage.setItem('useImgOF',this.imageUrl)
          }
         })

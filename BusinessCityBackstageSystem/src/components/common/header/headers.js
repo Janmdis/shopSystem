@@ -43,8 +43,13 @@ export default {
       this.which_to_show = infoText
     })
     let status = window.sessionStorage.getItem('status')
-    this.userName = (JSON.parse(sessionStorage.getItem('userInfo')).createName);
+
+    this.userName = (JSON.parse(sessionStorage.getItem('userInfo')).adminName);
     this.imgUrl = JSON.parse(sessionStorage.getItem('userInfo')).adminHeadImg;
+    this.$root.$on("userName", data => {
+      console.log(data)
+      this.userName = data;
+    });
     this.$root.$on('useImgOF', data => {
       console.log(data)
       this.imgUrl = data;

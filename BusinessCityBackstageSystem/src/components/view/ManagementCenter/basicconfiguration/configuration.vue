@@ -333,23 +333,29 @@ export default {
             let that = this;
             let modelName = this.name;
             if(this.modelIndex == 0){
+  
                 var data = {};
                 data[modelName] = this.ruleForm.name;
                 console.log(data)
             }else if(this.modelIndex == 1){
+                
                 var data = [{parentId:0}];
                 data[0][modelName] = this.ruleForm.name;   
             }else if(this.modelIndex == 2){
+             
                 if(this.number == 4){
                     var data =[{"name":this.ruleForm.name,"color":this.ruleForm.color}];
                     console.log(data);
                 }else{
                     var data ={};
                     data[modelName] = this.ruleForm.name;
+                    data = [data]
                 }  
             }else if(this.modelIndex == 3){
+         
                 var data =[{"name":this.ruleForm.name}];
             }else if(this.modelIndex == 4){
+    
                 if(this.number == 0){
                     var data ={"name":this.ruleForm.name,"color":this.ruleForm.color};
                 }else{
@@ -357,6 +363,7 @@ export default {
                     data[modelName] = this.ruleForm.name;
                 }     
             }else if(this.modelIndex == 5){
+         
                 if(this.number == 2){
                     var data = {'gradeLevel':this.ruleForm.gradeLevel};
                     // console.log(data);
@@ -366,8 +373,10 @@ export default {
                     data[modelName] = this.ruleForm.name;   
                 }
             }else if(this.modelIndex == 6){
+            
                 var data =[{"name":this.ruleForm.name}];
             }else if(this.modelIndex == 7){
+             
                 var data =[{"name":this.ruleForm.name}];
             };
             if(this.ruleForm.name == ''){

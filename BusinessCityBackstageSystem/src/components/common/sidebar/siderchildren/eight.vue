@@ -1,6 +1,6 @@
 <template>
     <el-container >
-      <el-aside style="overflow-x: hidden;">
+      <el-aside style='overflow: hidden;'>
         <el-menu :default-openeds="['1']">
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>管理中心</template>
