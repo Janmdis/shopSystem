@@ -637,6 +637,7 @@ export default {
     top: 20px;
     right:-2000px;
     z-index: 99;
+    margin-bottom:60px;
     background-color: #fff;
 }
 .createchannel.on{
