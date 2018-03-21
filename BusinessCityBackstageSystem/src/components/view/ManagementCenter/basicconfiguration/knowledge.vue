@@ -13,12 +13,12 @@ export default {
     data () {
         return {
             typeData:[
-                {'index':1,'icon':'el-icon-edit','isActive':true,'name':'知识分类'},
-                {'index':2,'icon':'el-icon-menu','isActive':false,'name':'知识点'}
+                {'index':1,'icon':'el-icon-edit','isActive':true,'name':'知识点'},
+                {'index':2,'icon':'el-icon-menu','isActive':false,'name':'知识分类'}
             ],
             urlList:[
-                {id:'id',url:'/api/public/knowledge/point/find',des:'知识分类',name:'content'},
-                {id:'id',url:'/api/public/knowledge/sort/find',des:'知识点',name:'sortName'}
+                {id:'id',url:'/api/public/knowledge/point/find',des:'知识点',name:'content'},
+                {id:'id',url:'/api/public/knowledge/sort/find',des:'知识分类',name:'sortName'}
             ],
             datalist:[]
         }

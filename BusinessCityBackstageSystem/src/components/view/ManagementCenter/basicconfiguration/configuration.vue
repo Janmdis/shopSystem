@@ -169,8 +169,8 @@ export default {
                 {id:'id',delUrl:'/api/admin/teamType/removeTeamType',des:'团队类型',name:'name',addUrl:'/api/admin/teamType/insertTeamType'}
             ],
             knowledge:[
-                {id:'id',delUrl:'/api/public/knowledge/point/update',des:'知识分类',name:'content',addUrl:'/api/public/knowledge/point/insert'}, 
-                {id:'id',delUrl:'/api/public/knowledge/sort/update',des:'知识点',name:'sortName',addUrl:'/api/public/knowledge/sort/insert'}
+                {id:'id',delUrl:'/api/public/knowledge/point/update',des:'知识点',name:'content',addUrl:'/api/public/knowledge/point/insert'}, 
+                {id:'id',delUrl:'/api/public/knowledge/sort/update',des:'知识分类',name:'sortName',addUrl:'/api/public/knowledge/sort/insert'}
             ],
             desData:[],
             modelIndex:0

@@ -17,14 +17,14 @@
                         {{tag.name}}
                     </el-tag>
                     <!--<el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue"  ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
-                                            </el-input>
-                                            <el-button v-else class="button-new-tag" size="small" @click="showInput">新增标签</el-button>!-->
+                                                </el-input>
+                                                <el-button v-else class="button-new-tag" size="small" @click="showInput">新增标签</el-button>!-->
                 </el-col>
             </el-row>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+            <el-button type="primary" @click="submitForm('form')">确 定</el-button>
         </div>
     </el-dialog>
 </template>
@@ -37,30 +37,72 @@
                 dynamicTags: [],
                 Tagbox: [],
                 TagboxId: [],
-                propleId:[],
-                labelName:'',
+                propleId: [],
+                NewArr:[],
+                labelName: '',
                 form: {
                     tages: '',
                     name: '',
                     region: '',
-                    thisId:''
+                    thisId: ''
                 },
                 formLabelWidth: '120px',
             };
         },
         created() {
             this.searchLabel()
-            this.$root.$on("MarkLable", (data) =>{
+            this.$root.$on("MarkLable", (data) => {
                 console.log(data)
                 this.dialogFormVisible = data[0].isShow
                 this.labelName = data[0].list.length;
-                data[0].list.forEach((item,index)=>{
-                    console.log(item)
+                data[0].list.forEach((item, index) => {
+                    this.propleId.push(item.id)
                 })
-                this.propleId
             })
         },
         methods: {
+            submitForm(formName) {
+                let that = this;
+                let lal = {};
+                        console.log(this.propleId)
+                        this.NewArr = [];
+                        for(let i = 0;i<this.propleId.length;i++){
+                            for(let j = 0;j<this.dynamicTags.length;j++){
+                                 lal = {'accountId':this.propleId[i],'labelId':this.dynamicTags[j].id}
+                                this.NewArr.push(lal)
+                            }
+                        }
+
+                  
+                            let url = '/api/customer/customerAndLabel/addCorrelation';
+                            this.$http({
+                                    url: url,
+                                    method: 'POST',
+                                    // 请求体重发送的数据
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    data:this.NewArr
+                                })
+                                .then(response => {
+                                    if (response.data.status == 300) {
+                                        this.$message(response.data.msg);
+                                        // alert(response.data.msg)
+                                        
+                                        return false
+                                    }
+                                    this.option('添加成功','success');
+                                    this.Tagbox = [];
+                                    this.NewArr = [];
+                                    this.dialogFormVisible = false;
+                                    this.$root.$emit('getDatezdy', 1)
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    alert('网络错误，不能访问');
+                                })
+                       
+            },
             option(test, status) {
                 this.$message({
                     message: test,
@@ -118,11 +160,24 @@
                     return item
                 }, []);
             },
+            handleCloses(index) {
+                let list = [];
+                for (let i = 0; i < this.Tagbox.length; i++) {
+                    if (index != i) {
+                        list.push(this.Tagbox[i]);
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功！'
+                        });
+                    }
+                }
+                this.Tagbox = list;
+                console.log(this.Tagbox)
+            },
         },
-        beforeDestroy(){
+        beforeDestroy() {
             this.$root.$off('MarkLable');
         }
-        
     };
 </script>
 <style>
