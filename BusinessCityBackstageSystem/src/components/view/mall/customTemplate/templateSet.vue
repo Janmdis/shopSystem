@@ -318,7 +318,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                         type: 'success',
                         message: '修改成功！'
                         });
-                    this.$router.push({ path: '/templateList' })    
+                    let type = sessionStorage.getItem('Template_Type')
+                    if(type == '1'){
+                        this.$router.push({ path: '/templateList' })
+                    }else if(type == '2'){
+                        this.$router.push({ path: '/eventTemplateList' })
+                    }else if(type == '3'){
+                        this.$router.push({ path: '/detailTemplateList' })
+                    }    
                 })
                 .catch(error => {
                     console.log(error);
@@ -330,7 +337,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             }
         },
         backtrack(){
-            this.$router.push({ path: '/templateList' })
+            let type = sessionStorage.getItem('Template_Type')
+            if(type == '1'){
+                this.$router.push({ path: '/templateList' })
+            }else if(type == '2'){
+                this.$router.push({ path: '/eventTemplateList' })
+            }else if(type == '3'){
+                this.$router.push({ path: '/detailTemplateList' })
+            }
         }
      },
      components:{
