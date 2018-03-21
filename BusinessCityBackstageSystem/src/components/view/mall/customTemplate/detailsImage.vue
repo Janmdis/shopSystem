@@ -175,7 +175,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             let hostName = location.hostname;
             let port = location.port;
             this.images = res.info;
-            this.imageUrl = 'http://' + hostName + ':' + port + '/api/sms' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
+            this.imageUrl = 'http://' + hostName + ':' + port + '/api' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
             console.log(this.imgIndex)
             this.imglist[this.imgIndex].img = this.imageUrl; //  显示图片需要 图片显示的地址
             this.imglist[this.imgIndex].imgSrc = this.images; //  上传后台需要 的图片地址

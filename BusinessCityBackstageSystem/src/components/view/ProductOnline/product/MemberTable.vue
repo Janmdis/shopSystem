@@ -1,3 +1,4 @@
+
 <template>
     <el-table
     id="product-table0"
@@ -187,7 +188,7 @@ export default {
                     if(imgurl == '' || imgurl == null){
                         imgurl == ''
                     }else{
-                        imgurl='http://'+window.location.host+'/api/sms'+imgurl.split(";")[0]
+                        imgurl='http://'+window.location.host+'/api'+imgurl.split(";")[0]
                     }
                     this.$set(item,'imgurl',imgurl)
                 })

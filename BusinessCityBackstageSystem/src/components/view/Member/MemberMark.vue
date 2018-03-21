@@ -52,7 +52,6 @@
         created() {
             this.searchLabel()
             this.$root.$on("MarkLable", (data) => {
-                console.log(data)
                 this.dialogFormVisible = data[0].isShow
                 this.labelName = data[0].list.length;
                 data[0].list.forEach((item, index) => {
@@ -64,12 +63,13 @@
             submitForm(formName) {
                 let that = this;
                 let lal = {};
-                        console.log(this.propleId)
                         this.NewArr = [];
+                        
                         for(let i = 0;i<this.propleId.length;i++){
-                            for(let j = 0;j<this.dynamicTags.length;j++){
-                                 lal = {'accountId':this.propleId[i],'labelId':this.dynamicTags[j].id}
+                            for(let j = 0;j<this.TagboxId.length;j++){
+                                 lal = {'accountId':this.propleId[i],'labelId':this.TagboxId[j].labelId}
                                 this.NewArr.push(lal)
+                                console.log(this.NewArr)
                             }
                         }
 
