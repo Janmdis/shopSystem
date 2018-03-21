@@ -637,11 +637,13 @@ export default {
     top: 20px;
     right:-2000px;
     z-index: 99;
+    display: none;
     margin-bottom:60px;
     background-color: #fff;
 }
 .createchannel.on{
     left:0;
+    display: block;
 }
 .productDesignation{
     height: 72px;

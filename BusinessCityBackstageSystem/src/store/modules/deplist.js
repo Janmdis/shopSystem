@@ -19,7 +19,7 @@ const mutations = {
 const actions = {
     // 获取列表
     getDeplisttree({ commit, state }) {
-        axios.post('/api/admin/manage/department/find?type=1&range=0&pageSize=0', {
+        axios.post('/api/admin/manage/department/find?type=1&range=1&pageSize=0', {
                 isActive: '1'
             })
             .then(function(response) {
@@ -37,7 +37,7 @@ const actions = {
     },
     getDeplistall({ commit, state }) {
         // console.log(111);
-        axios.post('/api/admin/manage/department/find?type=0&range=0&pageSize=0', {
+        axios.post('/api/admin/manage/department/find?type=0&range=1&pageSize=0', {
                 isActive: '1'
             })
             .then(function(response) {
@@ -45,7 +45,7 @@ const actions = {
                 if (data.msg == '查询成功') {
                     commit({
                         type: 'getDeplistall',
-                        data: data.info.list.list
+                        data: data.info.manageDepartmentResult
                     });
                 }
             })
