@@ -29,7 +29,7 @@ export default {
       rules1: {
         iPhone: [
           {
-            pattern: /^1[3|4|5|7|8][0-9]{9}$/g,
+            pattern: /^1[3|4|5|7|8][0-9]{9}$/,
             required: true,
             message: '请输入正确的手机号'
           }
@@ -114,7 +114,8 @@ export default {
       })
         .then(respone => {
           if (respone.data.msg == '修改成功') {
-            this.option(respone.data.msg,'success')
+            this.option(respone.data.msg, 'success')
+            this.$root.$emit("userName",this.ruleForm1.userName);
          }
         })
         .catch(error => {

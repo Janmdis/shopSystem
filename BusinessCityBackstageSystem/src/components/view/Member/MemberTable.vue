@@ -1,23 +1,8 @@
 <template>
-    <el-table
-    :data="datalist"
-    @selection-change='showextra'
-    @cell-click='showMemberInfo'
-    v-loading="this.listLoading"
-    :stripe='true'
-    style="width: 100%;"
-    height='500'>
-    <el-table-column
-    fixed
-    type="index"
-    label="N"
-    :index="indexMethod">
-    </el-table-column>
-        <el-table-column
-        fixed
-        type="selection"
-        width="55"
-         >
+    <el-table :data="datalist" @selection-change='showextra' @cell-click='showMemberInfo' v-loading="this.listLoading" :stripe='true' style="width: 100%;" height='500'>
+        <el-table-column fixed type="index" label="N" :index="indexMethod">
+        </el-table-column>
+        <el-table-column fixed type="selection" width="55">
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
                     </el-table-column> -->
