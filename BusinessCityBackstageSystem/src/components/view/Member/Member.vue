@@ -66,7 +66,7 @@
             </el-row>
         </div>
         <showWindows></showWindows>
-        
+        <MemberMark></MemberMark>
     </el-main>
 </template>
 <script>

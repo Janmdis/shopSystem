@@ -342,7 +342,7 @@
                     }],
                     endTime: [{
                         validator: checkAge,
-                        message: '请选择结束日期',
+                        message: '结束日期小于开始日期',
                         trigger: 'change'
                     }],
                 }
@@ -372,7 +372,8 @@
                                     data: this.ruleForm.dataObj
                                 })
                                 .then(response => {
-                                    this.option(respone.data.msg, 'success');
+                                    console.log(response)
+                                    this.option(response.data.msg, 'success');
                                     this.handleClose();
                                     this.ruleForm.showBoxArrId = [], //商品分类
                                         this.ruleForm.shopShowBoxArrId = [], //商品分类

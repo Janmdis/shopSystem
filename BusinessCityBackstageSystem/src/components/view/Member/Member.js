@@ -5,6 +5,7 @@ import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
 import search from '../../common/search/search.vue'
 import showWindows from './showWindow.vue'
+import MemberMark from './MemberMark.vue'
 import qs from 'qs'
 import moment from "moment"
 
@@ -267,7 +268,8 @@ export default {
         search,
         Datatable,
         showWindows,
-        searchBox
+        searchBox,
+        MemberMark
     },
     beforeDestroy() {
         this.$root.$off('loading');
