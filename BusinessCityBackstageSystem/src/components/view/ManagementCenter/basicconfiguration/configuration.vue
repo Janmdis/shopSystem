@@ -157,7 +157,7 @@ export default {
             userData:[
                 {id:'id',delUrl:'/api/product/serviceType/update',des:'服务类型',name:'serName',addUrl:'/api/product/serviceType/insert'}, 
                 {id:'id',delUrl:'/api/product/type/update',des:'产品类型',name:'productName',addUrl:'/api/product/type/insert'},
-                {id:'id',delUrl:'/api/admin/grade/update',des:'账户名称',name:'gradeName',addUrl:'/api/admin/grade/insert'}, 
+                {id:'id',delUrl:'/api/admin/grade/update',des:'等级名称',name:'gradeName',addUrl:'/api/admin/grade/insert'}, 
                 {id:'id',delUrl:'/api/admin/employeetype/delete',des:'员工类型',name:'employeeTypeName',addUrl:'/api/admin/employeetype/insert'}
             ],
             houseData:[
