@@ -372,6 +372,10 @@
                                     data: this.ruleForm.dataObj
                                 })
                                 .then(response => {
+                                    if(response.data.status== 510){
+                                        this.option(response.data.msg);
+                                        return false;
+                                    }
                                     console.log(response)
                                     this.option(response.data.msg, 'success');
                                     this.handleClose();
