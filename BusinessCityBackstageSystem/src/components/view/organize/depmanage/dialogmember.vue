@@ -376,7 +376,7 @@ export default {
 /* .el-dialog .grid-content.valueName{
     padding-left: 15px;
 } */
-.el-dialog  input{
+#userdialog .el-dialog  input{
     width: 95%;
     height: 32px;
     padding: 5px 10px;

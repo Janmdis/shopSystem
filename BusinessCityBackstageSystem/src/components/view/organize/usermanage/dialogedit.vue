@@ -1,5 +1,5 @@
 <template>
-    <el-dialog   width='60%' top='40px'  :title="iscreate?'添加员工':'编辑员工'" :visible="dialogmemberVisible" :modal='true' :before-close="ai_dialog_close"> 
+    <el-dialog   width='60%' top='40px' id='inpuW' :title="iscreate?'添加员工':'编辑员工'" :visible="dialogmemberVisible" :modal='true' :before-close="ai_dialog_close"> 
         <el-form @submit.native.prevent :model='dataform' status-icon ref="memberForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span="10" :offset='2'>
@@ -433,7 +433,7 @@ export default {
 /* .el-dialog .grid-content.valueName{
     padding-left: 15px;
 } */
-.el-dialog  input{
+#inpuW .el-dialog  input{
     width: 95%;
     height: 32px;
     padding: 5px 10px;

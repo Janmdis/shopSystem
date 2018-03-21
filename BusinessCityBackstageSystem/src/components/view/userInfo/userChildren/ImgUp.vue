@@ -114,7 +114,7 @@ export default {
 </script>
 <style>
     #userInfo .el-upload{
-    
+    width:178px;
     height: 100%;
     }
      #userInfo .avatar-uploader .el-upload {
