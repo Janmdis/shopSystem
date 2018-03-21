@@ -12,7 +12,7 @@
                 <el-row>
                     <el-col class="sec_item" :span="24">
                         <el-upload id="upload_file" class="avatar-uploader" 
-                        action="api/sms/file/fileUpload" 
+                        action="api/zuul/sms/file/fileUpload" 
                         list-type="picture" 
                         name="fileUpload" 
                         :show-file-list="isSave" 
