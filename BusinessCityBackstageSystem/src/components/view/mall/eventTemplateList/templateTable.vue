@@ -259,6 +259,7 @@ export default {
             //console.log(row)
             let datas = JSON.stringify(row)
             window.sessionStorage.setItem ("Template_AllData",datas);
+            window.sessionStorage.setItem('Template_Type',2)
             //this.$store.dispatch('editTemplate',row)
             this.$router.push({ path: '/mallSet' })
         },
