@@ -85,6 +85,12 @@ export default {
       this.$refs.c1.run()
       this.disabled = false
     },
+    option(test, status) {
+      this.$message({
+          message: test,
+          type: status ? status : 'warning'
+      })
+    },
     getver() {
       if (this.ruleForm.userPhone != '') {
         this.send()
@@ -153,10 +159,13 @@ export default {
                     this.ruleForm.password = ''
                     return
                 } else {
-                    this.$alert('3秒后自动跳转到...', '登陆成功', {
-                    confirmButtonText: '确定'
-                    })
-                // this.$router.push("/index")
+                 // console.log(res)
+                  this.option('修改成,请您重新登录...', 'success');
+                    // this.$alert('立即跳转秒后自动跳转到...', '登陆成功', {
+                    // confirmButtonText: '确定'
+                    // })
+                    this.$router.push("/login")
+                
                 }
                 })
           } else {

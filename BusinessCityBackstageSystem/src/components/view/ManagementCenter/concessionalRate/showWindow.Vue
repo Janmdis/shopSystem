@@ -69,7 +69,7 @@
                         <el-select v-model="ruleForm.shopBox" placeholder="请选择商品分类" @change='change'>
                             <el-option v-for=' (item,index) in this.ruleForm.shopBoxArr ' :key="index" :label='item.name' :value="item.id"></el-option>
                             <!--<el-option label="香蕉你个巴拉" value="0"></el-option>
-                                                                                                                    <el-option label="韭菜炒大虫" value="1"></el-option>!-->
+                                                                                                                        <el-option label="韭菜炒大虫" value="1"></el-option>!-->
                         </el-select>
                     </el-form-item>
                     <el-col :span='20' style='margin-left:40px;'>
@@ -150,8 +150,8 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item >
-                <el-button class='mTop'  type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-form-item>
+                <el-button class='mTop' type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -307,7 +307,7 @@
                     addTextArrObj: {},
                     addTextArrObjArr: [],
                     dataObj: '',
-                    explain:'',
+                    explain: '',
                     overlay: '',
                     activity: '',
                     specials: ''
@@ -320,12 +320,12 @@
                         message: '请输入数量',
                         trigger: 'blur'
                     }, ],
-                    couponMoney:[{
+                    couponMoney: [{
                         required: true,
                         message: '请输入金额',
                         trigger: 'blur'
                     }, ],
-                    couponName:[{
+                    couponName: [{
                         required: true,
                         message: '请输入名称',
                         trigger: 'blur'
@@ -335,7 +335,7 @@
                         message: '请选择开日期',
                         trigger: 'change'
                     }],
-                    couponType:[{
+                    couponType: [{
                         required: true,
                         message: '请选择类型',
                         trigger: 'change'
@@ -349,6 +349,12 @@
             };
         },
         methods: {
+            option(test, status) {
+                this.$message({
+                    message: test,
+                    type: status ? status : 'warning'
+                })
+            },
             submitForm(formName) {
                 let that = this;
                 if (this.ruleForm.textInfo == "新增优惠劵") {
@@ -366,6 +372,7 @@
                                     data: this.ruleForm.dataObj
                                 })
                                 .then(response => {
+                                    this.option(respone.data.msg, 'success');
                                     this.handleClose();
                                     this.ruleForm.showBoxArrId = [], //商品分类
                                         this.ruleForm.shopShowBoxArrId = [], //商品分类
@@ -822,7 +829,7 @@
             this.getShops();
             //this.addSearchFn();
         },
-        beforeDestroy(){
+        beforeDestroy() {
             this.$root.$off('showWindow');
         }
     }

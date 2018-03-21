@@ -98,7 +98,7 @@ export default {
         })
     },
     showData() {
-      let url = '/apiadmin/account/updateadminaccount'
+      let url = '/api/admin/account/updateadminaccount'
       this.$http({
         url: url,
         method: 'post',

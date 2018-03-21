@@ -31,7 +31,7 @@
 export default {
     data() {
       return {
-        importFileUrl:'api/sms/file/fileUpload',
+        importFileUrl:'api/zuul/sms/file/fileUpload',
         imageUrl: '',
         admin:'admin',
         urlImg:{
