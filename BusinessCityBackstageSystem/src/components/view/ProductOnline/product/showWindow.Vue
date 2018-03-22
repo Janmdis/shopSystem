@@ -107,7 +107,8 @@
             min-width: 700px;
             margin-top: 9vh !important;
             .el-dialog__header {
-                background: #27a1f2;
+                background: #fff;
+                
             }
             .el-dialog__body {
                 padding: 30px 25px;
@@ -409,7 +410,7 @@
                             this.imgUrls = data.rowData.productImage.split(';');
                             this.imageArr = data.rowData.productImage.split(';');
                             this.imgUrls.forEach(function(e, i) {
-                                that.imgUrls[i] = ('http://' + hostName + ':' + port + '/api/sms' + that.imgUrls[i]);
+                                that.imgUrls[i] = ('http://' + hostName + ':' + port + '/api' + that.imgUrls[i]);
                             });
                         }
                         this.sizeList = data.rowData.specificationValue;
@@ -467,7 +468,7 @@
                 let hostName = location.hostname;
                 let port = location.port;
                 this.images = res.info;
-                this.imageUrl = 'http://' + hostName + ':' + port + '/api/sms' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
+                this.imageUrl = 'http://' + hostName + ':' + port + '/api' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
                 this.imgUrls.push(this.imageUrl); //  显示图片需要
                 this.imageArr.push(this.images); //  上传后台需要
                 this.ruleForm.productImage = this.imageArr.join(';');

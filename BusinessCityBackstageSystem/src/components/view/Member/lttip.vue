@@ -13,7 +13,7 @@
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
                 </li>
-                <!--<li class="other"    @click='showMark'>
+                <!--<li class="other" @click='showMark'>
                     <i class='el-icon-delete'></i> 打标签
                 </li>!-->
             </ul>
@@ -28,6 +28,7 @@ export default {
             listname:'',
             canedit:true,
             dataInfo:'',
+            isSHow:true,
             searchtext:'展开搜索'
         }
     },
@@ -65,10 +66,10 @@ export default {
             let flag=organtext=='展开搜索';
             this.searchtext=organtext=='展开搜索'?'收起搜索':'展开搜索';
             this.$root.$emit('switch',flag);
-        }
-        // showMark(){
-        //     this.$root.$emit("showMark",this.dataInfo)
-        // },
+        },
+        showMark(){
+            this.$root.$emit("MarkLable",[{list:this.dataInfo,isShow:this.isSHow}])
+        },
     },
     beforeDestroy(){
         this.$root.$off('showlttip')

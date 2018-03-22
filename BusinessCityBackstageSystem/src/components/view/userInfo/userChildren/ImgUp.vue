@@ -68,7 +68,7 @@ export default {
         let hostName = location.hostname;
             let port = location.port;
             this.images = res.info;
-            this.imageUrl = 'http://' + hostName + ':' + port + '/api/sms' + this.images; //  后台返
+            this.imageUrl = 'http://' + hostName + ':' + port + '/api' + this.images; //  后台返
        sessionStorage.setItem('imageUrl',this.imageUrl)
       },
       saveImg(){

@@ -15,13 +15,13 @@ export default {
             typeData:[
                 {'index':1,'icon':'el-icon-edit','isActive':true,'name':'服务类型'},
                 {'index':2,'icon':'el-icon-menu','isActive':false,'name':'产品类型'},
-                {'index':3,'icon':'el-icon-sold-out','isActive':false,'name':'账户名称'},
+                {'index':3,'icon':'el-icon-sold-out','isActive':false,'name':'用户等级'},
                 {'index':4,'icon':'el-icon-document','isActive':false,'name':'员工类型'}
             ],
             urlList:[
                 {id:'id',url:'/api/product/serviceType/find?pageSize=0',des:'服务类型',name:'serName'},
                 {id:'id',url:'/api/product/type/find?pageSize=0',des:'产品类型',name:'productName'},
-                {id:'id',url:'/api/admin/grade/find?pageSize=0',des:'账户名称',name:'gradeName'},
+                {id:'id',url:'/api/admin/grade/find?pageSize=0',des:'用户等级',name:'gradeName'},
                 {id:'id',url:'/api/admin/employeetype/queryList',des:'员工类型',name:'employeeTypeName'}
             ],
             datalist:[],

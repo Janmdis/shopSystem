@@ -285,7 +285,15 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                         message: '新增成功！'
                         });
                    // console.log(response)
-                    this.$router.push({ path: '/templateList' })    
+                   let type = sessionStorage.getItem('Template_Type')
+                   // console.log(type)
+                    if(type == 1){
+                        this.$router.push({ path: '/templateList' })
+                    }else if(type == 2){
+                        this.$router.push({ path: '/eventTemplateList' })
+                    }else if(type == 3){
+                        this.$router.push({ path: '/detailTemplateList' })
+                    }   
                 })
                 .catch(error => {
                     console.log(error);
@@ -319,11 +327,12 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                         message: '修改成功！'
                         });
                     let type = sessionStorage.getItem('Template_Type')
-                    if(type == '1'){
+                   // console.log(type)
+                    if(type == 1){
                         this.$router.push({ path: '/templateList' })
-                    }else if(type == '2'){
+                    }else if(type == 2){
                         this.$router.push({ path: '/eventTemplateList' })
-                    }else if(type == '3'){
+                    }else if(type == 3){
                         this.$router.push({ path: '/detailTemplateList' })
                     }    
                 })

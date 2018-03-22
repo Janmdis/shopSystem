@@ -145,7 +145,7 @@
                         that.listgoods=data.list;
                         that.listgoods.forEach(item=>{
                             let imglist=item.productImage.split(';');
-                            item.productImage='http://'+window.location.host+'/api/sms'+imglist[0];
+                            item.productImage='http://'+window.location.host+'/api'+imglist[0];
                         });
                         
                     }

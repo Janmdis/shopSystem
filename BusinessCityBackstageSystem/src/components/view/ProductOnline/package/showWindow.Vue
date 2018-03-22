@@ -157,7 +157,7 @@ import { mapState } from 'vuex'
                             let imgurl='';
                             that.imglist.forEach(img=>{
                                 if(img.commodityId==item.id&&imgurl==''){
-                                    imgurl='http://'+window.location.host+'/api/sms'+img.url;;
+                                    imgurl='http://'+window.location.host+'/api'+img.url;;
                                 }
                             })
                             that.$set(item,'imgurl',imgurl);
@@ -208,7 +208,7 @@ import { mapState } from 'vuex'
                                 let imgurl='';
                                 that.imglist.forEach(img=>{
                                     if(img.commodityId==item.id&&imgurl==''){
-                                        imgurl='http://'+window.location.host+'/api/sms'+img.url;;
+                                        imgurl='http://'+window.location.host+'/api'+img.url;;
                                     }
                                 })
                                 that.$set(item,'imgurl',imgurl);
@@ -231,7 +231,7 @@ import { mapState } from 'vuex'
                                 let imgurl='';
                                 that.imglist.forEach(img=>{
                                     if(img.commodityId==item.id&&imgurl==''){
-                                        imgurl='http://'+window.location.host+'/api/sms'+img.url;;
+                                        imgurl='http://'+window.location.host+'/api'+img.url;;
                                     }
                                 })
                                 that.$set(item,'imgurl',imgurl);

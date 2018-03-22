@@ -190,7 +190,7 @@ export default {
                         let imgurl='';
                         this.imglist.forEach(img=>{
                             if(img.commodityId==item.id&&imgurl==''){
-                                imgurl='http://'+window.location.host+'/api/sms'+img.url;;
+                                imgurl='http://'+window.location.host+'/api'+img.url;;
                             }
                         })
                         this.$set(item,'imgurl',imgurl);

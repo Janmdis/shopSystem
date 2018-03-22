@@ -469,7 +469,7 @@ export default {
                 if(response.data.msg=="查询成功"){
                     response.data.info.list.forEach(item=>{
                         that.displayOrder=item.displayOrder>that.displayOrder?item.displayOrder:that.displayOrder;
-                        let url='http://'+window.location.host+'/api/sms'+item.url;
+                        let url='http://'+window.location.host+'/api'+item.url;
                         let json={
                             id:item.id,
                             url:url,
@@ -587,7 +587,7 @@ export default {
             .then(function(response){
                 if(response.data.msg=='新增成功'){
                     
-                    url='http://'+window.location.host+'/api/sms'+url;
+                    url='http://'+window.location.host+'/api'+url;
                     let json={
                         id:response.data.info.id,
                         url:url,

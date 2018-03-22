@@ -81,6 +81,7 @@ import supplierModel from './suppliermodel'
 import userModel from './usermodel'
 import houseModel from './housemodel'
 import channelModel from './channelmodel'
+import knowledge from './knowledge'
 export default {
     data () {
         return{
@@ -102,7 +103,8 @@ export default {
                 {index:'5',icon:'el-icon-document',text:'供应商模块',url:'/api/product/commodity/category/queryMap'},
                 {index:'6',icon:'el-icon-setting',text:'用户模块',url:'/api/product/commodity/category/queryMap'},
                 {index:'7',icon:'el-icon-document',text:'房屋模块',url:'/api/product/commodity/category/queryMap'},
-                {index:'8',icon:'el-icon-setting',text:'渠道模块',url:'/api/product/commodity/category/queryMap'}
+                {index:'8',icon:'el-icon-setting',text:'渠道模块',url:'/api/product/commodity/category/queryMap'},
+                {index:'9',icon:'el-icon-setting',text:'知识库',url:'/api/product/commodity/category/queryMap'}
             ],
             name:'brandName',
             id:'brandId',
@@ -155,7 +157,7 @@ export default {
             userData:[
                 {id:'id',delUrl:'/api/product/serviceType/update',des:'服务类型',name:'serName',addUrl:'/api/product/serviceType/insert'}, 
                 {id:'id',delUrl:'/api/product/type/update',des:'产品类型',name:'productName',addUrl:'/api/product/type/insert'},
-                {id:'id',delUrl:'/api/admin/grade/update',des:'账户名称',name:'gradeName',addUrl:'/api/admin/grade/insert'}, 
+                {id:'id',delUrl:'/api/admin/grade/update',des:'等级名称',name:'gradeName',addUrl:'/api/admin/grade/insert'}, 
                 {id:'id',delUrl:'/api/admin/employeetype/delete',des:'员工类型',name:'employeeTypeName',addUrl:'/api/admin/employeetype/insert'}
             ],
             houseData:[
@@ -165,6 +167,10 @@ export default {
             channelData:[
                 {id:'id',delUrl:'/api/admin/teamLevel/removeTeamLevel',des:'团队级别',name:'name',addUrl:'/api/admin/teamLevel/insertTeamLevel'}, 
                 {id:'id',delUrl:'/api/admin/teamType/removeTeamType',des:'团队类型',name:'name',addUrl:'/api/admin/teamType/insertTeamType'}
+            ],
+            knowledge:[
+                {id:'id',delUrl:'/api/public/knowledge/point/update',des:'知识点',name:'content',addUrl:'/api/public/knowledge/point/insert'}, 
+                {id:'id',delUrl:'/api/public/knowledge/sort/update',des:'知识分类',name:'sortName',addUrl:'/api/public/knowledge/sort/insert'}
             ],
             desData:[],
             modelIndex:0
@@ -179,6 +185,7 @@ export default {
             this.id = data[3];
             this.ruleForm.title = '新增'+data[4];
             this.ruleForm.nameDes = this.desData[this.number].des;
+            
         });
         this.$root.$on('loadInfo',data => {
             this.loadInfo = data;
@@ -228,6 +235,10 @@ export default {
                 text = channelModel;
                 this.desData = this.channelData;
                 this.modelIndex = 7;   
+            }else if(text == '知识库'){
+                text = knowledge;
+                this.desData = this.knowledge;
+                this.modelIndex = 8;   
             }
             this.levelShows = false;
             this.list_item = text;
@@ -274,6 +285,8 @@ export default {
                 var data = row.id;
             }else if(this.modelIndex == 7){
                 var data = row.id;
+            }else if(this.modelIndex == 8){
+                var data = {'id':row.id,'isActive':false};
             }
             this.$confirm('确定删除 "'+ row[this.name] +'" 吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
@@ -296,6 +309,7 @@ export default {
                             that.$root.$emit('transFn5',that.number);
                             that.$root.$emit('transFn6',that.number);
                             that.$root.$emit('transFn7',that.number);
+                             that.$root.$emit('transFn8',that.number);
                         }
                     });
                 }).catch(err => {console.log(err)})   
@@ -378,6 +392,14 @@ export default {
             }else if(this.modelIndex == 7){
              
                 var data =[{"name":this.ruleForm.name}];
+            }else if(this.modelIndex == 8){
+                console.log(this.number)
+                if(this.number==1){
+                    var data ={"sortName":this.ruleForm.name};
+                }else{
+                    var data ={"content":this.ruleForm.name};
+                }
+               
             };
             if(this.ruleForm.name == ''){
                 alert("内容不能为空!");
@@ -412,6 +434,7 @@ export default {
                     that.$root.$emit('transFn5',that.number);
                     that.$root.$emit('transFn6',that.number);
                     that.$root.$emit('transFn7',that.number);
+                    that.$root.$emit('transFn8',that.number);
                     that.dialogVisible = false;
                     that.$refs.ruleForm.resetFields();
                 }).catch(err => {console.log(err);});
@@ -426,7 +449,8 @@ export default {
         supplierModel,
         userModel,
         houseModel,
-        channelModel
+        channelModel,
+        knowledge
     },
     beforeDestroy(){
         this.$root.$off('searchInfo');

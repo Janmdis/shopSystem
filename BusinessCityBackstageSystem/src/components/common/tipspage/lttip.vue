@@ -12,9 +12,9 @@
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
                 </li>
-                <!--<li class="other"    @click='showMark'>
+                <li class="other"   @click='showMark'>
                     <i class='el-icon-delete'></i> 打标签
-                </li>!-->
+                </li>
             </ul>
         </div>
     </div>
@@ -54,9 +54,9 @@ export default {
         delBox(){
             this.$root.$emit("delBox",this.dataInfo)
         },
-        // showMark(){
-        //     this.$root.$emit("showMark",this.dataInfo)
-        // },
+        showMark(){
+            this.$root.$emit("showMark",this.dataInfo)
+        }
     }
 }
 </script>
