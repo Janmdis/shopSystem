@@ -14,7 +14,7 @@
                 <el-col :span='22'>
                     <el-form-item label="知识点" prop='KnowledgePoint'>
                         <el-select v-model="ruleForm.KnowledgePoint" placeholder="请选择活动区域">
-                            <el-option v-for=' (item,index) in ruleForm.KnowledgePointId' :key="index" :label="item.content" :value="item.id"></el-option>
+                            <el-option v-for=' (item,index) in ruleForm.KnowledgePointId' :key="index" :label="item.content" :value="item.id-0"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
