@@ -50,6 +50,10 @@
         prop="adminCount"
         label="团队人数">
         </el-table-column>  
+        <!-- <el-table-column
+        prop="recommendednums"
+        label="本月绩效">
+        </el-table-column>  -->
         <el-table-column
         prop="createTime"
         label="创建时间"
@@ -88,10 +92,17 @@ export default {
                 name:null,
                 typeId:null,
                 levelId:null
-            }
+            },
+            monthStartDate:'',
+            monthEndDate:''
         }
     },
     created:function(){
+        // let now=new Date();  
+        // let nowMonth = now.getMonth();
+        // let nowYear = now.getYear();  
+        // this.monthStartDate = new Date(nowYear, nowMonth, 1);
+        // this.monthEndDate = new Date(nowYear, nowMonth, this.getMonthDays(nowYear,nowMonth));
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
             console.log(data)
@@ -141,9 +152,15 @@ export default {
                 data:this.data,
             })
             .then(response => {
-                console.log(response);
                 if(response.data.status==200){
+                    
                     this.datalist=(response.data.info.list);
+                    // this.datalist.forEach(item=>{
+                    //     let RecommendedNums=this.getRecommendedNumsMonth(item.id,this.monthStartDate,this.monthEndDate);
+                    //     this.getRecommendedNumsMonth(item.id,this.monthStartDate,this.monthEndDate).then((nums)=>{
+                    //         this.$set(item,'recommendednums',nums);
+                    //     });
+                    // });
                     this.$root.$emit('pages',response.data.info.pages)
                     this.$root.$emit('total',response.data.info.total)
                 }
@@ -157,6 +174,39 @@ export default {
               alert('网络错误，不能访问');
               this.listLoading =  false;
           })
+        },
+        //获取某月天数
+        getMonthDays(year,month){
+            var monthStartDate = new Date(year, month, 1);
+            var monthEndDate = new Date(year, month + 1, 1);
+            var days = (monthEndDate - monthStartDate) / (1000 * 60 * 60 * 24);
+            return days;
+        },
+        // 查询团队本月绩效
+        getRecommendedNumsMonth(teamid,mindate,maxdate){
+            let that=this;
+            return new Promise((resolve, reject)=>{
+                this.$http.post('/api/customer/account/queryMap',
+                {
+                    recommendedTeamId:teamid,
+                    minCreateTime:mindate,
+                    maxCreateTime:maxdate
+                })
+                .then(res=>{
+                    if(res.data.status==200){
+                        let count=res.data.info.length;
+                        resolve(count);
+                    }
+                    else{
+                        resolve(0);
+                    }
+                })
+                .catch(err=>{
+                    resolve(0);
+                    console.log(err);
+                });
+            })
+            
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
             //console.log(row,column,cell,event)

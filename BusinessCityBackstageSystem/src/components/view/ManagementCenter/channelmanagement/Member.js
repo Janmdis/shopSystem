@@ -7,6 +7,7 @@ import createchannel from './createchannel.vue'
 import dialogemployee from './DialogEmployee.vue'
 import qs from 'qs'
 import dialogqrcide from '../../../common/dialog/qrcode.vue'
+import dialogrecommenddetail from './dialogrecommenddetail.vue'
 
 export default {
   
@@ -174,7 +175,8 @@ export default {
     searchBox,
     createchannel,
     dialogemployee,
-    dialogqrcide
+    dialogqrcide,
+    dialogrecommenddetail
   },
 }
 

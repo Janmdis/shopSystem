@@ -43,6 +43,7 @@
         <createchannel></createchannel>
         <dialogemployee></dialogemployee>
         <dialogqrcide></dialogqrcide>
+        <dialogrecommenddetail></dialogrecommenddetail>
     </el-main>
 </template>
 <script>
