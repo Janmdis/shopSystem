@@ -50,10 +50,10 @@
         prop="adminCount"
         label="团队人数">
         </el-table-column>  
-        <el-table-column
+        <!-- <el-table-column
         prop="recommendednums"
         label="本月绩效">
-        </el-table-column> 
+        </el-table-column>  -->
         <el-table-column
         prop="createTime"
         label="创建时间"
@@ -98,11 +98,11 @@ export default {
         }
     },
     created:function(){
-        let now=new Date();  
-        let nowMonth = now.getMonth();
-        let nowYear = now.getYear();  
-        this.monthStartDate = new Date(nowYear, nowMonth, 1);
-        this.monthEndDate = new Date(nowYear, nowMonth, this.getMonthDays(nowYear,nowMonth));
+        // let now=new Date();  
+        // let nowMonth = now.getMonth();
+        // let nowYear = now.getYear();  
+        // this.monthStartDate = new Date(nowYear, nowMonth, 1);
+        // this.monthEndDate = new Date(nowYear, nowMonth, this.getMonthDays(nowYear,nowMonth));
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
             console.log(data)
@@ -155,12 +155,12 @@ export default {
                 if(response.data.status==200){
                     
                     this.datalist=(response.data.info.list);
-                    this.datalist.forEach(item=>{
-                        let RecommendedNums=this.getRecommendedNumsMonth(item.id,this.monthStartDate,this.monthEndDate);
-                        this.getRecommendedNumsMonth(item.id,this.monthStartDate,this.monthEndDate).then((nums)=>{
-                            this.$set(item,'recommendednums',nums);
-                        });
-                    });
+                    // this.datalist.forEach(item=>{
+                    //     let RecommendedNums=this.getRecommendedNumsMonth(item.id,this.monthStartDate,this.monthEndDate);
+                    //     this.getRecommendedNumsMonth(item.id,this.monthStartDate,this.monthEndDate).then((nums)=>{
+                    //         this.$set(item,'recommendednums',nums);
+                    //     });
+                    // });
                     this.$root.$emit('pages',response.data.info.pages)
                     this.$root.$emit('total',response.data.info.total)
                 }

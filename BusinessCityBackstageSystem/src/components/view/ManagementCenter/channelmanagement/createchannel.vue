@@ -52,7 +52,7 @@
             <div class='operation' style='padding:10px;margin-left:10px;'>
                 <el-button size="mini" style='color:#409EFF;border:1px solid #409EFF;' @click='resetForm'>清空</el-button>
                 <el-button size="mini"  type="primary" @click="selectMember">选择</el-button>
-                <el-button v-if='typeopera!="create"' size="mini"  type="primary" @click="lookoverrecommend">查看绩效</el-button>
+                <!-- <el-button v-if='typeopera!="create"' size="mini"  type="primary" @click="lookoverrecommend">查看绩效</el-button> -->
             </div>
             <el-table
             :data="datalist"
@@ -618,7 +618,7 @@ export default {
         createercode(row){
             let recommendedAdminId=row.id;
             let recommendedTeamId=this.idchannel;
-            let url='http://http://101.89.175.155:8777/customer/resource/qrCode.png?content=http://101.89.175.155:81/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
+            let url='http://http://192.168.199.102/customer/resource/qrCode.png?content=http://101.89.175.155:81/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
             this.$root.$emit('qrcode',url);
         },
         // 查看绩效
