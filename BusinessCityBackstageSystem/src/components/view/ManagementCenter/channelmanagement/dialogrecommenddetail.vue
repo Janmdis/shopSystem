@@ -1,0 +1,156 @@
+<template>
+    <el-dialog title='绩效详情'  :visible.sync="dialogVisible"  width="60%" class='dialogemploy'>
+        <el-row style=''>
+            <el-col :span='10' :offset='1'>
+                <el-date-picker
+                style='width:100%;'
+                v-model="daterange"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+                </el-date-picker>
+            </el-col>
+            <el-col :span='5' :offset='1'>
+                <el-button   type="primary" @click="getRecommendlist(1)">查询</el-button>
+            </el-col>
+        </el-row>
+        <el-row style='border-top:2px solid #409eff;margin-top:20px;'>
+            <el-table
+            :data="recommendlist"
+            v-loading="listLoading"
+            :stripe='true'
+            class='membertable'
+            style="width: 100%;height:75%;"
+            height='380'>
+                <el-table-column
+                    prop="name"
+                    label="姓名">
+                </el-table-column>
+                <el-table-column
+                    prop="mobile"
+                    label="号码">
+                </el-table-column>
+                <el-table-column
+                    prop="age"
+                    label="年龄">
+                </el-table-column>
+            </el-table>
+        </el-row>
+        <el-row>
+            <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page.sync="pagenum"
+            :page-size="pagesize"
+            layout="total, prev, pager, next"
+            :total="total">
+            </el-pagination>
+        </el-row>
+    </el-dialog>
+</template>
+<script>
+export default {
+   data(){
+       return {
+            idchannel:'',
+            dialogVisible:false,
+            daterange:'',
+            recommendlist:[
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                },
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                },
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                },
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                },
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                },
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                },
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                },
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                },
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                },
+                {
+                    name:'ces',
+                    mobile:'222',
+                    age:'20'
+                }
+            ],
+            listLoading:false,
+            pagesize:10,
+            pagenum:1,
+            total:0
+       }
+   },
+   created(){
+       this.$root.$on('showrecommenddetail',(idchannel)=>{
+           this.dialogVisible=true;
+           this.idchannel=idchannel;
+           console.log(idchannel);
+       });
+   },
+   methods:{
+        //查询当前渠道的绩效
+        getRecommendlist(pagenum){
+            let that=this;
+            this.$http.post('/api/customer/account/query?page='+pagenum+'&pageSize='+this.pagesize,
+            {
+                recommendedTeamId:this.idchannel,
+                minCreateTime:this.daterange==''?null:this.daterange[0],
+                maxCreateTime:this.daterange==''?null:this.daterange[1]
+            })
+            .then(res=>{
+                if(res.data.status==200){
+                    that.recommendlist=res.data.info.list;
+                    that.total=res.data.info.total;
+                }
+                else{
+                    that.$message(res.data.msg);
+                }
+                console.log(res);
+            })
+            .catch(err=>{
+                console.log(err);
+                that.$message('绩效查询失败');
+            });
+        },
+        handleCurrentChange(pagenum){
+            this.getRecommendlist(pagenum);
+        }
+   },
+   beforeDestroy(){
+       this.$root.$off('showrecommenddetail');
+   }
+}
+</script>

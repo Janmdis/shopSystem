@@ -2,7 +2,7 @@
     <el-dialog title='员工列表'  :visible.sync="dialogVisible"  width="60%" class='dialogemploy'>
         <el-row style='padding-bottom:10px;'>
             <el-col :span="4">
-                <el-select v-model="type" placeholder="分类" class='typeselect' @change='changetype'>
+                <el-select v-model="type" placeholder="部门" class='typeselect' @change='changetype'>
                     <el-option
                     v-for="item in list"
                     :key="item.id"

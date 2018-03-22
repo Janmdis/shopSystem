@@ -15,6 +15,11 @@ module.exports = {
                 // target: 'http://192.168.199.207/',
                 // target: 'http://192.168.199.106/',
                 // target: 'http://192.168.199.203/',
+                // target: 'http://101.89.175.155:8777/',
+                // target: 'http://192.168.199.199/',
+                
+                
+                
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': '/'
