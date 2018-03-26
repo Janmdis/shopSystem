@@ -12,7 +12,7 @@
                 </el-date-picker>
             </el-col>
             <el-col :span='5' :offset='1'>
-                <el-button   type="primary" @click="getRecommendlist(1)">查询</el-button>
+                <el-button   type="primary" @click.native="getRecommendlist(1)">查询</el-button>
             </el-col>
         </el-row>
         <el-row style='border-top:2px solid #409eff;margin-top:20px;'>
@@ -55,75 +55,27 @@ export default {
             idchannel:'',
             dialogVisible:false,
             daterange:'',
-            recommendlist:[
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                },
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                },
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                },
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                },
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                },
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                },
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                },
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                },
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                },
-                {
-                    name:'ces',
-                    mobile:'222',
-                    age:'20'
-                }
-            ],
+            recommendlist:[],
             listLoading:false,
             pagesize:10,
             pagenum:1,
-            total:0
+            total:0,
+            listLoading:false
        }
    },
    created(){
        this.$root.$on('showrecommenddetail',(idchannel)=>{
+        //    alert(222);
            this.dialogVisible=true;
            this.idchannel=idchannel;
-           console.log(idchannel);
+        //    console.log(idchannel);
        });
    },
    methods:{
         //查询当前渠道的绩效
         getRecommendlist(pagenum){
             let that=this;
+            this.listLoading=true;
             this.$http.post('/api/customer/account/query?page='+pagenum+'&pageSize='+this.pagesize,
             {
                 recommendedTeamId:this.idchannel,
@@ -138,11 +90,13 @@ export default {
                 else{
                     that.$message(res.data.msg);
                 }
+                this.listLoading=false;
                 console.log(res);
             })
             .catch(err=>{
                 console.log(err);
                 that.$message('绩效查询失败');
+                this.listLoading=false;
             });
         },
         handleCurrentChange(pagenum){
