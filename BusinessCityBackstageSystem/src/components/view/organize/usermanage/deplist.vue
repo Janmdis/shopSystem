@@ -31,10 +31,10 @@ export default {
         }
     },
     watch:{
-        list(value){
-            this.$root.$emit('getrole',value[0].id);
-            this.$root.$emit('getemploy',value[0].id);
-        }
+        // list(value){
+        //     this.$root.$emit('getrole',value[0].id);
+        //     this.$root.$emit('getemploy',value[0].id);
+        // }
     },
     computed: {
         ...mapState({

@@ -142,11 +142,11 @@ export default {
             id:'',
             iscreate:true,
             dataform:{
+                id:'',
                 adminName:'',
                 adminPassword:'',
                 confirmPassword:'',
                 adminSex: 0,
-                adminAge:'',
                 adminBirthday:'',
                 entryDate:'',
                 phone:'',
@@ -198,25 +198,55 @@ export default {
     created:function(){
         this.$root.$on('opendialogemploy',(data)=>{
             this.getemployeetype();
+            this.getrolelist(data.departmentId);
             this.iscreate=data.iscreate;
             if(!data.iscreate){
                 let data_current=data.data;
                 this.id=data_current.id;
-                let datas=data.data;
-                let data_join=new Date(datas.entryDate);
-                let data_born=new Date(datas.adminBirthday);
-                datas.entryDate=data_join;
-                datas.adminBirthday=data_born;
-                datas.adminSex=datas.adminSex?1:0;
-                this.getrolelist(datas.departmentId);
-                console.log(datas);
-                this.dataform=data.data;
+                let data_join=new Date(data_current.entryDate);
+                let data_born=new Date(data_current.adminBirthday);
+                this.dataform.adminName=data_current.adminName;
+                this.dataform.adminSex=data_current.adminSex;
+                this.dataform.confirmPassword=data_current.confirmPassword;
+                this.dataform.adminPassword=data_current.adminPassword;
+                this.dataform.id=data_current.id;
+                this.dataform.entryDate=data_join;
+                this.dataform.adminBirthday=data_born;
+                this.dataform.adminSex=data_current.adminSex?1:0;
+                this.dataform.departmentName=data_current.manageGroupAdminList[0].departmentName;
+                this.dataform.departmentId=data_current.manageGroupAdminList[0].departmentId;
+                this.dataform.groupName=data_current.manageGroupAdminList[0].groupName;
+                this.dataform.groupId=data_current.manageGroupAdminList[0].groupId;
+                this.dataform.employeeTypeId=data_current.employeeTypeId;
+                this.dataform.employeeTypeName=data_current.employeeTypeName;
+                this.dataform.phone=data_current.phone;
+                this.dataform.accStatus=data_current.accStatus;
+            }
+            else{
+                this.cleardate();
             }
             
             this.dialogmemberVisible=true;
         });
     },
     methods:{
+        cleardate(){
+            this.dataform.id='';
+            this.dataform.adminName='';
+            this.dataform.adminPassword='';
+            this.dataform.confirmPassword='';
+            this.dataform.adminSex=0;
+            this.dataform.adminBirthday='';
+            this.dataform.entryDate='';
+            this.dataform.phone='';
+            this.dataform.accStatus='1';
+            this.dataform.departmentId='';
+            this.dataform.departmentName='';
+            this.dataform.groupId='';
+            this.dataform.groupName='';
+            this.dataform.employeeTypeId='';
+            this.dataform.employeeTypeName='';
+        },
         selectdep(value){
             let obj = {};
             obj = this.deplist.find((item)=>{
@@ -447,6 +477,9 @@ export default {
     line-height: 1.5;
     border-radius: 3px;
     border:1px solid #ccc;
+}
+#inpuW .el-dialog  .el-date-editor input{
+    padding:5px 30px;
 }
 .el-input__suffix{
     right: 15px;

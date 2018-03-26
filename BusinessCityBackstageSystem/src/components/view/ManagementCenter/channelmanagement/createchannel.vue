@@ -52,7 +52,7 @@
             <div class='operation' style='padding:10px;margin-left:10px;'>
                 <el-button size="mini" style='color:#409EFF;border:1px solid #409EFF;' @click='resetForm'>清空</el-button>
                 <el-button size="mini"  type="primary" @click="selectMember">选择</el-button>
-                <!-- <el-button v-if='typeopera!="create"' size="mini"  type="primary" @click="lookoverrecommend">查看绩效</el-button> -->
+                <el-button v-if='typeopera!="create"' size="mini"  type="primary" @click="lookoverrecommend">查看绩效</el-button>
             </div>
             <el-table
             :data="datalist"
