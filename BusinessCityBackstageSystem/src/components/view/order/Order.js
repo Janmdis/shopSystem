@@ -23,7 +23,7 @@ export default {
             pageS: 0,
             listLoading: false,
             delArr: [],
-            importUrl: '/api/customer/customer/excel/in', //后台接口config.admin_url+'rest/schedule/import/'
+            importUrl: '/api/product/order/excelIn', //后台接口config.admin_url+'rest/schedule/import/'
             importHeaders: {
                 enctype: 'multipart/form-data',
             },
@@ -42,10 +42,26 @@ export default {
             this.dataForm = data;
             data.forEach((e, i) => {
                 this.idList.push(e.id);
+                console.log(this.idList)
             })
             let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
             let ids = id.replace(/\"|"/g, "");
-            this.dataHref = '/api/customer/customer/excel/out?id=' + ids;
+            this.dataHref = '/api/product/order/excelOut?ids=' + this.idList ;
+            // let url = '/api/product/order/excelOut';
+            //     this.$http({
+            //             url: url,
+            //             method: 'post',
+            //             data:['264735d9-2b58-11e8-b96a-509a4c15ca0c']
+            //         })
+            //         .then(respone => {
+            //             console.log(respone.data)
+            //             //this.leable = respone.data.info;
+            //              this.dataHref =  respone.data
+            //         })
+            //         .catch(error => {
+            //             console.log(error);
+            //             //alert('网络错误，不能访问');
+            //         })
         })
         this.$root.$on('total', (data) => {
             this.totalCount = data

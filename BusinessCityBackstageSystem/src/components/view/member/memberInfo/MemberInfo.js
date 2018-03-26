@@ -143,7 +143,7 @@ export default {
                 });
             })
         },
-        editInfo(event) {
+        editInfo(event) {//详情编辑
             let that = this;
             let text = event.currentTarget.innerHTML;
             if (text == '编辑') {
