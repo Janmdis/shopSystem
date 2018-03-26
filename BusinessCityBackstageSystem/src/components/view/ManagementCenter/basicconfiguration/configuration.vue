@@ -244,6 +244,7 @@ export default {
             this.list_item = text;
             setTimeout(() =>{
                 this.isLoading = false;
+                this.loadInfo = false;
             },500);
         },
         handleClose(done){

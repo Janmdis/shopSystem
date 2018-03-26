@@ -618,7 +618,7 @@ export default {
         createercode(row){
             let recommendedAdminId=row.id;
             let recommendedTeamId=this.idchannel;
-            let url='http://http://192.168.199.102/customer/resource/qrCode.png?content=http://101.89.175.155:81/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
+            let url='http://101.89.175.155:8777/customer/resource/qrCode.png?content=http://101.89.175.155:81/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
             this.$root.$emit('qrcode',url);
         },
         // 查看绩效

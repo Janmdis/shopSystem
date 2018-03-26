@@ -252,7 +252,7 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
   }
 #detailsImagess .carouselListInfo .avatar {
     width: 248px;
-    height: 178px;
+    height: 222px;
     display: block;
   }
   /* input file 样式 */
@@ -404,7 +404,7 @@ height: 100%;
     height: 100%;
 }
 .carouselListInfo{padding:30px 30px 30px;border-bottom:1px solid #d2d2d2}
-.bannerEditContent{width:41%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;}
+#detailsImagess .bannerEditContent{width:46%;background:#fff;margin-left:10px;margin-top:5px;float:left;position: relative;}
 .bannerLinkSrc{width:50%;background:#fff;margin-left:10px;margin-top:5px;float:left;}
 .linkTips{font-size:16px;margin-top:20px;margin-bottom:20px;}
  .el-dropdown{border: 1px solid #aaaaaa;padding: 7px;}

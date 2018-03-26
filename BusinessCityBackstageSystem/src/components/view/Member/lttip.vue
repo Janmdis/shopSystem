@@ -13,9 +13,9 @@
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
                 </li>
-                <!--<li class="other" @click='showMark'>
-                    <i class='el-icon-delete'></i> 打标签
-                </li>!-->
+                <li class="other" @click='showMark'>
+                    <i class='icon iconfont icon-guanlizhongxin'></i> 打标签
+                </li>
             </ul>
         </div>
     </div>
