@@ -120,8 +120,8 @@ export default{
         }
     },
     created:function(){
-        this.$root.$on('houseShow',() => {
-            this.isSwitchHouseDetail = true
+        this.$root.$on('houseShow',data => {
+            this.isSwitchHouseDetail = data
         });
         this.searchInfo();
         this.$root.$on('loadFn',data =>{
@@ -255,6 +255,7 @@ export default{
         },
         saveFormData(houseForm){
             //console.log(this.memberId);
+            let that = this
             let dataInfo = {
             'estateId':this.houseForm.smallDistrict,
             'areaId':parseInt(this.houseForm.bigDistrict),
@@ -273,11 +274,12 @@ export default{
             'balconyQuantity':parseInt(this.houseForm.balcony)
             };
             this.$http({//  添加房屋信息
-                url:'/api/customer/housingInfo/addHousingInfo?customerId='+this.memberId,
+                url:'/api/customer/housingInfo/addHousingInfo?customerId='+that.memberId,
                 method:'POST',
                 data:([dataInfo]),
             }).then(res => {
                 console.log(res.data.msg);
+                that.$root.$emit('loadEstate',that.memberId)
             }).catch(err => {console.log(err)});
             this.showHouseCover = false;
             this.$refs[houseForm].resetFields();
@@ -362,7 +364,7 @@ export default{
     position: relative;
     .block{
         position:absolute;
-        bottom:50px;
+        // bottom:50px;
         left: 0;
         right:0; 
         margin:auto;
