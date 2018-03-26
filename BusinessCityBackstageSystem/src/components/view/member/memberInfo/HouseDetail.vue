@@ -227,8 +227,8 @@ export default {
     created:function(){
         this.searchInfo();
         this.houseGeoryIds();
-        this.$root.$on('houseDetailShow',()=>{
-            this.isSwitchHouse=true; 
+        this.$root.$on('houseDetailShow',() =>{
+            this.isSwitchHouse = true; 
         });
         let that = this;
         this.$http.get('/api/public/region/findMapList')
@@ -244,10 +244,6 @@ export default {
     watch:{
         houseProps: {
             handler:function(value,oldValue){
-                // console.log(this.houseProps.houseBuilding);
-                // console.log(this.houseProps.houseType);
-                // console.log(this.houseProps.rentalStatus);
-                // console.log(this.houseProps.houseStreet);
                 if(this.houseProps.houseType == '住宅'){
                     this.isHousing = true;
                 }else{
@@ -426,7 +422,7 @@ export default {
         },
         returnBack(){
             this.isSwitchHouse = false
-            this.$root.$emit('houseShow')
+            this.$root.$emit('houseShow',true)
         },
         editBtn(){
             let texts = document.getElementsByClassName('edit_btn')[0].innerHTML;

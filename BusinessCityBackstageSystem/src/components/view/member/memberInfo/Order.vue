@@ -3,11 +3,11 @@
         <div class="isSwitch" v-show="isSwitchOrderDetail">
             <ul class="orderMain">
                 <li v-for="info in infos" :key="info.id" >
-                    <div class="orderDiv"><span>订单号 : {{info.orderNumber}}</span><span>服务类型 : {{info.serviceType}}</span><span>支付金额 : {{info.payMoney}}</span></div>
-                    <div class="orderDiv"><span>下单时间 : {{info.orderTime}}</span><span>订单状态 : {{info.orderState}}</span><span>服务人员 : {{info.servicePeople}}</span></div>
+                    <div class="orderDiv"><span>订单号 : {{info.number}}</span><span>服务类型 : {{info.serviceTypeId}}</span><span>支付金额 : {{info.paidMoney}}</span></div>
+                    <div class="orderDiv"><span>下单时间 : {{info.createTime}}</span><span>订单状态 : {{info.orderState}}</span><span>服务人员 : {{info.operatorId}}</span></div>
                     <div class="orderBtn">
                         <div class="btnGroup">
-                            <el-button @click="jumpOrderDetail" type="primary" style="border-radius:4px;">查看详情</el-button>
+                            <el-button @click="jumpOrderDetail(info)" type="primary" style="border-radius:4px;">查看详情</el-button>
                             <el-button type="primary" style="border-radius:4px;">回访</el-button>
                             <el-button type="primary" style="border-radius:4px;">追单</el-button>
                             <el-button type="primary" style="border-radius:4px;">退款</el-button>
@@ -26,13 +26,9 @@ import orderDetails from './OrderDetail.vue';
 export default{
     data () {
         return {
-            infos:[
-                {orderId:0,orderNumber:123424131331,serviceType:'上门',payMoney:'100.00',orderTime:'2017-12-12',orderState:'已发货',servicePeople:'马云'},
-                {orderId:1,orderNumber:123424131331,serviceType:'上门',payMoney:'100.00',orderTime:'2017-12-12',orderState:'已发货',servicePeople:'马云'},
-                {orderId:2,orderNumber:123424131331,serviceType:'上门',payMoney:'100.00',orderTime:'2017-12-12',orderState:'已发货',servicePeople:'马云'},
-                {orderId:3,orderNumber:123424131331,serviceType:'上门',payMoney:'100.00',orderTime:'2017-12-12',orderState:'已发货',servicePeople:'马云'},
-            ],
+            infos:[],
             isSwitchOrderDetail:true,
+            orderid:''
         }
     },
     created:function(){
@@ -42,11 +38,30 @@ export default{
         setTimeout(() =>{
             this.$root.$emit('load',false);
         },1000);
+        this.getOrder();
     },
     methods:{
-        jumpOrderDetail () {
+        jumpOrderDetail (info) {
             this.isSwitchOrderDetail = false
-            this.$root.$emit('orderShow')
+            this.$root.$emit('orderShow',info)
+            
+        },
+        getOrder(){
+            let url = '/api/product/order/queryPageList';
+                this.$http({
+                        url: url,
+                        method: 'post',
+                        data: {}
+                    })
+                    .then(respone => {
+                        console.log(respone)
+                        this.infos = respone.data.info.list
+                        
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        alert('网络错误，不能访问');
+                    })
         }
     },
     components:{

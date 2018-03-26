@@ -4,14 +4,14 @@
             <i class="el-icon-back" ></i>
         </div>
         <div class="detailMain">
-            <div class="detailLines" :key="detailInfo.id" v-for="detailInfo in details">
-                <div class="detailLine detailLine1"><span>订单号 : {{detailInfo.orderNumber}}</span><span>订单类型 : {{detailInfo.orderType}}</span><span>小区名 : {{detailInfo.communityName}}</span></div>
-                <div class="detailLine detailLine2"><span>下单时间 : {{detailInfo.orderTime}}</span><span>服务区域 : {{detailInfo.serviceArea}}</span><span>客服备注 : {{detailInfo.servicePeople}}</span></div>
-                <div class="detailLine detailLine3"><span>服务类型 : {{detailInfo.serviceType}}</span><span>服务时间 : {{detailInfo.serviceTime}}</span><span>订单来源 : {{detailInfo.orderOrigin}}</span></div>
-                <div class="detailLine detailLine4"><span>支付状态 : {{detailInfo.payState}}</span><span>空调品牌 : {{detailInfo.airConditionBrand}}</span><span>支付金额 : {{detailInfo.payMoney}}</span></div>
-                <div class="detailLine detailLine4"><span>合同编号 : {{detailInfo.contractNumber}}</span><span>来源账户 : {{detailInfo.originAccount}}</span><span>待付金额 : {{detailInfo.waitPayMoney}}</span></div>
-                <div class="detailLine detailLine4"><span>订单状态 : {{detailInfo.orderState}}</span><span>产品类型 : {{detailInfo.productType}}</span><span></span></div>
-                <div class="lineAddress">详细地址 : {{detailInfo.detailedAddress}}</div>
+            <div class="detailLines"  >
+                <div class="detailLine detailLine1"><span>订单号 : {{details.number}}</span><span>订单类型 : {{details.orderType}}</span><span>小区名 : {{details.number}}</span></div>
+                <div class="detailLine detailLine2"><span>下单时间 : {{details.number}}</span><span>服务区域 : {{details.number}}</span><span>客服备注 : {{details.number}}</span></div>
+                <div class="detailLine detailLine3"><span>服务类型 : {{details.number}}</span><span>服务时间 : {{details.number}}</span><span>订单来源 : {{details.number}}</span></div>
+                <div class="detailLine detailLine4"><span>支付状态 : {{details.number}}</span><span>空调品牌 : {{details.number}}</span><span>支付金额 : {{details.number}}</span></div>
+                <div class="detailLine detailLine4"><span>合同编号 : {{details.number}}</span><span>来源账户 : {{details.number}}</span><span>待付金额 : {{details.number}}</span></div>
+                <div class="detailLine detailLine4"><span>订单状态 : {{details.number}}</span><span>产品类型 : {{details.number}}</span><span></span></div>
+                <div class="lineAddress">详细地址 : {{details.number}}</div>
                 <div class="lineOriginDetail"><span>来源详细 : </span><el-input type="textarea" :rows="2" placeholder="请输入内容" ></el-input></div>
                 <div class="lineRepairRecord"><span>维修故障记录 : </span><el-input type="textarea" :rows="2" placeholder="请输入内容"></el-input></div>
             </div>
@@ -22,21 +22,14 @@
 export default{
     data () {
         return {
-            details:[
-                {orderNumber:'21387891723',orderType:'上门型',communityName:'龙盛华庭',
-                orderTime:'2017-12-12',serviceArea:'上海市',servicePeople:'马云',
-                serviceType:'上门',serviceTime:'2017-12-12',orderOrigin:'淘宝',
-                payState:'在线支付',airConditionBrand:'阿迪达斯',payMoney:'201.00',
-                contractNumber:'21387891723',originAccount:'1234123123',waitPayMoney:'201.00',
-                orderState:'未完成',productType:'眼镜',detailedAddress:'上海市杨浦区长阳路1687号一号楼一号电梯312室',
-                }
-            ],
+            details:{},
             isSwitchOrder:false,
         }
     },
     created:function(){
-        this.$root.$on('orderShow',() => {
+        this.$root.$on('orderShow',(data) => {
             this.isSwitchOrder=true;
+            this.details = data
         })
     },
     methods: {

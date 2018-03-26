@@ -90,7 +90,7 @@
                 </el-form>
             </el-header>
             <el-container id="infoContainer">
-                <el-aside id="conLeft">
+                <el-aside id="conLeft"> <!-- 左侧列表!-->
                     <div class="conLeftTitle"> <span>相关</span></div>
                     <ul class="conLeftList2">
                         <li v-for="(info,index) in infoText"
@@ -103,7 +103,7 @@
                         </li>
                     </ul>
                 </el-aside>
-                <el-main id="conRight">
+                <el-main id="conRight"><!-- 右侧详情!-->
                     <component :is="which_to_show" :personnelInfo="personnelInfo" :customerCategory="customerCategory" :customerIdentity="customerIdentity"
                      :recommendedSource="recommendedSource" :memberHouse="memberHouse" :houseCategory="houseCategory" :rentalStatus="rentalStatus"
                      :defaultCategory="defaultCategory" :defaultIdentity="defaultIdentity" :defaultSource="defaultSource" :memberId="memberId"

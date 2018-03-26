@@ -34,7 +34,7 @@ export default {
                 active: true
             },
             active: true,
-            isActive: '房屋',
+            isActive: '',
             isLoading: true,
             which_to_show: '',
             default1: true,
@@ -60,9 +60,6 @@ export default {
     },
     created() {
         let that = this;
-        this.$root.$on('title', (title) => {
-            this.which_to_show = title
-        });
         this.isShow('房屋');
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
             this.showNum();
@@ -114,6 +111,9 @@ export default {
                 this.$set(this.infoText[4], 'brackets', false);
             }
         })
+        this.$root.$on('loadEstate', data => {
+            this.getData(data)
+        })
     },
     computed: mapState({
         info1: state => state.memberInfo.customerCategory,
@@ -143,7 +143,7 @@ export default {
                 });
             })
         },
-        editInfo(event) {
+        editInfo(event) {//详情编辑
             let that = this;
             let text = event.currentTarget.innerHTML;
             if (text == '编辑') {
@@ -236,7 +236,6 @@ export default {
                 this.ruleForm.userType = this.personnelInfo.categoryId;
                 this.ruleForm.userOrigin = this.personnelInfo.recommendedSourceId;
                 this.ruleForm.userVillage = this.personnelInfo.estateId;
-                this.which_to_show = 'twoHouse';
                 this.$root.$emit('loading', false);
 
                 this.$http({ //  获取录入人接口
@@ -325,14 +324,14 @@ export default {
             } else if (text == '回访') {
                 text = fourVisit;
             }
-            this.$root.$emit('title', text);
+            this.which_to_show = text
             this.$root.$on('pageType', (res) => {
                 this.typeWord = res;
             });
             this.$root.$emit('loadFn');
             this.$root.$on('load', data => {
                 this.isLoading = data;
-            });
+            })
         },
     },
     components: {
@@ -348,7 +347,7 @@ export default {
         this.$root.$off('housePage');
         this.$root.$off('pageType');
         this.$root.$off('load');
-        this.$root.$off('title');
         this.$root.$off('showNumber');
+        this.$root.$off('loadEstate')
     }
 }
