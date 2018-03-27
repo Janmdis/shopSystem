@@ -1676,17 +1676,17 @@ export default {
 .formmsg .el-input__inner{
     height:30px;
 }
-.el-upload,
-.el-upload i{
+.detailcommodity .el-upload,
+.detailcommodity .el-upload i{
     width:80px;
     height:80px;
     line-height:80px;
 }
-.el-upload{
+.detailcommodity .el-upload{
     background-color:#27a1f2;
     border-radius:10%;
 }
-.el-upload i{
+.detailcommodity .el-upload i{
     color:#fff;
     font-size:30px;
 }

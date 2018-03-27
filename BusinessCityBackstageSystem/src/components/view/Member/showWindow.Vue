@@ -143,21 +143,11 @@ import qs from 'qs'
                         message: '请输入正确的手机号',
                         trigger: 'blur'
                     }, ],
-                    date1: [{
-                        required: true,
-                        message: '请选择日期',
-                        trigger: 'change'
-                    }],
-                    old: [{
-                        validator: checkAge,
-                        trigger: 'blur',
-                        required: true
-                    }],
-                    ctypes: [{
-                        required: true,
-                        message: '选择客户类型',
-                        trigger: 'change'
-                    }],
+                    // ctypes: [{
+                    //     required: true,
+                    //     message: '选择客户类型',
+                    //     trigger: 'change'
+                    // }],
                 }
             };
         },
@@ -167,7 +157,12 @@ import qs from 'qs'
                 if(this.ruleForm.textInfo == "新增会员"){
                 that.$refs[formName].validate((valid) => {
                    var d = new Date(this.ruleForm.date1);  
-                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
+                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate());
+                    if(youWant =='NaN-NaN-NaN'){
+                        youWant = '00-00-00'
+                    }else{
+                        youWant = youWant
+                    }
                     if (valid) {
                         let url = '/api/customer/account/insert';
                         this.$http({
@@ -212,6 +207,11 @@ import qs from 'qs'
                 that.$refs[formName].validate((valid) => {
                    var d = new Date(this.ruleForm.date1);  
                     var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
+                     if(youWant =='NaN-NaN-NaN'){
+                        youWant = '00-00-00'
+                    }else{
+                        youWant = youWant
+                    }
                     if (valid) {
                         let panperSF = ''
                         if( this.ruleForm.panper == '男主人'){

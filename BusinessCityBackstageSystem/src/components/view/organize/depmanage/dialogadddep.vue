@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增部门" :visible="dialogDepVisible" width='40%' :modal='true' :before-close="ai_dialog_close"> 
+  <el-dialog title="新增部门" id='dliag' :visible="dialogDepVisible" width='40%' :modal='true' :before-close="ai_dialog_close"> 
             <el-form @submit.native.prevent :model='dataform' status-icon ref="depForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
                 <el-form-item label="部门名称：" prop="departmentName">
                     <el-input placeholder="请输入部门名称" v-model="dataform.departmentName" auto-complete="off"></el-input>
@@ -160,7 +160,7 @@ export default {
     width: 80%;
     margin: 0 auto;
 }
-.el-dialog__footer .el-button{
+#dliag .el-dialog__footer .el-button{
     width:140px;
     font-size:14px;
     background:#27a1f2;

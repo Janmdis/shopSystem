@@ -351,7 +351,7 @@ export default {
     width: 80%;
     margin: 0 auto;
 }
-.el-dialog__footer .el-button{
+#userdialog .el-dialog__footer .el-button{
     width:140px;
     font-size:14px;
     background:#27a1f2;
