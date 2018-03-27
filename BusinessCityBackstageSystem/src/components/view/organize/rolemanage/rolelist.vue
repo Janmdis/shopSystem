@@ -80,7 +80,7 @@ export default {
             this.depid=depid;
             this.getrolelist(1,this.pagesize);
         });
-        this.getrolelist(1,this.pagesize);
+        // this.getrolelist(1,this.pagesize);
         this.$store.dispatch('getPromiselist');
     },
     methods:{

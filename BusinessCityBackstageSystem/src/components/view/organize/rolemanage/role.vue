@@ -2,7 +2,7 @@
     <el-main>
         <el-row :gutter='20'>
             <el-col :span='6'>
-                <Deplist></Deplist>
+                <Deplist :type='type'></Deplist>
             </el-col>
             <el-col :span='18'>
                 <Rolelist ref='test'></Rolelist>
@@ -23,6 +23,11 @@ import Rolepromise from '../rolepromise.vue'
 import Dialogpromise from "./dialogpromise.vue"
 export default {
     components:{Deplist,Rolelist,Dialogedit,Dialogpromise,Rolepromise},
+    data(){
+        return{
+            type:'rolemanage'
+        }
+    },
     created:function(){
         this.$store.dispatch('getDeplisttree');
     },

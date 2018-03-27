@@ -11,6 +11,7 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+    props:['type'],
     data(){
         return {
             defaultProps: {
@@ -26,15 +27,29 @@ export default {
             let don_on=document.getElementsByClassName('on');
             don_on.length?don_on[0].setAttribute('class','el-tree-node__label'):void(0);
             dom_current.setAttribute('class','el-tree-node__label on');
-            this.$root.$emit('getrole',data.id);
-            this.$root.$emit('getemploy',data.id);
+            if(this.type=='rolemanage'){
+                this.$root.$emit('getrole',data.id);
+            }
+            else if(this.type=='usermanage'){
+                this.$root.$emit('getemploy',data.id);
+            }
+            
         }
     },
     watch:{
-        // list(value){
-        //     this.$root.$emit('getrole',value[0].id);
-        //     this.$root.$emit('getemploy',value[0].id);
-        // }
+        list(value){
+            // 默认读取第一个选项下的列表数据
+            if(this.type=='rolemanage'){
+                this.$root.$emit('getrole',value[0].id);
+            }
+            else if(this.type=='usermanage'){
+                this.$root.$emit('getemploy',value[0].id);
+            }
+        }
+    },
+    updated(){
+        //默认选中第一个节点，修改样式
+        document.querySelector('.el-tree-node').querySelector('.el-tree-node__content').querySelector('.el-tree-node__label').setAttribute('class','el-tree-node__label on');
     },
     computed: {
         ...mapState({

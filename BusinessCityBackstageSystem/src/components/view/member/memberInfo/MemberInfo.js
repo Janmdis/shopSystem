@@ -114,6 +114,9 @@ export default {
         this.$root.$on('loadEstate', data => {
             this.getData(data)
         })
+        this.$root.$on('load', data => {
+            this.isLoading = data;
+        })
     },
     computed: mapState({
         info1: state => state.memberInfo.customerCategory,
@@ -223,7 +226,7 @@ export default {
                 headers: { 'Content-Type': 'application/json' }
             }).then(res => {
                 let dataInfo = res.data.info.list[0];
-                console.log(dataInfo)
+                // console.log(dataInfo)
                 this.personnelInfo = dataInfo;
                 that.ruleForm.userName = that.personnelInfo.name;
                 this.ruleForm.userPoint = this.personnelInfo.consumptionPoints == null ? 0 : this.personnelInfo.createUser;
@@ -329,9 +332,6 @@ export default {
                 this.typeWord = res;
             });
             this.$root.$emit('loadFn');
-            this.$root.$on('load', data => {
-                this.isLoading = data;
-            })
         },
     },
     components: {
