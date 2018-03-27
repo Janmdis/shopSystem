@@ -2,7 +2,7 @@
     <el-main>
         <el-row :gutter='20'>
             <el-col :span='6'>
-                <Deplist></Deplist>
+                <Deplist :type='type'></Deplist>
             </el-col>
             <el-col :span='18'>
                 <Memberlist ref='test'></Memberlist>
@@ -17,6 +17,11 @@ import Memberlist from "./memberlist.vue";
 import Dialogedit from "./dialogedit.vue";
 export default {
     components:{Deplist,Memberlist,Dialogedit},
+    data(){
+        return {
+            type:'usermanage'
+        }
+    },
     created:function(){
         this.$store.dispatch('getDeplisttree');
         this.$store.dispatch('getDeplistall');

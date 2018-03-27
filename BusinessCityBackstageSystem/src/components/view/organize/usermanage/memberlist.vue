@@ -141,7 +141,7 @@ export default {
             this.switchsearch();
             // console.log(data);
         });
-        this.getemployeelist(1);
+        // this.getemployeelist(1);
     },
     methods:{
         switchsearch(){
