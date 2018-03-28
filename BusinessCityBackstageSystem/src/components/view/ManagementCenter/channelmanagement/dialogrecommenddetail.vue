@@ -12,28 +12,39 @@
                 </el-date-picker>
             </el-col>
             <el-col :span='5' :offset='1'>
-                <el-button   type="primary" @click.native="getRecommendlist(1)">查询</el-button>
+                <el-button   type="primary" @click.native="getTeamers(1)">查询</el-button>
             </el-col>
         </el-row>
-        <el-row style='border-top:2px solid #409eff;margin-top:20px;'>
+        <el-row>
+            <p style='padding-top:20px;'>绩效总数：{{totalrecommends}} 人</p>
+        </el-row>
+        <el-row style='border-top:2px solid #409eff;'>
             <el-table
             :data="recommendlist"
             v-loading="listLoading"
             :stripe='true'
             class='membertable'
             style="width: 100%;height:75%;"
-            height='380'>
+            height='360'>
                 <el-table-column
                     prop="name"
                     label="姓名">
                 </el-table-column>
                 <el-table-column
-                    prop="mobile"
-                    label="号码">
+                    prop="registernum"
+                    label="拉新（人）">
                 </el-table-column>
                 <el-table-column
-                    prop="age"
-                    label="年龄">
+                    prop="activitynum"
+                    label="活动（人）">
+                </el-table-column>
+                <el-table-column
+                    prop="goodsnum"
+                    label="购买（人）">
+                </el-table-column>
+                <el-table-column
+                    prop="totalnum"
+                    label="总数（人）">
                 </el-table-column>
             </el-table>
         </el-row>
@@ -63,44 +74,102 @@ export default {
             listLoading:false
        }
    },
+   computed:{
+       totalrecommends:function(){
+           let nums=0;
+           this.recommendlist.forEach(item=>{
+               nums+=item.totalnum;
+           });
+           return nums;
+       }
+   },
    created(){
-       this.$root.$on('showrecommenddetail',(idchannel)=>{
-        //    alert(222);
-           this.dialogVisible=true;
-           this.idchannel=idchannel;
-        //    console.log(idchannel);
-       });
+        this.$root.$on('showrecommenddetail',(idchannel)=>{
+            
+            this.dialogVisible=true;
+            this.idchannel=idchannel;
+            // datas.forEach((item,index)=>{
+            //     let json={
+            //         id:item.id,
+            //         name:item.adminName,
+            //         registernum:0,//注册拉新人数
+            //         activitynum:0,//活动拉新人数
+            //         goodsnum:0,//商品拉新人数
+            //         totalnum:0//总拉新人数
+            //     };
+            //     this.recommendlist.push(json)
+            // });
+        });
    },
    methods:{
-        //查询当前渠道的绩效
-        getRecommendlist(pagenum){
+        //分页查询团队成员
+        getTeamers(pagenum){
+            this.recommendlist=[];
             let that=this;
             this.listLoading=true;
-            this.$http.post('/api/customer/account/query?page='+pagenum+'&pageSize='+this.pagesize,
+            this.$http.post('/api/admin/teamAdmin/queryTeamAdmin?pageSize=10&pageNum='+pagenum,
             {
-                recommendedTeamId:this.idchannel,
-                minCreateTime:this.daterange==''?null:this.daterange[0],
-                maxCreateTime:this.daterange==''?null:this.daterange[1]
+                teamId:this.idchannel
             })
             .then(res=>{
+                console.log(res);
                 if(res.data.status==200){
-                    that.recommendlist=res.data.info.list;
                     that.total=res.data.info.total;
+                    let data=res.data.info.list;
+                    data.forEach(item=>{
+                        that.getRecommendlist(item.id).then(count=>{
+                            console.log(count);
+                            let json={
+                                id:item.id,
+                                name:item.adminAccount.adminName,
+                                registernum:count,//注册拉新人数
+                                activitynum:0,//活动拉新人数
+                                goodsnum:0,//商品拉新人数
+                                totalnum:0//总拉新人数
+                            };
+                            that.recommendlist.push(json);
+                        })
+                    });
+                    that.listLoading=false;
                 }
                 else{
+                    that.listLoading=false;
                     that.$message(res.data.msg);
                 }
-                this.listLoading=false;
-                console.log(res);
             })
             .catch(err=>{
+                that.listLoading=false;
                 console.log(err);
-                that.$message('绩效查询失败');
-                this.listLoading=false;
             });
         },
+        //查询当前用户的绩效
+        getRecommendlist(userid){
+            let that=this;
+            return new Promise((resolve, reject)=>{
+                this.$http.post('/api/customer/account/queryMap',
+                {
+                    recommendedTeamId:userid,
+                    minCreateTime:this.daterange==''?null:this.daterange[0],
+                    maxCreateTime:this.daterange==''?null:this.daterange[1]
+                })
+                .then(res=>{
+                    if(res.data.status==200){
+                        let count=res.data.info.length;
+                        resolve(count);
+                    }
+                    else{
+                        resolve(0);
+                    }
+                })
+                .catch(err=>{
+                    resolve(0);
+                    console.log(err);
+                });
+            })
+        },
         handleCurrentChange(pagenum){
-            this.getRecommendlist(pagenum);
+            this.getTeamers(pagenum);
+            // this.getRecommendlist(pagenum);
         }
    },
    beforeDestroy(){

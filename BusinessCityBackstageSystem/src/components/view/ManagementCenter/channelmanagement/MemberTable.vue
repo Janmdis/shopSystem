@@ -156,7 +156,7 @@ export default {
                     
                     this.datalist=(response.data.info.list);
                     this.datalist.forEach(item=>{
-                        let RecommendedNums=this.getRecommendedNumsMonth(item.id,this.monthStartDate,this.monthEndDate);
+                        // let RecommendedNums=this.getRecommendedNumsMonth(item.id,this.monthStartDate,this.monthEndDate);
                         this.getRecommendedNumsMonth(item.id,this.monthStartDate,this.monthEndDate).then((nums)=>{
                             this.$set(item,'recommendednums',nums);
                         });

@@ -1,6 +1,6 @@
 <template>
     <el-dialog title='产品列表'  :visible.sync="dialogVisible"  width="60%" class='commoditydialog'>
-        <el-row style='padding-bottom:10px;'>
+        <el-row style='padding-bottom:10px;' :gutter='20'>
             <el-col :span="4">
                 <el-select v-model="type" placeholder="分类" class='typeselect' @change='changetype'>
                     <el-option
@@ -10,6 +10,10 @@
                     :value="item.id">
                     </el-option>
                 </el-select>
+            </el-col>
+            <el-col :span='3'>
+                <!-- <button class='createservice'>创建服务类商品</button> -->
+                <el-button size="mini" class='createservice' @click="selectproduct(null,'service')">创建服务</el-button>
             </el-col>
         </el-row>
         <el-table 
@@ -44,7 +48,7 @@
                 label="操作"
                 fixed='right'>
                 <template slot-scope="scope">
-                    <el-button type="text" size="small" @click='selectproduct(scope.row)'>选择</el-button>
+                    <el-button type="text" size="small" @click='selectproduct(scope.row,"product")'>选择</el-button>
                 </template>
                 
             </el-table-column>
@@ -100,6 +104,13 @@
     .commoditydialog .el-dialog__body{
         height:75%;
         padding-top:10px;
+    }
+    .commoditydialog .createservice{
+        width:100%;
+        background-color:#27a1f2;
+        /* border:none; */
+        /* outline:none; */
+        color:#fff;
     }
     .table-product tr td:nth-child(2){
         padding:0;
@@ -184,17 +195,17 @@
                 this.getDatalist(1);
             },
             // 添加商品
-            selectproduct(row){
+            selectproduct(row,type){
                 let that=this;
                 this.$http.post('/api/product/commodity/info/insertOne',{
-                    name:row.name,
+                    name:type=='service'?'默认服务商品':row.name,
                     categoryId:0,
                     originalPrice:0,
                     discountPrice:0,
                     currentPrice:0,
                     priceRule:1,
                     detailTemplateId:1,
-                    brand:row.brand
+                    brand:type=='service'?'':row.brand
                 })
                 .then(function(response){
                     if(response.data.msg=='新增成功'){
