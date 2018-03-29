@@ -148,7 +148,7 @@ export default {
             return new Promise((resolve, reject)=>{
                 this.$http.post('/api/customer/account/queryMap',
                 {
-                    recommendedTeamId:userid,
+                    recommendedAdminId:userid,
                     minCreateTime:this.daterange==''?null:this.daterange[0],
                     maxCreateTime:this.daterange==''?null:this.daterange[1]
                 })
