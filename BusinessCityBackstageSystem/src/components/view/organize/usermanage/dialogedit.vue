@@ -1,5 +1,5 @@
 <template>
-    <el-dialog   width='60%' top='40px' id='inpuW' :title="iscreate?'添加员工':'编辑员工'" :visible="dialogmemberVisible" :modal='true' :before-close="ai_dialog_close"> 
+    <el-dialog   width='60%' top='40px' id='inpuW' :title="title" :visible="dialogmemberVisible" :modal='true' :before-close="ai_dialog_close"> 
         <el-form @submit.native.prevent :model='dataform' status-icon ref="memberForm" :rules="rules"  label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span="10" :offset='2'>
@@ -138,6 +138,7 @@ export default {
             }
         };
         return{
+            depid:'',
             dialogmemberVisible:false,
             id:'',
             iscreate:true,
@@ -184,9 +185,9 @@ export default {
                 departmentId:[
                     {required:true,message:'请选择部门',trigger:'change'}
                 ],
-                groupId:[
-                    {required:true,message:'请选择角色',trigger:'change'},
-                ]
+                // groupId:[
+                //     {required:true,message:'请选择角色',trigger:'change'},
+                // ]
             },
             pickerOptions:{
                 disabledDate(time) {
@@ -197,8 +198,10 @@ export default {
     },
     created:function(){
         this.$root.$on('opendialogemploy',(data)=>{
+            // console.log(data);
+            this.rolelist=[];
+            this.depid=data.depid;
             this.getemployeetype();
-            this.getrolelist(data.departmentId);
             this.iscreate=data.iscreate;
             if(!data.iscreate){
                 let data_current=data.data;
@@ -221,6 +224,7 @@ export default {
                 this.dataform.employeeTypeName=data_current.employeeTypeName;
                 this.dataform.phone=data_current.phone;
                 this.dataform.accStatus=data_current.accStatus;
+                this.getrolelist(this.dataform.departmentId);
             }
             else{
                 this.cleardate();
@@ -253,6 +257,8 @@ export default {
                 return item.id === value;
             });
             this.dataform.departmentName=obj.departmentName;
+            this.dataform.groupId=null;
+            this.dataform.groupName=null;
             this.getrolelist(obj.id);
         },
         selectrole(value){
@@ -338,7 +344,7 @@ export default {
                                     type:'success',
                                     message:'添加成功!'
                                 });
-                                that.$root.$emit('getemploy');
+                                that.$root.$emit('getemploy',that.depid);
                                 that.dialogmemberVisible=false;
                             }
                             console.log(response);
@@ -380,7 +386,7 @@ export default {
             
         }
     },
-     computed: {
+    computed: {
         ...mapState({
             deplist: state => state.deplist.deplistall
         }),
@@ -403,6 +409,9 @@ export default {
                 }
                 return age;
             }
+        },
+        title:function(){
+            return this.iscreate?'添加员工':'编辑员工';
         }
     },
     beforeDestroy(){
@@ -419,7 +428,7 @@ export default {
     padding:20px 32px;
 }
 .el-dialog__title,.el-dialog__headerbtn .el-dialog__close{
-    color:white;
+    /* color:white; */
 }
 .el-dialog__headerbtn{
     width: 29px;

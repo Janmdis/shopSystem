@@ -9,7 +9,7 @@
                     </el-col>
                     <el-col :span="10" :offset='1'>
                         <el-form-item label="所属部门：">
-                            <el-select v-model="depid"  placeholder="请选择" @change='changeValue'>
+                            <el-select v-model="depid2"  placeholder="请选择" @change='changeValue'>
                                 <el-option
                                 v-for="item in deplist"
                                 :key="item.id"
@@ -45,6 +45,7 @@ export default {
             roleid:'',
             depname:'',
             depid:'',
+            depid2:'',
             dataform:{
                 rolename:'',
             },
@@ -57,6 +58,9 @@ export default {
     },
     created:function(){
         this.$root.$on('exportvisrole',(data)=>{
+            console.log(data);
+            this.depid=data.depid;
+            this.depid2=data.depid;            
             this.dialogroleVisible=true;
         });
     },

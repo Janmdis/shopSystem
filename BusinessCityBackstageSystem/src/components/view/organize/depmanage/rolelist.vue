@@ -37,8 +37,14 @@ export default {
     data(){
         return {
             dialogroleVisible:false,
-            depname:''
+            depname:'',
+            depid:''
         }
+    },
+    created(){
+        this.$root.$on('getdepid',data=>{
+            this.depid=data.depid;
+        });
     },
     methods:{
         deletedata(e){
@@ -103,6 +109,7 @@ export default {
     },
     beforeDestroy:function(){
         this.$root.$off('currentrole');
+        this.$root.$off('getdepid');
     }
 }
 </script>

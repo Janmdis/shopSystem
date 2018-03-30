@@ -91,7 +91,7 @@ export default {
         addrole(){
             this.$store.dispatch('getPromiselist');
             this.$store.dispatch('getDeplistall');
-            this.$root.$emit('exportvisrole',{type:'create'});
+            this.$root.$emit('exportvisrole',{depid:this.depid,type:'create'});
         },
         researchdata(){
             this.getrolelist(1,this.pagesize);

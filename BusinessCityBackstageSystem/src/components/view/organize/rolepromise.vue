@@ -86,7 +86,9 @@ export default {
                 number:'',
                 depid:'',
                 depname:''
-            },  
+            },
+            depid:'',
+            depname:'',
             checkedPromise:[],
             checkAll:[],
             isIndeterminate:true,
@@ -121,7 +123,7 @@ export default {
     },
     created:function(){
         this.$root.$on("exportvisrole",(datas)=>{
-            console.log(datas);
+            this.depid=datas.depid;
             this.type=datas.type;
             if(this.type=='edit'){
                 this.showinput=false;
