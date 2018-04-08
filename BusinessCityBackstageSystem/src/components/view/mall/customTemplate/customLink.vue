@@ -51,11 +51,11 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                 this.indexs = data.indexs
                 this.dataid = data.dataids
                 this.type = data.types
-               console.log(this.dataid)
-                console.log(this.indexs)
-               console.log(this.type)
+            //    console.log(this.dataid)
+            //     console.log(this.indexs)
+            //    console.log(this.type)
                if(this.type == "imageAds"){
-                   console.log(this.indexs)
+                //    console.log(this.indexs)
                    this.input = this.$store.state.adImageList.comlist[this.dataid].componentsData.ImgArr[this.indexs].url;
                }else if(this.type == "commodity"){
                    if(this.indexs == 1){

@@ -60,7 +60,7 @@
                                           链接到页面地址<i class="el-icon-arrow-down el-icon--right" style="display: inline;"></i>
                                         </span>
                                         <el-dropdown-menu slot="dropdown" style="min-width: 7%;font-size:12px;">
-                                          <!-- <el-dropdown-item @click.native="opendialogPro" style="margin-top:10px;">商品详情</el-dropdown-item> -->
+                                          <el-dropdown-item @click.native="opendialogPro(index)" style="margin-top:10px;">商品详情</el-dropdown-item>
                                           <el-dropdown-item @click.native="opendialogSelf(index)" style="margin-top:10px;">自定义</el-dropdown-item>
                                         </el-dropdown-menu>
                                       </el-dropdown>
@@ -236,9 +236,14 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
                 }
                 return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
             },
-          opendialogPro(){
-              this.$root.$emit('opendialogProduct',true)
-          },
+          opendialogPro(index){
+             this.$root.$emit('opendialogProduct',true)
+              let indexs = index;
+             let dataids = this.dataid;
+             let types = "imageAds";
+            // alert(indexs)
+             this.$root.$emit('customizeData',{indexs,dataids,types})
+         },
           opendialogSelf(index){
              this.$root.$emit('opendialogSelf',true)
              let indexs = index;

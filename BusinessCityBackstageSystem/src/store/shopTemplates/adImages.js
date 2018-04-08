@@ -189,6 +189,24 @@ const mutations={
             }
         }
     },
+    //商品和套餐链接地址新增修改方法
+    saveUrlSPXQ(state,data){
+        let id = data.dataids;
+        let indexs = data.index;
+        let urls = data.inputs;
+        let type = data.type;
+        if(type == "imageAds"){
+            state.comlist[id].componentsData.ImgArr[indexs].url = urls
+        }else if(type == "commodity"){
+            if(indexs == 1){
+                state.comlist[id].componentsData.productImgURL1 = urls
+            }else if(indexs == 2){
+                state.comlist[id].componentsData.productImgURL2 = urls
+            }else if(indexs == 3){
+                state.comlist[id].componentsData.productImgURL3 = urls
+            }
+        }
+    },
     //新增详情图片模块
     detailsPictureADD(state){
         let imageAdsDefault = {
