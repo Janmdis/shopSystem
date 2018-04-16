@@ -42,7 +42,7 @@ export default {
             this.dataForm = data;
             data.forEach((e, i) => {
                 this.idList.push(e.id);
-                console.log(this.idList)
+                // console.log(this.idList)
             })
             let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
             let ids = id.replace(/\"|"/g, "");
@@ -91,7 +91,7 @@ export default {
         },
         //上传成功
         uploadSuccess(response, file, fileList) {
-            console.log(response)
+            // console.log(response)
             if (response.status === 300) {
                 this.$message.info(response.msg)
             } else if (response.status === 200) {
@@ -109,7 +109,7 @@ export default {
             }).then(() => {
                 this.$http.post('/api/product/order/delete', this.delArr)
                     .then(function(response) {
-                        console.log(response);
+                        // console.log(response);
                         if (response.data.status == '200') {
                             that.$message({
                                 type: 'success',
@@ -160,7 +160,7 @@ export default {
                     //  }),
                 })
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                         //  this.listLoading =  false;
                     this.datalist = (response.data.info.list);
                     this.$root.$emit('dataListBox', this.datalist)
