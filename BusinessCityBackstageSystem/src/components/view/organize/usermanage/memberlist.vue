@@ -189,7 +189,7 @@ export default {
         },
         handleEdit(data){
             // console.log(data);
-            this.$root.$emit('opendialogemploy',{iscreate:false,data:data});
+            this.$root.$emit('opendialogemploy',{iscreate:false,data:data,depid:this.depid});
         },
         handleDelete(data){
              this.$confirm('确认删除？', '提示', {
@@ -227,7 +227,7 @@ export default {
             this.getemployeelist(currentPage);
         },
         adddata(){
-            this.$root.$emit('opendialogemploy',{iscreate:true});
+            this.$root.$emit('opendialogemploy',{iscreate:true,depid:this.depid});
         },
         searchdata(){
             this.data.adminName=null;

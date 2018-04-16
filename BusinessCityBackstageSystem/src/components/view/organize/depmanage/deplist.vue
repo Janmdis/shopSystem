@@ -91,12 +91,12 @@ export default {
             });
         },
         pick(data,node,vuecomponent){
-            console.log(data,node,vuecomponent);
             let dom_current=vuecomponent.$el.firstChild.lastChild;
             let classname=dom_current.getAttribute('class');
             let don_on=document.getElementsByClassName('on');
             don_on.length?don_on[0].setAttribute('class','el-tree-node__label'):void(0);
             dom_current.setAttribute('class','el-tree-node__label on');
+            // console.log(dom_current,don_on);
             // console.log(node);
            // 修改‘删除’按钮状态
             this.deleteshow=data.children?false:true;
@@ -109,6 +109,7 @@ export default {
                 depid:data.id
             }
             this.$store.dispatch('getRolelist',parm);
+            this.$root.$emit('getdepid',parm);
         }
     },
     computed: {
@@ -119,8 +120,7 @@ export default {
     watch:{
         list(value){
             this.$store.dispatch('getRolelist',{depid:value[0].id});
-            // console.log(this.$refs.tree);
-            // this.pick()
+            this.$root.$emit('getdepid',{depid:value[0].id});
         }
     },
     beforeDestroy:function(){
