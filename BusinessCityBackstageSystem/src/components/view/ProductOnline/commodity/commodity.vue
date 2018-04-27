@@ -43,6 +43,7 @@
         <showWindows></showWindows>
         <detailcommodity></detailcommodity>
         <commoditywindow></commoditywindow>
+        <detailTempalteList></detailTempalteList>
     </el-main>
 </template>
 <script>
