@@ -28,19 +28,23 @@ Vue.prototype.$http = axios
 // Vue.prototype.$=jquery
 
 //路由限制跳转判断
-router.beforeEach((to, from, next) => {
-    if (to.path.indexOf("/login") == -1) {
-        if (sessionStorage.getItem('userInfo')!= null) { 
-            next();
-        } else {
-            next({path: '/login'})
+let usrl = sessionStorage.getItem("userInfo")
+router.beforeEach((transition, from, next) => {
+        // 登录路径不执行
+    // 
+    if (transition.path.indexOf('/login') == -1) {
+            // 判断缓存信息是否存在，不存在则直接跳转登录页
+        // console.log(usrl == null)
+        //     if (usrl == null) {
+        //      return next({ path: '/login' })
+        //     }
         }
         next();
-    } else {
-        next();
-    }
-})
-
+    })
+    // router.afterEach((to, from, next) => {
+    //   alert(to.name);
+    //   document.title = to.name;
+    // })
     /* eslint-disable no-new */
 new Vue({
     el: '#app',

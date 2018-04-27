@@ -523,11 +523,11 @@
                         message: '请填写订单',
                         trigger: 'change'
                     }],
-                    // orderType: [{
-                    //     required: true,
-                    //     message: '请填写订单',
-                    //     trigger: 'change'
-                    // }],
+                    orderType: [{
+                        required: true,
+                        message: '请填写订单',
+                        trigger: 'change'
+                    }],
                 }
             };
         },
@@ -579,20 +579,20 @@
                 let orderInfo = '';
                 let textInfo = '';
                 if (this.ruleForm.orderType == '新增服务订单') {
-                    textInfo = 1
+                    textInfo = 0
                 } else if (this.ruleForm.orderType == '新增上门订单') {
-                    textInfo = 2
+                    textInfo = 1
                 } else if (this.ruleForm.orderType == '追单') {
-                    textInfo = 3
+                    textInfo = 2
                 } else {
                     textInfo = this.ruleForm.orderType
                 }
                 if (this.ruleForm.orderState == '未完成') {
-                    orderInfo = 1
+                    orderInfo = 0
                 } else if (this.ruleForm.orderState == '已完成') {
-                    orderInfo = 2
+                    orderInfo = 1
                 } else if (this.ruleForm.orderState == '异常订单') {
-                    orderInfo = 3
+                    orderInfo = 2
                 } else {
                     orderInfo = this.ruleForm.orderState
                 }
@@ -1270,18 +1270,18 @@
                             console.log(data)
                             let orderInfo = '';
                             let textInfo = '';
-                            if (data.orderType == 1) {
+                            if (data.orderType == 0) {
                                 orderInfo = '新增服务订单'
-                            } else if (data.orderType == 2) {
+                            } else if (data.orderType == 1) {
                                 orderInfo = '新增上门订单'
-                            } else if (data.orderType == 3) {
+                            } else if (data.orderType == 2) {
                                 orderInfo = '追单'
                             }
-                            if (data.orderState == 1) {
+                            if (data.orderState == 0) {
                                 textInfo = '未完成'
-                            } else if (data.orderState == 2) {
+                            } else if (data.orderState == 1) {
                                 textInfo = '已完成'
-                            } else if (data.orderState == 3) {
+                            } else if (data.orderState == 2) {
                                 textInfo = '异常订单'
                             }
                             this.ruleForm.orderId = data.id;
