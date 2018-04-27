@@ -40,9 +40,9 @@
                 <el-col :span='6'>
                     <el-form-item label="订单状态" prop='orderState'>
                         <el-select v-model="ruleForm.orderState" placeholder="请选择样式">
-                            <el-option label="未完成" value="1"></el-option>
-                            <el-option label="已完成" value="2"></el-option>
-                            <el-option label="异常订单" value="3"></el-option>
+                            <el-option label="未完成" value="0"></el-option>
+                            <el-option label="已完成" value="1"></el-option>
+                            <el-option label="异常订单" value="2"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="未支付金额" prop='unpaidMoney'>
@@ -58,9 +58,9 @@
                 <el-col :span='6'>
                     <el-form-item label="订单类型" prop='orderType'>
                         <el-select v-model="ruleForm.orderType" placeholder="请选择样式">
-                            <el-option label="新增服务订单" value="1"></el-option>
-                            <el-option label="新增上门订单" value="2"></el-option>
-                            <el-option label="追单" value="3"></el-option>
+                            <el-option label="新增服务订单" value="0"></el-option>
+                            <el-option label="新增上门订单" value="1"></el-option>
+                            <el-option label="追单" value="2"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="退款金额" prop='refundMoney'>
