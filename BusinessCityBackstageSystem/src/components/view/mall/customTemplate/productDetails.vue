@@ -37,8 +37,7 @@
             <el-table 
                 :data="listgoods" 
                 ref='goodtable' 
-                style="width: 100%;    height: 496px;" 
-                height='100%' 
+                style="width: 100%;    height: 496px;"  
                 class='table-product' 
                 @select="selectChange"
                 v-loading='loading'>

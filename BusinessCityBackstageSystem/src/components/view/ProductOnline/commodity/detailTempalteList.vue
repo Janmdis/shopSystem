@@ -22,7 +22,6 @@
                 :data="listgoods" 
                 ref='goodtable' 
                 style="width: 100%;    height: 496px;" 
-                height='100%' 
                 class='table-products' 
                 @select="selectChange"
                 v-loading='loading'>
