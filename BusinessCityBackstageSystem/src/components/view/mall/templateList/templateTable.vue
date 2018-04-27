@@ -111,7 +111,7 @@ export default {
           let id = row.templateID
           //给后台设置浏览的ID
           let that=this;
-        this.$http.post('/api/product/mall/template/setString?str='+id
+        this.$http.post('/api//product/mall/template/setString?str='+id
         )
         .then(function(response){
           console.log(response)

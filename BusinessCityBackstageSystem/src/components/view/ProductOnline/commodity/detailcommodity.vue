@@ -10,8 +10,10 @@
                         <el-row :gutter='20'>
                             <el-col :span='12'>
                                 <el-form-item label="详情页：">
-                                    <el-input v-model="formmsg.detailTemplateInfoName" placeholder="请查询" :disabled="true"></el-input>
-                                    <el-button type="primary" @click.native="selectDetailPage">查询详情页</el-button>
+                                    <el-select v-model="formmsg.detail" placeholder="请选择">
+                                        <el-option label="区域一" value="shanghai"></el-option>
+                                        <el-option label="区域二" value="beijing"></el-option>
+                                    </el-select>
                                 </el-form-item>
                             </el-col>
                             <el-col :span='12'>
@@ -235,12 +237,10 @@
             <el-button  plain >预览</el-button>
             <el-button type="primary" @click.native="savedata">保存</el-button>
         </el-row>
-        
     </div>
    
 </template>
 <script>
-
 // import imgUp from './userChildren/ImgUp.vue'
 export default {
     // components:{imgUp},
@@ -314,9 +314,7 @@ export default {
                 originalPrice:'',
                 totalSales:'',
                 categoryId:'',
-                brand:'',
-                detailTemplateInfoName:'',
-                detailTemplateInfoId:''
+                brand:''
             },
             goodstype:[],
             disabled:true,
@@ -368,10 +366,6 @@ export default {
             this.getdatemodel();
             this.getcitys();
         });
-        this.$root.$on('saveDetailTemplateInfos', (data) => {
-             this.formmsg.detailTemplateInfoName = data.templateName
-             this.formmsg.detailTemplateInfoId = data.templateID
-        })
     },
     methods:{
         // 获取商品信息
@@ -387,7 +381,6 @@ export default {
                     that.formmsg.totalSales=data.totalSales.toString();
                     that.formmsg.categoryId=data.categoryId==0?null:data.categoryId;
                     that.formmsg.brand=data.brand;
-                    that.formmsg.detailTemplateInfoId = data.detailTemplateId
                     that.tmid=data.periodTemplateId;
                     that.areamid=data.regionTemplateId;
                     // console.log(that.formmsg.categoryId);
@@ -421,10 +414,6 @@ export default {
         },
         // 保存商品信息
         savedata(){
-            if(this.formmsg.detailTemplateInfoId == '1'){
-                this.$message('请绑定详情模板！');
-                return false
-            }
             this.$refs['formmsg'].validate((valid) => {
                 if (valid) {
                     let that=this;
@@ -438,8 +427,7 @@ export default {
                         regionTemplateId:this.areamid,
                         categoryId:this.formmsg.categoryId,
                         brand:this.formmsg.brand,
-                        isPackage:0,
-                        detailTemplateId:this.formmsg.detailTemplateInfoId
+                        isPackage:0
                     };
                     this.$http.post('/api/product/commodity/info/update',data)
                     .then(function(response){
@@ -1394,21 +1382,19 @@ export default {
             }
             
         },
-        selectDetailPage(){
-             this.$root.$emit('opendialogSelectDetail',true)
-         },
+
+
+
+
         // 重置表单
         resetForm(){
             this.$refs.formmsg.resetFields();
-            this.formmsg.detailTemplateInfoName='';
-            this.formmsg.detailTemplateInfoId='';
         }
     },
     beforeDestroy(){
         // this.$root.$off('adddata');
         this.$root.$off('editpackage');
         this.$root.$off('editcomm');
-        this.$root.$off('saveDetailTemplateInfos');
     }
 
 }
