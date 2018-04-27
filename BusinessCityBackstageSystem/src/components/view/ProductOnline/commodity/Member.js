@@ -7,6 +7,7 @@ import showWindows from './showWindow.vue'
 import shopDetails from './shopDetails.vue'
 import detailcommodity from './detailcommodity.vue'
 import commoditywindow from '../package/showWindow.vue'
+import detailTempalteList from './detailTempalteList.vue'
 import qs from 'qs'
 export default {
   
@@ -179,7 +180,8 @@ export default {
     searchBox,
     shopDetails,
     detailcommodity,
-    commoditywindow
+    commoditywindow,
+    detailTempalteList
   },
 }
 
