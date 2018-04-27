@@ -199,13 +199,16 @@
                 let that=this;
                 this.$http.post('/api/product/commodity/info/insertOne',{
                     name:type=='service'?'默认服务商品':row.name,
+                    productId:type=='service'?'':row.id,
+                    isService:type=='service'?true:false,
                     categoryId:0,
                     originalPrice:0,
                     discountPrice:0,
                     currentPrice:0,
                     priceRule:1,
                     detailTemplateId:1,
-                    brand:type=='service'?'':row.brand
+                    brand:type=='service'?'':row.brand,
+                    
                 })
                 .then(function(response){
                     if(response.data.msg=='新增成功'){

@@ -129,6 +129,16 @@ export default new Router({
                     path: 'order', // 订单
                     name: 'order',
                     component: resolve => require(['@/components/view/order/order.vue'], resolve)
+                },
+                {
+                    path: 'refund', // 退款申请订单
+                    name: 'refund',
+                    component: resolve => require(['@/components/view/order/refund.vue'], resolve)
+                },
+                {
+                    path: 'invoice', // 发票申请管理
+                    name: 'invoice',
+                    component: resolve => require(['@/components/view/order/invoice.vue'], resolve)
                 }
             ]
 

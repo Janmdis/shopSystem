@@ -199,7 +199,6 @@ export default{
                     that.proDisId[e.id] = e.regionName;
                 }
             });
-            
             console.log(that.proDisId);
         },
         proDis(){
