@@ -1,8 +1,8 @@
 /* eslint-disable */
 var { gVerify } = require("../../../assets/javascript/common.js");
+import { mapActions,mapState } from 'vuex'
 import qs from 'qs'
 export default {
-
     data() {
         //  自定义验证信息
         // var validateCode = (rule, value, callback) => {
@@ -53,7 +53,11 @@ export default {
         this.getCookie()
         this.yzn()
     },
+    computed: {
+        ...mapState(['isLogin'])
+    },
     methods: {
+        ...mapActions(['loginAction']),
         option(test, status) {
             this.$message({
                 message: test,
@@ -69,6 +73,7 @@ export default {
                     if (this.count > 0 && this.count <= TIME_COUNT) {
                         this.count--;
                     } else {
+                        this.loginAction();
                         this.show = true;
                         clearInterval(this.timer);
                         this.timer = null;
@@ -117,7 +122,6 @@ export default {
                         })
                         .then(res => {
                             var msg = res.data.msg
-                            console.log()
                             sessionStorage.setItem('userInfo', JSON.stringify(res.data.info))
                             if (msg !== '登录成功') {
                                 this.option("用户名不存在或密码错误,请重新输入");
@@ -186,4 +190,5 @@ export default {
             }
         }
     },
+    
 }
