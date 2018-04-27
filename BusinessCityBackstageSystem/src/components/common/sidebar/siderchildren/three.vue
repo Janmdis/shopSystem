@@ -6,6 +6,10 @@
           <template slot="title"><i class="icon iconfont icon-dingdan2" style='margin-right: 10px;'></i>订单管理</template>
             <el-menu-item-group>
               <el-menu-item index="order">订单列表</el-menu-item>
+              <el-menu-item index="refund">退款订单</el-menu-item>
+              <el-menu-item index="invoice">发票管理</el-menu-item>
+              
+              
             </el-menu-item-group>
          </el-submenu>
          <el-submenu index="2">
