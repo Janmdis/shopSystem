@@ -388,6 +388,7 @@ export default {
                     that.formmsg.categoryId=data.categoryId==0?null:data.categoryId;
                     that.formmsg.brand=data.brand;
                     that.formmsg.detailTemplateInfoId = data.detailTemplateId
+                    that.formmsg.desc = data.description
                     that.tmid=data.periodTemplateId;
                     that.areamid=data.regionTemplateId;
                     // console.log(that.formmsg.categoryId);
@@ -439,7 +440,8 @@ export default {
                         categoryId:this.formmsg.categoryId,
                         brand:this.formmsg.brand,
                         isPackage:0,
-                        detailTemplateId:this.formmsg.detailTemplateInfoId
+                        detailTemplateId:this.formmsg.detailTemplateInfoId,
+                        description:this.formmsg.desc
                     };
                     this.$http.post('/api/product/commodity/info/update',data)
                     .then(function(response){
