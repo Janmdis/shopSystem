@@ -11,6 +11,7 @@ import axios from 'axios'
 import store from './store'
 import Blob from './excel/Blob.js'
 import Export2Excel from './excel/Export2Excel.js'
+import $ from 'jquery'
 
 // fade/zoom 等
 import 'element-ui/lib/theme-chalk/base.css';
@@ -24,6 +25,7 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
 Vue.prototype.$http = axios
+// Vue.prototype.$=jquery
 
 //路由限制跳转判断
 let usrl = sessionStorage.getItem("userInfo")
