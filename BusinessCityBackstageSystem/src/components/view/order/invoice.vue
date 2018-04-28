@@ -20,6 +20,7 @@
             :data="datalist"
             :default-sort = "{prop: 'date', order: 'descending'}"
             v-loading="loading"
+            @cell-click='showMemberInfo'
             :stripe='true'
             style="width: 100%"
             height='500'
@@ -64,10 +65,12 @@
                 </el-col>
             </el-row>
         </div> 
+        <orderinvoice class='infoCover' ref="memberInfos"></orderinvoice>
     </el-main>
 </template>
 <script>
 import Lttip from './lttip.vue'
+import orderinvoice from './invoice/OrderInfo.vue'
 export default {
     components:{Lttip},
     data(){
@@ -120,13 +123,53 @@ export default {
             // console.log(val);
             this.getDatalist(val);
         },
+        showMemberInfo(row,column,cell,event,index){//  点击显示侧滑
+            // console.log(row,column,cell,event)
+            //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
+            let labelValue = column.label;
+            console.log(labelValue)
+            let that = this;
+            if(labelValue == '订单号'){
+                this.showLeft = 16
+                this.$http.post(
+                    '/api/product/order/queryPageList',
+                    {id:row.id}
+                ).then(res => {
+                    if(res.data.status == 200){
+                        console.log(res.data.info)
+                        that.$root.$emit('orderCoverShow',that.showLeft)
+                        that.$root.$emit('searchOrderInfo',[row.id,res.data.info.list[0]]);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
+        }, 
         handleEdit(){
-        }
-    }
+        },
+        
+    },
+    components: {
+        orderinvoice
+    },
 }
 </script>
 
 <style scoped lang="less">
+.infoCover{
+            width:85%;
+            padding: 0;
+            background-color: #F2F3F4;
+            position: absolute;
+            left:105%;
+            // left:15%;
+            top:0;
+            z-index: 999;
+            box-shadow: rgb(198, 198, 198) 0px 0px 10px 0px;
+            #infoContainer{
+                background-color: #F2F3F4;
+            }
+        }
     .search {
         position: relative;
         height: 72px;

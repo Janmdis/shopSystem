@@ -5,16 +5,16 @@
         <el-table-column fixed type="selection" width="55">
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-                    </el-table-column> -->
+                        </el-table-column> -->
         <el-table-column prop="name" fixed width='200' label="客户姓名">
         </el-table-column>
         <el-table-column prop="mobile" width='120' label="手机号">
         </el-table-column>
         <el-table-column label="客户类型">
             <template slot-scope='scope'>
-                            <span >
-                            {{getMember(scope.row.categoryId, memberInfo.info)}}
-                            </span>
+                                <span >
+                               {{getMember(scope.row.categoryId, memberInfo.info)}}
+                                </span>
 </template>
         </el-table-column>
         <el-table-column
@@ -37,11 +37,11 @@
         </el-table-column>
         <el-table-column
         label="来源">
-<template slot-scope='scope'>
-    <span>
-                            {{getMember(scope.row.recommendedSourceId, findSource.info)}}
-                            </span>
-</template>
+            <template slot-scope='scope'>
+                <span>
+                    {{getMember(scope.row.recommendedSourceId, findSource.info)}}
+                </span>
+            </template>
         </el-table-column>
         <el-table-column
         label="推荐人" 
@@ -90,8 +90,8 @@
                 findSource: [],
                 address: [],
                 idBox: [],
-                cArr:'',
-                textIfon:'',
+                cArr: '',
+                textIfon: '',
                 orderState: '',
                 Referee: '',
                 quarters: '',
@@ -137,6 +137,8 @@
         },
         methods: {
             getMember(id, obj) {
+                console.log(id)
+                console.log(obj)
                 let i = 0
                 for (name in obj) {
                     if (name == id) {
@@ -156,18 +158,14 @@
                         data: idBox,
                     })
                     .then(response => {
-                        //console.log(response.data.info);
                         response.data.info.forEach(item1 => {
-                            // console.log(item1)
                             this.datalist.forEach((item, i) => {
                                 if (item1.id == item.estateId) {
-                                    // console.log(item)
                                     this.$set(item, 'quarters', item1.alias);
                                     this.$set(item, 'quartersAdd', item1.address);
                                 }
                             });
                         })
-                        // console.log( this.datalist)
                     })
                     .catch(error => {
                         console.log(error);
@@ -187,7 +185,6 @@
                         data: dielArr,
                     })
                     .then(response => {
-                        // console.log(response.data.info)
                         this.datalist.forEach(item => {
                             this.orderState = response.data.info[item.id]
                             this.$set(item, 'orderState', this.orderState)
@@ -212,9 +209,9 @@
                         data: this.data,
                     })
                     .then(response => {
-                        console.log(response.data.info.list)
                         that.listLoading = false
                         that.datalist = (response.data.info.list);
+                        console.log(that.datalist)
                         this.searchLabel(that.datalist);
                         for (let name in this.datalist) {
                             this.idBox.push(this.datalist[name].estateId)
@@ -232,8 +229,6 @@
                         for (let name in this.datalist) {
                             dielArr2.push(this.datalist[name].recommendedCustomerId)
                         }
-                        // console.log(dielArr1);
-                        // console.log(dielArr2)
                         let newArrS = [];
                         let url = '/api/customer/account/queryMapByIds?key=id&value=name';
                         this.$http({
@@ -247,11 +242,11 @@
                             })
                             .then(response => {
                                 newArrS.push(response.data.info)
-                                 for (let k in response.data.info) {
-                                            if (response.data.info[k]) {
-                                                response.data.info[k] = '后台--' + response.data.info[k]
-                                            }
-                                        }
+                                for (let k in response.data.info) {
+                                    if (response.data.info[k]) {
+                                        response.data.info[k] = '后台--' + response.data.info[k]
+                                    }
+                                }
                                 let url2 = '/api/admin/account/queryListByIds?key=id&value=adminName';
                                 this.$http({
                                         url: url2,
@@ -264,7 +259,7 @@
                                     })
                                     .then(response => {
                                         newArrS.push(response.data.info);
-                                         for (let k in response.data.info) {
+                                        for (let k in response.data.info) {
                                             if (response.data.info[k]) {
                                                 response.data.info[k] = '前台--' + response.data.info[k]
                                             }
@@ -272,16 +267,14 @@
                                         that.cArr = this.extend({}, [newArrS[0], newArrS[1]]);
                                         let arr = []
                                         this.datalist.forEach((item, i) => {
-                                            if (item.recommendedAdminId !=''|| item.recommendedCustomerId!=='') {
+                                            if (item.recommendedAdminId != '' || item.recommendedCustomerId !== '') {
                                                 this.arrbox = item.recommendedAdminId || item.recommendedCustomerId;
                                                 arr.push(this.arrbox)
                                             }
-                                            for(let i =0;i<arr.length;i++){
-                                                // console.log(arr[i])
-                                                //  console.log(that.cArr[arr[i]]);
+                                            for (let i = 0; i < arr.length; i++) {
                                                 // if(arr[i] ==that.cArr[i] ){
-                                                    that.textIfon =that.cArr[arr[i]];
-                                                    this.$set(item, 'textIfon', that.textIfon)
+                                                that.textIfon = that.cArr[arr[i]];
+                                                this.$set(item, 'textIfon', that.textIfon)
                                                 // }
                                             }
                                         });
@@ -321,7 +314,6 @@
                 //console.log(row,column,cell,event)
                 //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
                 let labelValue = column.label
-                // console.log(row.id)
                 if (labelValue == '客户姓名') {
                     this.showLeft = 16
                     this.$root.$emit('infoCoverShow', this.showLeft)
