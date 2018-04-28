@@ -143,7 +143,7 @@
             isOkInfo(){
                 if(titles=='确认退款'){
                     let orderId = sessionStorage.getItem("orderId");
-                    let url = '/api/product/order/mall/refund/cancel';
+                    let url = '/api/product/order/mall/refund';
                     this.$http({
                         url:url,
                         method:'post',
