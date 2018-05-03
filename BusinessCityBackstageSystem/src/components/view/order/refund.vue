@@ -61,11 +61,13 @@
             </el-row>
         </div> 
         <showWindows></showWindows>
+         <Order-refund class='infoCover' ref="memberInfos"></Order-refund>
     </el-main>
 </template>
 <script>
 import Lttip from './lttip.vue'
 import showWindows from './showWindow.vue'
+import OrderRefund from './refund/OrderInfo.vue'
 export default {
     components:{Lttip,showWindows},
     data(){
@@ -155,12 +157,30 @@ export default {
             }
              this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
         },
-    }
+    },
+     components: {
+        OrderRefund,
+        showWindows
+    },
 }
 </script>
 
 <style scoped lang="less">
     // @import './Order.less';
+    .infoCover{
+            width:85%;
+            padding: 0;
+            background-color: #F2F3F4;
+            position: absolute;
+            left:105%;
+            // left:15%;
+            top:0;
+            z-index: 999;
+            box-shadow: rgb(198, 198, 198) 0px 0px 10px 0px;
+            #infoContainer{
+                background-color: #F2F3F4;
+            }
+        }
     .search {
         position: relative;
         height: 72px;

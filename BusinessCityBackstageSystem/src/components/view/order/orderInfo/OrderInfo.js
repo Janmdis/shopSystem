@@ -3,6 +3,7 @@ import oneShopInfo from './ShopInfo.vue'
 import twoGiftIntegral from './GiftIntegral.vue'
 import threePayInfo from './PayInfo.vue'
 import fourVisit from './Visit.vue'
+import invoiceInfo from './invoiceInfo.vue'
 import { setTimeout } from 'timers';
 import { mapState } from 'Vuex'
 export default {
@@ -13,6 +14,7 @@ export default {
                 { title: '赠送积分信息', imgSrc: '/static/images/Member/dingdan.jpg', bgColor: 'background:#00c0be;', number: 2 },
                 { title: '支付信息', imgSrc: '/static/images/Member/personnel-info.png', bgColor: 'background:#7a9df7;', number: 2 },
                 { title: '回访', imgSrc: '/static/images/Member/personnel-visit.png', bgColor: 'background:#e39eef;', number: 2 },
+                { title: '发票信息', imgSrc: '/static/images/Member/personnel-visit.png', bgColor: 'background:#e39eef;', number: 2 },
             ],
             visitTypes: [],
             ruleForm: {
@@ -52,6 +54,8 @@ export default {
             this.searchInfo(data[0]);
             this.orderId = data[0];
             this.order = data[1];
+            console.log(data[1])
+            sessionStorage.setItem("orderId",data[1].number)
             this.upData();
         });
         this.$root.$on('orderCoverShow', (left) => { //  显示侧滑框的方法
@@ -158,7 +162,10 @@ export default {
                 text = threePayInfo;
             } else if (text == '回访') {
                 text = fourVisit;
+            }else if (text == '发票信息') {
+                text = invoiceInfo;
             }
+            this.$root.$emit("orderId",this.ruleForm.orderNumber)
             this.$root.$emit('title', text);
             this.$root.$emit('loadFn');
             this.$root.$on('load', data => {
@@ -170,7 +177,8 @@ export default {
         oneShopInfo,
         twoGiftIntegral,
         threePayInfo,
-        fourVisit
+        fourVisit,
+        invoiceInfo
     },
     beforeDestroy() {
         this.$root.$off('searchOrderInfo');
