@@ -18,7 +18,8 @@
         <div class='tablelist'>
             <el-table
             :data="datalist"
-            :default-sort = "{prop: 'date', order: 'descending'}"
+            @cell-click='showMemberInfo'
+            @selection-change='showextra'
             v-loading="loading"
             :stripe='true'
             style="width: 100%"
@@ -29,22 +30,26 @@
                 <el-table-column prop="refundNumber" width="180" label="退款单号"> </el-table-column>
                 <el-table-column prop="number" width="180" label="订单编号"> </el-table-column>
                 <el-table-column prop="phone" width="180" label="手机号"> </el-table-column>
-                <el-table-column prop="refund_time" width="180" label="申请退款时间"> </el-table-column>
-                <el-table-column prop="refundMoney" width="180" label="退款金额"> </el-table-column>
+                <el-table-column prop="refundTime" width="180" label="申请退款时间"> </el-table-column>
+                <el-table-column prop="refundMoney" width="100" label="退款金额"> </el-table-column>
                 <el-table-column prop="orderState" width="180" label="退款状态">
                     <template slot-scope='scope'>
                         {{scope.row.orderState==4?'未处理':scope.row.orderState==5?'已完成':scope.row.orderState==7?'驳回':''}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" width="180" label="支付方式"> </el-table-column>
-                <el-table-column
+                <el-table-column prop="createTime" width="180" label="支付方式">
+                    <template slot-scope='scope'>
+                        {{scope.row.payType==1?'支付宝':scope.row.orderState==2?'微信':scope.row.orderState==3?'管家代收':''}}
+                    </template>
+                </el-table-column>
+                <!-- <el-table-column
                     width='180'
                     label="操作"
                     fixed='right'>
                     <template slot-scope="scope">
-                        <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        <el-button type="text" size="small" @click="showMemberInfo(scope.$index, scope.row)">编辑</el-button>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
             <el-row style='margin-bottom:80px;'>
                 <el-col :span='12' :offset="12">
@@ -55,12 +60,16 @@
                 </el-col>
             </el-row>
         </div> 
+        <showWindows></showWindows>
+         <Order-refund class='infoCover' ref="memberInfos"></Order-refund>
     </el-main>
 </template>
 <script>
 import Lttip from './lttip.vue'
+import showWindows from './showWindow.vue'
+import OrderRefund from './refund/OrderInfo.vue'
 export default {
-    components:{Lttip},
+    components:{Lttip,showWindows},
     data(){
         return{
             namepage:'退款订单',
@@ -70,7 +79,8 @@ export default {
             pagesize:10,
             total:0,
             pagenum:1,
-            searchshow:false
+            searchshow:false,
+            showLeft:0
         }
     },
     created(){
@@ -81,10 +91,10 @@ export default {
         getDatalist(pagenum){
             let that=this;
             this.loading=true;
-            this.$http.post('/api/product/order/mall/find?pageSize='+that.pagesize+'pageNo='+pagenum,
+            this.$http.post('/api/product/order/mall/find?pageSize='+that.pagesize+'&pageNo='+pagenum,
             {
                 payState:1,
-                orderState:4,
+                orderStateConditions:[4,5,7]
             })
             .then(res=>{
                 if(res.data.status==200){
@@ -115,13 +125,62 @@ export default {
             // console.log(val);
             this.getDatalist(val);
         },
-        handleEdit(){}
-    }
+        handleEdit(){},
+        showMemberInfo(row,column,cell,event,index){//  点击显示侧滑
+            //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
+            let labelValue = column.label;
+            let that = this;
+            if(labelValue == '退款单号'){
+                this.showLeft = 16
+                this.$http.post(
+                    '/api/product/order/queryPageList',
+                    {id:row.id}
+                ).then(res => {
+                    if(res.data.status == 200){
+                        that.$root.$emit('orderCoverShow',that.showLeft)
+                        that.$root.$emit('searchOrderInfo',[row.id,res.data.info.list[0]]);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
+        },
+        showextra(val){
+             let show=false;
+             let editcan=true;
+             this.multipleSelection = val
+            if(this.multipleSelection.length>0){
+                show=true;
+            }
+            if(this.multipleSelection.length>1){
+                editcan=false;
+            }
+             this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
+        },
+    },
+     components: {
+        OrderRefund,
+        showWindows
+    },
 }
 </script>
 
 <style scoped lang="less">
     // @import './Order.less';
+    .infoCover{
+            width:85%;
+            padding: 0;
+            background-color: #F2F3F4;
+            position: absolute;
+            left:105%;
+            // left:15%;
+            top:0;
+            z-index: 999;
+            box-shadow: rgb(198, 198, 198) 0px 0px 10px 0px;
+            #infoContainer{
+                background-color: #F2F3F4;
+            }
+        }
     .search {
         position: relative;
         height: 72px;

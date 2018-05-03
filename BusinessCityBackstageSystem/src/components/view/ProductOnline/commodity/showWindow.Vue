@@ -155,7 +155,7 @@
                         let data=response.data.info;
                         that.listgoods=data.list;
                         that.listgoods.forEach(item=>{
-                            let imglist=item.productImage.split(';');
+                            let imglist=(item.productImage==null||item.productImage=='')?'':item.productImage.split(';');
                             item.productImage='http://'+window.location.host+'/api'+imglist[0];
                         });
                         

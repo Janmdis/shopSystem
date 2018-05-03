@@ -13,10 +13,15 @@ export default {
       which_to_show: "" 
     }
   },
-  created () {
+  created() {
+    
     this.$root.$on('infoText', (infoText) => {
+      sessionStorage.setItem("infoText",infoText)
       this.which_to_show = infoText
+      
     })
+    let sl = sessionStorage.getItem('infoText')
+    this.which_to_show=sl
   },
 
   components: {

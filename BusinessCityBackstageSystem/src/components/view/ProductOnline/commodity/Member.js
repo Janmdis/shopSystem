@@ -97,7 +97,7 @@ export default {
         });
     })
     },
-    show: function (val) {
+    search: function (val) {
       let data={
         commodity:{
           categoryId:'',
