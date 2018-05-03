@@ -107,20 +107,26 @@ export default {
         this.phoneDragFn()
     },
     methods:{
+        changeURLArg(url,arg,arg_val){
+            var pattern=arg+'=([^&]*)';
+            var replaceText=arg+'='+arg_val; 
+            if(url.match(pattern)){
+                var tmp='/('+ arg+'=)([^&]*)/gi';
+                tmp=url.replace(eval(tmp),replaceText);
+                return tmp;
+            }else{ 
+                if(url.match('[\?]')){ 
+                        return url+'&'+replaceText; 
+                }else{ 
+                    return url+'?'+replaceText; 
+                } 
+            }
+        },
         handleSee(index, row,event){ // 浏览某个模板
-          let id = row.templateID
+          let templateId = row.templateID
           //给后台设置浏览的ID
-          let that=this;
-        this.$http.post('/api//product/mall/template/setString?str='+id
-        )
-        .then(function(response){
-          console.log(response)
-          that.iframeLink = that.apis+"navBottom?id="+id
-        //   101.89.175.155 服务器地址
-        })
-        .catch(function(response){
-         console.log(response)
-        })
+         window.location.href = this.changeURLArg(window.location.href,'id',templateId)
+         this.iframeLink = this.apis+"navBottom?id="+templateId
           document.getElementById('dialog').style.display = 'block';
           this.autoCenter(document.getElementById('dialog'));
         },
