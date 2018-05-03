@@ -15,12 +15,14 @@
                             <ul>
                                 <li>退款金额：{{thisData.refundMoney}}</li>
                                 <li>退款原因：{{thisData.refundExplanation}}</li>
+                                 <li v-if='briefReason'>驳回原因：{{briefReason}}</li>
                             </ul>
                         </el-col>
                         <el-col :span='12'>
                             <ul>
                                 <li>申请时间：{{thisData.refundTime}}</li>
                                 <li>退款单号：{{thisData.refundNumber}}</li>
+                                <li v-if='applyRefundTime'>处理时间：{{applyRefundTime}}</li>
                             </ul>
                         </el-col>
                     </el-row>
@@ -52,7 +54,7 @@
                 </el-col>
             </el-row>
             <el-row v-if='titles=="驳回"' style='text-align: center;'>
-                 <span>驳回理由：</span>   <textarea v-model="Reject" style='width:80%;min-height:80px;padding:10px;resize:none;border-radius:5px;' auto-complete="off"></textarea>
+                <span>驳回理由：</span> <textarea v-model="Reject" style='width:80%;min-height:80px;padding:10px;resize:none;border-radius:5px;' auto-complete="off"></textarea>
             </el-row>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="invosiceBox = false">取 消</el-button>
@@ -63,23 +65,23 @@
 </template>
 <script>
     export default {
-        props: ['memberId','orders'],
+        props: ['memberId', 'orders'],
         data() {
             return {
                 memberIde: '',
-                thisData:'',
-                letinvoice:0,
-                rejects:false,
-                invosiceBox:false,
-                titles:'',
-                Reject:'',
-                dataList: [
-                ],
+                thisData: '',
+                letinvoice: 0,
+                rejects: false,
+                 applyRefundTime:'',
+                briefReason:'',
+                invosiceBox: false,
+                titles: '',
+                Reject: '',
+                dataList: [],
                 formLabelWidth: '120px'
             }
         },
         created() {
-            
             this.memberIde = this.memberId;
             this.$root.$on('loadFn', data => {
                 this.searchInfo();
@@ -87,38 +89,42 @@
             this.getDataInfo()
         },
         methods: {
-            getDataInfo(){
-               let orderId = sessionStorage.getItem("orderId");
-               console.log(orderId)
-               let url = '/api/product/order/mall/find';
-               this.$http({
-                   url:url,
-                   method:'post',
-                   data:{
-                       number:orderId
-                   }
-               }).then((msg)=>{
-                   let data = msg.data.info.list[0];
-                   if(msg.data.info.list[0].orderDetails){
-                       msg.data.info.list[0].orderDetails.forEach((item,index)=>{
-                           this.letinvoice+=item.conversionAmount
-                       })
-                   }
-                   
-                   this.thisData = data;
-                   let retype = ''
-                   if(data.payType==1){
-                       retype = '支付宝'
-                   }else if(data.payType==2){
-                       retype = '微信'
-                   }else{
+            getDataInfo() {
+                let orderId = sessionStorage.getItem("orderId");
+                console.log(orderId)
+                let url = '/api/product/order/mall/find';
+                this.$http({
+                    url: url,
+                    method: 'post',
+                    data: {
+                        number: orderId
+                    }
+                }).then((msg) => {
+                    let data = msg.data.info.list[0];
+                    if (msg.data.info.list[0].orderDetails) {
+                        msg.data.info.list[0].orderDetails.forEach((item, index) => {
+                            this.letinvoice += item.conversionAmount
+                        })
+                    }
+                    this.thisData = data;
+                     this.applyRefundTime = data.applyRefundTime
+                   this.briefReason = data.briefReason
+                    let retype = ''
+                    if (data.payType == 1) {
+                        retype = '支付宝'
+                    } else if (data.payType == 2) {
+                        retype = '微信'
+                    } else {
                         retype = '管家代收'
-                   }
-                   
-                   this.dataList.push({'payTime':data.createTime,'payMoney':data.paidMoney,'payWay':retype})
-               }).catch((err)=>{
-                   console.log(err)
-               })
+                    }
+                    this.dataList.push({
+                        'payTime': data.createTime,
+                        'payMoney': data.paidMoney,
+                        'payWay': retype
+                    })
+                }).catch((err) => {
+                    console.log(err)
+                })
             },
             searchInfo() {
                 let that = this;
@@ -136,31 +142,70 @@
                 this.invosiceBox = true;
                 this.titles = "确认退款"
             },
-            Bhuixi(){
+            Bhuixi() {
                 this.invosiceBox = true;
                 this.titles = "驳回"
             },
-            isOkInfo(){
-                if(titles=='确认退款'){
+            isOkInfo() {
+                if (this.titles == '确认退款') {
                     let orderId = sessionStorage.getItem("orderId");
-                    let url = '/api/product/order/mall/refund/cancel';
+                    let url = '/api/product/order/weixin/refund?refundNumber=' + orderId;
                     this.$http({
-                        url:url,
-                        method:'post',
-                        data:{
-                            orderNumber:orderId
+                        url: url,
+                        method: 'post',
+                        data: {
+                            // refundNumber:orderId,
                         }
-                    }).then((msg)=>{
-                        console.log(msg)
-                    }).catch((err)=>{
+                    }).then((msg) => {
+                        if(msg.data.info.desc == true) {
+                            this.$message({
+                                message: '退款成功',
+                                type: 'success'
+                            });
+                        }
+                        if(msg.data.info.desc == false) {
+                            this.$message({
+                                message: msg.data.info.info,
+                                type: 'warning'
+                            });
+                        }
+                        this.invosiceBox = false;
+                    }).catch((err) => {
                         console.log(err)
                     })
-                }else{
-                    
+                } else {
+                    let orderId = sessionStorage.getItem("orderId");
+                     let url = '/api/product/order/mall/update';
+                    this.$http({
+                        url: url,
+                        method: 'post',
+                        data: [{
+                           orderState:7,
+                           briefReason:this.Reject,
+                           number:orderId
+                        }]
+                    }).then((msg) => {
+                        console.log(msg)
+                        if(msg.data.status == 200) {
+                            this.$message({
+                                message: '驳回成功',
+                                type: 'success'
+                            });
+                        }
+                        // if(msg.data.info.desc == false) {
+                        //     this.$message({
+                        //         message: msg.data.msg,
+                        //         type: 'warning'
+                        //     });
+                        // }
+                        this.Reject='';
+                        this.invosiceBox = false;
+                    }).catch((err) => {
+                        console.log(err)
+                    })
                 }
             }
         }
-    
     }
 </script>
 <style lang="less">
@@ -174,9 +219,9 @@
         li {
             line-height: 30px;
         }
-        h2{
-            font-size:26px;
-            line-height:60px;
+        h2 {
+            font-size: 26px;
+            line-height: 60px;
         }
     }
     #payInfo {

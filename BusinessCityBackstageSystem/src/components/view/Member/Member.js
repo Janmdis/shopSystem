@@ -50,9 +50,12 @@ export default {
         })
         this.$root.$on('output1', data => {
             this.dataForm = data;
-            data.forEach((e, i) => {
-                this.idList.push(e.id);
-            })
+            if (data) {
+                data.forEach((e, i) => {
+                    this.idList.push(e.id);
+                })
+            }
+           
             let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
             let ids = id.replace(/\"|"/g, "");
             this.dataHref = '/api/customer/customer/excel/out?id=' + ids;

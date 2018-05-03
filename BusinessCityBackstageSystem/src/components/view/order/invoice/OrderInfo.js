@@ -49,7 +49,7 @@ export default {
         this.$root.$on('title', (title) => {
             this.which_to_show = title
         });
-        this.isShow('商品/活动信息');
+        this.isShow('发票信息');
         this.$root.$on('searchOrderInfo', data => { //  获取用户信息方法
             console.log(data)
             // this.searchInfo(data[0]);
@@ -137,7 +137,7 @@ export default {
                     // console.log(res.data.msg)
                     that.dataInfo = res.data.info;
                 }
-                that.which_to_show = 'oneShopInfo';
+                that.which_to_show = 'invoiceInfo';
             }).catch(err => { console.log(err) })
         },
         closeInfo() { //   关闭侧滑框
@@ -154,7 +154,7 @@ export default {
         isShow(text) {
             this.default1 = false;
             this.isActive = text;
-            this.isLoading = true;
+            this.isLoading = false;
             if (text == '商品/活动信息') {
                 text = oneShopInfo;
             } else if (text == '赠送积分信息') {

@@ -174,7 +174,6 @@
         },
         created() {
             this.getStata()
-           
         },
         methods: {
             getStata() {
@@ -187,9 +186,7 @@
                 }).then((res) => {
                     this.dataInfo = (res.data.info.list[0])
                     let invoiceData = (res.data.info.list[0])
-                    console.log(this.dataInfo)
                     this.invoisState = this.dataInfo.category
-                    console.log(invoiceData.isDisallowance == null)
                     if (invoiceData.isDisallowance == null) {
                         this.invoiceType = "未处理"
                     } else if (invoiceData.isDisallowance != true) {
@@ -200,7 +197,7 @@
                         this.invoiceType = "驳回"
                     }
                 }).catch((err) => {
-                    console.log(er)
+                    console.log(err)
                 })
             },
             showInvoice() {
@@ -222,7 +219,7 @@
                         id: '1d90bd48-46ed-11e8-880b-88d7f652f92c',
                         isDisallowance: true,
                         disallowanceReason: this.form.Reject,
-                        category:this.invoisState
+                        category: this.invoisState
                     }
                 }).then((res) => {
                     console.log(res)
@@ -231,7 +228,6 @@
                 })
             },
             handleAvatarSuccess(res, file) {
-                
                 let hostName = location.hostname;
                 let port = location.port;
                 this.images = res.info;
@@ -241,8 +237,8 @@
                     method: 'post',
                     data: {
                         id: '1d90bd48-46ed-11e8-880b-88d7f652f92c',
-                        url:this.images,
-                        category:this.invoisState
+                        url: this.images,
+                        category: this.invoisState
                     }
                 }).then((res) => {
                     console.log(res)
@@ -254,18 +250,20 @@
                 console.log(this.imageUrl)
             },
             beforeAvatarUpload(file) {
+                console.log(file.type)
                 const isJPG = file.type === 'image/jpeg';
                 const isGIF = file.type === 'image/gif';
                 const isPNG = file.type === 'image/png';
                 const isBMP = file.type === 'image/bmp';
+                const isPdf = file.type === 'application/pdf';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-                if (!isJPG && !isGIF && !isPNG && !isBMP) {
-                    this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
+                if (!isJPG && !isGIF && !isPNG && !isBMP && !isPdf) {
+                    this.$message('上传图片必须是JPG/GIF/PNG/BMP/PDF 格式!');
                 }
                 if (!isLt2M) {
-                    this.common.errorTip('上传图片大小不能超过 2MB!');
+                    this.$message('上传图片大小不能超过 2MB!');
                 }
-                return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
+                return (isJPG || isBMP || isGIF || isPNG || isPdf) && isLt2M;
             }
         }
     }

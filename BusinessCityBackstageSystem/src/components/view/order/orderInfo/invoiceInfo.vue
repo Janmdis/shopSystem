@@ -200,7 +200,7 @@
                         this.invoiceType = "驳回"
                     }
                 }).catch((err) => {
-                    console.log(er)
+                    console.log(err)
                 })
             },
             showInvoice() {

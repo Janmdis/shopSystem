@@ -5,16 +5,16 @@
         <el-table-column fixed type="selection" width="55">
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-                        </el-table-column> -->
+                            </el-table-column> -->
         <el-table-column prop="name" fixed width='200' label="客户姓名">
         </el-table-column>
         <el-table-column prop="mobile" width='120' label="手机号">
         </el-table-column>
         <el-table-column label="客户类型">
             <template slot-scope='scope'>
-                                <span >
-                               {{getMember(scope.row.categoryId, memberInfo.info)}}
-                                </span>
+                                    <span >
+                                   {{getMember(scope.row.categoryId, memberInfo.info)}}
+                                    </span>
 </template>
         </el-table-column>
         <el-table-column
@@ -37,11 +37,11 @@
         </el-table-column>
         <el-table-column
         label="来源">
-            <template slot-scope='scope'>
-                <span>
-                    {{getMember(scope.row.recommendedSourceId, findSource.info)}}
-                </span>
-            </template>
+<template slot-scope='scope'>
+    <span>
+                        {{getMember(scope.row.recommendedSourceId, findSource.info)}}
+                    </span>
+</template>
         </el-table-column>
         <el-table-column
         label="推荐人" 
@@ -158,14 +158,16 @@
                         data: idBox,
                     })
                     .then(response => {
-                        response.data.info.forEach(item1 => {
-                            this.datalist.forEach((item, i) => {
-                                if (item1.id == item.estateId) {
-                                    this.$set(item, 'quarters', item1.alias);
-                                    this.$set(item, 'quartersAdd', item1.address);
-                                }
-                            });
-                        })
+                        if (response.data.info.length!=0) {
+                            response.data.info.forEach(item1 => {
+                                this.datalist.forEach((item, i) => {
+                                    if (item1.id == item.estateId) {
+                                        this.$set(item, 'quarters', item1.alias);
+                                        this.$set(item, 'quartersAdd', item1.address);
+                                    }
+                                });
+                            })
+                        }
                     })
                     .catch(error => {
                         console.log(error);
@@ -185,10 +187,12 @@
                         data: dielArr,
                     })
                     .then(response => {
-                        this.datalist.forEach(item => {
-                            this.orderState = response.data.info[item.id]
-                            this.$set(item, 'orderState', this.orderState)
-                        });
+                        if (this.datalist) {
+                            this.datalist.forEach(item => {
+                                this.orderState = response.data.info[item.id]
+                                this.$set(item, 'orderState', this.orderState)
+                            });
+                        }
                     })
                     .catch(error => {
                         console.log(error);
