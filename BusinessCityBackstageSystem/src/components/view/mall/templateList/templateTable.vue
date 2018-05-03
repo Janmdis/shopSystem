@@ -125,7 +125,7 @@ export default {
         handleSee(index, row,event){ // 浏览某个模板
           let templateId = row.templateID
           //给后台设置浏览的ID
-         window.location.href = this.changeURLArg(window.location.href,'id',templateId)
+         history.pushState(null,null,this.changeURLArg(window.location.href,'id',templateId));
          this.iframeLink = this.apis+"navBottom?id="+templateId
           document.getElementById('dialog').style.display = 'block';
           this.autoCenter(document.getElementById('dialog'));
