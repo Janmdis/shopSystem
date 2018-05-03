@@ -13,7 +13,7 @@
         <el-table-column label="客户类型">
             <template slot-scope='scope'>
                                     <span >
-                                   {{getMember(scope.row.categoryId, memberInfo.info)}}
+                                  <!-- {{getMember(scope.row.categoryId, memberInfo.info)}}!-->
                                     </span>
 </template>
         </el-table-column>
@@ -39,7 +39,7 @@
         label="来源">
 <template slot-scope='scope'>
     <span>
-                        {{getMember(scope.row.recommendedSourceId, findSource.info)}}
+                       <!-- {{getMember(scope.row.recommendedSourceId, findSource.info)}} !-->
                     </span>
 </template>
         </el-table-column>
