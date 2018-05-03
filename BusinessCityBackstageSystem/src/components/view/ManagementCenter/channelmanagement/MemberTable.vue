@@ -269,8 +269,9 @@ export default {
         },
         createercode(row){
             let id=row.id;
-            let url='http://101.89.175.155:8777/customer/resource/qrCode.png?content=http://101.89.175.155:81/invitingGift?recommendedAdminId='+id;
-            this.$root.$emit('qrcode',url);
+            let url='http://101.89.175.155:81/invitingGift?recommendedAdminId='+id
+            let url_code='http://101.89.175.155:8887/customer/resource/qrCode.png?content='+escape(url);
+            this.$root.$emit('qrcode',url_code);
         }
     },
     beforeDestroy(){
