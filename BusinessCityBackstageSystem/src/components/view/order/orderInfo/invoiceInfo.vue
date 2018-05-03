@@ -258,14 +258,15 @@
                 const isGIF = file.type === 'image/gif';
                 const isPNG = file.type === 'image/png';
                 const isBMP = file.type === 'image/bmp';
+                const isPdf = file.type === 'application/pdf';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-                if (!isJPG && !isGIF && !isPNG && !isBMP) {
-                    this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
+                if (!isJPG && !isGIF && !isPNG && !isBMP && !isPdf) {
+                    this.$message('上传图片必须是JPG/GIF/PNG/BMP/PDF 格式!');
                 }
                 if (!isLt2M) {
-                    this.common.errorTip('上传图片大小不能超过 2MB!');
+                    this.$message('上传图片大小不能超过 2MB!');
                 }
-                return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
+                return (isJPG || isBMP || isGIF || isPNG || isPdf) && isLt2M;
             }
         }
     }

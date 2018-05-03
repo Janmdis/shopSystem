@@ -15,7 +15,7 @@
                             <ul>
                                 <li>退款金额：{{thisData.refundMoney}}</li>
                                 <li>退款原因：{{thisData.refundExplanation}}</li>
-                                 <li v-if='briefReason'>驳回原因：{{briefReason}}</li>
+                                <li v-if='briefReason'>驳回原因：{{briefReason}}</li>
                             </ul>
                         </el-col>
                         <el-col :span='12'>
@@ -34,8 +34,12 @@
                             <el-button @click='Bhuixi'>驳&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
                         </el-col>
                     </el-col>
+                   <div class='invoiceState'>
+                        <span class='rotates'>{{playState}}</span>
+                    </div>
                 </el-row>
             </div>
+             
             <div class="payMain">
                 <ul class="main-des">
                     <li v-for="(info,index) in dataList" :key="index">
@@ -54,7 +58,7 @@
                 </el-col>
             </el-row>
             <el-row v-if='titles=="驳回"' style='text-align: center;'>
-                <span>驳回理由：</span> <textarea v-model="Reject" style='width:80%;min-height:80px;padding:10px;resize:none;border-radius:5px;' auto-complete="off"></textarea>
+                 <span>驳回理由：</span>   <textarea v-model="Reject" style='width:80%;min-height:80px;padding:10px;resize:none;border-radius:5px;' auto-complete="off"></textarea>
             </el-row>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="invosiceBox = false">取 消</el-button>
@@ -65,23 +69,26 @@
 </template>
 <script>
     export default {
-        props: ['memberId', 'orders'],
+        props: ['memberId','orders'],
         data() {
             return {
                 memberIde: '',
-                thisData: '',
-                letinvoice: 0,
-                rejects: false,
-                 applyRefundTime:'',
+                thisData:'',
+                letinvoice:0,
+                rejects:false,
+                applyRefundTime:'',
                 briefReason:'',
-                invosiceBox: false,
-                titles: '',
-                Reject: '',
-                dataList: [],
+                invosiceBox:false,
+                titles:'',
+                Reject:'',
+                playState:'',
+                dataList: [
+                ],
                 formLabelWidth: '120px'
             }
         },
         created() {
+            
             this.memberIde = this.memberId;
             this.$root.$on('loadFn', data => {
                 this.searchInfo();
@@ -89,42 +96,48 @@
             this.getDataInfo()
         },
         methods: {
-            getDataInfo() {
-                let orderId = sessionStorage.getItem("orderId");
-                console.log(orderId)
-                let url = '/api/product/order/mall/find';
-                this.$http({
-                    url: url,
-                    method: 'post',
-                    data: {
-                        number: orderId
-                    }
-                }).then((msg) => {
-                    let data = msg.data.info.list[0];
-                    if (msg.data.info.list[0].orderDetails) {
-                        msg.data.info.list[0].orderDetails.forEach((item, index) => {
-                            this.letinvoice += item.conversionAmount
-                        })
-                    }
-                    this.thisData = data;
-                     this.applyRefundTime = data.applyRefundTime
+            getDataInfo(){
+               let orderId = sessionStorage.getItem("orderId");
+               console.log(orderId)
+               let url = '/api/product/order/mall/find';
+               this.$http({
+                   url:url,
+                   method:'post',
+                   data:{
+                       number:orderId
+                   }
+               }).then((msg)=>{
+                   let data = msg.data.info.list[0];
+                   
+                   if(msg.data.info.list[0].orderDetails){
+                       msg.data.info.list[0].orderDetails.forEach((item,index)=>{
+                           this.letinvoice+=(item.conversionAmount-0)
+                       })
+                   }
+                   
+                   this.thisData = data;
+                   this.applyRefundTime = data.applyRefundTime
                    this.briefReason = data.briefReason
-                    let retype = ''
-                    if (data.payType == 1) {
-                        retype = '支付宝'
-                    } else if (data.payType == 2) {
-                        retype = '微信'
-                    } else {
+                   let retype = ''
+                   if(data.payType==1){
+                       retype = '支付宝'
+                   }else if(data.payType==2){
+                       retype = '微信'
+                   }else{
                         retype = '管家代收'
-                    }
-                    this.dataList.push({
-                        'payTime': data.createTime,
-                        'payMoney': data.paidMoney,
-                        'payWay': retype
-                    })
-                }).catch((err) => {
-                    console.log(err)
-                })
+                   }
+                   if(data.orderState==7){
+                       this.playState = '驳回'
+                   }else if(data.orderState==5){
+                        this.playState = '已完成'
+                   }else{
+                       this.playState = '未处理'
+                   }
+                   
+                   this.dataList.push({'payTime':data.createTime,'payMoney':data.paidMoney,'payWay':retype})
+               }).catch((err)=>{
+                   console.log(err)
+               })
             },
             searchInfo() {
                 let that = this;
@@ -142,7 +155,7 @@
                 this.invosiceBox = true;
                 this.titles = "确认退款"
             },
-            Bhuixi() {
+            Bhuixi(){
                 this.invosiceBox = true;
                 this.titles = "驳回"
             },
@@ -169,6 +182,7 @@
                                 type: 'warning'
                             });
                         }
+                        this.getDataInfo()
                         this.invosiceBox = false;
                     }).catch((err) => {
                         console.log(err)
@@ -192,6 +206,7 @@
                                 type: 'success'
                             });
                         }
+                        this.getDataInfo()
                         // if(msg.data.info.desc == false) {
                         //     this.$message({
                         //         message: msg.data.msg,
@@ -206,12 +221,38 @@
                 }
             }
         }
+    
     }
 </script>
 <style lang="less">
     #payInfo {}
 </style>
 <style scoped lang="less">
+    .invoiceState {
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            top: 10px;
+            left: 80%;
+            width: 66px;
+            height: 66px;
+            line-height: 70px;
+            border-radius: 50px;
+            background: #ddd;
+            color: #777;
+            border: 1px solid #666;
+        }
+        .rotates {
+            display: block;
+            transform: rotate(-7deg);
+            -ms-transform: rotate(-7deg);
+            /* IE 9 */
+            -moz-transform: rotate(-7deg);
+            /* Firefox */
+            -webkit-transform: rotate(-7deg);
+            /* Safari 和 Chrome */
+            -o-transform: rotate(-7deg);
+        }
     .tukOrderBox {
         width: 600px;
         padding: 20px;
@@ -219,9 +260,9 @@
         li {
             line-height: 30px;
         }
-        h2 {
-            font-size: 26px;
-            line-height: 60px;
+        h2{
+            font-size:26px;
+            line-height:60px;
         }
     }
     #payInfo {
