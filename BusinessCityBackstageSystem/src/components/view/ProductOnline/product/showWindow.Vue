@@ -512,6 +512,7 @@
                     }).then(res => {
                         console.log(res.data.msg);
                         this.$root.$emit('getDatezdy', 1)
+                        this.ruleForm.productImage = [];
                     }).catch(err => {
                         console.log(err)
                     });
