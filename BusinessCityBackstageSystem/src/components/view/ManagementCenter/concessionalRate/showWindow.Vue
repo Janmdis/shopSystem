@@ -380,14 +380,14 @@
                                     this.option(response.data.msg, 'success');
                                     this.handleClose();
                                     this.ruleForm.showBoxArrId = [], //商品分类
-                                        this.ruleForm.shopShowBoxArrId = [], //商品分类
-                                        this.ruleForm.addTextArrObjArr = []
+                                    this.ruleForm.shopShowBoxArrId = [], //商品分类
+                                    this.ruleForm.addTextArrObjArr = []
                                     this.dialogVisible = false;
                                     this.$root.$emit('getDatezdy', 1)
                                 })
                                 .catch(error => {
                                     console.log(error);
-                                    alert('网络错误，不能访问');
+                                    // alert('网络错误，不能访问');
                                 })
                         } else {
                             console.log('error submit!!');
@@ -396,6 +396,7 @@
                     });
                 }
                 if (this.ruleForm.textInfo == "编辑优惠劵") {
+                    console.log(this.ruleForm.dataObj)
                     that.$refs[formName].validate((valid) => {
                         this.onChange();
                         if (valid) {
@@ -415,7 +416,7 @@
                                 })
                                 .catch(error => {
                                     console.log(error);
-                                    alert('网络错误，不能访问');
+                                    // alert('网络错误，不能访问');
                                 })
                         } else {
                             console.log('error submit!!');
@@ -469,7 +470,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        // alert('网络错误，不能访问');
                     })
             },
             getAdds(name, id) {
@@ -521,7 +522,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        // alert('网络错误，不能访问');
                     })
             },
             selectDown: function() {
@@ -561,12 +562,13 @@
                         couponStyle: this.ruleForm.couponStyle, //样式
                         fullAmount: this.ruleForm.fullAmount, //满减的金额
                         couponName: this.ruleForm.couponName, //优惠卷名称
-                        explains: this.ruleForm.explain, //优惠券说明
+                        explains: this.ruleForm.explains, //优惠券说明
                         couponCommodityList: this.ruleForm.showBoxArrId, //商品分类
                         couponCommodityCategoryList: this.ruleForm.shopShowBoxArrId //商品分类
                     }
+                    console.log(this.ruleForm.showBoxArrId)
+                    console.log(this.ruleForm.shopShowBoxArrId)
                     this.ruleForm.dataObj = this.ruleForm.oneData
-                    console.log(this.ruleForm.dataObj)
                 } else if (this.ruleForm.couponType == 1) {
                     this.isShow = true;
                     this.isNormal = false;
@@ -584,7 +586,7 @@
                         couponStyle: this.ruleForm.couponStyle, //样式
                         fullAmount: '', //满减的金额
                         couponName: this.ruleForm.couponName, //优惠卷名称
-                        explains: this.ruleForm.explain, //优惠券说明
+                        explains: this.ruleForm.explains, //优惠券说明
                         couponCommodityList: this.ruleForm.showBoxArrId, //商品分类
                         couponCommodityCategoryList: this.ruleForm.shopShowBoxArrId, //商品分类
                         couponRegionList: this.ruleForm.addTextArrObjArr
@@ -611,7 +613,7 @@
                         couponMoney: this.ruleForm.couponMoney, //优惠券金额
                         couponStyle: this.ruleForm.couponStyle, //样式
                         couponName: this.ruleForm.couponName, //优惠卷名称
-                        explains: this.ruleForm.explain, //优惠券说明
+                        explains: this.ruleForm.explains, //优惠券说明
                         overlay: this.ruleForm.overlay,
                         activity: this.ruleForm.activity,
                         specials: this.ruleForm.specials
@@ -736,6 +738,7 @@
                     }
                 }
                 this.ruleForm.showBoxArr = list;
+                console.log(this.ruleForm.showBoxArr)
                 let listId = [];
                 for (let i = 0; i < this.ruleForm.showBoxArrId.length; i++) {
                     if (index != i) {
@@ -763,6 +766,7 @@
                     }
                 }
                 this.ruleForm.shopShowBoxArrId = listId;
+               
             },
         },
         created: function() {
@@ -792,8 +796,9 @@
                             this.ruleForm.couponMoney = data.couponMoney; //优惠券金额
                             this.ruleForm.couponStyle = data.couponStyle; //样式
                             this.ruleForm.couponName = data.couponName; //优惠卷名称
-                            this.ruleForm.explain = data.explains; //优惠券说明
+                            this.ruleForm.explains = data.explains; //优惠券说明
                             this.ruleForm.couponStatus = data.couponStatus; //状态
+                            this.ruleForm.fullAmount = data.fullAmount; //状态
                             this.onChange(data.couponStatus)
                             this.ruleForm.showBoxArr = data.commodityCategoryList; //商品分类
                             for (let i = 0; i < data.commodityCategoryList.length; i++) {
@@ -822,7 +827,7 @@
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            // alert('网络错误，不能访问');
                         })
                     this.dialogVisible = true;
                 } else {

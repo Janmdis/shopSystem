@@ -13,7 +13,7 @@
         <el-table-column label="客户类型">
             <template slot-scope='scope'>
                                     <span >
-                                  <!-- {{getMember(scope.row.categoryId, memberInfo.info)}}!-->
+                                   {{scope.row.customerCategory.name}}
                                     </span>
 </template>
         </el-table-column>
@@ -39,7 +39,7 @@
         label="来源">
 <template slot-scope='scope'>
     <span>
-                       <!-- {{getMember(scope.row.recommendedSourceId, findSource.info)}} !-->
+                     {{scope.row.customerRecommendedSource}}
                     </span>
 </template>
         </el-table-column>
@@ -213,6 +213,7 @@
                         data: this.data,
                     })
                     .then(response => {
+                    
                         that.listLoading = false
                         that.datalist = (response.data.info.list);
                         console.log(that.datalist)

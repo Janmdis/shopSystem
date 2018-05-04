@@ -41,7 +41,7 @@
         label="数量">
         </el-table-column>
         <el-table-column
-        prop="fullAmount"
+        prop="couponMoney"
         label="数额">
         </el-table-column>
         <el-table-column
