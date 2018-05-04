@@ -629,7 +629,7 @@ export default {
                     if(data.originalPriceMoney || data.originalPricePoint){
                         that.pointsDeduction = true
                         that.pointsNum = data.originalPricePoint
-                        that.pointsMoney = data.originalPriceMoney  //需要一个字段来保存 积分抵扣了多少钱
+                        that.pointsMoney =data.originalPrice - data.originalPriceMoney  //需要一个字段来保存 积分抵扣了多少钱
                     }else{
                         that.pointsDeduction = false
                     }
