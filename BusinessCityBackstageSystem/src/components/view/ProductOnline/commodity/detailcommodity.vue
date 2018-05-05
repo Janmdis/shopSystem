@@ -458,7 +458,7 @@ export default {
                 ]
             },
             specificationName:'',
-            dynamicTags:['规格一', '规格二', '规格三'],
+            dynamicTags:['规格一', '规格二'],
             specificationArr:[],
             inputVisible: false,
             inputValue: '',
@@ -503,7 +503,7 @@ export default {
     methods:{
         addOptions(){
             this.specificationName = ''
-            this.dynamicTags = ['规格一', '规格二', '规格三']
+            this.dynamicTags = ['规格一', '规格二']
             setTimeout(() => {
                 this.addOptionsShow = true
                 
@@ -526,7 +526,7 @@ export default {
             this.dynamicTags.forEach(item=>{
                 arr.push(item);
             })
-           // console.log(arr);
+            //console.log(arr);
             let obj = {
                 name:this.specificationName,
                 value:arr,
@@ -534,10 +534,14 @@ export default {
                 inputValues:'',
                 tagIsUpdata:false
             }
+           // console.log(this.specificationArr)
+            if(this.specificationArr == null |this.specificationArr == 'null'){
+                this.specificationArr = []
+            }
             this.specificationArr.push(obj)
-            console.log(this.specificationArr)
+           // console.log(this.specificationArr)
             this.specificationName = ''
-            this.dynamicTags = ['规格一', '规格二', '规格三']
+            this.dynamicTags = ['规格一', '规格二']
         },
         //添加规格
         handleClose(tag) {
