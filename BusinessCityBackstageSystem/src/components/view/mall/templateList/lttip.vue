@@ -55,7 +55,10 @@ export default {
                 // this.$root.$emit('editdialog');
                 // this.$root.$emit("showWindow",this.dataInfo)
                 //console.log(this.dataInfo)
-                this.$store.dispatch('editTemplate',this.dataInfo)
+                 let datas = JSON.stringify(this.dataInfo)
+                window.sessionStorage.setItem ("Template_AllData",datas);
+                window.sessionStorage.setItem('Template_Type',1)
+               //this.$store.dispatch('editTemplate',this.dataInfo)
                 this.$router.push({ path: '/mallSet' })
             }
         },

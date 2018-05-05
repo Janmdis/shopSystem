@@ -634,6 +634,29 @@ export default {
                         that.pointsDeduction = false
                     }
                     // console.log(that.formmsg.categoryId);
+                    let url = '/api/product/mall/template/query?page=1&pageSize=10';
+                    let detailTemplateIds = data.detailTemplateId
+                            that.$http({
+                                url: url,
+                                method: 'POST',
+                                // 请求体重发送的数据
+                                // headers: { 'Content-Type': 'application/json' },
+                                data:{
+                                    'templateID':detailTemplateIds,
+                                    'templateType':3
+                                },
+                            })
+                            .then(response => {
+                               // console.log(response)
+                                if(response.data.info.list.length == 0){
+                                }else{
+                                    that.formmsg.detailTemplateInfoName = response.data.info.list[0].templateName
+                                }
+                        })
+                        .catch(error=>{
+                            console.log(error);
+                            alert('网络错误，不能访问');
+                        })
                 }
                 else{
                     that.$message(response.data.msg);

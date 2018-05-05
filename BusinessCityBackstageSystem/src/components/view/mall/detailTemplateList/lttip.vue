@@ -30,7 +30,7 @@ export default {
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
-            //console.log(data)
+            //console.log(data.datas[0])
             this.dataInfo = data.datas[0]
             this.dataArr = data.datas
             var dom=document.getElementsByClassName('emendation')[0];
@@ -40,8 +40,8 @@ export default {
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
             dom.style.left=data.show?'0px':'-900px';
             dom_edit.style.cursor=data.editcan?'':'not-allowed';
-            dom_browse.style.cursor=data.editcan?'':'not-allowed';
-            dom_swicthTrue.style.cursor=data.editcan?'':'not-allowed';
+            // dom_browse.style.cursor=data.editcan?'':'not-allowed';
+           // dom_swicthTrue.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
     },
@@ -51,7 +51,10 @@ export default {
                 // this.$root.$emit('editdialog');
                 // this.$root.$emit("showWindow",this.dataInfo)
                 //console.log(this.dataInfo)
-                this.$store.dispatch('editTemplate',this.dataInfo)
+                let datas = JSON.stringify(this.dataInfo)
+                window.sessionStorage.setItem ("Template_AllData",datas);
+                window.sessionStorage.setItem('Template_Type',3)
+                //this.$store.dispatch('editTemplate',datas)
                 this.$router.push({ path: '/mallSet' })
             }
         },
@@ -61,7 +64,12 @@ export default {
             let arrLength = this.dataArr.length;
             let newArr = [];
             for(let i = 0;i< arrLength;i++){
-                newArr.push(this.dataArr[i].templateID)
+                if(this.dataArr[i].isEnabled){
+                    this.$message('请删除已停用的模板！')
+                    return false
+                }else{
+                    newArr.push(this.dataArr[i].templateID)
+                }
             }
             this.$confirm('确定删除这 '+arrLength+'项吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})

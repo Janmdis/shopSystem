@@ -35,7 +35,7 @@
                     <el-table-column
                     label="模板状态">
                     <template slot-scope="scope">
-                        <span :class="templateStaussColor == true?'templateStausColorGreen':templateStaussColor == false?'templateStausColorRed':''" :templateStaus="templateStu(scope.row.templateID)">{{ templateStauss }}</span>
+                        <span :class="scope.row.isEnabled == true?'templateStausColorGreen':scope.row.isEnabled == false?'templateStausColorRed':''">{{ scope.row.isEnabled?'启用':'停用' }}</span>
                     </template>
                     </el-table-column>
                     <el-table-column
@@ -84,9 +84,7 @@
             listgoods:[],
             loading:true,
             input:'',
-            templateStaussColor:'',
             proTemplate:'',
-            templateStauss:'...',
         };
     },
     methods: {
@@ -106,14 +104,6 @@
                         that.pages=data.pageSize;
                         that.total=data.total;
                         that.currentPage=data.pageNum;
-                        let templateIdArr = [];
-                        let dataArr = response.data.info.list
-                       // console.log(dataArr)
-                        for(let i = 0;i<dataArr.length;i++){
-                            templateIdArr.push(dataArr[i].templateID)
-                        }
-                       //  console.log(templateIdArr)
-                        that.getProduct(templateIdArr)
                     }
                     else{
                         that.$message(response.data.msg);
@@ -180,42 +170,6 @@
                     this.dialogVisibless = false;
                 }
           },
-          getProduct(templateIdArr){
-                let that = this;
-                let url = '/product/commodity/info/queryListByDetailTemplateIds'
-                this.$http.post('/api/product/commodity/info/queryListByDetailTemplateIds',
-                templateIdArr
-                ).then(res => {
-                // console.log(res)
-                    let templateIdArrs = [];
-                    let productArr = res.data.info
-                    if(productArr.length == 0){
-                        this.templateStauss = '停用中'
-                    }
-                    for(let i = 0;i<productArr.length;i++){
-                        templateIdArrs.push(productArr[i].detailTemplateId)
-                    }
-                    //console.log(templateIdArrs)
-                    that.proTemplate = templateIdArrs
-                }).catch(error => {
-                    console.log(error)
-                })
-            },
-          templateStu(id){
-          //console.log(id)
-           let ids = id
-           let arr = this.proTemplate
-           //console.log(arr)
-            for(let i=0;i<arr.length;i++){
-                if(ids == arr[i]){
-                    this.templateStaussColor = true
-                    return this.templateStauss = '启用中'
-                }else{
-                     this.templateStauss = '停用中'
-                     this.templateStaussColor = false
-                }
-            }
-        }
     },
     created:function(){
             this.$root.$on('opendialogSelectDetail',(status) =>{
