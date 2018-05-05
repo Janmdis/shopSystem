@@ -20,9 +20,8 @@
                <i class="icon iconfont icon-lingdang"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item >消息提醒1</el-dropdown-item>
-              <el-dropdown-item divided>消息提醒2</el-dropdown-item>
-              <el-dropdown-item divided>消息提醒3</el-dropdown-item>
+              <el-dropdown-item v-for='(item,index) in dataInfo' :key='index' >{{item.title }}</el-dropdown-item>
+              <el-dropdown-item divided v-if='dataInfo.length>6' style='text-align:center;'>...</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </li>
