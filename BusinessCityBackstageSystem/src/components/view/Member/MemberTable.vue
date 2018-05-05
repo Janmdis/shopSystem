@@ -5,21 +5,22 @@
         <el-table-column fixed type="selection" width="55">
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
-                            </el-table-column> -->
+                                </el-table-column> -->
         <el-table-column prop="name" fixed width='200' label="客户姓名">
         </el-table-column>
         <el-table-column prop="mobile" width='120' label="手机号">
         </el-table-column>
         <el-table-column label="客户类型">
             <template slot-scope='scope'>
-                                    <span >
-                                   {{scope.row.customerCategory.name}}
-                                    </span>
+                                        <span >
+                                       {{scope.row.customerCategory.name}}
+                                        </span>
 </template>
         </el-table-column>
         <el-table-column
         prop='cityName'
         label="城市">
+        
         </el-table-column>
         <el-table-column
          width='300'
@@ -39,8 +40,8 @@
         label="来源">
 <template slot-scope='scope'>
     <span>
-                     {{scope.row.customerRecommendedSource}}
-                    </span>
+                         {{scope.row.customerRecommendedSource}}
+                        </span>
 </template>
         </el-table-column>
         <el-table-column
@@ -158,7 +159,7 @@
                         data: idBox,
                     })
                     .then(response => {
-                        if (response.data.info.length!=0) {
+                        if (response.data.info.length != 0) {
                             response.data.info.forEach(item1 => {
                                 this.datalist.forEach((item, i) => {
                                     if (item1.id == item.estateId) {
@@ -213,7 +214,6 @@
                         data: this.data,
                     })
                     .then(response => {
-                    
                         that.listLoading = false
                         that.datalist = (response.data.info.list);
                         console.log(that.datalist)
