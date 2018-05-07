@@ -72,7 +72,7 @@
 import Lttip from './lttip.vue'
 import orderinvoice from './invoice/OrderInfo.vue'
 export default {
-    components:{Lttip},
+    components:{Lttip,orderinvoice},
     data(){
         return{
             namepage:'发票管理',
@@ -148,10 +148,7 @@ export default {
         handleEdit(){
         },
         
-    },
-    components: {
-        orderinvoice
-    },
+    }
 }
 </script>
 

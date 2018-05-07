@@ -8,6 +8,7 @@
               <el-menu-item index="order">订单列表</el-menu-item>
               <el-menu-item index="refund">退款订单</el-menu-item>
               <el-menu-item index="invoice">发票管理</el-menu-item>
+              <!-- <el-menu-item index="servicetime">预约时间管理</el-menu-item>               -->
               
               
             </el-menu-item-group>
