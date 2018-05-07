@@ -39,8 +39,38 @@ const state={
 }
 const mutations={
     //新增模板
-    newAddTemplate(state){
-        let comlists = [
+    newAddTemplate(state,type){
+        let comlists;
+        if(type == '3'){
+            comlists = [
+                {
+                    componentsName:"detailsImage",
+                    componentsData:{
+                        importFileUrl:'api/zuul/sms/file/fileUpload',
+                        admin:{
+                            type:'product'
+                        },
+                        defaultImgObj:{
+                                    img: require('./../templateImage/1.jpg'),
+                                    url:'',
+                                    imgSrc:''
+                                },
+                        ImgArr:[
+                                {
+                                    img: require('./../templateImage/1.jpg'),
+                                    url:'',
+                                    imgSrc:''
+                                },{
+                                    img: require('./../templateImage/2.jpg'),
+                                    url:'',
+                                    imgSrc:''
+                                }
+                            ]
+                    }
+                }
+            ]
+        }else{
+            comlists = [
                     {
                     componentsName:"imageAds",
                     componentsData:{
@@ -71,6 +101,7 @@ const mutations={
                     }
                 }
             ]
+        }
         state.comlist = comlists
         state.templateID = null
         let templateType = sessionStorage.getItem ("Template_Type");

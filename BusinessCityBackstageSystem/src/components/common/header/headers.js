@@ -10,7 +10,8 @@ export default {
     return {
       dialogVisible: false,
       userName: '',
-      imgUrl:'',
+      imgUrl: '',
+      dataInfo:[],
       ruleForm: {
         region: '',
         newPass: ''
@@ -39,6 +40,7 @@ export default {
     }
   },
   created() {
+    this.getInfo();
     this.$root.$on('infoText', (infoText) => {
       this.which_to_show = infoText
     })
@@ -60,6 +62,21 @@ export default {
     // refn() {
     //   window.location.reload();
     // },
+    getInfo() {
+      let url = '/api/public/message/record/query';
+      this.$http({
+        url: url,
+        method: 'post',
+        data:{}
+      }).then((msg) => {
+        if (msg.data.info.list) {
+            this.dataInfo = msg.data.info.list
+        }
+        console.log(this.dataInfo)
+        }).catch((err) => {
+        console.log(err)
+      })
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

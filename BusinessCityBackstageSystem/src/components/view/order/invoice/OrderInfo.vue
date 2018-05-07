@@ -68,7 +68,7 @@
                     </ul>
                 </el-aside>
                 <el-main id="conRight">
-                    <component :is="which_to_show" :orderId="orderId" v-loading="isLoading" :dataInfo="dataInfo">
+                    <component :is="which_to_show" :orderId="orderId"  v-loading="isLoading" :dataInfo="dataInfo">
                     </component>
                 </el-main>
             </el-container>

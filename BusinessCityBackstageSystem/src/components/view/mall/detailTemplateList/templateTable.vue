@@ -35,7 +35,7 @@
         <el-table-column
         label="模板状态">
         <template slot-scope="scope">
-            <span :class="templateStaussColor == true?'templateStausColorGreen':templateStaussColor == false?'templateStausColorRed':''" :templateStaus="templateStu(scope.row.templateID)">{{ templateStauss }}</span>
+            <span :class="scope.row.isEnabled == true?'templateStausColorGreen':scope.row.isEnabled == false?'templateStausColorRed':''">{{ scope.row.isEnabled?'启用':'停用' }}</span>
         </template>
         </el-table-column>
         <el-table-column
@@ -87,12 +87,10 @@ export default {
             isBorder:false,
             datalist:[],
             proTemplate:'',
-            templateStauss:'...',
-            templateStaussColor:'',
             showLeft:0,
             pageIndex:1,
             iframeLink:'',
-            apis:'http://101.89.175.155:81/'
+            apis:'http://www.itchun.com/'
         }
     },
     created:function(){
@@ -206,7 +204,11 @@ export default {
             this.$confirm('确定删除 "'+row.templateName+'"吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
-                that.$message({
+                if(row.isEnabled){
+                    this.$message('请删除已停用的模板！')
+                    return false
+                }else{
+                    that.$message({
                     type: 'success',
                     message: '操作成功!',
                     duration:800,
@@ -219,11 +221,13 @@ export default {
                             type: 'info',
                             message: '请选择停用中的模板',
                             duration:800
-                        }); 
-                        }
-                        that.getDate(1);
-                    }).catch(err => {console.log(err)})
-                });
+                            }); 
+                            }else{
+                                that.getDate(1);
+                            }
+                        }).catch(err => {console.log(err)})
+                    });
+                }
             }).catch(() => {
                 that.$message({
                     type: 'info',
@@ -240,42 +244,6 @@ export default {
             window.sessionStorage.setItem('Template_Type',3)
             //this.$store.dispatch('editTemplate',row)
             this.$router.push({ path: '/mallSet' })
-        },
-        getProduct(templateIdArr){
-            let that = this;
-            let url = '/product/commodity/info/queryListByDetailTemplateIds'
-            this.$http.post('/api/product/commodity/info/queryListByDetailTemplateIds',
-             templateIdArr
-            ).then(res => {
-               // console.log(res)
-                let templateIdArrs = [];
-                let productArr = res.data.info
-                if(productArr.length == 0){
-                    this.templateStauss = '停用中'
-                }
-                for(let i = 0;i<productArr.length;i++){
-                    templateIdArrs.push(productArr[i].detailTemplateId)
-                }
-                //console.log(templateIdArrs)
-                that.proTemplate = templateIdArrs
-            }).catch(error => {
-                console.log(error)
-            })
-        },
-        templateStu(id){
-          //console.log(id)
-           let ids = id
-           let arr = this.proTemplate
-           //console.log(arr)
-            for(let i=0;i<arr.length;i++){
-                if(ids == arr[i]){
-                    this.templateStaussColor = true
-                    return this.templateStauss = '启用中'
-                }else{
-                     this.templateStauss = '停用中'
-                     this.templateStaussColor = false
-                }
-            }
         },
         getDate(pageIndex) {
             this.listLoading =  true;
@@ -295,14 +263,6 @@ export default {
                 //console.log(response.data.msg)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
-                let templateIdArr = [];
-                let dataArr = response.data.info.list
-                //console.log(dataArr)
-                for(let i = 0;i<dataArr.length;i++){
-                    templateIdArr.push(dataArr[i].templateID)
-                }
-               // console.log(templateIdArr)
-                this.getProduct(templateIdArr)
           })
           .catch(error=>{
               console.log(error);

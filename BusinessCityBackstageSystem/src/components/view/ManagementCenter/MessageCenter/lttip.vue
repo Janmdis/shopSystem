@@ -5,10 +5,13 @@
                 <i class="icon-double-angle-right"></i>
             </h3>
             <ul class="emendation">
-                 <li>已选中<span class="nums">0</span>项</li>
-                <li id="modificationBtn" class='other' @click="edit">
-                    <i class='el-icon-edit-outline'></i> 编辑
+                <li>已选中<span class="nums">0</span>项</li>
+                <!--<li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                    <i class='el-icon-delete'></i> 上架
                 </li>
+                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                    <i class='el-icon-delete'></i> 下架
+                </li>!-->
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
                 </li>
@@ -23,73 +26,44 @@ export default {
         return{
             listname:'',
             canedit:true,
-            dataInfo:'',
-            dataArr:''
+            dataInfo:''
         }
     },
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
-            //console.log(data.datas[0])
+            console.log(data)
             this.dataInfo = data.datas[0]
-            this.dataArr = data.datas
             var dom=document.getElementsByClassName('emendation')[0];
-             let dom_edit = document.getElementById('modificationBtn');
-             let dom_browse = document.getElementById('browseBtn');
-             let dom_swicthTrue = document.getElementById('swicthTrue');
+            // let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
-            dom.style.left=data.show?'0px':'-900px';
-            dom_edit.style.cursor=data.editcan?'':'not-allowed';
-            // dom_browse.style.cursor=data.editcan?'':'not-allowed';
-           // dom_swicthTrue.style.cursor=data.editcan?'':'not-allowed';
+            dom.style.left=data.show?'0px':'-570px';
+            // dom_edit.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
         });
     },
     methods:{
         edit(){
             if(this.canedit){
-                // this.$root.$emit('editdialog');
-                // this.$root.$emit("showWindow",this.dataInfo)
-                //console.log(this.dataInfo)
-                let datas = JSON.stringify(this.dataInfo)
-                window.sessionStorage.setItem ("Template_AllData",datas);
-                window.sessionStorage.setItem('Template_Type',3)
-                //this.$store.dispatch('editTemplate',datas)
-                this.$router.push({ path: '/mallSet' })
+                this.$root.$emit('editdialog');
+                this.$root.$emit("showWindow",this.dataInfo)
             }
+
         },
         delBox(){
             let that = this;
-           // console.log(this.dataArr)
-            let arrLength = this.dataArr.length;
-            let newArr = [];
-            for(let i = 0;i< arrLength;i++){
-                if(this.dataArr[i].isEnabled){
-                    this.$message('请删除已停用的模板！')
-                    return false
-                }else{
-                    newArr.push(this.dataArr[i].templateID)
-                }
-            }
-            this.$confirm('确定删除这 '+arrLength+'项吗?', '提示', 
+            this.$confirm('确定删除吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
                 that.$message({
                     type: 'success',
-                    message: '操作成功!',
+                    message: '删除成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/remove',
-                        newArr
+                    onClose:that.$http.post('/api/public/message/record/removeByIds',
+                        [that.dataInfo.id]
                     ).then(res => {
-                       // console.log(res.data.msg);
-                        if(res.data.msg == '删除失败'){
-                            that.$message({
-                            type: 'info',
-                            message: '请先停用该模板',
-                            duration:800
-                        }); 
-                        }
-                        that.$root.$emit('getDatezdy',1);
+                        console.log(res.data.msg);
+                        that.$root.$emit('getDatezdy');
                     }).catch(err => {console.log(err)})
                 });
             }).catch(() => {
@@ -143,7 +117,7 @@ export default {
 	margin-top: 26px;
 	position: absolute;
 	top: 0;
-	left:-900px;
+	left:-570px;
 	height: 32px;
     background: #fff;
     color: #555;

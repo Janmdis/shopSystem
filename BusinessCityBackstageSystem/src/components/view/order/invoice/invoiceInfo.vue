@@ -182,7 +182,7 @@
                 this.$http({
                     url: url,
                     method: 'post',
-                    data: ['1d90bd48-46ed-11e8-880b-88d7f652f92c']
+                    data: [this.orderId]
                 }).then((res) => {
                     this.dataInfo = (res.data.info.list[0])
                     let invoiceData = (res.data.info.list[0])
@@ -216,7 +216,7 @@
                     url: url,
                     method: 'post',
                     data: {
-                        id: '1d90bd48-46ed-11e8-880b-88d7f652f92c',
+                        id: this.orderId,
                         isDisallowance: true,
                         disallowanceReason: this.form.Reject,
                         category: this.invoisState
@@ -236,7 +236,7 @@
                     url: url,
                     method: 'post',
                     data: {
-                        id: '1d90bd48-46ed-11e8-880b-88d7f652f92c',
+                        id: this.orderId,
                         url: this.images,
                         category: this.invoisState
                     }

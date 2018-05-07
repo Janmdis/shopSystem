@@ -111,6 +111,11 @@ export default new Router({
                     component: resolve => require(['@/components/view/ManagementCenter/residentialquarters/residentialquarters.vue'], resolve)
                 },
                 {
+                    path: 'MessageCenter', // 消息中心
+                    name: 'MessageCenter',
+                    component: resolve => require(['@/components/view/ManagementCenter/MessageCenter/MessageCenter.vue'], resolve)
+                },
+                {
                     path: 'knowledgeBase', // 知识库
                     name: 'knowledgeBase',
                     component: resolve => require(['@/components/view/ManagementCenter/knowledgeBase/knowledgeBase.vue'], resolve)

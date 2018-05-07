@@ -106,7 +106,7 @@ import qs from 'qs'
                             window.sessionStorage.setItem ("Template_Type",this.ruleForm.type);//新建模板分类
                             window.sessionStorage.setItem ("Template_Names",this.ruleForm.templateName);//新建模板名称
                             window.sessionStorage.setItem ("Template_Des",this.ruleForm.mode);//新建模板描述
-                            let row ={isNewAdd:'1'}
+                            let row ={isNewAdd:'1',type:'3'}
                             let rows = JSON.stringify(row)
                             window.sessionStorage.setItem ("Template_AllData",rows);
                             this.$refs[formName].resetFields();

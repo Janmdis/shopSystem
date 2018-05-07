@@ -1,6 +1,7 @@
 <template>
     <el-table
     :data="datalist"
+    :border="isBorder"
     @selection-change='showextra'
     @cell-click='showMemberInfo'
     :default-sort = "{prop: 'date', order: 'descending'}"
@@ -9,125 +10,127 @@
     style="width: 100%"
     height='500'>
     <el-table-column
-    fixed 
+    fixed
     type="index"
     label="N"
     :index="indexMethod">
     </el-table-column>
         <el-table-column
         fixed
-        type="selection"
-        width="55" >
+        type="selection" >
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column> -->
         <el-table-column
-        width='200'
-        prop="couponName"
-        label="优惠劵名称">
+        prop="title"
+        label="标题"
+        >
         </el-table-column>
         <el-table-column
-        prop="starTime"
-        width='200'
-        label="使用时间">
-        </el-table-column>
-         <el-table-column
-        prop="endTime"
-        width='200'
-        label="结束时间">
+        prop="content"
+        label="内容">
         </el-table-column>
         <el-table-column
-        prop="couponAmount"
-        label="数量">
-        </el-table-column>
-        <el-table-column
-        prop="couponMoney"
-        label="数额">
-        </el-table-column>
-        <el-table-column
-        prop="explain"
-        label="说明">
-        </el-table-column>
-        <el-table-column
-        label="类型">
+        label="阅读状态">
             <template slot-scope="scope">
-                <span >{{scope.row.couponType==0?'满减':scope.row.couponType==1?"专享":'无门槛'}}</span>
+                {{scope.row.isRead==true?"未读":'已读'}}
             </template>
         </el-table-column>
         <el-table-column
-        label="状态">
-        <template slot-scope="scope">
-                <span >{{scope.row.couponStatus==0?'过期':scope.row.couponStatus==1?"可使用":''}}</span>
+        label="接收者展示">
+            <template slot-scope="scope">
+                {{scope.row.isDisplay==true?"不展示":'展示'}}
             </template>
         </el-table-column>
-        <el-table-column 
-        fixed="right"
-        width='120'
+        <el-table-column
+        prop="types"
         label="操作">
-            <template slot-scope="scope" >
-                <el-button type="text" size="small" @click="handleEdit(scope.row)">编辑</el-button>
-                <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
-            </template>
-        </el-table-column>
+         <template slot-scope="scope">
+            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+            <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
+        </template>
+        </el-table-column> 
     </el-table>
 </template>
 <script>
-/ eslint-disable /
+/* eslint-disable */
 //@row-click="showMemberInfo()"
 export default {
     prop:['listLoading'],
     data(){
         return {
+            isBorder:false,
             datalist:[],
             showLeft:0,
-            pageIndex:1,
-            data:{
-                couponName:null,
-                couponType:null,
-                couponStatus:null,
-                starTime:null,
-                endTime:null
-            }
+            pageIndex:1
         }
     },
     created:function(){
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
-            this.getDate(this.pageIndex)
+            this.getDate(this.pageIndex,{})
         })
-        this.getDate(1)
+        this.getDate(1,{})
         this.$root.$on('getDatezdy',(data)=>{
-             this.getDate( data)
+             this.getDate(data,{});
         })
         this.$root.$on('dataListBox',(data)=>{
             this.datalist = data
         })
         this.$root.$on('search',(datas)=>{
-            // console.log(datas);
-            this.data.couponName=datas.coupon.couponName===''?null:datas.coupon.couponName;
-            this.data.couponType=datas.coupon.couponType===''?null:datas.coupon.couponType;
-            this.data.couponStatus=datas.coupon.couponStatus===''?null:datas.coupon.couponStatus;
-            this.data.starTime=datas.coupon.daterange?Date.parse(datas.coupon.daterange[0]):null;
-            this.data.endTime=datas.coupon.daterange?Date.parse(datas.coupon.daterange[1]):null;
-            // console.log(this.data);
-            this.getDate(1);
+            let data={
+                name:datas.name,
+                alias:datas.alias
+            };
+            // console.log(data);
+            this.getDate(1,data);
         })
     },
     methods:{
-        getDate(pageIndex) {
+        handleDelete(index, row,event) { //  删除某一种产品
+            let that = this;
+            console.log(row);
+            this.$confirm('确定删除吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/public/message/record/removeByIds',
+                        [row.id]
+                    ).then(res => {
+                        console.log(res.data.msg);
+                        that.getDate(1,{});
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消删除',
+                    duration:800
+                });          
+            });   
+        },
+        handleEdit(index, row,event) {
+            this.$root.$emit('showWindowss',{type:'yes',rowData:row});
+        },
+        getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/product/coupon/info/find?pageNo='+pageIndex+'&pageSize=10';
+            let url = '/api/public/message/record/query?page='+pageIndex+'&pageSize=10'
             this.$http({
                 url: url,
-                method: 'POST',
+                method: 'post',
                 // 请求体重发送的数据
-                headers: { 'Content-Type': 'application/json' },
-                data:this.data,
+                // headers: { 'Content-Type': 'application/json' },
+                data:{},
             })
             .then(response => {
+
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                console.log(response.data.msg)
+                this.$root.$emit('output',this.datalist);
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })
@@ -161,13 +164,6 @@ export default {
         indexMethod(index) {
             return index + 1
         },
-        handleEdit(row){
-            // console.log(row);
-            this.$root.$emit("showWindow",[row])
-        },
-        handleDelete(row){
-            this.$root.$emit("delBox",[row])
-        }
     },
     beforeDestroy(){
         this.$root.$off('pageIndex');
@@ -175,6 +171,5 @@ export default {
         this.$root.$off('dataListBox');
         this.$root.$off('search');
     }
-
 }
 </script>

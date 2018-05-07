@@ -275,7 +275,7 @@
                 }else{
                     let dataids = this.dataid;
                     let index = this.indexs;
-                    let inputs = '10.1.1.213/detailTemplate?id='+this.input;
+                    let inputs = 'http://www.itchun.com/detailTemplate?id='+this.input;
                     let type = this.typess;
                     // alert(dataids)
                     // alert(index)

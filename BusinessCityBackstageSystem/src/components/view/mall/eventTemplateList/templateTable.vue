@@ -87,7 +87,7 @@ export default {
             showLeft:0,
             pageIndex:1,
             iframeLink:'',
-            apis:'http://101.89.175.155:81/'
+            apis:'http://www.itchun.com/'
         }
     },
     created:function(){

@@ -38,6 +38,7 @@ export default {
             which_to_show: '',
             default1: true,
             orderId: '',
+            orderIds:'',
             pageNum: 1,
             pageSize: 3,
             typeWord: '',
@@ -51,13 +52,13 @@ export default {
         });
         this.isShow('发票信息');
         this.$root.$on('searchOrderInfo', data => { //  获取用户信息方法
-            console.log(data)
-            // this.searchInfo(data[0]);
-            // this.orderId = data[0];
-            // this.order = data[1];
+            console.log(data[0])
+            this.searchInfo(data[0]);
+            this.orderId = data[0];
+            this.order = data[1];
             // console.log(data[1])
-            // sessionStorage.setItem("orderId",data[1].number)
-            // this.upData();
+            sessionStorage.setItem("orderId",data[1].number)
+            this.upData();
         });
         this.$root.$on('orderCoverShow', (left) => { //  显示侧滑框的方法
             var left1 = 100;

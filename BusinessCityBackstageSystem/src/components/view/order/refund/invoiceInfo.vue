@@ -99,7 +99,7 @@
             <el-col :span='16' class=''>
                 <el-col :span='3' :offset='2'>备注：</el-col>
                 <el-col :span='18'>
-                    <textarea readonly='readonly' class='textareaName'>{{dataInfo.remark}}</textarea>
+                    <textarea readonly='readonly' class='textareaName'>{{dataInfo}}</textarea>
                 </el-col>
             </el-col>
         </el-row>
@@ -112,7 +112,14 @@
                     <el-button v-if='invoisState==22' @click='showInvoice'>上传单号</el-button>
                 </el-col>
                 <el-col :span="8" v-if='invoisState!=22'>
-                    <el-upload class="cavatar-uploader" :action="importFileUrl" :show-file-list="false" :data="urlImg" name='fileUpload' :type='admin' :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                    <el-upload class="cavatar-uploader" 
+                    :action="importFileUrl" 
+                    :show-file-list="false" 
+                    :data="urlImg" 
+                    name='fileUpload' 
+                    :type='admin' 
+                    :on-success="handleAvatarSuccess" 
+                    :before-upload="beforeAvatarUpload">
                         上传发票
                     </el-upload>
                 </el-col>
@@ -182,13 +189,12 @@
                 this.$http({
                     url: url,
                     method: 'post',
-                    data: ['1d90bd48-46ed-11e8-880b-88d7f652f92c']
+                    data: [this.orderId]
                 }).then((res) => {
-                    this.dataInfo = (res.data.info.list[0])
+                    if(res.data.info.list[0]){
+                        this.dataInfo = (res.data.info.list[0])
                     let invoiceData = (res.data.info.list[0])
-                    console.log(this.dataInfo)
                     this.invoisState = this.dataInfo.category
-                    console.log(invoiceData.isDisallowance == null)
                     if (invoiceData.isDisallowance == null) {
                         this.invoiceType = "未处理"
                     } else if (invoiceData.isDisallowance != true) {
@@ -198,6 +204,8 @@
                     } else {
                         this.invoiceType = "驳回"
                     }
+                    }
+                    
                 }).catch((err) => {
                     console.log(err)
                 })
@@ -218,7 +226,7 @@
                     url: url,
                     method: 'post',
                     data: {
-                        id: '1d90bd48-46ed-11e8-880b-88d7f652f92c',
+                        id: this.orderId,
                         isDisallowance: true,
                         disallowanceReason: this.form.Reject,
                         category: this.invoisState
@@ -238,7 +246,7 @@
                     url: url,
                     method: 'post',
                     data: {
-                        id: '1d90bd48-46ed-11e8-880b-88d7f652f92c',
+                        id: this.orderId,
                         url: this.images,
                         category: this.invoisState
                     }
@@ -252,6 +260,7 @@
                 console.log(this.imageUrl)
             },
             beforeAvatarUpload(file) {
+                console.log(file.type)
                 const isJPG = file.type === 'image/jpeg';
                 const isGIF = file.type === 'image/gif';
                 const isPNG = file.type === 'image/png';

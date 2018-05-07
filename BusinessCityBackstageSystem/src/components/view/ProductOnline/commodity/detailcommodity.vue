@@ -51,8 +51,120 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
+                        <el-form-item label="商品规格：" prop='options'>
+                            <!-- <el-input type="textarea" v-model="formmsg.options" ></el-input> -->
+                            <transition name="fade">
+                            <el-button type="primary" @click="addOptions" v-if="addOptionBtn">添加规格</el-button>
+                            </transition>
+                            <transition name="fade">
+                                <el-col :span='24' v-if="addOptionsShow" style="padding: 10px 10px;border-radius: 5px;border: 1px solid #c0c4cc;">
+                                    <el-col :span='24'>
+                                        <el-col :span='4'>规格名称：</el-col>
+                                        <el-col :span='8'>
+                                            <el-input v-model="specificationName"></el-input>
+                                        </el-col>
+                                    </el-col>
+                                    <el-col :span='24'>
+                                        <el-col :span='4' style="padding-left: 14px;">规格值：</el-col>
+                                        <el-col :span='20'>
+                                            <el-tag
+                                            :key="tag"
+                                            v-for="tag in dynamicTags"
+                                            closable
+                                            :disable-transitions="false"
+                                            @close="handleClose(tag)">
+                                            {{tag}}
+                                            </el-tag>
+                                            <el-input
+                                            class="input-new-tag"
+                                            v-if="inputVisible"
+                                            v-model="inputValue"
+                                            ref="saveTagInput"
+                                            size="small"
+                                            @keyup.enter.native="handleInputConfirm"
+                                            @blur="handleInputConfirm"
+                                            >
+                                            </el-input>
+                                            <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新 规格值</el-button>
+                                        </el-col>
+                                    </el-col>
+                                    <el-col :span='24' style="margin-top: 16px;">
+                                        <el-button type="primary" @click="sureAddOptions" style="height:30px;line-height: 5px;">确认</el-button>
+                                        <el-button type="primary" @click="closeAddOptions" style="height:30px;line-height: 5px;">取消</el-button>
+                                    </el-col>
+                                </el-col>
+                            </transition>
+                            <transition name="fade">
+                                <transition-group>
+                                    <el-col :span='24' v-if="specificationArr.length == 0?false:true" v-for="(item,index) in specificationArr" :key="index" style="padding: 10px 10px;border-radius: 5px;border: 1px solid #c0c4cc;margin-top: 15px;">
+                                        <el-col :span='24'>
+                                            <el-col :span='20' style="font-size: 18px;">{{ item.name }}</el-col>
+                                            <el-col :span='4'>
+                                                <span style="font-size: 18px;"></span>
+                                                <span @click="tagUpdata(index)" style="color: #27a1f2;display:inline-block;margin-right:15px;cursor:pointer;">编辑</span>
+                                                <span @click="deleteUpdata(index)" style="color: #ff3b30;cursor:pointer;">删除</span>
+                                            </el-col>
+                                        </el-col>
+                                        <el-col :span='24'>
+                                                <el-tag
+                                                :key="tag"
+                                                v-for="tag in item.value"
+                                                :closable="item.tagIsUpdata"
+                                                :disable-transitions="false"
+                                                @close="handleCloses(tag,index)">
+                                                {{tag}}
+                                                </el-tag>
+                                                <el-input
+                                                class="input-new-tag"
+                                                v-if="item.inputVisibles"
+                                                v-model="item.inputValues"
+                                                ref=index
+                                                size="small"
+                                                @keyup.enter.native="handleInputConfirms(index)"
+                                                @blur="handleInputConfirms(index)"
+                                                >
+                                                </el-input>
+                                                <el-button v-show="item.tagIsUpdata" v-else class="button-new-tag" size="small" @click="showInputs(index)">+ New Tag</el-button>
+                                        </el-col>
+                                        <el-col :span='24' v-if="item.tagIsUpdata" style="margin-top: 16px;">
+                                            <el-button type="primary" @click="sureModifyOptions(index)" style="height:30px;line-height: 5px;">确认</el-button>
+                                            <el-button type="primary" @click="closeModifyOptions(index)" style="height:30px;line-height: 5px;">取消</el-button>
+                                        </el-col>
+                                    </el-col>
+                               </transition-group>
+                            </transition>
+                        </el-form-item>
                         <el-form-item label="描述：" prop='desc'>
                             <el-input type="textarea" v-model="formmsg.desc" ></el-input>
+                        </el-form-item>
+                        <el-form-item label="" prop=''>
+                            <el-row :gutter='20'>
+                                <el-col :span='4'>
+                                    <el-checkbox v-model="pointsDeduction">允许积分抵扣</el-checkbox>
+                                </el-col>
+                                <el-col :span='5' v-show="pointsDeduction?true:false">
+                                        <el-input v-model="pointsNum"></el-input>
+                                </el-col>
+                                <el-col :span='2' v-show="pointsDeduction?true:false" style="padding-left:0px;padding-right:0px;">
+                                        积分抵扣
+                                </el-col>
+                                <el-col :span='4' v-show="pointsDeduction?true:false">
+                                        <el-input v-model="pointsMoney"></el-input>
+                                </el-col>
+                                <el-col :span='2' v-show="pointsDeduction?true:false" style="padding-left:0px;">
+                                        元
+                                </el-col>
+                            </el-row>
+                        </el-form-item>
+                        <el-form-item label="" prop=''>
+                            <el-row :gutter='20'>
+                                <el-col :span='3'>
+                                    <el-checkbox v-model="sendPoints">送积分</el-checkbox>
+                                </el-col>
+                                <el-col :span='4' v-show="sendPoints?true:false" style="padding-left:0px;">
+                                        <el-input v-model="sendPointsNum"></el-input>
+                                </el-col>
+                            </el-row>
                         </el-form-item>
                         <el-form-item label="图片：">
                             <div class="mTop">
@@ -69,7 +181,7 @@
                                 <i class="el-icon-plus avatar-uploader-icon"></i>
                                 </el-upload>
                                 <div class='tips'>
-                                    <p>提示：1.本地上传图片大小不超过500k</p>
+                                    <p>提示：1.本地上传图片大小不超过500k，750*678像素（建议尺寸）</p>
                                     <p style='text-indent:3em;'>2.最多可上传5张图片</p>
                                 </div>
                             </div>
@@ -344,7 +456,22 @@ export default {
                 categoryId:[
                     { required: true, message: '请选择商品', trigger: 'change' }
                 ]
-            }
+            },
+            specificationName:'',
+            dynamicTags:[],
+            specificationArr:[],
+            inputVisible: false,
+            inputValue: '',
+            inputVisibles:false,
+            inputValues: '',
+            addOptionsShow:false,
+            addOptionBtn:true,
+            oldTagValue:'',
+            pointsDeduction:false,
+            pointsNum:'',
+            pointsMoney:'',
+            sendPoints:false,
+            sendPointsNum:''
         }
     },
     created(){
@@ -374,6 +501,111 @@ export default {
         })
     },
     methods:{
+        addOptions(){
+            this.specificationName = ''
+            this.dynamicTags = []
+            setTimeout(() => {
+                this.addOptionsShow = true
+                
+            }, 180);
+            this.addOptionBtn = false
+            if(this.specificationArr){
+                this.specificationArr.forEach(item =>{
+                    item.tagIsUpdata =false
+                })
+            }
+        },
+        closeAddOptions(){
+            setTimeout(() => {
+                this.addOptionBtn = true
+            }, 180);
+            this.addOptionsShow = false
+        },
+        sureAddOptions(){
+            let arr=[];
+            this.dynamicTags.forEach(item=>{
+                arr.push(item);
+            })
+            //console.log(arr);
+            let obj = {
+                name:this.specificationName,
+                value:arr,
+                inputVisibles:false,
+                inputValues:'',
+                tagIsUpdata:false
+            }
+           // console.log(this.specificationArr)
+            if(this.specificationArr == null |this.specificationArr == 'null'){
+                this.specificationArr = []
+            }
+            this.specificationArr.push(obj)
+           // console.log(this.specificationArr)
+            this.specificationName = ''
+            this.dynamicTags = []
+        },
+        //添加规格
+        handleClose(tag) {
+        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        },
+        showInput() {
+            this.inputVisible = true;
+            this.$nextTick(_ => {
+            this.$refs.saveTagInput.$refs.input.focus();
+            });
+        },
+        handleInputConfirm() {
+            let inputValue = this.inputValue;
+            if (inputValue) {
+            this.dynamicTags.push(inputValue);
+            }
+            this.inputVisible = false;
+            this.inputValue = '';
+        },
+        //规格删改
+        handleCloses(tag,index) {
+        this.specificationArr[index].value.splice(this.specificationArr[index].value.indexOf(tag), 1);
+        },
+        showInputs(index) {
+            this.specificationArr[index].inputVisibles = true;
+            this.$nextTick(_ => {
+              this.$refs.index[0].$refs.input.focus()
+            });
+        },
+        handleInputConfirms(index) {
+            let inputValues = this.specificationArr[index].inputValues;
+            if (inputValues) {
+            this.specificationArr[index].value.push(inputValues);
+            }
+            this.specificationArr[index].inputVisibles = false;
+            this.specificationArr[index].inputValues = '';
+        },
+        tagUpdata(index){
+            setTimeout(() => {
+                this.addOptionBtn = true
+            }, 180);
+            this.addOptionsShow = false
+            this.specificationArr.forEach(item =>{
+                    item.tagIsUpdata =false
+                })
+            let oldValue = JSON.stringify(this.specificationArr[index])
+            //console.log(oldValue)
+            this.oldTagValue = oldValue
+            //console.log(this.oldTagValue)
+            this.specificationArr[index].tagIsUpdata = true
+        },
+        sureModifyOptions(index){
+            this.specificationArr[index].tagIsUpdata = false
+        },
+        closeModifyOptions(index){
+            //console.log(JSON.parse(this.oldTagValue))
+            let old = JSON.parse(this.oldTagValue)
+            this.$set(this.specificationArr,index,old)
+            this.specificationArr[index].tagIsUpdata = false
+        },
+        deleteUpdata(index){
+            confirm('是否删除')
+            this.specificationArr.splice(index,1)
+        },
         // 获取商品信息
         getcommodityinfo(){
             let that=this;
@@ -391,7 +623,44 @@ export default {
                     that.formmsg.desc = data.description
                     that.tmid=data.periodTemplateId;
                     that.areamid=data.regionTemplateId;
+                    that.specificationArr=JSON.parse(data.options)
+                    if(data.giftPoints){
+                        that.sendPoints = true
+                        that.pointsMoney = data.giftPoints
+                    }else{
+                        that.sendPoints = false
+                    }
+                    if(data.originalPriceMoney || data.originalPricePoint){
+                        that.pointsDeduction = true
+                        that.pointsNum = data.originalPricePoint
+                        that.pointsMoney =data.originalPrice - data.originalPriceMoney  //需要一个字段来保存 积分抵扣了多少钱
+                    }else{
+                        that.pointsDeduction = false
+                    }
                     // console.log(that.formmsg.categoryId);
+                    let url = '/api/product/mall/template/query?page=1&pageSize=10';
+                    let detailTemplateIds = data.detailTemplateId
+                            that.$http({
+                                url: url,
+                                method: 'POST',
+                                // 请求体重发送的数据
+                                // headers: { 'Content-Type': 'application/json' },
+                                data:{
+                                    'templateID':detailTemplateIds,
+                                    'templateType':3
+                                },
+                            })
+                            .then(response => {
+                               // console.log(response)
+                                if(response.data.info.list.length == 0){
+                                }else{
+                                    that.formmsg.detailTemplateInfoName = response.data.info.list[0].templateName
+                                }
+                        })
+                        .catch(error=>{
+                            console.log(error);
+                            alert('网络错误，不能访问');
+                        })
                 }
                 else{
                     that.$message(response.data.msg);
@@ -426,6 +695,19 @@ export default {
                 this.$message('请绑定详情模板！');
                 return false
             }
+            let sure = ''
+            if(this.specificationArr){
+                this.specificationArr.forEach(item =>{
+                    if(item.tagIsUpdata == true){
+                        this.$message('有未确认的规格');
+                        sure = '1'
+                        return false
+                    }
+                })
+            }
+            if(sure == '1'){
+                return false
+            }
             this.$refs['formmsg'].validate((valid) => {
                 if (valid) {
                     let that=this;
@@ -441,7 +723,12 @@ export default {
                         brand:this.formmsg.brand,
                         isPackage:0,
                         detailTemplateId:this.formmsg.detailTemplateInfoId,
-                        description:this.formmsg.desc
+                        description:this.formmsg.desc,
+                        options:JSON.stringify(this.specificationArr),
+                        giftPoints:this.sendPointsNum,
+                        priceRule:1,
+                        originalPricePoint:this.pointsNum,
+                        originalPriceMoney:this.formmsg.originalPrice - this.pointsMoney
                     };
                     this.$http.post('/api/product/commodity/info/update',data)
                     .then(function(response){
@@ -1406,6 +1693,19 @@ export default {
             this.formmsg.detailTemplateInfoId='';
         }
     },
+    watch:{
+        pointsDeduction(val,oldVal){
+            if(val == false){
+                this.pointsNum = ''
+                this.pointsMoney = ''
+            }
+        },
+        sendPoints(val,oldVal){
+            if(val == false){
+                this.sendPointsNum = ''
+            }
+        }
+    },
     beforeDestroy(){
         // this.$root.$off('adddata');
         this.$root.$off('editpackage');
@@ -1416,6 +1716,30 @@ export default {
 }
 </script>
 <style scoped>
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .2s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    }
+
+
+
 .detailcommodity{
     width: 100%;
     left: 0;
@@ -1490,7 +1814,7 @@ export default {
     overflow:hidden;
 }
 .tips{
-    width:250px;
+    width:367px;
     font-size:12px;
     color:grey;
     float: left;

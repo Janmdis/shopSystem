@@ -132,7 +132,8 @@ import { mapState,mapMutations,mapGetters } from 'vuex'
             // console.log(templateAllData)
              let templateAllDatas = JSON.parse(templateAllData)
              if(templateAllDatas.isNewAdd == '1'){
-                 this.$store.commit('newAddTemplate')//如果为新增 重置vuex
+                 let typeData = templateAllDatas.type
+                 this.$store.commit('newAddTemplate',typeData)//如果为新增 重置vuex
              }else{
                  this.$store.dispatch('editTemplate',templateAllData) //编辑时存好的本地数据分发给vuex
              }
