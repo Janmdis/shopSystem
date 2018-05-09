@@ -9,6 +9,7 @@
                     <div class="grid-content search">
                         <el-input placeholder="请输入问题" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
                         </el-input>
+                        <el-button type='primary' style='margin-left:15px;' @click="show($event)"><i class='el-icon-search'></i>搜索</el-button>
                         <el-button type="primary" class="add" @click='showWindowx("no")'><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
                         <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
                         <el-button type="primary" class='msnuiMore' round><i class='icon iconfont icon-msnui-more'></i></el-button>

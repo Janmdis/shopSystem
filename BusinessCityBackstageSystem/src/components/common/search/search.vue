@@ -2,7 +2,7 @@
     <div class='searchareabox'>
         <el-form ref="form" :model="form" label-width="80px" id='searcher'>
             <!-- 日志 -->
-            <el-row v-if='showlog'>
+            <el-row v-if='showlog' class='logform'>
                 <el-col :span="5">
                     <el-form-item label="操作名称" prop='opearte' >
                         <el-input v-model="form.log.content"></el-input>
@@ -15,6 +15,7 @@
                         @change='changeuser'
                         @active-item-change="handleItemChange"
                         :props="propslog"
+                        v-model="valuelog"
                         ></el-cascader>
                     </el-form-item>
                 </el-col>
@@ -394,6 +395,7 @@
         props:['type'],
         data() {
             return {
+                valuelog:[],
                 form: {
                     log:{
                         userId:'',
@@ -725,6 +727,7 @@
                         isrefund:false
                     }
                 };
+                this.valuelog=[];
                 this.$refs['form'].resetFields();
                 
             },

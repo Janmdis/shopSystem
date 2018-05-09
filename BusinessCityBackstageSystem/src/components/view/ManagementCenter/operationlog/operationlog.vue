@@ -15,7 +15,7 @@
                         <el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button> !-->
                     </div>
                 </el-col>
-            </el-row>
+            </el-row> 
             <el-row>
               
             </el-row>
