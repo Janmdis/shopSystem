@@ -1,23 +1,32 @@
 <template>
-    <el-dialog :title="ruleForm.textInfo" @click="closeDialog" :visible.sync="dialogVisible" width="30%" class='eventtempdialog'>
+    <el-dialog :title="ruleForm.textInfo" @click="closeDialog" :visible.sync="dialogVisible" width="50%" class='eventtempdialog'>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
-                <el-col :span='22'>
-                    <el-form-item label="模板类型" prop="type">
-                        <el-select v-model="ruleForm.type" placeholder="请选择类型">
-                            <el-option label="商城模板" value="1"></el-option>
-                            <el-option label="活动模板" value="2"></el-option>
-                            <el-option label="详情模板" value="3"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span='22'>
-                    <el-form-item label="模板名称" prop="templateName">
+                <el-col :span='8'>
+                    <el-form-item label="活动标题" prop="templateName">
                         <el-input v-model="ruleForm.templateName"></el-input>
                     </el-form-item>
+                     <el-form-item label="开始时间" prop="createTime">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.createTime" style="width: 100%;"></el-date-picker>
+                    </el-form-item>
                 </el-col>
-                <el-col :span='22'>
-                    <el-form-item label="模板描述" prop="mode">
+                <el-col :span='8'>
+                    <el-form-item label="活动地点" prop="mode">
+                        <el-input v-model="ruleForm.mode"></el-input>
+                    </el-form-item>
+                    <el-form-item label="结束时间" prop="createTime">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.createTime" style="width: 100%;"></el-date-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :span='8'>
+                    <el-form-item label="活动链接" prop="mode">
+                        <el-input v-model="ruleForm.mode"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span='8'>
+                    <el-form-item label="活动图片" prop="mode">
                         <el-input v-model="ruleForm.mode"></el-input>
                     </el-form-item>
                 </el-col>

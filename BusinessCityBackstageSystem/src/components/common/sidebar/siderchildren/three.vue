@@ -36,7 +36,7 @@
           <el-submenu index="4">
             <template slot="title"><i class="icon iconfont icon-huodong-copy" style='margin-right: 10px;'></i>活动管理</template>
             <el-menu-item-group>
-              <el-menu-item index="eventmanage">活动列表</el-menu-item>
+              <el-menu-item index="eventmanage">活动列表管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">
