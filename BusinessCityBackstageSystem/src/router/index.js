@@ -71,6 +71,11 @@ export default new Router({
                     component: resolve => require(['@/components/view/mall/customTemplate/templateSet.vue'], resolve)
                 },
                 {
+                    path: 'eventmanage', // 活动列表管理
+                    name: 'eventmanage',
+                    component: resolve => require(['@/components/view/mall/eventmanage/templateList.vue'], resolve)
+                },
+                {
                     path: 'usermanage', // 用户管理
                     name: 'usermanage',
                     component: resolve => require(['@/components/view/organize/usermanage/usermanage.vue'], resolve)
