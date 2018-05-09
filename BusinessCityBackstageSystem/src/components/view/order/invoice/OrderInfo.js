@@ -5,7 +5,7 @@ import threePayInfo from './PayInfo.vue'
 import fourVisit from './Visit.vue'
 import invoiceInfo from './invoiceInfo.vue'
 import { setTimeout } from 'timers';
-import { mapState } from 'Vuex'
+// import { mapState } from 'Vuex'
 export default {
     data() {
         return {

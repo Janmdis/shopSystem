@@ -5,7 +5,7 @@ import threeOrder from './Order.vue'
 import fourVisit from './Visit.vue'
 import fiveRelatedPeople from './RelatedPeople.vue'
 import { setTimeout } from 'timers';
-import { mapState } from 'Vuex'
+import { mapState } from 'vuex'
 export default {
     data() {
         return {
