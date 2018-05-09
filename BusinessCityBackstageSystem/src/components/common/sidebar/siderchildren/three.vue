@@ -33,6 +33,12 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="4">
+            <template slot="title"><i class="icon iconfont icon-huodong-copy" style='margin-right: 10px;'></i>活动管理</template>
+            <el-menu-item-group>
+              <el-menu-item index="eventmanage">活动列表</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="5">
             <template slot="title"><i class="icon iconfont icon-yingxiaogongju_hover" style='margin-right: 10px;'></i>营销工具</template>
             <el-menu-item index="concessionalRate">优惠劵</el-menu-item>
           </el-submenu>
