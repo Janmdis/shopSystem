@@ -147,7 +147,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             sourceFn() {
@@ -166,7 +166,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             }
         }

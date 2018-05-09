@@ -3,7 +3,7 @@
         <div class="memberNav" >
             <el-row class="navChild">
                 <el-col :span='15'>
-                    <lttip :name='namepage' :searchshow='searchshow'></lttip>
+                    <Lttip :name='namepage' :searchshow='searchshow'></Lttip>
                 </el-col>
                 <el-col :span='9'>
                     <div class="grid-content search">
@@ -69,7 +69,7 @@ import Lttip from './lttip.vue'
 import showWindows from './showWindow.vue'
 import OrderRefund from './refund/OrderInfo.vue'
 export default {
-    components:{Lttip,showWindows},
+
     data(){
         return{
             namepage:'退款订单',
@@ -128,6 +128,7 @@ export default {
         handleEdit(){},
         showMemberInfo(row,column,cell,event,index){//  点击显示侧滑
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
+            this.$root.$emit('showshow', "支付信息");
             let labelValue = column.label;
             let that = this;
             if(labelValue == '退款单号'){
@@ -146,6 +147,7 @@ export default {
             }
         },
         showextra(val){
+            console.log(val)
              let show=false;
              let editcan=true;
              this.multipleSelection = val
@@ -160,7 +162,8 @@ export default {
     },
      components: {
         OrderRefund,
-        showWindows
+        showWindows,
+        Lttip
     },
 }
 </script>

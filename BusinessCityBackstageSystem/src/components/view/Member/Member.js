@@ -221,7 +221,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
-                    alert('网络错误，不能访问');
+                    //         alert('网络错误，不能访问');
                 })
                 //   post('/api/manager/v1/user/accountQuery', para).then((response) => {
                 //     this.getAllusers = response.data.data;

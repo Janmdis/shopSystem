@@ -8,19 +8,21 @@
                 </ul>
             </div>
             <div>
-                <el-row class='tukOrderBox'>
+                <el-row class='tukOrderBox' v-if='thisData.refundNumber'>
                     <h2>退款信息：</h2>
                     <el-row>
                         <el-col :span='12'>
                             <ul>
                                 <li>退款金额：{{thisData.refundMoney}}</li>
                                 <li>退款原因：{{thisData.refundExplanation}}</li>
+                                <li v-if='briefReason'>驳回原因：{{briefReason}}</li>
                             </ul>
                         </el-col>
                         <el-col :span='12'>
                             <ul>
                                 <li>申请时间：{{thisData.refundTime}}</li>
                                 <li>退款单号：{{thisData.refundNumber}}</li>
+                                <li v-if='applyRefundTime'>处理时间：{{applyRefundTime}}</li>
                             </ul>
                         </el-col>
                     </el-row>
@@ -32,8 +34,12 @@
                             <el-button @click='Bhuixi'>驳&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
                         </el-col>
                     </el-col>
+                   <div class='invoiceState'>
+                        <span class='rotates'>{{playState}}</span>
+                    </div>
                 </el-row>
             </div>
+             
             <div class="payMain">
                 <ul class="main-des">
                     <li v-for="(info,index) in dataList" :key="index">
@@ -70,9 +76,12 @@
                 thisData:'',
                 letinvoice:0,
                 rejects:false,
+                applyRefundTime:'',
+                briefReason:'',
                 invosiceBox:false,
                 titles:'',
                 Reject:'',
+                playState:'',
                 dataList: [
                 ],
                 formLabelWidth: '120px'
@@ -99,13 +108,16 @@
                    }
                }).then((msg)=>{
                    let data = msg.data.info.list[0];
+                   
                    if(msg.data.info.list[0].orderDetails){
                        msg.data.info.list[0].orderDetails.forEach((item,index)=>{
-                           this.letinvoice+=item.conversionAmount
+                           this.letinvoice+=(item.conversionAmount-0)
                        })
                    }
                    
                    this.thisData = data;
+                   this.applyRefundTime = data.applyRefundTime
+                   this.briefReason = data.briefReason
                    let retype = ''
                    if(data.payType==1){
                        retype = '支付宝'
@@ -113,6 +125,13 @@
                        retype = '微信'
                    }else{
                         retype = '管家代收'
+                   }
+                   if(data.orderState==7){
+                       this.playState = '驳回'
+                   }else if(data.orderState==5){
+                        this.playState = '已完成'
+                   }else{
+                       this.playState = '未处理'
                    }
                    
                    this.dataList.push({'payTime':data.createTime,'payMoney':data.paidMoney,'payWay':retype})
@@ -140,23 +159,65 @@
                 this.invosiceBox = true;
                 this.titles = "驳回"
             },
-            isOkInfo(){
-                if(titles=='确认退款'){
-                    let orderId = sessionStorage.getItem("orderId");
-                    let url = '/api/product/order/mall/refund';
+            isOkInfo() {
+                if (this.titles == '确认退款') {
+                    // let orderId = sessionStorage.getItem("orderId");
+                    let url = '/api/product/order/weixin/refund?refundNumber=' + thisData.refundNumber;
                     this.$http({
-                        url:url,
-                        method:'post',
-                        data:{
-                            orderNumber:orderId
+                        url: url,
+                        method: 'post',
+                        data: {
+                            // refundNumber:orderId,
                         }
-                    }).then((msg)=>{
-                        console.log(msg)
-                    }).catch((err)=>{
+                    }).then((msg) => {
+                        if(msg.data.info.desc == true) {
+                            this.$message({
+                                message: '退款成功',
+                                type: 'success'
+                            });
+                        }
+                        if(msg.data.info.desc == false) {
+                            this.$message({
+                                message: msg.data.info.info,
+                                type: 'warning'
+                            });
+                        }
+                        this.getDataInfo()
+                        this.invosiceBox = false;
+                    }).catch((err) => {
                         console.log(err)
                     })
-                }else{
-                    
+                } else {
+                    let orderId = sessionStorage.getItem("orderId");
+                     let url = '/api/product/order/mall/update';
+                    this.$http({
+                        url: url,
+                        method: 'post',
+                        data: [{
+                           orderState:7,
+                           briefReason:this.Reject,
+                           number:orderId
+                        }]
+                    }).then((msg) => {
+                        console.log(msg)
+                        if(msg.data.status == 200) {
+                            this.$message({
+                                message: '驳回成功',
+                                type: 'success'
+                            });
+                        }
+                        this.getDataInfo()
+                        // if(msg.data.info.desc == false) {
+                        //     this.$message({
+                        //         message: msg.data.msg,
+                        //         type: 'warning'
+                        //     });
+                        // }
+                        this.Reject='';
+                        this.invosiceBox = false;
+                    }).catch((err) => {
+                        console.log(err)
+                    })
                 }
             }
         }
@@ -167,6 +228,31 @@
     #payInfo {}
 </style>
 <style scoped lang="less">
+    .invoiceState {
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            top: 10px;
+            left: 80%;
+            width: 66px;
+            height: 66px;
+            line-height: 70px;
+            border-radius: 50px;
+            background: #ddd;
+            color: #777;
+            border: 1px solid #666;
+        }
+        .rotates {
+            display: block;
+            transform: rotate(-7deg);
+            -ms-transform: rotate(-7deg);
+            /* IE 9 */
+            -moz-transform: rotate(-7deg);
+            /* Firefox */
+            -webkit-transform: rotate(-7deg);
+            /* Safari 和 Chrome */
+            -o-transform: rotate(-7deg);
+        }
     .tukOrderBox {
         width: 600px;
         padding: 20px;

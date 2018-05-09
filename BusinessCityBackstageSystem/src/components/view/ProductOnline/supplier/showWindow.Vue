@@ -217,7 +217,7 @@
                                 })
                                 .catch(error => {
                                     console.log(error);
-                                    alert('网络错误，不能访问');
+                                    //         alert('网络错误，不能访问');
                                 })
                         } else {
                             console.log('error submit!!');
@@ -263,7 +263,7 @@
                                 })
                                 .catch(error => {
                                     console.log(error);
-                                    alert('网络错误，不能访问');
+                                    //         alert('网络错误，不能访问');
                                 })
                         } else {
                             console.log('error submit!!');
@@ -294,7 +294,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             changes(value) {
@@ -350,7 +350,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             sourceFn() {
@@ -369,7 +369,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             handleClose() {　　

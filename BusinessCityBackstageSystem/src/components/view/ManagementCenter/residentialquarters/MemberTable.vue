@@ -27,11 +27,11 @@
         >
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="alias"
         label="别名">
         </el-table-column>
         <el-table-column
-        prop="mobile"
+        prop="address"
         label="地址">
         </el-table-column>
         <el-table-column
@@ -109,7 +109,7 @@ export default {
         },
         getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/customer/estate/queryDataList?pageNum='+pageIndex+'&pageSize=10'+(JSON.stringify(data)=="{}"?'':'&name='+data.name)
+            let url = '/api/customer/estate/queryDataList?pageNum='+(pageIndex?pageIndex:1)+'&pageSize=10'+(JSON.stringify(data)=="{}"?'':'&name='+data.name)
             this.$http({
                 url: url,
                 method: 'GET',
@@ -120,14 +120,14 @@ export default {
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(response.data.msg)
+                console.log(response.data)
                 this.$root.$emit('output',this.datalist);
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })
           .catch(error=>{
               console.log(error);
-              alert('网络错误，不能访问');
+              //         alert('网络错误，不能访问');
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑

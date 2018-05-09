@@ -43,14 +43,7 @@
                 <el-col :span='12'>
                     <el-form-item label="身份" prop='panper'>
                         <el-select v-model="ruleForm.panper" placeholder="请选择身份">
-                            <el-option label="男主人" value="0"></el-option>
-                            <el-option label="女主人" value="1"></el-option>
-                            <el-option label="父亲" value="2"></el-option>
-                            <el-option label="母亲" value="3"></el-option>
-                            <el-option label="女儿" value="4"></el-option>
-                            <el-option label="女婿" value="5"></el-option>
-                            <el-option label="儿子" value="6"></el-option>
-                            <el-option label="儿媳" value="7"></el-option>
+                            <el-option  v-for='(item,index) in ruleForm.panperArr'  :key='index' :label="item.name" :value="item.id"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -126,6 +119,7 @@ import qs from 'qs'
                     county: '',
                     ctypes: '',
                     panper: '',
+                    panperArr:[],
                     curDate: [],
                     sourceFns: [],
                     textInfo: '新增会员',
@@ -152,6 +146,18 @@ import qs from 'qs'
             };
         },
         methods: {
+            getidentity(){
+                let url = '/api/customer/identity/findIdentity';
+                this.$http({
+                    url:url,
+                    method:"post",
+                    data:{}
+                }).then((msg)=>{
+                    this.ruleForm.panperArr = (msg.data.info)
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            },
             submitForm(formName) {
                 let that = this;
                 if(this.ruleForm.textInfo == "新增会员"){
@@ -195,7 +201,7 @@ import qs from 'qs'
                             })
                             .catch(error => {
                                 console.log(error);
-                                alert('网络错误，不能访问');
+                                //         alert('网络错误，不能访问');
                             })
                     } else {
                         console.log('error submit!!');
@@ -268,7 +274,7 @@ import qs from 'qs'
                             })
                             .catch(error => {
                                 console.log(error);
-                                alert('网络错误，不能访问');
+                                //         alert('网络错误，不能访问');
                             })
                     } else {
                         console.log('error submit!!');
@@ -309,7 +315,7 @@ import qs from 'qs'
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             changes(value) {
@@ -420,7 +426,7 @@ import qs from 'qs'
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             sourceFn() {
@@ -441,7 +447,7 @@ import qs from 'qs'
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             // getData() {
@@ -494,7 +500,7 @@ import qs from 'qs'
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                         let urls = '/api/customer/customerAndLabel/findLabel?id='+[data[0].id];
                         this.$http({
@@ -517,7 +523,7 @@ import qs from 'qs'
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                         
                         this.dialogVisible = true;
@@ -537,6 +543,7 @@ import qs from 'qs'
             this.sourceFn();
             this.showData();
             this.searchLabel();
+            this.getidentity();
         },
         //  beforeDestroy(){
         //     this.$root.$off('showWindow');

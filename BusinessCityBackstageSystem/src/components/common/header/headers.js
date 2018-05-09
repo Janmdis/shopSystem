@@ -104,13 +104,16 @@ export default {
         .then(response => {
           console.log(response)
           if (response.data.msg == "ok") {
+            sessionStorage.removeItem("status")
+            sessionStorage.removeItem("infoText")
+            sessionStorage.removeItem("userInfo")
             this.$router.push("/login")
           }
           
     })
     .catch(error=>{
         console.log(error);
-        alert('网络错误，不能访问');
+        // //         alert('网络错误，不能访问');
     })
       
     },

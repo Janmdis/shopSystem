@@ -15,11 +15,11 @@
                 label="规格">
                 </el-table-column>
                 <el-table-column
-                prop="commodityInfo.inventoryQuantity"
+                prop="saleNumber"
                 label="数量">
                 </el-table-column>
                 <el-table-column
-                prop="commodityInfo.displayQuantity "
+                prop="commodityInfo.displayQuantity"
                 label="商品库存">
                 </el-table-column>
                 <el-table-column
@@ -27,7 +27,7 @@
                 label="单价">
                 </el-table-column>
                 <el-table-column
-                prop="commodityInfo.currentPrice"
+                prop="priceEnd"
                 label="实际单价">
                 </el-table-column>
             </el-table>
@@ -59,8 +59,9 @@ export default{
                 headers: { 'Content-Type': 'application/json' }
             }).then(res => {
                 if (res.data.status == 200) {
-                    // console.log(res.data.msg)
+                   
                     that.dataInfo = res.data.info;
+                     console.log(that.dataInfo)
                     that.$root.$emit('load',false);
                 }
                 that.which_to_show = 'oneShopInfo';

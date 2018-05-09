@@ -8,8 +8,19 @@
                         <el-form-item class="visit-item header-item1" label="NO." prop="orderNumber">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.orderNumber"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item header-item2" label="订单状态 :" prop="orderState">
-                            <el-input :disabled="ruleForm.active" v-model="ruleForm.orderState"></el-input>
+                        <el-form-item class="visit-item header-item2" label="订单状态 :">
+                            <el-select v-model="ruleForm.orderState" 
+                            :disabled="ruleForm.active"  
+                            style='height:20px;' 
+                            class='btns' placeholder="请选择活动区域">
+                                <el-option label="未完成" :value="1"></el-option>
+                                <el-option label="已完成" :value="2"></el-option>
+                                <el-option label="异常订单" :value="3"></el-option>
+                                <el-option label="退款中" :value="4"></el-option>
+                                <el-option label="退款完成" :value="5"></el-option>
+                                <el-option label="取消订单" :value="6"></el-option>
+                                <el-option label="退款驳回" :value="7"></el-option>
+                            </el-select>
                         </el-form-item>
                         <el-form-item class="visit-item header-item3" label="手机 :" prop="orderPhone">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.orderPhone"></el-input>

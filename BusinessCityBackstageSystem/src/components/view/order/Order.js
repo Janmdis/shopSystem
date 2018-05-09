@@ -42,7 +42,7 @@ export default {
             this.dataForm = data;
             data.forEach((e, i) => {
                 this.idList.push(e.id);
-                console.log(this.idList)
+                // console.log(this.idList)
             })
             let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
             let ids = id.replace(/\"|"/g, "");
@@ -60,7 +60,7 @@ export default {
             //         })
             //         .catch(error => {
             //             console.log(error);
-            //             //alert('网络错误，不能访问');
+            //             ////         alert('网络错误，不能访问');
             //         })
         })
         this.$root.$on('total', (data) => {
@@ -170,7 +170,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
-                    alert('网络错误，不能访问');
+                    //         alert('网络错误，不能访问');
                 })
 
         },

@@ -1,8 +1,13 @@
 <template>
-    <div class='cinvoiceInfo'>
+    <div>
+    <div v-if='this.dataInfo==null' class='cinvoiceInfo' style='line-height:400px;text-align: center;'>
+        暂无发票信息
+    </div>
+    
+    <div class='cinvoiceInfo' v-else>
         <el-row class='infoTopBox' v-if='invoiceType=="未处理"'>
             <el-col :span='10' :offset='2' class='invoicText'>
-                发票类型:单位发票--专用发票
+                发票类型: 发票类型--{{invoisState==11?'个人普通发票':invoisState==21?'单位普通发票':invoisState==22?'单位专用发票':""}}
             </el-col>
             <el-col :span='10' :offset='2' style='position:relative;'>
                 <p>申请时间：{{dataInfo.createTime}} </p>
@@ -38,7 +43,7 @@
         </el-row>
         <el-row class='infoTopBox' v-else-if='(invoiceType=="发放完成"&&invoisState==21)'>
             <el-col :span='10' :offset='2' class='invoicText'>
-                发票类型:单位发票--专用发票
+                发票类型: 发票类型--{{invoisState==11?'个人普通发票':invoisState==21?'单位普通发票':invoisState==22?'单位专用发票':""}}
             </el-col>
             <el-col :span='10' :offset='2' style='position:relative;'>
                 <p>申请时间：{{dataInfo.createTime}} </p>
@@ -50,7 +55,7 @@
         </el-row>
         <el-row class='infoTopBox' v-else-if='(invoiceType=="发放完成"&&invoisState==11)'>
             <el-col :span='10' :offset='2' class='invoicText'>
-                电子发票：<img src='' />
+                电子发票：<img :src='imageUrl' style="width:150px;height:100px;"/>
             </el-col>
             <el-col :span='10' :offset='2' style='position:relative;'>
                 <p>申请时间：{{dataInfo.createTime}} </p>
@@ -67,7 +72,7 @@
                     <ul>
                         <li>公司名称：{{dataInfo.title}}</li>
                         <li>税&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：{{dataInfo.taxIdentity}}</li>
-                        <li>注册地址：{{dataInfo.ompanyAddress}}</li>
+                        <li>注册地址：{{dataInfo.companyAddress}}</li>
                         <li>公司电话：{{dataInfo.companyTelephone}}</li>
                     </ul>
                 </el-col>
@@ -75,7 +80,7 @@
                     <ul>
                         <li>开户银行：{{dataInfo.bankName}}</li>
                         <li>银行账户：{{dataInfo.bankAccount}}</li>
-                        <li>一般纳税人证明：<img :src='dataInfo.taxpayerCertificate' /></li>
+                        <li>一般纳税人证明：<img :src='dataInfo.taxpayerCertificate'  style="width:200px;height:150px;"/></li>
                     </ul>
                 </el-col>
             </el-row>
@@ -99,7 +104,7 @@
             <el-col :span='16' class=''>
                 <el-col :span='3' :offset='2'>备注：</el-col>
                 <el-col :span='18'>
-                    <textarea readonly='readonly' class='textareaName'>{{dataInfo.remark}}</textarea>
+                    <textarea readonly='readonly' class='textareaName'>{{dataInfo?dataInfo.remark:""}}</textarea>
                 </el-col>
             </el-col>
         </el-row>
@@ -135,14 +140,15 @@
                     <el-input v-model="form.name" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="快递单号" :label-width="formLabelWidth">
-                    <el-input v-model="form.address" auto-complete="off"></el-input>
+                    <el-input v-model="form.number" type='number' auto-complete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="invosiceBox = false">取 消</el-button>
-                <el-button type="primary" @click="invosiceBox = false">确 定</el-button>
+                <el-button type="primary" @click="iSoK">确 定</el-button>
             </div>
         </el-dialog>
+    </div>
     </div>
 </template>
 <script>
@@ -157,12 +163,13 @@
                 invoisState: 0,
                 invoiceType: '',
                 admin: 'admin',
+                imageUrl:'',
                 urlImg: {
                     type: 'admin'
                 },
                 form: {
                     name: '',
-                    address: '',
+                    number: '',
                     delivery: false,
                     type: [],
                     resource: '',
@@ -174,7 +181,6 @@
         },
         created() {
             this.getStata()
-           
         },
         methods: {
             getStata() {
@@ -183,28 +189,36 @@
                 this.$http({
                     url: url,
                     method: 'post',
-                    data: ['1d90bd48-46ed-11e8-880b-88d7f652f92c']
+                    data: [this.orderId]
                 }).then((res) => {
                     this.dataInfo = (res.data.info.list[0])
+                    let hostName = location.hostname;
+                    let port = location.port;
+                    //  后台返
                     let invoiceData = (res.data.info.list[0])
-                    console.log(this.dataInfo)
-                    this.invoisState = this.dataInfo.category
-                    console.log(invoiceData.isDisallowance == null)
+                    console.log(invoiceData)
+                     this.imageUrl = 'http://' + hostName + ':' + port + '/api' + invoiceData.url;
+                    this.invoisState = invoiceData.category
                     if (invoiceData.isDisallowance == null) {
-                        this.invoiceType = "未处理"
-                    } else if (invoiceData.isDisallowance != true) {
                         if (invoiceData.isFinished == true) {
                             this.invoiceType = "发放完成"
+                        }else{
+                             this.invoiceType = "未处理"
                         }
-                    } else {
-                        this.invoiceType = "驳回"
-                    }
+                       
+                    } else if (invoiceData.isDisallowance == true) {
+                       if (invoiceData.isFinished == true) {
+                            this.invoiceType = "发放完成"
+                        }else{
+                            this.invoiceType = "驳回"
+                        }
+                    } 
                 }).catch((err) => {
                     console.log(err)
                 })
             },
             showInvoice() {
-                this.dialogVisible = true
+                this.invosiceBox = true
             },
             reject() {
                 this.rejects = true
@@ -219,19 +233,39 @@
                     url: url,
                     method: 'post',
                     data: {
-                        id: '1d90bd48-46ed-11e8-880b-88d7f652f92c',
+                        id: this.orderId,
                         isDisallowance: true,
                         disallowanceReason: this.form.Reject,
-                        category:this.invoisState
+                        category: this.invoisState
                     }
                 }).then((res) => {
                     console.log(res)
+                    this.invosiceBox =  false
                 }).catch((err) => {
                     console.log(err)
                 })
             },
+            iSoK(){
+                let url = '/api/product/order/invoice/update';
+                this.$http({
+                    url:url,
+                    method:'post',
+                    data:{
+                        id: this.orderId,
+                        logisticsCompany:this.form.name,
+                        logisticsNumber:this.form.number,
+                        isFinished:1
+                    }
+                }).then((msg)=>{
+                    console.log(msg)
+                    this.invosiceBox =  false
+                     this.getStata()
+                }).catch((err)=>{
+                    console.log(err)
+                })
+                this.invosiceBox = false
+            },
             handleAvatarSuccess(res, file) {
-                
                 let hostName = location.hostname;
                 let port = location.port;
                 this.images = res.info;
@@ -240,13 +274,15 @@
                     url: url,
                     method: 'post',
                     data: {
-                        id: '1d90bd48-46ed-11e8-880b-88d7f652f92c',
-                        url:this.images,
-                        category:this.invoisState
+                        id: this.orderId,
+                        url: this.images,
+                        category: this.invoisState,
+                        isFinished:1
                     }
                 }).then((res) => {
                     console.log(res)
                     this.$message('上传成功');
+                     this.getStata()
                 }).catch((err) => {
                     console.log(err)
                 })
@@ -254,18 +290,20 @@
                 console.log(this.imageUrl)
             },
             beforeAvatarUpload(file) {
+                console.log(file.type)
                 const isJPG = file.type === 'image/jpeg';
                 const isGIF = file.type === 'image/gif';
                 const isPNG = file.type === 'image/png';
                 const isBMP = file.type === 'image/bmp';
+                const isPdf = file.type === 'application/pdf';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-                if (!isJPG && !isGIF && !isPNG && !isBMP) {
-                    this.common.errorTip('上传图片必须是JPG/GIF/PNG/BMP 格式!');
+                if (!isJPG && !isGIF && !isPNG && !isBMP && !isPdf) {
+                    this.$message('上传图片必须是JPG/GIF/PNG/BMP/PDF 格式!');
                 }
                 if (!isLt2M) {
-                    this.common.errorTip('上传图片大小不能超过 2MB!');
+                    this.$message('上传图片大小不能超过 2MB!');
                 }
-                return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
+                return (isJPG || isBMP || isGIF || isPNG || isPdf) && isLt2M;
             }
         }
     }

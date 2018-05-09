@@ -190,7 +190,7 @@
                                 })
                                 .catch(error => {
                                     console.log(error);
-                                    alert('网络错误，不能访问');
+                                    //         alert('网络错误，不能访问');
                                 })
                         } else {
                             console.log('error submit!!');
@@ -209,7 +209,7 @@
                         .then(respone => {})
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                     that.$refs[formName].validate((valid) => {
                         if (valid) {
@@ -236,7 +236,7 @@
                                 })
                                 .catch(error => {
                                     console.log(error);
-                                    alert('网络错误，不能访问');
+                                    //         alert('网络错误，不能访问');
                                 })
                         } else {
                             console.log('error submit!!');

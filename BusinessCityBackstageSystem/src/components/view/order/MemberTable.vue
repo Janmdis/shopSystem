@@ -60,7 +60,7 @@
         <el-table-column
         label="订单状态">
             <template slot-scope='scope'>
-                {{scope.row.orderState==0?'新增服务订单':scope.row.orderState==1?'新增上门订单':scope.row.orderState==2?'追单':'暂无'}}
+                {{scope.row.orderState==1?'未完成':scope.row.orderState==2?'已完成':scope.row.orderState==3?'异常订单':scope.row.orderState==4?'退款中':scope.row.orderState==5?'退款完成':scope.row.orderState==6?'取消订单':scope.row.orderState==7?'退款驳回':1}}
             </template>
         </el-table-column>
         <el-table-column
@@ -141,19 +141,20 @@ export default {
             .then(response => {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                // console.log(this.datalist)
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
                 this.$root.$emit('output',this.datalist);
           })
           .catch(error=>{
               console.log(error);
-              alert('网络错误，不能访问');
+              //         alert('网络错误，不能访问');
           })
         },
         showMemberInfo(row,column,cell,event,index){//  点击显示侧滑
             // console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
+            this.$root.$emit('showIndex', "商品/活动信息");
             let labelValue = column.label;
             let that = this;
             if(labelValue == '订单号'){
@@ -162,6 +163,7 @@ export default {
                     '/api/product/order/queryPageList',
                     {id:row.id}
                 ).then(res => {
+                    console.log(res)
                     if(res.data.status == 200){
                         that.$root.$emit('orderCoverShow',that.showLeft)
                         that.$root.$emit('searchOrderInfo',[row.id,res.data.info.list[0]]);

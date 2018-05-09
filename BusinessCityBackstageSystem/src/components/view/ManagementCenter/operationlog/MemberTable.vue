@@ -101,7 +101,7 @@ export default {
             })
             .then(response => {
                 this.listLoading =  false;
-                
+                console.log(response)
                 //for(let i = 0 ;i<response.data.info.list.length;i++){
                             this.datalist = response.data.info.list
                 //}
@@ -112,7 +112,7 @@ export default {
           .catch(error=>{
               this.listLoading =  false;
               console.log(error);
-              alert('网络错误，不能访问');
+              //         alert('网络错误，不能访问');
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑
@@ -135,7 +135,7 @@ export default {
             if(this.multipleSelection.length>1){
                 editcan=false;
             }
-             this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
+            // this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
         },
         indexMethod(index) {
             return index + 1

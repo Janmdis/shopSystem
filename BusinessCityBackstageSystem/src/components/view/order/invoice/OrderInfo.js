@@ -43,17 +43,27 @@ export default {
             pageSize: 3,
             typeWord: '',
             dataInfo: [],
-            order: {}
+            order: {},
+            
         }
     },
+    mounted() {
+        
+    },
+    
     created() {
+        
+        this.$root.$on('showshow', data => {
+            this.isShow(data); 
+        });
+        
         this.$root.$on('title', (title) => {
             this.which_to_show = title
         });
-        this.isShow('发票信息');
+       
         this.$root.$on('searchOrderInfo', data => { //  获取用户信息方法
-            console.log(data[0])
-            this.searchInfo(data[0]);
+            console.log(data)
+            this.searchInfo(data[2]);
             this.orderId = data[0];
             this.order = data[1];
             // console.log(data[1])
@@ -126,6 +136,7 @@ export default {
             }
         },
         searchInfo(id) { //  通过接口获取订单商品详情
+            console.log(id)
             let that = this;
             this.$http({
                 url: '/api/product/order/queryOrderDetails?orderId=' + id,
@@ -152,7 +163,8 @@ export default {
                 }
             }, 5);
         },
-        isShow(text) {
+        isShow(text,indexss) {
+            
             this.default1 = false;
             this.isActive = text;
             this.isLoading = false;
@@ -173,6 +185,7 @@ export default {
             this.$root.$on('load', data => {
                 this.isLoading = data;
             });
+            
         },
     },
     components: {

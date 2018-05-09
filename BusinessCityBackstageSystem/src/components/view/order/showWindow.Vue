@@ -646,7 +646,7 @@
                                     })
                                     .catch(error => {
                                         console.log(error);
-                                        alert('网络错误，不能访问');
+                                        //         alert('网络错误，不能访问');
                                     })
                             } else {
                                 console.log('error submit!!');
@@ -674,7 +674,7 @@
                                 })
                                 .catch(error => {
                                     console.log(error);
-                                    alert('网络错误，不能访问');
+                                    //         alert('网络错误，不能访问');
                                 })
                         } else {
                             console.log('error submit!!');
@@ -805,7 +805,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             goTime(tiem) {
@@ -872,7 +872,7 @@
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                 }
                 if (this.ruleForm.newBox[0].isPackage == false) {
@@ -972,7 +972,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             getAdds(event) {
@@ -1040,7 +1040,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             changes() {
@@ -1064,7 +1064,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             handleSelectionChange(val) {
@@ -1093,7 +1093,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             crearVip() {
@@ -1142,7 +1142,7 @@
                                 })
                                 .catch(error => {
                                     console.log(error);
-                                    alert('网络错误，不能访问');
+                                    //         alert('网络错误，不能访问');
                                 })
                         } else {
                             alert(respone.data.msg)
@@ -1150,7 +1150,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             resetForm() {
@@ -1167,13 +1167,13 @@
                         data: {}
                     })
                     .then(respone => {
-                        console.log(respone)
+                        // console.log(respone)
                         this.ruleForm.sourceArr = respone.data.info;
                         //console.log(this.ruleForm.this.ruleForm.sourceArr)
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             bigDis() {
@@ -1305,7 +1305,7 @@
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                     let shopUrl = '/api/product/order/queryOrderDetails'
                     this.$http({
@@ -1364,7 +1364,7 @@
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                     this.dialogVisible = true;
                 } else {

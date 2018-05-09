@@ -165,7 +165,7 @@ import qs from 'qs'
                             })
                             .catch(error => {
                                 console.log(error);
-                                alert('网络错误，不能访问');
+                                //         alert('网络错误，不能访问');
                             })
                     } else {
                         console.log('error submit!!');
@@ -204,7 +204,7 @@ import qs from 'qs'
                             })
                             .catch(error => {
                                 console.log(error);
-                                alert('网络错误，不能访问');
+                                //         alert('网络错误，不能访问');
                             })
                     } else {
                         console.log('error submit!!');
@@ -290,7 +290,7 @@ import qs from 'qs'
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             sourceFn() {
@@ -310,7 +310,7 @@ import qs from 'qs'
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             // getData() {
@@ -345,7 +345,7 @@ import qs from 'qs'
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                         this.dialogVisible = true;
                 }else{

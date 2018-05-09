@@ -38,6 +38,7 @@ export default {
             which_to_show: '',
             default1: true,
             orderId: '',
+            invoice:'',
             pageNum: 1,
             pageSize: 3,
             typeWord: '',
@@ -46,6 +47,9 @@ export default {
         }
     },
     created() {
+        this.$root.$on('showIndex', data => {
+            this.isShow(data)
+        });
         this.$root.$on('title', (title) => {
             this.which_to_show = title
         });
@@ -53,9 +57,11 @@ export default {
         this.$root.$on('searchOrderInfo', data => { //  获取用户信息方法
             this.searchInfo(data[0]);
             this.orderId = data[0];
+            
             this.order = data[1];
             console.log(data[1])
-            sessionStorage.setItem("orderId",data[1].number)
+            sessionStorage.setItem("orderId", data[1].number)
+            sessionStorage.setItem("invoice",data[1].number)
             this.upData();
         });
         this.$root.$on('orderCoverShow', (left) => { //  显示侧滑框的方法
@@ -119,6 +125,7 @@ export default {
                     '/api/product/order/update',
                     data
                 ).then(res => {
+                    console.log(data)
                     console.log(res.data.msg);
                 }).catch(err => { console.log(err) });
             }

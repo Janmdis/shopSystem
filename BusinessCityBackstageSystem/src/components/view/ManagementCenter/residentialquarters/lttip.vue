@@ -6,12 +6,12 @@
             </h3>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
-                <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
+                <!--<li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 上架
                 </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 下架
-                </li>
+                </li>!-->
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
                 </li>
@@ -63,7 +63,7 @@ export default {
                         [that.dataInfo.id]
                     ).then(res => {
                         console.log(res.data.msg);
-                        that.$root.$emit('getDatezdy');
+                        that.$root.$emit('getDatezdy',1);
                     }).catch(err => {console.log(err)})
                 });
             }).catch(() => {

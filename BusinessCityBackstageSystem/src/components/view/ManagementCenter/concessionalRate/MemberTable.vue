@@ -45,7 +45,7 @@
         label="数额">
         </el-table-column>
         <el-table-column
-        prop="explain"
+        prop="explains"
         label="说明">
         </el-table-column>
         <el-table-column
@@ -133,7 +133,7 @@ export default {
           })
           .catch(error=>{
               console.log(error);
-              alert('网络错误，不能访问');
+            //   //         alert('网络错误，不能访问');
           })
         },
         showMemberInfo(row,column,cell,event){//  点击显示侧滑

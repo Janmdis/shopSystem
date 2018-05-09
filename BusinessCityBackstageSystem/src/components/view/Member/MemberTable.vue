@@ -13,7 +13,7 @@
         <el-table-column label="客户类型">
             <template slot-scope='scope'>
                                         <span >
-                                       {{scope.row.customerCategory.name}}
+                                       {{scope.row.customerCategory}}
                                         </span>
 </template>
         </el-table-column>
@@ -172,7 +172,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        //alert('网络错误，不能访问');
+                        ////         alert('网络错误，不能访问');
                     })
             },
             //订单状态
@@ -197,7 +197,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        //alert('网络错误，不能访问');
+                        ////         alert('网络错误，不能访问');
                     })
             },
             getDate(pageIndex) {
@@ -286,12 +286,12 @@
                                     })
                                     .catch(error => {
                                         console.log(error);
-                                        //alert('网络错误，不能访问');
+                                        ////         alert('网络错误，不能访问');
                                     })
                             })
                             .catch(error => {
                                 console.log(error);
-                                //alert('网络错误，不能访问');
+                                ////         alert('网络错误，不能访问');
                             })
                         this.getResidential(this.idBox)
                         that.$root.$emit('output1', that.datalist)
@@ -300,7 +300,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        //alert('网络错误，不能访问');
+                        ////         alert('网络错误，不能访问');
                     })
             },
             extend(des, src, override) {
@@ -354,7 +354,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        //         alert('网络错误，不能访问');
                     })
             },
             getLable(data) {

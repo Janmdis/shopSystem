@@ -22,7 +22,7 @@ export default {
             pageS: 0,
             listLoading: false,
             delArr: [],
-            importUrl: '/api/customer/customer/excel/in', //后台接口config.admin_url+'rest/schedule/import/'
+            importUrl: '/api/customer/estate/excelIn', //后台接口config.admin_url+'rest/schedule/import/'
             importHeaders: {
                 enctype: 'multipart/form-data',
             },
@@ -46,7 +46,7 @@ export default {
             })
             let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
             let ids = id.replace(/\"|"/g, "");
-            this.dataHref = '/api/customer/customer/excel/out?id=' + ids;
+            this.dataHref = '/api/customer/estate/excelOut?ids=' + ids;
         })
     },
     mounted() {
@@ -83,6 +83,7 @@ export default {
                 this.$message.info(response.msg)
             } else if (response.status === 200) {
                 this.$message.info(response.msg)
+                this.$root.$emit('getDatezdy', 1)
             }
         },
 
@@ -158,7 +159,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
-                    alert('网络错误，不能访问');
+                    //         alert('网络错误，不能访问');
                 })
 
         },

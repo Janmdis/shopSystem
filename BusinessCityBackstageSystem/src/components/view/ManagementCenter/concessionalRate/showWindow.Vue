@@ -65,11 +65,11 @@
             </el-row>
             <el-row class='minheight' v-show='isShow'>
                 <el-col :span='6'>
-                    <el-form-item label="商品分类" prop='shopBoxArr'>
-                        <el-select v-model="ruleForm.shopBox" placeholder="请选择商品分类" @change='change'>
+                    <el-form-item label="商品" prop='shopBoxArr'>
+                        <el-select v-model="ruleForm.shopBox" placeholder="请选择商品" @change='change'>
                             <el-option v-for=' (item,index) in this.ruleForm.shopBoxArr ' :key="index" :label='item.name' :value="item.id"></el-option>
                             <!--<el-option label="香蕉你个巴拉" value="0"></el-option>
-                                                                                                                        <el-option label="韭菜炒大虫" value="1"></el-option>!-->
+                                                                                                                                    <el-option label="韭菜炒大虫" value="1"></el-option>!-->
                         </el-select>
                     </el-form-item>
                     <el-col :span='20' style='margin-left:40px;'>
@@ -84,8 +84,8 @@
                     (多选)
                 </el-col>
                 <el-col :span='6'>
-                    <el-form-item label="商品" prop='shopsArr'>
-                        <el-select v-model="ruleForm.shops" placeholder="请选择商品" @change='changes'>
+                    <el-form-item label="商品分类" prop='shopsArr'>
+                        <el-select v-model="ruleForm.shops" placeholder="请选择商品分类" @change='changes'>
                             <el-option v-for=' (item,index) in this.ruleForm.shopsArr ' :value="item.id" :key="index" :label='item.name'></el-option>
                         </el-select>
                     </el-form-item>
@@ -266,6 +266,7 @@
                 isNormal: false,
                 isChild: true,
                 isAdd: false,
+                companyId: "",
                 addArrBox: [],
                 ruleForm: {
                     isShoAdd: false,
@@ -284,11 +285,9 @@
                     fullAmount: '', //满减的金额
                     shops: '',
                     ids: '',
-                    shopsArr: [],
-                    shopShowBoxArr: [], //分类集合
-                    shopShowBoxArrId: [], //分类集合
+                    shopShowBoxArr: [], //商品分类集合
+                    shopShowBoxArrId: [], //商品分类集合
                     shopBox: '',
-                    shopBoxArr: [],
                     showBoxArr: [], //商品集合
                     showBoxArrId: [], //商品集合
                     shopAdd: '',
@@ -372,16 +371,16 @@
                                     data: this.ruleForm.dataObj
                                 })
                                 .then(response => {
-                                    if(response.data.status== 510){
+                                    if (response.data.status == 510) {
                                         this.option(response.data.msg);
                                         return false;
                                     }
                                     console.log(response)
                                     this.option(response.data.msg, 'success');
                                     this.handleClose();
-                                    this.ruleForm.showBoxArrId = [], //商品分类
-                                    this.ruleForm.shopShowBoxArrId = [], //商品分类
-                                    this.ruleForm.addTextArrObjArr = []
+                                    this.ruleForm.showBoxArrId = [], //商品
+                                        this.ruleForm.shopShowBoxArrId = [], //商品分类
+                                        this.ruleForm.addTextArrObjArr = []
                                     this.dialogVisible = false;
                                     this.$root.$emit('getDatezdy', 1)
                                 })
@@ -437,17 +436,25 @@
                 var newArr = [];
                 for (let i = 0; i < this.ruleForm.addTextArr.length; i++) {
                     if (this.ruleForm.addTextArr[i] != item) {
-                        newArr.push(this.ruleForm.addTextArr[i])
+                        if(this.ruleForm.addTextArr[i]!==null||this.ruleForm.addTextArr[i]!==undefined){
+                            newArr.push(this.ruleForm.addTextArr[i])
+                        }
+                        
                     }
                 }
                 this.ruleForm.addTextArr = newArr
+                console.log(this.ruleForm.addTextArr)
                 var newArrText = [];
                 for (let i = 0; i < this.ruleForm.addTextArrObjArr.length; i++) {
                     if (this.ruleForm.addTextArrObjArr[i] != item) {
-                        newArrText.push(this.ruleForm.addTextArr[i])
+                        if(this.ruleForm.addTextArr[i]!==null||this.ruleForm.addTextArr[i]!==undefined){
+                             newArrText.push(this.ruleForm.addTextArr[i])
+                        }
+                       
                     }
                 }
                 this.ruleForm.addTextArrObjArr = newArrText
+                console.log(this.ruleForm.addTextArrObjArr)
             },
             cityAdd(name) {
                 this.ruleForm.isShoAdd = false;
@@ -488,7 +495,7 @@
                 this.ruleForm.addTextArrObjArr.push(this.ruleForm.addTextArrObj);
                 var hash = {};
                 this.ruleForm.addTextArrObjArr = this.ruleForm.addTextArrObjArr.reduce(function(item, next) {
-                    hash[next.regionName] ? '' : hash[next.regionName] = true && item.push(next);
+                    hash[next.regionId] ? '' : hash[next.regionId] = true && item.push(next);
                     return item
                 }, [])
             },
@@ -550,7 +557,9 @@
                     this.isNormal = false;
                     this.isChild = true;
                     this.isAdd = false;
+                    console.log(this.ruleForm.showBoxArrId)
                     this.ruleForm.oneData = {
+                        // companyId:this.companyId,
                         id: this.ruleForm.ids,
                         starTime: this.goTime(this.ruleForm.starTime), //开始时间
                         endTime: this.goTime(this.ruleForm.endTime), //结束时间
@@ -563,18 +572,30 @@
                         fullAmount: this.ruleForm.fullAmount, //满减的金额
                         couponName: this.ruleForm.couponName, //优惠卷名称
                         explains: this.ruleForm.explains, //优惠券说明
-                        couponCommodityList: this.ruleForm.showBoxArrId, //商品分类
-                        couponCommodityCategoryList: this.ruleForm.shopShowBoxArrId //商品分类
+                        couponCommodityList:this.ruleForm.shopShowBoxArrId, //商品分类
+                        couponCommodityCategoryList:   this.ruleForm.showBoxArrId//商品
                     }
-                    console.log(this.ruleForm.showBoxArrId)
-                    console.log(this.ruleForm.shopShowBoxArrId)
+                    this.ruleForm.showBoxArr = [];
+                    this.ruleForm.shopShowBoxArr = [];
+                    this.ruleForm.shopShowBoxArrId = [];
+                    this.ruleForm.showBoxArrId = [];
                     this.ruleForm.dataObj = this.ruleForm.oneData
                 } else if (this.ruleForm.couponType == 1) {
+                    if(this.ruleForm.addTextArrObjArr){
+                        let newArr = [];
+                        this.ruleForm.addTextArrObjArr.forEach((e,i)=>{
+                            if(e){
+                                newArr.push(e)
+                            }
+                        })
+                         this.ruleForm.addTextArrObjArr = newArr
+                    }
                     this.isShow = true;
                     this.isNormal = false;
                     this.isChild = false;
                     this.isAdd = true;
                     this.ruleForm.twoData = {
+                        companyId: this.companyId,
                         id: this.ruleForm.ids,
                         starTime: this.goTime(this.ruleForm.starTime), //开始时间
                         endTime: this.goTime(this.ruleForm.endTime), //结束时间
@@ -587,13 +608,17 @@
                         fullAmount: '', //满减的金额
                         couponName: this.ruleForm.couponName, //优惠卷名称
                         explains: this.ruleForm.explains, //优惠券说明
-                        couponCommodityList: this.ruleForm.showBoxArrId, //商品分类
-                        couponCommodityCategoryList: this.ruleForm.shopShowBoxArrId, //商品分类
+                       couponCommodityList:this.ruleForm.shopShowBoxArrId, //商品分类
+                        couponCommodityCategoryList: this.ruleForm.showBoxArrId,//商品
                         couponRegionList: this.ruleForm.addTextArrObjArr
                     }
+                    this.ruleForm.showBoxArr = [];
+                    this.ruleForm.shopShowBoxArr = [];
+                    this.ruleForm.shopShowBoxArrId = [];
+                    this.ruleForm.showBoxArrId = [];
                     this.ruleForm.dataObj = this.ruleForm.twoData
-                    console.log(this.ruleForm.dataObj)
                 } else if (this.ruleForm.couponType == 2) {
+                    // companyId:this.companyId,
                     this.ruleForm.fullAmount = '';
                     this.ruleForm.showBoxArrId = ''; //商品分类
                     this.ruleForm.shopShowBoxArrId = ''; //商品分类
@@ -644,7 +669,7 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        // alert('网络错误，不能访问');
                     })
             },
             //获取商品
@@ -661,14 +686,15 @@
                     })
                     .catch(error => {
                         console.log(error);
-                        alert('网络错误，不能访问');
+                        // alert('网络错误，不能访问');
                     })
             },
             addBoxArr(addName, id) {
                 this.ruleForm.city = addName
             },
-            //选中商品分类
+            //选中商品
             change(value) {
+                // this.ruleForm.shopShowBoxArrId = [];
                 let obj = {};
                 let newObj = {};
                 obj = this.ruleForm.shopBoxArr.find((item) => {
@@ -677,12 +703,13 @@
                             newObj = {
                                 commodityCategoryId: item.id
                             }
-                            this.ruleForm.shopShowBoxArrId.push(newObj)
+                            this.ruleForm.showBoxArrId.push(newObj)
                         }
                     }
                     return item.id === value;
                 });
                 this.ruleForm.showBoxArr.push(obj);
+                console.log(this.ruleForm.showBoxArr)
                 //过滤重复项
                 var hash = {};
                 this.ruleForm.showBoxArr = this.ruleForm.showBoxArr.reduce(function(item, next) {
@@ -691,10 +718,11 @@
                 }, [])
                 //过滤id
                 var hashId = {};
-                this.ruleForm.shopShowBoxArrId = this.ruleForm.shopShowBoxArrId.reduce(function(item, next) {
+                this.ruleForm.showBoxArrId = this.ruleForm.showBoxArrId.reduce(function(item, next) {
                     hashId[next.commodityCategoryId] ? '' : hashId[next.commodityCategoryId] = true && item.push(next);
                     return item
                 }, [])
+                this.ruleForm.shopBox = '';
             },
             changes(value) {
                 let obj = {};
@@ -705,7 +733,7 @@
                             newObjs = {
                                 commodityId: item.id
                             }
-                            this.ruleForm.showBoxArrId.push(newObjs)
+                            this.ruleForm.shopShowBoxArrId.push(newObjs)
                         }
                     }
                     return item.id === value;
@@ -719,16 +747,33 @@
                 }, [])
                 //id
                 var hashId = {};
-                this.ruleForm.showBoxArrId = this.ruleForm.showBoxArrId.reduce(function(item, next) {
+                this.ruleForm.shopShowBoxArrId = this.ruleForm.shopShowBoxArrId.reduce(function(item, next) {
                     hashId[next.commodityId] ? '' : hashId[next.commodityId] = true && item.push(next);
                     return item
                 }, [])
+                this.ruleForm.shops = '';
             },
             //封装
             //删除已经存在的商品
             delBox(index) {
                 let list = [];
                 for (let i = 0; i < this.ruleForm.showBoxArr.length; i++) {
+                    if (index == i) {
+                        let url = '/api/product/coupon/commodity/category/remove';
+                        this.$http({
+                            url: url,
+                            method: 'post',
+                            data: [{
+                                couponId: this.ruleForm.ids,
+                                commodityCategoryId: this.ruleForm.showBoxArr[i].id,
+                                isActive: false
+                            }]
+                        }).then((msg) => {
+                            console.log(msg)
+                        }).catch((err) => {
+                            console.log(err)
+                        })
+                    }
                     if (index != i) {
                         list.push(this.ruleForm.showBoxArr[i]);
                         this.$message({
@@ -738,7 +783,6 @@
                     }
                 }
                 this.ruleForm.showBoxArr = list;
-                console.log(this.ruleForm.showBoxArr)
                 let listId = [];
                 for (let i = 0; i < this.ruleForm.showBoxArrId.length; i++) {
                     if (index != i) {
@@ -750,6 +794,22 @@
             delBoxs(index) {
                 let list = [];
                 for (let i = 0; i < this.ruleForm.shopShowBoxArr.length; i++) {
+                    if (index == i) {
+                        let url = '/api/product/coupon/commodity/remove';
+                        this.$http({
+                            url: url,
+                            method: 'post',
+                            data: [{
+                                couponId: this.ruleForm.ids,
+                                commodityId: this.ruleForm.shopShowBoxArr[i].id,
+                                isActive: false
+                            }]
+                        }).then((msg) => {
+                            console.log(msg)
+                        }).catch((err) => {
+                            console.log(err)
+                        })
+                    }
                     if (index != i) {
                         list.push(this.ruleForm.shopShowBoxArr[i]);
                         this.$message({
@@ -766,7 +826,6 @@
                     }
                 }
                 this.ruleForm.shopShowBoxArrId = listId;
-               
             },
         },
         created: function() {
@@ -786,8 +845,11 @@
                             }
                         })
                         .then(respone => {
+                            this.ruleForm.addTextArrObjArr = [];
+                            this.ruleForm.addTextArr = [];
                             let data = respone.data.info.list[0];
                             this.ruleForm.ids = dataId
+                            this.companyId = data.companyId;
                             this.ruleForm.starTime = data.starTime; //开始时间
                             this.ruleForm.endTime = data.endTime; //结束时间
                             this.ruleForm.couponAmount = data.couponAmount; //数量
@@ -800,26 +862,34 @@
                             this.ruleForm.couponStatus = data.couponStatus; //状态
                             this.ruleForm.fullAmount = data.fullAmount; //状态
                             this.onChange(data.couponStatus)
-                            this.ruleForm.showBoxArr = data.commodityCategoryList; //商品分类
-                            for (let i = 0; i < data.commodityCategoryList.length; i++) {
-                                this.ruleForm.shopShowBoxArrId.push({
-                                    commodityCategoryId: data.commodityCategoryList[i].id
-                                })
-                            }
+                            this.ruleForm.showBoxArr = [];
+                            this.ruleForm.shopShowBoxArr = [];
+                            this.ruleForm.shopShowBoxArrId = [];
+                            this.ruleForm.showBoxArrId = [];
                             this.ruleForm.shopShowBoxArr = data.commodityInfoList; //商品分类
                             for (let i = 0; i < data.commodityInfoList.length; i++) {
-                                this.ruleForm.showBoxArrId.push({
+                                this.ruleForm.shopShowBoxArrId.push({
                                     commodityId: data.commodityInfoList[i].id
                                 })
                             }
-                            this.ruleForm.addTextArr = [data.couponRegionList[0].cityName + data.couponRegionList[0].regionName];
-                            for (let i = 0; i < data.couponRegionList.length; i++) {
-                                this.ruleForm.addTextArrObjArr.push({
-                                    cityId: data.couponRegionList[0].cityId,
-                                    cityName: data.couponRegionList[0].cityName,
-                                    regionId: data.couponRegionList[0].regionId,
-                                    regionName: data.couponRegionList[0].regionName
+                            this.ruleForm.showBoxArr = data.commodityCategoryList; //商品
+                            for (let i = 0; i < data.commodityCategoryList.length; i++) {
+                                this.ruleForm.showBoxArrId.push({
+                                    commodityCategoryId: data.commodityCategoryList[i].id
                                 })
+                            }
+                            if (data.couponRegionList[0].cityName != null) {
+                                for (let i = 0; i < data.couponRegionList.length; i++) {
+                                    this.ruleForm.addTextArr.push(data.couponRegionList[i].cityName + data.couponRegionList[i].regionName);
+                                    if (data.couponRegionList[0].cityId != null || data.couponRegionList[0].cityName != null) {
+                                        this.ruleForm.addTextArrObjArr.push({
+                                            cityId: data.couponRegionList[i].cityId,
+                                            cityName: data.couponRegionList[i].cityName,
+                                            regionId: data.couponRegionList[i].regionId,
+                                            regionName: data.couponRegionList[i].regionName
+                                        })
+                                    }
+                                }
                             }
                             this.ruleForm.overlay = data.overlay;
                             this.ruleForm.activity = data.activity;

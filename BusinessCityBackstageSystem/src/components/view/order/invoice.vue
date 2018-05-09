@@ -3,7 +3,7 @@
         <div class="memberNav" >
             <el-row class="navChild">
                 <el-col :span='15'>
-                    <lttip :name='namepage' :searchshow='searchshow'></lttip>
+                    <Lttip :name='namepage' :searchshow='searchshow'></Lttip>
                 </el-col>
                 <el-col :span='9'>
                     <div class="grid-content search">
@@ -44,7 +44,7 @@
                 </el-table-column>
                 <el-table-column width="180" label="发票状态">
                     <template slot-scope='scope'>
-                        {{scope.row.isFinished?(scope.row.isDisallowance?'发放完成':'驳回'):'未处理'}}
+                        {{scope.row.isFinished?(scope.row.isDisallowance?'驳回':'发放完成'):'未处理'}}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -72,7 +72,7 @@
 import Lttip from './lttip.vue'
 import orderinvoice from './invoice/OrderInfo.vue'
 export default {
-    components:{Lttip},
+
     data(){
         return{
             namepage:'发票管理',
@@ -124,21 +124,22 @@ export default {
             this.getDatalist(val);
         },
         showMemberInfo(row,column,cell,event,index){//  点击显示侧滑
-            // console.log(row,column,cell,event)
+            this.$root.$emit('showshow', "发票信息");
+            console.log(row,column,cell,event)
             //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
             let labelValue = column.label;
-            console.log(labelValue)
+            // console.log(labelValue)
             let that = this;
             if(labelValue == '订单号'){
                 this.showLeft = 16
                 this.$http.post(
                     '/api/product/order/queryPageList',
-                    {id:row.id}
+                    {id:row.orderId}
                 ).then(res => {
                     if(res.data.status == 200){
                         console.log(res.data.info)
                         that.$root.$emit('orderCoverShow',that.showLeft)
-                        that.$root.$emit('searchOrderInfo',[row.id,res.data.info.list[0]]);
+                        that.$root.$emit('searchOrderInfo',[row.id,res.data.info.list[0],row.orderId]);
                     }
                 }).catch(err => {
                     console.log(err);
@@ -150,7 +151,8 @@ export default {
         
     },
     components: {
-        orderinvoice
+        orderinvoice,
+        Lttip
     },
 }
 </script>

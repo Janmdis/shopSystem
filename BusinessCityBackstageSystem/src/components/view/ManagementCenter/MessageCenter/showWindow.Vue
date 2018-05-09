@@ -13,12 +13,12 @@
                             <el-input v-model="ruleForm.mode"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span='12'>
+                    <el-col :span='12' v-if='false'>
                         <el-form-item label="接收后台用户" @click.native='getAdmin' prop="receiverAdmin">
                             <el-button type='button'>请点击选择</el-button>
                         </el-form-item>
                     </el-col>
-                    <el-col :span='12'>
+                    <el-col :span='12' v-if='false'>
                         <el-form-item label="接收者会员" @click.native='getCustomer' prop="receiverCustomer">
                             <el-button type='button'>请点击选择</el-button>
                         </el-form-item>
@@ -50,7 +50,11 @@
                 <el-checkbox v-for='(item,index) in ListAdminData' :key='index' :label="item?tiem.id:''">item?tiem.name:''</el-checkbox>
             </el-checkbox-group>
             <el-checkbox-group v-model="ListCustomerId" v-if='listInfo=="接收者会员"'>
-                <el-checkbox v-for='(item,index) in ListCustomerData' :key='index' :label="item?tiem.id:''">item?tiem.name:''</el-checkbox>
+                <el-select v-model="translate" placeholder="请选择">
+                    <el-option v-for='(item,index) in translateArr' :key='index' :label="item.info" :value='item.id' @click.native='changeBumen(item.id)'>
+                    </el-option>
+                </el-select>
+                <!--<el-checkbox v-for='(item,index) in ListCustomerData' :key='index' :label="item?tiem.id:''">item?tiem.name:''</el-checkbox>!-->
             </el-checkbox-group>
             <div style="width:100%;text-align:center;margin-top:10px;">
                 <el-button @click="checkList">保存</el-button>
@@ -84,6 +88,8 @@
     export default {
         data() {
             return {
+                translate:'',
+                translateArr:[],
                 showStyle:false,
                 ListAdminData: [],
                 ListCustomerData: [],
@@ -116,13 +122,28 @@
             };
         },
         methods: {
+            changeBumen(id){
+                alert(id)
+                let url = '/api/admin/account/multiConditionalQuery';
+                this.$http({
+                    url: url,
+                    method: "post",
+                    data: {departmentId:id}
+                }).then((msg) => {
+                    console.log(msg)
+                    // this.translateArr = msg.data.info.treeAll.children;
+                    // console.log( this.translate )
+                }).catch((err) => {
+                    console.log(err)
+                })
+            },
             checkList() {
                 this.dialogRead = false
             },
             getAdmin() {
-                this.listInfo = '接收后台用户'
+                this.listInfo = '接收后台用户'//会员
                 this.dialogRead = true
-                let url = '/api/customer/account/query';
+                let url = '/api/admin/manage/group/find?pageSize=0&pageNo=1';
                 this.$http({
                     url: url,
                     method: "post",
@@ -138,13 +159,14 @@
             getCustomer() {
                 this.listInfo = '接收者会员'
                 this.dialogRead = true
-                let url = '/api/customer/identity/findIdentity';
+                let url = '/api/admin/manage/department/find?type=1&range=1&pageSize=0';
                 this.$http({
                     url: url,
                     method: "post",
                     data: {}
                 }).then((msg) => {
-                    console.log(msg)
+                    // this.translateArr = msg.data.info.treeAll.children;
+                    console.log( msg )
                 }).catch((err) => {
                     console.log(err)
                 })
@@ -190,7 +212,7 @@
                         })
                         .catch(error => {
                             console.log(error);
-                            // alert('网络错误，不能访问');
+                            // //         alert('网络错误，不能访问');
                         })
                 }
                 if (this.ruleForm.textInfo == "编辑消息") {
@@ -218,7 +240,7 @@
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                 }
                 this.dialogVisible = false;

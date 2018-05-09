@@ -211,7 +211,7 @@
                 })
             },
             showInvoice() {
-                this.dialogVisible = true
+                this.invosiceBox = true
             },
             reject() {
                 this.rejects = true

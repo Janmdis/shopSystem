@@ -52,7 +52,7 @@ export default {
                 this.$root.$emit('loadInfo',false);
             }).catch(error=>{
                 console.log(error);
-                alert('网络错误，不能访问');
+                //         alert('网络错误，不能访问');
             })
         }
     },

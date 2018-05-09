@@ -121,7 +121,7 @@ import qs from 'qs'
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                 }
                 if(this.ruleForm.textInfo == "编辑小区"){ 
@@ -146,7 +146,7 @@ import qs from 'qs'
                         })
                         .catch(error => {
                             console.log(error);
-                            alert('网络错误，不能访问');
+                            //         alert('网络错误，不能访问');
                         })
                 }
                 this.dialogVisible = false;

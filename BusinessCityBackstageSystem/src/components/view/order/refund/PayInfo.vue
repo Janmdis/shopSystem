@@ -20,9 +20,9 @@
                         </el-col>
                         <el-col :span='12'>
                             <ul>
-                                <li>申请时间：{{thisData.refundTime}}</li>
+                                <li>申请时间：{{applyRefundTime}}</li>
                                 <li>退款单号：{{thisData.refundNumber}}</li>
-                                <li v-if='applyRefundTime'>处理时间：{{applyRefundTime}}</li>
+                                <li v-if='applyRefundTime'>处理时间：{{thisData.refundTime}}</li>
                             </ul>
                         </el-col>
                     </el-row>
@@ -107,9 +107,10 @@
                        number:orderId
                    }
                }).then((msg)=>{
+                   console.log(msg)
                    let data = msg.data.info.list[0];
                    
-                   if(msg.data.info.list[0].orderDetails){
+                   if(msg.data.info.list[0]){
                        msg.data.info.list[0].orderDetails.forEach((item,index)=>{
                            this.letinvoice+=(item.conversionAmount-0)
                        })
@@ -161,8 +162,7 @@
             },
             isOkInfo() {
                 if (this.titles == '确认退款') {
-                    let orderId = sessionStorage.getItem("orderId");
-                    let url = '/api/product/order/weixin/refund?refundNumber=' + orderId;
+                    let url = '/api/product/order/weixin/refund?refundNumber=' + this.thisData.refundNumber;
                     this.$http({
                         url: url,
                         method: 'post',

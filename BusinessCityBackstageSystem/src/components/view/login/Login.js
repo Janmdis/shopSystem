@@ -49,9 +49,23 @@ export default {
         }
     },
     //页面加载调用获取cookie值
+    created() {
+        sessionStorage.removeItem("status")
+        sessionStorage.removeItem("infoText")
+        sessionStorage.removeItem("userInfo")
+    },
     mounted() {
         this.getCookie()
-        this.yzn()
+        this.yzn();
+        this.ruleForm.userName = sessionStorage.getItem('userName')
+        if (this.ruleForm.password) {
+            this.ruleForm.rememberMe = true
+        } else {
+            this.ruleForm.rememberMe = false
+        }
+        
+        // this.rememberMe = false;
+        // console.log(this.rememberMe)
     },
     methods: {
         option(test, status) {
@@ -97,6 +111,7 @@ export default {
                         this.setCookie(name, pass, 7);
                     }
                     //接口
+                    sessionStorage.setItem('userName', this.ruleForm.userName)
                     var url = '/api/admin/account/login';
                     //18356987162
                     // this.$http.post(url, this.ruleForm, { emulateJSON: true })
@@ -121,7 +136,8 @@ export default {
                             sessionStorage.setItem('userInfo', JSON.stringify(res.data.info))
                             if (msg !== '登录成功') {
                                 this.option("用户名不存在或密码错误,请重新输入");
-                                this.ruleForm.userName = '';
+                                
+                                // this.ruleForm.userName = '';
                                 this.ruleForm.password = '';
                                 this.ruleForm.verificationCode = '';
                                 return
@@ -170,6 +186,7 @@ export default {
         //清除cookie
         clearCookie: function() {
             this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
+            // this.ruleForm.rememberMe = false;
         },
         yzn() {
             let that = this

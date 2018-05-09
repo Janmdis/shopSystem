@@ -14,7 +14,6 @@ export default {
                 { title: '赠送积分信息', imgSrc: '/static/images/Member/dingdan.jpg', bgColor: 'background:#00c0be;', number: 2 },
                 { title: '支付信息', imgSrc: '/static/images/Member/personnel-info.png', bgColor: 'background:#7a9df7;', number: 2 },
                 { title: '回访', imgSrc: '/static/images/Member/personnel-visit.png', bgColor: 'background:#e39eef;', number: 2 },
-                { title: '发票信息', imgSrc: '/static/images/Member/personnel-visit.png', bgColor: 'background:#e39eef;', number: 2 },
             ],
             visitTypes: [],
             ruleForm: {
@@ -46,6 +45,9 @@ export default {
         }
     },
     created() {
+        this.$root.$on('showshow', data => {
+            this.isShow(data)
+        });
         this.$root.$on('title', (title) => {
             this.which_to_show = title
         });
@@ -163,8 +165,6 @@ export default {
                 text = threePayInfo;
             } else if (text == '回访') {
                 text = fourVisit;
-            }else if (text == '发票信息') {
-                text = invoiceInfo;
             }
             this.$root.$emit("orderId",this.ruleForm.orderNumber)
             this.$root.$emit('title', text);
@@ -188,5 +188,6 @@ export default {
         this.$root.$off('housePage');
         this.$root.$off('loadFn');
         this.$root.$off('load');
+        this.$root.$off('showshow');
     }
 }

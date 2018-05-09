@@ -28,10 +28,14 @@ Vue.prototype.$http = axios
 //路由限制跳转判断
 router.beforeEach((transition, from, next) => {
         // 登录路径不执行
+    console.log(transition)
         if (transition.path.indexOf('login') == -1) {
             console.log(transition.path.indexOf('login'))
+            if (!sessionStorage.getItem('userInfo')) {
+                return next({ path: '/login' })
+            }
                 // 判断缓存信息是否存在，不存在则直接跳转登录页
-                //return next({ path: '/login' })
+                // 
 
         }
         next();
