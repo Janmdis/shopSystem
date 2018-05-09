@@ -76,9 +76,9 @@
 <script>
     / eslint-disable /
     //@row-click="showMemberInfo()"
-    import {
-        mapState
-    } from 'Vuex'
+    // import {
+    //     mapState
+    // } from 'Vuex'
     export default {
         prop: ['listLoading'],
         data() {
