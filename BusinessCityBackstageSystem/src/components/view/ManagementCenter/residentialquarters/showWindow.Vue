@@ -13,9 +13,50 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span='24'>
-                    <el-form-item label="地址" prop='address'>
+                    <!--<el-form-item label="地址" prop='address'>
                         <el-input v-model="ruleForm.address"></el-input>
-                    </el-form-item>
+                    </el-form-item>!-->
+                     <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
+                            <span>
+                                                                    <el-select v-model="houseForm.bigDistrict" @change="bigDis" placeholder="请选择">
+                                                                        <el-option v-for="(item,index) in houseInfo" :key="index" :label="item.regionName" :value="index+1"></el-option> 
+                                                                    </el-select>
+                                                                    <strong class='citys'>大区</strong>
+                                                                </span>
+                        </el-col>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
+                            <span>
+                                                                    <el-select v-model="houseForm.provinceValue" @change="proDis" placeholder="请选择">
+                                                                        <el-option v-for="(item,index) in proDisId" :key="index" :label="item" :value="index"></el-option>
+                                                                    </el-select><strong  class='citys'>省</strong>
+                                                                </span>
+                        </el-col>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
+                            <span>
+                                                                    <el-select v-model="houseForm.cityValue" @change="cityDis" placeholder="请选择">
+                                                                         <el-option v-for="(item,index) in cityDisId" :key="index" :label="item" :value="index"></el-option>
+                                                                    </el-select><strong  class='citys'>市</strong>
+                                                                </span>
+                        </el-col>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
+                            <span>
+                                                                    <el-select v-model="houseForm.countyDistrict" @change="countyDis" placeholder="请选择">
+                                                                        <el-option v-for="(item,index) in countyInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
+                                                                    </el-select>
+                                                                    <strong  class='citys'>县区</strong>
+                                                                </span>
+                        </el-col>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
+                            <span>
+                                                                    <el-select v-model="houseForm.streetValue" @change="streetDis" placeholder="请选择">
+                                                                        <el-option v-for="(item,index) in streetInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
+                                                                    </el-select>
+                                                                    <strong class="street citys">街道</strong>
+                                                                </span>
+                        </el-col>
+                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
+                            <input type="text" v-model="houseForm.streetMore" placeholder="请输入详细地址" style='padding:0;' class="detailAddress">
+                        </el-col>
                 </el-col>
             </el-row>
             <el-form-item class="estate-btn">
@@ -52,12 +93,47 @@ import qs from 'qs'
             return {
                 dialogVisible: false,
                 cantSubmit:true,
+                proInfo: [],
+                cityInfoList: [],
+                cityInfo: [],
+                countyInfo: [],
+                streetInfo: [],
+                bigDisId: {},
+                proDisId: {},
+                cityDisId: {},
+                houseForm: {
+                    estate: '',
+                    smallDistrict: '',
+                    houseType: null,
+                    houseState: null,
+                    bigDistrict: null,
+                    provinceValue: null,
+                    cityValue: null,
+                    countyDistrict: null,
+                    streetValue: null,
+                    streetMore: '',
+                    balcony: null,
+                    room: null,
+                    hall: null,
+                    toilet: null,
+                    kitchen: null,
+                    square: 0
+                },
+                estateArr: [],
+                houseInfo: [],
+                proInfoList: [],
+                proInfo: [],
+                cityInfoList: [],
+                cityInfo: [],
+                countyInfo: [],
+                streetInfo: [],
                 ruleForm: {
                     textInfo: '新增会员',
                     name: "",
                     mode: '',
                     address: '',
                     thisId:''
+                    
                 },
                 rules: {
                     name: [{
@@ -81,6 +157,106 @@ import qs from 'qs'
             };
         },
         methods: {
+            searchInfo() {
+                //  查询地址信息
+                let that = this;
+                this.$http.get('/api/public/region/findParent?parentId=0&levels=3')
+                    .then(res => {
+                        this.$root.$emit('load', false);
+                        if (res.data.info == null) {
+                            alert(res.data.error)
+                        } else {
+                            that.houseInfo = res.data.info;
+                            (res.data.info).forEach(function(e, i) {
+                                that.proInfoList = that.houseInfo[e.id - 1].sysRegionList;
+                                that.bigDisId[e.id] = e.regionName;
+                                //console.log(that.bigDisId)
+                                that.proInfoList.forEach(function(e, i) {
+                                    that.proInfo.push(e);
+                                    that.cityInfoList = that.proInfoList[i].sysRegionList;
+                                    that.cityInfoList.forEach(function(e, i) {
+                                        that.cityInfo.push(e);
+                                    });
+                                });
+                            });
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                //  查询小区信息
+                this.$http.get('/api/customer/estate/queryData')
+                    .then(res => {
+                        this.smallDisInfo = res.data.info;
+                        //console.log(this.smallDisInfo);
+                    }).catch(err => {
+                        console.log(err)
+                    });
+            },
+             bigDis() {
+                console.log(this.houseForm.room);
+                let that = this;
+                that.proDisId = {};
+                that.houseForm.provinceValue = '',
+                    that.houseForm.cityValue = '',
+                    that.houseForm.countyDistrict = '',
+                    that.houseForm.streetValue = '',
+                    that.proInfo.forEach(function(e, i) {
+                        if (e.parentCode == (that.houseForm.bigDistrict)) {
+                            that.proDisId[e.id] = e.regionName;
+                        }
+                    });
+                console.log(that.proDisId);
+            },
+            proDis() {
+                let that = this;
+                that.cityDisId = {};
+                that.houseForm.cityValue = '',
+                    that.houseForm.countyDistrict = '',
+                    that.houseForm.streetValue = '',
+                    that.cityInfo.forEach(function(e, i) {
+                        if (e.parentCode == (that.houseForm.provinceValue)) {
+                            that.cityDisId[e.id] = e.regionName;
+                        }
+                    });
+                //console.log(that.houseForm.provinceValue);
+                //console.log(that.cityDisId);
+            },
+            cityDis() {
+                console.log(this.houseForm.cityValue);
+                this.houseForm.countyDistrict = '',
+                    this.houseForm.streetValue = '',
+                    this.$http.get('/api/public/region/findParent?parentId=' + this.houseForm.cityValue)
+                    .then(res => {
+                        this.countyInfo = res.data.info;
+                        //console.log(this.countyInfo);
+                    }).catch(err => {
+                        console.log(err)
+                    });
+            },
+            countyDis() {
+                console.log(this.houseForm.countyDistrict);
+                this.houseForm.streetValue = '',
+                    this.$http.get('/api/public/region/findParent?parentId=' + this.houseForm.countyDistrict)
+                    .then(res => {
+                        //console.log(res.data.info);
+                        this.streetInfo = res.data.info;
+                    }).catch(err => {
+                        console.log(err)
+                    });
+            },
+            streetDis() {
+                console.log(this.houseForm.streetValue);
+                let street = document.getElementsByClassName('detailAddress')[0];
+                //console.log(street);
+                street.focus();
+            },
+            changeValue(value) {
+                let obj = {};
+                obj = this.houseForm.countyDistrict.find((item) => {
+                    return item.value === value;
+                });
+                console.log(obj.label);
+            },
             closeDialog(done){
                 this.dialogVisible = false;
                 this.$refs['ruleForm'].resetFields();
@@ -154,6 +330,7 @@ import qs from 'qs'
             }
         },
         created: function() {
+            this.searchInfo();
             this.$root.$on('showWindowss', (data) => {
                 this.$nextTick(() => {
                     if (data.type != 'no') {

@@ -13,13 +13,13 @@
                             <el-input v-model="ruleForm.mode"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span='12' v-if='false'>
-                        <el-form-item label="接收后台用户" @click.native='getAdmin' prop="receiverAdmin">
+                    <el-col :span='12'>
+                        <el-form-item label="接收会员" @click.native='getAdmin' prop="receiverAdmin">
                             <el-button type='button'>请点击选择</el-button>
                         </el-form-item>
                     </el-col>
-                    <el-col :span='12' v-if='false'>
-                        <el-form-item label="接收者会员" @click.native='getCustomer' prop="receiverCustomer">
+                    <el-col :span='12'>
+                        <el-form-item label="接收后台用户" @click.native='getCustomer' prop="receiverCustomer">
                             <el-button type='button'>请点击选择</el-button>
                         </el-form-item>
                     </el-col>
@@ -46,10 +46,14 @@
             </el-form>
         </el-dialog>
         <el-dialog :title='listInfo' :visible.sync="dialogRead" width="30%" :append-to-body="true" id="addEstate">
-            <el-checkbox-group v-model="ListAdminId" v-if='listInfo=="接收后台用户"'>
-                <el-checkbox v-for='(item,index) in ListAdminData' :key='index' :label="item?tiem.id:''">item?tiem.name:''</el-checkbox>
+            <el-checkbox-group v-model="ListAdminId" v-if='listInfo=="接收会员"'>
+                <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                <div style="margin: 15px 0;"></div>
+                <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+                    <el-checkbox v-for="item in ListAdminData"  :label="item" :key="item.id">{{item.name}}</el-checkbox>
+                </el-checkbox-group>
             </el-checkbox-group>
-            <el-checkbox-group v-model="ListCustomerId" v-if='listInfo=="接收者会员"'>
+            <el-checkbox-group v-model="ListCustomerId" v-if='listInfo=="接收后台用户"'>
                 <el-select v-model="translate" placeholder="请选择">
                     <el-option v-for='(item,index) in translateArr' :key='index' :label="item.info" :value='item.id' @click.native='changeBumen(item.id)'>
                     </el-option>
@@ -84,13 +88,17 @@
     }
 </style>
 <script>
+    import {
+        mapState
+    } from 'vuex';
     import qs from 'qs'
     export default {
         data() {
             return {
-                translate:'',
-                translateArr:[],
-                showStyle:false,
+                translate: '',
+                selectAll: false,
+                translateArr: [],
+                showStyle: false,
                 ListAdminData: [],
                 ListCustomerData: [],
                 ListAdminId: [],
@@ -119,16 +127,27 @@
                         trigger: 'blur'
                     }, ],
                 },
+                checkAll: false,
+                checkedCities: [],
+                // cities: cityOptions,
+                isIndeterminate: false
             };
         },
+        computed: {
+            ...mapState({
+                goods: state => state.newsInfo.newslist,
+            })
+        },
         methods: {
-            changeBumen(id){
+            changeBumen(id) {
                 alert(id)
                 let url = '/api/admin/account/multiConditionalQuery';
                 this.$http({
                     url: url,
                     method: "post",
-                    data: {departmentId:id}
+                    data: {
+                        departmentId: id
+                    }
                 }).then((msg) => {
                     console.log(msg)
                     // this.translateArr = msg.data.info.treeAll.children;
@@ -141,23 +160,29 @@
                 this.dialogRead = false
             },
             getAdmin() {
-                this.listInfo = '接收后台用户'//会员
-                this.dialogRead = true
-                let url = '/api/admin/manage/group/find?pageSize=0&pageNo=1';
-                this.$http({
-                    url: url,
-                    method: "post",
-                    data: {}
-                }).then((msg) => {
-                    if (msg.data.info.list) {
-                        ListCustomerData = msg.data.info.list
-                    }
-                }).catch((err) => {
-                    console.log(err)
-                })
+               
+                this.listInfo = '接收会员' //会员
+                this.dialogRead = true;
+                 this.ListAdminData = this.goods.data
+                 console.log( this.ListAdminData)
+                 console.log( this.goods)
+                // let url = '/api/customer/account/query';
+                // this.$http({
+                //     url: url,
+                //     method: "post",
+                //     data: {}
+                // }).then((msg) => {
+                //     console.log(msg.data.info)
+                //     if (msg.data.info.list) {
+                //         this.ListAdminData = msg.data.info.list
+                //         console.log(this.ListAdminData)
+                //     }
+                // }).catch((err) => {
+                //     console.log(err)
+                // })
             },
             getCustomer() {
-                this.listInfo = '接收者会员'
+                this.listInfo = '接收后台用户'
                 this.dialogRead = true
                 let url = '/api/admin/manage/department/find?type=1&range=1&pageSize=0';
                 this.$http({
@@ -166,10 +191,23 @@
                     data: {}
                 }).then((msg) => {
                     // this.translateArr = msg.data.info.treeAll.children;
-                    console.log( msg )
+                    console.log(msg)
                 }).catch((err) => {
                     console.log(err)
                 })
+            },
+            handleCheckAllChange(val) {
+                this.checkedCities = val ? this.ListAdminData : [];
+                this.isIndeterminate = false;
+                console.log(this.checkedCities)
+            },
+            handleCheckedCitiesChange(value) {
+                let checkedCount = value.length;
+                console.log(checkedCount)
+                console.log(this.ListAdminData.length)
+                this.checkAll = checkedCount === this.ListAdminData.length;
+                console.log( this.checkAll )
+                this.isIndeterminate = checkedCount > 0 && checkedCount < this.ListAdminData.length;
             },
             closeDialog(done) {
                 this.dialogVisible = false;
@@ -201,8 +239,8 @@
                             data: [{
                                 "title": this.ruleForm.name,
                                 "content": this.ruleForm.mode,
-                                "receiverAdminId": this.ListAdminId+''.replace(/\[|]/g,''),
-                                "receiverCustomerId": this.ListCustomerId+''.replace(/\[|]/g,''),
+                                "receiverAdminId": this.ListAdminId + ''.replace(/\[|]/g, ''),
+                                "receiverCustomerId": this.ListCustomerId + ''.replace(/\[|]/g, ''),
                             }]
                         })
                         .then(res => {
@@ -228,8 +266,8 @@
                                 'id': this.ruleForm.thisId,
                                 "title": this.ruleForm.name,
                                 "content": this.ruleForm.mode,
-                                "receiverAdminId": this.ListAdminId+''.replace(/\[|]/g,''),
-                                "receiverCustomerId": this.ListCustomerId+''.replace(/\[|]/g,''),
+                                "receiverAdminId": this.ListAdminId + ''.replace(/\[|]/g, ''),
+                                "receiverCustomerId": this.ListCustomerId + ''.replace(/\[|]/g, ''),
                                 "isRead": true,
                                 "isDisplay": false
                             }
@@ -248,6 +286,7 @@
             }
         },
         created: function() {
+           this.$store.dispatch('getJson');
             this.$root.$on('showWindowss', (data) => {
                 this.$nextTick(() => {
                     if (data.type != 'no') {
@@ -258,8 +297,8 @@
                         this.ruleForm.thisId = data.rowData.id
                         this.ruleForm.mode = data.rowData.content
                         this.ruleForm.name = data.rowData.title
-                        this.ListAdminId= data.rowData.receiverAdminId;
-                        this.ListCustomerId=data.rowData.receiverCustomerId;
+                        this.ListAdminId = data.rowData.receiverAdminId;
+                        this.ListCustomerId = data.rowData.receiverCustomerId;
                     } else {
                         this.showStyle = false;
                         this.dialogVisible = true;

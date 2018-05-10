@@ -7,7 +7,7 @@
                     <div class="houseDiv"><span>小区/写字楼 : {{smallDisInfos[info.estateId]}}</span><span>房屋类型 : {{houseCategory[info.categoryId]}}</span></div>
                     <div class="houseDiv"><span>地址 : {{info.address}}</span><span>租住状态 : {{rentalStatus[info.rentalStatusId]}}</span></div>
                     <div class="houseBtn" :dataId="index">
-                        <el-button @click="jumpHouseDetail($event)" type="primary" style="border-radius:4px;" :dataId="index">查看详情</el-button>
+                        <el-button @click="jumpHouseDetail($event,info)" type="primary" style="border-radius:4px;" :dataId="index">查看详情</el-button>
                     </div>
                 </li>
             </ul>
@@ -259,13 +259,13 @@
                 //console.log(street);
                 street.focus();
             },
-            jumpHouseDetail(event) {
+            jumpHouseDetail(event,info) {
                 let number = event.target.parentNode.getAttribute('dataId');
                 this.isSwitchHouseDetail = false;
                 // event.cancelBubble = true;
                 this.memberHouseDetail = this.memberHouse[number];
                 //console.log(this.memberHouseDetail);
-                this.$root.$emit('houseDetailShow');
+                this.$root.$emit('houseDetailShow',info);
             },
             cancelAlert(houseForm) {
                 this.showHouseCover = false;

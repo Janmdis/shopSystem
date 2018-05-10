@@ -32,8 +32,8 @@
                             <el-col :span="22"><el-select v-model="ruleForm.userType" :disabled="ruleForm.active" placeholder="请选择">
                                 <el-option
                                 :popper-append-to-body="false"
-                                v-for="item in customerCategory"
-                                :key="item.id"
+                                v-for="(item,index) in customerCategory"
+                                :key="index"
                                 :label="item.name"
                                 :value="item.id">
                                 </el-option></el-select>
@@ -70,8 +70,8 @@
                             <el-col :span="22"><el-select v-model="ruleForm.userOrigin" :disabled="ruleForm.active" placeholder="请选择">
                                 <el-option
                                 :popper-append-to-body="false"
-                                v-for="item in recommendedSource"
-                                :key="item.id"
+                                v-for="(item,index) in recommendedSource"
+                                :key="index"
                                 :label="item.name"
                                 :value="item.id">
                                 </el-option></el-select>

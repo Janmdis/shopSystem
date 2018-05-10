@@ -225,10 +225,12 @@ export default {
         }
     },
     created:function(){
+        
         this.searchInfo();
         this.houseGeoryIds();
-        this.$root.$on('houseDetailShow',() =>{
+        this.$root.$on('houseDetailShow',(data) =>{
             this.isSwitchHouse = true; 
+            console.log(data)
         });
         let that = this;
         this.$http.get('/api/public/region/findMapList')
@@ -254,7 +256,8 @@ export default {
         },
         memberHouseDetail:function(){
             let address = JSON.parse(sessionStorage.getItem('address'));
-            this.houseProps.buildings = this.memberHouseDetail.housingEstate;
+            console.log(this.memberHouseDetail.housingEstate)
+            this.houseProps.buildings = this.memberHouseDetail.housingEstate.name;
             this.houseProps.rentalStatus = this.rentalStatusDetail[this.memberHouseDetail.rentalStatusId];
             this.houseProps.houseType = this.houseCategoryDetail[this.memberHouseDetail.categoryId];
             this.houseProps.balcony = this.memberHouseDetail.balconyQuantity;this.houseProps.room = this.memberHouseDetail.roomQuantity;this.houseProps.office = this.memberHouseDetail.hallQuantity;
