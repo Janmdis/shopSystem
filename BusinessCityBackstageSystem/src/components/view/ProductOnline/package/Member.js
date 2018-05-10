@@ -6,6 +6,7 @@ import search from '../../../common/search/search.vue'
 import showWindows from './showWindow.vue'
 import detailpackage from './detailpackage.vue'
 import  detailcommodity from '@/components/view/ProductOnline/commodity/detailcommodity.vue'
+import detailTempalteList from './../commodity/detailTempalteList.vue'
 import qs from 'qs'
 
 export default {
@@ -176,7 +177,8 @@ export default {
     showWindows,
     searchBox,
     detailpackage,
-    detailcommodity
+    detailcommodity,
+    detailTempalteList
   },
 }
 

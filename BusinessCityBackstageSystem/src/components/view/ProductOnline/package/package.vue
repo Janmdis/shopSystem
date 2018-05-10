@@ -41,6 +41,7 @@
         </div>
         <detailpackage></detailpackage>
         <showWindows></showWindows>
+        <detailTempalteList></detailTempalteList>
         <!-- <detailcommodity></detailcommodity> -->
     </el-main>
 </template>

@@ -687,7 +687,13 @@ const mutations={
         state.comlist[id].componentsData.ImgArr[index].boxesDivBtn.boxesBtnShow = true;
         state.comlist[id].componentsData.ImgArr[index].boxesDivBtn.boxesBtnHide = false;
     },
-
+    //修改模板标题
+    templateNamesInput(state,data){
+        state.templateName = data
+    },
+    templateDes(state,data){
+        state.description = data
+    },
     //新增商品模块
     commodityADD(state){
         let commodityDefault = {
