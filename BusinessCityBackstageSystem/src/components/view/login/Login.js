@@ -57,7 +57,7 @@ export default {
     mounted() {
         this.getCookie()
         this.yzn();
-        this.ruleForm.userName = sessionStorage.getItem('userName')
+        this.ruleForm.userName = localStorage.getItem('userName')
         if (this.ruleForm.password) {
             this.ruleForm.rememberMe = true
         } else {
@@ -111,7 +111,7 @@ export default {
                         this.setCookie(name, pass, 7);
                     }
                     //接口
-                    sessionStorage.setItem('userName', this.ruleForm.userName)
+                    localStorage.setItem('userName', this.ruleForm.userName)
                     var url = '/api/admin/account/login';
                     //18356987162
                     // this.$http.post(url, this.ruleForm, { emulateJSON: true })
