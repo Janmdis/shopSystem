@@ -626,7 +626,7 @@ export default {
                     that.specificationArr=JSON.parse(data.options)
                     if(data.giftPoints){
                         that.sendPoints = true
-                        that.pointsMoney = data.giftPoints
+                        that.sendPointsNum = data.giftPoints
                     }else{
                         that.sendPoints = false
                     }
