@@ -167,6 +167,8 @@
                             type: 'info',
                             message: '添加成功'
                         });
+                    this.selectedDiv = false;
+                    this.selectedTitle = '';
                     this.dialogVisibless = false;
                 }
           },
