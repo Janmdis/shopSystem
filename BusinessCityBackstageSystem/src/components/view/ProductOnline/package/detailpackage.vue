@@ -763,7 +763,9 @@ export default {
         getdatedetail(){
             // 时间段为空，获取时间段
             if(!this.listtime.length){
-                this.getdateperiod();
+                this.$message('请先配置时间段');
+                return;
+                // this.getdateperiod();
             }
             else{
                 this.listtime.forEach(item=>{
