@@ -100,7 +100,7 @@
                 >
                 </el-table-column>
                 <el-table-column 
-                width='200'
+                width='250'
                 label="操作">
                 <template slot-scope="scope" >
                     <el-button type="text" size="small" :disabled='scope.row.isLeader' @click="chengeLeader(scope.$index,scope.row)">指定为队长</el-button>

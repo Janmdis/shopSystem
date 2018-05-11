@@ -1,7 +1,6 @@
 <template>
     <el-dialog title='选择渠道/成员'  :visible.sync="dialogVisible"  width="40%"  class='dialogchannellist-cx'>
         <el-tree
-
         :props="props"
         :load="loadNode"
         empty-text="暂无数据"
