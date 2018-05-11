@@ -375,13 +375,16 @@
                                         this.option(response.data.msg);
                                         return false;
                                     }
-                                    console.log(response)
-                                    this.option(response.data.msg, 'success');
-                                    this.handleClose();
-                                    this.ruleForm.showBoxArrId = [], //商品
-                                        this.ruleForm.shopShowBoxArrId = [], //商品分类
+                                    if (response.data.status == 200) {
+                                        this.option(response.data.msg, 'success');
+                                        this.handleClose();
+                                        this.ruleForm.showBoxArrId = [];//商品
+                                        this.ruleForm.shopShowBoxArrId = []; //商品分类
                                         this.ruleForm.addTextArrObjArr = []
-                                    this.dialogVisible = false;
+                                        this.dialogVisible = false;
+                                    }
+                                   
+                                   
                                     this.$root.$emit('getDatezdy', 1)
                                 })
                                 .catch(error => {
@@ -557,7 +560,6 @@
                     this.isNormal = false;
                     this.isChild = true;
                     this.isAdd = false;
-                    console.log(this.ruleForm.showBoxArrId)
                     this.ruleForm.oneData = {
                         // companyId:this.companyId,
                         id: this.ruleForm.ids,

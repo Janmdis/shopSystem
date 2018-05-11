@@ -1,7 +1,7 @@
 <template>
     <el-container >
       <el-aside style='overflow: hidden;' >
-        <el-menu :default-openeds="['1']" router>
+        <el-menu default-active="MessageCenter" router>
           <el-submenu index="1">
             <template slot="title"><i class="icon iconfont icon-jichupeizhi" style='margin-right: 10px;'></i>基础配置</template>
             <el-menu-item-group>

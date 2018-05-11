@@ -14,49 +14,49 @@
                 </el-col>
                 <el-col :span='24'>
                     <!--<el-form-item label="地址" prop='address'>
-                        <el-input v-model="ruleForm.address"></el-input>
-                    </el-form-item>!-->
-                     <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
-                            <span>
-                                                                    <el-select v-model="houseForm.bigDistrict" @change="bigDis" placeholder="请选择">
-                                                                        <el-option v-for="(item,index) in houseInfo" :key="index" :label="item.regionName" :value="index+1"></el-option> 
-                                                                    </el-select>
-                                                                    <strong class='citys'>大区</strong>
-                                                                </span>
-                        </el-col>
-                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
-                            <span>
-                                                                    <el-select v-model="houseForm.provinceValue" @change="proDis" placeholder="请选择">
-                                                                        <el-option v-for="(item,index) in proDisId" :key="index" :label="item" :value="index"></el-option>
-                                                                    </el-select><strong  class='citys'>省</strong>
-                                                                </span>
-                        </el-col>
-                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
-                            <span>
-                                                                    <el-select v-model="houseForm.cityValue" @change="cityDis" placeholder="请选择">
-                                                                         <el-option v-for="(item,index) in cityDisId" :key="index" :label="item" :value="index"></el-option>
-                                                                    </el-select><strong  class='citys'>市</strong>
-                                                                </span>
-                        </el-col>
-                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
-                            <span>
-                                                                    <el-select v-model="houseForm.countyDistrict" @change="countyDis" placeholder="请选择">
-                                                                        <el-option v-for="(item,index) in countyInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
-                                                                    </el-select>
-                                                                    <strong  class='citys'>县区</strong>
-                                                                </span>
-                        </el-col>
-                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
-                            <span>
-                                                                    <el-select v-model="houseForm.streetValue" @change="streetDis" placeholder="请选择">
-                                                                        <el-option v-for="(item,index) in streetInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
-                                                                    </el-select>
-                                                                    <strong class="street citys">街道</strong>
-                                                                </span>
-                        </el-col>
-                        <el-col :span='4' :offset='1' style='position:relative;margin-bottom:10px;'>
-                            <input type="text" v-model="houseForm.streetMore" placeholder="请输入详细地址" style='padding:0;' class="detailAddress">
-                        </el-col>
+                            <el-input v-model="ruleForm.address"></el-input>
+                        </el-form-item>!-->
+                    <el-col :span='12'  style='position:relative;margin-bottom:10px;'>
+                        <el-form-item label="大区">
+                            <el-select v-model="houseForm.bigDistrict" @change="bigDis" placeholder="请选择">
+                                <el-option v-for="(item,index) in houseInfo" :key="index" :label="item.regionName" :value="index+1"></el-option> 
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span='12'  style='position:relative;margin-bottom:10px;'>
+                        <el-form-item label="省">
+                            <el-select v-model="houseForm.provinceValue" @change="proDis" placeholder="请选择">
+                                <el-option v-for="(item,index) in proDisId" :key="index" :label="item" :value="index"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span='12'  style='position:relative;margin-bottom:10px;'>
+                         <el-form-item label="市">
+                            <el-select v-model="houseForm.cityValue" @change="cityDis" placeholder="请选择">
+                                    <el-option v-for="(item,index) in cityDisId" :key="index" :label="item" :value="index"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span='12'  style='position:relative;margin-bottom:10px;'>
+                        <el-form-item label="县区">
+                            <el-select v-model="houseForm.countyDistrict" @change="countyDis" placeholder="请选择">
+                                <el-option v-for="(item,index) in countyInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
+                            </el-select>
+                            
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span='12' style='position:relative;margin-bottom:10px;'>
+                        <el-form-item label="县区">
+                            <el-select v-model="houseForm.streetValue" @change="streetDis" placeholder="请选择">
+                                <el-option v-for="(item,index) in streetInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span='24'  style='position:relative;margin-bottom:10px;'>
+                    <el-form-item label="详细地址">
+                        <el-input type="text" v-model="houseForm.streetMore" placeholder="请输入详细地址" style='padding:0;' class="detailAddress"></el-input>
+                        </el-form-item>
+                    </el-col>
                 </el-col>
             </el-row>
             <el-form-item class="estate-btn">
@@ -66,33 +66,36 @@
     </el-dialog>
 </template>
 <style lang="less">
-#addEstate{
-    .imgBox {
-        width: 100px;
-        height: 100px;
-        border: 1px solid #ddd;
-    }
-    .lineBline {
-        border-bottom: 1px solid #ddd;
-    }
-    .estate-btn{
-        .el-form-item__content{
-            text-align: center;
-            margin-left: 0 !important;
+    #addEstate {
+        .imgBox {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ddd;
+        }
+        .lineBline {
+            border-bottom: 1px solid #ddd;
+        }
+        .estate-btn {
+            .el-form-item__content {
+                text-align: center;
+                margin-left: 0 !important;
+            }
+        }
+        .el-dialog {
+            padding-bottom: 5px;
+        }
+        .citys {
+            float: left;
         }
     }
-    .el-dialog{
-        padding-bottom: 5px;
-    }
-}
 </style>
 <script>
-import qs from 'qs'
+    import qs from 'qs'
     export default {
         data() {
             return {
                 dialogVisible: false,
-                cantSubmit:true,
+                cantSubmit: true,
                 proInfo: [],
                 cityInfoList: [],
                 cityInfo: [],
@@ -132,8 +135,7 @@ import qs from 'qs'
                     name: "",
                     mode: '',
                     address: '',
-                    thisId:''
-                    
+                    thisId: ''
                 },
                 rules: {
                     name: [{
@@ -144,16 +146,14 @@ import qs from 'qs'
                     mode: [{
                         required: false,
                         message: '请输入小区别名',
-                         trigger: 'blur'
+                        trigger: 'blur'
                     }, ],
                     address: [{
                         required: false,
                         message: '请填写详细地址',
                         trigger: 'blur'
                     }],
-
                 },
-
             };
         },
         methods: {
@@ -192,7 +192,7 @@ import qs from 'qs'
                         console.log(err)
                     });
             },
-             bigDis() {
+            bigDis() {
                 console.log(this.houseForm.room);
                 let that = this;
                 that.proDisId = {};
@@ -257,25 +257,25 @@ import qs from 'qs'
                 });
                 console.log(obj.label);
             },
-            closeDialog(done){
+            closeDialog(done) {
                 this.dialogVisible = false;
                 this.$refs['ruleForm'].resetFields();
                 this.ruleForm.name = ''
             },
-            checkName(){
-                if(this.ruleForm.name == ''){
+            checkName() {
+                if (this.ruleForm.name == '') {
                     this.cantSubmit = true
                     this.$message({
-                    message: '小区名不能为空',
-                    type: 'warning',
-                    duration:1000
+                        message: '小区名不能为空',
+                        type: 'warning',
+                        duration: 1000
                     })
-                }else{
+                } else {
                     this.cantSubmit = false
                 }
             },
             submitForm(formName) {
-                if(this.ruleForm.textInfo == "新增小区"){    
+                if (this.ruleForm.textInfo == "新增小区") {
                     let url = '/api/customer/estate/insertData';
                     this.$http({
                             url: url,
@@ -284,7 +284,7 @@ import qs from 'qs'
                             // headers: {
                             //     'Content-Type': 'application/json'
                             // },
-                            data:[{
+                            data: [{
                                 'name': this.ruleForm.name,
                                 'alias': this.ruleForm.mode,
                                 'address': this.ruleForm.address,
@@ -293,14 +293,14 @@ import qs from 'qs'
                         .then(res => {
                             this.dialogVisible = false;
                             console.log(res.data.msg);
-                            this.$root.$emit('getDatezdy',1);
+                            this.$root.$emit('getDatezdy', 1);
                         })
                         .catch(error => {
                             console.log(error);
                             //         alert('网络错误，不能访问');
                         })
                 }
-                if(this.ruleForm.textInfo == "编辑小区"){ 
+                if (this.ruleForm.textInfo == "编辑小区") {
                     let url = '/api/customer/estate/updateData';
                     this.$http({
                             url: url,
@@ -313,12 +313,12 @@ import qs from 'qs'
                                 'name': this.ruleForm.name,
                                 'alias': this.ruleForm.mode,
                                 'address': this.ruleForm.address,
-                                'id':this.ruleForm.thisId
+                                'id': this.ruleForm.thisId
                             }
                         })
                         .then(response => {
                             this.dialogVisible = false;
-                            this.$root.$emit('getDatezdy',1)
+                            this.$root.$emit('getDatezdy', 1)
                         })
                         .catch(error => {
                             console.log(error);
@@ -337,22 +337,21 @@ import qs from 'qs'
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '编辑小区';
                         console.log(data.rowData);
-                        this.ruleForm.thisId=  data.rowData.id
-                        this.ruleForm.mode= data.rowData.alias
-                        this.ruleForm.name= data.rowData.name
-                        this.ruleForm.address= data.rowData.address
-                    }else{
+                        this.ruleForm.thisId = data.rowData.id
+                        this.ruleForm.mode = data.rowData.alias
+                        this.ruleForm.name = data.rowData.name
+                        this.ruleForm.address = data.rowData.address
+                    } else {
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '新增小区';
-                        this.ruleForm.mode= ""
-                        this.ruleForm.name= ""
-                        this.ruleForm.address= ""
-                    } 
+                        this.ruleForm.mode = ""
+                        this.ruleForm.name = ""
+                        this.ruleForm.address = ""
+                    }
                 })
             });
-             
         },
-        beforeDestroy(){
+        beforeDestroy() {
             this.$root.$off('showWindowss');
         }
     }

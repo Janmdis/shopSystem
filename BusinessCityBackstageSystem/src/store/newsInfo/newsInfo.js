@@ -19,7 +19,7 @@ const mutations = {
         state.pageNum = n;
     },
     getBackstageList(state,n){
-        axios.post('/api/admin/account/multiConditionalQuery?pageSize=2&page='+state.pageNum,{departmentId: n}).then((msg) => {
+        axios.post('/api/admin/account/multiConditionalQuery',{departmentId: n,pageSize:2,pageNum:state.pageNum}).then((msg) => {
             if(msg.data.info.list){
                 state.BackstageList = msg.data.info
                 
