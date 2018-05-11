@@ -25,6 +25,7 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
 Vue.prototype.$http = axios
+Vue.prototype.url_mobie='http://www.itchun.com';
 
 //路由限制跳转判断
 router.beforeEach((transition, from, next) => {

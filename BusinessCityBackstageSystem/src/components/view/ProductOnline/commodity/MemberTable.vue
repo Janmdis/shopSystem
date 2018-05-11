@@ -84,11 +84,12 @@
             </template>
     </el-table-column>
     <el-table-column
-        width='180'
+        width='200'
         prop="address"
         label="操作"
         fixed='right'>
         <template slot-scope="scope">
+            <el-button type="text" size="small" @click="createQrcode(scope.row)">添加渠道</el-button>            
             <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             <el-button type="text" size="small" :class='{onsale:scope.row.isOnSale==0,nosale:scope.row.isOnSale==1}' @click="handleChangesale(scope.$index, scope.row)">{{scope.row.isOnSale==0?'上架':scope.row.isOnSale==1?"下架":''}}</el-button>
@@ -321,6 +322,11 @@ export default {
         indexMethod(index) {
             return index + 1
         },
+        //添加渠道生成二维码
+        createQrcode(row){
+            this.$root.$emit('showchannel',row.id)
+            // console.log(row);
+        }
     },
     beforeDestroy(){
         this.$root.$off('pageIndex');
