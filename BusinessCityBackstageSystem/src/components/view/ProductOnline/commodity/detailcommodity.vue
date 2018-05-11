@@ -734,6 +734,13 @@ export default {
                     .then(function(response){
                         if(response.data.msg=='修改成功'){
                             that.$message.success('商品修改成功！');
+                            that.dynamicTags = [];
+                            that.addOptionsShow = false;
+                            that.addOptionBtn = true;
+                            that.specificationName = '';
+                            that.specificationArr = [];
+                            that.formmsg.detailTemplateInfoName='';
+                            that.formmsg.detailTemplateInfoId='';
                             that.$refs.detailcommodity.setAttribute('class','detailcommodity off');
                             console.log(that.from);
                             if(that.from=='package'){

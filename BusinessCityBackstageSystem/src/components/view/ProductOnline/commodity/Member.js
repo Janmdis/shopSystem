@@ -8,6 +8,9 @@ import shopDetails from './shopDetails.vue'
 import detailcommodity from './detailcommodity.vue'
 import commoditywindow from '../package/showWindow.vue'
 import detailTempalteList from './detailTempalteList.vue'
+import dialogchannellist from './dialog_channellist.vue'
+import dialogqrcide from '../../../common/dialog/qrcode.vue'
+
 import qs from 'qs'
 export default {
   
@@ -181,7 +184,9 @@ export default {
     shopDetails,
     detailcommodity,
     commoditywindow,
-    detailTempalteList
+    detailTempalteList,
+    dialogchannellist,
+    dialogqrcide
   },
 }
 

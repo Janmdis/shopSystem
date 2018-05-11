@@ -44,6 +44,8 @@
         <detailcommodity></detailcommodity>
         <commoditywindow></commoditywindow>
         <detailTempalteList></detailTempalteList>
+        <dialogchannellist></dialogchannellist>
+        <dialogqrcide></dialogqrcide>
     </el-main>
 </template>
 <script>
