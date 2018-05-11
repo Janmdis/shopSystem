@@ -687,7 +687,7 @@ export default {
                     that.specificationArr=JSON.parse(data.options)
                     if(data.giftPoints){
                         that.sendPoints = true
-                        that.pointsMoney = data.giftPoints
+                        that.sendPointsNum = data.giftPoints
                     }else{
                         that.sendPoints = false
                     }
@@ -939,7 +939,7 @@ export default {
                         periodTemplateId:this.tmid,
                         regionTemplateId:this.areamid,
                         categoryId:this.formmsg.categoryId,
-                        isPackage:0,
+                        isPackage:1,
                         detailTemplateId:this.formmsg.detailTemplateInfoId,
                         description:this.formmsg.desc,
                         options:JSON.stringify(this.specificationArr),
@@ -952,6 +952,13 @@ export default {
                     .then(function(response){
                         if(response.data.msg=='修改成功'){
                             that.$message.success('套餐修改成功！');
+                            that.dynamicTags = [];
+                            that.addOptionsShow = false;
+                            that.addOptionBtn = true;
+                            that.specificationName = '';
+                            that.specificationArr = [];
+                            that.formmsg.detailTemplateInfoName='';
+                            that.formmsg.detailTemplateInfoId='';
                             that.$refs.detail.setAttribute('class','detail off');
                             that.$root.$emit('reloadpackagelist');
                         }

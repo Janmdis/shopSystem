@@ -618,8 +618,8 @@ export default {
         createercode(row){
             let recommendedAdminId=row.id;
             let recommendedTeamId=this.idchannel;
-            let url='http://'+location.hostname+'/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
-            let url_code='http://'+location.hostname+'/customer/resource/qrCode.png?content='+url
+            let url='http://daojia.jingrunjia.com.cn/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
+            let url_code='http://47.100.51.41:8887/customer/resource/qrCode.png?content='+url
             this.$root.$emit('qrcode',url_code);
         },
         // 查看绩效

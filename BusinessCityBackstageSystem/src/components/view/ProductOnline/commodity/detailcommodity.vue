@@ -626,7 +626,7 @@ export default {
                     that.specificationArr=JSON.parse(data.options)
                     if(data.giftPoints){
                         that.sendPoints = true
-                        that.pointsMoney = data.giftPoints
+                        that.sendPointsNum = data.giftPoints
                     }else{
                         that.sendPoints = false
                     }
@@ -734,6 +734,13 @@ export default {
                     .then(function(response){
                         if(response.data.msg=='修改成功'){
                             that.$message.success('商品修改成功！');
+                            that.dynamicTags = [];
+                            that.addOptionsShow = false;
+                            that.addOptionBtn = true;
+                            that.specificationName = '';
+                            that.specificationArr = [];
+                            that.formmsg.detailTemplateInfoName='';
+                            that.formmsg.detailTemplateInfoId='';
                             that.$refs.detailcommodity.setAttribute('class','detailcommodity off');
                             console.log(that.from);
                             if(that.from=='package'){
