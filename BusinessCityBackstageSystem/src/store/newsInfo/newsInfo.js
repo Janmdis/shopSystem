@@ -2,7 +2,10 @@ import axios from 'axios'
 const state = {
     newslist: [],
     Backstage: [],
-    BackstageList:[]
+    BackstageList:[],
+    BackstageInfo: '',
+    pageNum: 1, //当前页
+    pageSize:10
     
 };
 const mutations = {
@@ -11,19 +14,36 @@ const mutations = {
     },
     getBackstage(state, data) {
         state.Backstage = data.data
-    }
+    },
+    pageNum(state,n){
+        state.pageNum = n;
+    },
+    getBackstageList(state,n){
+        axios.post('/api/admin/account/multiConditionalQuery?pageSize=2&page='+state.pageNum,{departmentId: n}).then((msg) => {
+            if(msg.data.info.list){
+                state.BackstageList = msg.data.info
+                
+            }
+            if (msg.data) {
+                state.BackstageInfo = msg.data
+            }
+            
+        }).catch((err) => {
+            console.log(err)
+        })
+     }
 };
 const actions = {
     getJson({ commit,state }){
-        axios.post('/api/customer/account/query',{}).then((msg) => {
+        axios.post('/api/customer/account/query?pageSize=2&page='+state.pageNum,{}).then((msg) => {
             if (msg.data.info.list) {
                 commit({
                     type:'getJson',
-                    data:msg.data.info.list
+                    data: msg.data.info.list,
+                    list: msg.data.info
                 })
             }
         }).catch((err) => {
-            console.log(err)
         })
     },
     getBackstage({commit,state}) {
@@ -35,13 +55,10 @@ const actions = {
                         data: msg.data.info
                     })
             }
-           
-            // this.translateArr = msg.data.info.treeAll.children;
-            console.log(msg)
         }).catch((err) => {
-            console.log(err)
         })
-    }
+    },
+    
 };
 
 export default {

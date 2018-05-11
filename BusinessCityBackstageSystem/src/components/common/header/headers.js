@@ -49,11 +49,9 @@ export default {
     this.userName = (JSON.parse(sessionStorage.getItem('userInfo')).adminName);
     this.imgUrl = JSON.parse(sessionStorage.getItem('userInfo')).adminHeadImg;
     this.$root.$on("userName", data => {
-      console.log(data)
       this.userName = data;
     });
     this.$root.$on('useImgOF', data => {
-      console.log(data)
       this.imgUrl = data;
     });
     this.imgUrl = localStorage.getItem('useImgOF');  
@@ -72,7 +70,6 @@ export default {
         if (msg.data.info.list) {
             this.dataInfo = msg.data.info.list
         }
-        console.log(this.dataInfo)
         }).catch((err) => {
         console.log(err)
       })
@@ -102,7 +99,6 @@ export default {
          //  }),
       })
         .then(response => {
-          console.log(response)
           if (response.data.msg == "ok") {
             sessionStorage.removeItem("status")
             sessionStorage.removeItem("infoText")
