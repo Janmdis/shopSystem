@@ -25,7 +25,8 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
 Vue.prototype.$http = axios
-Vue.prototype.url_mobie='http://www.itchun.com';
+Vue.prototype.url_mobie='http://daojia.jingrunjia.com.cn';
+Vue.prototype.url_img='http://47.100.51.41:8887/customer/resource/qrCode.png';
 
 //路由限制跳转判断
 router.beforeEach((transition, from, next) => {

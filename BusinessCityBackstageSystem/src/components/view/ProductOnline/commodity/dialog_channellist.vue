@@ -138,7 +138,7 @@ export default {
             else if(data.type=='teamer'){
                 url=url+'&recommendedAdminId='+data.channelid+'&recommendedTeamId='+data.teamerid;
             }
-            let url_code='http://101.89.175.155:8887/customer/resource/qrCode.png?content='+escape(url);
+            let url_code=this.url_img+'?content='+escape(url);
             this.$root.$emit('qrcode',url_code);
         }
     },

@@ -269,8 +269,8 @@ export default {
         },
         createercode(row){
             let id=row.id;
-            let url='http://daojia.jingrunjia.com.cn/invitingGift?recommendedAdminId='+id
-            let url_code='http://47.100.51.41:8887/customer/resource/qrCode.png?content='+escape(url);
+            let url=this.url_mobie+'/invitingGift?recommendedAdminId='+id
+            let url_code=this.url_img+'?content='+escape(url);
             this.$root.$emit('qrcode',url_code);
         }
     },
