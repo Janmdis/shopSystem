@@ -65,7 +65,7 @@
             </el-row>
             <el-row class='minheight' v-show='isShow'>
                 <el-col :span='6'>
-                    <el-form-item label="商品" prop='shopBoxArr'>
+                    <el-form-item label="商品分类" prop='shopBoxArr'>
                         <el-select v-model="ruleForm.shopBox" placeholder="请选择商品" @change='change'>
                             <el-option v-for=' (item,index) in this.ruleForm.shopBoxArr ' :key="index" :label='item.name' :value="item.id"></el-option>
                             <!--<el-option label="香蕉你个巴拉" value="0"></el-option>
@@ -75,7 +75,7 @@
                     <el-col :span='20' style='margin-left:40px;'>
                         <el-form-item prop='showBoxArr' class='clreaMarng'>
                             <ul class='ulDel' style='border-radius: 5px;' v-show='this.ruleForm.showBoxArr != ""'>
-                                <li @click="delBox(index)" v-for=' (item,index) in this.ruleForm.showBoxArr ' :key="index" :label='item.name' :value="item.id">{{item.name }}<span class='delBox'>删除</span></li>
+                                <li @click="delBox(index)" v-for=' (item,index) in this.ruleForm.showBoxArr ' v-if='item.name' :key="index" :label='item.name' :value="item.id">{{item.name }}<span class='delBox'>删除</span></li>
                             </ul>
                         </el-form-item>
                     </el-col>
@@ -84,9 +84,9 @@
                     (多选)
                 </el-col>
                 <el-col :span='6'>
-                    <el-form-item label="商品分类" prop='shopsArr'>
+                    <el-form-item label="商品" prop='shopsArr'>
                         <el-select v-model="ruleForm.shops" placeholder="请选择商品分类" @change='changes'>
-                            <el-option v-for=' (item,index) in this.ruleForm.shopsArr ' :value="item.id" :key="index" :label='item.name'></el-option>
+                            <el-option v-for=' (item,index) in this.ruleForm.shopsArr ' :value="item.id" :key="index" :label='item.name' v-if='item.name'></el-option>
                         </el-select>
                     </el-form-item>
                     <el-col :span='20' style='margin-left:40px;'>
