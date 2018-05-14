@@ -15,6 +15,9 @@
                 </el-col>
             </el-row>
         </div>
+        <el-row>
+            <search :type='type'></search>
+        </el-row>
         <div class='tablelist'>
             <el-table
             :data="datalist"
@@ -71,8 +74,10 @@
 <script>
 import Lttip from './lttip.vue'
 import orderinvoice from './invoice/OrderInfo.vue'
+import search from '../../common/search/search.vue'
+
 export default {
-    components:{Lttip,orderinvoice},
+    components:{Lttip,orderinvoice,search},
     data(){
         return{
             namepage:'发票管理',
@@ -82,18 +87,40 @@ export default {
             pagesize:10,
             total:0,
             pagenum:1,
-            searchshow:false
+            searchshow:true,
+            type:'invoice',
+            data:{
+                orderNumber:null,
+                phone:null,
+                orderState:null,
+                category:null,
+                isDisallowance:null,
+                isFinished:null,
+                createTimeMin :null,
+                createTimeMax:null
+            }
         }
     },
     created(){
         this.getDatalist(1);
+        this.$root.$on('search',datas=>{
+            this.data.orderNumber=datas.invoice.orderNumber===''?null:datas.invoice.orderNumber;
+            this.data.phone=datas.invoice.phone===''?null:datas.invoice.phone;
+            this.data.orderState=datas.invoice.orderState===''?null:datas.invoice.orderState;
+            this.data.category=datas.invoice.category===''?null:datas.invoice.category;
+            this.data.isDisallowance=datas.invoice.invoiceState===''?null:datas.invoice.invoiceState==1?true:datas.invoice.invoiceState==2?false:null;
+            this.data.isFinished=datas.invoice.invoiceState===''?null:datas.invoice.invoiceState==1?true:datas.invoice.invoiceState==2?true:false;
+            this.data.createTimeMin =datas.invoice.daterange?Date.parse(datas.invoice.daterange[0]):null;
+            this.data.createTimeMax =datas.invoice.daterange?Date.parse(datas.invoice.daterange[1]):null;
+            this.getDatalist(1);
+        });
     },
     methods:{
         // search(){},
         getDatalist(pagenum){
             let that=this;
             this.loading=true;
-            this.$http.post('/api/product/order/invoice/query?pageSize='+that.pagesize+'&page='+pagenum,{})
+            this.$http.post('/api/product/order/invoice/query?pageSize='+that.pagesize+'&page='+pagenum,this.data)
             .then(res=>{
                 if(res.data.status==200){
                     that.datalist=res.data.info.list;
