@@ -4,7 +4,7 @@
             <h3 class="listName pull-left">{{listname}}
                 <i class="icon-double-angle-right"></i>
             </h3>
-            <el-button type="primary" v-if='searchshow' :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
+            <el-button type="primary" v-if='searchshow'  :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
             <ul class="emendation">
                 <li>已选中<span class="nums">0</span>项</li>
                 <!--<li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">

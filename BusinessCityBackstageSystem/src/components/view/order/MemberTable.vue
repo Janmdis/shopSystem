@@ -86,14 +86,11 @@ export default {
             data:{
                 number:null,
                 phone:null,
-                communityName:null,
                 sourceId:null,
                 createTimeStart:null,
                 createTimeEnd:null,
-                payState:null,
                 orderState:null,
-                orderType:null,
-                refundStatas:0,
+                serviceState:null,
                 pageSize:10,
                 pageNum:1
             }
@@ -114,15 +111,13 @@ export default {
         this.$root.$on('search',datas=>{
             this.data.number=datas.order.number===''?null:datas.order.number;
             this.data.phone=datas.order.phone===''?null:datas.order.phone;
-            this.data.communityName=datas.order.communityName===''?null:datas.order.communityName;
             this.data.sourceId=datas.order.sourceId===''?null:datas.order.sourceId;
-            this.data.payState=datas.order.payState===''?null:datas.order.payState;
             this.data.orderState=datas.order.orderState===''?null:datas.order.orderState;
-            this.data.orderType=datas.order.orderType===''?null:datas.order.orderType;
-            this.data.refundStatas=datas.order.isrefund?1:0;
+            this.data.serviceState=datas.order.serviceState===''?null:datas.order.serviceState;
             this.data.createTimeStart=datas.order.daterange?Date.parse(datas.order.daterange[0]):null;
             this.data.createTimeEnd=datas.order.daterange?Date.parse(datas.order.daterange[1]):null;
             this.getDate(1);
+            console.log(this.data);
             // console.log(this.data,datas);
         });
     },

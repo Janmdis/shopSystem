@@ -15,6 +15,9 @@
                 </el-col>
             </el-row>
         </div>
+        <el-row>
+            <search :type='type'></search>
+        </el-row>
         <div class='tablelist'>
             <el-table
             :data="datalist"
@@ -68,6 +71,7 @@
 import Lttip from './lttip.vue'
 import showWindows from './showWindow.vue'
 import OrderRefund from './refund/OrderInfo.vue'
+import search from '../../common/search/search.vue'
 export default {
 
     data(){
@@ -79,23 +83,40 @@ export default {
             pagesize:10,
             total:0,
             pagenum:1,
-            searchshow:false,
-            showLeft:0
+            searchshow:true,
+            showLeft:0,
+            type:'refund',
+            data:{
+                number:null,
+                phone:null,
+                refundNumber:null,
+                orderState:null,
+                createTimeMin :null,
+                createTimeMax:null,
+                payState:1,
+                orderStateConditions:[4,5,7]
+            }
         }
     },
     created(){
         this.getDatalist(1);
+        this.$root.$on('search',datas=>{
+            this.data.number=datas.refund.number===''?null:datas.refund.number;
+            this.data.phone=datas.refund.phone===''?null:datas.refund.phone;
+            this.data.orderState=datas.refund.orderState===''?null:datas.refund.orderState;
+            this.data.refundNumber=datas.refund.refundNumber===''?null:datas.refund.refundNumber;
+            this.data.createTimeMin =datas.refund.daterange?Date.parse(datas.refund.daterange[0]):null;
+            this.data.createTimeMax =datas.refund.daterange?Date.parse(datas.refund.daterange[1]):null;
+            this.getDatalist(1);
+            // console.log(this.data);
+        });
     },
     methods:{
         // search(){},
         getDatalist(pagenum){
             let that=this;
             this.loading=true;
-            this.$http.post('/api/product/order/mall/find?pageSize='+that.pagesize+'&pageNo='+pagenum,
-            {
-                payState:1,
-                orderStateConditions:[4,5,7]
-            })
+            this.$http.post('/api/product/order/mall/find?pageSize='+that.pagesize+'&pageNo='+pagenum,that.data)
             .then(res=>{
                 if(res.data.status==200){
                     that.datalist=res.data.info.list;
@@ -163,7 +184,8 @@ export default {
      components: {
         OrderRefund,
         showWindows,
-        Lttip
+        Lttip,
+        search
     },
 }
 </script>
