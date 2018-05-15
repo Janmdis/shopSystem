@@ -16,6 +16,7 @@
                     <!--<el-form-item label="地址" prop='address'>
                             <el-input v-model="ruleForm.address"></el-input>
                         </el-form-item>!-->
+                     <el-row>
                     <el-col :span='12'  style='position:relative;margin-bottom:10px;'>
                         <el-form-item label="大区">
                             <el-select v-model="houseForm.bigDistrict" @change="bigDis" placeholder="请选择">
@@ -30,6 +31,8 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
+                     </el-row>
+                      <el-row>
                     <el-col :span='12'  style='position:relative;margin-bottom:10px;'>
                          <el-form-item label="市">
                             <el-select v-model="houseForm.cityValue" @change="cityDis" placeholder="请选择">
@@ -45,8 +48,10 @@
                             
                         </el-form-item>
                     </el-col>
+                     </el-row>
+
                     <el-col :span='12' style='position:relative;margin-bottom:10px;'>
-                        <el-form-item label="县区">
+                        <el-form-item label="街道">
                             <el-select v-model="houseForm.streetValue" @change="streetDis" placeholder="请选择">
                                 <el-option v-for="(item,index) in streetInfo" :key="index" :label="item.regionName" :value="item.id"></el-option>
                             </el-select>
@@ -54,7 +59,7 @@
                     </el-col>
                     <el-col :span='24'  style='position:relative;margin-bottom:10px;'>
                     <el-form-item label="详细地址">
-                        <el-input type="text" v-model="houseForm.streetMore" placeholder="请输入详细地址" style='padding:0;' class="detailAddress"></el-input>
+                        <el-input type="text" v-model="ruleForm.address" placeholder="请输入详细地址" style='padding:0;' class="detailAddress"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-col>
@@ -156,6 +161,7 @@
                 },
             };
         },
+
         methods: {
             searchInfo() {
                 //  查询地址信息
@@ -287,6 +293,11 @@
                             data: [{
                                 'name': this.ruleForm.name,
                                 'alias': this.ruleForm.mode,
+                                'areaId':this.houseForm.bigDistrict-0,
+                                'provinceId':this.houseForm.provinceValue-0,
+                                'cityId':this.houseForm.cityValue-0,
+                                'districtId':this.houseForm.countyDistrict-0,
+                                'regionId':this.houseForm.streetValue-0,
                                 'address': this.ruleForm.address,
                             }]
                         })
@@ -313,6 +324,11 @@
                                 'name': this.ruleForm.name,
                                 'alias': this.ruleForm.mode,
                                 'address': this.ruleForm.address,
+                                'areaId':this.houseForm.bigDistrict-0,
+                                'provinceId':this.houseForm.provinceValue-0,
+                                'cityId':this.houseForm.cityValue-0,
+                                'districtId':this.houseForm.countyDistrict-0,
+                                'regionId':this.houseForm.streetValue-0,
                                 'id': this.ruleForm.thisId
                             }
                         })
@@ -334,18 +350,34 @@
             this.$root.$on('showWindowss', (data) => {
                 this.$nextTick(() => {
                     if (data.type != 'no') {
+                        this.houseForm.bigDistrict='',
+                        this.houseForm.provinceValue = '',
+                        this.houseForm.cityValue = '',
+                        this.houseForm.countyDistrict = '',
+                        this.houseForm.streetValue = '',
+                        this.ruleForm.address = ""
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '编辑小区';
                         console.log(data.rowData);
                         this.ruleForm.thisId = data.rowData.id
                         this.ruleForm.mode = data.rowData.alias
                         this.ruleForm.name = data.rowData.name
+                        this.houseForm.bigDistrict=data.rowData.area.regionName,
+                        this.houseForm.provinceValue = data.rowData.province.regionName,
+                        this.houseForm.cityValue = data.rowData.city.regionName,
+                        this.houseForm.countyDistrict = data.rowData.district.regionName,
+                        this.houseForm.streetValue = data.rowData.region.regionName,
                         this.ruleForm.address = data.rowData.address
                     } else {
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '新增小区';
                         this.ruleForm.mode = ""
                         this.ruleForm.name = ""
+                        this.houseForm.bigDistrict='',
+                        this.houseForm.provinceValue = '',
+                        this.houseForm.cityValue = '',
+                        this.houseForm.countyDistrict = '',
+                        this.houseForm.streetValue = '',
                         this.ruleForm.address = ""
                     }
                 })
