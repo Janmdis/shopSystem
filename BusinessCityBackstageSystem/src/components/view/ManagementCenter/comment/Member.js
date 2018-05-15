@@ -95,9 +95,8 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$http.post('/api/customer/account/remove', this.delArr)
+                this.$http.post('/api/product/commodity/evaluation/removeByIds', this.delArr)
                     .then(function(response) {
-                        console.log(response);
                         if (response.data.msg == '删除成功') {
                             that.$message({
                                 type: 'success',

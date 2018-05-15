@@ -89,14 +89,14 @@ export default {
         handleDelete(index, row,event) { //  删除某一种产品
             let that = this;
             console.log(row);
-            this.$confirm('确定删除 "'+row.name+'"吗?', '提示', 
+            this.$confirm('确定删除吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
                 that.$message({
                     type: 'success',
                     message: '删除成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/customer/estate/removeData',
+                    onClose:that.$http.post('/api/product/commodity/evaluation/removeByIds',
                         [row.id]
                     ).then(res => {
                         console.log(res.data.msg);
