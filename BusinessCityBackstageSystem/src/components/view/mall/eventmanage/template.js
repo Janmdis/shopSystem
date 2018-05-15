@@ -4,6 +4,7 @@ import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
 import search from './search.vue'
 import showWindows from './showWindow.vue'
+import eventTempalteList from './detailTempalteList.vue'
 import qs from 'qs'
 
 export default {
@@ -137,6 +138,7 @@ export default {
         search,
         Datatable,
         showWindows,
+        eventTempalteList,
         searchBox
     },
 }

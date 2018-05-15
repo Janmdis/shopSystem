@@ -37,6 +37,7 @@
             </el-row>
         </div>
         <showWindows></showWindows>
+        <eventTempalteList></eventTempalteList>
     </el-main>
 </template>
 <script>
