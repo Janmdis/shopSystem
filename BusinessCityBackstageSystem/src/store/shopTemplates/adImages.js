@@ -429,54 +429,6 @@ const mutations={
                             img: require('./../templateImage/window1-2.jpg'),
                             imgSrc:'',
                             url:''
-                        },{
-                            boxesDivStyle:{
-                                boxesBorShow:false,
-                                boxesBorHide:true,
-                            },
-                            lineDivStyle:{
-                                lineBorShow:false,
-                                lineBorHide:true
-                                },
-                                notDivBtn:{
-                                notBtnShow:true,
-                                notBtnHide:false
-                            },
-                            lineDivBtn:{
-                                lineBtnShow:false,
-                                lineBtnHide:true
-                            },
-                            boxesDivBtn:{
-                                boxesBtnShow:false,
-                                boxesBtnHide:true
-                            },
-                            img: require('./../templateImage/window1-3.jpg'),
-                            imgSrc:'',
-                            url:''
-                        },{
-                            boxesDivStyle:{
-                                boxesBorShow:false,
-                                boxesBorHide:true,
-                            },
-                            lineDivStyle:{
-                                lineBorShow:false,
-                                lineBorHide:true
-                                },
-                            notDivBtn:{
-                                notBtnShow:true,
-                                notBtnHide:false
-                            },
-                            lineDivBtn:{
-                                lineBtnShow:false,
-                                lineBtnHide:true
-                            },
-                            boxesDivBtn:{
-                                boxesBtnShow:false,
-                                boxesBtnHide:true
-                            },
-                            img: require('./../templateImage/window1-4.jpg'),
-                            imgSrc:'',
-                            url:''
                         }
                 ]
             }
