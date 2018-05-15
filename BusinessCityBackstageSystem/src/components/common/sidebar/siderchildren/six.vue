@@ -18,5 +18,14 @@
     </el-container>
 </template>
 <script>
-  
+ export default {
+    data() {
+      return {
+       
+      };
+    },
+    beforeMount(){
+        this.$router.push("/depmanage")
+    },
+  } 
 </script>
