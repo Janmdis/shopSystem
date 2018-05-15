@@ -129,14 +129,16 @@ export default {
             </span>);
         },
         createQrcode(data){
-            let url=this.url_mobie+'/detailTemplate?commodityId='+this.commodityId;
+            let companyid=sessionStorage.getItem('companyId');
+            let url=this.url_mobie+'/detailTemplate?commodityId='+this.commodityId+'&companyId='+companyid;
             // 生成渠道二维码
             if(data.type=='channel'){
-                url=url+'&recommendedAdminId='+data.channelid;
+                url=url+'&recommendedTeamId='+data.channelid;
             }
             else if(data.type=='teamer'){
-                url=url+'&recommendedAdminId='+data.channelid+'&recommendedTeamId='+data.teamerid;
+                url=url+'&recommendedTeamId='+data.channelid+'&recommendedAdminId='+data.teamerid;
             }
+            console.log(url);
             let url_code=this.url_img+'?content='+escape(url);
             this.$root.$emit('qrcode',url_code);
         }
