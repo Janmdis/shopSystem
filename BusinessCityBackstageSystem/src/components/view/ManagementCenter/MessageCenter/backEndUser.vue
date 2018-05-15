@@ -124,6 +124,7 @@
                 ListCustomerId: [],
                 translateArr: [],
                 translate: '',
+                multipleSelections: [],
                 multipleSelection: [],
                 total: '', //总记录数
                 pages: '', //总页数
@@ -155,6 +156,12 @@
                     console.log(val)
                     this.ListAdminData = val.data
                 }
+            },
+            translate:{
+                deep: true,
+                handler: function(val) {
+                    this.translate = val;
+                }
             }
 
         },
@@ -165,7 +172,10 @@
                     this.$store.commit('pageNum',val)
                     this.$store.dispatch('getJson');
                 }
-                
+                if(this.listInfo=="接收后台用户"){
+                   this.$store.commit('pageNum',val)
+                   this.$store.commit('getBackstageList',this.translate)
+                }
             },
             handleSizeChange(val) {
                 console.log(this.listInfo)
@@ -174,16 +184,27 @@
                     this.$store.dispatch('getJson');
                 }
                 if(this.listInfo=="接收后台用户"){
-
+                   this.$store.commit('pageNum',val)
+                   this.$store.commit('getBackstageList',this.translate)
                 }
             },
-            handleSelectionChanges(val) {},
+            handleSelectionChanges(val) {
+
+                this.multipleSelections = val;
+            },
             handleSelectionChange(val) {
+                console.log(val)
                 this.multipleSelection = val;
+                
             },
             checkList() {
                 this.dialogRead = false;
-                console.log(this.checkedCities)
+                if(this.listInfo=="接收会员"){
+                    this.$root.$emit('multipleSelections',this.multipleSelections)
+                }
+                if(this.listInfo=="接收后台用户"){
+                    this.$root.$emit('multipleSelection',this.multipleSelection)
+                }
             },
             showVipInfo() {
                 this.total = ''; //总记录数

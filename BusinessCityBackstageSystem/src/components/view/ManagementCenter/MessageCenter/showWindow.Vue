@@ -44,9 +44,8 @@
                     <el-button type="primary" :disabled="cantSubmit" @click="submitForm('ruleForm')">保存</el-button>
                 </el-form-item>
             </el-form>
-            <back-end-user ></back-end-user>
+            <back-end-user></back-end-user>
         </el-dialog>
-        
     </div>
 </template>
 <style lang="less">
@@ -82,8 +81,9 @@
                 selectAll: false,
                 showStyle: false,
                 ListCustomerData: [],
-                ListAdminId: [],
-                ListCustomerId: [],
+                addObjArr:[],
+                // ListAdminId: [],
+                // ListCustomerId: [],
                 dialogVisible: false,
                 dialogRead: false,
                 cantSubmit: true,
@@ -112,17 +112,17 @@
         methods: {
             getAdmin() {
                 let obj = {
-                    listInfo : '接收会员',
-                    dialogRead : true
+                    listInfo: '接收会员',
+                    dialogRead: true
                 }
-                this.$root.$emit('showInfo',obj);
+                this.$root.$emit('showInfo', obj);
             },
             getCustomer() {
                 let obj = {
-                    listInfo : '接收后台用户',
-                    dialogRead : true
+                    listInfo: '接收后台用户',
+                    dialogRead: true
                 }
-                this.$root.$emit('showInfo',obj);
+                this.$root.$emit('showInfo', obj);
             },
             closeDialog(done) {
                 this.dialogVisible = false;
@@ -151,16 +151,12 @@
                             // headers: {
                             //     'Content-Type': 'application/json'
                             // },
-                            data: [{
-                                "title": this.ruleForm.name,
-                                "content": this.ruleForm.mode,
-                                "receiverAdminId": this.ListAdminId + ''.replace(/\[|]/g, ''),
-                                "receiverCustomerId": this.ListCustomerId + ''.replace(/\[|]/g, ''),
-                            }]
+                            data: this.addObjArr
                         })
                         .then(res => {
                             this.dialogVisible = false;
                             this.$root.$emit('getDatezdy', 1);
+                            this.addObjArr =[]
                         })
                         .catch(error => {
                             console.log(error);
@@ -197,9 +193,40 @@
                 }
                 this.dialogVisible = false;
                 this.$refs[formName].resetFields();
+            },
+            getmultipleSelection() {
+                
+                this.$root.$on('multipleSelection', data => {
+                    let addObj;
+                    if (data) {
+                        data.forEach(item => {
+                            addObj = {
+                                "title": this.ruleForm.name,
+                                "content": this.ruleForm.mode,
+                                "receiverAdminId": item.id,
+                            }
+                          this.addObjArr.push(addObj)  
+                        })
+                    }
+                })
+                this.$root.$on('multipleSelections', data => {
+                    let addObj;
+                    if (data) {
+                        data.forEach(item => {
+                            addObj = {
+                                "title": this.ruleForm.name,
+                                "content": this.ruleForm.mode,
+                                "receiverCustomerId": item.id,
+                            }
+                             this.addObjArr.push(addObj)
+                        })
+                    }
+                })
+                
             }
         },
         created: function() {
+            this.getmultipleSelection();
             this.$root.$on('showWindowss', (data) => {
                 this.$nextTick(() => {
                     if (data.type != 'no') {
@@ -223,11 +250,13 @@
                 })
             });
         },
-        components:{
+        components: {
             backEndUser
         },
         beforeDestroy() {
             this.$root.$off('showWindowss');
+            this.$root.$off('multipleSelection');
+            this.$root.$off('multipleSelections');
         }
     }
 </script>

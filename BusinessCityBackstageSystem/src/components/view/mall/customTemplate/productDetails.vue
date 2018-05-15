@@ -275,7 +275,7 @@
                 }else{
                     let dataids = this.dataid;
                     let index = this.indexs;
-                    let inputs = 'http://daojia.jingrunjia.com.cn/detailTemplate?id='+this.input;
+                    let inputs = 'http://www.itchun.com/detailTemplate?id='+this.input;
                     let type = this.typess;
                     // alert(dataids)
                     // alert(index)

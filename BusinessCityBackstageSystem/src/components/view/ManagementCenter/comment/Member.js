@@ -1,19 +1,18 @@
 /* eslint-disable */
-import Datatable from './templateTable.vue'
+import Datatable from './MemberTable.vue'
 import Lttip from './lttip.vue'
 import searchBox from '@/components/common/search/searchBox.vue'
-import search from './search.vue'
+import search from '../../../common/search/search.vue'
 import showWindows from './showWindow.vue'
-import eventTempalteList from './detailTempalteList.vue'
 import qs from 'qs'
 
 export default {
 
-    name: 'templates',
+    name: 'member',
     data() {
         return {
             valuesearch: '',
-            namepage: '活动列表管理',
+            namepage: '评论列表',
             currentPage1: 1,
             searchFn: '',
             isActive: false,
@@ -23,8 +22,32 @@ export default {
             pageS: 0,
             listLoading: false,
             delArr: [],
+            importUrl: '/api/customer/estate/excelIn', //后台接口config.admin_url+'rest/schedule/import/'
+            importHeaders: {
+                enctype: 'multipart/form-data',
+            },
+            state: true,
+            fileList: [],
+            dataForm: [],
+            idList: [],
+            dataHref: '',
+            isShowList: false
         }
 
+    },
+    created() {
+        this.$root.$on('loading', data => {
+            this.loadOk = data;
+        })
+        this.$root.$on('output', data => {
+            this.dataForm = data;
+            data.forEach((e, i) => {
+                this.idList.push(e.id);
+            })
+            let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
+            let ids = id.replace(/\"|"/g, "");
+            this.dataHref = '/api/customer/estate/excelOut?ids=' + ids;
+        })
     },
     mounted() {
         this.$root.$on('total', (data) => {
@@ -41,6 +64,30 @@ export default {
         })
     },
     methods: {
+        handlePreview(file) {
+            //可以通过 file.response 拿到服务端返回数据
+        },
+        beforeUpload(file) {
+            //上传前配置
+            let excelfileExtend = ".xls,.xlsx" //设置文件格式
+            let fileExtend = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+            if (excelfileExtend.indexOf(fileExtend) <= -1) {
+                this.$message.error('文件格式错误')
+                return false
+            }
+        },
+        //上传成功
+        uploadSuccess(response, file, fileList) {
+            console.log(response)
+            if (response.status === 300) {
+                this.$message.info(response.msg)
+            } else if (response.status === 200) {
+                this.$message.info(response.msg)
+                this.$root.$emit('getDatezdy', 1)
+            }
+        },
+
+
         clearBox() {
             let that = this;
             this.$confirm('确认删除？', '提示', {
@@ -48,9 +95,8 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$http.post('/api/customer/account/remove', this.delArr)
+                this.$http.post('/api/product/commodity/evaluation/removeByIds', this.delArr)
                     .then(function(response) {
-                        console.log(response);
                         if (response.data.msg == '删除成功') {
                             that.$message({
                                 type: 'success',
@@ -78,7 +124,8 @@ export default {
             })
         },
         show: function(val) {
-            this.searchUsers()
+            // console.log(valuesearch);
+            this.$root.$emit('search', { name: this.valuesearch })
         },
         searchUsers() {
             let para = {
@@ -90,7 +137,7 @@ export default {
             }
             this.listLoading = true;
             let _this = this;
-            let url = '/api//product/mall/template/query?page=' + this.pageIndex + '&pageSize=10&keyword=' + para.username;
+            let url = '/api/customer/account/search?page=' + this.pageIndex + '&pageSize=10&keyword=' + para.username;
             this.$http({
                     url: url,
                     method: 'POST',
@@ -111,12 +158,15 @@ export default {
                 })
                 .catch(error => {
                     console.log(error);
-                    alert('网络错误，不能访问');
+                    //         alert('网络错误，不能访问');
                 })
 
         },
         showWindowX() {
             this.$root.$emit("showWindowss", { type: 'no', rowData: '' })
+        },
+        closeInfo() {
+
         },
         handleSizeChange(val) {
             this.pageSize = val;
@@ -138,7 +188,13 @@ export default {
         search,
         Datatable,
         showWindows,
-        eventTempalteList,
         searchBox
     },
+    beforeDestroy() {
+        this.$root.$off('loading');
+        this.$root.$off('total');
+        this.$root.$off('delBox');
+        this.$root.$off('pages');
+        this.$root.$off('output');
+    }
 }

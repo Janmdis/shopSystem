@@ -22,31 +22,30 @@
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column> -->
         <el-table-column
-        prop="name"
-        label="小区名称"
-        >
+        prop="commodityInfo.categoryName"
+        label="商品分类">
         </el-table-column>
         <el-table-column
-        prop="alias"
-        label="别名">
+        prop="commodityInfo.name"
+        label="商品标题">
         </el-table-column>
         <el-table-column
-        prop="address"
-        label="地址">
-        <template slot-scope="scope">
-            {{(scope.row.area?scope.row.area.regionName:'')+
-            (scope.row.province?scope.row.province.regionName:'')+
-            (scope.row.city?scope.row.city.regionName:'')+
-            (scope.row.district?scope.row.district.regionName:'')+
-            (scope.row.region?scope.row.region.regionName:'')+
-            scope.row.address}}
-        </template>
+        prop="comment"
+        label="评论内容">
+        </el-table-column>
+        <el-table-column
+        prop="customerAccount.nickname"
+        label="会员昵称">
+        </el-table-column>
+        <el-table-column
+        prop="customerAccount.mobile"
+        label="会员手机号">
         </el-table-column>
         <el-table-column
         prop="types"
         label="操作">
          <template slot-scope="scope">
-            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">回复</el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
         </el-table-column> 
@@ -90,14 +89,14 @@ export default {
         handleDelete(index, row,event) { //  删除某一种产品
             let that = this;
             console.log(row);
-            this.$confirm('确定删除 "'+row.name+'"吗?', '提示', 
+            this.$confirm('确定删除吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
                 that.$message({
                     type: 'success',
                     message: '删除成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/customer/estate/removeData',
+                    onClose:that.$http.post('/api/product/commodity/evaluation/removeByIds',
                         [row.id]
                     ).then(res => {
                         console.log(res.data.msg);
@@ -117,10 +116,10 @@ export default {
         },
         getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/customer/estate/queryDataList?pageNum='+(pageIndex?pageIndex:1)+'&pageSize=10'+(JSON.stringify(data)=="{}"?'':'&name='+data.name)
+            let url = '/api/product/commodity/evaluation/query?page='+(pageIndex?pageIndex:1)+'&pageSize=10'
             this.$http({
                 url: url,
-                method: 'GET',
+                method: 'POST',
                 // 请求体重发送的数据
                 // headers: { 'Content-Type': 'application/json' },
                 data:{},

@@ -449,15 +449,19 @@
                 this.$refs['ruleForm'].resetFields();
             },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt = file.size / 1024 < 500;
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                  const isJPG = file.type === 'image/jpeg';
+                const isGIF = file.type === 'image/gif';
+                const isPNG = file.type === 'image/png';
+                const isBMP = file.type === 'image/bmp';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG && !isPNG & !isGIF && !isBMP) {
+                this.$message.error('上传图片必须是JPG/GIF/PNG/BMP 格式!');
                 }
-                if (!isLt) {
-                    this.$message.error('上传头像图片大小不能超过 500K!');
+                if (!isLt2M) {
+                this.$message.error('上传图片大小不能超过 2MB!');
                 }
-                return isJPG && isLt;
+                return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
             },
             exceedLimit() {
                 this.$message.error('您最多可上传五张图片!');
