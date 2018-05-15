@@ -160,7 +160,7 @@
                     });
                     return false
                 }else{
-                    this.$root.$emit('saveDetailTemplateInfos', {
+                    this.$root.$emit('saveActivityTemplateInfos', {
                         templateID: this.input,templateName:this.selectedTitle
                     })
                     this.$message({

@@ -29,7 +29,7 @@
                     </el-form-item>
                      <el-form-item label="活动标签：" prop="activityLabeld">
                         <!-- 活动模板名称 -->
-                        <el-input v-model="ruleForm.activityLabeld"></el-input>
+                        <el-input v-model="ruleForm.activityLabeld" placeholder="请选择活动模板" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span='8'>
@@ -87,8 +87,9 @@ import qs from 'qs'
                 id:'',
                 dialogVisible: false,
                 importFileUrl:'api/zuul/sms/file/fileUpload',
-                admin:{type:'product'},
+                admin:{type:'admin'},
                 eventImages:'',
+                images:'',
                 listtype:[],
                 ruleForm: {
                     textInfo: '新增活动',
@@ -96,9 +97,12 @@ import qs from 'qs'
                     typeid:'',
                     activityTitle:'',
                     activityPlace:'',
-                    activityLabeld:'',
                     startTime:'',
-                    endTime:''
+                    endTime:'',
+                    detailTemplateInfoId:'',
+                    activityLabeld:'',
+                    images:'',
+                    activityLink:''
                 },
                 rules: {
                     type: [{
@@ -127,7 +131,7 @@ import qs from 'qs'
                         trigger: 'blur'
                     }]
                 },
-
+                apis:'http://www.itchun.com/'
             };
         },
         methods: {
@@ -137,21 +141,23 @@ import qs from 'qs'
                 this.$http.post('/api/product/activity/find',{id:that.id})
                 .then(function(response){
                     if(response.data.msg=='查询成功'){
+                        let hostName = location.hostname;
+                        let port = location.port;
                         let data=response.data.info[0];
-                        that.formmsg.name=data.name;
-                        that.formmsg.displayQuantity=data.displayQuantity.toString();
-                        that.formmsg.originalPrice=data.originalPrice.toString();
-                        that.formmsg.totalSales=data.totalSales.toString();
-                        that.formmsg.categoryId=data.categoryId==0?null:data.categoryId;
-                        that.formmsg.brand=data.brand;
-                        that.formmsg.detailTemplateInfoId = data.detailTemplateId
-                        that.formmsg.desc = data.description
-                        that.tmid=data.periodTemplateId;
-                        that.areamid=data.regionTemplateId;
-                        that.specificationArr=JSON.parse(data.options)
-                        // console.log(that.formmsg.categoryId);
+                        that.id = data.id;
+                        that.ruleForm.activityTitle = data.activityTitle
+                        that.ruleForm.startTime = data.startTime
+                        that.ruleForm.endTime = data.endTime
+                        that.ruleForm.activityPlace = data.activityPlace
+                        that.ruleForm.activityLink = data.activityLink
+                        that.ruleForm.images = data.image
+                        that.eventImages = 'http://' + hostName + ':' + port + '/api' + that.images;
+                        that.ruleForm.typeid = data.activitySortId
+                        that.ruleForm.detailTemplateInfoId = data.templateId
+                        that.ruleForm.activityLabeld = data.activityLabeld
+                        // console.log(that.ruleForm.categoryId);
                         let url = '/api/product/mall/template/query?page=1&pageSize=10';
-                        let detailTemplateIds = data.detailTemplateId
+                        let detailTemplateIds = data.templateId
                                 that.$http({
                                     url: url,
                                     method: 'POST',
@@ -166,7 +172,7 @@ import qs from 'qs'
                                 // console.log(response)
                                     if(response.data.info.list.length == 0){
                                     }else{
-                                        that.formmsg.detailTemplateInfoName = response.data.info.list[0].templateName
+                                        that.ruleForm.detailTemplateInfoName = response.data.info.list[0].templateName
                                     }
                             })
                             .catch(error=>{
@@ -239,79 +245,51 @@ import qs from 'qs'
             submitForm(formName) {
                     //     this.dialogVisible = false;
                         //     this.$refs[formName].resetFields();
-                this.$refs['formmsg'].validate((valid) => {
+                this.$refs['ruleForm'].validate((valid) => {
                     if (valid) {
                         let that=this;
                         let data;
                         let url;
                         if(this.ruleForm.textInfo == "新增活动"){
+                            this.ruleForm.activityLink = apis+'eventTemplate?id='+this.ruleForm.detailTemplateInfoId
                             url='/product/activity/insert';
                             data = {
-                                    id:this.id,
-                                    name:this.formmsg.name,
-                                    originalPrice:this.formmsg.originalPrice,
-                                    displayQuantity:this.formmsg.displayQuantity,
-                                    totalSales:this.formmsg.totalSales,
-                                    periodTemplateId:this.tmid,
-                                    regionTemplateId:this.areamid,
-                                    categoryId:this.formmsg.categoryId,
-                                    brand:this.formmsg.brand,
-                                    isPackage:0,
-                                    detailTemplateId:this.formmsg.detailTemplateInfoId,
-                                    description:this.formmsg.desc,
-                                    options:JSON.stringify(this.specificationArr),
-                                    giftPoints:this.sendPointsNum,
-                                    priceRule:1,
-                                    originalPricePoint:this.pointsNum,
-                                    originalPriceMoney:this.formmsg.originalPrice - this.pointsMoney
+                                    activityTitle:this.ruleForm.activityTitle,
+                                    startTime:this.ruleForm.startTime,
+                                    endTime:this.ruleForm.endTime,
+                                    activityPlace:this.ruleForm.activityPlace,
+                                    activityLink:this.ruleForm.activityLink,
+                                    image:this.ruleForm.images,
+                                    activitySortId:this.ruleForm.typeid,
+                                    templateId:this.ruleForm.detailTemplateInfoId,
+                                    activityLabeld:this.ruleForm.activityLabeld
                                 };
                         }else if(this.ruleForm.textInfo == "编辑活动"){
+                            this.ruleForm.activityLink = apis+'eventTemplate?id='+this.ruleForm.detailTemplateInfoId
                             url='/product/activity/update';
                             data = [{
                                     id:this.id,
-                                    name:this.formmsg.name,
-                                    originalPrice:this.formmsg.originalPrice,
-                                    displayQuantity:this.formmsg.displayQuantity,
-                                    totalSales:this.formmsg.totalSales,
-                                    periodTemplateId:this.tmid,
-                                    regionTemplateId:this.areamid,
-                                    categoryId:this.formmsg.categoryId,
-                                    brand:this.formmsg.brand,
-                                    isPackage:0,
-                                    detailTemplateId:this.formmsg.detailTemplateInfoId,
-                                    description:this.formmsg.desc,
-                                    options:JSON.stringify(this.specificationArr),
-                                    giftPoints:this.sendPointsNum,
-                                    priceRule:1,
-                                    originalPricePoint:this.pointsNum,
-                                    originalPriceMoney:this.formmsg.originalPrice - this.pointsMoney
+                                    activityTitle:this.ruleForm.activityTitle,
+                                    startTime:this.ruleForm.startTime,
+                                    endTime:this.ruleForm.endTime,
+                                    activityPlace:this.ruleForm.activityPlace,
+                                    activityLink:this.ruleForm.activityLink,
+                                    image:this.ruleForm.images,
+                                    activitySortId:this.ruleForm.typeid,
+                                    templateId:this.ruleForm.detailTemplateInfoId,
+                                    activityLabeld:this.ruleForm.activityLabeld
                                 }];
                         }
-                        this.$http.post('/api/product/commodity/info/update',data)
+                        this.$http.post('/api'+url,data)
                         .then(function(response){
                             if(response.data.msg=='修改成功'){
-                                that.$message.success('商品修改成功！');
-                                that.dynamicTags = [];
-                                that.addOptionsShow = false;
-                                that.addOptionBtn = true;
-                                that.specificationName = '';
-                                that.specificationArr = [];
-                                that.formmsg.detailTemplateInfoName='';
-                                that.formmsg.detailTemplateInfoId='';
+                                that.$message.success('操作成功！');
+                                //清空工作
                                 that.$refs.detailcommodity.setAttribute('class','detailcommodity off');
-                                console.log(that.from);
-                                if(that.from=='package'){
-                                    that.$root.$emit('reloadpackage',that.packid);
-                                }
-                                else{
-                                    that.$root.$emit('reloadlist');
-                                }
-                                
                             }
                             else{
                                 that.$message(response.data,msg);
                             }
-                            // console.log(response);
                         })
                         .catch(function(response){
                             console.log(response);
@@ -338,10 +316,14 @@ import qs from 'qs'
                     }
                 })
             });
-             
+            this.$root.$on('saveActivityTemplateInfos', (data) => {
+                this.ruleForm.activityLabeld = data.templateName
+                this.ruleForm.detailTemplateInfoId = data.templateID
+            })
         },
         beforeDestroy(){
             this.$root.$off('showWindowss');
+            this.$root.$off('saveActivityTemplateInfos');
         }
     }
 </script>
