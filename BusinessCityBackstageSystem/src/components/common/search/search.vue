@@ -324,9 +324,9 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="5" >
-                        <el-form-item label="小区">
-                            <el-select v-model="form.order.communityName" placeholder="请选择">
-                                <el-option v-for='(item,index) in estats' :key='index' :label="item.name" :value="item.name"></el-option>
+                        <el-form-item label="订单状态">
+                            <el-select v-model="form.order.orderState" placeholder="请选择">
+                                <el-option v-for='(item,index) in orderStatelist' :key='index' :label="item.name" :value="item.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -340,23 +340,9 @@
                 </el-row>
                 <el-row>
                     <el-col :span="5" >
-                        <el-form-item label="交易状态">
-                            <el-select v-model="form.order.payState" placeholder="请选择">
-                                <el-option v-for='(item,index) in orderpayState' :key='index' :label="item.name" :value="item.id"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="5" >
-                        <el-form-item label="订单状态">
-                            <el-select v-model="form.order.orderState" placeholder="请选择">
-                                <el-option v-for='(item,index) in orderStatelist' :key='index' :label="item.name" :value="item.id"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="5" >
-                        <el-form-item label="订单类型">
-                            <el-select v-model="form.order.orderType" placeholder="请选择">
-                                <el-option v-for='(item,index) in orderType' :key='index' :label="item.name" :value="item.id"></el-option>
+                        <el-form-item label="服务状态">
+                            <el-select v-model="form.order.serviceState" placeholder="请选择">
+                                <el-option v-for='(item,index) in orderServiceState' :key='index' :label="item.name" :value="item.id"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -373,9 +359,97 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-col :span="5" :offset='1'>
-                    <el-checkbox v-model="form.order.isrefund">是否退款</el-checkbox>
-                </el-col>
+            </el-row>
+            <!-- 退款订单 -->
+            <el-row v-if='showrefund'>
+                <el-row>
+                    <el-col :span="5">
+                        <el-form-item label="订单号">
+                            <el-input v-model="form.refund.number"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="手机号">
+                            <el-input v-model="form.refund.phone"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="退款单号">
+                            <el-input v-model="form.refund.refundNumber"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="退款状态">
+                            <el-select v-model="form.refund.orderState" placeholder="请选择">
+                                <el-option v-for='(item,index) in refundStatus' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span='8'>
+                        <el-form-item label="时间段" :span='10' class='datepick'>
+                            <el-date-picker
+                            v-model="form.refund.daterange"
+                            value-format='yyyy-MM-dd'
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-row>
+            <!-- 发票 -->
+            <el-row v-if='showinvoice'>
+                <el-row>
+                    <el-col :span="5">
+                        <el-form-item label="订单号">
+                            <el-input v-model="form.invoice.orderNumber"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="手机号">
+                            <el-input v-model="form.invoice.phone"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="订单状态">
+                            <el-select v-model="form.invoice.orderState" placeholder="请选择">
+                                <el-option v-for='(item,index) in orderStatelist' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="发票类型">
+                            <el-select v-model="form.invoice.category" placeholder="请选择">
+                                <el-option v-for='(item,index) in invoiceCategory' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="5" >
+                        <el-form-item label="发票状态">
+                            <el-select v-model="form.invoice.invoiceState" placeholder="请选择">
+                                <el-option v-for='(item,index) in invoiceState' :key='index' :label="item.name" :value="item.id"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span='8'>
+                        <el-form-item label="时间段" :span='10' class='datepick'>
+                            <el-date-picker
+                            v-model="form.invoice.daterange"
+                            value-format='yyyy-MM-dd'
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
             </el-row>
             <el-row style=' padding-top:20px; '>
                 <el-col :span="2" style="margin-left:44%;">
@@ -459,13 +533,27 @@
                     order:{
                         number:'',
                         phone:'',
-                        communityName:'',
                         sourceId:'',
                         daterange:'',
-                        payState:'',
                         orderState:'',
                         orderType:'',
-                        isrefund:false
+                        serviceState:'',
+                        daterange:''
+                    },
+                    invoice:{
+                        orderNumber:'',
+                        phone:'',
+                        orderState:'',
+                        category:'',
+                        invoiceState:'',
+                        daterange:''
+                    },
+                    refund:{
+                        number:'',
+                        phone:'',
+                        refundNumber:'',
+                        orderState:'',
+                        daterange:''
                     }
                 },
                 userlist:[],
@@ -541,7 +629,23 @@
                     },
                     {
                         id:3,
-                        name:'异常'
+                        name:'异常订单'
+                    },
+                    {
+                        id:4,
+                        name:'退款中'
+                    },
+                    {
+                        id:5,
+                        name:'退款完成'
+                    },
+                    {
+                        id:6,
+                        name:'已取消'
+                    },
+                    {
+                        id:7,
+                        name:'退款驳回'
                     }
                 ],
                 orderpayState:[
@@ -558,6 +662,20 @@
                         name:'已过期'
                     }
                 ],
+                orderServiceState:[
+                    {
+                        id:1,
+                        name:'待服务'
+                    },
+                    {
+                        id:2,
+                        name:'服务中'
+                    },
+                    {
+                        id:3,
+                        name:'已完成'
+                    }
+                ],
                 orderType:[
                     {
                         id:1,
@@ -572,6 +690,60 @@
                         name:'追单'
                     }
                 ],
+                invoiceCategory:[
+                    {
+                        id:11,
+                        name:'个人普通发票'
+                    },
+                    {
+                        id:22,
+                        name:'单位普通发票'
+                    },
+                    {
+                        id:22,
+                        name:'单位专用发票'
+                    }
+                ],
+                invoiceState:[
+                    {
+                        id:1,
+                        obj:{
+                            isFinished:true,
+                            isDisallowance:true
+                        },
+                        name:'驳回'
+                    },
+                    {
+                        id:2,                        
+                        obj:{
+                            isFinished:true,
+                            isDisallowance:false
+                        },
+                        name:'发放完成'
+                    },
+                    {
+                        id:3,                        
+                        obj:{
+                            isFinished:false,
+                            isDisallowance:''
+                        },
+                        name:'未处理'
+                    }
+                ],
+                refundStatus:[
+                    {
+                        id:'4',
+                        name:'未处理'
+                    },
+                    {
+                        id:'5',
+                        name:'已完成'
+                    },
+                    {
+                        id:'7',
+                        name:'驳回'
+                    }
+                ],
                 ordersourse:[],
                 showlog:this.type=='operalog',
                 showchannel:this.type=='channel',
@@ -583,6 +755,9 @@
                 showusers:this.type=='users',
                 showaccount:this.type=='member',
                 showorder:this.type=='order',
+                showinvoice:this.type=='invoice',
+                showrefund:this.type=='refund',
+                
                 propslog: {
                     label:'label',
                     value: 'depid',
@@ -718,13 +893,27 @@
                     order:{
                         number:'',
                         phone:'',
-                        communityName:'',
                         sourceId:'',
                         daterange:'',
-                        payState:'',
                         orderState:'',
                         orderType:'',
-                        isrefund:false
+                        serviceState:'',
+                        daterange:''
+                    },
+                    invoice:{
+                        orderNumber:'',
+                        phone:'',
+                        orderState:'',
+                        category:'',
+                        invoiceState:'',
+                        daterange:''
+                    },
+                    refund:{
+                        number:'',
+                        phone:'',
+                        refundNumber:'',
+                        orderState:'',
+                        daterange:''
                     }
                 };
                 this.valuelog=[];
@@ -1072,7 +1261,6 @@
                 .then(res=>{
                     if(res.data.status==200){
                         that.ordersourse=res.data.info
-                        // console.log(res);
                         // that.accountrecommendedSource=res.data.info;
                     }
                 })

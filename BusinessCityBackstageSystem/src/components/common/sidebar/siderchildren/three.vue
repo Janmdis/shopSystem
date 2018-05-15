@@ -1,7 +1,7 @@
 <template>
     <el-container >
       <el-aside style='overflow: hidden;'>
-        <el-menu :default-openeds="['1']" router>
+        <el-menu  default-active="order"  router>
         <el-submenu index="1">
           <template slot="title"><i class="icon iconfont icon-dingdan2" style='margin-right: 10px;'></i>订单管理</template>
             <el-menu-item-group>

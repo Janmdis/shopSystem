@@ -1,7 +1,7 @@
 <template>
     <el-container >
       <el-aside style='overflow: hidden;'>
-        <el-menu :default-openeds="['1']" router>
+        <el-menu default-active="depmanage"  router>
           <el-submenu index="1">
             <template slot="title"><i class="icon iconfont icon-zuzhiguanli" style='margin-right: 10px;'></i>组织架构</template>
             <el-menu-item-group>

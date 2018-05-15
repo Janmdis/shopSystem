@@ -33,6 +33,14 @@
         <el-table-column
         prop="address"
         label="地址">
+        <template slot-scope="scope">
+            {{(scope.row.area?scope.row.area.regionName:'')+
+            (scope.row.province?scope.row.province.regionName:'')+
+            (scope.row.city?scope.row.city.regionName:'')+
+            (scope.row.district?scope.row.district.regionName:'')+
+            (scope.row.region?scope.row.region.regionName:'')+
+            scope.row.address}}
+        </template>
         </el-table-column>
         <el-table-column
         prop="types"

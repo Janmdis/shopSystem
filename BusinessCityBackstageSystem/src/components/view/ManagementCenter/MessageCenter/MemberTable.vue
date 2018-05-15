@@ -31,22 +31,27 @@
         label="内容">
         </el-table-column>
         <el-table-column
+        prop="receiverCustomer.name"
+        label="接受者"
+        >
+        </el-table-column>
+        <el-table-column
         label="阅读状态">
             <template slot-scope="scope">
-                {{scope.row.isRead==true?"未读":'已读'}}
+                {{scope.row.isRead==true?"已读":'未读'}}
             </template>
         </el-table-column>
         <el-table-column
         label="接收者展示">
             <template slot-scope="scope">
-                {{scope.row.isDisplay==true?"不展示":'展示'}}
+                {{scope.row.isDisplay==true?"展示":'不展示'}}
             </template>
         </el-table-column>
         <el-table-column
         prop="types"
         label="操作">
          <template slot-scope="scope">
-            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+            <!--<el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>!-->
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
         </el-table-column> 
@@ -117,7 +122,7 @@ export default {
         },
         getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/public/message/record/query?page='+pageIndex+'&pageSize=10'
+            let url = '/api/public/message/record/query?page='+(pageIndex?pageIndex:1)+'&pageSize=10'
             this.$http({
                 url: url,
                 method: 'post',
@@ -129,7 +134,6 @@ export default {
 
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
-                console.log(response.data.msg)
                 this.$root.$emit('output',this.datalist);
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)

@@ -26,14 +26,16 @@ export default {
         return{
             listname:'',
             canedit:true,
-            dataInfo:''
+            dataInfo:[]
         }
     },
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
             console.log(data)
-            this.dataInfo = data.datas[0]
+            data.datas.forEach(item=>{
+                this.dataInfo.push(item.id)
+            })
             var dom=document.getElementsByClassName('emendation')[0];
             // let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
@@ -60,7 +62,7 @@ export default {
                     message: '删除成功!',
                     duration:800,
                     onClose:that.$http.post('/api/public/message/record/removeByIds',
-                        [that.dataInfo.id]
+                         this.dataInfo
                     ).then(res => {
                         console.log(res.data.msg);
                         that.$root.$emit('getDatezdy');

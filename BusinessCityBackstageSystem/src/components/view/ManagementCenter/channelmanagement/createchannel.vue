@@ -100,7 +100,7 @@
                 >
                 </el-table-column>
                 <el-table-column 
-                width='200'
+                width='250'
                 label="操作">
                 <template slot-scope="scope" >
                     <el-button type="text" size="small" :disabled='scope.row.isLeader' @click="chengeLeader(scope.$index,scope.row)">指定为队长</el-button>
@@ -618,8 +618,8 @@ export default {
         createercode(row){
             let recommendedAdminId=row.id;
             let recommendedTeamId=this.idchannel;
-            let url='http://daojia.jingrunjia.com.cn/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
-            let url_code='http://47.100.51.41:8887/customer/resource/qrCode.png?content='+url
+            let url=this.url_mobie+'/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
+            let url_code=this.url_img+'?content='+url
             this.$root.$emit('qrcode',url_code);
         },
         // 查看绩效

@@ -44,72 +44,7 @@
                     <el-button type="primary" :disabled="cantSubmit" @click="submitForm('ruleForm')">保存</el-button>
                 </el-form-item>
             </el-form>
-        </el-dialog>
-        <el-dialog :title='listInfo' :visible.sync="dialogRead" width="50%" :append-to-body="true" id="addEstate">
-            <el-row v-model="ListAdminId" v-if='listInfo=="接收会员"'>
-                <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                <div style="margin: 15px 0;"></div>
-                <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                    <el-checkbox v-for="item in ListAdminData" :label="item" :key="item.id">{{item.name}}</el-checkbox>
-                </el-checkbox-group>
-            </el-row>
-            <el-row v-model="ListCustomerId" v-if='listInfo=="接收后台用户"'>
-                <el-select v-model="translate" placeholder="请选择">
-                    <el-option v-for='(item,index) in translateArr' :key='index' :label="item.info" :value='item.id' @click.native='$store.commit('changeBumen',item.id)'>
-                    </el-option>
-                </el-select>
-                <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-                    <el-table-column type="selection" width="55">
-                    </el-table-column>
-                    <el-table-column
-                prop="adminName"
-                label="姓名"
-                align='center'>
-                </el-table-column>
-                <el-table-column
-                prop="phone"
-                label="手机号"
-                align='center'
-                width='150'>
-                </el-table-column>
-                <el-table-column
-                label="性别"
-                align='center'>
-                <template slot-scope="scope">
-                    {{scope.row.adminSex?'女':'男'}}
-                </template>
-                </el-table-column>
-                <el-table-column
-                prop="employeeTypeName"
-                label="员工种类"
-                align='center'>
-                </el-table-column>
-                 <el-table-column
-                prop="manageGroupAdminList[0].departmentName"
-                label="部门"
-                align='center'>
-                </el-table-column>
-                 <el-table-column
-                prop="manageGroupAdminList[0].groupName"
-                label="角色"
-                align='center' >
-                </el-table-column>
-                 <el-table-column
-                prop="accStatus"
-                label="状态"
-                align='center'>
-                <template slot-scope="scope">
-                    {{scope.row.accStatus==0?'停用':'正常'}}
-                    
-                </template>
-                </el-table-column>
-                    </el-table>
-                <!--<el-checkbox v-for='(item,index) in ListCustomerData' :key='index' :label="item?tiem.id:''">item?tiem.name:''</el-checkbox>!-->
-            </el-row>
-
-            <div style="width:100%;text-align:center;margin-top:10px;">
-                <el-button @click="checkList">保存</el-button>
-            </div>
+            <back-end-user></back-end-user>
         </el-dialog>
     </div>
 </template>
@@ -135,6 +70,7 @@
     }
 </style>
 <script>
+    import backEndUser from './backEndUser.vue'
     import {
         mapState
     } from 'vuex';
@@ -142,16 +78,13 @@
     export default {
         data() {
             return {
-                translate: '',
                 selectAll: false,
-                translateArr: [],
                 showStyle: false,
-                ListAdminData: [],
                 ListCustomerData: [],
-                ListAdminId: [],
-                ListCustomerId: [],
+                addObjArr:[],
+                // ListAdminId: [],
+                // ListCustomerId: [],
                 dialogVisible: false,
-                listInfo: '',
                 dialogRead: false,
                 cantSubmit: true,
                 ruleForm: {
@@ -174,101 +107,22 @@
                         trigger: 'blur'
                     }, ],
                 },
-                checkAll: false,
-                checkedCities: [],
-                // cities: cityOptions,
-                isIndeterminate: false,
-                tableData3: [],
-                multipleSelection: []
             };
         },
-        computed: {
-            ...mapState({
-                goods: state => state.newsInfo.newslist,
-                getBackstage: state => state.newsInfo.Backstage
-            })
-        },
         methods: {
-            changeBumen(id) {
-                let url = '/api/admin/account/multiConditionalQuery';
-                this.$http({
-                    url: url,
-                    method: "post",
-                    data: {
-                        departmentId: id
-                    }
-                }).then((msg) => {
-                    if(msg.data.info.list){
-                      this.tableData3 =   msg.data.info.list
-                    }
-                    // this.translateArr = msg.data.info.treeAll.children;
-                    // console.log( this.translate )
-                }).catch((err) => {
-                    console.log(err)
-                })
-            },
-            toggleSelection(rows) {
-                if (rows) {
-                    rows.forEach(row => {
-                        this.$refs.multipleTable.toggleRowSelection(row);
-                    });
-                } else {
-                    this.$refs.multipleTable.clearSelection();
-                }
-            },
-            handleSelectionChange(val) {
-                this.multipleSelection = val;
-            },
-            checkList() {
-                this.dialogRead = false;
-                console.log(this.checkedCities)
-            },
             getAdmin() {
-                this.listInfo = '接收会员' //会员
-                this.dialogRead = true;
-                this.ListAdminData = this.goods.data
-                // let url = '/api/customer/account/query';
-                // this.$http({
-                //     url: url,
-                //     method: "post",
-                //     data: {}
-                // }).then((msg) => {
-                //     console.log(msg.data.info)
-                //     if (msg.data.info.list) {
-                //         this.ListAdminData = msg.data.info.list
-                //         console.log(this.ListAdminData)
-                //     }
-                // }).catch((err) => {
-                //     console.log(err)
-                // })
+                let obj = {
+                    listInfo: '接收会员',
+                    dialogRead: true
+                }
+                this.$root.$emit('showInfo', obj);
             },
             getCustomer() {
-                
-                this.listInfo = '接收后台用户'
-                this.dialogRead = true
-                
-                let {
-                    id,
-                    info
-                } = this.getBackstage.treeAll
-                let newObj = [{
-                    "id": id,
-                    "info": info
-                }]
-                let merge = []
-                //合并数组
-                merge = merge.concat(newObj,this.getBackstage.treeAll.children)
-                this.translateArr = merge
-            },
-            handleCheckAllChange(val) {
-                this.checkedCities = val ? this.ListAdminData : [];
-                this.isIndeterminate = false;
-                console.log(this.checkedCities)
-            },
-            handleCheckedCitiesChange(value) {
-                let checkedCount = value.length;
-                this.checkAll = checkedCount === this.ListAdminData.length;
-                this.isIndeterminate = checkedCount > 0 && checkedCount < this.ListAdminData.length;
+                let obj = {
+                    listInfo: '接收后台用户',
+                    dialogRead: true
+                }
+                this.$root.$emit('showInfo', obj);
             },
             closeDialog(done) {
                 this.dialogVisible = false;
@@ -297,17 +151,12 @@
                             // headers: {
                             //     'Content-Type': 'application/json'
                             // },
-                            data: [{
-                                "title": this.ruleForm.name,
-                                "content": this.ruleForm.mode,
-                                "receiverAdminId": this.ListAdminId + ''.replace(/\[|]/g, ''),
-                                "receiverCustomerId": this.ListCustomerId + ''.replace(/\[|]/g, ''),
-                            }]
+                            data: this.addObjArr
                         })
                         .then(res => {
                             this.dialogVisible = false;
-                            console.log(res.data.msg);
                             this.$root.$emit('getDatezdy', 1);
+                            this.addObjArr =[]
                         })
                         .catch(error => {
                             console.log(error);
@@ -344,17 +193,45 @@
                 }
                 this.dialogVisible = false;
                 this.$refs[formName].resetFields();
+            },
+            getmultipleSelection() {
+                
+                this.$root.$on('multipleSelection', data => {
+                    let addObj;
+                    if (data) {
+                        data.forEach(item => {
+                            addObj = {
+                                "title": this.ruleForm.name,
+                                "content": this.ruleForm.mode,
+                                "receiverAdminId": item.id,
+                            }
+                          this.addObjArr.push(addObj)  
+                        })
+                    }
+                })
+                this.$root.$on('multipleSelections', data => {
+                    let addObj;
+                    if (data) {
+                        data.forEach(item => {
+                            addObj = {
+                                "title": this.ruleForm.name,
+                                "content": this.ruleForm.mode,
+                                "receiverCustomerId": item.id,
+                            }
+                             this.addObjArr.push(addObj)
+                        })
+                    }
+                })
+                
             }
         },
         created: function() {
-            this.$store.dispatch('getJson');
-            this.$store.dispatch("getBackstage");
+            this.getmultipleSelection();
             this.$root.$on('showWindowss', (data) => {
                 this.$nextTick(() => {
                     if (data.type != 'no') {
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '编辑消息';
-                        console.log(data);
                         this.showStyle = true;
                         this.ruleForm.thisId = data.rowData.id
                         this.ruleForm.mode = data.rowData.content
@@ -373,8 +250,13 @@
                 })
             });
         },
+        components: {
+            backEndUser
+        },
         beforeDestroy() {
             this.$root.$off('showWindowss');
+            this.$root.$off('multipleSelection');
+            this.$root.$off('multipleSelections');
         }
     }
 </script>

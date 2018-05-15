@@ -3,7 +3,7 @@
         <div class="memberNav" @click.native="closeInfo">
             <el-row class="navChild">
                 <el-col :span='15'>
-                    <lttip :name='namepage'></lttip>
+                    <lttip :name='namepage' :searchshow='true'></lttip>
                 </el-col>
                 <el-col :span='9'>
                     <div class="grid-content search">
