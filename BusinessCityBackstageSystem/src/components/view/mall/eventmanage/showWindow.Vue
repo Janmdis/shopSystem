@@ -27,9 +27,9 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                     <el-form-item label="活动标签：" prop="activityLabeld">
+                     <el-form-item label="活动标签：" prop="note">
                         <!-- 活动模板名称 -->
-                        <el-input v-model="ruleForm.activityLabeld" placeholder="请选择活动模板" :disabled="true"></el-input>
+                        <el-input v-model="ruleForm.note" placeholder="请选择活动模板" :disabled="true"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span='8'>
@@ -100,7 +100,7 @@ import qs from 'qs'
                     startTime:'',
                     endTime:'',
                     detailTemplateInfoId:'',
-                    activityLabeld:'',
+                    note:'',
                     images:'',
                     activityLink:''
                 },
@@ -154,7 +154,7 @@ import qs from 'qs'
                         that.eventImages = 'http://' + hostName + ':' + port + '/api' + that.images;
                         that.ruleForm.typeid = data.activitySortId
                         that.ruleForm.detailTemplateInfoId = data.templateId
-                        that.ruleForm.activityLabeld = data.activityLabeld
+                        that.ruleForm.note = data.note
                         // console.log(that.ruleForm.categoryId);
                         let url = '/api/product/mall/template/query?page=1&pageSize=10';
                         let detailTemplateIds = data.templateId
@@ -262,7 +262,7 @@ import qs from 'qs'
                                     image:this.ruleForm.images,
                                     activitySortId:this.ruleForm.typeid,
                                     templateId:this.ruleForm.detailTemplateInfoId,
-                                    activityLabeld:this.ruleForm.activityLabeld
+                                    note:this.ruleForm.note
                                 };
                         }else if(this.ruleForm.textInfo == "编辑活动"){
                             this.ruleForm.activityLink = apis+'eventTemplate?id='+this.ruleForm.detailTemplateInfoId
@@ -277,7 +277,7 @@ import qs from 'qs'
                                     image:this.ruleForm.images,
                                     activitySortId:this.ruleForm.typeid,
                                     templateId:this.ruleForm.detailTemplateInfoId,
-                                    activityLabeld:this.ruleForm.activityLabeld
+                                    note:this.ruleForm.note
                                 }];
                         }
                         this.$http.post('/api'+url,data)
@@ -317,7 +317,7 @@ import qs from 'qs'
                 })
             });
             this.$root.$on('saveActivityTemplateInfos', (data) => {
-                this.ruleForm.activityLabeld = data.templateName
+                this.ruleForm.note = data.templateName
                 this.ruleForm.detailTemplateInfoId = data.templateID
             })
         },
