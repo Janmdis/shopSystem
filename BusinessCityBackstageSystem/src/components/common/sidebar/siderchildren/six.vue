@@ -7,6 +7,7 @@
             <el-menu-item-group>
               <el-menu-item index="depmanage">部门管理</el-menu-item>
               <el-menu-item index="roleManage" >角色管理</el-menu-item>
+              <el-menu-item index="comment" >评论列表</el-menu-item>
               <el-menu-item index="usermanage">用户管理</el-menu-item>
               <el-menu-item index="channelmanagement">渠道管理</el-menu-item>
               <el-menu-item index="Supplier">供应商列表页</el-menu-item>
