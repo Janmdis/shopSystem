@@ -692,19 +692,22 @@
                         if (res.data.info == null) {
                             alert(res.data.error)
                         } else {
-                            that.houseInfo = res.data.info;
-                            (res.data.info).forEach(function(e, i) {
-                                that.proInfoList = that.houseInfo[e.id - 1].sysRegionList;
-                                that.bigDisId[e.id] = e.regionName;
-                                //console.log(that.bigDisId)
-                                that.proInfoList.forEach(function(e, i) {
-                                    that.proInfo.push(e);
-                                    that.cityInfoList = that.proInfoList[i].sysRegionList;
-                                    that.cityInfoList.forEach(function(e, i) {
-                                        that.cityInfo.push(e);
+                            if(res.data.status!=401){
+                                that.houseInfo = res.data.info;
+                                (res.data.info).forEach(function(e, i) {
+                                    that.proInfoList = that.houseInfo[e.id - 1].sysRegionList;
+                                    that.bigDisId[e.id] = e.regionName;
+                                    //console.log(that.bigDisId)
+                                    that.proInfoList.forEach(function(e, i) {
+                                        that.proInfo.push(e);
+                                        that.cityInfoList = that.proInfoList[i].sysRegionList;
+                                        that.cityInfoList.forEach(function(e, i) {
+                                            that.cityInfo.push(e);
+                                        });
                                     });
                                 });
-                            });
+                            }
+                            
                         }
                     }).catch(err => {
                         console.log(err)

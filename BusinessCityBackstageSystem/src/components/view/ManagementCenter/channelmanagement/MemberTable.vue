@@ -269,7 +269,7 @@ export default {
         },
         createercode(row){
             let id=row.id;
-            let url=this.url_mobie+'/invitingGift?recommendedAdminId='+id
+            let url=this.url_mobie+'/invitingGift?recommendedTeamId='+id
             let url_code=this.url_img+'?content='+escape(url);
             this.$root.$emit('qrcode',url_code);
         }
