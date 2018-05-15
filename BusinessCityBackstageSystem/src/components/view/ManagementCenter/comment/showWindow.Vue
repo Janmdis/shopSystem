@@ -4,18 +4,22 @@
             <el-row>
                 <el-col :span='24'>
                     <el-form-item label="评论内容" prop="name">
-                        <el-input @change="checkName" v-model.trim="ruleForm.name"></el-input>
+                        {{ruleForm.name}}
+                    </el-form-item>
+                </el-col>
+                <el-col :span='24' v-if='ruleForm.reply'>
+                    <el-form-item label="回复内容" >
+                        {{ruleForm.reply }}
                     </el-form-item>
                 </el-col>
                 <el-col :span='24'>
-                    <el-form-item label="别名" prop="mode">
-                        <el-input v-model="ruleForm.mode"></el-input>
+                    <el-form-item label="回复" prop="mode">
+                        <el-input type="textarea"  v-model="ruleForm.mode"></el-input>
                     </el-form-item>
                 </el-col>
-               
             </el-row>
             <el-form-item class="estate-btn">
-                <el-button type="primary" :disabled="cantSubmit" @click="submitForm('ruleForm')">保存</el-button>
+                <el-button type="primary"  @click="submitForm('ruleForm')">保存</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -51,44 +55,12 @@
             return {
                 dialogVisible: false,
                 cantSubmit: true,
-                proInfo: [],
-                cityInfoList: [],
-                cityInfo: [],
-                countyInfo: [],
-                streetInfo: [],
-                bigDisId: {},
-                proDisId: {},
-                cityDisId: {},
-                houseForm: {
-                    estate: '',
-                    smallDistrict: '',
-                    houseType: null,
-                    houseState: null,
-                    bigDistrict: null,
-                    provinceValue: null,
-                    cityValue: null,
-                    countyDistrict: null,
-                    streetValue: null,
-                    streetMore: '',
-                    balcony: null,
-                    room: null,
-                    hall: null,
-                    toilet: null,
-                    kitchen: null,
-                    square: 0
-                },
-                proInfoList: [],
-                proInfo: [],
-                cityInfoList: [],
-                cityInfo: [],
-                countyInfo: [],
-                streetInfo: [],
                 ruleForm: {
                     textInfo: '新增会员',
                     name: "",
                     mode: '',
-                    address: '',
-                    thisId: ''
+                    thisId: '',
+                    reply:''
                 },
                 rules: {
                     name: [{
@@ -100,50 +72,55 @@
                         required: false,
                         message: '请输入小区别名',
                         trigger: 'blur'
-                    }, ],
-                    address: [{
-                        required: false,
-                        message: '请填写详细地址',
-                        trigger: 'blur'
-                    }],
+                    }, ]
                 },
             };
         },
 
         methods: {
-            submitForm(formName) {
-                if (this.ruleForm.textInfo == "新增小区") {
-                    let url = '/api/customer/estate/insertData';
-                    this.$http({
-                            url: url,
-                            method: 'POST',
-                            // 请求体重发送的数据
-                            // headers: {
-                            //     'Content-Type': 'application/json'
-                            // },
-                            data: [{
-                                'name': this.ruleForm.name,
-                                'alias': this.ruleForm.mode,
-                                'areaId':this.houseForm.bigDistrict-0,
-                                'provinceId':this.houseForm.provinceValue-0,
-                                'cityId':this.houseForm.cityValue-0,
-                                'districtId':this.houseForm.countyDistrict-0,
-                                'regionId':this.houseForm.streetValue-0,
-                                'address': this.ruleForm.address,
-                            }]
-                        })
-                        .then(res => {
-                            this.dialogVisible = false;
-                            console.log(res.data.msg);
-                            this.$root.$emit('getDatezdy', 1);
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            //         alert('网络错误，不能访问');
-                        })
+            closeDialog(done) {
+                this.dialogVisible = false;
+                this.$refs['ruleForm'].resetFields();
+                this.ruleForm.name = ''
+            },
+            checkName() {
+                if (this.ruleForm.name == '') {
+                    this.cantSubmit = true
+                    this.$message({
+                        message: '小区名不能为空',
+                        type: 'warning',
+                        duration: 1000
+                    })
+                } else {
+                    this.cantSubmit = false
                 }
-                if (this.ruleForm.textInfo == "编辑小区") {
-                    let url = '/api/customer/estate/updateData';
+            },
+            submitForm(formName) {
+                // if (this.ruleForm.textInfo == "新增小区") {
+                //     let url = '/api/customer/estate/insertData';
+                //     this.$http({
+                //             url: url,
+                //             method: 'POST',
+                //             // 请求体重发送的数据
+                //             // headers: {
+                //             //     'Content-Type': 'application/json'
+                //             // },
+                //             data: [{
+                //                 'alias': this.ruleForm.mode,
+                //             }]
+                //         })
+                //         .then(res => {
+                //             this.dialogVisible = false;
+                //             console.log(res.data.msg);
+                //             this.$root.$emit('getDatezdy', 1);
+                //         })
+                //         .catch(error => {
+                //             console.log(error);
+                //             //         alert('网络错误，不能访问');
+                //         })
+                // }
+                if (this.ruleForm.textInfo == "回复评论") {
+                    let url = '/api/product/commodity/evaluation/reply?evaluationId='+this.ruleForm.thisId+'&text='+this.ruleForm.mode;
                     this.$http({
                             url: url,
                             method: 'POST',
@@ -152,20 +129,16 @@
                             //     'Content-Type': 'application/json'
                             // },
                             data: {
-                                'name': this.ruleForm.name,
-                                'alias': this.ruleForm.mode,
-                                'address': this.ruleForm.address,
-                                'areaId':this.houseForm.bigDistrict-0,
-                                'provinceId':this.houseForm.provinceValue-0,
-                                'cityId':this.houseForm.cityValue-0,
-                                'districtId':this.houseForm.countyDistrict-0,
-                                'regionId':this.houseForm.streetValue-0,
-                                'id': this.ruleForm.thisId
+                                // 'text': this.ruleForm.mode,
+                                // 'evaluationId': this.ruleForm.thisId
                             }
                         })
                         .then(response => {
-                            this.dialogVisible = false;
+                            if(response.data.status==200){
+                                this.dialogVisible = false;
                             this.$root.$emit('getDatezdy', 1)
+                            }
+                            
                         })
                         .catch(error => {
                             console.log(error);
@@ -177,39 +150,18 @@
             }
         },
         created: function() {
-            this.searchInfo();
             this.$root.$on('showWindowss', (data) => {
                 this.$nextTick(() => {
                     if (data.type != 'no') {
-                        this.houseForm.bigDistrict='',
-                        this.houseForm.provinceValue = '',
-                        this.houseForm.cityValue = '',
-                        this.houseForm.countyDistrict = '',
-                        this.houseForm.streetValue = '',
-                        this.ruleForm.address = ""
                         this.dialogVisible = true;
-                        this.ruleForm.textInfo = '编辑小区';
-                        console.log(data.rowData);
+                        this.ruleForm.textInfo = '回复评论';
+                        this.ruleForm.name = data.rowData.comment
                         this.ruleForm.thisId = data.rowData.id
-                        this.ruleForm.mode = data.rowData.alias
-                        this.ruleForm.name = data.rowData.name
-                        this.houseForm.bigDistrict=data.rowData.area.regionName,
-                        this.houseForm.provinceValue = data.rowData.province.regionName,
-                        this.houseForm.cityValue = data.rowData.city.regionName,
-                        this.houseForm.countyDistrict = data.rowData.district.regionName,
-                        this.houseForm.streetValue = data.rowData.region.regionName,
-                        this.ruleForm.address = data.rowData.address
+                        this.ruleForm.reply = data.rowData.reply
                     } else {
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '新增小区';
-                        this.ruleForm.mode = ""
                         this.ruleForm.name = ""
-                        this.houseForm.bigDistrict='',
-                        this.houseForm.provinceValue = '',
-                        this.houseForm.cityValue = '',
-                        this.houseForm.countyDistrict = '',
-                        this.houseForm.streetValue = '',
-                        this.ruleForm.address = ""
                     }
                 })
             });

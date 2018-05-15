@@ -6,7 +6,7 @@
                     <lttip :name='namepage'></lttip>
                 </el-col>
                 <el-col :span='9'>
-                    <div class="grid-content search">
+                    <!--<div class="grid-content search">
                         <el-input placeholder="请输入小区名" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
                         </el-input>
                         <el-button type="primary" style='margin-left:15px;' @click='show($event)'><i class='el-icon-search'></i>搜索</el-button>
@@ -43,8 +43,8 @@
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                        <!-- <el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button> -->
-                    </div>
+                      <el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button> 
+                    </div>!-->
                 </el-col>
             </el-row>
             <el-row>
