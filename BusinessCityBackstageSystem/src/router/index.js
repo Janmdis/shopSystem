@@ -116,6 +116,11 @@ export default new Router({
                     component: resolve => require(['@/components/view/ManagementCenter/residentialquarters/residentialquarters.vue'], resolve)
                 },
                 {
+                    path: 'comment', // 评论
+                    name: 'comment',
+                    component: resolve => require(['@/components/view/ManagementCenter/comment/comment.vue'], resolve)
+                },
+                {
                     path: 'MessageCenter', // 消息中心
                     name: 'MessageCenter',
                     component: resolve => require(['@/components/view/ManagementCenter/MessageCenter/MessageCenter.vue'], resolve)
