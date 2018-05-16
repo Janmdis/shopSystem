@@ -199,6 +199,7 @@ export default {
             this.$root.$emit("showWindowss", { type: 'yes', rowData: row })
         },
         getDate(pageIndex) {
+            let that = this
             this.listLoading =  true;
             let url = '/api/product/activity/find?page='+pageIndex+'&pageSize=10';
             this.$http({
@@ -210,12 +211,14 @@ export default {
                 },
             })
             .then(response => {
-                this.listLoading =  false;
-                this.datalist=(response.data.info.list);
-                console.log(this.datalist)
+                that.listLoading =  false;
+                that.datalist=(response.data.info.list);
+                console.log(that.datalist)
                 console.log(response.data.msg)
-                this.$root.$emit('pages',response.data.info.pages)
-                this.$root.$emit('total',response.data.info.total)
+                console.log(response.data.info.pages)
+                console.log(response.data.info.total)
+                that.$root.$emit('pagess',response.data.info.pages)
+                that.$root.$emit('totals',response.data.info.total)
           })
           .catch(error=>{
               console.log(error);

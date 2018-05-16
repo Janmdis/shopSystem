@@ -291,7 +291,6 @@ import qs from 'qs'
                                 that.$root.$emit('markUpate')
                                 that.dialogVisible = false;
                                 that.$refs['ruleForm'].resetFields();
-                                that.$refs.detailcommodity.setAttribute('class','detailcommodity off');
                             }
                             else{
                                 that.$message(response.data.msg);

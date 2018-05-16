@@ -27,10 +27,10 @@ export default {
 
     },
     mounted() {
-        this.$root.$on('total', (data) => {
+        this.$root.$on('totals', (data) => {
             this.totalCount = data
         })
-        this.$root.$on('pages', (data) => {
+        this.$root.$on('pagess', (data) => {
             this.pageS = data
         })
         this.$root.$on("delBox", (data) => {
@@ -90,7 +90,7 @@ export default {
             }
             this.listLoading = true;
             let _this = this;
-            let url = '/api//product/mall/template/query?page=' + this.pageIndex + '&pageSize=10&keyword=' + para.username;
+            let url = '/api/product/activity/find?page=' + this.pageIndex + '&pageSize=10&keyword=' + para.username;
             this.$http({
                     url: url,
                     method: 'POST',
@@ -105,8 +105,8 @@ export default {
                         //  this.listLoading =  false;
                     this.datalist = (response.data.info.list);
                     this.$root.$emit('dataListBox', this.datalist)
-                    this.$root.$emit('pages', response.data.info.pages)
-                    this.$root.$emit('total', response.data.info.total)
+                    this.$root.$emit('pagess', response.data.info.pages)
+                    this.$root.$emit('totals', response.data.info.total)
 
                 })
                 .catch(error => {
@@ -141,4 +141,8 @@ export default {
         eventTempalteList,
         searchBox
     },
+    beforeDestroy(){
+        this.$root.$off('pagess');
+        this.$root.$off('totals');
+    }
 }
