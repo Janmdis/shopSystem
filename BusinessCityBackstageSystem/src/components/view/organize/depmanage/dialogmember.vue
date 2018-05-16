@@ -325,7 +325,7 @@ export default {
         border-bottom: 4px solid #409eff;
     padding:20px 32px;
 }
-.el-dialog__title,.el-dialog__headerbtn .el-dialog__close{
+.el-dialog__headerbtn .el-dialog__close{
     color:white;
 }
 .el-dialog__headerbtn{
