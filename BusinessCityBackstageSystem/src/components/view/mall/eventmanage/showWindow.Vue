@@ -136,25 +136,22 @@ import qs from 'qs'
         },
         methods: {
             //获取活动信息
-            getActivityInfo(){
-                let that=this;
-                this.$http.post('/api/product/activity/find',{id:that.id})
-                .then(function(response){
-                    if(response.data.msg=='查询成功'){
+            getActivityInfo(data){
+                    if(data){
                         let hostName = location.hostname;
                         let port = location.port;
-                        let data=response.data.info[0];
-                        that.id = data.id;
-                        that.ruleForm.activityTitle = data.activityTitle
-                        that.ruleForm.startTime = data.startTime
-                        that.ruleForm.endTime = data.endTime
-                        that.ruleForm.activityPlace = data.activityPlace
-                        that.ruleForm.activityLink = data.activityLink
-                        that.ruleForm.images = data.image
-                        that.eventImages = 'http://' + hostName + ':' + port + '/api' + that.images;
-                        that.ruleForm.typeid = data.activitySortId
-                        that.ruleForm.detailTemplateInfoId = data.templateId
-                        that.ruleForm.note = data.note
+                        let data= data;
+                        this.id = data.id;
+                        this.ruleForm.activityTitle = data.activityTitle
+                        this.ruleForm.startTime = data.startTime
+                        this.ruleForm.endTime = data.endTime
+                        this.ruleForm.activityPlace = data.activityPlace
+                        this.ruleForm.activityLink = data.activityLink
+                        this.ruleForm.images = data.image
+                        this.eventImages = 'http://' + hostName + ':' + port + '/api' + that.images;
+                        this.ruleForm.typeid = data.activitySortId
+                        this.ruleForm.detailTemplateInfoId = data.templateId
+                        this.ruleForm.note = data.note
                         // console.log(that.ruleForm.categoryId);
                         let url = '/api/product/mall/template/query?page=1&pageSize=10';
                         let detailTemplateIds = data.templateId
@@ -172,22 +169,16 @@ import qs from 'qs'
                                 // console.log(response)
                                     if(response.data.info.list.length == 0){
                                     }else{
-                                        that.ruleForm.detailTemplateInfoName = response.data.info.list[0].templateName
+                                        this.ruleForm.detailTemplateInfoName = response.data.info.list[0].templateName
                                     }
                             })
                             .catch(error=>{
                                 console.log(error);
                                 //         alert('网络错误，不能访问');
                             })
+                    }else{
+                        this.$message('出现错误');
                     }
-                    else{
-                        that.$message(response.data.msg);
-                    }
-                    console.log(response);
-                })
-                .catch(function(response){
-                    that.$message('活动信息读取失败！');
-                })
             },
             //上传图片
              handleAvatarSuccess(res, file) {
@@ -195,6 +186,7 @@ import qs from 'qs'
                 let hostName = location.hostname;
                 let port = location.port;
                 this.images = res.info;
+                this.ruleForm.images = res.info;
                 this.eventImages = 'http://' + hostName + ':' + port + '/api' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
             },
             beforeAvatarUpload(file) {
@@ -224,7 +216,7 @@ import qs from 'qs'
             //获取活动分类信息
             getType(){
                 let that=this;
-                this.$http.post('/api/product/sort/find?pageNo=1&pageSize=0',)
+                this.$http.post('/api/product/activity/sort/find?pageNo=1&pageSize=0',)
                 .then(function (response) {
                     let data=response.data;
                     if(data.msg=='查询成功'){
@@ -251,12 +243,21 @@ import qs from 'qs'
                         let data;
                         let url;
                         if(this.ruleForm.textInfo == "新增活动"){
-                            this.ruleForm.activityLink = apis+'eventTemplate?id='+this.ruleForm.detailTemplateInfoId
+
+                            console.log(new Date(this.ruleForm.startTime))
+                            console.log(this.ruleForm.endTime)
+                            var d = new Date(this.ruleForm.startTime); 
+                            var f = new Date(this.ruleForm.endTime);
+                            var startimedate = new Date(d);
+                            var time1 = startimedate.getTime();
+                            var endtimedate = new Date(f);
+                            var time2 = endtimedate.getTime();
+                            this.ruleForm.activityLink = this.apis+'eventTemplate?templateId='+this.ruleForm.detailTemplateInfoId
                             url='/product/activity/insert';
                             data = {
                                     activityTitle:this.ruleForm.activityTitle,
-                                    startTime:this.ruleForm.startTime,
-                                    endTime:this.ruleForm.endTime,
+                                    startTime:time1,
+                                    endTime:time2,
                                     activityPlace:this.ruleForm.activityPlace,
                                     activityLink:this.ruleForm.activityLink,
                                     image:this.ruleForm.images,
@@ -265,7 +266,7 @@ import qs from 'qs'
                                     note:this.ruleForm.note
                                 };
                         }else if(this.ruleForm.textInfo == "编辑活动"){
-                            this.ruleForm.activityLink = apis+'eventTemplate?id='+this.ruleForm.detailTemplateInfoId
+                            this.ruleForm.activityLink = this.apis+'eventTemplate?id='+this.ruleForm.detailTemplateInfoId
                             url='/product/activity/update';
                             data = [{
                                     id:this.id,
@@ -282,13 +283,18 @@ import qs from 'qs'
                         }
                         this.$http.post('/api'+url,data)
                         .then(function(response){
-                            if(response.data.msg=='修改成功'){
-                                that.$message.success('操作成功！');
+                            console.log(response)
+                            if(response.data.msg=='新增成功'){
+                                // that.$message.success('操作成功！');
                                 //清空工作
+                                //更新表单
+                                that.$root.$emit('markUpate')
+                                that.dialogVisible = false;
+                                that.$refs['ruleForm'].resetFields();
                                 that.$refs.detailcommodity.setAttribute('class','detailcommodity off');
                             }
                             else{
-                                that.$message(response.data,msg);
+                                that.$message(response.data.msg);
                             }
                         })
                         .catch(function(response){
@@ -309,6 +315,7 @@ import qs from 'qs'
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '编辑活动';
                         console.log(data.rowData);
+                        this.getActivityInfo(data.rowData)
                     }else{
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '新增活动';

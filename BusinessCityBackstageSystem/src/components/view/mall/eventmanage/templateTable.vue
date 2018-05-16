@@ -71,14 +71,14 @@
             <span>{{ apis+'eventTemplate?id='+scope.row.templateId }}</span>
         </template>
         </el-table-column>
-         <el-table-column
+         <!-- <el-table-column
         prop="activitySortId"
         label="分类ID"
         width='200'
         >
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
-        prop="activityLabeld"
+        prop="note"
         label="活动标签"
         width='200'
         >
@@ -125,6 +125,9 @@ export default {
             this.getDate(this.pageIndex)
         })
         this.getDate(1)
+        this.$root.$on('markUpate', (data)=>{
+            this.getDate(1)
+        })
         this.$root.$on('getDatezdy',(data)=>{
              this.getDate(data);
         })
@@ -133,18 +136,18 @@ export default {
         })
     },
     methods:{
-        handleDelete(index, row,event) { //  删除某一个模板
+        handleDelete(index, row,event) { //  删除某一个活动
             let that = this;
             console.log(row);
-            this.$confirm('确定删除 "'+row.templateName+'"吗?', '提示', 
+            this.$confirm('确定删除 "'+row.activityTitle+'"吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
                 that.$message({
                     type: 'success',
                     message: '操作成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/remove',
-                        [row.templateID]
+                    onClose:that.$http.post('/api/product/activity/update',
+                        [{id:row.id,isActive:false}]
                     ).then(res => {
                         console.log(res.data.msg);
                         if(res.data.msg == '删除失败'){
@@ -193,13 +196,7 @@ export default {
             });
         },
         handleEdit(index, row,event) {
-           // this.$root.$emit('showWindowss',{type:'yes',rowData:row});
-            //console.log(row)
-            let datas = JSON.stringify(row)
-            window.sessionStorage.setItem ("Template_AllData",datas);
-            window.sessionStorage.setItem('Template_Type',2)
-            //this.$store.dispatch('editTemplate',row)
-            this.$router.push({ path: '/mallSet' })
+            this.$root.$emit("showWindowss", { type: 'yes', rowData: row })
         },
         getDate(pageIndex) {
             this.listLoading =  true;
