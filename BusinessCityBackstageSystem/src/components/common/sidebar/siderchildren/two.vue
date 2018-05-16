@@ -1,6 +1,6 @@
 <template>
     <el-container >
-      <el-aside style='overflow: hidden;'>
+      <el-aside style='overflow-x: hidden;height:700px;'>
         <el-menu default-active="member" @select='handleSelect'  router>
           <el-submenu index="1">
             <template slot="title"><i class="icon iconfont icon-huiyuan" style='margin-right: 10px;'></i>会员资料</template>
