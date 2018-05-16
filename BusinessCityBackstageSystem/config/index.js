@@ -10,13 +10,15 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api': {
-                target: 'http://10.1.1.102/', //设置你调用的接口域名和端口号 别忘了加http
+                // target: 'http://10.1.1.102/', //设置你调用的接口域名和端口号 别忘了加http
                 // target: 'http://192.168.199.130/',
                 // target: 'http://192.168.199.207/',
                 // target: 'http://192.168.199.106/',
                 // target: 'http://192.168.199.203/',
                 // target: 'http://101.89.175.155:8777/',
                 // target: 'http://192.168.199.199/',
+                target: 'http://101.89.175.155:8887/',
+                
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': '/'

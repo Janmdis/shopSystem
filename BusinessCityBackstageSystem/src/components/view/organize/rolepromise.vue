@@ -123,6 +123,7 @@ export default {
     },
     created:function(){
         this.$root.$on("exportvisrole",(datas)=>{
+            console.log(datas.permissionid.split(','));
             this.depid=datas.depid;
             this.type=datas.type;
             if(this.type=='edit'){
@@ -130,15 +131,17 @@ export default {
                 this.name='编辑权限';
                 this.id=datas.id;
                 this.checkedPromise=[];
-                console.log(datas);
                 this.promiseslist.forEach((item,index)=>{
                     this.checkedPromise[index]=[];
                     datas.permissionid.split(',').forEach(perssionid=>{
-                        item.children.forEach(item2=>{
-                            if(item2.id==perssionid){
-                                this.checkedPromise[index].push(perssionid);
-                            }
-                        });
+                        if(item.children!=null){
+                            item.children.forEach(item2=>{
+                                if(item2.id==perssionid){
+                                    this.checkedPromise[index].push(perssionid);
+                                }
+                            });
+                        }
+                        
                     });
                 });
                 console.log(this.checkedPromise);

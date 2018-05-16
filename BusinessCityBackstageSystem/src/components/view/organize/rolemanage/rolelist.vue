@@ -147,6 +147,7 @@ export default {
             });
         },
         handlePromise(row){
+            // console.log(row);
             this.$root.$emit('exportvisrole',{id:row.id,permissionid:row.permissionsId,type:'edit'});
             
         },
