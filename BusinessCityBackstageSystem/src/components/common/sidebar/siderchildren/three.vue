@@ -47,3 +47,15 @@
       </el-aside>
     </el-container>
 </template>
+<script>
+ export default {
+    data() {
+      return {
+       
+      };
+    },
+    beforeMount(){
+        this.$router.push("/order")
+    },
+  } 
+</script>

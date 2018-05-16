@@ -4,7 +4,7 @@
     @selection-change='showextra'
     @cell-click='showMemberInfo'
     :default-sort = "{prop: 'date', order: 'descending'}"
-    v-loading="this.listLoading"
+    v-loading="listLoading"
     :stripe='true'
     style="width: 100%"
     height='500'>
@@ -77,7 +77,7 @@
 / eslint-disable /
 //@row-click="showMemberInfo()"
 export default {
-    prop:['listLoading'],
+    // prop:['listLoading'],
     data(){
         return {
             datalist:[],
@@ -93,7 +93,8 @@ export default {
                 serviceState:null,
                 pageSize:10,
                 pageNum:1
-            }
+            },
+            listLoading:false
         }
     },
     created:function(){
@@ -122,8 +123,8 @@ export default {
         });
     },
     methods:{
-      getDate(pageIndex) {
-          this.data.pageNum=pageIndex;
+        getDate(pageIndex) {
+            this.data.pageNum=pageIndex;
             this.listLoading =  true;
             let url = '/api/product/order/queryPageList';
             this.$http({
@@ -135,11 +136,16 @@ export default {
             })
             .then(response => {
                 this.listLoading =  false;
-                this.datalist=(response.data.info.list);
-                // console.log(this.datalist)
-                this.$root.$emit('pages',response.data.info.pages)
-                this.$root.$emit('total',response.data.info.total)
-                this.$root.$emit('output',this.datalist);
+                if(response.data.status==401){
+                    this.$message('尚未登录');
+                    return;
+                }
+                else{
+                    this.datalist=(response.data.info.list);
+                    this.$root.$emit('pages',response.data.info.pages)
+                    this.$root.$emit('total',response.data.info.total)
+                    this.$root.$emit('output',this.datalist);
+                }
           })
           .catch(error=>{
               console.log(error);

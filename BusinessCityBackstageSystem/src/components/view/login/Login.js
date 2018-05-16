@@ -132,7 +132,6 @@ export default {
                         })
                         .then(res => {
                             var msg = res.data.msg
-                            console.log()
                             sessionStorage.setItem('userInfo', JSON.stringify(res.data.info))
                             if (msg !== '登录成功') {
                                 this.option("用户名不存在或密码错误,请重新输入");
@@ -142,6 +141,8 @@ export default {
                                 this.ruleForm.verificationCode = '';
                                 return
                             } else {
+                                let companyid=res.data.info.companyId;
+                                sessionStorage.setItem('companyId',companyid);
                                 this.option('登录成功正在为你跳转请稍后...', 'success');
                                 this.getCode();
                             }

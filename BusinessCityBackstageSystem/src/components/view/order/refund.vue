@@ -116,8 +116,9 @@ export default {
         getDatalist(pagenum){
             let that=this;
             this.loading=true;
-            this.$http.post('/api/product/order/mall/find?pageSize='+that.pagesize+'&pageNo='+pagenum,that.data)
+            this.$http.post('/api/product/order/mall/find?pageSize='+that.pagesize+'&pageNo='+pagenum)
             .then(res=>{
+                console.log(res)
                 if(res.data.status==200){
                     that.datalist=res.data.info.list;
                     that.total=res.data.info.total;
@@ -130,8 +131,7 @@ export default {
                     });
                 }
                 that.loading=false;
-            })
-            .catch(err=>{
+            }).catch(err=>{
                 console.log(err);
                 that.loading=false;    
                 that.$message({
