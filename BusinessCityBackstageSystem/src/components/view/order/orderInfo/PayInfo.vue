@@ -177,8 +177,18 @@
                             });
                         }
                         if(msg.data.info.desc == false) {
+                            let megInfo = '';
+                            if(msg.data.info.err){
+                                if(msg.data.info.err.err_code_des=='基本账户余额不足，请充值后重新发起'){
+                                    megInfo = msg.data.info.err.err_code_des
+                                }else{
+                                     megInfo =  msg.data.info.info
+                                }
+                            }else{
+                                megInfo =  msg.data.info.info
+                            }
                             this.$message({
-                                message: msg.data.info.info,
+                                message: megInfo,
                                 type: 'warning'
                             });
                         }
