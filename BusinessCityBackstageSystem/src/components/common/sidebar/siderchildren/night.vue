@@ -1,6 +1,6 @@
 <template>
     <el-container >
-      <el-aside style='overflow: hidden;' >
+      <el-aside style='overflow-x: hidden;height:700px;'>
         <el-menu default-active="MessageCenter" router>
           <el-submenu index="1">
             <template slot="title"><i class="icon iconfont icon-jichupeizhi" style='margin-right: 10px;'></i>基础配置</template>
