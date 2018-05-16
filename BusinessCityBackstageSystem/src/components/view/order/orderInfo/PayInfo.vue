@@ -162,7 +162,7 @@
             isOkInfo() {
                 if (this.titles == '确认退款') {
                     // let orderId = sessionStorage.getItem("orderId");
-                    let url = '/api/product/order/weixin/refund?refundNumber=' + thisData.refundNumber;
+                    let url = '/api/product/order/weixin/refund?refundNumber=' + this.thisData.refundNumber;
                     this.$http({
                         url: url,
                         method: 'post',
