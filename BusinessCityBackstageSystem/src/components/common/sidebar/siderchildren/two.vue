@@ -1,7 +1,7 @@
 <template>
     <el-container >
       <el-aside style='overflow: hidden;'>
-        <el-menu default-active="member"   router>
+        <el-menu default-active="member" @select='handleSelect'  router>
           <el-submenu index="1">
             <template slot="title"><i class="icon iconfont icon-huiyuan" style='margin-right: 10px;'></i>会员资料</template>
             <el-menu-item-group>
@@ -21,8 +21,8 @@
        
       };
     },
-    methods: {
-     
-    }
+    beforeMount(){
+        this.$router.push("/member")
+    },
   } 
 </script>
