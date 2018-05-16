@@ -131,7 +131,7 @@ import qs from 'qs'
                         trigger: 'blur'
                     }]
                 },
-                apis:'http://www.itchun.com/'
+                apis:'http://daojia.jingrunjia.com.cn/'
             };
         },
         methods: {
@@ -186,8 +186,8 @@ import qs from 'qs'
                 let hostName = location.hostname;
                 let port = location.port;
                 this.images = res.info;
-                this.ruleForm.images = res.info;
                 this.eventImages = 'http://' + hostName + ':' + port + '/api' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
+                this.ruleForm.images = this.eventImages;
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
