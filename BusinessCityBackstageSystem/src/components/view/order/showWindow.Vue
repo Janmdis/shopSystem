@@ -513,11 +513,11 @@
                         message: '填写支付金额',
                         trigger: 'blur'
                     }],
-                    number: [{
-                        required: true,
-                        message: '订单号',
-                        trigger: 'blur'
-                    }],
+                    // number: [{
+                    //     required: true,
+                    //     message: '订单号',
+                    //     trigger: 'blur'
+                    // }],
                     orderState: [{
                         required: true,
                         message: '请填写订单',
