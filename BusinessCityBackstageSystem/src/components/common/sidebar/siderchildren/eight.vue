@@ -1,15 +1,26 @@
 <template>
     <el-container >
       <el-aside style='overflow-x: hidden;height:700px;'>
-        <el-menu :default-openeds="['1']">
+        <el-menu default-active="appointmentTime" router>
           <el-submenu index="1">
-            <template slot="title"><i class="el-icon-message"></i>管理中心</template>
+            <template slot="title"><i class="icon iconfont icon-shijian1" style='margin-right: 10px;'></i>预约时间</template>
             <el-menu-item-group>
-              <el-menu-item index="operationlog">操作日志</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
+              <el-menu-item index="appointmentTime">预约时间</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
       </el-aside>
     </el-container>
 </template>
+<script>
+ export default {
+    data() {
+      return {
+       
+      };
+    },
+    beforeMount(){
+        this.$router.push("/appointmentTime")
+    },
+  } 
+</script>
