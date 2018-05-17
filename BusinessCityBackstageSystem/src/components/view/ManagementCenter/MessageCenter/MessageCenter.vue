@@ -7,11 +7,11 @@
                 </el-col>
                 <el-col :span='9'>
                     <div class="grid-content search">
-                        <el-input placeholder="请输入小区名" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
-                        </el-input>
+                        <!--<el-input placeholder="请输入消息" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
+                        </el-input>!-->
                         <el-button type="primary" class="add" @click='showWindowX("no")'><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
                         <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
-                        <el-dropdown trigger="click" class='msnuiMore'>
+                        <!--<el-dropdown trigger="click" class='msnuiMore'>
                             <span class="el-dropdown-link">
                                 <i class='icon iconfont icon-msnui-more'></i>
                             </span>
@@ -40,7 +40,7 @@
                                     <a class="btn-download" href="/api/customer/customer/excelModel/out">导出导入模板</a>
                                 </el-dropdown-item>
                             </el-dropdown-menu>
-                        </el-dropdown>
+                        </el-dropdown>!-->
                         <!-- <el-button type="primary" class='shengrizhuanqu' round><i class='icon iconfont icon-shengrizhuanqu'></i></el-button> -->
                     </div>
                 </el-col>
