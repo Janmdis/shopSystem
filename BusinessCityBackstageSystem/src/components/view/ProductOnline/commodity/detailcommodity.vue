@@ -522,6 +522,14 @@ export default {
             this.addOptionsShow = false
         },
         sureAddOptions(){
+            if(this.specificationName = ''){
+                alert('请填写规格名')
+                return false;
+            }
+            if(this.dynamicTags = []){
+                alert('请填写规格值')
+                return false;
+            }
             let arr=[];
             this.dynamicTags.forEach(item=>{
                 arr.push(item);

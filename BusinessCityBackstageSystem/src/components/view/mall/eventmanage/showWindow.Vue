@@ -136,11 +136,13 @@ import qs from 'qs'
         },
         methods: {
             //获取活动信息
-            getActivityInfo(data){
-                    if(data){
+            getActivityInfo(datas){
+                    if(datas){
+                        let that = this;
                         let hostName = location.hostname;
                         let port = location.port;
-                        let data= data;
+                        let data= datas;
+                        console.log(data)
                         this.id = data.id;
                         this.ruleForm.activityTitle = data.activityTitle
                         this.ruleForm.startTime = data.startTime
@@ -148,34 +150,10 @@ import qs from 'qs'
                         this.ruleForm.activityPlace = data.activityPlace
                         this.ruleForm.activityLink = data.activityLink
                         this.ruleForm.images = data.image
-                        this.eventImages = 'http://' + hostName + ':' + port + '/api' + that.images;
+                        this.eventImages = 'http://' + hostName + ':' + port + '/api' + data.image;
                         this.ruleForm.typeid = data.activitySortId
                         this.ruleForm.detailTemplateInfoId = data.templateId
                         this.ruleForm.note = data.note
-                        // console.log(that.ruleForm.categoryId);
-                        let url = '/api/product/mall/template/query?page=1&pageSize=10';
-                        let detailTemplateIds = data.templateId
-                                that.$http({
-                                    url: url,
-                                    method: 'POST',
-                                    // 请求体重发送的数据
-                                    // headers: { 'Content-Type': 'application/json' },
-                                    data:{
-                                        'templateID':detailTemplateIds,
-                                        'templateType':2
-                                    },
-                                })
-                                .then(response => {
-                                // console.log(response)
-                                    if(response.data.info.list.length == 0){
-                                    }else{
-                                        this.ruleForm.detailTemplateInfoName = response.data.info.list[0].templateName
-                                    }
-                            })
-                            .catch(error=>{
-                                console.log(error);
-                                //         alert('网络错误，不能访问');
-                            })
                     }else{
                         this.$message('出现错误');
                     }
@@ -235,8 +213,7 @@ import qs from 'qs'
             },
             //新增/修改活动
             submitForm(formName) {
-                    //     this.dialogVisible = false;
-                        //     this.$refs[formName].resetFields();
+                
                 this.$refs['ruleForm'].validate((valid) => {
                     if (valid) {
                         let that=this;
@@ -287,10 +264,26 @@ import qs from 'qs'
                             if(response.data.msg=='新增成功'){
                                 // that.$message.success('操作成功！');
                                 //清空工作
-                                //更新表单
-                                that.$root.$emit('markUpate')
-                                that.dialogVisible = false;
                                 that.$refs['ruleForm'].resetFields();
+                                that.ruleForm.activityLink = '';
+                                that.ruleForm.detailTemplateInfoId = '';
+                                that.ruleForm.images = '';
+                                that.eventImages = '';
+                                //更新活动列表
+                                that.$root.$emit('markUpate')
+                                //关闭弹框
+                                that.dialogVisible = false;
+                            }else if(response.data.msg=='更新成功'){
+                                //清空工作
+                                that.$refs['ruleForm'].resetFields();
+                                that.ruleForm.activityLink = '';
+                                that.ruleForm.detailTemplateInfoId = '';
+                                that.ruleForm.images = '';
+                                that.eventImages = '';
+                                //更新活动列表
+                                that.$root.$emit('markUpate')
+                                //关闭弹框
+                                that.dialogVisible = false;
                             }
                             else{
                                 that.$message(response.data.msg);
@@ -314,7 +307,8 @@ import qs from 'qs'
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '编辑活动';
                         console.log(data.rowData);
-                        this.getActivityInfo(data.rowData)
+                        let datas = data.rowData
+                        this.getActivityInfo(datas)
                     }else{
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '新增活动';
