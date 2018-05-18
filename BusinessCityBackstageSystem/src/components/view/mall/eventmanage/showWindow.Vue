@@ -165,7 +165,7 @@ import qs from 'qs'
                 let port = location.port;
                 this.images = res.info;
                 this.eventImages = 'http://' + hostName + ':' + port + '/api' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
-                this.ruleForm.images = this.eventImages;
+                this.ruleForm.images = res.info;
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
@@ -246,13 +246,19 @@ import qs from 'qs'
                                     note:this.ruleForm.note
                                 };
                         }else if(this.ruleForm.textInfo == "编辑活动"){
-                            this.ruleForm.activityLink = this.apis+'eventTemplate?id='+this.ruleForm.detailTemplateInfoId
+                            this.ruleForm.activityLink = this.apis+'eventTemplate?templateId='+this.ruleForm.detailTemplateInfoId
                             url='/product/activity/update';
+                            var d = new Date(this.ruleForm.startTime); 
+                            var f = new Date(this.ruleForm.endTime);
+                            var startimedate = new Date(d);
+                            var time1 = startimedate.getTime();
+                            var endtimedate = new Date(f);
+                            var time2 = endtimedate.getTime();
                             data = [{
                                     id:this.id,
                                     activityTitle:this.ruleForm.activityTitle,
-                                    startTime:this.ruleForm.startTime,
-                                    endTime:this.ruleForm.endTime,
+                                    startTime:time1,
+                                    endTime:time2,
                                     activityPlace:this.ruleForm.activityPlace,
                                     activityLink:this.ruleForm.activityLink,
                                     image:this.ruleForm.images,
@@ -273,27 +279,25 @@ import qs from 'qs'
                                 //关闭弹框
                                 that.dialogVisible = false;
                                console.log(that.ruleForm)
-                            }else if(response.data.msg=='更新成功'){
+                            }else{
                                 //清空工作
                                 that.$refs['ruleForm'].resetFields();
                                 //清空操作
-                                this.ruleForm.activityTitle = '';
-                                this.ruleForm.startTime = '';
-                                this.ruleForm.endTime = '';
-                                this.ruleForm.activityPlace = '';
-                                this.ruleForm.activityLink = '';
-                                this.ruleForm.detailTemplateInfoId = '';
-                                this.ruleForm.images = '';
-                                this.ruleForm.typeid = '';
-                                this.ruleForm.note = '';
-                                this.eventImages = '';
-                                this.id = '';
+                                that.ruleForm.activityTitle = '';
+                                that.ruleForm.startTime = '';
+                                that.ruleForm.endTime = '';
+                                that.ruleForm.activityPlace = '';
+                                that.ruleForm.activityLink = '';
+                                that.ruleForm.detailTemplateInfoId = '';
+                                that.ruleForm.images = '';
+                                that.ruleForm.typeid = '';
+                                that.ruleForm.note = '';
+                                that.eventImages = '';
+                                that.id = '';
                                 //更新活动列表
                                 that.$root.$emit('markUpate')
                                 //关闭弹框
                                 that.dialogVisible = false;
-                            }
-                            else{
                                 that.$message(response.data.msg);
                             }
                         })
