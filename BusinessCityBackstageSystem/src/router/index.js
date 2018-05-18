@@ -151,6 +151,11 @@ export default new Router({
                     component: resolve => require(['@/components/view/order/refund.vue'], resolve)
                 },
                 {
+                    path: 'invoice', // 退款申请订单
+                    name: 'invoice',
+                    component: resolve => require(['@/components/view/order/invoice.vue'], resolve)
+                },
+                {
                     path: 'appointmentTime', // 工单
                     name: 'appointmentTime',
                     component: resolve => require(['@/components/view/Worklist/appointmentTime/appointmentTime.vue'], resolve)

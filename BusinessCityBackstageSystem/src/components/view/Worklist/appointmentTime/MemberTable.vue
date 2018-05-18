@@ -71,7 +71,7 @@
         label="操作">
          <template slot-scope="scope">
             <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
-            <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
+            <!--<el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>!-->
         </template>
         </el-table-column> 
     </el-table>
