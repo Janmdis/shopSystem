@@ -19,7 +19,8 @@
     </el-table-column>
         <el-table-column
         fixed
-        type="selection" 
+        type="selection"
+        :selectable='checkboxInit'
         width="55">
         </el-table-column>
         <el-table-column class='borderRight'
@@ -76,7 +77,7 @@
         label="活动链接"
         width='260'>
         <template slot-scope="scope">
-            <span>{{ apis+'eventTemplate?id='+scope.row.templateId }}</span>
+            <span>{{ apis+'eventTemplate?templateId='+scope.row.templateId+'&companyId='+scope.row.companyId+'&activeId='+scope.row.id }}</span>
         </template>
         </el-table-column>
         
@@ -103,7 +104,8 @@
         width='220'
         label="操作">
          <template slot-scope="scope">
-            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">
+                <span>{{ scope.row.activityStatus == 0?'编辑':scope.row.activityStatus == 1?'编辑':'&ensp;&ensp;&ensp;&ensp;'}}</span></el-button>
             <el-button type="text"  size="small" @click="handleSwicth(scope.$index, scope.row,$event)">
                 <span :class="scope.row.activityStatus == 0?'templateStausColorGreen':scope.row.activityStatus == 1?'templateStausColorRed':'templateStausColorGray'">
                     {{ scope.row.activityStatus == 0?'启用':scope.row.activityStatus == 1?'停用':'&ensp;&ensp;&ensp;&ensp;'}}</span>
@@ -146,6 +148,13 @@ export default {
         })
     },
     methods:{
+        checkboxInit(row,index){
+            if (row.activityStatus == 2){
+                return 0;//不可勾选
+            }else{
+                return 1;//可勾选
+            }
+        },
         handleDelete(index, row,event) { //  删除某一个活动
             let that = this;
             console.log(row);

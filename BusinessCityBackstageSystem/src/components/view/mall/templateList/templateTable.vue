@@ -363,7 +363,7 @@ a{text-decoration: none; color: #eee; display: block;}
     /* .mask{width: 100%;height: 100%;background:#000;position: absolute;top: 0px;left:0px;opacity: 0.4;z-index: 8000; display: none;-moz-user-select: none; -webkit-user-select: none;} */
     .dialog{ position: absolute;z-index: 666; display: none;-moz-user-select: none; -webkit-user-select: none;}
     .dialog_head{
-        width: 320px;
+        width: 325px;
         height: 695px;
         line-height: 50px;
         color: #eee;

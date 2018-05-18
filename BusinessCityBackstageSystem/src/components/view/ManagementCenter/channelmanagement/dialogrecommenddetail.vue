@@ -105,6 +105,17 @@ export default {
         //分页查询团队成员
         getTeamers(pagenum){
             this.recommendlist=[];
+            this.getRecommendlist(null,this.idchannel).then(count=>{
+                let json={
+                    id:this.idchannel,
+                    name:'渠道',
+                    registernum:count,//注册拉新人数
+                    activitynum:0,//活动拉新人数
+                    goodsnum:0,//商品拉新人数
+                    totalnum:0//总拉新人数
+                };
+                this.recommendlist.push(json);
+            });
             let that=this;
             this.listLoading=true;
             this.$http.post('/api/admin/teamAdmin/queryTeamAdmin?pageSize=10&pageNum='+pagenum,
@@ -117,7 +128,7 @@ export default {
                     that.total=res.data.info.total;
                     let data=res.data.info.list;
                     data.forEach(item=>{
-                        that.getRecommendlist(item.id).then(count=>{
+                        that.getRecommendlist(item.id,null).then(count=>{
                             console.log(count);
                             let json={
                                 id:item.id,
@@ -141,14 +152,17 @@ export default {
                 that.listLoading=false;
                 console.log(err);
             });
+            
+            
         },
         //查询当前用户的绩效
-        getRecommendlist(userid){
+        getRecommendlist(userid,teamid){
             let that=this;
             return new Promise((resolve, reject)=>{
                 this.$http.post('/api/customer/account/queryMap',
                 {
                     recommendedAdminId:userid,
+                    recommendedTeamId:teamid,
                     minCreateTime:this.daterange==''?null:this.daterange[0],
                     maxCreateTime:this.daterange==''?null:this.daterange[1]
                 })
@@ -166,6 +180,10 @@ export default {
                     console.log(err);
                 });
             })
+        },
+        // 获取团队绩效
+        getRecommendchannel(){
+            this.getRecommendlist(null,this.idchannel);
         },
         handleCurrentChange(pagenum){
             this.getTeamers(pagenum);

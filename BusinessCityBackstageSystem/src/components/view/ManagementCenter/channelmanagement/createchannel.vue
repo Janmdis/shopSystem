@@ -618,7 +618,8 @@ export default {
         createercode(row){
             let recommendedAdminId=row.id;
             let recommendedTeamId=this.idchannel;
-            let url=this.url_mobie+'/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
+            // let url=this.url_mobie+'/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
+            let url=this.url_mobie+'/invitingGift?recommendedAdminId='+recommendedAdminId;
             let url_code=this.url_img+'?content='+url
             this.$root.$emit('qrcode',url_code);
         },

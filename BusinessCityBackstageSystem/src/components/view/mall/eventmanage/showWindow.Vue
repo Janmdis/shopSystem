@@ -18,7 +18,7 @@
                         <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.startTime" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="活动分类：" prop="activitySortId">
-                         <el-select v-model="ruleForm.id"  placeholder="分类" class='typeselect'>
+                         <el-select v-model="ruleForm.typeid"  placeholder="分类" class='typeselect'>
                             <el-option
                             v-for="item in listtype"
                             :key="item.id"
@@ -150,7 +150,7 @@ import qs from 'qs'
                         this.ruleForm.activityPlace = data.activityPlace
                         this.ruleForm.activityLink = data.activityLink
                         this.ruleForm.images = data.image
-                        this.eventImages = 'http://' + hostName + ':' + port + '/api' + data.image;
+                        this.eventImages = data.image;
                         this.ruleForm.typeid = data.activitySortId
                         this.ruleForm.detailTemplateInfoId = data.templateId
                         this.ruleForm.note = data.note
@@ -165,7 +165,7 @@ import qs from 'qs'
                 let port = location.port;
                 this.images = res.info;
                 this.eventImages = 'http://' + hostName + ':' + port + '/api' + this.images; //  后台返回来的是绝对路径,而html显示的则是带http的相对地址,所以需要拼接本机域名和端口号
-                this.ruleForm.images = this.eventImages;
+                this.ruleForm.images = res.info;
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
@@ -199,8 +199,8 @@ import qs from 'qs'
                     let data=response.data;
                     if(data.msg=='查询成功'){
                         that.listtype=data.info.list;
-                        that.ruleForm.type=that.listtype[0]?that.listtype[0].name:'';
-                        that.ruleForm.typeid=that.listtype[0]?that.listtype[0].id:'';
+                        // that.ruleForm.type=that.listtype[0]?that.listtype[0].name:'';
+                        // that.ruleForm.typeid=that.listtype[0]?that.listtype[0].id:'';
                     }
                     else{
                         that.$message(data.msg);
@@ -213,7 +213,10 @@ import qs from 'qs'
             },
             //新增/修改活动
             submitForm(formName) {
-                
+                if(this.ruleForm.note == ''){
+                   this.$message('请选择一个活动模板！');
+                   return false
+                }
                 this.$refs['ruleForm'].validate((valid) => {
                     if (valid) {
                         let that=this;
@@ -243,13 +246,19 @@ import qs from 'qs'
                                     note:this.ruleForm.note
                                 };
                         }else if(this.ruleForm.textInfo == "编辑活动"){
-                            this.ruleForm.activityLink = this.apis+'eventTemplate?id='+this.ruleForm.detailTemplateInfoId
+                            this.ruleForm.activityLink = this.apis+'eventTemplate?templateId='+this.ruleForm.detailTemplateInfoId
                             url='/product/activity/update';
+                            var d = new Date(this.ruleForm.startTime); 
+                            var f = new Date(this.ruleForm.endTime);
+                            var startimedate = new Date(d);
+                            var time1 = startimedate.getTime();
+                            var endtimedate = new Date(f);
+                            var time2 = endtimedate.getTime();
                             data = [{
                                     id:this.id,
                                     activityTitle:this.ruleForm.activityTitle,
-                                    startTime:this.ruleForm.startTime,
-                                    endTime:this.ruleForm.endTime,
+                                    startTime:time1,
+                                    endTime:time2,
                                     activityPlace:this.ruleForm.activityPlace,
                                     activityLink:this.ruleForm.activityLink,
                                     image:this.ruleForm.images,
@@ -265,27 +274,30 @@ import qs from 'qs'
                                 // that.$message.success('操作成功！');
                                 //清空工作
                                 that.$refs['ruleForm'].resetFields();
-                                that.ruleForm.activityLink = '';
-                                that.ruleForm.detailTemplateInfoId = '';
-                                that.ruleForm.images = '';
-                                that.eventImages = '';
                                 //更新活动列表
                                 that.$root.$emit('markUpate')
                                 //关闭弹框
                                 that.dialogVisible = false;
-                            }else if(response.data.msg=='更新成功'){
+                               console.log(that.ruleForm)
+                            }else{
                                 //清空工作
                                 that.$refs['ruleForm'].resetFields();
+                                //清空操作
+                                that.ruleForm.activityTitle = '';
+                                that.ruleForm.startTime = '';
+                                that.ruleForm.endTime = '';
+                                that.ruleForm.activityPlace = '';
                                 that.ruleForm.activityLink = '';
                                 that.ruleForm.detailTemplateInfoId = '';
                                 that.ruleForm.images = '';
+                                that.ruleForm.typeid = '';
+                                that.ruleForm.note = '';
                                 that.eventImages = '';
+                                that.id = '';
                                 //更新活动列表
                                 that.$root.$emit('markUpate')
                                 //关闭弹框
                                 that.dialogVisible = false;
-                            }
-                            else{
                                 that.$message(response.data.msg);
                             }
                         })
@@ -302,6 +314,19 @@ import qs from 'qs'
         created: function() {
             this.$root.$on('showWindowss', (data) => {
                 this.$nextTick(() => {
+                    //清空操作
+                    this.ruleForm.activityTitle = '';
+                    this.ruleForm.startTime = '';
+                    this.ruleForm.endTime = '';
+                    this.ruleForm.activityPlace = '';
+                    this.ruleForm.activityLink = '';
+                    this.ruleForm.detailTemplateInfoId = '';
+                    this.ruleForm.images = '';
+                    this.ruleForm.typeid = '';
+                    this.ruleForm.note = '';
+                    this.eventImages = '';
+                    this.id = '';
+                    //获取活动分类
                     this.getType();
                     if (data.type != 'no') {
                         this.dialogVisible = true;
@@ -312,7 +337,7 @@ import qs from 'qs'
                     }else{
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '新增活动';
-                        this.ruleForm.type="";
+                        this.ruleForm.typeid="";
                     }
                 })
             });
