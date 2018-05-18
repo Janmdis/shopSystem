@@ -583,11 +583,11 @@ export default {
         },
         sureAddOptions(){
             if(this.specificationName = ''){
-                alert('请填写规格名')
+                this.$message('请填写规格名');
                 return false;
             }
             if(this.dynamicTags = []){
-                alert('请填写规格值')
+                this.$message('请填写规格值');
                 return false;
             }
             let arr=[];
