@@ -30,6 +30,17 @@
                 prop="commodityInfo.currentPrice"
                 label="实际单价">
                 </el-table-column>
+                <el-table-column
+                prop="commodityInfo.currentPrice"
+                label="状态">
+                </el-table-column>
+                <el-table-column
+                label="操作">
+                <template slot-scope='scope'>
+                    {{scope.row}}
+                    <span>编辑</span>
+                </template>
+                </el-table-column>
             </el-table>
         </el-col>
     </div>

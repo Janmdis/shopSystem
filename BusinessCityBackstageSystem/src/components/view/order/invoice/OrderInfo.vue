@@ -73,7 +73,7 @@
                             @click="isShow(info.title,index)"
                             >
                             <div class="list2Img" :style="info.bgColor"><img :src="info.imgSrc" alt=""></div>
-                            <p>{{info.title}}&nbsp;(<span>{{info.number}}</span>)</p>
+                            <p>{{info.title}}&nbsp;<!--(<span>{{info.number}}</span>)!--></p>
                         </li>
                     </ul>
                 </el-aside>

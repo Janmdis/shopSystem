@@ -246,6 +246,7 @@
                                 data: dielArr2,
                             })
                             .then(response => {
+                                console.log(response)
                                 newArrS.push(response.data.info)
                                 for (let k in response.data.info) {
                                     if (response.data.info[k]) {
@@ -263,6 +264,7 @@
                                         data: dielArr1,
                                     })
                                     .then(response => {
+                                        console.log(response)
                                         newArrS.push(response.data.info);
                                         for (let k in response.data.info) {
                                             if (response.data.info[k]) {
