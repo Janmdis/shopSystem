@@ -279,7 +279,7 @@
     }
     .headerBottom .citys {
         position: absolute;
-        top: 3px;
+        top: 20px;
         left: -35px;
     }
     .el-table .warning-row {

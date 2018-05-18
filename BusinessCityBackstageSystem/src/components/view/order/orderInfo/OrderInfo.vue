@@ -68,7 +68,7 @@
                     <ul class="conLeftList2">
                         <li v-for="(info,index) in infoText" :key="index" :class="{liactive:isActive == info.title,defaultActive:default1}" @click="isShow(info.title)">
                             <div class="list2Img" :style="info.bgColor"><img :src="info.imgSrc" alt=""></div>
-                            <p>{{info.title}}&nbsp;(<span>{{info.number}}</span>)</p>
+                            <p>{{info.title}}&nbsp;<!--(<span>{{info.number}}</span>)!--></p>
                         </li>
                     </ul>
                 </el-aside>
