@@ -105,11 +105,27 @@ export default {
         this.phoneDragFn()
     },
     methods:{
+        changeURLArg(url,arg,arg_val){
+            var pattern=arg+'=([^&]*)';
+            var replaceText=arg+'='+arg_val; 
+            if(url.match(pattern)){
+                var tmp='/('+ arg+'=)([^&]*)/gi';
+                tmp=url.replace(eval(tmp),replaceText);
+                return tmp;
+            }else{ 
+                if(url.match('[\?]')){ 
+                        return url+'&'+replaceText; 
+                }else{ 
+                    return url+'?'+replaceText; 
+                } 
+            }
+        },
          handleSee(index, row,event){ // 浏览某个模板
           //console.log(row);
-          window.sessionStorage.setItem ("isBrowse",true); //设置为可浏览状态
-          let id = row.templateID
-          this.iframeLink = this.apis+"eventTemplate?id="+id
+          let templateId = row.templateID
+          //给后台设置浏览的ID
+          history.pushState(null,null,this.changeURLArg(window.location.href,'id',templateId));
+          this.iframeLink = this.apis+"eventTemplate?id="+templateId
            //   101.89.175.155 服务器地址
           console.log(this.iframeLink)
           window.sessionStorage.setItem ("eventTemplateUrl",this.iframeLink);
