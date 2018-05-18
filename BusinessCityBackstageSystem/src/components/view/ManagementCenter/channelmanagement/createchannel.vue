@@ -619,7 +619,7 @@ export default {
             let recommendedAdminId=row.id;
             let recommendedTeamId=this.idchannel;
             // let url=this.url_mobie+'/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
-            let url=this.url_mobie+'/invitingGift?recommendedAdminId='+recommendedAdminId;
+            let url=this.url_mobie+'/invitingGift?recommendedAdminId='+recommendedAdminId+'&companyId='+sessionStorage.getItem('companyId');
             let url_code=this.url_img+'?content='+url
             this.$root.$emit('qrcode',url_code);
         },
