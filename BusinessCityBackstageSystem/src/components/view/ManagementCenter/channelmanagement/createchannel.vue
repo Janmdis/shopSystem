@@ -620,7 +620,7 @@ export default {
             let recommendedTeamId=this.idchannel;
             // let url=this.url_mobie+'/invitingGift?recommendedAdminId='+recommendedAdminId+'&recommendedTeamId='+recommendedTeamId;
             let url=this.url_mobie+'/invitingGift?recommendedAdminId='+recommendedAdminId+'&companyId='+sessionStorage.getItem('companyId');
-            let url_code=this.url_img+'?content='+url
+            let url_code=this.url_img+'?content='+escape(url);
             this.$root.$emit('qrcode',url_code);
         },
         // 查看绩效

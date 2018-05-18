@@ -108,7 +108,7 @@ export default {
             this.getRecommendlist(null,this.idchannel).then(count=>{
                 let json={
                     id:this.idchannel,
-                    name:'渠道',
+                    name:'渠道统计',
                     registernum:count,//注册拉新人数
                     activitynum:0,//活动拉新人数
                     goodsnum:0,//商品拉新人数
@@ -128,7 +128,7 @@ export default {
                     that.total=res.data.info.total;
                     let data=res.data.info.list;
                     data.forEach(item=>{
-                        that.getRecommendlist(item.id,null).then(count=>{
+                        that.getRecommendlist(item.adminId,null).then(count=>{
                             console.log(count);
                             let json={
                                 id:item.id,
