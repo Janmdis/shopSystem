@@ -19,7 +19,8 @@
     </el-table-column>
         <el-table-column
         fixed
-        type="selection" 
+        type="selection"
+        :selectable='checkboxInit'
         width="55">
         </el-table-column>
         <el-table-column class='borderRight'
@@ -30,7 +31,7 @@
         fixed
         >
             <template slot-scope="scope">
-                <img :src="scope.row.image" alt="">
+                <img :src="apis+'api'+scope.row.image" alt="">
             </template>
         </el-table-column>
         <el-table-column 
@@ -54,6 +55,14 @@
         width='170'>
         </el-table-column>
         <el-table-column
+        label="活动状态">
+        <template slot-scope="scope">
+            <span :class="scope.row.activityStatus == 0?'templateStausColorRed':scope.row.activityStatus == 1?'templateStausColorGreen':'templateStausColorGray'">
+                {{ scope.row.activityStatus == 0?'停用中':scope.row.activityStatus == 1?'启用中':'已过期' }}
+                </span>
+        </template>
+        </el-table-column>
+        <el-table-column
         prop="activityPlace"
         label="活动地点"
         width='170'>
@@ -68,9 +77,10 @@
         label="活动链接"
         width='260'>
         <template slot-scope="scope">
-            <span>{{ apis+'eventTemplate?id='+scope.row.templateId }}</span>
+            <span>{{ apis+'eventTemplate?templateId='+scope.row.templateId+'&companyId='+scope.row.companyId+'&activeId='+scope.row.id }}</span>
         </template>
         </el-table-column>
+        
          <!-- <el-table-column
         prop="activitySortId"
         label="分类ID"
@@ -94,9 +104,11 @@
         width='220'
         label="操作">
          <template slot-scope="scope">
-            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
+            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">
+                <span>{{ scope.row.activityStatus == 0?'编辑':scope.row.activityStatus == 1?'编辑':'&ensp;&ensp;&ensp;&ensp;'}}</span></el-button>
             <el-button type="text"  size="small" @click="handleSwicth(scope.$index, scope.row,$event)">
-                <span :class="scope.row.isEnabled == true?'templateStausColorGreen':scope.row.isEnabled == false?'templateStausColorRed':''">{{ scope.row.isEnabled == true?'启用中':scope.row.isEnabled == false?'停用中':''}}</span>
+                <span :class="scope.row.activityStatus == 0?'templateStausColorGreen':scope.row.activityStatus == 1?'templateStausColorRed':'templateStausColorGray'">
+                    {{ scope.row.activityStatus == 0?'启用':scope.row.activityStatus == 1?'停用':'&ensp;&ensp;&ensp;&ensp;'}}</span>
                 </el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
@@ -136,6 +148,13 @@ export default {
         })
     },
     methods:{
+        checkboxInit(row,index){
+            if (row.activityStatus == 2){
+                return 0;//不可勾选
+            }else{
+                return 1;//可勾选
+            }
+        },
         handleDelete(index, row,event) { //  删除某一个活动
             let that = this;
             console.log(row);
@@ -171,29 +190,39 @@ export default {
         handleSwicth(index,row,event){
             let that = this;
             //console.log(row);
-           // console.log(row.isEnabled)
-            let stateBl = !row.isEnabled
-            this.$confirm('确定更改 "'+row.templateName+'"的状态吗?', '提示', 
-                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
-            .then(() => {
-                that.$message({
-                    type: 'success',
-                    message: '更改成功!',
-                    duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value='+stateBl,
-                        [row.templateID]
-                    ).then(res => {
-                       // console.log(res.data.msg);
-                        that.getDate(1);
-                    }).catch(err => {console.log(err)})
-                });
-            }).catch(() => {
-                that.$message({
-                    type: 'info',
-                    message: '已取消更改',
-                    duration:800
-                });          
-            });
+            
+            console.log(row.activityStatus) //正在使用 1 停用 0
+            let state ;
+            let ids = row.id
+            if(row.activityStatus == 1){
+                state = 0
+            }else if(row.activityStatus == 0){
+                state = 1
+            }
+             this.$confirm('确定更改 "'+row.activityTitle+'"的状态吗?', '提示', 
+                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+             .then(() => {
+                 that.$message({
+                     type: 'success',
+                     message: '更改成功!',
+                     duration:800,
+                     onClose:that.$http.post('/api/product/activity/update',
+                         [{
+                              id:ids,
+                              activityStatus:state
+                          }]
+                     ).then(res => {
+                        // console.log(res.data.msg);
+                         that.getDate(1);
+                     }).catch(err => {console.log(err)})
+                 });
+             }).catch(() => {
+                 that.$message({
+                     type: 'info',
+                     message: '已取消更改',
+                     duration:800
+                 });          
+             });
         },
         handleEdit(index, row,event) {
             this.$root.$emit("showWindowss", { type: 'yes', rowData: row })
@@ -294,6 +323,9 @@ export default {
 }
 .templateStausColorRed{
     color:#ff3b30
+}
+.templateStausColorGray{
+    color:#7b7b7b;
 }
 a{text-decoration: none; color: #eee; display: block;}
     .button{       

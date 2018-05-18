@@ -50,112 +50,123 @@ export default {
     methods:{
         edit(){
             if(this.canedit){
-                // this.$root.$emit('editdialog');
-                // this.$root.$emit("showWindow",this.dataInfo)
-                //console.log(this.dataInfo)
-                let datas = JSON.stringify(this.dataInfo)
-                window.sessionStorage.setItem ("Template_AllData",datas);
-                window.sessionStorage.setItem('Template_Type',2)
-               // this.$store.dispatch('editTemplate',this.dataInfo)
-                this.$router.push({ path: '/mallSet' })
+                let row = this.dataInfo
+                console.log(row)
+                this.$root.$emit("showWindowss", { type: 'yes', rowData: row })
             }
         },
         delBox(){
             let that = this;
-           // console.log(this.dataArr)
-            let arrLength = this.dataArr.length;
-            let newArr = [];
-            for(let i = 0;i< arrLength;i++){
-                newArr.push(this.dataArr[i].templateID)
-            }
-            this.$confirm('确定删除这 '+arrLength+'项吗?', '提示', 
-                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
-            .then(() => {
-                that.$message({
-                    type: 'success',
-                    message: '操作成功!',
-                    duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/remove',
-                        newArr
-                    ).then(res => {
-                       // console.log(res.data.msg);
-                        if(res.data.msg == '删除失败'){
-                            that.$message({
-                            type: 'info',
-                            message: '请先停用该模板',
-                            duration:800
-                        }); 
-                        }
-                        that.$root.$emit('getDatezdy',1);
-                    }).catch(err => {console.log(err)})
-                });
-            }).catch(() => {
-                that.$message({
+            console.log(this.dataArr)
+            let arrStringify = JSON.stringify(this.dataArr)
+            let arr = JSON.parse(arrStringify)
+             for(let i = 0;i< arr.length;i++){
+                 if(arr[i].activityStatus == 1){
+                      this.$message('请先停用活动再删除！')
+                      return false;
+                 }else{
+                     arr[i].isActive = false;
+                 }
+             }
+             console.log(arr)
+             this.$confirm('确定删除这 '+arr.length+'项吗?', '提示', 
+                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+             .then(() => {
+                 that.$message({
+                     type: 'success',
+                     message: '操作成功!',
+                     duration:800,
+                     onClose:that.$http.post('/api/product/activity/update',
+                         arr
+                     ).then(res => {
+                        // console.log(res.data.msg);
+                             that.$message({
+                             type: 'info',
+                             message: '删除成功',
+                             duration:800
+                         }); 
+                         that.$root.$emit('markUpate')
+                     }).catch(err => {console.log(err)})
+                 });
+             }).catch(() => {
+                 that.$message({
                     type: 'info',
-                    message: '已取消删除',
-                    duration:800
-                });          
-            });   
+                     message: '已取消删除',
+                     duration:800
+                 });          
+             });   
         },
         swicthOFF(){
             let that = this;
-            //console.log(this.dataArr)
-            let arrLength = this.dataArr.length;
-            let newArr = [];
-            for(let i = 0;i< arrLength;i++){
-                newArr.push(this.dataArr[i].templateID)
-            }
-            this.$confirm('确定操作这 '+arrLength+'项吗?', '提示', 
-                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
-            .then(() => {
-                that.$message({
-                    type: 'success',
-                    message: '操作成功!',
-                    duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value=true',
-                        newArr
-                    ).then(res => {
-                       // console.log(res.data.msg);
-                        that.$root.$emit('getDatezdy',1);
-                    }).catch(err => {console.log(err)})
-                });
-            }).catch(() => {
-                that.$message({
+            console.log(this.dataArr)
+            let arrStringify = JSON.stringify(this.dataArr)
+            let arr = JSON.parse(arrStringify)
+             for(let i = 0;i< arr.length;i++){
+                 arr[i].activityStatus = 1
+             }
+             console.log(arr)
+             this.$confirm('确定启用这 '+arr.length+'项吗?', '提示', 
+                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+             .then(() => {
+                 that.$message({
+                     type: 'success',
+                     message: '操作成功!',
+                     duration:800,
+                     onClose:that.$http.post('/api/product/activity/update',
+                         arr
+                     ).then(res => {
+                        // console.log(res.data.msg);
+                             that.$message({
+                             type: 'info',
+                             message: '启用成功',
+                             duration:800
+                         }); 
+                         that.$root.$emit('markUpate')
+                     }).catch(err => {console.log(err)})
+                 });
+             }).catch(() => {
+                 that.$message({
                     type: 'info',
-                    message: '已取消更改',
-                    duration:800
-                });          
-            });   
+                     message: '已取消启用',
+                     duration:800
+                 });          
+             }); 
         },
         swicthStop(){
             let that = this;
-            //console.log(this.dataArr)
-            let arrLength = this.dataArr.length;
-            let newArr = [];
-            for(let i = 0;i< arrLength;i++){
-                newArr.push(this.dataArr[i].templateID)
-            }
-            this.$confirm('确定操作这 '+arrLength+'项吗?', '提示', 
-                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
-            .then(() => {
-                that.$message({
-                    type: 'success',
-                    message: '操作成功!',
-                    duration:800,
-                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value=false',
-                        newArr
-                    ).then(res => {
-                        //console.log(res.data.msg);
-                        that.$root.$emit('getDatezdy',1);
-                    }).catch(err => {console.log(err)})
-                });
-            }).catch(() => {
-                that.$message({
+            console.log(this.dataArr)
+            let arrStringify = JSON.stringify(this.dataArr)
+            let arr = JSON.parse(arrStringify)
+             for(let i = 0;i< arr.length;i++){
+                 arr[i].activityStatus = 0
+             }
+             console.log(arr)
+             this.$confirm('确定停用这 '+arr.length+'项吗?', '提示', 
+                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+             .then(() => {
+                 that.$message({
+                     type: 'success',
+                     message: '操作成功!',
+                     duration:800,
+                     onClose:that.$http.post('/api/product/activity/update',
+                         arr
+                     ).then(res => {
+                        // console.log(res.data.msg);
+                             that.$message({
+                             type: 'info',
+                             message: '停用成功',
+                             duration:800
+                         }); 
+                         that.$root.$emit('markUpate')
+                     }).catch(err => {console.log(err)})
+                 });
+             }).catch(() => {
+                 that.$message({
                     type: 'info',
-                    message: '已取消更改',
-                    duration:800
-                });          
-            }); 
+                     message: '已停用启用',
+                     duration:800
+                 });          
+             });
         }
     }
 }

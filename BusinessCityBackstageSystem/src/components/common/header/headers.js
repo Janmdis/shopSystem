@@ -3,7 +3,7 @@ export default {
     var validatePass1 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
-      }else {
+      } else {
         callback()
       }
     }
@@ -11,30 +11,56 @@ export default {
       dialogVisible: false,
       userName: '',
       imgUrl: '',
-      dataInfo:[],
+      dataInfo: [],
       ruleForm: {
         region: '',
         newPass: ''
-      }, rules: {
-        region: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
-        ],
-        newPass: [
-          { pattern: /^(\w){6,20}$/, required: true,
-          message: '只能输入6-20个字母、数字、下划线' },
-          { validator: validatePass1, trigger: 'blur' }
+      },
+      rules: {
+        region: [{
+          required: true,
+          message: '请选择活动区域',
+          trigger: 'change'
+        }],
+        newPass: [{
+            pattern: /^(\w){6,20}$/,
+            required: true,
+            message: '只能输入6-20个字母、数字、下划线'
+          },
+          {
+            validator: validatePass1,
+            trigger: 'blur'
+          }
         ]
       },
-      navInfo: [
-        { infoText: '首页', imgClass: 'icon iconfont icon-shouye' },
-        { infoText: '会员在线', imgClass: 'icon iconfont icon-user' },
-        { infoText: '商城在线', imgClass: 'icon iconfont  icon-chanpin' },
+      navInfo: [{
+          infoText: '首页',
+          imgClass: 'icon iconfont icon-shouye'
+        },
+        {
+          infoText: '会员在线',
+          imgClass: 'icon iconfont icon-user'
+        },
+        {
+          infoText: '商城在线',
+          imgClass: 'icon iconfont  icon-chanpin'
+        },
         // { infoText: '运营在线', imgClass: 'icon iconfont icon-weibiaoti-' },
         // { infoText: '员工在线', imgClass: 'icon iconfont icon-yunying' },
-        { infoText: '组织管理', imgClass: 'icon iconfont icon-302010' },
+        {
+          infoText: '组织管理',
+          imgClass: 'icon iconfont icon-302010'
+        },
         // { infoText: '品牌管理', imgClass: 'icon iconfont icon-baobiaoguanli' },
         // { infoText: '品牌在线', imgClass: 'icon iconfont icon-pinpai' },
-        { infoText: '基础配置', imgClass: 'icon iconfont icon-guanlizhongxin' }
+        {
+          infoText: '基础配置',
+          imgClass: 'icon iconfont icon-guanlizhongxin'
+        },
+        {
+          infoText: '工单配置',
+          imgClass: 'icon iconfont icon-order'
+        }
       ],
       activeName: 'one'
     }
@@ -54,7 +80,7 @@ export default {
     this.$root.$on('useImgOF', data => {
       this.imgUrl = data;
     });
-    this.imgUrl = localStorage.getItem('useImgOF');  
+    this.imgUrl = localStorage.getItem('useImgOF');
   },
   methods: {
     // refn() {
@@ -65,12 +91,12 @@ export default {
       this.$http({
         url: url,
         method: 'post',
-        data:{}
+        data: {}
       }).then((msg) => {
         if (msg.data.info.list) {
-            this.dataInfo = msg.data.info.list
+          this.dataInfo = msg.data.info.list
         }
-        }).catch((err) => {
+      }).catch((err) => {
         console.log(err)
       })
     },
@@ -92,12 +118,12 @@ export default {
       this.$http({
           url: url,
           method: 'get',
-         // 请求体重发送的数据
+          // 请求体重发送的数据
           //headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-         //  data:qs.stringify( {
-            
-         //  }),
-      })
+          //  data:qs.stringify( {
+
+          //  }),
+        })
         .then(response => {
           if (response.data.msg == "ok") {
             sessionStorage.removeItem("status")
@@ -105,20 +131,20 @@ export default {
             sessionStorage.removeItem("userInfo")
             this.$router.push("/login")
           }
-          
-    })
-    .catch(error=>{
-        console.log(error);
-        // //         alert('网络错误，不能访问');
-    })
-      
+
+        })
+        .catch(error => {
+          console.log(error);
+          // //         alert('网络错误，不能访问');
+        })
+
     },
     selected: function (navInfo) {
       this.activeName = navInfo
       window.sessionStorage.setItem('status', navInfo)
       if (navInfo == '首页') {
         navInfo = 'one'
-       this.$router.push("/index")
+        this.$router.push("/index")
       } else if (navInfo == '会员在线') {
         navInfo = 'two'
       } else if (navInfo == '商城在线') {
@@ -131,15 +157,16 @@ export default {
         navInfo = 'six'
       } else if (navInfo == '品牌管理') {
         navInfo = 'sevent'
-      } else if (navInfo == '品牌在线') {
+      } else if (navInfo == '工单配置') {
         navInfo = 'eight'
       } else if (navInfo == '基础配置') {
         navInfo = 'night'
       }
-      
+
       this.$root.$emit('infoText', navInfo)
     }
 
   }
 
 }
+
