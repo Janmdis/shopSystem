@@ -128,7 +128,7 @@ export default {
             showLeft:0,
             pageIndex:1,
             iframeLink:'',
-            apis:'http://daojia.jingrunjia.com.cn/'
+            apis:'http://sss.itchun.com/'
         }
     },
     created:function(){
