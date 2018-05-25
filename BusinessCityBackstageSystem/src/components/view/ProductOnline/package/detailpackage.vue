@@ -565,51 +565,50 @@ export default {
             this.specificationName = ''
             this.dynamicTags = []
             setTimeout(() => {
-                this.addOptionsShow = true
+                this.addOptionsShow = true;
                 
             }, 180);
-            this.addOptionBtn = false
+            this.addOptionBtn = false;
             if(this.specificationArr){
                 this.specificationArr.forEach(item =>{
-                    item.tagIsUpdata =false
+                    item.tagIsUpdata =false;
                 })
             }
         },
         closeAddOptions(){
             setTimeout(() => {
-                this.addOptionBtn = true
+                this.addOptionBtn = true;
             }, 180);
-            this.addOptionsShow = false
+            this.addOptionsShow = false;
         },
         sureAddOptions(){
-            if(this.specificationName = ''){
+            if(this.specificationName == ''){
                 this.$message('请填写规格名');
-                return false;
             }
-            if(this.dynamicTags = []){
+            else if(this.dynamicTags.length == 0){
                 this.$message('请填写规格值');
-                return false;
+            }else{
+                let arr=[];
+                this.dynamicTags.forEach(item=>{
+                    arr.push(item);
+                })
+                //console.log(arr);
+                let obj = {
+                    name:this.specificationName,
+                    value:arr,
+                    inputVisibles:false,
+                    inputValues:'',
+                    tagIsUpdata:false
+                }
+            // console.log(this.specificationArr)
+                if(this.specificationArr == null |this.specificationArr == 'null'){
+                    this.specificationArr = [];
+                }
+                this.specificationArr.push(obj)
+            // console.log(this.specificationArr)
+                this.specificationName = '';
+                this.dynamicTags = [];
             }
-            let arr=[];
-            this.dynamicTags.forEach(item=>{
-                arr.push(item);
-            })
-            //console.log(arr);
-            let obj = {
-                name:this.specificationName,
-                value:arr,
-                inputVisibles:false,
-                inputValues:'',
-                tagIsUpdata:false
-            }
-           // console.log(this.specificationArr)
-            if(this.specificationArr == null |this.specificationArr == 'null'){
-                this.specificationArr = []
-            }
-            this.specificationArr.push(obj)
-           // console.log(this.specificationArr)
-            this.specificationName = ''
-            this.dynamicTags = []
         },
         //添加规格
         handleClose(tag) {

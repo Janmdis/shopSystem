@@ -522,34 +522,33 @@ export default {
             this.addOptionsShow = false
         },
         sureAddOptions(){
-            if(this.specificationName = ''){
+            if(this.specificationName == ''){
                 this.$message('请填写规格名');
-                return false;
             }
-            if(this.dynamicTags = []){
+            else if(this.dynamicTags.length == 0){
                 this.$message('请填写规格值');
-                return false;
+            }else{
+                let arr=[];
+                this.dynamicTags.forEach(item=>{
+                    arr.push(item);
+                })
+                //console.log(arr);
+                let obj = {
+                    name:this.specificationName,
+                    value:arr,
+                    inputVisibles:false,
+                    inputValues:'',
+                    tagIsUpdata:false
+                }
+            // console.log(this.specificationArr)
+                if(this.specificationArr == null |this.specificationArr == 'null'){
+                    this.specificationArr = []
+                }
+                this.specificationArr.push(obj)
+            // console.log(this.specificationArr)
+                this.specificationName = ''
+                this.dynamicTags = []
             }
-            let arr=[];
-            this.dynamicTags.forEach(item=>{
-                arr.push(item);
-            })
-            //console.log(arr);
-            let obj = {
-                name:this.specificationName,
-                value:arr,
-                inputVisibles:false,
-                inputValues:'',
-                tagIsUpdata:false
-            }
-           // console.log(this.specificationArr)
-            if(this.specificationArr == null |this.specificationArr == 'null'){
-                this.specificationArr = []
-            }
-            this.specificationArr.push(obj)
-           // console.log(this.specificationArr)
-            this.specificationName = ''
-            this.dynamicTags = []
         },
         //添加规格
         handleClose(tag) {
