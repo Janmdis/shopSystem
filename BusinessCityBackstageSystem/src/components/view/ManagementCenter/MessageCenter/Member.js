@@ -64,6 +64,11 @@ export default {
         })
     },
     methods: {
+        Refresh() {
+            // this.$root.$emit('getDatezdy', 1);
+            this.handleCurrentChange(1)
+            // this.handleSizeChange(1)
+        },
         handlePreview(file) {
             //可以通过 file.response 拿到服务端返回数据
         },

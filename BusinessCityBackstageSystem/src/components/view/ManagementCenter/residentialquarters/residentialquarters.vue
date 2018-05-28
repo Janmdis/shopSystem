@@ -12,7 +12,7 @@
                         <el-button type="primary" style='margin-left:15px;' @click='show($event)'><i class='el-icon-search'></i>搜索</el-button>
                         <el-button type="primary" class="add" @click='showWindowX("no")'><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
                         
-                        <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
+                        <el-button type="primary" class='shuaxin' @click='Refresh' round><i class='icon iconfont icon-shuaxin'></i></el-button>
                         <el-dropdown trigger="click" class='msnuiMore'>
                             <span class="el-dropdown-link">
                                 <i class='icon iconfont icon-msnui-more'></i>
@@ -39,7 +39,7 @@
                                     <a class="btn-download" :href="dataHref">导出</a>
                                 </el-dropdown-item>
                                 <el-dropdown-item class="outPut">
-                                    <a class="btn-download" href="/api/customer/customer/excelModel/out">导出导入模板</a>
+                                    <a class="btn-download" href="/api/customer/estate/excelModel/out">导出导入模板</a>
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>

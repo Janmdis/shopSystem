@@ -190,8 +190,8 @@
                                                                     </el-table-column>!-->
                         <el-table-column label="操作">
                             <template slot-scope="scope">
-                                                                                    <span @click='delBox(scope.row)' >删除</span>
-</template>
+                                <span @click='delBox(scope.row)' >删除</span>
+                            </template>
                     </el-table-column>
                 </el-table>
                 </el-col>
@@ -221,9 +221,9 @@
                         <el-table-column prop="current_price"  >
                         </el-table-column>!-->
                         <el-table-column  >
-<template slot-scope="scope">
-    <span @click='delBox(scope.row,index)' v-show="scope.row.trues=='yes'?false:true">删除</span>
-</template>
+                        <template slot-scope="scope">
+                            <span @click='delBox(scope.row,index)' v-show="scope.row.trues=='yes'?false:true">删除</span>
+                        </template>
                     </el-table-column>
                 </el-table>
                 </el-col>
@@ -905,11 +905,11 @@
             },
             delBox(indexs, index) {
                 console.log(this.ruleForm.addBox)
-                // console.log(index)
-                // var liArr = this.ruleForm.addBox;
-                // console.log(index)
-                // liArr.splice(index, 1);
-                //console.log(this.ruleForm.addBox.splice(index, 1))
+                console.log(index)
+                var liArr = this.ruleForm.addBox;
+                console.log(index)
+                liArr.splice(index, 1);
+                console.log(this.ruleForm.addBox.splice(index, 1))
             },
             addFn(index) {
                 // this.$set(this.ruleForm.addBox[index][0],'num',2);

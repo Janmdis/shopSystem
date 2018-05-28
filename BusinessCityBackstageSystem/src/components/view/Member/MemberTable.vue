@@ -6,7 +6,7 @@
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
                                 </el-table-column> -->
-        <el-table-column prop="name" fixed width='200' label="客户姓名">
+        <el-table-column prop="nickname" fixed width='200' label="客户姓名">
         </el-table-column>
         <el-table-column prop="mobile" width='120' label="手机号">
         </el-table-column>
@@ -138,8 +138,8 @@
         },
         methods: {
             getMember(id, obj) {
-                console.log(id)
-                console.log(obj)
+                // console.log(id)
+                // console.log(obj)
                 let i = 0
                 for (name in obj) {
                     if (name == id) {
@@ -235,7 +235,7 @@
                             dielArr2.push(this.datalist[name].recommendedCustomerId)
                         }
                         let newArrS = [];
-                        let url = '/api/customer/account/queryMapByIds?key=id&value=name';
+                        let url = '/api/customer/account/queryMapByIds?key=id&value=nickname';
                         this.$http({
                                 url: url,
                                 method: 'POST',
@@ -274,7 +274,7 @@
                                         that.cArr = this.extend({}, [newArrS[0], newArrS[1]]);
                                         let arr = []
                                         this.datalist.forEach((item, i) => {
-                                            if (item.recommendedAdminId != '' || item.recommendedCustomerId !== '') {
+                                            if (item.recommendedAdminId != '' || item.recommendedCustomerId != '') {
                                                 this.arrbox = item.recommendedAdminId || item.recommendedCustomerId;
                                                 arr.push(this.arrbox)
                                             }

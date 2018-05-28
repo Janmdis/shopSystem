@@ -40,6 +40,11 @@ export default {
         })
     },
     methods: {
+        Refresh() {
+            // this.$root.$emit('getDatezdy', 1);
+            this.handleCurrentChange(1)
+            // this.handleSizeChange(1)
+        },
         clearBox() {
             let that = this;
             this.$confirm('确认删除？', '提示', {
