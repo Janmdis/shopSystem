@@ -128,7 +128,7 @@ export default {
             showLeft:0,
             pageIndex:1,
             iframeLink:'',
-            apis:'http://sss.itchun.com/'
+            apis:'http://www.itchun.com/'
         }
     },
     created:function(){

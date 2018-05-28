@@ -131,7 +131,7 @@ import qs from 'qs'
                         trigger: 'blur'
                     }]
                 },
-                apis:'http://sss.itchun.com/'
+                apis:'http://www.itchun.com/'
             };
         },
         methods: {

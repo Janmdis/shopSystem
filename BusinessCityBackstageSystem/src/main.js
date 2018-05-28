@@ -25,7 +25,7 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts
 Vue.prototype.$http = axios
-Vue.prototype.url_mobie='http://sss.itchun.com';
+Vue.prototype.url_mobie='http://www.itchun.com';
 // Vue.prototype.url_mobie='http://10.1.1.206:8080';
 
 Vue.prototype.url_img='http://47.100.51.41:8887/customer/resource/qrCode.png';
