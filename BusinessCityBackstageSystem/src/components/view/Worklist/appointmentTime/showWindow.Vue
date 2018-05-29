@@ -3,15 +3,29 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="预约时间">
                 <el-col :span="24">
-                    <el-date-picker type="datetime" placeholder="预约时间" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="预约时间" default-time='12:00:00' v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
                 </el-col>
+            </el-form-item>
+            <el-form-item label="预约时间段">
+                <el-select v-model="ruleForm.date1s" placeholder="预约时间段">
+                    <el-option label="上午" :value="1"></el-option>
+                    <el-option label="下午" :value="2"></el-option>
+                    <el-option label="全天" :value="3"></el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="修改预约时间">
                 <el-col :span="24">
-                    <el-date-picker type="datetime" placeholder="修改预约时间" v-model="ruleForm.date2" style="width: 100%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="修改预约时间" v-model="ruleForm.date2" style="width: 100%;"></el-date-picker>
                 </el-col>
             </el-form-item>
-            <el-form-item label="修改预约时间">
+            <el-form-item label="修改时间段">
+                <el-select v-model="ruleForm.date2s" placeholder="修改时间段">
+                    <el-option label="上午" :value="1"></el-option>
+                    <el-option label="下午" :value="2"></el-option>
+                    <el-option label="全天" :value="3"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="修改预约时间" v-if='ruleForm.date2'>
                 <el-radio-group v-model="ruleForm.resource">
                     <el-radio label="true">有效</el-radio>
                     <el-radio label="false">无效</el-radio>
@@ -57,7 +71,9 @@
                     textInfo: '新增会员',
                     resource: 'true',
                     date1: "",
+                    date1s: "",
                     date2: '',
+                    date2s: '',
                     thisId: ''
                 },
                 rules: {
@@ -73,6 +89,8 @@
                     }, ]
                 },
             };
+        },
+        watch() {
         },
         methods: {
             closeDialog(done) {
@@ -111,9 +129,31 @@
                 //             //         alert('网络错误，不能访问');
                 //         })
                 // }
-                if (this.ruleForm.textInfo == "编辑小区") {
-                    console.log(new Date(this.ruleForm.date1))
-                    let url = '/api/customer/estate/updateData';
+                if (this.ruleForm.textInfo == "编辑预约时间") {
+                    console.log(youWant)
+                    var d = new Date(this.ruleForm.date1);
+                    let youWant = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                    var t = new Date(this.ruleForm.date2);
+                    let youWants = t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds();
+   
+                    var obj;
+                    if (new Date(youWants.split(" ")[0].replace(/-/g, '/')).getTime()) {
+                        obj = {
+                            appointTime: new Date(youWant.split(" ")[0].replace(/-/g, '/')).getTime(),
+                            appointSlot: this.ruleForm.date1s,
+                            id: this.thisId,
+                            updateAppointSlot: this.ruleForm.date2s,
+                            updateAppointTime: new Date(youWants.split(" ")[0].replace(/-/g, '/')).getTime(),
+                            updateAppointTimeIsActive: this.ruleForm.resource,
+                        }
+                    } else {
+                        obj = {
+                            appointTime: new Date(youWant.split(" ")[0].replace(/-/g, '/')).getTime(),
+                            appointSlot: this.ruleForm.date1s,
+                            id: this.thisId
+                        }
+                    }
+                    let url = '/api/product/order/update/OrderDetail';
                     this.$http({
                             url: url,
                             method: 'POST',
@@ -121,7 +161,7 @@
                             // headers: {
                             //     'Content-Type': 'application/json'
                             // },
-                            data: {}
+                            data: obj
                         })
                         .then(response => {
                             this.dialogVisible = false;
@@ -141,11 +181,13 @@
                 this.$nextTick(() => {
                     if (data.type != 'no') {
                         this.dialogVisible = true;
-                        this.ruleForm.textInfo = '编辑小区';
-                        console.log(data.rowData.appointTime)
-                        this.ruleForm.resource= 'true'
-                        this.ruleForm.date1= new Date(data.rowData.appointTime)
-                        this.ruleForm.date2= new Date(data.rowData.updateAppointTime)
+                        this.ruleForm.textInfo = '编辑预约时间';
+                        this.ruleForm.resource = 'true'
+                        this.ruleForm.date1 = data.rowData.appointTime ? new Date(data.rowData.appointTime) : '';
+                        this.ruleForm.date2 = data.rowData.updateAppointTime ? new Date(data.rowData.updateAppointTime) : "";
+                        this.ruleForm.date1s = data.rowData.appointSlot
+                        this.ruleForm.date2s = data.rowData.updateAppointSlot,
+                            this.thisId = data.rowData.id
                     } else {
                         this.dialogVisible = true;
                         this.ruleForm.textInfo = '新增小区';

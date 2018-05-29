@@ -168,6 +168,7 @@
                 let that = this;
                 this.$http.get('/api/public/region/findParent?parentId=0&levels=3')
                     .then(res => {
+                        console.log(res)
                         this.$root.$emit('load', false);
                         if (res.data.info == null) {
                             alert(res.data.error)
@@ -199,6 +200,7 @@
                     });
             },
             bigDis() {
+                alert("..")
                 console.log(this.houseForm.room);
                 let that = this;
                 that.proDisId = {};

@@ -32,14 +32,19 @@
         label="状态">
         </el-table-column>
         <el-table-column
-        prop="appointTime"
         width='200'
         label="服务时间">
+        <template slot-scope="scope">
+            {{rGetData(scope.row.appointTime) + (scope.row.appointSlot==1?"上午":scope.row.appointSlot==2?"下午":scope.row.appointSlot==3?"全天":"")}}
+        </template>
         </el-table-column>
         <el-table-column
         width='200'
         prop="updateAppointTime"
         label="申请修改时间">
+        <template slot-scope="scope">
+            {{rGetData(scope.row.updateAppointTime) + (scope.row.updateAppointSlot==1?"上午":scope.row.updateAppointSlot==2?"下午":scope.row.updateAppointSlot==3?"全天":'')}}
+        </template>
         </el-table-column>
         <el-table-column
         prop="name"
@@ -138,6 +143,13 @@ export default {
         },
         handleEdit(index, row,event) {
             this.$root.$emit('showWindowss',{type:'yes',rowData:row});
+        },
+        rGetData(data){
+            let newTime = '';
+            if(data){
+                newTime = data.split(" ")[0]
+            }
+            return newTime
         },
         getDate(pageIndex,data) {
             this.listLoading =  true;

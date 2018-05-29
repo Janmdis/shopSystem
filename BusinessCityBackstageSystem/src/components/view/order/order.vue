@@ -10,7 +10,7 @@
                         <el-input placeholder="请输入内容" suffix-icon="el-icon-search" v-model="valuesearch" @keyup.native.13="show($event)">
                         </el-input>
                         <el-button type="primary" class="add" @click='showWindowx("no")'><i class='icon iconfont icon-xinzenghuizong'></i>&nbsp;&nbsp;新增</el-button>
-                        <el-button type="primary" class='shuaxin' round><i class='icon iconfont icon-shuaxin'></i></el-button>
+                        <el-button type="primary" class='shuaxin' @click='Refresh' round><i class='icon iconfont icon-shuaxin'></i></el-button>
                         <el-dropdown trigger="click" class='msnuiMore'>
                             <span class="el-dropdown-link">
                                 <i class='icon iconfont icon-msnui-more'></i>

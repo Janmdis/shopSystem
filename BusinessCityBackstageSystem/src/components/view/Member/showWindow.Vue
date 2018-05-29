@@ -3,25 +3,27 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='12'>
-                    <el-form-item label="姓名" prop="name">
-                        <el-input v-model="ruleForm.name"></el-input>
+                    <el-form-item label="手机号" prop="mode">
+                        <el-input v-model="ruleForm.mode"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
-                    <el-form-item label="手机号" prop="mode">
-                        <el-input v-model="ruleForm.mode"></el-input>
+                    <el-form-item label="身份" prop='panper'>
+                        <el-select v-model="ruleForm.panper" placeholder="请选择身份">
+                            <el-option v-for='(item,index) in ruleForm.panperArr' :key='index' :label="item.name" :value="item.id"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span='12'>
                     <el-form-item label="出生日期" prop='date1'>
-                        <el-date-picker v-on:blur="changeCount"  type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
+                        <el-date-picker v-on:blur="changeCount" type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
                     <el-form-item label="年龄" prop='old'>
-                        <el-input v-model="ruleForm.old" disabled = disabled></el-input>
+                        <el-input v-model="ruleForm.old" disabled=d isabled></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -41,13 +43,6 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span='12'>
-                    <el-form-item label="身份" prop='panper'>
-                        <el-select v-model="ruleForm.panper" placeholder="请选择身份">
-                            <el-option  v-for='(item,index) in ruleForm.panperArr'  :key='index' :label="item.name" :value="item.id"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span='12'>
                     <el-form-item label="标签">
                         <el-select v-model="ruleForm.tages" placeholder="请选择级别类型" @change='changes'>
                             <el-option v-for=' (item,index) in dynamicTags' :key="index" :label='item.name' :value="item.id"></el-option>
@@ -61,13 +56,13 @@
                         {{tag.name}}
                     </el-tag>
                     <!--<el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue"  ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
-                        </el-input>
-                        <el-button v-else class="button-new-tag" size="small" @click="showInput">新增标签</el-button>!-->
+                            </el-input>
+                            <el-button v-else class="button-new-tag" size="small" @click="showInput">新增标签</el-button>!-->
                 </el-col>
             </el-row>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                <el-button  @click="resetForm('ruleForm')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                <el-button @click="resetForm('ruleForm')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -81,16 +76,16 @@
     .lineBline {
         border-bottom: 1px solid #ddd;
     }
-    .memberdialog .el-dialog{
-        height:60%;
+    .memberdialog .el-dialog {
+        height: 60%;
     }
 </style>
 <script>
-import qs from 'qs'
+    import qs from 'qs'
     export default {
         data() {
             var checkAge = (rule, value, callback) => {
-                if (value==='') {
+                if (value === '') {
                     return callback(new Error('年龄不能为空'))
                 }
                 setTimeout(() => {
@@ -108,22 +103,22 @@ import qs from 'qs'
             return {
                 dialogVisible: false,
                 dynamicTags: [],
-                Tagbox:[],
-                TagboxId:[],
+                Tagbox: [],
+                TagboxId: [],
                 ruleForm: {
                     mode: '',
-                     tages: '',
+                    tages: '',
                     name: "",
                     date1: '',
                     old: '',
                     county: '',
                     ctypes: '',
                     panper: '',
-                    panperArr:[],
+                    panperArr: [],
                     curDate: [],
                     sourceFns: [],
                     textInfo: '新增会员',
-                    thisId:''
+                    thisId: ''
                 },
                 rules: {
                     name: [{
@@ -146,145 +141,142 @@ import qs from 'qs'
             };
         },
         methods: {
-            getidentity(){
+            getidentity() {
                 let url = '/api/customer/identity/findIdentity';
                 this.$http({
-                    url:url,
-                    method:"post",
-                    data:{}
-                }).then((msg)=>{
+                    url: url,
+                    method: "post",
+                    data: {}
+                }).then((msg) => {
                     this.ruleForm.panperArr = (msg.data.info)
-                }).catch((err)=>{
+                }).catch((err) => {
                     console.log(err)
                 })
             },
             submitForm(formName) {
                 let that = this;
-                if(this.ruleForm.textInfo == "新增会员"){
-                that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm.date1);  
-                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate());
-                    if(youWant =='NaN-NaN-NaN'){
-                        youWant = '00-00-00'
-                    }else{
-                        youWant = youWant
-                    }
-                    if (valid) {
-                        let url = '/api/customer/account/insert';
-                        this.$http({
-                                url: url,
-                                method: 'POST',
-                                // 请求体重发送的数据
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                data:[{
-                                    name: this.ruleForm.name,
-                                    mobile: this.ruleForm.mode,
-                                    birthDate: youWant,
-                                    categoryId: this.ruleForm.ctypes,
-                                    recommendedSourceId: this.ruleForm.county,
-                                    level: this.ruleForm.ctypes,
-                                    identity: this.ruleForm.panper,
-                                    customerAccountLabels:this.TagboxId
-                                }]
-                            })
-                            .then(response => {
-                                if(response.data.status == 300){
-                                    this.$message(response.data.msg);
-                                    // alert(response.data.msg)
-                                    return false
-                                }
-                                this.Tagbox = [];
-                                this.dialogVisible = false;
-                                this.$root.$emit('getDatezdy',1)
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                //         alert('网络错误，不能访问');
-                            })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-                }
-                if(this.ruleForm.textInfo == "编辑会员"){
-                that.$refs[formName].validate((valid) => {
-                   var d = new Date(this.ruleForm.date1);  
-                    var youWant=d.getFullYear() + '-' + this. getzf((d.getMonth() + 1)) + '-' + this. getzf(d.getDate()); 
-                     if(youWant =='NaN-NaN-NaN'){
-                        youWant = '00-00-00'
-                    }else{
-                        youWant = youWant
-                    }
-                    if (valid) {
-                        let panperSF = ''
-                        if( this.ruleForm.panper == '男主人'){
-                                panperSF = 0
-                            }else  if( this.ruleForm.panper == "女主人"){
-                                 panperSF = 1
-                            }else  if( this.ruleForm.panper == "父亲"){
-                                 panperSF = 2
-                            }else  if( this.ruleForm.panper == "母亲"){
-                                 panperSF = 3
-                            }else  if( this.ruleForm.panper == "女儿"){
-                                 panperSF = 4
-                            }else  if( this.ruleForm.panper == "女婿"){
-                                 panperSF = 5
-                            }else  if( this.ruleForm.panper == "儿子"){
-                                 panperSF = 6
-                            }else  if( this.ruleForm.panper == "儿媳"){
-                                 panperSF = 7
-                            }
-                            let newId =[]
-                        for (let i = 0; i < this.Tagbox.length; i++) {
-                            newId.push({
-                                accountId: this.ruleForm.thisId,
-                                labelId: this.Tagbox[i].id
-                            })
+                if (this.ruleForm.textInfo == "新增会员") {
+                    that.$refs[formName].validate((valid) => {
+                        var d = new Date(this.ruleForm.date1);
+                        var youWant = d.getFullYear() + '-' + this.getzf((d.getMonth() + 1)) + '-' + this.getzf(d.getDate());
+                        if (youWant == 'NaN-NaN-NaN') {
+                            youWant = '00-00-00'
+                        } else {
+                            youWant = youWant
                         }
-                                
-                          
-                        let url = '/api/customer/account/update';
-                        this.$http({
-                                url: url,
-                                method: 'POST',
-                                // 请求体重发送的数据
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                data: {
-                                    id:this.ruleForm.thisId,
-                                    name: this.ruleForm.name,
-                                    mobile: this.ruleForm.mode,
-                                    birthDate: youWant,
-                                    categoryId: this.ruleForm.ctypes,
-                                    recommendedSourceId: this.ruleForm.county,
-                                    level: this.ruleForm.ctypes,
-                                    identity: panperSF,
-                                    customerAccountLabels:newId
-                                }
-                            })
-                            .then(response => {
-                                this.dialogVisible = false;
-                                this.$root.$emit('getDatezdy',1);
-                                this.Tagbox = [];
-                                
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                //         alert('网络错误，不能访问');
-                            })
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
+                        if (valid) {
+                            let url = '/api/customer/account/insert';
+                            this.$http({
+                                    url: url,
+                                    method: 'POST',
+                                    // 请求体重发送的数据
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    data: [{
+                                        nickname: this.ruleForm.name,
+                                        mobile: this.ruleForm.mode,
+                                        birthDate: youWant,
+                                        categoryId: this.ruleForm.ctypes,
+                                        recommendedSourceId: this.ruleForm.county,
+                                        level: this.ruleForm.ctypes,
+                                        identity: this.ruleForm.panper,
+                                        customerAccountLabels: this.TagboxId
+                                    }]
+                                })
+                                .then(response => {
+                                    if (response.data.status == 300) {
+                                        this.$message(response.data.msg);
+                                        // alert(response.data.msg)
+                                        return false
+                                    }
+                                    this.Tagbox = [];
+                                    this.dialogVisible = false;
+                                    this.$root.$emit('getDatezdy', 1)
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    //         alert('网络错误，不能访问');
+                                })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                }
+                if (this.ruleForm.textInfo == "编辑会员") {
+                    that.$refs[formName].validate((valid) => {
+                        var d = new Date(this.ruleForm.date1);
+                        var youWant = d.getFullYear() + '-' + this.getzf((d.getMonth() + 1)) + '-' + this.getzf(d.getDate());
+                        if (youWant == 'NaN-NaN-NaN') {
+                            youWant = '00-00-00'
+                        } else {
+                            youWant = youWant
+                        }
+                        if (valid) {
+                            let panperSF = ''
+                            if (this.ruleForm.panper == '男主人') {
+                                panperSF = 0
+                            } else if (this.ruleForm.panper == "女主人") {
+                                panperSF = 1
+                            } else if (this.ruleForm.panper == "父亲") {
+                                panperSF = 2
+                            } else if (this.ruleForm.panper == "母亲") {
+                                panperSF = 3
+                            } else if (this.ruleForm.panper == "女儿") {
+                                panperSF = 4
+                            } else if (this.ruleForm.panper == "女婿") {
+                                panperSF = 5
+                            } else if (this.ruleForm.panper == "儿子") {
+                                panperSF = 6
+                            } else if (this.ruleForm.panper == "儿媳") {
+                                panperSF = 7
+                            }
+                            let newId = []
+                            for (let i = 0; i < this.Tagbox.length; i++) {
+                                newId.push({
+                                    accountId: this.ruleForm.thisId,
+                                    labelId: this.Tagbox[i].id
+                                })
+                            }
+                            let url = '/api/customer/account/update';
+                            this.$http({
+                                    url: url,
+                                    method: 'POST',
+                                    // 请求体重发送的数据
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    data: {
+                                        id: this.ruleForm.thisId,
+                                        nickname: this.ruleForm.name,
+                                        mobile: this.ruleForm.mode,
+                                        birthDate: youWant,
+                                        categoryId: this.ruleForm.ctypes,
+                                        recommendedSourceId: this.ruleForm.county,
+                                        level: this.ruleForm.ctypes,
+                                        identity: panperSF,
+                                        customerAccountLabels: newId
+                                    }
+                                })
+                                .then(response => {
+                                    this.dialogVisible = false;
+                                    this.$root.$emit('getDatezdy', 1);
+                                    this.Tagbox = [];
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    //         alert('网络错误，不能访问');
+                                })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
                 }
             },
             handleCloses(index) {
-                 let list = [];
+                let list = [];
                 for (let i = 0; i < this.Tagbox.length; i++) {
                     if (index != i) {
                         list.push(this.Tagbox[i]);
@@ -421,7 +413,6 @@ import qs from 'qs'
                         data: {}
                     })
                     .then(respone => {
-                       
                         this.ruleForm.curDate = respone.data.info;
                     })
                     .catch(error => {
@@ -442,8 +433,6 @@ import qs from 'qs'
                     .then(respone => {
                         this.ruleForm.sourceFns = respone.data.info;
                         //console.log(this.ruleForm.sourceFns)
-
-                        
                     })
                     .catch(error => {
                         console.log(error);
@@ -458,43 +447,43 @@ import qs from 'qs'
                 if (data != 'no') {
                     console.log(data[0].id)
                     this.ruleForm.textInfo = '编辑会员';
-                    let url = '/api/customer/account/queryMapByIds'/*'+[data[0].id]*/;
+                    let url = '/api/customer/account/queryMapByIds' /*'+[data[0].id]*/ ;
                     this.$http({
                             url: url,
                             method: 'post',
                             //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
-                            data:[data[0].id]
+                            data: [data[0].id]
                         })
                         .then(respone => {
                             let infos = respone.data.info[0];
-                             let panperSF = '';
-                            if(infos.identity!=null){
-                                 if(infos.identity == 0){
-                                panperSF = "男主人"
-                            }else  if(infos.identity == 1){
-                                 panperSF = "女主人"
-                            }else  if(infos.identity == 2){
-                                 panperSF = "父亲"
-                            }else  if(infos.identity == 3){
-                                 panperSF = "母亲"
-                            }else  if(infos.identity == 4){
-                                 panperSF = "女儿"
-                            }else  if(infos.identity == 5){
-                                 panperSF = "女婿"
-                            }else  if(infos.identity == 6){
-                                 panperSF = "儿子"
-                            }else  if(infos.identity == 7){
-                                 panperSF = "儿媳"
+                            let panperSF = '';
+                            if (infos.identity != null) {
+                                if (infos.identity == 0) {
+                                    panperSF = "男主人"
+                                } else if (infos.identity == 1) {
+                                    panperSF = "女主人"
+                                } else if (infos.identity == 2) {
+                                    panperSF = "父亲"
+                                } else if (infos.identity == 3) {
+                                    panperSF = "母亲"
+                                } else if (infos.identity == 4) {
+                                    panperSF = "女儿"
+                                } else if (infos.identity == 5) {
+                                    panperSF = "女婿"
+                                } else if (infos.identity == 6) {
+                                    panperSF = "儿子"
+                                } else if (infos.identity == 7) {
+                                    panperSF = "儿媳"
+                                }
                             }
-                            }
-                            this.ruleForm.thisId=  infos.id
-                            this.ruleForm.mode= infos.mobile,
-                            this.ruleForm.name= infos.name,
-                            this.ruleForm.date1= infos.birthDate,
-                            this.ruleForm.old= infos.age,
-                            this.ruleForm.county= infos.recommendedSourceId,
-                            this.ruleForm.ctypes= infos.level,
-                            this.ruleForm.panper= panperSF
+                            this.ruleForm.thisId = infos.id
+                            this.ruleForm.mode = infos.mobile,
+                                this.ruleForm.name = infos.nickname,
+                                this.ruleForm.date1 = infos.birthDate,
+                                this.ruleForm.old = infos.age,
+                                this.ruleForm.county = infos.recommendedSourceId,
+                                this.ruleForm.ctypes = infos.level,
+                                this.ruleForm.panper = panperSF
                             // this.ruleForm.sourceFns = respone.data.info;
                             // console.log(this.ruleForm.sourceFns)
                         })
@@ -502,43 +491,41 @@ import qs from 'qs'
                             console.log(error);
                             //         alert('网络错误，不能访问');
                         })
-                        let urls = '/api/customer/customerAndLabel/findLabel?id='+[data[0].id];
-                        this.$http({
+                    let urls = '/api/customer/customerAndLabel/findLabel?id=' + [data[0].id];
+                    this.$http({
                             url: urls,
                             method: 'get',
                             //headers: { 'Content-Type': ' application/x-www-form-urlencoded' },
                             //data:[data[0].id]
                         })
                         .then(respone => {
-                            this.Tagbox=[];
+                            this.Tagbox = [];
                             for (let i = 0; i < respone.data.info.length; i++) {
                                 this.Tagbox.push(respone.data.info[i]);
-                            this.dynamicTags.push({
-                                name: respone.data.info[i].name,
-                                color: respone.data.info[i].color,
-                                id: respone.data.info[i].id
-                            })
-                        }
-                        console.log(this.Tagbox)
+                                this.dynamicTags.push({
+                                    nickname: respone.data.info[i].name,
+                                    color: respone.data.info[i].color,
+                                    id: respone.data.info[i].id
+                                })
+                            }
+                            console.log(this.Tagbox)
                         })
                         .catch(error => {
                             console.log(error);
                             //         alert('网络错误，不能访问');
                         })
-                        
-                        this.dialogVisible = true;
-                }else{
+                    this.dialogVisible = true;
+                } else {
                     this.ruleForm.textInfo = '新增会员';
                     this.dialogVisible = true;
-                     this.ruleForm.mode= "",
-                    this.ruleForm.name= "",
-                    this.ruleForm.date1= "",
-                    this.ruleForm.old= "",
-                    this.ruleForm.county= "",
-                    this.ruleForm.ctypes= "",
-                    this.ruleForm.panper= ''
+                    this.ruleForm.mode = "",
+                        this.ruleForm.name = "",
+                        this.ruleForm.date1 = "",
+                        this.ruleForm.old = "",
+                        this.ruleForm.county = "",
+                        this.ruleForm.ctypes = "",
+                        this.ruleForm.panper = ''
                 }
-                
             });
             this.sourceFn();
             this.showData();

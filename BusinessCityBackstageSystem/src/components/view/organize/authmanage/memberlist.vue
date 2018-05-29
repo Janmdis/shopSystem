@@ -16,7 +16,7 @@
                     <el-button type="primary">新增</el-button>
                     <el-button type="primary">导入</el-button>
                     <el-button type="primary">导出</el-button>
-                    <el-button type="primary" class='research'><i class="icon iconfont icon-shuaxin"></i></el-button>
+                    <el-button type="primary" class='shuaxin' @click='Refresh' round><i class='icon iconfont icon-shuaxin'></i></el-button>
                 </div>
                 
             </el-col>

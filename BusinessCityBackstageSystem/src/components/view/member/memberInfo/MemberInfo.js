@@ -314,7 +314,7 @@ export default {
         isShow(text) {
             this.default1 = false;
             this.isActive = text;
-            this.isLoading = true;
+            this.isLoading = false;
             if (text == '房屋') {
                 text = twoHouse;
             } else if (text == '订单') {

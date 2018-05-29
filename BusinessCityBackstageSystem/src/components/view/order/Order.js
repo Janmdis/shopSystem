@@ -38,6 +38,7 @@ export default {
 
     },
     mounted() {
+       
         this.$root.$on('output', data => {
             this.dataForm = data;
             data.forEach((e, i) => {
@@ -77,6 +78,9 @@ export default {
         })
     },
     methods: {
+        Refresh() {
+            this.handleCurrentChange(1)
+        },
         handlePreview(file) {
             //可以通过 file.response 拿到服务端返回数据
         },
