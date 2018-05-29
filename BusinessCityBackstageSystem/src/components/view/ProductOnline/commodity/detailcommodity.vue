@@ -200,8 +200,8 @@
                 </el-row>
             </el-col>
             <el-col :span="12">
-                <el-row class='timemodel'>
-                    <el-row class='selectmodal'>
+                <el-row class='timemodel' style='margin-bottom:20px;min-height:300px;'>
+                    <el-row class='selectmodal' style='margin-bottom:20px;'>
                         <el-col :span='5'>
                             <el-select v-model="tmselected" placeholder="选择模板" @change='changedatemodel'>
                                 <el-option
@@ -213,19 +213,6 @@
                                 </el-option>
                             </el-select>
                         </el-col>
-                        <el-col :span='4'>
-                            <el-button type="primary" size='small' @click="createdatemodal">新建模板</el-button>
-                        </el-col>
-                    </el-row>
-                    <el-row style='margin:10px 10%;'>
-                        <el-col :span='10' style='font-size:12px;'>
-                            <el-input v-model="tmvalue" class='title none' disabled  placeholder=""></el-input>
-                            <!-- <span class='title'>{{tmvalue}}</span> -->
-                        </el-col>
-                        <el-col :span='10' :offset='4' style='text-align:right;'>
-                            <el-button plain type="primary" size='mini' @click='edittimetable'>编辑</el-button>
-                            <el-button plain type="danger" size='mini' @click='deletetimetable'>删除</el-button>
-                        </el-col>
                     </el-row>
                     <el-table
                     class='ssss'
@@ -236,64 +223,13 @@
                     v-loading='loadingdate'>
                         <el-table-column
                             prop='date'
-                            min-width='100'
-                            label="">
-                            <template slot-scope="scope" :span='10'>
-                                <span>{{scope.row.date}}</span>
-                            </template>
+                            label="时间段">
                         </el-table-column>
                         <el-table-column
-                            width='60'
-                            label="一">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.monday" :disabled='disabled'></el-checkbox>
-                            </template>
+                            prop='nums'
+                            label="可下单数量">
                         </el-table-column>
-                        <el-table-column
-                            width='60'
-                            label="二">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.tuesday" :disabled='disabled' ></el-checkbox>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            width='60'
-                            label="三">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.wednesday" :disabled='disabled'></el-checkbox>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            width='60'
-                            label="四">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.thursday" :disabled='disabled'></el-checkbox>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            width='60'
-                            label="五">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.friday" :disabled='disabled'></el-checkbox>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            width='60'
-                            label="六">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.saturday" :disabled='disabled'></el-checkbox>
-                            </template>
-                        </el-table-column>
-                        <el-table-column
-                            width='60'
-                            label="七">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.sunday" :disabled='disabled'></el-checkbox>
-                            </template>
-                        </el-table-column>
-                        
                     </el-table>
-                    <el-button type="primary" style='height:30px;line-height:5px;float:right;margin:10px 10%;' @click='savetimetable'>保存</el-button>
                 </el-row>
                 <el-row class='areaservice'>
                     <el-row class='selectmodal'>
@@ -750,7 +686,6 @@ export default {
                             that.formmsg.detailTemplateInfoName='';
                             that.formmsg.detailTemplateInfoId='';
                             that.$refs.detailcommodity.setAttribute('class','detailcommodity off');
-                            console.log(that.from);
                             if(that.from=='package'){
                                 that.$root.$emit('reloadpackage',that.packid);
                             }
@@ -775,7 +710,7 @@ export default {
             
         },
   
-// 图片 
+    // 图片 
         // 获取商品图片
         getimglist(){
             let that=this;
@@ -955,28 +890,33 @@ export default {
         // 详情类别
         getdetailtype(){},
 
-// 时间模板处理
+    // 时间模板处理
         // 获取时间模板
         getdatemodel(){
             let that=this;
-            this.$http.post('/api/product/commodity/periodTemplate/queryMap',{})
+            this.$http.post('/api/product/commodity/periodTemplate/query',{})
             .then(function(response){
                 if(response.data.msg=='查询成功'){
-                    that.listmodaltime=response.data.info;
-                    if(that.tmtype=='delete'){
-                        that.tmid=that.listmodaltime[0].id;
-                        that.tmselected=that.listmodaltime[0].name;  
-                        that.tmtype='' 
-                    }
-                    else{
-                        that.listmodaltime.forEach(item=>{
-                            if(that.tmid==item.id){
-                                that.tmselected=item.name;
-                            }
-                        });
-                    }
-                    that.tmvalue=that.tmselected;
-                    that.getdatedetail();
+                    that.listmodaltime=response.data.info.list;
+                    that.listmodaltime.forEach(item=>{
+                        if(that.tmid==item.id){
+                            that.tmselected=item.name;
+                        }
+                    });
+                    // if(that.tmtype=='delete'){
+                    //     that.tmid=that.listmodaltime[0].id;
+                    //     that.tmselected=that.listmodaltime[0].name;  
+                    //     that.tmtype='' 
+                    // }
+                    // else{
+                    //     that.listmodaltime.forEach(item=>{
+                    //         if(that.tmid==item.id){
+                    //             that.tmselected=item.name;
+                    //         }
+                    //     });
+                    // }
+                    // that.tmvalue=that.tmselected;
+                    // that.getdatedetail();
                 }
                 else{
                     that.$message(response.data.msg);
@@ -986,165 +926,23 @@ export default {
                 console.log('获取时间模板失败！');
             });
         },
-        // 获取时间模板详情
-        getdatedetail(){
-            // 时间段为空，获取时间段
-            if(!this.listtime.length){
-                this.getdateperiod();
-            }
-            else{
-                this.listtime.forEach(item=>{
-                    item.monday=false;
-                    item.tuesday=false;
-                    item.wednesday=false;
-                    item.thursday=false;
-                    item.friday=false;
-                    item.saturday=false;
-                    item.sunday=false;
-                });
-            }
-            let that=this;
-            this.loadingdate=true;
-            if(that.tmid!=null&&that.tmid!=''){
-                this.$http.post('/api/product/commodity/periodTemplateContent/query?pageSize=100',{templateId:that.tmid})
-                .then(function(response){
-                    if(response.data.msg=='查询成功'){
-                        let list=response.data.info.list;
-                        that.datetempcontent=list;
-                        that.listtime.forEach(time=>{
-                            list.forEach(item=>{
-                                if(item.periodId==time.periodId){
-                                    switch(item.weekDay){
-                                        case 1:{
-                                            time.monday=true;
-                                            break;
-                                        }
-                                        case 2:{
-                                            time.tuesday=true;
-                                            break;
-                                        }
-                                        case 3:{
-                                            time.wednesday=true;
-                                            break;
-                                        }
-                                        case 4:{
-                                            time.thursday=true;
-                                            break;
-                                        }
-                                        case 5:{
-                                            time.friday=true;
-                                            break;
-                                        }
-                                        case 6:{
-                                            time.saturday=true;
-                                            break;
-                                        }
-                                        case 7:{
-                                            time.sunday=true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            });
-                        });
-                        that.loadingdate=false;
-                    }
-                    else{
-                        that.$message(response.data.msg);
-                    }
-                    
-                })
-                .catch(function(){
-                    that.loadingdate=false;
-                    console.log("数据读取出错！");
-                })
-            }
-            
-            // this.loadingdate=true;
-            // this.listmodaltime=false;
-            // 查询时间段
-            
-        },
-        changedatemodel(val){
-            // console.log(val,this.listmodaltime);
-            this.listmodaltime.forEach(item=>{
-                if(item.id==val){
-                    this.tmvalue=item.name;
-                }
-            });
-            this.tmid=val;
-            this.getdatedetail();
-            this.changedatestate2();
-            this.tmtype='';
-            // this.getdatedetail(val);
-            // alert(val);
-        },
-        createdatemodel(){
-            this.listtime=[];
-        },
-        // 编辑时间模板
-        edittimetable(){
-            if(this.tmid!=''&&this.tmid!=null){
-                this.tmtype='update';
-                this.changedatestate();
-            }
-        },
-        // 删除时间模板
-        deletetimetable(){
-            if(this.tmid!=''&&this.tmid!=null){
-                this.tmtype='delete';
-                let that=this;
-                this.$confirm('是否删除该商品', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.$http.post('/api/product/commodity/periodTemplate/remove',[this.tmid])
-                    .then(function(response){
-                        if(response.data.msg=='删除成功'){
-                            let ids=[]
-                            that.datetempcontent.forEach(item=>{
-                                ids.push(item.id);
-                            });
-                            that.deletedaterelation(ids,'delete');
-                            that.getdatemodel();
-                        }
-                        else{
-                            that.$message(response.data.msg);
-                        }
-                    })
-                    .catch(function(response){
-                        console.log(response);
-                    })
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });          
-                });
-            }
-        },
         // 获取时间段
-        getdateperiod(){
+        getdateperiod(templateId){
             this.loadingdate=true;
             let that=this;
-            this.$http.post('/api/public/period/queryMap')
+            this.listtime=[];
+            this.$http.post('/api/product/period/query',{templateId:templateId})
             .then(function(response){
-                if(response.data.msg=='查询成功'){
-                    let listperiod=response.data.info;
-                    listperiod.forEach(item=>{
-                        that.listtime.push({
+                console.log(response);
+                if(response.data.status==200){
+                    let list=response.data.info.list;
+                    list.forEach(item=>{
+                        let json={
+                            id:item.id,
                             date:item.startTime.substring(0,5)+'-'+item.endTime.substring(0,5),
-                            monday:false,
-                            tuesday:false,
-                            wednesday:false,
-                            thursday:false,
-                            friday:false,
-                            saturday:false,
-                            sunday:false,
-                            periodId:item.id
-                        });
-                        // that.getdatemodel();
+                            nums:item.pCount
+                        };
+                        that.listtime.push(json);
                     });
                 }
                 else{
@@ -1156,6 +954,14 @@ export default {
                 that.loadingdate=false;
                 console.log(response);
             })
+        },
+        changedatemodel(val){
+            this.listmodaltime.forEach(item=>{
+                if(item.id==val){
+                    this.tmvalue=item.name;
+                }
+            });
+            this.tmid=val;
         },
         // 新建时间模板
         createdatemodal(){
@@ -1348,7 +1154,7 @@ export default {
             // this.disabled=true;
         },
 
-// 地区模板处理
+    // 地区模板处理
         getareamodel(){
             let that=this;
             this.$http.post('/api/product/commodity/regionTemplate/queryMap',{})
@@ -1719,6 +1525,9 @@ export default {
             if(val == false){
                 this.sendPointsNum = ''
             }
+        },
+        tmselected(){
+            this.getdateperiod(this.tmid);
         }
     },
     beforeDestroy(){

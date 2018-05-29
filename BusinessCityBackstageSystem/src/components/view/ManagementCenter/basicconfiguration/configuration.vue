@@ -36,9 +36,11 @@
                                     :label="ruleForm.levelDes"
                                     >
                                 </el-table-column>
-                                <el-table-column prop="opration" label="操作" width="120">
+                                <el-table-column prop="opration" label="操作" width="180">
                                     <template slot-scope="scope">
+                                        <el-button size="mini" v-if='editenable' @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                                         <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                        
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -70,6 +72,7 @@
                 </el-dialog>
             </el-row>
         </el-main>
+        <editDatetemp></editDatetemp>
     </el-container>
 </template>
 <script>
@@ -82,6 +85,7 @@ import userModel from './usermodel'
 import houseModel from './housemodel'
 import channelModel from './channelmodel'
 import knowledge from './knowledge'
+import editDatetemp from './editDatetemp'
 export default {
     data () {
         return{
@@ -147,6 +151,7 @@ export default {
             ],
             publicData:[
                 {id:'id',delUrl:'/api/product/mall/templateCategory/remove',des:'模板分类',name:'name',addUrl:'/api/product/mall/templateCategory/insert'},
+                {id:'id',delUrl:'/api/product/commodity/periodTemplate/remove',des:'时间模板',name:'name',addUrl:'/api/product/mall/templateCategory/insert'}
                 // {id:'id',delUrl:'/api/product/commodity/periodTemplate/remove',des:'服务时间',name:'name',addUrl:'/api/product/commodity/periodTemplate/insert'}     
             ],
             supplierData:[
@@ -173,7 +178,8 @@ export default {
                 {id:'id',delUrl:'/api/public/knowledge/sort/update',des:'知识分类',name:'sortName',addUrl:'/api/public/knowledge/sort/insert'}
             ],
             desData:[],
-            modelIndex:0
+            modelIndex:0,
+            editenable:false
         }
     },
     created(){
@@ -189,6 +195,11 @@ export default {
         });
         this.$root.$on('loadInfo',data => {
             this.loadInfo = data;
+        });
+        this.$root.$on('canedit',data=>{
+            if(data){
+                this.editenable=true;
+            }
         });
     },
     methods:{
@@ -210,6 +221,7 @@ export default {
                 this.modelIndex = 2;
             }else if(text == '模板模块'){
                 text = publicModel;
+                console.log(publicModel);
                 this.desData = this.publicData;
                 this.modelIndex = 3;   
             }else if(text == '供应商模块'){
@@ -322,27 +334,37 @@ export default {
                 });          
             });          
         },
+        handleEdit(index,row){
+            this.$root.$emit('handledatetemp',{data:row,title:'编辑时间模板',type:'edit'})
+        },
         addContent(){
-            this.dialogVisible = true;
-            if(this.modelIndex == 2 && this.number == 4){ 
-                this.ruleForm.color = this.color[this.num];
-                this.num++;
-                if(this.num > this.color.length - 1){
-                    this.num = 0;
+            // 添加时间模板
+            if(this.editenable){
+                this.$root.$emit('handledatetemp',{data:{id:'',name:'',remark:''},title:'添加时间模板',type:'add'});
+            }
+            else{
+                this.dialogVisible = true;
+                if(this.modelIndex == 2 && this.number == 4){ 
+                    this.ruleForm.color = this.color[this.num];
+                    this.num++;
+                    if(this.num > this.color.length - 1){
+                        this.num = 0;
+                    }
+                }
+                if(this.modelIndex == 4 && this.number == 0){ 
+                    this.ruleForm.color = this.color[this.num];
+                    this.num++;
+                    if(this.num > this.color.length - 1){
+                        this.num = 0;
+                    }
+                }
+                if(this.modelIndex == 5 && this.number == 2){
+                    this.levelShow = true;
+                }else{
+                    this.levelShow = false;
                 }
             }
-            if(this.modelIndex == 4 && this.number == 0){ 
-                this.ruleForm.color = this.color[this.num];
-                this.num++;
-                if(this.num > this.color.length - 1){
-                    this.num = 0;
-                }
-            }
-            if(this.modelIndex == 5 && this.number == 2){
-                this.levelShow = true;
-            }else{
-                this.levelShow = false;
-            }
+            
         },
         submitForm(){
             let that = this;
@@ -451,7 +473,8 @@ export default {
         userModel,
         houseModel,
         channelModel,
-        knowledge
+        knowledge,
+        editDatetemp
     },
     beforeDestroy(){
         this.$root.$off('searchInfo');
