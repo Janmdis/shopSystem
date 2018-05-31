@@ -166,8 +166,8 @@ export default {
                 this.changestate(ids,type=='onsale'?1:0);
             }
         });
-        this.$root.$emit('reloadpackagelist',()=>{
-            this.getDate(1,{isPackage:1});
+        this.$root.$on('reloadpackagelist',()=>{
+            this.getDate(1);
         });
         
     },

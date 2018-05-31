@@ -22,7 +22,7 @@
       };
     },
     beforeMount(){
-        this.$router.push("/member")
+        // this.$router.push("/member")
     },
   } 
 </script>

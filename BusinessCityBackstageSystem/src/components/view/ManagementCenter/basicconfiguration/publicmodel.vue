@@ -9,15 +9,19 @@
     </div>
 </template>
 <script>
+
 export default {
     data () {
         return {
             typeData:[
                 {'index':1,'icon':'el-icon-edit','isActive':true,'name':'模板分类'},
+                {'index':2,'icon':'el-icon-edit','isActive':false,'name':'时间模板'},
                 // {'index':2,'icon':'el-icon-menu','isActive':false,'name':'服务时间'}
             ],
             urlList:[
                 {id:'id',url:'/api/product/mall/templateCategory/queryMap',des:'模板类型',name:'name'},
+                {id:'id',url:'/api/product/commodity/periodTemplate/query',des:'时间模板',name:'name'},
+                
                 // {id:'id',url:'/api/product/commodity/periodTemplate/queryMap',des:'服务时间',name:'name'}
             ],
             datalist:[]
@@ -26,6 +30,9 @@ export default {
     created(){
         this.getDate(0,this.urlList[0].url);
         this.$root.$on('transFn4',data => {
+            this.getDate(data,this.urlList[data].url);
+        });
+        this.$root.$on('reloadDatetemp',data => {
             this.getDate(data,this.urlList[data].url);
         });
     },
@@ -48,7 +55,11 @@ export default {
                 data:{},
             }).then(res => {       
                 if(res.data.status != 403){
-                    this.datalist=(res.data.info);
+                    this.datalist=(i=='/api/product/commodity/periodTemplate/query')?res.data.info.list:res.data.info;
+                    let editenable=(i=='/api/product/commodity/periodTemplate/query')?true:false;
+                    if(editenable){
+                        this.$root.$emit('canedit',true);
+                    }
                     this.$root.$emit('searchInfo',[this.urlList[index].name,this.datalist,index,this.urlList[index].id,this.urlList[index].des]);
                     this.$root.$emit('loadInfo',false);
                 }else{

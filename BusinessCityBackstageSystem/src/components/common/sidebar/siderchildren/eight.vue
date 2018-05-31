@@ -6,6 +6,7 @@
             <template slot="title"><i class="icon iconfont icon-shijian1" style='margin-right: 10px;'></i>预约时间</template>
             <el-menu-item-group>
               <el-menu-item index="appointmentTime">预约时间</el-menu-item>
+              <el-menu-item index="marktTime">预约面板</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -20,7 +21,7 @@
       };
     },
     beforeMount(){
-        this.$router.push("/appointmentTime")
+        // this.$router.push("/appointmentTime")
     },
   } 
 </script>
