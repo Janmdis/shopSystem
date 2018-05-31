@@ -254,7 +254,7 @@ export default {
 <style lang='less'>
 #editDatatemp{
     .el-date-editor.el-input{
-        width:35%;
+        width:35% !important;
     }
 }
 
