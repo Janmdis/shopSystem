@@ -139,30 +139,33 @@
                         </el-form-item>
                         <el-form-item label="" prop=''>
                             <el-row :gutter='20'>
-                                <el-col :span='4'>
+                                <el-col :span='5'>
                                     <el-checkbox v-model="pointsDeduction">允许积分抵扣</el-checkbox>
                                 </el-col>
-                                <el-col :span='5' v-show="pointsDeduction?true:false">
-                                        <el-input v-model="pointsNum"></el-input>
-                                </el-col>
-                                <el-col :span='2' v-show="pointsDeduction?true:false" style="padding-left:0px;padding-right:0px;">
-                                        积分抵扣
+                                <el-col :span='3' v-show="pointsDeduction?true:false" style="padding-right:0px;">
+                                        最高允许
                                 </el-col>
                                 <el-col :span='4' v-show="pointsDeduction?true:false">
-                                        <el-input v-model="pointsMoney"></el-input>
+                                        <el-input v-model="pointsNum"></el-input>
                                 </el-col>
-                                <el-col :span='2' v-show="pointsDeduction?true:false" style="padding-left:0px;">
-                                        元
+                                <el-col :span='5' v-show="pointsDeduction?true:false" style="padding-left:0px;padding-right:0px;">
+                                        个积分抵扣
                                 </el-col>
                             </el-row>
                         </el-form-item>
                         <el-form-item label="" prop=''>
                             <el-row :gutter='20'>
-                                <el-col :span='3'>
+                                <el-col :span='4'>
                                     <el-checkbox v-model="sendPoints">送积分</el-checkbox>
                                 </el-col>
-                                <el-col :span='4' v-show="sendPoints?true:false" style="padding-left:0px;">
+                                <el-col :span='4' v-show="sendPoints?true:false" style="padding-left:0px;padding-right:0px;">
+                                        送支付金额的
+                                </el-col>
+                                <el-col :span='2' v-show="sendPoints?true:false" style="padding-left:0px;">
                                         <el-input v-model="sendPointsNum"></el-input>
+                                </el-col>
+                                <el-col :span='2' v-show="sendPoints?true:false" style="padding-left:0px;padding-right:0px;">
+                                        %
                                 </el-col>
                             </el-row>
                         </el-form-item>
@@ -469,7 +472,6 @@ export default {
             oldTagValue:'',
             pointsDeduction:false,
             pointsNum:'',
-            pointsMoney:'',
             sendPoints:false,
             sendPointsNum:''
         }
@@ -640,7 +642,6 @@ export default {
                     if(data.originalPriceMoney || data.originalPricePoint){
                         that.pointsDeduction = true
                         that.pointsNum = data.originalPricePoint
-                        that.pointsMoney =data.originalPrice - data.originalPriceMoney  //需要一个字段来保存 积分抵扣了多少钱
                     }else{
                         that.pointsDeduction = false
                     }
@@ -735,7 +736,7 @@ export default {
                         giftPoints:this.sendPointsNum,
                         priceRule:1,
                         originalPricePoint:this.pointsNum,
-                        originalPriceMoney:this.formmsg.originalPrice - this.pointsMoney
+                        originalPriceMoney:this.formmsg.originalPrice - this.formmsg.originalPrice * this.sendPointsNum
                     };
                     this.$http.post('/api/product/commodity/info/update',data)
                     .then(function(response){
@@ -1711,7 +1712,6 @@ export default {
         pointsDeduction(val,oldVal){
             if(val == false){
                 this.pointsNum = ''
-                this.pointsMoney = ''
             }
         },
         sendPoints(val,oldVal){
