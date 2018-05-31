@@ -159,6 +159,11 @@ export default new Router({
                     path: 'appointmentTime', // 工单
                     name: 'appointmentTime',
                     component: resolve => require(['@/components/view/Worklist/appointmentTime/appointmentTime.vue'], resolve)
+                },
+                {
+                    path: 'marktTime', // 预约面板
+                    name: 'marktTime',
+                    component: resolve => require(['@/components/view/Worklist/marktTime/marktTime.vue'], resolve)
                 }
             ]
 

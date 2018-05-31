@@ -25,7 +25,7 @@
       };
     },
     beforeMount(){
-        this.$router.push("/MessageCenter")
+        // this.$router.push("/MessageCenter")
     },
   } 
 </script>

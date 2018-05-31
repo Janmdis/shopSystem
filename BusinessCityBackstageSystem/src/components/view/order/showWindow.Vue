@@ -184,6 +184,8 @@
                                                                     </el-table-column>!-->
                         <el-table-column label='购买数量' show-overflow-tooltip>
                         </el-table-column>
+                        <el-table-column label='预约时间' show-overflow-tooltip>
+                        </el-table-column>
                         <!--<el-table-column label="单价" show-overflow-tooltip>
                                                                     </el-table-column>!-->
                         <!--<el-table-column label="实际单价" show-overflow-tooltip>
@@ -207,14 +209,19 @@
                         </el-table-column>
                         <!--<el-table-column prop="inventoryQuantity"  >
                         </el-table-column>!-->
-                        <el-table-column  >
-<template slot-scope="scope">
+                        <el-table-column  prop="num">
+<!--<template slot-scope="scope" >
     <div v-show="scope.row.trues=='yes'?false:true">
-        <!--<span style="width:20px;height:20px;line-height:20px;display:inline-block;border:1px solid #ddd; cursor:pointer;" @click='subFn(index)'>-</span>!-->
+        <span style="width:20px;height:20px;line-height:20px;display:inline-block;border:1px solid #ddd; cursor:pointer;" @click='subFn(index)'>-</span>
         <span style="width:30px;height:20px;display:inline-block;text-align:center;">{{scope.row.num}}</span>
-        <!--<span style="width:20px;height:20px;line-height:20px;display:inline-block;border:1px solid #ddd;cursor:pointer;" @click='addFn(index)'>+</span>!-->
+        <span style="width:20px;height:20px;line-height:20px;display:inline-block;border:1px solid #ddd;cursor:pointer;" @click='addFn(index)'>+</span>
     </div>
-</template>
+</template>!-->
+                        </el-table-column>
+                        <el-table-column  >
+                                 <template slot-scope="scope">
+                                    <span >{{appceTime(scope.row.id)}}</span>
+                                </template>
                         </el-table-column>
                         <!--<el-table-column prop="discount_price"  >
                         </el-table-column>
@@ -553,6 +560,12 @@
                 return obj.regionName
                 }
                
+            },
+            appceTime(id){
+                if(id){
+
+                }
+                return 2
             },
             submitForm(formName) {                   
             console.log()
@@ -1328,12 +1341,14 @@
                             let newArrId = 0;
                             let shopArrId = 0;
                             for (let i = 0; i < respone.data.info.length; i++) {
+                                console.log(respone.data.info[i])
                                 if (respone.data.info[i].commodityInfo.commodityInfos != null) {
                                     if (respone.data.info[i].commodityInfo.commodityInfos.length > null) {
                                         
                                         newArr.push({
                                             'name': respone.data.info[i].commodityName,
                                             'id': respone.data.info[i].commodityId,
+                                            'companyId': respone.data.info[i].companyId,
                                             'num': respone.data.info[i].saleNumber,
                                             'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
                                             'bg': '#f5f7fa',
@@ -1354,16 +1369,20 @@
                                     shopArr.push({
                                         'name': respone.data.info[i].commodityName,
                                         'id': respone.data.info[i].commodityId,
+                                        'companyId': respone.data.info[i].companyId,
                                         'num': respone.data.info[i].saleNumber,
                                         'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
                                         'trues': 'yes'
                                     })
                                 }
                             }
+                            console.log(shopArr)
+                            console.log(newArr)
                             this.ruleForm.pushAdd = [];
                             this.ruleForm.addBox = [];
                             this.ruleForm.addBox.push(shopArr);
                             this.ruleForm.addBox.push(newArr);
+                            
                         })
                         .catch(error => {
                             console.log(error);

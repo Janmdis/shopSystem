@@ -55,7 +55,7 @@
       };
     },
     beforeMount(){
-        this.$router.push("/order")
+        // this.$router.push("/order")
     },
   } 
 </script>

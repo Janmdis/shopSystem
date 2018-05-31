@@ -25,7 +25,7 @@
       };
     },
     beforeMount(){
-        this.$router.push("/depmanage")
+        // this.$router.push("/depmanage")
     },
   } 
 </script>
