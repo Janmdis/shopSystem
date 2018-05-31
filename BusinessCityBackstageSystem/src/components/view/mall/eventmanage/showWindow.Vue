@@ -131,7 +131,7 @@ import qs from 'qs'
                         trigger: 'blur'
                     }]
                 },
-                apis:'http://www.itchun.com/'
+                apis:'http://daojia.jingrunjia.com.cn/'
             };
         },
         methods: {

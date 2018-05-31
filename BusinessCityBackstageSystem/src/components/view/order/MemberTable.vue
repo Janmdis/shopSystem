@@ -60,7 +60,7 @@
         <el-table-column
         label="订单状态">
             <template slot-scope='scope'>
-                {{scope.row.orderState==1?'未完成':scope.row.orderState==2?'已完成':scope.row.orderState==3?'异常订单':scope.row.orderState==4?'退款中':scope.row.orderState==5?'退款完成':scope.row.orderState==6?'取消订单':scope.row.orderState==7?'退款驳回':1}}
+                {{scope.row.orderState==1?'未完成':scope.row.orderState==2?'已完成':scope.row.orderState==3?'异常订单':scope.row.orderState==4?'退款中':scope.row.orderState==5?'退款完成':scope.row.orderState==6?'取消订单':scope.row.orderState==7?'退款驳回':""}}
             </template>
         </el-table-column>
         <el-table-column

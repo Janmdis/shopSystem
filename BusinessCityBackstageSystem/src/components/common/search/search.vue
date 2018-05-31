@@ -757,7 +757,7 @@
                 showorder:this.type=='order',
                 showinvoice:this.type=='invoice',
                 showrefund:this.type=='refund',
-                
+                showworklist:this.type=='worklist',
                 propslog: {
                     label:'label',
                     value: 'depid',
