@@ -1,5 +1,5 @@
 <template>
-    <el-dialog id="editDatatemp" :title="title"  :before-close="closeDialog" :visible.sync="dialogVisible" width="50%">
+    <el-dialog id="editDatatemp" :title="title"  :before-close="closeDialog" :visible.sync="dialogVisible" width="50%" v-loading='loading'>
         <el-form :model="form"  ref="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
             <el-row>
                 <el-col :span='22'>
@@ -52,12 +52,16 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row style='text-align:center;'>
+            
+            <!-- <el-row style='text-align:center;'>
                 <el-col>
                     <el-button type="primary" @click="handleData">提交</el-button>
                 </el-col>
-            </el-row>
+            </el-row> -->
         </el-form>
+        <div slot="footer" class="dialog-footer" :center='true'>
+            <el-button type="primary" @click="handleData">提交</el-button>
+        </div>
     </el-dialog>
 </template>
 <script>
@@ -68,6 +72,7 @@ export default {
             dialogVisible:false,
             title:'添加时间模板',
             type:'add',
+            loading:false,
             form:{
                 templateId:'',
                 name:'',
@@ -106,6 +111,7 @@ export default {
     },
     methods:{
         getPerid(){
+            this.loading=true;
             let that=this;
             this.$http.post('/api/product/period/query',{
                 templateId:this.form.templateId
@@ -128,9 +134,11 @@ export default {
                 else{
                     that.$message(res.data.msg);
                 }
+                that.loading=false;
                 console.log(res);
             })
             .catch(err=>{
+                that.loading=false;
                 console.log(err);
             });
         },
@@ -172,15 +180,10 @@ export default {
             // }
         },
         deletedateperiod(index){
-            // if(this.type=='edit'){
-                // let result=this.periodlist_add.has(this.form.datalist[index]);
-                // if(!result.result){
-                //     this.periodlist_delete.push(this.form.datalist[index]);
-                // }
-                // else{
-                //     this.periodlist_add.splice(result.index,1);
-                // }
-            // }
+            if(this.form.datalist.length==1){
+                this.$message('最少保留一个时间段');
+                return;
+            }
             this.form.datalist.splice(index,1);
         },
         changedate(index){
@@ -198,11 +201,17 @@ export default {
                     return false;
                 } 
                 else {
+                    if(this.form.datalist.length==0){
+                        this.$message('至少设置一个时间段');
+                        return;
+                    }
+                    
                     let lastdata=this.form.datalist[this.form.datalist.length-1];
                     if(this.form.datalist[0].startTime==''||this.form.datalist[0].endTime==''||lastdata.startTime==''||lastdata.endTime==''){
                         this.$message('请将时间段填写完整');
                     }
                     else{
+                        this.loading=true;
                         let that=this;
                         let data={
                             name:this.form.name,
@@ -235,9 +244,11 @@ export default {
                             else{
                                 that.$message(res.data.msg);
                             }
+                            that.loading=false;
                             console.log(res);
                         })
                         .catch(err=>{
+                            that.loading=false;
                             console.log(err);
                         });
                     }
