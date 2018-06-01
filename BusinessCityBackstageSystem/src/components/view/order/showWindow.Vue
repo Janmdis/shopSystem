@@ -220,7 +220,7 @@
                         </el-table-column>
                         <el-table-column  >
 <template slot-scope="scope">
-    <span>{{appceTime(scope.row.id)}}</span>
+    <span>{{appceTime(scope.row.id,scope.row)}}</span>
 </template>
                         </el-table-column>
                         <!--<el-table-column prop="discount_price"  >
@@ -561,15 +561,18 @@
                     return obj.regionName
                 }
             },
-            appceTime(id) {
+            appceTime(id,el) {
+                console.log(el)
+                let tiem  = '';
                 if (id) {
                     let url = '/api/product/appointment/query';
                     this.$http({
                         url: url,
                         method: 'post',
                         data: {
-                            commodityId: id,
-                            accountId:this.vipId
+                            commodityId: el.orderId,
+                            accountId:this.vipId,
+
                         }
                     }).then(res => {
                         console.log(res)
@@ -1356,6 +1359,7 @@
                                             'id': respone.data.info[i].commodityId,
                                             'companyId': respone.data.info[i].companyId,
                                             'num': respone.data.info[i].saleNumber,
+                                            'orderId': respone.data.info[i].orderId,
                                             'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
                                             'bg': '#f5f7fa',
                                             'trues': 'yes'
@@ -1365,6 +1369,7 @@
                                                 'name': respone.data.info[i].commodityInfo.commodityInfos[j].name,
                                                 'id': respone.data.info[i].commodityInfo.commodityInfos[j].id,
                                                 'num': respone.data.info[i].commodityInfo.commodityInfos[j].saleNumber,
+                                                'orderId': respone.data.info[i].orderId,
                                                 'displayQuantity': respone.data.info[i].commodityInfo.commodityInfos[j].displayQuantity, //数量
                                                 'bg': '#f5f7fa',
                                                 'trues': 'yes'
@@ -1377,6 +1382,7 @@
                                         'id': respone.data.info[i].commodityId,
                                         'companyId': respone.data.info[i].companyId,
                                         'num': respone.data.info[i].saleNumber,
+                                        'orderId': respone.data.info[i].orderId,
                                         'displayQuantity': respone.data.info[i].commodityInfo.displayQuantity,
                                         'trues': 'yes'
                                     })

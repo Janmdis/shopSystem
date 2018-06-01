@@ -222,7 +222,9 @@
                         that.listLoading = false
                         that.datalist = (response.data.info.list);
                         that.datalist.forEach(item=>{
-                            item.recommendedTeamName = item.recommendedTeam.name
+                            if(item){
+                                 item.recommendedTeamName = item.recommendedTeam.name
+                            }
                         })
                         this.searchLabel(that.datalist);
                         for (let name in this.datalist) {

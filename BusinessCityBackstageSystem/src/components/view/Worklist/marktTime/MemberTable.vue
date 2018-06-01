@@ -1226,6 +1226,7 @@
                             if (response.data.status == 200) {
                                 this.$message(response.data.msg)
                                 if (response.data.info) {
+                                    console.log(response.data.info)
                                     let newDay = that.textBox
                                     let dayBox = []
                                     let dataTime = '';
@@ -1236,17 +1237,23 @@
                                         for(var i =0;i<item.shopBox.length;i++){
                                              newidBox.push(item.shopBox[i][0].id)
                                         }
-                                        let dataInf = {
-                                            startTime: newdate + " " + item.startTime,
-                                            endTime: newdate + " " + item.endTime,
-                                            orderDetailId: response.data.info.id,
-                                            accountId: that.userVip, //会员id
-                                            templateId: item.templateId, //膜版id
-                                            companyId: response.data.info.companyId, //公司id
-                                            commodityId:newidBox.toString().replace(/[|]/g,""),
-                                            periodId:item.id
+                                        if(newidBox){
+                                            newidBox.forEach(items=>{
+                                                let dataInf = {
+                                                    startTime: newdate + " " + item.startTime,
+                                                    endTime: newdate + " " + item.endTime,
+                                                    orderDetailId: response.data.info.id,
+                                                    accountId: that.userVip, //会员id
+                                                    templateId: item.templateId, //膜版id
+                                                    companyId: response.data.info.companyId, //公司id
+                                                    commodityId:items,
+                                                    periodId:item.id
+                                                }
+                                         dayBox.push(dataInf)
+                                            })
                                         }
-                                        dayBox.push(dataInf)
+                                        
+                                       
                                     })
                                     let url = "/api/product/appointment/insert?weekDay="+dataTime
                                     this.$http({
