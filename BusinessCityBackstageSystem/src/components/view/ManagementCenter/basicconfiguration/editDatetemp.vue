@@ -113,7 +113,7 @@ export default {
             .then(res=>{
                 if(res.data.status==200){
                     that.form.datalist=[];
-                    res.data.info.list.forEach((item,index)=>{
+                    res.data.info.list[1].forEach((item,index)=>{
                         let json={
                             id:item.id,
                             startTime:item.startTime,

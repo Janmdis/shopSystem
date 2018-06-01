@@ -9,8 +9,8 @@ import 'babel-polyfill'
 import echarts from 'echarts'
 import axios from 'axios'
 import store from './store'
-import Blob from './excel/Blob.js'
-import Export2Excel from './excel/Export2Excel.js'
+// import Blob from './excel/Blob.js'
+// import Export2Excel from './excel/Export2Excel.js'
 
 
 // fade/zoom 等
