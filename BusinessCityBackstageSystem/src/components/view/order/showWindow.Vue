@@ -465,6 +465,7 @@
                 countyInfo: [],
                 streetInfo: [],
                 bigDisId: {},
+                titems:'',
                 proDisId: {},
                 cityDisId: {},
                 ruleForm: {
@@ -564,23 +565,36 @@
             appceTime(id,el) {
                 console.log(el)
                 let tiem  = '';
-                if (id) {
+                let that = this;
+                let getdata = new Promise(function(rel, rej) {
                     let url = '/api/product/appointment/query';
-                    this.$http({
+                    that.$http({
                         url: url,
-                        method: 'post',
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
                         data: {
-                            commodityId: el.orderId,
-                            accountId:this.vipId,
-
+                            orderDetailId: el.orderId,
+                            accountId:that.vipId,
                         }
-                    }).then(res => {
-                        console.log(res)
-                    }).catch(err => {
-                        console.log(err)
+                    }).then(response => {
+                        rel(response)
+                    }).catch(error => {
+                        rej(error)
                     })
-                }
-                return 2
+                })
+                  getdata.then(function(result) {
+                    result.data.info.list.forEach(item=>{
+                            if(item.commodityId==id){
+                               that.titems = (item.startTime+'  '+item.endTime)
+                            }
+                        })
+                }).catch(function(errmsg) {
+                    console.log(errmsg)
+                })
+            return (that.titems)
+                
             },
             submitForm(formName) {
                 console.log()

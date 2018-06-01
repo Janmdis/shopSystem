@@ -80,9 +80,9 @@
                         <el-form-item class="visit-item" label="生日:" prop="userBirth">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.userBirth"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item" label="录入人:" prop="writer">
+                        <!--<el-form-item class="visit-item" label="录入人:" prop="writer">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.writer"></el-input>
-                        </el-form-item>
+                        </el-form-item>!-->
                         <el-form-item class="visit-item" label="录入时间:" prop="inputTime">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.inputTime"></el-input>
                         </el-form-item>

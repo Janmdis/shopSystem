@@ -6,16 +6,18 @@
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
                                 </el-table-column> -->
-        <el-table-column prop="nickname" fixed width='200' label="客户姓名">
+        <el-table-column prop="name" fixed width='200' label="客户姓名">
+        </el-table-column>
+        <el-table-column prop="nickname" fixed width='200' label="客户昵称">
         </el-table-column>
         <el-table-column prop="mobile" width='120' label="手机号">
         </el-table-column>
         <el-table-column label="客户类型">
             <template slot-scope='scope'>
-                                        <span >
-                                       {{scope.row.customerCategory}}
-                                        </span>
-</template>
+                <span >
+                {{scope.row.customerCategory}}
+                </span>
+            </template>
         </el-table-column>
         <el-table-column
         prop='cityName'
@@ -222,7 +224,7 @@
                         that.listLoading = false
                         that.datalist = (response.data.info.list);
                         that.datalist.forEach(item=>{
-                            if(item){
+                            if(item.recommendedTeam){
                                  item.recommendedTeamName = item.recommendedTeam.name
                             }
                         })
