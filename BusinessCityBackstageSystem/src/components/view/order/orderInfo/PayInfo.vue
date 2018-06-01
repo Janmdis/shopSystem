@@ -118,13 +118,14 @@
                    this.thisData = data;
                    this.applyRefundTime = data.applyRefundTime
                    this.briefReason = data.briefReason
+                   console.log(data)
                    let retype = ''
-                   if(data.payType==1){
-                       retype = '支付宝'
-                   }else if(data.payType==2){
-                       retype = '微信'
+                   if(data.payState==1){
+                       retype = '已支付'
+                   }else if(data.payState==2){
+                       retype = '未支付'
                    }else{
-                        retype = '管家代收'
+                        retype = '已过期'
                    }
                    if(data.orderState==7){
                        this.playState = '驳回'
