@@ -1108,7 +1108,7 @@ export default {
             this.$http.post('/api/product/period/query',{templateId:templateId})
             .then(function(response){
                 if(response.data.status==200){
-                    let list=response.data.info.list;
+                    let list=response.data.info.list[1];
                     list.forEach(item=>{
                         let json={
                             id:item.id,
