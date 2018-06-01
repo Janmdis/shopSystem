@@ -17,7 +17,7 @@
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-col v-if='indexs == tempalteTimeBox.length-1' class='boxSize' @click.native="addTempalet()">
+                                    <el-col v-if='indexs == tempalteTimeBox.length-1'  class='boxSize' @click.native="addTempalet()">
                                         <i class='icon iconfont icon-tianjia'></i>
                                     </el-col>
                                     <el-col v-else class='boxSize' @click.native="removeTempalet(indexs)">
@@ -1175,6 +1175,7 @@
                 }
                 if(!this.userVip){
                     this.$message("请选择联系人或创建会员");
+                    return false
                 }
                 if (arrBox.length <= 0) {
                     this.$message("请填写日期和商品");
@@ -1227,8 +1228,10 @@
                                 if (response.data.info) {
                                     let newDay = that.textBox
                                     let dayBox = []
+                                    let dataTime = '';
                                     newDay.forEach((item, index) => {
                                         let newdate = item.newDate.replace(/\//g, "-");
+                                        dataTime = newdate
                                         let newidBox=[];
                                         for(var i =0;i<item.shopBox.length;i++){
                                              newidBox.push(item.shopBox[i][0].id)
@@ -1245,7 +1248,7 @@
                                         }
                                         dayBox.push(dataInf)
                                     })
-                                    let url = "/api/product/appointment/insert"
+                                    let url = "/api/product/appointment/insert?weekDay="+dataTime
                                     this.$http({
                                         url: url,
                                         method: 'POST',
@@ -1410,7 +1413,9 @@
     .el-checkbox+.el-checkbox {
         margin-left: 0;
     }
-    .boxSize {}
+    .boxSize {
+        width:30px;
+    }
     .boxSize i {
         color: #3caefa;
         font-size: 30px;

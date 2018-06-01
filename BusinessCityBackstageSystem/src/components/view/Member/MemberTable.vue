@@ -48,7 +48,7 @@
         label="推荐人" 
        >
         <template slot-scope='scope'>
-        {{ scope.row.textIfon!=null?scope.row.textIfon:scope.row.recommendedTeam}}
+        {{ scope.row.recommendedTeamName?scope.row.recommendedTeamName:scope.row.textIfon}}
         </template>
         </el-table-column>
         <el-table-column
@@ -221,7 +221,9 @@
                     .then(response => {
                         that.listLoading = false
                         that.datalist = (response.data.info.list);
-                        console.log(that.datalist)
+                        that.datalist.forEach(item=>{
+                            item.recommendedTeamName = item.recommendedTeam.name
+                        })
                         this.searchLabel(that.datalist);
                         for (let name in this.datalist) {
                             this.idBox.push(this.datalist[name].estateId)
