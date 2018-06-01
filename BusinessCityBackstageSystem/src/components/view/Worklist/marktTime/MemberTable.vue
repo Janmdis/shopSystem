@@ -39,9 +39,9 @@
                             <el-col :span="16">
                                 <div class="grid-content bg-purple">
                                     <el-checkbox-group v-model="items.checkList" v-for='(gooditem,index) in items.times' :key="index" @change="handleCheckedCitiesChange" style="width:200px;">
-                                        <el-checkbox :label="gooditem" @change="changeBox(this)" :disabled="gooditem.pCount==0">
+                                        <el-checkbox :label="gooditem" @change="changeBox(this)" :disabled="gooditem.yl==0">
                                             {{gooditem.startTime+"-"+gooditem.endTime}}
-                                            <span style="position:relative;right:-100px;">{{gooditem.pCount}}</span>
+                                            <span style="position:relative;right:-100px;">{{gooditem.yl}}</span>
                                         </el-checkbox>
                                     </el-checkbox-group>
                                 </div>
@@ -64,7 +64,7 @@
                                 </p>
                             </el-col>
                             <el-col :span='5'>
-                                <p>&nbsp;&nbsp;余 : {{item.pCount-1}}</p>
+                                <p>&nbsp;&nbsp;余 : {{item.yl-1}}</p>
                                 <el-button @click="delBox(index)">删除</el-button>
                             </el-col>
                             <el-col :span='18'>
@@ -921,13 +921,17 @@
                     url: url,
                     method: "post",
                     data: {
-                        templateId: id
+                        templateId: id,
+                        date:this.newDate
                     },
                 }).then(respone => {
                     if (respone.data.info.list) {
                         let data = respone.data.info.list;
-                        if (data) {
-                            data.forEach((item, index) => {
+                        data[0].forEach((items,indexs)=>{
+                            data[1][indexs].yl = items
+                        })
+                        if ( data[1]) {
+                             data[1].forEach((item, index) => {
                                 item.newDate = this.newDate
                                 item.name = this.templaetName
                                 item.shopBox = '',
@@ -935,8 +939,11 @@
                                 item.isTrue = this.newDate + item.startTime + item.id
                             })
                         }
-                        this.tempalteTimeBox[index].times = data;
-                        this.$set(this.tempalteTimeBox[index].times, data)
+                        
+                        
+                        
+                        this.tempalteTimeBox[index].times = data[1];
+                        this.$set(this.tempalteTimeBox[index].times, data[1])
                     }
                 }).catch(error => {
                     console.log(error)

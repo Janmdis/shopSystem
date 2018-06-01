@@ -563,7 +563,19 @@
             },
             appceTime(id){
                 if(id){
-
+                    let url  = '/api/product/appointment/query';
+                    this.$http({
+                        url:url,
+                        method:'post',
+                        data:{
+                            commodityId:id,
+                            accountId:JSON.parse(sessionStorage.getItem("userInfo")).id
+                        }
+                    }).then(res=>{
+                        console.log(res)
+                    }).catch(err=>{
+                        console.log(err)
+                    })
                 }
                 return 2
             },
@@ -871,7 +883,6 @@
                             if (flag) {
                                 let newArr = [];
                                 newArr.push(this.ruleForm.newBox[0]);
-                                console.log(this.shopNum)
                                 this.ruleForm.newBox[0].num = this.shopNum
                                 //this.newnums.push(1)
                                 // this.$set(this.newnums,index,1);
