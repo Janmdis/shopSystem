@@ -46,7 +46,10 @@
         </el-table-column>
         <el-table-column
         label="推荐人" 
-        prop='textIfon'>
+       >
+        <template slot-scope='scope'>
+        {{ scope.row.recommendedTeamName?scope.row.recommendedTeamName:scope.row.textIfon}}
+        </template>
         </el-table-column>
         <el-table-column
         width='500'
@@ -91,6 +94,7 @@
                 findSource: [],
                 address: [],
                 idBox: [],
+                handleSelect:'',
                 cArr: '',
                 textIfon: '',
                 orderState: '',
@@ -137,6 +141,7 @@
             this.$store.dispatch('getOrigin');
         },
         methods: {
+            handleSelect(){},
             getMember(id, obj) {
                 // console.log(id)
                 // console.log(obj)
@@ -216,7 +221,11 @@
                     .then(response => {
                         that.listLoading = false
                         that.datalist = (response.data.info.list);
-                        console.log(that.datalist)
+                        that.datalist.forEach(item=>{
+                            if(item){
+                                 item.recommendedTeamName = item.recommendedTeam.name
+                            }
+                        })
                         this.searchLabel(that.datalist);
                         for (let name in this.datalist) {
                             this.idBox.push(this.datalist[name].estateId)
@@ -250,7 +259,7 @@
                                 newArrS.push(response.data.info)
                                 for (let k in response.data.info) {
                                     if (response.data.info[k]) {
-                                        response.data.info[k] = '后台--' + response.data.info[k]
+                                        response.data.info[k] = '前台--' + response.data.info[k]
                                     }
                                 }
                                 let url2 = '/api/admin/account/queryListByIds?key=id&value=adminName';
@@ -268,7 +277,7 @@
                                         newArrS.push(response.data.info);
                                         for (let k in response.data.info) {
                                             if (response.data.info[k]) {
-                                                response.data.info[k] = '前台--' + response.data.info[k]
+                                                response.data.info[k] = '后台--' + response.data.info[k]
                                             }
                                         }
                                         that.cArr = this.extend({}, [newArrS[0], newArrS[1]]);

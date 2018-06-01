@@ -17,7 +17,7 @@
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-col v-if='indexs == tempalteTimeBox.length-1' class='boxSize' @click.native="addTempalet()">
+                                    <el-col v-if='indexs == tempalteTimeBox.length-1'  class='boxSize' @click.native="addTempalet()">
                                         <i class='icon iconfont icon-tianjia'></i>
                                     </el-col>
                                     <el-col v-else class='boxSize' @click.native="removeTempalet(indexs)">
@@ -39,9 +39,9 @@
                             <el-col :span="16">
                                 <div class="grid-content bg-purple">
                                     <el-checkbox-group v-model="items.checkList" v-for='(gooditem,index) in items.times' :key="index" @change="handleCheckedCitiesChange" style="width:200px;">
-                                        <el-checkbox :label="gooditem" @change="changeBox(this)" :disabled="gooditem.pCount==0">
+                                        <el-checkbox :label="gooditem" @change="changeBox(this)" :disabled="gooditem.yl==0">
                                             {{gooditem.startTime+"-"+gooditem.endTime}}
-                                            <span style="position:relative;right:-100px;">{{gooditem.pCount}}</span>
+                                            <span style="position:relative;right:-100px;">{{gooditem.yl}}</span>
                                         </el-checkbox>
                                     </el-checkbox-group>
                                 </div>
@@ -64,7 +64,7 @@
                                 </p>
                             </el-col>
                             <el-col :span='5'>
-                                <p>&nbsp;&nbsp;余 : {{item.pCount-1}}</p>
+                                <p>&nbsp;&nbsp;余 : {{item.yl-1}}</p>
                                 <el-button @click="delBox(index)">删除</el-button>
                             </el-col>
                             <el-col :span='18'>
@@ -921,13 +921,17 @@
                     url: url,
                     method: "post",
                     data: {
-                        templateId: id
+                        templateId: id,
+                        date:this.newDate
                     },
                 }).then(respone => {
                     if (respone.data.info.list) {
                         let data = respone.data.info.list;
-                        if (data) {
-                            data.forEach((item, index) => {
+                        data[0].forEach((items,indexs)=>{
+                            data[1][indexs].yl = items
+                        })
+                        if ( data[1]) {
+                             data[1].forEach((item, index) => {
                                 item.newDate = this.newDate
                                 item.name = this.templaetName
                                 item.shopBox = '',
@@ -935,8 +939,11 @@
                                 item.isTrue = this.newDate + item.startTime + item.id
                             })
                         }
-                        this.tempalteTimeBox[index].times = data;
-                        this.$set(this.tempalteTimeBox[index].times, data)
+                        
+                        
+                        
+                        this.tempalteTimeBox[index].times = data[1];
+                        this.$set(this.tempalteTimeBox[index].times, data[1])
                     }
                 }).catch(error => {
                     console.log(error)
@@ -1168,6 +1175,7 @@
                 }
                 if(!this.userVip){
                     this.$message("请选择联系人或创建会员");
+                    return false
                 }
                 if (arrBox.length <= 0) {
                     this.$message("请填写日期和商品");
@@ -1218,27 +1226,36 @@
                             if (response.data.status == 200) {
                                 this.$message(response.data.msg)
                                 if (response.data.info) {
+                                    console.log(response.data.info)
                                     let newDay = that.textBox
                                     let dayBox = []
+                                    let dataTime = '';
                                     newDay.forEach((item, index) => {
                                         let newdate = item.newDate.replace(/\//g, "-");
+                                        dataTime = newdate
                                         let newidBox=[];
                                         for(var i =0;i<item.shopBox.length;i++){
                                              newidBox.push(item.shopBox[i][0].id)
                                         }
-                                        let dataInf = {
-                                            startTime: newdate + " " + item.startTime,
-                                            endTime: newdate + " " + item.endTime,
-                                            orderDetailId: response.data.info.id,
-                                            accountId: that.userVip, //会员id
-                                            templateId: item.templateId, //膜版id
-                                            companyId: response.data.info.companyId, //公司id
-                                            commodityId:newidBox.toString().replace(/[|]/g,""),
-                                            periodId:item.id
+                                        if(newidBox){
+                                            newidBox.forEach(items=>{
+                                                let dataInf = {
+                                                    startTime: newdate + " " + item.startTime,
+                                                    endTime: newdate + " " + item.endTime,
+                                                    orderDetailId: response.data.info.id,
+                                                    accountId: that.userVip, //会员id
+                                                    templateId: item.templateId, //膜版id
+                                                    companyId: response.data.info.companyId, //公司id
+                                                    commodityId:items,
+                                                    periodId:item.id
+                                                }
+                                         dayBox.push(dataInf)
+                                            })
                                         }
-                                        dayBox.push(dataInf)
+                                        
+                                       
                                     })
-                                    let url = "/api/product/appointment/insert"
+                                    let url = "/api/product/appointment/insert?weekDay="+dataTime
                                     this.$http({
                                         url: url,
                                         method: 'POST',
@@ -1403,7 +1420,9 @@
     .el-checkbox+.el-checkbox {
         margin-left: 0;
     }
-    .boxSize {}
+    .boxSize {
+        width:30px;
+    }
     .boxSize i {
         color: #3caefa;
         font-size: 30px;

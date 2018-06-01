@@ -200,7 +200,6 @@
                     });
             },
             bigDis() {
-                alert("..")
                 console.log(this.houseForm.room);
                 let that = this;
                 that.proDisId = {};
