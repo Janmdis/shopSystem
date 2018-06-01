@@ -224,7 +224,7 @@
                         that.listLoading = false
                         that.datalist = (response.data.info.list);
                         that.datalist.forEach(item=>{
-                            if(item){
+                            if(item.recommendedTeam){
                                  item.recommendedTeamName = item.recommendedTeam.name
                             }
                         })
