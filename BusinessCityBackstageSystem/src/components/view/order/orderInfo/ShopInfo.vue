@@ -16,7 +16,7 @@
                 </el-table-column>
                 <el-table-column prop="commodityInfo.currentPrice" label="状态">
                     <template slot-scope='scope'>
-                                        <span>{{scope.row.isService?(scope.row.serviceState==1?"未服务":scope.row.serviceState==2?"服务中":'已完成'):(scope.row.orderState==1?"未完成":scope.row.orderState==2?"已完成":scope.row.orderState==3?"异常订单":scope.row.orderState==4?"退款中":scope.row.orderState==5?"退款完成":"取消订单")}}</span>
+                                        <span>{{scope.row.isService?(scope.row.serviceState==1?"未服务":scope.row.serviceState==2?"服务中":'已完成'):(scope.row.orderState==1?"未完成":scope.row.orderState==2?"已完成":scope.row.orderState==3?"异常订单":scope.row.orderState==4?"退款中":scope.row.orderState==5?"退款完成":"")}}</span>
 </template>
                 </el-table-column>
                 <el-table-column
@@ -116,6 +116,10 @@
                 this.dialogVisible = false;
             },
             showBoxInfo(isService, serviceState, orderState,id) {
+                console.log(isService)
+                console.log(serviceState)
+                console.log(orderState)
+                console.log(id)
                 this.dialogVisible = true;
                 this.isServices = serviceState
                 this.isOrder = orderState
