@@ -179,6 +179,11 @@ export default new Router({
                     path: 'constituent', // 字条列表
                     name: 'constituent',
                    component: resolve => require(['@/components/view/Worklist/constituent/constituent.vue'], resolve)
+                },
+                {
+                    path: 'assignedAppointment', //指派工单
+                    name: 'assignedAppointment',
+                    component: resolve => require(['@/components/view/Worklist/assignedAppointment/assignedAppointment.vue'], resolve)
                 }
             ]
 
