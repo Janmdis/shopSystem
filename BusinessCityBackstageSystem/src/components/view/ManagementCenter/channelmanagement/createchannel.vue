@@ -403,12 +403,12 @@ export default {
                         resolve(true);
                     }
                     else{
-                        resolve(fale);
+                        resolve(false);
                     }
                 })
                 .catch(function(response){
                     console.log(response);
-                    resolve(fale);
+                    resolve(false);
                 });
             });
             
