@@ -12,7 +12,7 @@ export default {
     data() {
         return {
             valuesearch: '',
-            namepage: '消息中心',
+            namepage: '词条列表',
             currentPage1: 1,
             searchFn: '',
             isActive: false,
@@ -153,7 +153,6 @@ export default {
                     //  }),
                 })
                 .then(response => {
-                    console.log(response)
                         //  this.listLoading =  false;
                     this.datalist = (response.data.info.list);
                     this.$root.$emit('dataListBox', this.datalist)

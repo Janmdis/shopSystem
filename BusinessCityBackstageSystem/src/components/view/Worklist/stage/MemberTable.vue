@@ -22,12 +22,12 @@
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column> -->
         <el-table-column
-        prop="title"
+        prop="stagename"
         label="阶段名称"
         >
         </el-table-column>
         <el-table-column
-        prop="content"
+        prop="remark"
         label="描述">
         </el-table-column>
         
@@ -35,7 +35,7 @@
         prop="types"
         label="操作">
          <template slot-scope="scope">
-            <!--<el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>!-->
+            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
         </el-table-column> 
@@ -86,7 +86,7 @@ export default {
                     type: 'success',
                     message: '删除成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/public/message/record/removeByIds',
+                    onClose:that.$http.post('/api/public/articles/removeByIds',
                         [row.id]
                     ).then(res => {
                         console.log(res.data.msg);
@@ -106,7 +106,7 @@ export default {
         },
         getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/public/message/record/query?page='+(pageIndex?pageIndex:1)+'&pageSize=10'
+            let url = '/api/public/articles/query?page='+(pageIndex?pageIndex:1)+'&pageSize=10'
             this.$http({
                 url: url,
                 method: 'post',

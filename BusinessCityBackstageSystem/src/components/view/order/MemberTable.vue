@@ -164,7 +164,6 @@ export default {
                     '/api/product/order/queryPageList',
                     {id:row.id}
                 ).then(res => {
-                    console.log(res)
                     if(res.data.status == 200){
                         that.$root.$emit('orderCoverShow',that.showLeft)
                         that.$root.$emit('searchOrderInfo',[row.id,res.data.info.list[0]]);

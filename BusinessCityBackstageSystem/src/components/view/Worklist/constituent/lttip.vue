@@ -34,7 +34,7 @@ export default {
         this.$root.$on('showlttip',(data)=>{
             console.log(data)
             data.datas.forEach(item=>{
-                this.dataInfo.push(item.id)
+                this.dataInfo.push(item.standardId)
             })
             var dom=document.getElementsByClassName('emendation')[0];
             // let dom_edit=document.getElementById('modificationBtn');
@@ -61,7 +61,7 @@ export default {
                     type: 'success',
                     message: '删除成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/public/message/record/removeByIds',
+                    onClose:that.$http.post('/api/public/Standard/removeByIds',
                          this.dataInfo
                     ).then(res => {
                         console.log(res.data.msg);

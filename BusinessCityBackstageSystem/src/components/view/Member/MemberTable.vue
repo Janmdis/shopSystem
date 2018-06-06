@@ -15,7 +15,7 @@
         <el-table-column label="客户类型">
             <template slot-scope='scope'>
                 <span >
-                {{scope.row.customerCategory}}
+                {{getinfo(scope.row.customerCategory)}}
                 </span>
             </template>
         </el-table-column>
@@ -42,7 +42,7 @@
         label="来源">
 <template slot-scope='scope'>
     <span>
-                         {{scope.row.customerRecommendedSource}}
+                         {{getinfos(scope.row.customerRecommendedSource)}}
                         </span>
 </template>
         </el-table-column>
@@ -143,6 +143,20 @@
             this.$store.dispatch('getOrigin');
         },
         methods: {
+            getinfo(val){
+                let text = '';
+                if(val){
+                    text = val.name
+                }
+                return text;
+            },
+            getinfos(val){
+                 let text = '';
+                if(val){
+                    text = val.name
+                }
+                return text;
+            },
             handleSelect(){},
             getMember(id, obj) {
                 // console.log(id)

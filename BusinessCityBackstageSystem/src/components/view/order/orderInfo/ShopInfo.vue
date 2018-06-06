@@ -16,13 +16,13 @@
                 </el-table-column>
                 <el-table-column prop="commodityInfo.currentPrice" label="状态">
                     <template slot-scope='scope'>
-                                        <span>{{scope.row.isService?(scope.row.serviceState==1?"未服务":scope.row.serviceState==2?"服务中":'已完成'):(scope.row.orderState==1?"未完成":scope.row.orderState==2?"已完成":scope.row.orderState==3?"异常订单":scope.row.orderState==4?"退款中":scope.row.orderState==5?"退款完成":"")}}</span>
+                                        <span @click='showBoxInfo(scope.row.isService,scope.row.serviceState,scope.row.orderState,scope.row.id)' >{{scope.row.isService==null?(scope.row.serviceState==1?"未服务":scope.row.serviceState==2?"服务中":'已完成'):(scope.row.orderState==1?"未完成":scope.row.orderState==2?"已完成":scope.row.orderState==3?"异常订单":scope.row.orderState==4?"退款中":scope.row.orderState==5?"退款完成":"")}}</span>
 </template>
                 </el-table-column>
                 <el-table-column
-                label="操作">
+                label="服务时间">
 <template slot-scope='scope'>
-    <span @click='showBoxInfo(scope.row.isService,scope.row.serviceState,scope.row.orderState,scope.row.id)'>编辑</span>
+    <span></span>
 </template>
                 </el-table-column>
             </el-table>

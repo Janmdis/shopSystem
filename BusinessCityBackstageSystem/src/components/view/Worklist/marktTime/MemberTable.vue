@@ -13,7 +13,7 @@
                             <el-form :inline="true" class="demo-form-inline">
                                 <el-form-item>
                                     <el-select v-model="items.region" placeholder="请选择预约膜版" @change='getTempId(indexs,items.region)'>
-                                        <el-option v-for='(item,index) in tempalteTime' @click.native='getTempIds(item.name)' :key='index' :label="item.name" :value="item.id"></el-option>
+                                        <el-option v-for='(item,index) in tempalteTime' @change.native='getTempIds(item.name)' :key='index' :label="item.name" :value="item.id"></el-option>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item>
@@ -1308,7 +1308,6 @@
                                                 that.textBox = [],
                                                 that.templaetName = '',
                                                 that.regionNames = '',
-                                                that.newDate = '',
                                                 that.ruleForm = {
                                                     createTime: '',
                                                     isShoAdd: false,

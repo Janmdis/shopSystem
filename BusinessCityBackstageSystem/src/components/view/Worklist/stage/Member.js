@@ -12,7 +12,7 @@ export default {
     data() {
         return {
             valuesearch: '',
-            namepage: '消息中心',
+            namepage: '阶段列表',
             currentPage1: 1,
             searchFn: '',
             isActive: false,

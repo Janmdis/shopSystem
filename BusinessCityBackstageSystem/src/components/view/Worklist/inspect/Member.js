@@ -12,7 +12,7 @@ export default {
     data() {
         return {
             valuesearch: '',
-            namepage: '消息中心',
+            namepage: '检查项列表',
             currentPage1: 1,
             searchFn: '',
             isActive: false,
@@ -99,7 +99,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$http.post('/api/customer/account/remove', this.delArr)
+                this.$http.post('/api/public/entryitem/removeByIds', this.delArr)
                     .then(function(response) {
                         console.log(response);
                         if (response.data.msg == '删除成功') {
