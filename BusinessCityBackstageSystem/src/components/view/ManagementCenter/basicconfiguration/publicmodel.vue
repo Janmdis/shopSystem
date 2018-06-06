@@ -46,6 +46,10 @@ export default {
         },
         findInfo(index,i){
             this.$root.$emit('loadInfo',true);
+            // 去掉编辑按钮
+            if(index!=1){
+                this.$root.$emit('editable_no');
+            }
             this.getDate(index,i);
         },
         getDate(index,i) {
