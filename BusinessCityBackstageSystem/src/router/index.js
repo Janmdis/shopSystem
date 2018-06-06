@@ -164,6 +164,26 @@ export default new Router({
                     path: 'marktTime', // 预约面板
                     name: 'marktTime',
                     component: resolve => require(['@/components/view/Worklist/marktTime/marktTime.vue'], resolve)
+                },
+                {
+                    path: 'stage', // 阶段列表
+                    name: 'stage',
+                    component: resolve => require(['@/components/view/Worklist/stage/stage.vue'], resolve)
+                },
+                {
+                    path: 'inspect', // 检查项列表
+                    name: 'inspect',
+                    component: resolve => require(['@/components/view/Worklist/inspect/inspect.vue'], resolve)
+                },
+                {
+                    path: 'constituent', // 字条列表
+                    name: 'constituent',
+                   component: resolve => require(['@/components/view/Worklist/constituent/constituent.vue'], resolve)
+                },
+                {
+                    path: 'assignedAppointment', //指派工单
+                    name: 'assignedAppointment',
+                    component: resolve => require(['@/components/view/Worklist/assignedAppointment/assignedAppointment.vue'], resolve)
                 }
             ]
 

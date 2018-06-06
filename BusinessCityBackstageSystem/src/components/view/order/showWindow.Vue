@@ -611,6 +611,7 @@
                             'commodityName': this.ruleForm.addBox[i][0].name,
                             'commodityId': this.ruleForm.addBox[i][0].id,
                             'saleNumber': this.ruleForm.addBox[i][0].num - 0,
+                            "serviceState":1
                         })
                     }
                 }

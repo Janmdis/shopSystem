@@ -164,13 +164,13 @@
                                 <span>商品/活动信息</span>
                             </el-row>
                             <el-row>
-                                <el-col :span='6'>
+                                <!--<el-col :span='6'>
                                     <el-form-item label="分类">
                                         <el-select v-model="ruleForm.classification" placeholder="请选择样式" @change='changes'>
                                             <el-option v-for=' (item,index) in this.ruleForm.classificationBox' :companyIds='item.companyId' :key="index" :label='item.name' :value="item.id"></el-option>
                                         </el-select>
                                     </el-form-item>
-                                </el-col>
+                                </el-col>!-->
                                 <el-col :span='8'>
                                     <el-form-item label="商品">
                                         <el-select v-model="ruleForm.shop" placeholder="请选择样式" @change='changeTable'>
@@ -285,6 +285,7 @@
     export default {
         data() {
             return {
+                periodTemplateId:'',
                 tempatelAddShopp: '',
                 tempatelAddShoppid: '',
                 userVip: '',
@@ -725,6 +726,7 @@
                     this.ruleForm.addBox = this.tempatelAddShopp[this.tempatelAddShoppId].shopBox
                 }
                 this.dialogVisible = true;
+                this.getShopBox();
             },
             showShowAdd() {
                 this.form.isShoAdd = true;
@@ -842,7 +844,7 @@
                 }
             },
             changes() {
-                this.getShopBox();
+                
             },
             getShopBox() {
                 let url = 'api/product/commodity/info/query';
@@ -853,7 +855,8 @@
                         //     'Content-Type': ' application/x-www-form-urlencoded'
                         // },
                         data: {
-                            categoryId: this.ruleForm.classification
+                            // categoryId: this.ruleForm.classification
+                            periodTemplateId:this.periodTemplateId
                         }
                     })
                     .then(respone => {
@@ -916,13 +919,14 @@
                 this.templaetName = name
             },
             getTempId(index, id, name) { //膜版选中后的数据
+            this.periodTemplateId = id
                 var url = '/api/product/period/query';
                 this.$http({
                     url: url,
                     method: "post",
                     data: {
                         templateId: id,
-                        date:this.newDate
+                        date:this.newDate.replace(/\//g,'-')
                     },
                 }).then(respone => {
                     if (respone.data.info.list) {
@@ -1164,6 +1168,7 @@
                             'commodityName': newBox[i][0].name,
                             'commodityId': newBox[i][0].id,
                             'saleNumber': newBox[i][0].num - 0,
+                            "serviceState":1
                         })
                     }
                 }
