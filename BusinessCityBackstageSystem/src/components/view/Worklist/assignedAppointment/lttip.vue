@@ -4,17 +4,19 @@
             <h3 class="listName pull-left">{{listname}}
                 <i class="icon-double-angle-right"></i>
             </h3>
-            <el-button type="primary" :class="{'btn-search':true,'el-icon-arrow-down':searchtext=='展开搜索','el-icon-arrow-up':searchtext=='收起搜索'}"  size="mini" @click="switchsearch">{{searchtext}}</el-button>
             <ul class="emendation">
-                <li>已选中<span class="nums">0</span>项</li>
+                 <li>已选中<span class="nums">0</span>项</li>
                 <li id="modificationBtn" class='other' @click="edit">
                     <i class='el-icon-edit-outline'></i> 编辑
                 </li>
+                <li id="swicthTrue" class='other' data-toggle="modal" data-target="#delModal" @click="swicthOFF">
+                    <i class='icon iconfont icon-plus-start'></i> 启用
+                </li>
+                <li class='other' data-toggle="modal" data-target="#delModal" @click="swicthStop">
+                    <i class='icon iconfont icon-tingyong'></i> 停用
+                </li>
                 <li class="other"  data-toggle="modal" data-target="#delModal" @click="delBox">
                     <i class='el-icon-delete'></i> 删除
-                </li>
-                <li class="other" @click='showMark'>
-                    <i class='icon iconfont icon-guanlizhongxin'></i> 打标签
                 </li>
             </ul>
         </div>
@@ -28,52 +30,135 @@ export default {
             listname:'',
             canedit:true,
             dataInfo:'',
-            isSHow:true,
-            searchtext:'展开搜索'
+            dataArr:''
         }
     },
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
-            console.log(data)
-            this.dataInfo = data.datas
+            //console.log(data)
+            this.dataInfo = data.datas[0]
+            this.dataArr = data.datas
             var dom=document.getElementsByClassName('emendation')[0];
-            let dom_edit=document.getElementById('modificationBtn');
+             let dom_edit = document.getElementById('modificationBtn');
+             let dom_swicthTrue = document.getElementById('swicthTrue');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
-            dom.style.left=data.show?'0px':'-600px';
+            dom.style.left=data.show?'0px':'-900px';
             dom_edit.style.cursor=data.editcan?'':'not-allowed';
+            dom_swicthTrue.style.cursor=data.editcan?'':'not-allowed';
             this.canedit=data.editcan;
-        });
-        this.$root.$on('search',()=>{
-            this.searchtext='展开搜索';
         });
     },
     methods:{
         edit(){
             if(this.canedit){
-                this.$root.$emit('editdialog');
-                this.$root.$emit("showWindow",this.dataInfo)
-                
+                // this.$root.$emit('editdialog');
+                // this.$root.$emit("showWindow",this.dataInfo)
+                //console.log(this.dataInfo)
+                 let datas = JSON.stringify(this.dataInfo)
+                window.sessionStorage.setItem ("Template_AllData",datas);
+                window.sessionStorage.setItem('Template_Type',1)
+               //this.$store.dispatch('editTemplate',this.dataInfo)
+                this.$router.push({ path: '/mallSet' })
             }
-
         },
         delBox(){
-            this.$root.$emit("delBox",this.dataInfo)
+            let that = this;
+           // console.log(this.dataArr)
+            let arrLength = this.dataArr.length;
+            let newArr = [];
+            for(let i = 0;i< arrLength;i++){
+                newArr.push(this.dataArr[i].templateID)
+            }
+            this.$confirm('确定删除这 '+arrLength+'项吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '操作成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/product/mall/template/remove',
+                        newArr
+                    ).then(res => {
+                       // console.log(res.data.msg);
+                        if(res.data.msg == '删除失败'){
+                            that.$message({
+                            type: 'info',
+                            message: '请先停用该模板',
+                            duration:800
+                        }); 
+                        }
+                        that.$root.$emit('getDatezdy',1);
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消删除',
+                    duration:800
+                });          
+            });   
         },
-        switchsearch(){
-            // console.log(this.searchtext);
-            let organtext=this.searchtext;
-            let flag=organtext=='展开搜索';
-            this.searchtext=organtext=='展开搜索'?'收起搜索':'展开搜索';
-            this.$root.$emit('switch',flag);
+        swicthOFF(){
+            let that = this;
+            //console.log(this.dataArr)
+            let arrLength = this.dataArr.length;
+            let newArr = [];
+            for(let i = 0;i< arrLength;i++){
+                newArr.push(this.dataArr[i].templateID)
+            }
+            this.$confirm('确定操作这 '+arrLength+'项吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '操作成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value=true',
+                        newArr
+                    ).then(res => {
+                       // console.log(res.data.msg);
+                        that.$root.$emit('getDatezdy',1);
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消更改',
+                    duration:800
+                });          
+            });   
         },
-        showMark(){
-            this.$root.$emit("MarkLable",[{list:this.dataInfo,isShow:this.isSHow}])
-        },
-    },
-    beforeDestroy(){
-        this.$root.$off('showlttip')
-        this.$root.$off('search')
+        swicthStop(){
+            let that = this;
+            //console.log(this.dataArr)
+            let arrLength = this.dataArr.length;
+            let newArr = [];
+            for(let i = 0;i< arrLength;i++){
+                newArr.push(this.dataArr[i].templateID)
+            }
+            this.$confirm('确定操作这 '+arrLength+'项吗?', '提示', 
+                {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
+            .then(() => {
+                that.$message({
+                    type: 'success',
+                    message: '操作成功!',
+                    duration:800,
+                    onClose:that.$http.post('/api/product/mall/template/setEnabledByIds?value=false',
+                        newArr
+                    ).then(res => {
+                        //console.log(res.data.msg);
+                        that.$root.$emit('getDatezdy',1);
+                    }).catch(err => {console.log(err)})
+                });
+            }).catch(() => {
+                that.$message({
+                    type: 'info',
+                    message: '已取消更改',
+                    duration:800
+                });          
+            }); 
+        }
     }
 }
 </script>
@@ -91,15 +176,6 @@ export default {
 	font-size: 20px;
 	color: #0D4156;
 	padding-left: 20px;
-}
-.productDesignation .btn-search{
-    position: absolute;
-    left: 115px;
-    top:22px;
-    background-color: #fff;
-    color: #27a1f2;
-    border:none;
-    font-size: 13px;
 }
 .productDesignation h3:before {
 	content: "";
@@ -126,7 +202,7 @@ export default {
 	margin-top: 26px;
 	position: absolute;
 	top: 0;
-	left:-600px;
+	left:-900px;
 	height: 32px;
     background: #fff;
     color: #555;
