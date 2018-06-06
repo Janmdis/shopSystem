@@ -22,19 +22,19 @@
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column> -->
         <el-table-column
-        prop="title"
+        prop="entryStages[0].stagename"
         label="阶段"
         >
         </el-table-column>
         <el-table-column
-        prop="content"
+        prop="itemname"
         label="检查项">
         </el-table-column>
         <el-table-column
         prop="types"
         label="操作">
          <template slot-scope="scope">
-            <!--<el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>!-->
+            <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">编辑</el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
         </el-table-column> 
@@ -85,7 +85,7 @@ export default {
                     type: 'success',
                     message: '删除成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/public/message/record/removeByIds',
+                    onClose:that.$http.post('/api/public/entryitem/removeByIds',
                         [row.id]
                     ).then(res => {
                         console.log(res.data.msg);
@@ -105,7 +105,7 @@ export default {
         },
         getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/public/message/record/query?page='+(pageIndex?pageIndex:1)+'&pageSize=10'
+            let url = '/api/public/entryitem/querys?page='+(pageIndex?pageIndex:1)+'&pageSize=10'
             this.$http({
                 url: url,
                 method: 'post',
@@ -114,9 +114,24 @@ export default {
                 data:{},
             })
             .then(response => {
-
                 this.listLoading =  false;
+                // let parentIdArr=[];
+                // let childIdArr=[];
+                // response.data.info.list.forEach(item=>{
+                //    if(item[0].parentId){
+                //        parentIdArr.push(item)
+                //    }
+                //    if(item[0].id){
+                //        parentIdArr.forEach(items=>{
+                //            console.log(items)
+                //        })
+                //        console.log(item)
+                //    }
+                // })
                 this.datalist=(response.data.info.list);
+                console.log(response.data.info)
+
+
                 this.$root.$emit('output',this.datalist);
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)

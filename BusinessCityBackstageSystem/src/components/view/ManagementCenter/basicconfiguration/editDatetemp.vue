@@ -45,7 +45,12 @@
                                 >
                             </el-time-picker>
                             <el-input v-model="item.nums" style='width:60px;' size='small' placeholder="数量"></el-input>
-                            <i class='el-icon-close' @click='deletedateperiod(index)' style='cursor:pointer;margin-left:10px;color:red;'></i>
+                            <el-tooltip class="item" effect="dark" content="编辑特殊日期" placement="top-start" v-if='type=="edit"&!item.isnew'>
+                                <i class='el-icon-setting' @click='editperiod(index)' style='cursor:pointer;margin-left:10px;'></i>
+                            </el-tooltip>
+                            <el-tooltip class="item" effect="dark" content="删除时间段" placement="top-start" v-if='type=="edit"'>
+                                <i class='el-icon-close' @click='deletedateperiod(index)' style='cursor:pointer;margin-left:10px;color:red;'></i>
+                            </el-tooltip>
                         </div>
                         <el-button size='small' style='padding:5px;height:20px;' @click='adddateperiod'>+</el-button>  
                         
@@ -84,7 +89,8 @@ export default {
                         endTime:'',
                         minTime:'00:00:00',
                         maxTime:'23:59:00',
-                        nums:50
+                        nums:50,
+                        isnew:true
                     }
                 ]
             },
@@ -110,6 +116,12 @@ export default {
         });
     },
     methods:{
+        // 编辑时间段特殊情况
+        editperiod(index){
+            let  data=this.form.datalist[index];
+            // console.log();
+            this.$root.$emit('editperiodspecial',data);
+        },
         getPerid(){
             this.loading=true;
             let that=this;
@@ -126,7 +138,8 @@ export default {
                             endTime:item.endTime,
                             minTime:index==0?'00:00:00':this.form.datalist[this.form.datalist.length-1].endTime,
                             maxTime:'23:59:00',
-                            nums:item.pCount
+                            nums:item.pCount,
+                            isnew:false
                         };
                         that.form.datalist.push(json);
                     });
@@ -135,11 +148,11 @@ export default {
                     that.$message(res.data.msg);
                 }
                 that.loading=false;
-                console.log(res);
+                // console.log(res);
             })
             .catch(err=>{
                 that.loading=false;
-                console.log(err);
+                // console.log(err);
             });
         },
         closeDialog(done) {
@@ -155,7 +168,8 @@ export default {
                         endTime:'',
                         minTime:'00:00:00',
                         maxTime:'23:59:00',
-                        nums:50
+                        nums:50,
+                        isnew:true
                     }
                 ]
             };
@@ -171,7 +185,8 @@ export default {
                 endTime:'',
                 minTime:this.form.datalist[this.form.datalist.length-1].endTime,
                 maxTime:'23:59:00',
-                nums:50
+                nums:50,
+                isnew:true
             };
             this.form.datalist.push(json);
             // 编辑时间模板时，记录新添加的时间段信息

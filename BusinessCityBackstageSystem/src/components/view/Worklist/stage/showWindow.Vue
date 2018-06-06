@@ -5,18 +5,17 @@
                 <el-row>
                     <el-col :span='24'>
                         <el-form-item label="阶段名称" prop="name">
-                            <el-input @change="checkName" v-model.trim="ruleForm.name"></el-input>
+                            <el-input v-model.trim="ruleForm.name"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span='24'>
-                        <el-form-item label="描述" prop="mode">
+                        <el-form-item label="描述">
                             <el-input v-model="ruleForm.mode"></el-input>
                         </el-form-item>
                     </el-col>
-                   
                 </el-row>
                 <el-form-item class="estate-btn">
-                    <el-button type="primary" :disabled="cantSubmit" @click="submitForm('ruleForm')">保存</el-button>
+                    <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
                 </el-form-item>
             </el-form>
             <back-end-user></back-end-user>
@@ -56,14 +55,14 @@
                 selectAll: false,
                 showStyle: false,
                 ListCustomerData: [],
-                addObjArr:[],
+                addObjArr: [],
                 // ListAdminId: [],
                 // ListCustomerId: [],
                 dialogVisible: false,
                 dialogRead: false,
                 cantSubmit: true,
                 ruleForm: {
-                    textInfo: '新增会员',
+                    textInfo: '新增阶段',
                     name: "",
                     mode: '',
                     reading: "0",
@@ -73,12 +72,12 @@
                 rules: {
                     name: [{
                         required: true,
-                        message: '标题',
+                        message: '请填写阶段名称',
                         trigger: 'blur'
                     }, ],
                     mode: [{
                         required: false,
-                        message: '内容',
+                        message: '描述',
                         trigger: 'blur'
                     }, ],
                 },
@@ -104,119 +103,119 @@
                 this.$refs['ruleForm'].resetFields();
                 this.ruleForm.name = ''
             },
-            checkName() {
-                if (this.ruleForm.name == '') {
-                    this.cantSubmit = true
-                    this.$message({
-                        message: '小区名不能为空',
-                        type: 'warning',
-                        duration: 1000
-                    })
-                } else {
-                    this.cantSubmit = false
-                }
-            },
+            // checkName() {
+            //     // if (this.ruleForm.name == '') {
+            //     //     this.cantSubmit = true
+            //     //     this.$message({
+            //     //         message: '小区名不能为空',
+            //     //         type: 'warning',
+            //     //         duration: 1000
+            //     //     })
+            //     // } else {
+            //     //     this.cantSubmit = false
+            //     // }
+            // },
             submitForm(formName) {
-                if (this.ruleForm.textInfo == "新添消息") {
-                    let url = '/api/public/message/record/insert';
-                    this.$http({
-                            url: url,
-                            method: 'POST',
-                            // 请求体重发送的数据
-                            // headers: {
-                            //     'Content-Type': 'application/json'
-                            // },
-                            data: this.addObjArr
-                        })
-                        .then(res => {
-                            this.dialogVisible = false;
-                            this.$root.$emit('getDatezdy', 1);
-                            this.addObjArr =[]
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            // //         alert('网络错误，不能访问');
-                        })
-                }
-                if (this.ruleForm.textInfo == "编辑消息") {
-                    let url = '/api/public/message/record/update';
-                    this.$http({
-                            url: url,
-                            method: 'POST',
-                            // 请求体重发送的数据
-                            // headers: {
-                            //     'Content-Type': 'application/json'
-                            // },
-                            data: {
-                                'id': this.ruleForm.thisId,
-                                "title": this.ruleForm.name,
-                                "content": this.ruleForm.mode,
-                                "receiverAdminId": this.ListAdminId + ''.replace(/\[|]/g, ''),
-                                "receiverCustomerId": this.ListCustomerId + ''.replace(/\[|]/g, ''),
-                                "isRead": true,
-                                "isDisplay": false
-                            }
-                        })
-                        .then(response => {
-                            this.dialogVisible = false;
-                            this.$root.$emit('getDatezdy', 1)
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            //         alert('网络错误，不能访问');
-                        })
-                }
-                this.dialogVisible = false;
-                this.$refs[formName].resetFields();
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        if (this.ruleForm.textInfo == "新添阶段") {
+                            let url = '/api/public/articles/insertOne';
+                            this.$http({
+                                    url: url,
+                                    method: 'POST',
+                                    // 请求体重发送的数据
+                                    // headers: {
+                                    //     'Content-Type': 'application/json'
+                                    // },
+                                    data: {
+                                        "stagename": this.ruleForm.name,
+                                        "remark": this.ruleForm.mode,
+                                    }
+                                })
+                                .then(res => {
+                                    if(res.data.status==300){
+                                        this.$message('阶段名重复');
+                                    }
+                                    this.dialogVisible = false;
+                                    this.$root.$emit('getDatezdy', 1);
+                                    this.addObjArr = []
+                                    this.dialogVisible = false;
+                                    this.$refs[formName].resetFields();
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    // //         alert('网络错误，不能访问');
+                                })
+                        }
+                        if (this.ruleForm.textInfo == "编辑阶段") {
+                            let url = '/api/public/articles/update';
+                            this.$http({
+                                    url: url,
+                                    method: 'POST',
+                                    // 请求体重发送的数据
+                                    // headers: {
+                                    //     'Content-Type': 'application/json'
+                                    // },
+                                    data: {
+                                        'id': this.ruleForm.thisId,
+                                         "stagename": this.ruleForm.name,
+                                        "remark": this.ruleForm.mode,
+                                    }
+                                })
+                                .then(response => {
+                                    this.dialogVisible = false;
+                                    this.$root.$emit('getDatezdy', 1)
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                    //         alert('网络错误，不能访问');
+                                })
+                        }
+                    }
+                })
             },
-            getmultipleSelection() {
-                
-                this.$root.$on('multipleSelection', data => {
-                    let addObj;
-                    if (data) {
-                        data.forEach(item => {
-                            addObj = {
-                                "title": this.ruleForm.name,
-                                "content": this.ruleForm.mode,
-                                "receiverAdminId": item.id,
-                            }
-                          this.addObjArr.push(addObj)  
-                        })
-                    }
-                })
-                this.$root.$on('multipleSelections', data => {
-                    let addObj;
-                    if (data) {
-                        data.forEach(item => {
-                            addObj = {
-                                "title": this.ruleForm.name,
-                                "content": this.ruleForm.mode,
-                                "receiverCustomerId": item.id,
-                            }
-                             this.addObjArr.push(addObj)
-                        })
-                    }
-                })
-                
-            }
+            // getmultipleSelection() {
+            //     this.$root.$on('multipleSelection', data => {
+            //         let addObj;
+            //         if (data) {
+            //             data.forEach(item => {
+            //                 addObj = {
+            //                     "name": this.ruleForm.name,
+            //                     "remark": this.ruleForm.mode,
+            //                 }
+            //               this.addObjArr.push(addObj)  
+            //             })
+            //         }
+            //     })
+            //     this.$root.$on('multipleSelections', data => {
+            //         let addObj;
+            //         if (data) {
+            //             data.forEach(item => {
+            //                 addObj = {
+            //                      "name": this.ruleForm.name,
+            //                     "remark": this.ruleForm.mode,
+            //                 }
+            //                  this.addObjArr.push(addObj)
+            //             })
+            //         }
+            //     })
+            // }
         },
         created: function() {
-            this.getmultipleSelection();
+            // this.getmultipleSelection();
             this.$root.$on('showWindowss', (data) => {
                 this.$nextTick(() => {
                     if (data.type != 'no') {
                         this.dialogVisible = true;
-                        this.ruleForm.textInfo = '编辑消息';
+                        this.ruleForm.textInfo = '编辑阶段';
                         this.showStyle = true;
                         this.ruleForm.thisId = data.rowData.id
-                        this.ruleForm.mode = data.rowData.content
-                        this.ruleForm.name = data.rowData.title
-                        this.ListAdminId = data.rowData.receiverAdminId;
-                        this.ListCustomerId = data.rowData.receiverCustomerId;
+                        this.ruleForm.mode = data.rowData.remark
+                        this.ruleForm.name = data.rowData.stagename
                     } else {
                         this.showStyle = false;
                         this.dialogVisible = true;
-                        this.ruleForm.textInfo = '新添消息';
+                        this.ruleForm.textInfo = '新添阶段';
                         this.ruleForm.name = ''
                         this.ruleForm.mode = ''
                         this.ListAdminId = []

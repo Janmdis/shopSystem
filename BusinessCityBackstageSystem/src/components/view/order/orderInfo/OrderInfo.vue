@@ -32,33 +32,46 @@
                         </el-col>
                     </el-col>
                     <el-col class="item-body" :span="24">
-                        <el-form-item class="visit-item item-padding" label="下单时间" prop="orderTime">
+                        <el-col :span="4">
+                        <el-form-item class="visit-item " label="下单时间" prop="orderTime">
                             <el-input :disabled='ruleForm.active' v-model="ruleForm.orderTime"></el-input>
                         </el-form-item>
+                        </el-col>
+                        <el-col :span="2">
                         <el-form-item class="visit-item" label="订单金额" prop="orderMoney">
                             <el-input :disabled='ruleForm.active' v-model="ruleForm.orderMoney"></el-input>
                         </el-form-item>
+                        </el-col>
+                        <el-col :span="2">
                         <el-form-item class="visit-item" label="支付金额" prop="paidMoney">
                             <el-input :disabled='ruleForm.active' v-model="ruleForm.paidMoney"></el-input>
                         </el-form-item>
+                        </el-col>
+                         <el-col :span="2">
                         <el-form-item class="visit-item" label="未付款金额" prop="unpaidMoney">
                             <el-input :disabled='ruleForm.active' v-model="ruleForm.unpaidMoney"></el-input>
                         </el-form-item>
+                        </el-col>
+                        <el-col :span="2">
                         <el-form-item class="visit-item" label="退款金额" prop="returnMoney">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.returnMoney"></el-input>
                         </el-form-item>
+                        </el-col>
+                        <el-col :span="2">
                         <el-form-item class="visit-item" label="业主姓名" prop="orderpeople">
                             <el-input :disabled='ruleForm.active' v-model="ruleForm.orderpeople"></el-input>
                         </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
                         <el-form-item class="visit-item" label="地址" prop="orderAddress">
                             <el-input :disabled="ruleForm.active" v-model="ruleForm.orderAddress"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item" label="会员等级" prop="level">
-                            <el-input :disabled='ruleForm.active' v-model="ruleForm.level"></el-input>
+                        </el-col>
+                        <el-col :span="3">
+                        <el-form-item class="visit-item" label="会员手机号" prop="level">
+                            <el-input readonly='readonly' v-model="ruleForm.level"></el-input>
                         </el-form-item>
-                        <el-form-item class="visit-item" label="来源人" prop="origin">
-                            <el-input :disabled="ruleForm.active" v-model="ruleForm.origin"></el-input>
-                        </el-form-item>
+                        </el-col>
                     </el-col>
                 </el-form>
             </el-header>

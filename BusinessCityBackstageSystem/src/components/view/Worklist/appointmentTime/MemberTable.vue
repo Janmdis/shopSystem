@@ -153,7 +153,7 @@ export default {
         },
         getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/product/order/find/query?page='+(pageIndex?pageIndex:1)+'&pageSize=10'
+            let url = '/api/product/appointment/query?page='+(pageIndex?pageIndex:1)+'&pageSize=10'
             this.$http({
                 url: url,
                 method: 'post',

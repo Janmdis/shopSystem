@@ -16,7 +16,6 @@
         :data="listemployee" 
         ref='employeetable' 
         style="width: 100%;height:75%;" 
-        height='100%' 
         class='employeetable'
         @select-all="handleSelectionChange"
         @select ='selectchange'
@@ -149,6 +148,7 @@ export default {
             this.getEmployeelist(currentpage,this.type);
         },
         handleSelectionChange(val){
+            alert(111);
             let length=this.listemployee.length;
             console.log(val.length);
             // 全选判断
@@ -173,14 +173,14 @@ export default {
                         this.hasselected.splice(index,1);
                         this.ids_selected.splice(index,1);
                     }
-                    console.log(this.hasselected);
+                    // console.log(this.hasselected);
                 }
                 
             }
         },
         selectchange(selection,row){
+            console.log(selection);
             let selected=this.ids_selected.includes(row.id);
-            
             if(selected){
                 let index=this.ids_selected.indexOf(row.id);
                 this.hasselected.splice(index,1);
@@ -210,6 +210,11 @@ export default {
                 });
                 this.$root.$emit('addemployee',list);
                 this.dialogVisible=false;
+                this.listemployee=[];
+                this.hasselected=[];
+                this.ids_selected=[];
+                this.listtype=[];
+                this.type='';
             }
         }
     },

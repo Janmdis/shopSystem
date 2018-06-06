@@ -73,6 +73,7 @@
             </el-row>
         </el-main>
         <editDatetemp></editDatetemp>
+        <editperiodspecial></editperiodspecial>
     </el-container>
 </template>
 <script>
@@ -86,6 +87,7 @@ import houseModel from './housemodel'
 import channelModel from './channelmodel'
 import knowledge from './knowledge'
 import editDatetemp from './editDatetemp'
+import editperiodspecial from './editPeriod_special'
 export default {
     data () {
         return{
@@ -201,6 +203,9 @@ export default {
                 this.editenable=true;
             }
         });
+        this.$root.$on('editable_no',()=>{
+            this.editenable=false;
+        });
     },
     methods:{
         showContent(text,index){
@@ -254,6 +259,7 @@ export default {
             }
             this.levelShows = false;
             this.list_item = text;
+            this.editenable=false;
             setTimeout(() =>{
                 this.isLoading = false;
                 this.loadInfo = false;
@@ -474,7 +480,8 @@ export default {
         houseModel,
         channelModel,
         knowledge,
-        editDatetemp
+        editDatetemp,
+        editperiodspecial
     },
     beforeDestroy(){
         this.$root.$off('searchInfo');

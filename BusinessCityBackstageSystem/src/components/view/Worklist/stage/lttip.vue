@@ -61,7 +61,7 @@ export default {
                     type: 'success',
                     message: '删除成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/public/message/record/removeByIds',
+                    onClose:that.$http.post('/api/public/articles/removeByIds',
                          this.dataInfo
                     ).then(res => {
                         console.log(res.data.msg);

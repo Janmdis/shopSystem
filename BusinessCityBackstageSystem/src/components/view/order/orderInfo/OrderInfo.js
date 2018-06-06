@@ -57,9 +57,21 @@ export default {
         this.$root.$on('searchOrderInfo', data => { //  获取用户信息方法
             this.searchInfo(data[0]);
             this.orderId = data[0];
-            
             this.order = data[1];
-            console.log(data[1])
+            let url = '/api/customer/account/queryMap';
+            this.$http({
+                url: url,
+                method: 'POST',
+                // 请求发送的数据
+                // 设置请求头
+                headers: { 'Content-Type': 'application/json' },
+                data:{id:data[1].memberId}
+            }).then(res => {
+                if (res.data.status == 200) {
+                    this.ruleForm.level = res.data.info[0].mobile;
+                }
+            }).catch(err => { console.log(err) })
+            console.log(data[1].memberId)
             sessionStorage.setItem("orderId", data[1].number)
             sessionStorage.setItem("invoice",data[1].number)
             this.upData();
@@ -91,7 +103,7 @@ export default {
             this.ruleForm.returnMoney = this.order.refundMoney;
             this.ruleForm.orderpeople = this.order.name;
             this.ruleForm.orderAddress = this.order.detailAddress;
-            this.ruleForm.level = this.order.remark;
+            // this.ruleForm.level = this.order.remark;
             this.ruleForm.origin = this.order.sourceId
         },
         editInfo(event) {
@@ -117,7 +129,7 @@ export default {
                     refundMoney: this.ruleForm.returnMoney,
                     name: this.ruleForm.orderpeople,
                     detailAddress: this.ruleForm.orderAddress,
-                    remark: this.ruleForm.level,
+                    // remark: this.ruleForm.level,
                     sourceId: this.ruleForm.origin,
                     orderDetails: []
                 };
