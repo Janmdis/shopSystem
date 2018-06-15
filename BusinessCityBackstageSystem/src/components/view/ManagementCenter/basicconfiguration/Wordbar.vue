@@ -1,5 +1,5 @@
 <template>
-    <div id="member-model">
+    <div id="channel-model">
         <h5>配置类型</h5>
         <ul class="basic-content">
             <li v-for="(info,index) in typeData" :key="index" @click="findInfo(index,urlList[index].url)">
@@ -13,31 +13,17 @@ export default {
     data () {
         return {
             typeData:[
-                {'index':1,'icon':'el-icon-edit','isActive':true,'name':'推荐来源'},
-                {'index':2,'icon':'el-icon-menu','isActive':false,'name':'客户类型'},
-                {'index':3,'icon':'el-icon-sold-out','isActive':false,'name':'客户身份'},
-                {'index':4,'icon':'el-icon-document','isActive':false,'name':'关系组类型'},
-                {'index':5,'icon':'el-icon-document','isActive':false,'name':'会员标签'},
-                {'index':5,'icon':'el-icon-document','isActive':false,'name':'会员等级'},
+                {'index':1,'icon':'el-icon-edit','isActive':true,'name':'词条标签'}
             ],
             urlList:[
-                {id:'id',url:'/api/customer/recommendedSource/findSource',des:'推荐来源',name:'name'},
-                {id:'id',url:'/api/customer/customerCategory/findCategory',des:'客户类型',name:'name'},
-                {id:'id',url:'/api/customer/identity/findIdentity',des:'客户身份',name:'name'},
-                {id:'id',url:'/api/customer/relationshipGroupCategory/queryMap',des:'关系组类型',name:'name'},
-                {id:'id',url:'/api/customer/label/query/label',des:'会员标签',name:'name'},
-                {id:'id',url:'/api/customer/customerLevelComputing/query',des:'会员等级',name:'levelName'},
+                {id:'id',url:'/api/public/label/query',des:'词条标签',name:'name'}
             ],
-            datalist:[],
-            originList:[],
-            typeList:[],
-            identityList:[],
-            relationGroup:[]
+            datalist:[]
         }
     },
     created(){
         this.getDate(0,this.urlList[0].url);
-        this.$root.$on('transFn2',data => {
+        this.$root.$on('transFn8',data => {
             this.getDate(data,this.urlList[data].url);
         });
     },
@@ -51,7 +37,6 @@ export default {
         },
         findInfo(index,i){
             this.$root.$emit('loadInfo',true);
-            this.$root.$emit('userInfo',index);
             this.getDate(index,i);
         },
         getDate(index,i) {
@@ -60,8 +45,10 @@ export default {
                 method: 'POST',
                 data:{},
             }).then(res => {       
+
                 if(res.data.status != 403){
-                    this.datalist=(res.data.info);
+                    // console.log(res.data.list)
+                    this.datalist=(res.data.info.list);
                     console.log(this.datalist)
                     this.$root.$emit('searchInfo',[this.urlList[index].name,this.datalist,index,this.urlList[index].id,this.urlList[index].des]);
                     this.$root.$emit('loadInfo',false);
@@ -75,22 +62,12 @@ export default {
         }
     },
     beforeDestroy(){
-        this.$root.$off('transFn2');
+        this.$root.$off('transFn8');
     }
 }
 </script>
 <style lang="less">
-#member-model{
-    .el-button{
-        white-space:pre-wrap;
-        span{
-            display:inline-block;
-            width: 100%;
-            i{
-                vertical-align: middle;
-            }
-        }
-    }
+#channel-model{
     .el-button--primary.is-plain.active{
         background:#409EFF;
         span{
@@ -100,7 +77,7 @@ export default {
 }
 </style>
 <style scoped lang="less">
-#member-model{
+#channel-model{
     h5{
         color:#8E8E8E;
         font-size:16px;
@@ -138,8 +115,9 @@ export default {
                     text-align:center;
                     line-height:50px;
                     font-size:30px;
-                    margin-right:10px;
+                    margin-right:20px;
                     color:#fff;
+                    vertical-align: middle;
                 }
             }
             .el-button--primary.is-plain:hover{

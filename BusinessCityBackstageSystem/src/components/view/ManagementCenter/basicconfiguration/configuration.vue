@@ -36,11 +36,16 @@
                                     :label="ruleForm.levelDes"
                                     >
                                 </el-table-column>
+                                <el-table-column
+                                    v-if="userInfo"
+                                    prop="level"
+                                    :label="ruleForm.levelNo"
+                                    >
+                                </el-table-column>
                                 <el-table-column prop="opration" label="操作" width="180">
                                     <template slot-scope="scope">
                                         <el-button size="mini" v-if='editenable' @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                                         <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                                        
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -59,11 +64,20 @@
                     :rules="rules" ref="ruleForm" 
                     label-width="100px" 
                     class="demo-ruleForm">
-                        <el-form-item :label="ruleForm.nameDes" prop="name">
+                        <el-form-item :label="ruleForm.nameDes" prop="name" >
                             <el-input v-model="ruleForm.name"></el-input>
                         </el-form-item>
                         <el-form-item v-show="levelShow" :label="ruleForm.levelDes" prop="gradeLevel">
                             <el-input v-model="ruleForm.gradeLevel"></el-input>
+                        </el-form-item>
+                        <el-form-item v-show="userInfos" :label="ruleForm.levelNo" prop="userLevel">
+                            <el-input v-model="ruleForm.userLevel"></el-input>
+                        </el-form-item>
+                        <el-form-item v-show="userInfos" :label="ruleForm.consumptionPointsName" prop="consumptionPoints">
+                            <el-input v-model="ruleForm.consumptionPoints"></el-input>
+                        </el-form-item>
+                        <el-form-item v-show="userInfos" :label="ruleForm.experienceName" prop="experience">
+                            <el-input v-model="ruleForm.experience"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm">保存</el-button>
@@ -86,6 +100,7 @@ import userModel from './usermodel'
 import houseModel from './housemodel'
 import channelModel from './channelmodel'
 import knowledge from './knowledge'
+import Wordbar from './Wordbar'
 import editDatetemp from './editDatetemp'
 import editperiodspecial from './editPeriod_special'
 export default {
@@ -96,6 +111,9 @@ export default {
             loadInfo:true,
             levelShow:false,
             levelShows:false,
+            userInfo:false,
+            userInfos:false,
+            userShow:true,
             isData:[],
             dialogVisible: false,
             flag:true,
@@ -110,7 +128,8 @@ export default {
                 {index:'6',icon:'el-icon-setting',text:'用户模块',url:'/api/product/commodity/category/queryMap'},
                 {index:'7',icon:'el-icon-document',text:'房屋模块',url:'/api/product/commodity/category/queryMap'},
                 {index:'8',icon:'el-icon-setting',text:'渠道模块',url:'/api/product/commodity/category/queryMap'},
-                {index:'9',icon:'el-icon-setting',text:'知识库',url:'/api/product/commodity/category/queryMap'}
+                {index:'9',icon:'el-icon-document',text:'知识库',url:'/api/product/commodity/category/queryMap'},
+                {index:'10',icon:'el-icon-setting',text:'词条列表',url:'/api/product/commodity/category/queryMap'}
             ],
             name:'brandName',
             id:'brandId',
@@ -122,12 +141,24 @@ export default {
                 id:'',title:'新增品牌',
                 nameDes:'品牌名称',name:'',
                 color:'',gradeLevel:'',levelDes:'账户等级',
+                levelNo:'会员等级',userLevel:'',
+                consumptionPointsName:'积分值',experienceName:'经验值',
+                consumptionPoints:null,experience:null,
             },
             color:["#3f86fd","#32a1ff","#28c0f8","#0ecad1","#0dd980"],
             num:0,
             rules:{
                 name: [
                     { required: true, message: '请输入名称', trigger: 'blur' },
+                ],
+                userLevel: [
+                    { required: true, message: '请输入会员等级', trigger: 'blur' },
+                ],
+                consumptionPoints: [
+                    { required: true, message: '请输入积分', trigger: 'blur' },
+                ],
+                experience: [
+                    { required: true, message: '请输入经验', trigger: 'blur' },
                 ],
                 gradeLevel: [
                     { required: true, message: '请输入等级', trigger: 'blur' },
@@ -149,7 +180,8 @@ export default {
                 {id:'id',delUrl:'/api/customer/customerCategory/remove',des:'客户类型',name:'name',addUrl:'/api/customer/customerCategory/insert'},
                 {id:'id',delUrl:'/api/customer/identity/remove',des:'客户身份',name:'name',addUrl:'/api/customer/identity/addIdentity'},
                 {id:'id',delUrl:'/api/customer/relationshipGroupCategory/remove',des:'关系组类型',name:'name',addUrl:'/api/customer/relationshipGroupCategory/insert'},
-                {id:'id',delUrl:'/api/customer/label/remove',des:'会员标签',name:'name',addUrl:'/api/customer/label/insert'}       
+                {id:'id',delUrl:'/api/customer/label/remove',des:'会员标签',name:'name',addUrl:'/api/customer/label/insert'},    
+                {id:'id',delUrl:'/api/customerLevelComputing/update/customer',des:'会员名称',name:'name',addUrl:'/api/customer/customerLevelComputing/add'}       
             ],
             publicData:[
                 {id:'id',delUrl:'/api/product/mall/templateCategory/remove',des:'模板分类',name:'name',addUrl:'/api/product/mall/templateCategory/insert'},
@@ -178,6 +210,9 @@ export default {
             knowledge:[
                 {id:'id',delUrl:'/api/public/knowledge/point/update',des:'知识点',name:'content',addUrl:'/api/public/knowledge/point/insert'}, 
                 {id:'id',delUrl:'/api/public/knowledge/sort/update',des:'知识分类',name:'sortName',addUrl:'/api/public/knowledge/sort/insert'}
+            ],
+            Wordbar:[
+                {id:'id',delUrl:'/api/public/label/removeByIds',des:'词条标签',name:'content',addUrl:'/api/public/label/insertOne'}
             ],
             desData:[],
             modelIndex:0,
@@ -224,6 +259,17 @@ export default {
                 text = memberModel;
                 this.desData = this.memberData;
                 this.modelIndex = 2;
+                this.$root.$on('userInfo',data => {
+                    if(this.modelIndex ==  2 && data == 5){
+                        this.userInfo = true;
+                        this.userShow = false;
+                    }else{
+                        this.userInfo = false;
+                        this.userShow = true;
+                    }
+                });
+
+
             }else if(text == '模板模块'){
                 text = publicModel;
                 console.log(publicModel);
@@ -256,7 +302,13 @@ export default {
                 text = knowledge;
                 this.desData = this.knowledge;
                 this.modelIndex = 8;   
+            }else if(text == '词条列表'){
+                text = Wordbar;
+                this.desData = this.Wordbar;
+                this.modelIndex = 9;   
             }
+            this.userShow = true;
+            this.userInfo = false;
             this.levelShows = false;
             this.list_item = text;
             this.editenable=false;
@@ -306,6 +358,8 @@ export default {
                 var data = row.id;
             }else if(this.modelIndex == 8){
                 var data = {'id':row.id,'isActive':false};
+            }else if(this.modelIndex == 9){
+               var data = row.id;
             }
             this.$confirm('确定删除 "'+ row[this.name] +'" 吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
@@ -328,7 +382,8 @@ export default {
                             that.$root.$emit('transFn5',that.number);
                             that.$root.$emit('transFn6',that.number);
                             that.$root.$emit('transFn7',that.number);
-                             that.$root.$emit('transFn8',that.number);
+                            that.$root.$emit('transFn8',that.number);
+                            that.$root.$emit('transFn9',that.number);
                         }
                     });
                 }).catch(err => {console.log(err)})   
@@ -364,6 +419,11 @@ export default {
                         this.num = 0;
                     }
                 }
+                if(this.modelIndex == 2 && this.number == 5){
+                     this.userInfos = true;
+                }else{
+                      this.userInfos = false;
+                }
                 if(this.modelIndex == 5 && this.number == 2){
                     this.levelShow = true;
                 }else{
@@ -385,11 +445,12 @@ export default {
                 var data = [{parentId:0}];
                 data[0][modelName] = this.ruleForm.name;   
             }else if(this.modelIndex == 2){
-             
                 if(this.number == 4){
                     var data =[{"name":this.ruleForm.name,"color":this.ruleForm.color}];
-                    console.log(data);
-                }else{
+                }else if(this.number ==5){
+                     var data =[{"level":this.ruleForm.userLevel,"levelName":this.ruleForm.name,"consumptionPoints":this.ruleForm.consumptionPoints,"experience":this.ruleForm.experience}];
+                }
+                else{
                     var data ={};
                     data[modelName] = this.ruleForm.name;
                     data = [data]
@@ -429,6 +490,9 @@ export default {
                     var data ={"content":this.ruleForm.name};
                 }
                
+            }else if(this.modelIndex == 9){
+               var data ={"name":this.ruleForm.name};
+               
             };
             if(this.ruleForm.name == ''){
                 alert("内容不能为空!");
@@ -453,7 +517,7 @@ export default {
                     data:data,
                     headers:{'content-type':'application/json'}
                 }).then(res => {
-                    console.log(res.data.msg);
+                    this.$message(res.data.msg);
                     that.loadInfo = true;
                     that.$root.$emit('transFn',that.number);
                     that.$root.$emit('transFn1',that.number);
