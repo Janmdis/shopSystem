@@ -105,8 +105,13 @@ export default {
                 userBirth: '',
                 writer: '',
                 inputTime: '',
-
-                tempalteTime: []
+                cityDisId:'',
+                countyInfo:'',
+                streetInfo:'',
+                cities:'',
+                regions:'',
+                customerCategory:[],
+                tempalteTime:[]
             },
         }
     },
