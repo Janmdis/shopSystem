@@ -1,12 +1,14 @@
 <template>
-    <el-table :data="datalist" @selection-change='showextra' v-loading="this.listLoading" :stripe='true' style="width: 100%;" height='500'>
+    <el-table :data="datalist" @selection-change='showextra' v-loading="this.listLoading" :stripe='true' style="width: 100%;" height='557'>
         <el-table-column fixed type="index" label="N" :index="indexMethod">
         </el-table-column>
         <el-table-column fixed type="selection" width="55">
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
                                 </el-table-column> -->
-        <el-table-column prop="name" fixed width='200' label="姓名">
+        <el-table-column prop="name" fixed width='100' label="姓名">
+        </el-table-column>
+        <el-table-column prop="name" width='100' label="订单数">
         </el-table-column>
         <el-table-column prop="mobile" width='120' label="手机号">
         </el-table-column>
@@ -23,7 +25,7 @@
         
         </el-table-column>
         <el-table-column
-            width='300'
+            width='200'
             label="小区">
             <template slot-scope='scope'>
                 {{scope.row.quarters}}

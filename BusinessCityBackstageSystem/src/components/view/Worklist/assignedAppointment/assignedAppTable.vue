@@ -6,7 +6,7 @@
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
                                 </el-table-column> -->
-        <el-table-column prop="name" fixed width='200' label="姓名">
+        <el-table-column prop="name" fixed width='100' label="姓名">
         </el-table-column>
         <el-table-column prop="mobile" width='120' label="电话">
         </el-table-column>
@@ -19,14 +19,14 @@
         <el-table-column prop='cityName' width='120' label="区域">
         </el-table-column>
         <el-table-column
-            width='300'
+            width='200'
             label="街道">
             <template slot-scope='scope'>
                 {{scope.row.quarters}}
             </template>
         </el-table-column>
         <el-table-column
-            width='300'
+            width='200'
             label="小区">
             <template slot-scope='scope'>
                 {{scope.row.quarters}}

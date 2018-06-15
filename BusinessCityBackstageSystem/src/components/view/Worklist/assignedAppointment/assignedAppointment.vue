@@ -11,11 +11,12 @@
             </el-row>
         </div>
         <div class="memberMain">
-            <el-col :span='15'>
+            <el-col :span='15' class="assignedLeft">
                 <div class="searchBox">
                     <!-- 订单列表搜索的条件 -->
                     <orderListSearch></orderListSearch>
                 </div>
+                <!-- 总订单数 -->
                 <div class='boderBox'>
                     <Datatable></Datatable>
                 </div>
@@ -31,7 +32,7 @@
                     </el-col>
                 </el-row>
             </el-col>
-            <el-col :span='8'>
+            <el-col :span='8' class="assignedRight">
                 <div class="searchBox">
                     <!-- 等待被派单的服务人员 -->
                     <workerListSearch></workerListSearch>
@@ -39,7 +40,7 @@
                 <div class='boderBox'>
                     <workerTable></workerTable>
                 </div>
-                 <el-row style='margin-bottom:80px;'>
+                 <el-row style='margin-bottom:10px;'>
                       <el-col :span='10'>
                         <p class='lineHeight'>从1到{{this.pageS1}}/共<span>{{this.totalCount1}}</span>条数据</p>
                     </el-col>
@@ -48,6 +49,11 @@
                             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageIndex" :page-size="pageSize" layout=" prev, pager, next, jumper,total" :total="totalCount">
                             </el-pagination>
                         </div>
+                    </el-col>
+                </el-row>
+                <el-row style='padding-top:18px; padding-bottom:18px;'>
+                    <el-col :span="5" style="margin-left:44%;">
+                        <el-button type="primary">确认匹配</el-button>
                     </el-col>
                 </el-row>
             </el-col>
@@ -90,6 +96,8 @@
         width: 100% !important;
         text-align: left;
     }
+    .assignedLeft{background: #fff;border-bottom-left-radius:10px;border-bottom-right-radius:10px;margin-right:1%;padding: 0px 5px 0px 5px;}
+    .assignedRight{background: #fff;border-bottom-left-radius:10px;border-bottom-right-radius:10px;width: 36.5%;padding: 0px 5px 0px 5px;}
 </style>
 <style scoped lang="less">
     @import './assignedApp.less';
