@@ -57,8 +57,8 @@
                                     :popper-append-to-body="false"
                                     v-for="(item,index) in memberHouse"
                                     :key="index"
-                                    :label="item.housingEstate.name"
-                                    :value="item.housingEstate.id">
+                                    :label="item.housingEstate?item.housingEstate.name:''"
+                                    :value="item.housingEstate?item.housingEstate.id:''">
                                     </el-option>
                                 </el-select>
                             </el-col>

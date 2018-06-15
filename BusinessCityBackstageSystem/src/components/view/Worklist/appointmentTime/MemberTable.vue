@@ -22,14 +22,16 @@
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column> -->
         <el-table-column
-        prop="orderNumber"
+        prop="orderDetail.orderId"
         width='200'
         label="订单号"
         >
         </el-table-column>
         <el-table-column
-        prop="serviceState"
         label="状态">
+            <template slot-scope="scope">
+            {{getInfo(scope.row.orderDetail)}}
+            </template>
         </el-table-column>
         <el-table-column
         width='200'
@@ -47,28 +49,28 @@
         </template>
         </el-table-column>
         <el-table-column
-        prop="name"
+        prop="orderDetail.name"
         label="姓名">
         </el-table-column>
         <el-table-column
-        prop="phone"
+        prop="orderDetail.phone"
         label="电话">
         </el-table-column>
         <el-table-column
-        prop="serviceStateName"
+        prop="orderDetail.serviceStateName"
         label="服务类型">
         </el-table-column>
         <el-table-column
-        prop="productModel"
+        prop="orderDetail.productModel"
         label="产品类型">
         </el-table-column>
         <el-table-column
-        prop="communityName"
+        prop="orderDetail.orderInfo.communityName"
         label="小区">
         </el-table-column>
         <el-table-column
         width='200'
-        prop="detailAddress"
+        prop="orderDetail.orderInfo.detailAddress"
         label="地址">
         </el-table-column>
         <el-table-column
@@ -116,6 +118,12 @@ export default {
         })
     },
     methods:{
+        getInfo(val){
+            let statu='';
+            if(val){
+                return statu = val.serviceState==1?"未服务":"服务完成"
+            }
+        },
         handleDelete(index, row,event) { //  删除某一种产品
             let that = this;
             console.log(row);
@@ -126,7 +134,7 @@ export default {
                     type: 'success',
                     message: '删除成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/customer/estate/removeData',
+                    onClose:that.$http.post('/api/product/appointment/remove',
                         [row.id]
                     ).then(res => {
                         console.log(res.data.msg);

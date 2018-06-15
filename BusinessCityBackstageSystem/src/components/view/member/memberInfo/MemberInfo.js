@@ -194,6 +194,7 @@ export default {
                     } else {
                         // console.log(res.data.info.list)
                         res.data.info.list.forEach((e) => {
+                            console.log(e)
                             if (e.housingEstate == null) {
                                 console.log("小区不存在")
                             } else {
@@ -226,10 +227,10 @@ export default {
                 headers: { 'Content-Type': 'application/json' }
             }).then(res => {
                 let dataInfo = res.data.info.list[0];
-                // console.log(dataInfo)
+                console.log(dataInfo)
                 this.personnelInfo = dataInfo;
                 that.ruleForm.userName = that.personnelInfo.name;
-                this.ruleForm.userPoint = this.personnelInfo.consumptionPoints == null ? 0 : this.personnelInfo.createUser;
+                this.ruleForm.userPoint = this.personnelInfo.consumptionPoints == null ? 0 : this.personnelInfo.consumptionPoints;
                 this.ruleForm.userExperience = this.personnelInfo.experience == null ? '0经验值' : this.personnelInfo.experience + '经验值';
                 this.ruleForm.userLevel = this.personnelInfo.levelName + ':';
                 this.ruleForm.userPhone = this.personnelInfo.mobile;

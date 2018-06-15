@@ -682,6 +682,7 @@
                     })
             },
             seaveInfo() { //保存商品
+        
                 this.tempatelAddShopp[this.tempatelAddShoppId].shopBox = this.ruleForm.addBox;
                 this.dialogVisible = false;
                 console.log(this.tempatelAddShopp[this.tempatelAddShoppId])
@@ -1243,24 +1244,29 @@
                                              newidBox.push(item.shopBox[i][0].id)
                                         }
                                         if(newidBox){
-                                            newidBox.forEach(items=>{
-                                                let dataInf = {
+                                            newidBox.forEach((items,index)=>{
+                                                console.log(item.shopBox)
+                                                if(response.data.info.orderDetails[index].id){
+                                                    let dataInf = {
                                                     startTime: newdate + " " + item.startTime,
                                                     endTime: newdate + " " + item.endTime,
-                                                    orderDetailId: response.data.info.id,
+                                                    orderDetailId: response.data.info.orderDetails[index].id,
                                                     accountId: that.userVip, //会员id
                                                     templateId: item.templateId, //膜版id
                                                     companyId: response.data.info.companyId, //公司id
                                                     commodityId:items,
-                                                    periodId:item.id
+                                                    periodId:item.id,
+                                                    date:newdate,
+                                                    number:item.shopBox[0][0].num 
                                                 }
-                                         dayBox.push(dataInf)
+                                                    dayBox.push(dataInf)
+                                                }
                                             })
                                         }
                                         
                                        
                                     })
-                                    let url = "/api/product/appointment/insert?weekDay="+dataTime
+                                    let url = "/api/product/appointment/insert"
                                     this.$http({
                                         url: url,
                                         method: 'POST',

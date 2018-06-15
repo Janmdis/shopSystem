@@ -230,21 +230,28 @@ export default {
     height:30px !important;
 }
 </style>
-<style>
+<style lang='less'>
 .typeselect .el-input__inner{
     height:30px !important;
 }
 .employeetable table td:nth-child(3) .cell{
     border:none;
 }
-.dialogemploy .el-dialog{
-    height:80%;
+.dialogemploy{
+    .el-dialog{
+        height:80%;
+    }
+    .el-dialog__body{
+        height:80%;
+    }
+    .el-pagination{
+        padding-top:10px;
+        text-align:right;
+    }
+    .el-table__body-wrapper{
+        height:100%;
+    }
 }
-.dialogemploy .el-dialog__body{
-    height:80%;
-}
-.dialogemploy .el-pagination{
-    padding-top:10px;
-    text-align:right;
-}
+
+
 </style>
