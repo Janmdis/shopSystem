@@ -65,7 +65,7 @@
                 </el-col>
             </el-row>
             <el-form-item class="estate-btn">
-                <el-button type="primary" :disabled="cantSubmit" @click="submitForm('ruleForm')">保存</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
             </el-form-item>
         </el-form>
     </el-dialog>
@@ -199,8 +199,9 @@
                         console.log(err)
                     });
             },
-            bigDis() {
-                console.log(this.houseForm.room);
+            bigDis(val) {
+                this.houseForm.bigDistrict = val?val:this.houseForm.bigDistrict;
+                console.log();
                 let that = this;
                 that.proDisId = {};
                 that.houseForm.provinceValue = '',
@@ -214,7 +215,8 @@
                     });
                 console.log(that.proDisId);
             },
-            proDis() {
+            proDis(val) {
+                this.houseForm.provinceValue = val?val:this.houseForm.provinceValue;
                 let that = this;
                 that.cityDisId = {};
                 that.houseForm.cityValue = '',
@@ -228,8 +230,8 @@
                 //console.log(that.houseForm.provinceValue);
                 //console.log(that.cityDisId);
             },
-            cityDis() {
-                console.log(this.houseForm.cityValue);
+            cityDis(val) {
+                this.houseForm.cityValue = val?val:this.houseForm.cityValue;
                 this.houseForm.countyDistrict = '',
                     this.houseForm.streetValue = '',
                     this.$http.get('/api/public/region/findParent?parentId=' + this.houseForm.cityValue)
@@ -240,8 +242,8 @@
                         console.log(err)
                     });
             },
-            countyDis() {
-                console.log(this.houseForm.countyDistrict);
+            countyDis(val) {
+                this.houseForm.countyDistrict = val?val:this.houseForm.countyDistrict;
                 this.houseForm.streetValue = '',
                     this.$http.get('/api/public/region/findParent?parentId=' + this.houseForm.countyDistrict)
                     .then(res => {
@@ -251,8 +253,8 @@
                         console.log(err)
                     });
             },
-            streetDis() {
-                console.log(this.houseForm.streetValue);
+            streetDis(val) {
+                this.houseForm.streetValue = val?val:this.houseForm.streetValue;
                 let street = document.getElementsByClassName('detailAddress')[0];
                 //console.log(street);
                 street.focus();
@@ -363,7 +365,13 @@
                         this.ruleForm.thisId = data.rowData.id
                         this.ruleForm.mode = data.rowData.alias
                         this.ruleForm.name = data.rowData.name
+                        this.bigDis(data.rowData.areaId);
+                        this.proDis(data.rowData.provinceId);
+                        this.cityDis(data.rowData.cityId);
+                        this.countyDis(data.rowData.districtId);
+                       
                         this.houseForm.bigDistrict=data.rowData.area.regionName,
+                        
                         this.houseForm.provinceValue = data.rowData.province.regionName,
                         this.houseForm.cityValue = data.rowData.city.regionName,
                         this.houseForm.countyDistrict = data.rowData.district.regionName,

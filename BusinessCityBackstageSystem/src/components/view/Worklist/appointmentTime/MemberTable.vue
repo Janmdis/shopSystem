@@ -49,19 +49,19 @@
         </template>
         </el-table-column>
         <el-table-column
-        prop="orderDetail.name"
+        prop="orderDetail.orderInfo.name"
         label="姓名">
         </el-table-column>
         <el-table-column
-        prop="orderDetail.phone"
+        prop="orderDetail.orderInfo.phone"
         label="电话">
         </el-table-column>
         <el-table-column
-        prop="orderDetail.serviceStateName"
+        prop="orderDetail.orderInfo.serviceStateName"
         label="服务类型">
         </el-table-column>
         <el-table-column
-        prop="orderDetail.productModel"
+        prop="orderDetail.orderInfo.productModel"
         label="产品类型">
         </el-table-column>
         <el-table-column

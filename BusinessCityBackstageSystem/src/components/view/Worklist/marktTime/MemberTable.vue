@@ -1169,7 +1169,12 @@
                             'commodityName': newBox[i][0].name,
                             'commodityId': newBox[i][0].id,
                             'saleNumber': newBox[i][0].num - 0,
-                            "serviceState":1
+                            "serviceState":1,
+                            regionId:this.houseForm.bigDistrict,
+                            provinceId:this.houseForm.provinceValue,
+                            cityId:this.houseForm.cityValue ,
+                            areaId:this.houseForm.countyDistrict,
+                            streetId:this.houseForm.streetValue,
                         })
                     }
                 }
@@ -1214,7 +1219,8 @@
                     sourceAccount: this.ruleForm.sourceAccount,
                     sourceId: this.ruleForm.sourceId,
                     hasContract: false,
-                    orderDetails: arrBox
+                    orderDetails: arrBox,
+                   
                 }
                 if (this.ruleForm.textInfo == "新增订单") {
                     this.ruleForm.orderId = '';
@@ -1257,7 +1263,8 @@
                                                     commodityId:items,
                                                     periodId:item.id,
                                                     date:newdate,
-                                                    number:item.shopBox[0][0].num 
+                                                    number:item.shopBox[0][0].num ,
+                                                    
                                                 }
                                                     dayBox.push(dataInf)
                                                 }
