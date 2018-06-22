@@ -3,7 +3,7 @@
         <el-row  class='contain'>
             <el-col :span="12" >
                 <el-row>
-                    <el-form ref="formmsg" class='formmsg' :model="formmsg" :rules="rules" label-width="80px">
+                    <el-form ref="formmsg" class='formmsg' :model="formmsg" :rules="rules" label-width="90px">
                         <el-form-item label="标题：" prop='name'>
                             <el-input v-model="formmsg.name"></el-input>
                         </el-form-item>
@@ -48,6 +48,18 @@
                             <el-col :span='12'>
                                 <el-form-item label="销量：" prop='totalSales'>
                                     <el-input v-model="formmsg.totalSales"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span='12'>
+                                <el-form-item label="服务类型：" prop='categoryId'>
+                                    <el-select v-model="formmsg.categoryId" placeholder="请选择" @change='changegoodstype'>
+                                        <el-option
+                                        v-for="item in goodstype"
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.id">
+                                        </el-option>
+                                    </el-select>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -418,6 +430,7 @@ export default {
             this.$refs.detailcommodity.setAttribute('class','detailcommodity on');
             this.getcommodityinfo();
             this.getcategory();
+            this.getServiceType();
             this.getimglist();
             this.getdatemodel();
             this.getcitys();
@@ -429,6 +442,7 @@ export default {
             this.$refs.detailcommodity.setAttribute('class','detailcommodity on');
             this.getcommodityinfo();
             this.getcategory();
+            this.getServiceType();
             this.getimglist();
             this.getdatemodel();
             this.getcitys();
@@ -627,6 +641,17 @@ export default {
             .catch(function(response){
                 console.log(response);
             })
+        },
+        // 获取服务类型
+        getServiceType(){
+            let that = this;
+            this.$http.post('./api/product/serviceType/queryList',{})
+            .then(function(response){
+             console.log(response)
+            })
+            .catch(function (response) { 
+                console.log(response);
+             })
         },
         // 选择商品分类
         changegoodstype(value){

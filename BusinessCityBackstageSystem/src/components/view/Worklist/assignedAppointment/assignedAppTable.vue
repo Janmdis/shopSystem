@@ -1,5 +1,5 @@
 <template>
-    <el-table :data="datalist" @selection-change='showextra' v-loading="this.listLoading" :stripe='true' style="width: 100%;" height='500'>
+    <el-table :data="datalist" @selection-change='showextra' v-loading="listLoading" :stripe='true' style="width: 100%;" height='500'>
         <el-table-column fixed type="index" label="N" :index="indexMethod">
         </el-table-column>
         <el-table-column fixed type="selection" width="55">
@@ -37,12 +37,12 @@
 <script>
     / eslint-disable /
     export default {
-        prop: ['listLoading'],
         data() {
             return {
                 datalist: [],
                 showLeft: 0,
                 pageIndex: 1,
+                listLoading:false
             }
         },
         created: function() {

@@ -125,6 +125,7 @@ export default {
             // let data = {isActive: 1}
         },
         getTemplate(){
+            alert(1)
             //获取时间模板
             let that = this;
             var url = '/api/product/commodity/periodTemplate/query';
@@ -134,6 +135,7 @@ export default {
                 data: {},
             }).then(respone => {
                 if (respone.data.info.list){
+                    console.log(respone)
                     let data = respone.data.info.list;
                     let arr = [];
                     data.forEach((e, j) => {
