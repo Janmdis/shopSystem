@@ -269,6 +269,7 @@
                                templateId:this.templateId,
                                updateTime:youWants,
                                isService:this.ruleForm.resource
+                          
                             }
                         })
                         .then(response => {

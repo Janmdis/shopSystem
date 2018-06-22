@@ -1264,7 +1264,7 @@
                                                     periodId:item.id,
                                                     date:newdate,
                                                     number:item.shopBox[0][0].num ,
-                                                    
+                                                    source:1
                                                 }
                                                     dayBox.push(dataInf)
                                                 }
@@ -1419,6 +1419,9 @@
 <style>
     #overBox .el-table th {
         display: none;
+    }
+    .ctemplate{
+        margin-bottom:100px;
     }
     .ctemplate .el-table__empty-block {
         display: none;
