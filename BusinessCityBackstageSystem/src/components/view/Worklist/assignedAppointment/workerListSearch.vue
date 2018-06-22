@@ -9,9 +9,9 @@
                                 <el-select v-model="ruleForm.serType" placeholder="请选择">
                                     <el-option
                                     :popper-append-to-body="false"
-                                    v-for="(item,index) in customerCategory"
+                                    v-for="(item,index) in ruleForm.customerCategory"
                                     :key="index"
-                                    :label="item.name"
+                                    :label="item.employeeTypeName"
                                     :value="item.id">
                                     </el-option></el-select>
                                 
@@ -19,14 +19,14 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item class="visit-item" label="城市:" prop="city">
-                                <el-select v-model="ruleForm.city" clearable  filterable placeholder="请选择">
+                                <el-select v-model="ruleForm.city" clearable  filterable placeholder="请选择" @change="selectQY(ruleForm.city)">
                                     <el-option
                                     :popper-append-to-body="false"
-                                    v-for="(item,index) in cities"
+                                    v-for="(item,index) in ruleForm.cities"
                                     :key="index"
                                     :label="item.regionName"
                                     :value="item.id"
-                                    @click="selectQY(item.id)">
+                                    >
                                     </el-option></el-select>
                             </el-form-item>
                         </el-col>
@@ -35,16 +35,16 @@
                                     <el-select v-model="ruleForm.userVillage" placeholder="请选择">
                                         <el-option
                                         :popper-append-to-body="false"
-                                        v-for="(item,index) in regions"
+                                        v-for="(item,index) in ruleForm.regions"
                                         :key="index"
-                                        :label="item.housingEstate.name"
-                                        :value="item.housingEstate.id">
+                                        :label="item.regionName"
+                                        :value="item.id">
                                         </el-option>
                                     </el-select>
                             </el-form-item> 
                         </el-col>
                         <el-col :span="5" style="margin-left:10%;">
-                            <el-button type="primary">查询</el-button>
+                            <el-button type="primary" @click="getList">查询</el-button>
                         </el-col>
                     </el-col>
                 </el-form>
@@ -57,6 +57,7 @@ export default {
             ruleForm: {
                 serType:'',
                 city:'',
+                userVillage:'',
                 cities:[],
                 regions:[],
                 customerCategory:[]
@@ -76,9 +77,9 @@ export default {
                 method: 'get',
                 data: '',
             }).then(respone => {
-                if (respone.data.info.list){
-                    let data = respone.data.info.list;
-                    that.ruleForm.customerCategory = data
+                if (respone.data.info){
+                    let datas = respone.data.info;
+                    that.ruleForm.customerCategory = datas
                 }
             })
         },
@@ -87,8 +88,13 @@ export default {
             this.$http.get(
                 '/api/public/region/findParent?grade=2'
             ).then(res => {
-                console.log(res.data.info)
-                that.cities = res.data.info;
+               // console.log(res.data.info)
+                if(res.data.info == '尚未登录'){
+                    alert('登录超时！')
+                }else{
+                    that.ruleForm.cities = res.data.info;
+                    // console.log(that.ruleForm.cities)
+                }
             })
         },
         selectQY(cityId){
@@ -97,22 +103,28 @@ export default {
             this.$http.get(
                 '/api/public/region/findParent?grade=3&parentId='+cId
             ).then(res => {
-                console.log(res.data.info)
-                that.regions = res.data.info;
+              //  console.log(res.data.info)
+                that.ruleForm.regions = res.data.info;
             })
         },
         getList(){
+            this.$root.$emit('workerloading',true)
             let that = this;
             var url = '/api/admin/account/multiConditionalQuery'
-            // let datas = {
-            //     serTypeName:,typeid:,cityName:,disName:
-            // }
+            let datas = {
+                serTypeId:this.ruleForm.serType,
+                cityId:this.ruleForm.city,
+                disId:this.ruleForm.userVillage
+            }
             this.$http({
                 url: url,
                 method: 'post',
                 data: datas,
             }).then(respone => {
                 console.log(respone)
+                that.$root.$emit('dataListWorker',respone.data.info.list)
+                this.$root.$emit('pages1',respone.data.info.pages)
+                this.$root.$emit('total1',respone.data.info.total)
             })
         },
     }
@@ -120,6 +132,4 @@ export default {
 </script>
 <style>
 
-/* admin/employeetype/queryList  服务人员类型查询 */
-/* admin/account/multiConditionalQuery 服务人员列表条件查询 */
 </style>

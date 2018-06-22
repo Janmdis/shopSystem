@@ -39,52 +39,23 @@
     //     mapState
     // } from 'Vuex'
     export default {
-        prop: ['listLoading'],
         data() {
             return {
                 datalist: [],
                 showLeft: 0,
-                pageIndex: 1,
+                listLoading:false
             }
         },
         created: function() {
-            this.$root.$on('pageIndex', (data) => {
-                this.pageIndex = data.value
-                this.getDate(this.pageIndex)
+            this.$root.$on('workerloading',(data) => {
+               this.listLoading =  true;
             })
-            this.getDate(1)
-            this.$root.$on('getDatezdy', (data) => {
-                this.getDate(data)
-            })
-            this.$root.$on('dataListBox', (data) => {
+            this.$root.$on('dataListWorker', (data) => {
                 this.datalist = data
+                this.listLoading =  false;
             })
         },
         methods: {
-            getDate(pageIndex) {
-                this.listLoading =  true;
-                let url = '/api/product/mall/template/query?page='+pageIndex+'&pageSize=10';
-                this.$http({
-                    url: url,
-                    method: 'POST',
-                    // 请求体重发送的数据
-                    // headers: { 'Content-Type': 'application/json' },
-                    data:{
-                        'templateType':1
-                    },
-                })
-                .then(response => {
-                    this.listLoading =  false;
-                    this.datalist=(response.data.info.list);
-                    console.log(response.data.msg)
-                    this.$root.$emit('pages1',response.data.info.pages)
-                    this.$root.$emit('total1',response.data.info.total)
-                })
-                .catch(error=>{
-                    console.log(error);
-                    // //         alert('网络错误，不能访问');
-                })
-            },
             showextra(val) {
                 let show = false;
                 let editcan = true;

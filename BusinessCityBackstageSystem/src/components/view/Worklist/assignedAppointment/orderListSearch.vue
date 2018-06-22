@@ -9,7 +9,7 @@
                                 <el-select v-model="ruleForm.userType" placeholder="请选择">
                                     <el-option
                                     :popper-append-to-body="false"
-                                    v-for="(item,index) in customerCategory"
+                                    v-for="(item,index) in ruleForm.customerCategory"
                                     :key="index"
                                     :label="item.name"
                                     :value="item.id">
@@ -26,7 +26,7 @@
                                 <el-select v-model="ruleForm.region" placeholder="请选择" @change="getTempId(indexs,items.region)">
                                     <el-option
                                     :popper-append-to-body="false"
-                                    v-for="(item,index) in tempalteTime"
+                                    v-for="(item,index) in ruleForm.tempalteTime"
                                     :key="index"
                                     :label="item.name"
                                     :value="item.id"
@@ -39,7 +39,7 @@
                                 <el-select v-model="ruleForm.userType" placeholder="请选择">
                                     <el-option
                                     :popper-append-to-body="false"
-                                    v-for="(item,index) in customerCategory"
+                                    v-for="(item,index) in ruleForm.customerCategory"
                                     :key="index"
                                     :label="item.name"
                                     :value="item.id">
@@ -50,7 +50,7 @@
                             <el-form-item class="visit-item" label="城市:">
                                 <el-select v-model="ruleForm.cityValue" @change="cityDis" placeholder="请选择">
                                     <el-option
-                                    v-for="(item,index) in cityDisId"
+                                    v-for="(item,index) in ruleForm.cityDisId"
                                     :key="index"
                                     :label="item"
                                     :value="index">
@@ -61,7 +61,7 @@
                             <el-form-item class="visit-item" label="区域:">
                                     <el-select v-model="ruleForm.countyDistrict" @change="countyDis" placeholder="请选择">
                                         <el-option
-                                        v-for="(item,index) in countyInfo"
+                                        v-for="(item,index) in ruleForm.countyInfo"
                                         :key="index"
                                         :label="item.regionName"
                                         :value="item.id">
@@ -73,7 +73,7 @@
                             <el-form-item class="visit-item" label="街道:">
                                     <el-select v-model="ruleForm.streetValue" @change="streetDis" placeholder="请选择">
                                         <el-option
-                                        v-for="(item,index) in streetInfo"
+                                        v-for="(item,index) in ruleForm.streetInfo"
                                         :key="index" 
                                         :label="item.regionName" 
                                         :value="item.id">
@@ -119,7 +119,13 @@ export default {
         this.getTemplate();
     },
     methods: {
+        getcustonerCategory(){
+          //  业务类型查询
+            // api/product/type/find?pageSize=0
+            // let data = {isActive: 1}
+        },
         getTemplate(){
+            //获取时间模板
             let that = this;
             var url = '/api/product/commodity/periodTemplate/query';
             this.$http({
@@ -140,7 +146,8 @@ export default {
         getTempIds(name) {
             this.templaetName = name
         },
-        getTempId(index, id, name) { //模版选中后的数据
+        getTempId(index, id, name) { 
+            //时间模版选中后的数据
             this.periodTemplateId = id
                 var url = '/api/product/period/query';
                 this.$http({

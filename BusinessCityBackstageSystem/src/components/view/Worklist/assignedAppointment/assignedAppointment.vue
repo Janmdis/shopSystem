@@ -26,7 +26,7 @@
                     </el-col>
                     <el-col :span='12' :offset="12">
                         <div class="block">
-                            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageIndex" :page-size="pageSize" layout=" prev, pager, next, jumper,total" :total="totalCount">
+                            <el-pagination @size-change="orderListSizeChange" @current-change="orderListCurrentChange" :current-page="pageIndex" :page-size="pageSize" layout=" prev, pager, next, jumper,total" :total="totalCount">
                             </el-pagination>
                         </div>
                     </el-col>
@@ -46,7 +46,7 @@
                     </el-col>
                     <el-col :span='12' :offset="12">
                         <div class="block">
-                            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageIndex" :page-size="pageSize" layout=" prev, pager, next, jumper,total" :total="totalCount">
+                            <el-pagination @size-change="workerListSizeChange" @current-change="workerListCurrentChange" :current-page="workerPageIndex" :page-size="workerPageSize" layout=" prev, pager, next, jumper,total" :total="totalCount1">
                             </el-pagination>
                         </div>
                     </el-col>
