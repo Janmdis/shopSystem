@@ -136,8 +136,8 @@ export default {
                 url=url+'&recommendedTeamId='+data.channelid;
             }
             else if(data.type=='teamer'){
-                // url=url+'&recommendedTeamId='+data.channelid+'&recommendedAdminId='+data.teamerid;
-                url=url+'&recommendedAdminId='+data.teamerid;                
+                url=url+'&recommendedTeamId='+data.channelid+'&recommendedAdminId='+data.teamerid;
+                // url=url+'&recommendedAdminId='+data.teamerid;                
             }
             console.log(url);
             let url_code=this.url_img+'?content='+escape(url);
