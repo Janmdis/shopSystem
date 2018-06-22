@@ -125,7 +125,7 @@ export default {
             // let data = {isActive: 1}
         },
         getTemplate(){
-            alert(1)
+          //  alert(1)
             //获取时间模板
             let that = this;
             var url = '/api/product/commodity/periodTemplate/query';
