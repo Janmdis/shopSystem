@@ -50,18 +50,18 @@
                                     <el-input v-model="formmsg.totalSales"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <!-- <el-col :span='12'>
-                                <el-form-item label="服务类型：" prop='categoryId'>
-                                    <el-select v-model="formmsg.categoryId" placeholder="请选择" @change='changegoodstype'>
+                            <el-col :span='12'>
+                                <el-form-item label="服务类型：" prop='serviceId'>
+                                    <el-select v-model="formmsg.serviceId" placeholder="请选择" @change='changeServicetype'>
                                         <el-option
-                                        v-for="item in goodstype"
+                                        v-for="item in serviceArr"
                                         :key="item.id"
-                                        :label="item.name"
+                                        :label="item.serName"
                                         :value="item.id">
                                         </el-option>
                                     </el-select>
                                 </el-form-item>
-                            </el-col> -->
+                            </el-col>
                         </el-row>
                         <el-form-item label="商品规格：" prop='options'>
                             <!-- <el-input type="textarea" v-model="formmsg.options" ></el-input> -->
@@ -377,11 +377,13 @@ export default {
                 originalPrice:'',
                 totalSales:'',
                 categoryId:'',
+                serviceId:'',
                 brand:'',
                 detailTemplateInfoName:'',
                 detailTemplateInfoId:''
             },
             goodstype:[],
+            serviceArr:[],
             disabled:true,
             // 图片删除URL
             importFileUrl:'api/zuul/sms/file/fileUpload',
@@ -577,6 +579,7 @@ export default {
                     that.formmsg.originalPrice=data.originalPrice.toString();
                     that.formmsg.totalSales=data.totalSales.toString();
                     that.formmsg.categoryId=data.categoryId==0?null:data.categoryId;
+                    that.formmsg.serviceId = data.serviceTypeId==0?null:data.serviceTypeId;
                     that.formmsg.brand=data.brand;
                     that.formmsg.detailTemplateInfoId = data.detailTemplateId
                     that.formmsg.desc = data.description
@@ -589,7 +592,7 @@ export default {
                     }else{
                         that.sendPoints = false
                     }
-                    if(data.originalPriceMoney || data.originalPricePoint){
+                    if(data.originalPricePoint){
                         that.pointsDeduction = true
                         that.pointsNum = data.originalPricePoint
                     }else{
@@ -642,20 +645,27 @@ export default {
                 console.log(response);
             })
         },
+        // 选择商品分类
+        changegoodstype(value){
+            this.formmsg.categoryId=value;
+            console.log(value);
+        },
         // 获取服务类型
         getServiceType(){
             let that = this;
             this.$http.post('./api/product/serviceType/queryList',{})
             .then(function(response){
-             console.log(response)
+             if(response.data.msg == '查询成功'){
+                   that.serviceArr = response.data.info;
+               }
             })
             .catch(function (response) { 
-                console.log(response);
+               console.log(response)
              })
         },
-        // 选择商品分类
-        changegoodstype(value){
-            this.formmsg.categoryId=value;
+        // 选择服务类型
+        changeServicetype(value){
+            this.formmsg.serviceId=value;
             console.log(value);
         },
         // 保存商品信息
@@ -689,15 +699,15 @@ export default {
                         periodTemplateId:this.tmid,
                         regionTemplateId:this.areamid,
                         categoryId:this.formmsg.categoryId,
+                        serviceTypeId:this.formmsg.serviceId,
                         brand:this.formmsg.brand,
                         isPackage:0,
                         detailTemplateId:this.formmsg.detailTemplateInfoId,
                         description:this.formmsg.desc,
                         options:JSON.stringify(this.specificationArr),
-                        giftPoints:this.sendPointsNum,
+                        giftPoints:parseInt(this.sendPointsNum),
                         priceRule:1,
-                        originalPricePoint:this.pointsNum,
-                        originalPriceMoney:this.formmsg.originalPrice - this.formmsg.originalPrice * this.sendPointsNum
+                        originalPricePoint:parseInt(this.pointsNum),
                     };
                     this.$http.post('/api/product/commodity/info/update',data)
                     .then(function(response){
@@ -1542,12 +1552,12 @@ export default {
     watch:{
         pointsDeduction(val,oldVal){
             if(val == false){
-                this.pointsNum = ''
+                this.pointsNum = 0
             }
         },
         sendPoints(val,oldVal){
             if(val == false){
-                this.sendPointsNum = ''
+                this.sendPointsNum = 0
             }
         },
         tmselected(){

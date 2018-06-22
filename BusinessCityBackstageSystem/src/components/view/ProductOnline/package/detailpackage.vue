@@ -40,7 +40,7 @@
                 </el-row>
                 <el-row>
                     <header class='header'>信息展示</header>
-                    <el-form ref="formmsg" class='formmsg' :model="formmsg" :rules="rules" label-width="80px">
+                    <el-form ref="formmsg" class='formmsg' :model="formmsg" :rules="rules" label-width="90px">
                         <el-form-item label="标题：" prop='name'>
                             <el-input v-model="formmsg.name"></el-input>
                         </el-form-item>
@@ -80,6 +80,18 @@
                             <el-col :span='12'>
                                 <el-form-item label="销量：" prop='totalSales'>
                                     <el-input v-model="formmsg.totalSales"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span='12'>
+                                <el-form-item label="服务类型：" prop='serviceId'>
+                                    <el-select v-model="formmsg.serviceId" placeholder="请选择" @change='changeServicetype'>
+                                        <el-option
+                                        v-for="item in serviceArr"
+                                        :key="item.id"
+                                        :label="item.serName"
+                                        :value="item.id">
+                                        </el-option>
+                                    </el-select>
                                 </el-form-item>
                             </el-col>
                         </el-row>
@@ -405,6 +417,7 @@ export default {
                 originalPrice:'',
                 totalSales:'',
                 categoryId:'',
+                serviceId:'',
                 detailTemplateInfoName:'',
                 detailTemplateInfoId:''
             },
@@ -457,6 +470,7 @@ export default {
             this.getpackageinfo();
             this.getgoodslist();
             this.getcategory();
+            this.getServiceType();
             this.getimglist();
             this.getdatemodel();
             this.getcitys();
@@ -468,6 +482,7 @@ export default {
             this.getpackageinfo();
             this.getgoodslist();
             this.getcategory();
+            this.getServiceType();
             this.getimglist();
             this.getdatemodel();
             this.getcitys();
@@ -610,7 +625,8 @@ export default {
                     that.formmsg.displayQuantity=data.displayQuantity.toString();
                     that.formmsg.originalPrice=data.originalPrice.toString();
                     that.formmsg.totalSales=data.totalSales.toString();
-                    that.formmsg.categoryId=data.categoryId;
+                    that.formmsg.categoryId=data.categoryId==0?null:data.categoryId;
+                    that.formmsg.serviceId = data.serviceTypeId==0?null:data.serviceTypeId;
                     that.tmid=data.periodTemplateId;
                     that.areamid=data.regionTemplateId;
                     that.formmsg.detailTemplateInfoId = data.detailTemplateId
@@ -622,7 +638,7 @@ export default {
                     }else{
                         that.sendPoints = false
                     }
-                    if(data.originalPriceMoney || data.originalPricePoint){
+                    if(data.originalPricePoint){
                         that.pointsDeduction = true
                         that.pointsNum = data.originalPricePoint
                     }else{
@@ -737,6 +753,24 @@ export default {
         // 选择商品分类
         changegoodstype(value){
             this.formmsg.categoryId=value;
+            console.log(value);
+        },
+        // 获取服务类型
+        getServiceType(){
+            let that = this;
+            this.$http.post('./api/product/serviceType/queryList',{})
+            .then(function(response){
+             if(response.data.msg == '查询成功'){
+                   that.serviceArr = response.data.info;
+               }
+            })
+            .catch(function (response) { 
+               console.log(response)
+             })
+        },
+        // 选择服务类型
+        changeServicetype(value){
+            this.formmsg.serviceId=value;
             console.log(value);
         },
         // 编辑商品
@@ -869,14 +903,14 @@ export default {
                         periodTemplateId:this.tmid,
                         regionTemplateId:this.areamid,
                         categoryId:this.formmsg.categoryId,
+                        serviceTypeId:this.formmsg.serviceId,
                         isPackage:1,
                         detailTemplateId:this.formmsg.detailTemplateInfoId,
                         description:this.formmsg.desc,
                         options:JSON.stringify(this.specificationArr),
-                        giftPoints:this.sendPointsNum,
+                        giftPoints:parseInt(this.sendPointsNum),
                         priceRule:1,
-                        originalPricePoint:this.pointsNum,
-                        originalPriceMoney:this.formmsg.originalPrice - this.formmsg.originalPrice * this.sendPointsNum
+                        originalPricePoint:parseInt(this.pointsNum),
                     };
                     this.$http.post('/api/product/commodity/info/update',data)
                     .then(function(response){
@@ -1806,12 +1840,12 @@ export default {
     watch:{
          pointsDeduction(val,oldVal){
             if(val == false){
-                this.pointsNum = ''
+                this.pointsNum = 0
             }
         },
         sendPoints(val,oldVal){
             if(val == false){
-                this.sendPointsNum = ''
+                this.sendPointsNum = 0
             }
         },
         tmselected(value){
