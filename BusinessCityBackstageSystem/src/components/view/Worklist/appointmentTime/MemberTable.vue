@@ -37,7 +37,7 @@
         width='200'
         label="服务时间">
         <template slot-scope="scope">
-            {{rGetData(scope.row.appointTime) + (scope.row.appointSlot==1?"上午":scope.row.appointSlot==2?"下午":scope.row.appointSlot==3?"全天":"")}}
+            {{rGetData(scope.row.startTime)+"——"+rGetData(scope.row.endTime)}}
         </template>
         </el-table-column>
         <el-table-column
@@ -45,7 +45,7 @@
         prop="updateAppointTime"
         label="申请修改时间">
         <template slot-scope="scope">
-            {{rGetData(scope.row.updateAppointTime) + (scope.row.updateAppointSlot==1?"上午":scope.row.updateAppointSlot==2?"下午":scope.row.updateAppointSlot==3?"全天":'')}}
+            {{scope.row.updateTime}}
         </template>
         </el-table-column>
         <el-table-column
@@ -155,7 +155,7 @@ export default {
         rGetData(data){
             let newTime = '';
             if(data){
-                newTime = data.split(" ")[0]
+                newTime = data.split(" ")[1]
             }
             return newTime
         },
