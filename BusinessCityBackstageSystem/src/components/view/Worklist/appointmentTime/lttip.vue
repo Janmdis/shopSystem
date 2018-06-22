@@ -26,14 +26,15 @@ export default {
         return{
             listname:'',
             canedit:true,
-            dataInfo:''
+            dataInfo:[]
         }
     },
     created:function(){
         this.listname=this.name;
         this.$root.$on('showlttip',(data)=>{
-            console.log(data)
-            this.dataInfo = data.datas[0]
+            data.datas.forEach(item=>{
+                this.dataInfo.push(item.id)
+            })
             var dom=document.getElementsByClassName('emendation')[0];
             // let dom_edit=document.getElementById('modificationBtn');
             document.getElementsByClassName('nums')[0].innerHTML=data.num;
@@ -52,15 +53,15 @@ export default {
         },
         delBox(){
             let that = this;
-            this.$confirm('确定删除 "'+this.dataInfo.name+'"吗?', '提示', 
+            this.$confirm('确定删除吗?', '提示', 
                 {confirmButtonText: '确定',cancelButtonText: '取消',type: 'warning'})
             .then(() => {
                 that.$message({
                     type: 'success',
                     message: '删除成功!',
                     duration:800,
-                    onClose:that.$http.post('/api/customer/estate/removeData',
-                        [that.dataInfo.id]
+                    onClose:that.$http.post('/api/product/appointment/remove',
+                        this.dataInfo
                     ).then(res => {
                         console.log(res.data.msg);
                         that.$root.$emit('getDatezdy',1);

@@ -18,9 +18,11 @@ export default {
             namepage: '指派工单',
             currentPage1: 1,
             isActive: false,
-            totalCount: 0,
             pageIndex: 1,
             pageSize: 10,
+            workerPageIndex:1,
+            workerPageSize:10,
+            totalCount: 0,
             pageS: 0,
             totalCount1: 0,
             pageS1: 0,
@@ -48,16 +50,29 @@ export default {
         })
     },
     methods: {
-        handleSizeChange(val) {
+        orderListSizeChange(val) {
             this.pageSize = val;
             this.$root.$emit('pageSize', {
                 value: this.pageSize
             })
         },
-        handleCurrentChange(val) {
+        orderListCurrentChange(val) {
             this.pageIndex = val;
             this.$root.$emit('pageIndex', {
                 value: this.pageIndex
+            })
+
+        },
+        workerListSizeChange(val) {
+            this.workerPageSize = val;
+            this.$root.$emit('workerPageSize', {
+                value: this.workerPageSize
+            })
+        },
+        workerListCurrentChange(val) {
+            this.workerPageIndex = val;
+            this.$root.$emit('workerPageIndex', {
+                value: this.workerPageIndex
             })
 
         },
