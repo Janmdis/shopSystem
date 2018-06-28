@@ -96,7 +96,6 @@
                 findSource: [],
                 address: [],
                 idBox: [],
-                handleSelect:'',
                 cArr: '',
                 textIfon: '',
                 orderState: '',
@@ -157,7 +156,6 @@
                 }
                 return text;
             },
-            handleSelect(){},
             getMember(id, obj) {
                 // console.log(id)
                 // console.log(obj)
