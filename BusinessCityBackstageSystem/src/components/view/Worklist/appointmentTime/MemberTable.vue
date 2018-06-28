@@ -22,7 +22,7 @@
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
         </el-table-column> -->
         <el-table-column
-        prop="orderDetail.orderId"
+        prop="orderDetail.orderNumber"
         width='200'
         label="订单号"
         >
