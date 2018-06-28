@@ -61,8 +61,10 @@
         label="服务类型">
         </el-table-column>
         <el-table-column
-        prop="orderDetail.orderInfo.productModel"
-        label="产品类型">
+        label="来源">
+        <template slot-scope="scope">
+            {{scope.row.source==1?"商城":"面板"}}
+        </template>
         </el-table-column>
         <el-table-column
         prop="orderDetail.orderInfo.communityName"
