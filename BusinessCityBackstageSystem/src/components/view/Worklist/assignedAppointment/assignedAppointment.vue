@@ -53,7 +53,7 @@
                 </el-row>
                 <el-row style='padding-top:18px; padding-bottom:18px;'>
                     <el-col :span="5" style="margin-left:44%;">
-                        <el-button type="primary">确认匹配</el-button>
+                        <el-button type="primary" @click="assignedAppointment">确认匹配</el-button>
                     </el-col>
                 </el-row>
             </el-col>

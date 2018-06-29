@@ -26,13 +26,21 @@ export default {
             pageS: 0,
             totalCount1: 0,
             pageS1: 0,
-            listLoading: false
+            listLoading: false,
+            workerDatas:[],
+            orderListDataz:[]
         }
 
     },
     created() {
         this.$root.$on('loading', data => {
             this.loadOk = data;
+        })
+        this.$root.$on('workerDatas', data => {
+            this.workerDatas = data;
+        })
+        this.$root.$on('orderListDataz', data => {
+            this.orderListDataz = data;
         })
     },
     mounted() {
@@ -76,7 +84,47 @@ export default {
             })
 
         },
-
+        assignedAppointment(){
+            console.log(this.workerDatas)
+            console.log(this.orderListDataz)
+            if(this.orderListDataz == 0){
+                alert('请选择订单')
+                return
+            };
+            if(this.workerDatas.length == 0 ){
+                alert('请选择人员')
+                return
+            };
+            let orderArr = this.orderListDataz;
+            let workerArr = this.workerDatas;
+            let orderNewArr = [];
+            let workerNewId = [];
+            let workerNewPhone = [];
+            orderArr.forEach((e, i) => {
+                orderNewArr.push(e.orderDetail.orderId);
+            });
+            workerArr.forEach((e, i) => {
+                workerNewId.push(e.id);
+                workerNewPhone.push(e.phone);
+            });
+            let datas = {
+                "orderInfoId":orderNewArr,
+                "housekeeperId":workerNewId,
+                "phone":workerNewPhone
+            }
+            console.log(datas)
+            let that = this;
+            var url = '/api/product/ProjectEstablish/updateByOrderInfoId'
+            this.$http({
+                url: url,
+                method: 'post',
+                data: datas,
+            }).then(respone => {
+                console.log(respone)
+            }).catch(error =>{
+                console.log(error)
+            })
+        }
     },
     components: {
         Lttip,
