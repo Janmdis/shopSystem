@@ -98,32 +98,46 @@ export default {
             let orderArr = this.orderListDataz;
             let workerArr = this.workerDatas;
             let orderNewArr = [];
-            let workerNewId = [];
-            let workerNewPhone = [];
+            let adminList = [];
             orderArr.forEach((e, i) => {
                 orderNewArr.push(e.orderDetail.orderId);
             });
             workerArr.forEach((e, i) => {
-                workerNewId.push(e.id);
-                workerNewPhone.push(e.phone);
+                let obj = new Object;
+                obj.adminId = e.id;
+                obj.name = e.adminName;
+                obj.phone = e.phone;
+                adminList.push(obj);
             });
-            let datas = {
-                "orderInfoId":orderNewArr,
-                "housekeeperId":workerNewId,
-                "phone":workerNewPhone
-            }
-            console.log(datas)
+            let listArr = [];
             let that = this;
-            var url = '/api/product/ProjectEstablish/updateByOrderInfoId'
+            var urls = '/api/product/ProjectEstablish/queryListByOrderInfoIds'
             this.$http({
-                url: url,
-                method: 'post',
-                data: datas,
-            }).then(respone => {
-                console.log(respone)
-            }).catch(error =>{
-                console.log(error)
-            })
+                    url: urls,
+                    method: 'post',
+                    data: ['02af89e2-51ba-11e8-aa2a-fa163edc8ab6','00720bc4-5a4b-11e8-b6ac-00163e02c66a','012af5f3-5a3d-11e8-b6ac-00163e02c66a'],
+                }).then(respone => {
+                    console.log(respone)
+                    listArr = respone.data.info
+                      let datas = {
+                            "projectEstablishIdList":listArr,
+                            "adminList":adminList
+                        }
+                        console.log(datas)
+                        var url = '/api/product/workList/arrangement'
+                        that.$http({
+                            url: url,
+                            method: 'post',
+                            data: datas,
+                        }).then(respone => {
+                            console.log(respone)
+                        }).catch(error =>{
+                            console.log(error)
+                        })
+                }).catch(error =>{
+                    console.log(error)
+                })
+          
         }
     },
     components: {

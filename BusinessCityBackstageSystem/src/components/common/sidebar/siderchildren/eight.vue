@@ -9,12 +9,12 @@
               <el-menu-item index="marktTime">预约面板</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <!-- <el-submenu index="2">
+          <el-submenu index="2">
             <template slot="title"><i class="icon iconfont icon-order1" style='margin-right: 10px;'></i>指派工单</template>
             <el-menu-item-group>
               <el-menu-item index="assignedAppointment">指派工单</el-menu-item>
             </el-menu-item-group>
-          </el-submenu> -->
+          </el-submenu>
         </el-menu>
       </el-aside>
     </el-container>

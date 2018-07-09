@@ -100,6 +100,24 @@
                                             <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新 规格值</el-button>
                                         </el-col>
                                     </el-col>
+                                    <!-- <el-col :span='24' v-show="true">
+                                        <el-col :span='4'>规格组合：</el-col>
+                                        <el-col :span='20'> -->
+                                            <!-- 组合容器 -->
+                                            <!-- <el-col :span='24'> -->
+                                                <!-- 组合循环 -->
+                                                <!-- <el-col :span='24' style="font-size: 16px;">颜色 - 白色</el-col>
+                                                <el-col :span='4'>组合价格：</el-col>
+                                                <el-col :span='6'>
+                                                    <el-input v-model="specificationName"></el-input>
+                                                </el-col>
+                                                <el-col :span='4' style="margin-left:10px">组合库存：</el-col>
+                                                <el-col :span='6'>
+                                                    <el-input v-model="specificationName"></el-input>
+                                                </el-col>
+                                            </el-col>
+                                        </el-col>
+                                    </el-col> -->
                                     <el-col :span='24' style="margin-top: 16px;">
                                         <el-button type="primary" @click="sureAddOptions" style="height:30px;line-height: 5px;">确认</el-button>
                                         <el-button type="primary" @click="closeAddOptions" style="height:30px;line-height: 5px;">取消</el-button>
@@ -427,6 +445,8 @@ export default {
         }
     },
     created(){
+        //  console.log(new Date().getTime());
+        //   console.log(new Date('2018-07-08 00:00:00').getTime());
         this.$root.$on('editcommodity',(datas)=>{
             this.id=datas.id;
             this.$refs.detailcommodity.setAttribute('class','detailcommodity on');
@@ -495,7 +515,7 @@ export default {
                     tagIsUpdata:false
                 }
             // console.log(this.specificationArr)
-                if(this.specificationArr == null |this.specificationArr == 'null'){
+                if(this.specificationArr == null || this.specificationArr == 'null'){
                     this.specificationArr = []
                 }
                 this.specificationArr.push(obj)
@@ -515,12 +535,17 @@ export default {
             });
         },
         handleInputConfirm() {
+            // if(this.specificationName == ''){
+            //     this.$message('请填写规格名');
+            //     return false;
+            // }
             let inputValue = this.inputValue;
             if (inputValue) {
             this.dynamicTags.push(inputValue);
             }
             this.inputVisible = false;
             this.inputValue = '';
+            
         },
         //规格删改
         handleCloses(tag,index) {
@@ -1578,7 +1603,6 @@ export default {
     margin-left: 10px;
   }
   .button-new-tag {
-    margin-left: 10px;
     height: 32px;
     line-height: 30px;
     padding-top: 0;
