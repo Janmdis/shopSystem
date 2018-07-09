@@ -100,13 +100,11 @@
                                             <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新 规格值</el-button>
                                         </el-col>
                                     </el-col>
-                                    <!-- <el-col :span='24' v-show="true">
+                                    <el-col :span='24' v-show="true">
                                         <el-col :span='4'>规格组合：</el-col>
-                                        <el-col :span='20'> -->
-                                            <!-- 组合容器 -->
-                                            <!-- <el-col :span='24'> -->
-                                                <!-- 组合循环 -->
-                                                <!-- <el-col :span='24' style="font-size: 16px;">颜色 - 白色</el-col>
+                                        <el-col :span='20'>
+                                            <el-col :span='24'>
+                                                <el-col :span='24' style="font-size: 16px;">颜色 - 白色</el-col>
                                                 <el-col :span='4'>组合价格：</el-col>
                                                 <el-col :span='6'>
                                                     <el-input v-model="specificationName"></el-input>
@@ -117,7 +115,7 @@
                                                 </el-col>
                                             </el-col>
                                         </el-col>
-                                    </el-col> -->
+                                    </el-col>
                                     <el-col :span='24' style="margin-top: 16px;">
                                         <el-button type="primary" @click="sureAddOptions" style="height:30px;line-height: 5px;">确认</el-button>
                                         <el-button type="primary" @click="closeAddOptions" style="height:30px;line-height: 5px;">取消</el-button>
@@ -535,13 +533,34 @@ export default {
             });
         },
         handleInputConfirm() {
-            // if(this.specificationName == ''){
-            //     this.$message('请填写规格名');
-            //     return false;
-            // }
+            if(this.specificationName == ''){
+                this.$message('请填写规格名');
+                return false;
+            }
+            let names = this.specificationName;
             let inputValue = this.inputValue;
+            let specification = [];
+            // {
+            //     规格名称 + 规格值
+            //     规格值（与规格值数组的相同标识，删除作用）
+            //     库存
+            //     价格
+            // }
             if (inputValue) {
             this.dynamicTags.push(inputValue);
+            let obj = {
+                name:names +' - '+ inputValue,
+                value:inputValue,
+                id:,
+                productId:,
+                commodityId:,
+                displayQuantity:,
+                commodityPrice:,
+                conditions:{
+                    names:inputValue
+                }
+            }
+            specification.push(obj)
             }
             this.inputVisible = false;
             this.inputValue = '';

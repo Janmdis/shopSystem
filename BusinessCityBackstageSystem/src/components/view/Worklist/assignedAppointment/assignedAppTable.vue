@@ -8,7 +8,7 @@
                                 </el-table-column> -->
         <el-table-column fixed width='100' label="姓名">
             <template slot-scope='scope'>
-                {{scope.row.orderDetail.name}}
+                {{scope.row.orderDetail.name==null?'':scope.row.orderDetail.name}}
             </template>
         </el-table-column>
         <el-table-column width='120' label="电话">

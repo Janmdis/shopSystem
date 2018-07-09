@@ -115,7 +115,7 @@ export default {
             this.$http({
                     url: urls,
                     method: 'post',
-                    data: ['02af89e2-51ba-11e8-aa2a-fa163edc8ab6','00720bc4-5a4b-11e8-b6ac-00163e02c66a','012af5f3-5a3d-11e8-b6ac-00163e02c66a'],
+                    data: orderNewArr,
                 }).then(respone => {
                     console.log(respone)
                     listArr = respone.data.info
