@@ -6,30 +6,43 @@
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
                                 </el-table-column> -->
-        <el-table-column prop="name" fixed width='100' label="姓名">
+        <el-table-column fixed width='100' label="姓名">
+            <template slot-scope='scope'>
+                {{scope.row.orderDetail.name==null?'':scope.row.orderDetail.name}}
+            </template>
         </el-table-column>
-        <el-table-column prop="mobile" width='120' label="电话">
+        <el-table-column width='120' label="电话">
+            <template slot-scope='scope'>
+                {{scope.row.orderDetail.phone}}
+            </template>
         </el-table-column>
-        <el-table-column prop="mobile" width='120' label="商品名称">
+        <el-table-column width='120' label="商品名称">
+            <template slot-scope='scope'>
+                {{scope.row.orderDetail.commodityName}}
+            </template>
         </el-table-column>
-        <el-table-column prop="mobile" width='120' label="规格">
+        <el-table-column width='120' label="规格">
+            <template slot-scope='scope'>
+                {{scope.row.orderDetail.condition1Name==null?'':scope.row.orderDetail.condition1Name+'/'
+                +scope.row.orderDetail.condition2Name==null?'':scope.row.orderDetail.condition2Name}}
+            </template>
         </el-table-column>
-        <el-table-column prop="mobile" width='120' label="数量">
+        <el-table-column prop="number" width='120' label="数量">
         </el-table-column>
-        <el-table-column prop='cityName' width='120' label="区域">
+        <el-table-column prop='area' width='120' label="区域">
         </el-table-column>
         <el-table-column
             width='200'
             label="街道">
             <template slot-scope='scope'>
-                {{scope.row.quarters}}
+                {{scope.row.street}}
             </template>
         </el-table-column>
         <el-table-column
             width='200'
             label="小区">
             <template slot-scope='scope'>
-                {{scope.row.quarters}}
+                {{scope.row.orderDetail.communityName}}
             </template>
         </el-table-column>
     </el-table>
@@ -46,11 +59,12 @@
             }
         },
         created: function() {
-            this.$root.$on('pageIndex', (data) => {
-                this.pageIndex = data.value
+            this.$root.$on('orderListloading',(data) => {
+               this.listLoading =  true;
             })
-            this.$root.$on('dataListBox', (data) => {
+             this.$root.$on('dataListOrderList', (data) => {
                 this.datalist = data
+                this.listLoading =  false;
             })
         },
         methods: {
@@ -58,18 +72,7 @@
                 let show = false;
                 let editcan = true;
                 this.multipleSelection = val
-                if (this.multipleSelection.length > 0) {
-                    show = true;
-                }
-                if (this.multipleSelection.length > 1) {
-                    editcan = false;
-                }
-                this.$root.$emit('showlttip', {
-                    show,
-                    editcan,
-                    num: this.multipleSelection.length,
-                    datas: this.multipleSelection
-                });
+                this.$root.$emit('orderListDataz',this.multipleSelection)
             },
             indexMethod(index) {
                 return index + 1

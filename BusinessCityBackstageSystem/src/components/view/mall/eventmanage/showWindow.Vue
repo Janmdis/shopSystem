@@ -139,8 +139,6 @@ import qs from 'qs'
             getActivityInfo(datas){
                     if(datas){
                         let that = this;
-                        let hostName = location.hostname;
-                        let port = location.port;
                         let data= datas;
                         console.log(data)
                         this.id = data.id;
@@ -150,7 +148,7 @@ import qs from 'qs'
                         this.ruleForm.activityPlace = data.activityPlace
                         this.ruleForm.activityLink = data.activityLink
                         this.ruleForm.images = data.image
-                        this.eventImages = data.image;
+                        this.eventImages = this.apis +'api' + data.image;
                         this.ruleForm.typeid = data.activitySortId
                         this.ruleForm.detailTemplateInfoId = data.templateId
                         this.ruleForm.note = data.note

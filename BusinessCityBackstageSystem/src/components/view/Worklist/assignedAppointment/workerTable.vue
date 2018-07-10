@@ -6,16 +6,16 @@
         </el-table-column>
         <!-- <el-table-column class='borderRight' fixed prop="id" label="ID" width='360' height='100'>
                                 </el-table-column> -->
-        <el-table-column prop="name" fixed width='100' label="姓名">
+        <el-table-column prop="adminName" fixed width='100' label="姓名">
         </el-table-column>
         <el-table-column prop="name" width='100' label="订单数">
         </el-table-column>
-        <el-table-column prop="mobile" width='120' label="手机号">
+        <el-table-column prop="phone" width='120' label="手机号">
         </el-table-column>
         <el-table-column label="类型">
             <template slot-scope='scope'>
-                <span >
-                {{scope.row.customerCategory}}
+                <span>
+                {{scope.row.employeeTypeName}}
                 </span>
             </template>
         </el-table-column>
@@ -26,9 +26,9 @@
         </el-table-column>
         <el-table-column
             width='200'
-            label="小区">
+            label="区域">
             <template slot-scope='scope'>
-                {{scope.row.quarters}}
+                {{scope.row.disName}}
             </template>
         </el-table-column>
     </el-table>
@@ -60,18 +60,8 @@
                 let show = false;
                 let editcan = true;
                 this.multipleSelection = val
-                if (this.multipleSelection.length > 0) {
-                    show = true;
-                }
-                if (this.multipleSelection.length > 1) {
-                    editcan = false;
-                }
-                this.$root.$emit('showlttip', {
-                    show,
-                    editcan,
-                    num: this.multipleSelection.length,
-                    datas: this.multipleSelection
-                });
+               // console.log(this.multipleSelection)
+                this.$root.$emit('workerDatas',this.multipleSelection)
             },
             indexMethod(index) {
                 return index + 1

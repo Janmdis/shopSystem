@@ -108,13 +108,25 @@ export default {
             })
         },
         getList(){
+            let serType = this.ruleForm.serType
+            let city = this.ruleForm.city
+            let dis = this.ruleForm.userVillage
+            if(serType == ''){
+                serType = null
+            }
+            if(city == ''){
+                city = null
+            }
+            if(dis == ''){
+                dis = null
+            }
             this.$root.$emit('workerloading',true)
             let that = this;
             var url = '/api/admin/account/multiConditionalQuery'
             let datas = {
-                serTypeId:this.ruleForm.serType,
-                cityId:this.ruleForm.city,
-                disId:this.ruleForm.userVillage
+                serTypeId:serType,
+                cityId:city,
+                disId:dis
             }
             this.$http({
                 url: url,

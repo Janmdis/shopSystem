@@ -26,13 +26,21 @@ export default {
             pageS: 0,
             totalCount1: 0,
             pageS1: 0,
-            listLoading: false
+            listLoading: false,
+            workerDatas:[],
+            orderListDataz:[]
         }
 
     },
     created() {
         this.$root.$on('loading', data => {
             this.loadOk = data;
+        })
+        this.$root.$on('workerDatas', data => {
+            this.workerDatas = data;
+        })
+        this.$root.$on('orderListDataz', data => {
+            this.orderListDataz = data;
         })
     },
     mounted() {
@@ -76,7 +84,61 @@ export default {
             })
 
         },
-
+        assignedAppointment(){
+            console.log(this.workerDatas)
+            console.log(this.orderListDataz)
+            if(this.orderListDataz == 0){
+                alert('请选择订单')
+                return
+            };
+            if(this.workerDatas.length == 0 ){
+                alert('请选择人员')
+                return
+            };
+            let orderArr = this.orderListDataz;
+            let workerArr = this.workerDatas;
+            let orderNewArr = [];
+            let adminList = [];
+            orderArr.forEach((e, i) => {
+                orderNewArr.push(e.orderDetail.orderId);
+            });
+            workerArr.forEach((e, i) => {
+                let obj = new Object;
+                obj.adminId = e.id;
+                obj.name = e.adminName;
+                obj.phone = e.phone;
+                adminList.push(obj);
+            });
+            let listArr = [];
+            let that = this;
+            var urls = '/api/product/ProjectEstablish/queryListByOrderInfoIds'
+            this.$http({
+                    url: urls,
+                    method: 'post',
+                    data: orderNewArr,
+                }).then(respone => {
+                    console.log(respone)
+                    listArr = respone.data.info
+                      let datas = {
+                            "projectEstablishIdList":listArr,
+                            "adminList":adminList
+                        }
+                        console.log(datas)
+                        var url = '/api/product/workList/arrangement'
+                        that.$http({
+                            url: url,
+                            method: 'post',
+                            data: datas,
+                        }).then(respone => {
+                            console.log(respone)
+                        }).catch(error =>{
+                            console.log(error)
+                        })
+                }).catch(error =>{
+                    console.log(error)
+                })
+          
+        }
     },
     components: {
         Lttip,
