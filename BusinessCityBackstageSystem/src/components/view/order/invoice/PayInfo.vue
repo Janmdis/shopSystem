@@ -28,10 +28,10 @@
                     </el-row>
                     <el-col :span='20' :offset='4' style='margin-top:20px;'>
                         <el-col :span='12'>
-                            <el-button @click='play'>同意退款</el-button>
+                            <el-button @click='play' v-if="!(playState=='已完成')" >同意退款</el-button>
                         </el-col>
                         <el-col :span='12'>
-                            <el-button @click='Bhuixi'>驳&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
+                            <el-button @click='Bhuixi' v-if="!(titles==驳回)">驳&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
                         </el-col>
                     </el-col>
                    <div class='invoiceState'>

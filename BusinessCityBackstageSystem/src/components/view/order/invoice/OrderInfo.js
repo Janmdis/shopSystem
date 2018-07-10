@@ -87,9 +87,10 @@ export default {
     },
     methods: {
         upData() {
+          
             this.ruleForm.orderNumber = this.order.number;
             this.ruleForm.orderMoney = this.order.orderMoney;
-            this.ruleForm.orderState = this.order.serviceState;
+            this.ruleForm.orderState = this.order.orderState;
             this.ruleForm.orderTime = this.order.createTime;
             this.ruleForm.orderPhone = this.order.phone;
             this.ruleForm.paidMoney = this.order.paidMoney;
@@ -115,7 +116,7 @@ export default {
                     contractNumber: this.order.contractNumber,
                     number: this.ruleForm.orderNumber,
                     orderMoney: this.ruleForm.orderMoney,
-                    serviceState: this.ruleForm.orderState,
+                    orderState: this.ruleForm.orderState,
                     createTime: this.ruleForm.orderTime,
                     phone: this.ruleForm.orderPhone,
                     paidMoney: this.ruleForm.paidMoney,

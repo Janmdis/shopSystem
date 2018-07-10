@@ -2,7 +2,7 @@
     <div id="shopInfo">
         <el-col :span="24">
             <el-table :data="dataInfo" height="550" border style="width: 100%">
-                <el-table-column prop="commodityInfo.name" label="商品名称">
+                <el-table-column prop="commodityName" label="商品名称">
                 </el-table-column>
                 <el-table-column prop="commodityInfo.specificationValue" label="规格">
                 </el-table-column>
@@ -10,11 +10,11 @@
                 </el-table-column>
                 <el-table-column prop="commodityInfo.displayQuantity" label="商品库存">
                 </el-table-column>
-                <el-table-column prop="commodityInfo.originalPrice" label="单价">
+                <el-table-column prop="price" label="单价">
                 </el-table-column>
                 <el-table-column prop="priceEnd" label="实际单价">
                 </el-table-column>
-                <el-table-column prop="commodityInfo.currentPrice" label="状态">
+                <el-table-column prop="serviceState" label="状态">
                     <template slot-scope='scope'>
                                         <span @click='showBoxInfo(scope.row.isService,scope.row.serviceState,scope.row.orderState,scope.row.id)' >{{scope.row.isService==null?(scope.row.serviceState==1?"未服务":scope.row.serviceState==2?"服务中":'已完成'):(scope.row.orderState==1?"未完成":scope.row.orderState==2?"已完成":scope.row.orderState==3?"异常订单":scope.row.orderState==4?"退款中":scope.row.orderState==5?"退款完成":"")}}</span>
 </template>
