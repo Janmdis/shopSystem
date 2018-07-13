@@ -27,11 +27,12 @@
                         </el-col>
                     </el-row>
                     <el-col :span='20' :offset='4' style='margin-top:20px;'>
-                        <el-col :span='12'>
-                            <el-button @click='play'>同意退款</el-button>
+                         <el-col :span='12'>
+                            <el-button @click='play'  v-show="playState!='已完成'">同意退款</el-button>
                         </el-col>
                         <el-col :span='12'>
-                            <el-button @click='Bhuixi'>驳&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
+                          
+                            <el-button @click='Bhuixi' v-show="playState!=='驳回'">驳&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
                         </el-col>
                     </el-col>
                    <div class='invoiceState'>
@@ -109,7 +110,7 @@
                }).then((msg)=>{
                    let data = msg.data.info.list[0];
                    
-                   if(msg.data.info.list[0].orderDetails){
+                   if(msg.data.info.list[0]){
                        msg.data.info.list[0].orderDetails.forEach((item,index)=>{
                            this.letinvoice+=(item.conversionAmount-0)
                        })

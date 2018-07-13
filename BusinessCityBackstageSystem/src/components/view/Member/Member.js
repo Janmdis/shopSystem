@@ -39,17 +39,24 @@ export default {
             dataHref: '',
             isShowList: false,
             memberInfo: [],
-            type:'member'
+            type:'member',
+            datainfos:''
         }
 
     },
+    updated() {
+        this.$root.$on('search',data=>{
+            // console.log(delete data.account.birthDatecheck);
+            this.dataHref = `/api/customer/customer/excel/out?conditions=${encodeURI(JSON.stringify(data.account))}`
+        });
+    },
     created() {
-        this.$root.$on('loading', data => {
-            this.loadOk = data;
-
-        })
+        
+        
         this.$root.$on('output1', data => {
+            console.log(data)
             this.dataForm = data;
+            this.idList = [];
             if (data) {
                 data.forEach((e, i) => {
                     this.idList.push(e.id);
@@ -58,7 +65,13 @@ export default {
            
             let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
             let ids = id.replace(/\"|"/g, "");
-            this.dataHref = '/api/customer/customer/excel/out?id=' + ids;
+            if(ids){
+                this.dataHref = '/api/customer/customer/excel/out?id=' + ids
+            }else{
+                console.log(this.datainfos)
+                this.dataHref = `/api/customer/customer/excel/out?conditions=${encodeURI("{}")}`
+            }
+            
         })
     },
     mounted() {

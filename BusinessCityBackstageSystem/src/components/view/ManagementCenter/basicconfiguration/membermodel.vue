@@ -18,7 +18,8 @@ export default {
                 {'index':3,'icon':'el-icon-sold-out','isActive':false,'name':'客户身份'},
                 {'index':4,'icon':'el-icon-document','isActive':false,'name':'关系组类型'},
                 {'index':5,'icon':'el-icon-document','isActive':false,'name':'会员标签'},
-                {'index':5,'icon':'el-icon-document','isActive':false,'name':'会员等级'},
+                {'index':6,'icon':'el-icon-document','isActive':false,'name':'会员等级'},
+                {'index':7,'icon':'el-icon-document','isActive':false,'name':'回访类型'}
             ],
             urlList:[
                 {id:'id',url:'/api/customer/recommendedSource/findSource',des:'推荐来源',name:'name'},
@@ -27,6 +28,7 @@ export default {
                 {id:'id',url:'/api/customer/relationshipGroupCategory/queryMap',des:'关系组类型',name:'name'},
                 {id:'id',url:'/api/customer/label/query/label',des:'会员标签',name:'name'},
                 {id:'id',url:'/api/customer/customerLevelComputing/query',des:'会员等级',name:'levelName'},
+                {id:'id',url:'/api/customer/visits/category/query',des:'回访类型',name:'name'},
             ],
             datalist:[],
             originList:[],

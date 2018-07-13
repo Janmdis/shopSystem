@@ -12,7 +12,7 @@
                     <ul class="visit-des">
                         <li>{{item.createTime}}</li>
                         <li>回访时间 : {{item.time}}</li>
-                        <li>回访人 : {{item.customerAccount.name}}</li>
+                        <li>回访人 : {{item.customerAccount?item.customerAccount.name:""}}</li>
                         <li>类型 : {{item.visitType}}</li>
                     </ul>
                     <el-form-item label="客户反馈:" prop="Feedback">
@@ -141,7 +141,8 @@ export default{
             let that = this;
             this.$http({
                 url:'/api/customer/visits/findData',
-                method:'POST'
+                method:'POST',
+                 data:{id:localStorage.getItem("orderId")}
             }).then((res) => {
                 that.dataList = res.data.info.list;
                 for(let i =  0;i<this.dataList.length;i++){

@@ -161,7 +161,7 @@
                 let Order = this.form.Order;
                 let Customer = this.form.Customer;
                 let Visit = this.form.Visit;
-                console.log(iphone,quarters,source,Customer)
+             
             },
             changeValue(value) {
                 console.log(value);

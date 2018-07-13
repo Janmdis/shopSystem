@@ -41,12 +41,20 @@ export default {
         })
         this.$root.$on('output', data => {
             this.dataForm = data;
-            data.forEach((e, i) => {
-                this.idList.push(e.id);
-            })
+            this.idList = [];
+            if(data){
+                data.forEach((e, i) => {
+                    this.idList.push(e.id);
+                })
+            }
+            
             let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
             let ids = id.replace(/\"|"/g, "");
-            this.dataHref = '/api/customer/estate/excelOut?ids=' + ids;
+            if(ids){
+                this.dataHref = '/api/customer/estate/excelOut?ids=' + ids;
+            }else{
+                this.dataHref = '/api/customer/estate/excelOut?name=' + this.valuesearch;
+            }
         })
     },
     mounted() {
@@ -131,7 +139,10 @@ export default {
         },
         show: function(val) {
             // console.log(valuesearch);
+
             this.$root.$emit('search', { name: this.valuesearch })
+            console.log(this.valuesearch)
+            this.dataHref = '/api/customer/estate/excelOut?name=' + this.valuesearch;
         },
         searchUsers() {
             let para = {

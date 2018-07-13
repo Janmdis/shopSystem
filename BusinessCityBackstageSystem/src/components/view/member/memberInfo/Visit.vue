@@ -12,7 +12,7 @@
                     <ul class="visit-des">
                         <li><span>{{item.createTime}}</span></li>
                         <li>回访时间 : <span>{{item.time}}&nbsp;m</span></li>
-                        <li>回访人 : <span>{{item.customerAccount.name}}</span></li>
+                        <li>回访人 : <span>{{item.customerAccount?item.customerAccount.name:""}}</span></li>
                         <li>类型 : <span>{{item.visitType}}</span></li>
                     </ul>
                     <el-form-item label="客户反馈:" prop="Feedback">
@@ -118,7 +118,7 @@ export default{
     methods:{
         diagShow(){
             this.$http.post(
-                '/api/customer/visits/category/query',
+                '/api/customer/visits/insert',{orderId:localStorage.getItem("orderId")}
             ).then(res => {
                 this.visitTypes = res.data.info;
             }).catch(err => {console.log(err)});
@@ -129,7 +129,8 @@ export default{
             let that = this;
             this.$http({
                 url:'/api/customer/visits/findData',
-                method:'POST'
+                method:'POST',
+                orderId:localStorage.getItem("orderId")
             }).then((res) => {
                 that.dataList = res.data.info.list;
                 that.$root.$emit('showNumber',that.dataList)
