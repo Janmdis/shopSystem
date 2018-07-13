@@ -846,6 +846,12 @@ export default {
             this.$refs['formmsg'].validate((valid) => {
                 if (valid) {
                     let that=this;
+                    this.specifications.map(item => {
+                       delete item.conditionStr
+                       item.displayQuantity = item.displayQuantity - 0
+                       item.commodityPrice = item.commodityPrice - 0
+                    })
+                     console.log(this.specifications)
                     let data={
                         id:this.id,
                         name:this.formmsg.name,
