@@ -107,7 +107,7 @@
                     <component :is="which_to_show" :personnelInfo="personnelInfo" :customerCategory="customerCategory" :customerIdentity="customerIdentity"
                      :recommendedSource="recommendedSource" :memberHouse="memberHouse" :houseCategory="houseCategory" :rentalStatus="rentalStatus"
                      :defaultCategory="defaultCategory" :defaultIdentity="defaultIdentity" :defaultSource="defaultSource" :memberId="memberId"
-                     :houseCount="houseCount" 
+                     :houseCount="houseCount" v-loading="isLoading"
                      >
                     </component>
                 </el-main>

@@ -51,7 +51,11 @@ export default {
         });
     },
     created() {
-        
+        this.$root.$on('loading', data => {
+            this.loadOk = data;
+            
+            })
+            
         
         this.$root.$on('output1', data => {
             console.log(data)
