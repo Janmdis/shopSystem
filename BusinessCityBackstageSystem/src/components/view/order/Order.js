@@ -37,17 +37,36 @@ export default {
         }
 
     },
-    mounted() {
+    updated() {
+        this.$root.$on('search',data=>{
+            //console.log(delete data.account.birthDatecheck);
+            console.log(data)
+            this.dataHref = `/api/product/order/excelOut?conditions=${encodeURI(JSON.stringify(data.order))}`
+        });
+    },
+    created() {
        
         this.$root.$on('output', data => {
+        
             this.dataForm = data;
-            data.forEach((e, i) => {
-                this.idList.push(e.id);
-                // console.log(this.idList)
-            })
+            this.idList = [];
+            if(data){
+                data.forEach((e, i) => {
+                    this.idList.push(e.id);
+                    // console.log(this.idList)
+                })
+            }
+            
             let id = JSON.stringify(this.idList).replace(/\[|]/g, '');
             let ids = id.replace(/\"|"/g, "");
-            this.dataHref = '/api/product/order/excelOut?ids=' + this.idList ;
+            
+            if(ids){
+                this.dataHref = '/api/product/order/excelOut?ids=' + ids ;
+            }else{
+                this.dataHref = `/api/product/order/excelOut?conditions=${encodeURI("{}")}`;
+              
+            }
+            
             // let url = '/api/product/order/excelOut';
             //     this.$http({
             //             url: url,

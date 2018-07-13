@@ -98,6 +98,7 @@ export default {
         }
     },
     created:function(){
+        this.$root.$emit('output',"");
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
             this.getDate(this.pageIndex)
@@ -120,6 +121,7 @@ export default {
             this.getDate(1);
             console.log(this.data);
             // console.log(this.data,datas);
+           
         });
     },
     methods:{
@@ -144,7 +146,7 @@ export default {
                     this.datalist=(response.data.info.list);
                     this.$root.$emit('pages',response.data.info.pages)
                     this.$root.$emit('total',response.data.info.total)
-                    this.$root.$emit('output',this.datalist);
+                    
                 }
           })
           .catch(error=>{
@@ -184,6 +186,7 @@ export default {
                 editcan=false;
             }
              this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
+             this.$root.$emit('output',val);
         },
         indexMethod(index) {
             return index + 1

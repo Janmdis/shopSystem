@@ -181,7 +181,8 @@ export default {
                 {id:'id',delUrl:'/api/customer/identity/remove',des:'客户身份',name:'name',addUrl:'/api/customer/identity/addIdentity'},
                 {id:'id',delUrl:'/api/customer/relationshipGroupCategory/remove',des:'关系组类型',name:'name',addUrl:'/api/customer/relationshipGroupCategory/insert'},
                 {id:'id',delUrl:'/api/customer/label/remove',des:'会员标签',name:'name',addUrl:'/api/customer/label/insert'},    
-                {id:'id',delUrl:'/api/customerLevelComputing/update/customer',des:'会员名称',name:'name',addUrl:'/api/customer/customerLevelComputing/add'}       
+                {id:'id',delUrl:'/api/customerLevelComputing/update/customer',des:'会员名称',name:'name',addUrl:'/api/customer/customerLevelComputing/add'}, 
+                 {id:'id',delUrl:'/api/customer/visits/category/update/isActive',des:'回访类型',name:'name',addUrl:'/api/customer/visits/category/add'}       
             ],
             publicData:[
                 {id:'id',delUrl:'/api/product/mall/templateCategory/remove',des:'模板分类',name:'name',addUrl:'/api/product/mall/templateCategory/insert'},

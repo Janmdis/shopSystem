@@ -551,11 +551,11 @@ export default {
             let obj = {
                 name:names +' - '+ inputValue,
                 value:inputValue,
-                id:,
-                productId:,
-                commodityId:,
-                displayQuantity:,
-                commodityPrice:,
+                // id:,
+                // productId:,
+                // commodityId:,
+                // displayQuantity:,
+                // commodityPrice:,
                 conditions:{
                     names:inputValue
                 }

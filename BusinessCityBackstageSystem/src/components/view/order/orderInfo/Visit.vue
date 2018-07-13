@@ -12,7 +12,7 @@
                     <ul class="visit-des">
                         <li>{{item.createTime}}</li>
                         <li>回访时间 : {{item.time}}</li>
-                        <li>回访人 : {{item.customerAccount.name}}</li>
+                        <li>回访人 : {{item.customerAccount?item.customerAccount.name:""}}</li>
                         <li>类型 : {{item.visitType}}</li>
                     </ul>
                     <el-form-item label="客户反馈:" prop="Feedback">
@@ -39,13 +39,13 @@
             :rules="rules" ref="diagForm" 
             label-width="100px" 
             class="demo-diagForm">
-                <el-form-item class="visit-item" label="回访时长:" prop="time">
+                <el-form-item class="visit-item" label="回访时长:" >
                     <el-input v-model="diagForm.time"></el-input>
                 </el-form-item>
-                <el-form-item class="visit-item" label="回访用户:" prop="userId">
+                <el-form-item class="visit-item" label="回访用户:" >
                     <el-input v-model="diagForm.userId"></el-input>
                 </el-form-item>
-                <el-form-item class="visit-item" label="回访类型:" prop="visitType">
+                <el-form-item class="visit-item" label="回访类型:">
                     <el-col :span="10">
                     <el-select v-model="diagForm.visitType" placeholder="请选择">
                         <el-option
@@ -58,10 +58,10 @@
                     </el-select>
                     </el-col>
                 </el-form-item>   
-                <el-form-item label="客户反馈:" prop="Feedback">
+                <el-form-item label="客户反馈:" >
                     <el-input type="textarea" v-model="diagForm.Feedback"></el-input>
                 </el-form-item>
-                <el-form-item label="回访内容:" prop="report">
+                <el-form-item label="回访内容:">
                     <el-input type="textarea" v-model="diagForm.report"></el-input>
                 </el-form-item>
                 <el-form-item class="visit-btn">
@@ -139,11 +139,14 @@ export default{
         },
         searchInfo(){
             let that = this;
+            
             this.$http({
                 url:'/api/customer/visits/findData',
-                method:'POST'
+                method:'POST',
+                data:{id:localStorage.getItem("orderId")}
             }).then((res) => {
                 that.dataList = res.data.info.list;
+                console.log(that.dataList)
                 for(let i =  0;i<this.dataList.length;i++){
                     this.$set(this.edit,i,true);// 进行数据跟踪以便于动态数据渲染
                 }
@@ -179,6 +182,7 @@ export default{
             }).catch(err => {console.log(err)});
         },
         submitDiag(){
+           
             let that = this;
             let data = [{
                 adminUserId:this.diagForm.adminUserId,//回访用户ID
@@ -189,6 +193,7 @@ export default{
                 customerId:this.memberIde             //会员的ID
             }];
             this.$refs['diagForm'].validate((valid) => {
+                
                 if (valid) {
                     data.forEach((e,i) => {
                         if(e.adminUserId == '' || e.feedback == '' || e.report == '' || e.visitTypeId == '' || e.customerId == ''){

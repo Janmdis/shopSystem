@@ -66,6 +66,7 @@ export default {
         }
     },
     created:function(){
+        this.$root.$emit('output',"");
         this.$root.$on('pageIndex',(data) => {
             this.pageIndex = data.value
             this.getDate(this.pageIndex,{})
@@ -129,7 +130,7 @@ export default {
                 this.listLoading =  false;
                 this.datalist=(response.data.info.list);
                 console.log(response.data)
-                this.$root.$emit('output',this.datalist);
+                
                 this.$root.$emit('pages',response.data.info.pages)
                 this.$root.$emit('total',response.data.info.total)
           })
@@ -152,6 +153,7 @@ export default {
              let show=false;
              let editcan=true;
              this.multipleSelection = val
+             this.$root.$emit('output',val);
             if(this.multipleSelection.length>0){
                 show=true;
             }

@@ -140,6 +140,7 @@
             //this.address = JSON.parse(sessionStorage.getItem("address"));
             this.$store.dispatch('getCatogery');
             this.$store.dispatch('getOrigin');
+            this.$root.$emit('output1', "")
         },
         methods: {
             getinfo(val){
@@ -319,7 +320,7 @@
                                 ////         alert('网络错误，不能访问');
                             })
                         this.getResidential(this.idBox)
-                        that.$root.$emit('output1', that.datalist)
+                        
                         that.$root.$emit('pages1', response.data.info.pages)
                         that.$root.$emit('total1', response.data.info.total)
                     })
@@ -366,6 +367,7 @@
                     num: this.multipleSelection.length,
                     datas: this.multipleSelection
                 });
+                this.$root.$emit('output1', val)
             },
             searchLabel(data) {
                 let url = '/api/customer/label/query/label';
