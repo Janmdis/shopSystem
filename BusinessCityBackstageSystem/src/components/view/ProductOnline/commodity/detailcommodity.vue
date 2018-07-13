@@ -71,7 +71,7 @@
                             <transition name="fade">
                                 <el-col :span='24' v-if="addOptionsShow" style="padding: 10px 10px;border-radius: 5px;border: 1px solid #c0c4cc;">
                                     <el-col :span='24'>
-                                        <el-col :span='4'>规格名称：</el-col>
+                                        <el-col :span='4' >规格名称：</el-col>
                                         <el-col :span='8'>
                                             <el-input v-model="specificationName"></el-input>
                                         </el-col>
@@ -98,22 +98,6 @@
                                             >
                                             </el-input>
                                             <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新 规格值</el-button>
-                                        </el-col>
-                                    </el-col>
-                                    <el-col :span='24' v-show="true">
-                                        <el-col :span='4'>规格组合：</el-col>
-                                        <el-col :span='20'>
-                                            <el-col :span='24'>
-                                                <el-col :span='24' style="font-size: 16px;">颜色 - 白色</el-col>
-                                                <el-col :span='4'>组合价格：</el-col>
-                                                <el-col :span='6'>
-                                                    <el-input v-model="specificationName"></el-input>
-                                                </el-col>
-                                                <el-col :span='4' style="margin-left:10px">组合库存：</el-col>
-                                                <el-col :span='6'>
-                                                    <el-input v-model="specificationName"></el-input>
-                                                </el-col>
-                                            </el-col>
                                         </el-col>
                                     </el-col>
                                     <el-col :span='24' style="margin-top: 16px;">
@@ -160,6 +144,37 @@
                                         </el-col>
                                     </el-col>
                                </transition-group>
+                            </transition>
+                            <transition name="fade">
+                                <el-col :span='24' v-if="specifications.length == 0?false:true" style="padding: 10px 10px;border-radius: 5px;border: 1px solid #c0c4cc;margin-top: 15px;">
+                                    <el-col :span='24'>
+                                        <el-col :span='4'>规格组合：</el-col>
+                                        <el-col :span='20'>
+                                            <el-col :span='24' v-for="(item,index) in specifications" :key="index">
+                                                <el-col :span='24' style="font-size: 16px;">{{ JSON.stringify(item.conditions).replace(/,/g," - ").replace(/"|'|{|}/g,"").replace(/:/g,"/") }}</el-col>
+                                                <el-col :span='4' style="color:#7d7b7b;">组合价格：</el-col>
+                                                <el-col :span='6' v-show="sureSpecificationShow">
+                                                    {{ item.commodityPrice }}
+                                                </el-col>
+                                                <el-col :span='6' v-show="sureSpecificationHidden">
+                                                    <el-input v-model="item.commodityPrice"></el-input>
+                                                </el-col>
+                                                <el-col :span='4' style="margin-left:10px;color:#7d7b7b;">组合库存：</el-col>
+                                                <el-col :span='6' v-show="sureSpecificationShow">
+                                                    {{ item.displayQuantity }}
+                                                </el-col>
+                                                <el-col :span='6' v-show="sureSpecificationHidden">
+                                                    <el-input v-model="item.displayQuantity"></el-input>
+                                                </el-col>
+                                            </el-col>
+                                        </el-col>
+                                    </el-col>
+                                    <el-col :span='24' style="margin-top: 16px;">
+                                        
+                                        <el-button type="primary" @click="sureSpecifications" v-show="sureSpecificationHidden" style="height:30px;line-height: 5px;">确认</el-button>
+                                        <el-button type="primary" @click="closeSpecifications" v-show="sureSpecificationShow" style="height:30px;line-height: 5px;">编辑</el-button>
+                                    </el-col>
+                                </el-col>
                             </transition>
                         </el-form-item>
                         <el-form-item label="描述：" prop='desc'>
@@ -429,6 +444,9 @@ export default {
             specificationName:'',
             dynamicTags:[],
             specificationArr:[],
+            sureSpecificationShow:false,
+            sureSpecificationHidden:true,
+            specifications:[],
             inputVisible: false,
             inputValue: '',
             inputVisibles:false,
@@ -517,14 +535,113 @@ export default {
                     this.specificationArr = []
                 }
                 this.specificationArr.push(obj)
-            // console.log(this.specificationArr)
+            // console.log(this.specificationArr) 规格值数组
+              //规格组合方法
+              if(this.specifications.length>0){
+                   confirm('提示！！！此操作会重置组合数据（谨慎操作）')
+              }else{
+                   this.handleCombines(this.specificationArr)
+              }
                 this.specificationName = ''
                 this.dynamicTags = []
             }
         },
+        //递归循环方法（规格组合）
+        handleCombines(arr){
+            if(arr.length == 0){
+                this.specifications = []
+                return false;
+            }
+             var arrs = arr
+                // var arr = [ 
+                //             { "name": "颜色", "value": [ "白", "黑", "红" ]}, 
+                //             { "name": "尺寸", "value": [ "M", "XL", "L", "XXL" ]},
+                //             { "name": "高度", "value": [ "800", "900" ]},
+                //             { "name": "重量", "value": [ "800kg", "900kg", "1000kg" ]}
+                //         ];
+                function handleCombine(arrs) {
+                    var len = arrs.length;
+                    if (len >= 2) {
+                        var len1 = arrs[0].length;
+                        var len2 = arrs[1].length;
+                        var lenBoth = len1 * len2;
+                        var items = new Array(lenBoth);
+                        var index = 0;
+
+                        for (var i = 0; i < len1; i++) {
+                            for (var j = 0; j < len2; j++) {
+                                if (arrs[0][i] instanceof Array) {
+                                    items[index] = arrs[0][i].concat(arrs[1][j]);
+                                } else {
+                                    items[index] = [arrs[0][i]].concat(arrs[1][j]);
+                                }
+                                index++;
+                            }
+                        }
+
+                        var newArr = new Array(len - 1);
+                        for (var v = 2; v < arrs.length; v++) {
+                            newArr[v - 1] = arrs[v];
+                        }
+                        newArr[0] = items;
+
+                        return handleCombine(newArr);
+                    } else {
+                        return arrs[0];
+                    }
+                }
+
+                var multiArr = []
+                for (var temp = 0; temp < arrs.length; temp++) {
+                    multiArr.push(arrs[temp].value)
+                }
+                var finalArr = handleCombine(multiArr);
+
+
+
+                var Mult = 1;
+                for (var t = 0; t < arrs.length; t++) {
+                    Mult *= arrs[t].value.length;
+                }
+
+                var myArr = new Array(Mult);
+                var key;
+                var value;
+                
+                for (var u = 0; u < Mult; u++) {
+                    var json = {};
+                    for (var k = 0; k < arrs.length; k++) {
+                        key = arrs[k].name;
+                        json[key] = finalArr[u][k];
+                    }
+                    myArr[u] = json;
+                }
+                console.log(myArr);
+                var commodityDetail = [];
+                for(var y = 0; y< myArr.length; y++){
+                    var commodity = {
+                        displayQuantity:'',
+                        commodityPrice:'',
+                        conditions:''
+                    }
+                    commodity.conditions = myArr[y]
+                    commodityDetail.push(commodity)
+                }
+                console.log(commodityDetail)
+                this.specifications = commodityDetail
+        },
+        sureSpecifications(){
+            this.sureSpecificationShow = true
+            this.sureSpecificationHidden = false
+        },
+        closeSpecifications(){
+            this.sureSpecificationShow = false
+            this.sureSpecificationHidden = true
+        },
         //添加规格
         handleClose(tag) {
         this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        // this.dynamicTags.map(item => item.value).indexOf(tag)
         },
         showInput() {
             this.inputVisible = true;
@@ -537,30 +654,9 @@ export default {
                 this.$message('请填写规格名');
                 return false;
             }
-            let names = this.specificationName;
             let inputValue = this.inputValue;
-            let specification = [];
-            // {
-            //     规格名称 + 规格值
-            //     规格值（与规格值数组的相同标识，删除作用）
-            //     库存
-            //     价格
-            // }
             if (inputValue) {
             this.dynamicTags.push(inputValue);
-            let obj = {
-                name:names +' - '+ inputValue,
-                value:inputValue,
-                id:,
-                productId:,
-                commodityId:,
-                displayQuantity:,
-                commodityPrice:,
-                conditions:{
-                    names:inputValue
-                }
-            }
-            specification.push(obj)
             }
             this.inputVisible = false;
             this.inputValue = '';
@@ -599,7 +695,10 @@ export default {
             this.specificationArr[index].tagIsUpdata = true
         },
         sureModifyOptions(index){
+            confirm('提示！！！此操作会重置组合数据（谨慎操作）')
             this.specificationArr[index].tagIsUpdata = false
+            //规格组合方法
+            this.handleCombines(this.specificationArr)
         },
         closeModifyOptions(index){
             //console.log(JSON.parse(this.oldTagValue))
@@ -608,8 +707,11 @@ export default {
             this.specificationArr[index].tagIsUpdata = false
         },
         deleteUpdata(index){
-            confirm('是否删除')
+            // this.$message("");
+            confirm('提示！！！此操作会重置组合数据（谨慎操作）')
             this.specificationArr.splice(index,1)
+            //规格组合方法
+            this.handleCombines(this.specificationArr)
         },
         // 获取商品信息
         getcommodityinfo(){
@@ -749,6 +851,7 @@ export default {
                         detailTemplateId:this.formmsg.detailTemplateInfoId,
                         description:this.formmsg.desc,
                         options:JSON.stringify(this.specificationArr),
+                        commodityDetails:this.specifications,
                         giftPoints:parseInt(this.sendPointsNum),
                         priceRule:1,
                         originalPricePoint:parseInt(this.pointsNum),
