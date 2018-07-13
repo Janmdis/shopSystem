@@ -539,8 +539,9 @@ export default {
               //规格组合方法
               if(this.specifications.length>0){
                    confirm('提示！！！此操作会重置组合数据（谨慎操作）')
-              }else{
                    this.handleCombines(this.specificationArr)
+              }else{
+                    this.handleCombines(this.specificationArr)
               }
                 this.specificationName = ''
                 this.dynamicTags = []
@@ -732,6 +733,15 @@ export default {
                     that.tmid=data.periodTemplateId;
                     that.areamid=data.regionTemplateId;
                     that.specificationArr=JSON.parse(data.options)
+                    data.commodityDetails.forEach(item=>{
+                      item.conditionStr = JSON.parse(item.conditionStr)
+                    //    .replace(/^"|$"/,"")
+                    })
+                    data.commodityDetails.forEach(item=>{
+                      item['conditions']=  item.conditionStr
+                    })
+                    console.log(data.commodityDetails)
+                    that.specifications = data.commodityDetails
                     if(data.giftPoints){
                         that.sendPoints = true
                         that.sendPointsNum = data.giftPoints
