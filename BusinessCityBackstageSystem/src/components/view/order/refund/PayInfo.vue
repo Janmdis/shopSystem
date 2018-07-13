@@ -28,11 +28,11 @@
                     </el-row>
                     <el-col :span='20' :offset='4' style='margin-top:20px;'>
                         <el-col :span='12'>
-                            <el-button @click='play'  v-show="playState!='已完成'">同意退款</el-button>
+                            <el-button @click='play'  v-show="(playState!='已完成'&&playState!=='驳回')">同意退款</el-button>
                         </el-col>
                         <el-col :span='12'>
                           
-                            <el-button @click='Bhuixi' v-show="playState!=='驳回'">驳&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
+                            <el-button @click='Bhuixi' v-show="(playState!='已完成'&&playState!=='驳回')">驳&nbsp;&nbsp;&nbsp;&nbsp;回</el-button>
                         </el-col>
                     </el-col>
                    <div class='invoiceState'>
@@ -136,8 +136,8 @@
                    }else{
                        this.playState = '未处理'
                    }
-                   
-                   this.dataList.push({'payTime':data.createTime,'payMoney':data.paidMoney,'payWay':retype})
+                    this.dataList.push({'payTime':data.createTime,'payMoney':data.paidMoney,'payWay':retype})
+                  
                }).catch((err)=>{
                    console.log(err)
                })
