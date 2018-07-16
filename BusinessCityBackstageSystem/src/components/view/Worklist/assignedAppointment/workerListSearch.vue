@@ -74,7 +74,7 @@ export default {
             var url = '/api/product/serviceType/queryList';
             this.$http({
                 url: url,
-                method: 'get',
+                method: 'post',
                 data: {},
             }).then(respone => {
                 console.log(respone.data.info)
