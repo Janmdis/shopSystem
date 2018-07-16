@@ -71,15 +71,16 @@ export default {
     methods:{
         getSerList(){
             let that = this;
-            var url = '/api/admin/employeetype/queryList';
+            var url = '/api/product/serviceType/queryList';
             this.$http({
                 url: url,
                 method: 'get',
-                data: '',
+                data: {},
             }).then(respone => {
-                if (respone.data.info){
-                    let datas = respone.data.info;
-                    that.ruleForm.customerCategory = datas
+                console.log(respone.data.info)
+                if(respone.data.info){
+                    let datas = respone.data.info
+                    that.ruleForm.customerCategory = datas;
                 }
             })
         },
