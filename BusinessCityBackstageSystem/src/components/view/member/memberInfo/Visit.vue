@@ -176,7 +176,7 @@ export default{
                 feedback:this.diagForm.Feedback,
                 report:this.diagForm.report,
                 time:this.diagForm.time,              //回访时长
-                visitTypeId:this.diagForm.visitTypeId,
+                visitTypeId:this.diagForm.visitType,
                 customerId:this.memberIde             //会员的ID
             }];
             console.log("111")
