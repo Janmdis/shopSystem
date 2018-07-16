@@ -343,6 +343,7 @@
             },
             showMemberInfo(row, column, cell, event) { //  点击显示侧滑
                 //console.log(row,column,cell,event)
+                this.$root.$emit('showIndex', "房屋");
                 //  let classNum = cell.className.split('n_')[1] //  获取单元格的类名
                 let labelValue = column.label
                 if (labelValue == '客户姓名') {

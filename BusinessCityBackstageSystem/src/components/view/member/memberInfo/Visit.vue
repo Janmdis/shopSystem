@@ -118,7 +118,7 @@ export default{
     methods:{
         diagShow(){
             this.$http.post(
-                '/api/customer/visits/insert',{orderId:localStorage.getItem("orderId")}
+                '/api/customer/visits/category/query',{}
             ).then(res => {
                 this.visitTypes = res.data.info;
             }).catch(err => {console.log(err)});
@@ -130,7 +130,7 @@ export default{
             this.$http({
                 url:'/api/customer/visits/findData',
                 method:'POST',
-                orderId:localStorage.getItem("orderId")
+                data:{customerId:this.memberId}
             }).then((res) => {
                 that.dataList = res.data.info.list;
                 that.$root.$emit('showNumber',that.dataList)

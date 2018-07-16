@@ -60,7 +60,9 @@ export default {
     },
     created() {
         let that = this;
-        this.isShow('房屋');
+        this.$root.$on('showIndex', data => {
+            this.isShow(data)
+        });
         this.$root.$on('searchPersonnelInfo', (ids) => { //  获取用户信息方法
             this.showNum();
             for (let item in this.info1.data) {
