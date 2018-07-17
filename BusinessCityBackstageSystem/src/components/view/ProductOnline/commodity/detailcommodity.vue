@@ -608,16 +608,20 @@ export default {
                 var myArr = new Array(Mult);
                 var key;
                 var value;
-                
+               // console.log(finalArr)
                 for (var u = 0; u < Mult; u++) {
                     var json = {};
                     for (var k = 0; k < arrs.length; k++) {
                         key = arrs[k].name;
-                        json[key] = finalArr[u][k];
+                      //  json[key] = finalArr[u][k];
+                        json[key] = finalArr[u];
+                      //  console.log(key)
+                      //  console.log(finalArr[u])
+                       // console.log(json[key])
                     }
                     myArr[u] = json;
                 }
-                console.log(myArr);
+               // console.log(myArr);
                 var commodityDetail = [];
                 for(var y = 0; y< myArr.length; y++){
                     var commodity = {
