@@ -545,6 +545,7 @@ export default {
               }
                 this.specificationName = ''
                 this.dynamicTags = []
+                this.inputVisible = false
             }
         },
         //递归循环方法（规格组合）
@@ -608,7 +609,7 @@ export default {
                 var myArr = new Array(Mult);
                 var key;
                 var value;
-               // console.log(finalArr)
+                console.log(finalArr)
                 for (var u = 0; u < Mult; u++) {
                     var json = {};
                     for (var k = 0; k < arrs.length; k++) {
@@ -616,12 +617,12 @@ export default {
                         json[key] = finalArr[u][k];
                        // json[key] = finalArr[u];
                       //  console.log(key)
-                      //  console.log(finalArr[u])
-                       // console.log(json[key])
+                        console.log(finalArr[u])
+                        //console.log(json[key])
                     }
                     myArr[u] = json;
                 }
-               // console.log(myArr);
+                console.log(myArr);
                 var commodityDetail = [];
                 for(var y = 0; y< myArr.length; y++){
                     var commodity = {
@@ -663,7 +664,7 @@ export default {
             if (inputValue) {
             this.dynamicTags.push(inputValue);
             }
-            this.inputVisible = false;
+           // this.inputVisible = false;
             this.inputValue = '';
             
         },
@@ -682,7 +683,7 @@ export default {
             if (inputValues) {
             this.specificationArr[index].value.push(inputValues);
             }
-            this.specificationArr[index].inputVisibles = false;
+            // this.specificationArr[index].inputVisibles = false;
             this.specificationArr[index].inputValues = '';
         },
         tagUpdata(index){
@@ -702,6 +703,7 @@ export default {
         sureModifyOptions(index){
             confirm('提示！！！此操作会重置组合数据（谨慎操作）')
             this.specificationArr[index].tagIsUpdata = false
+            this.specificationArr[index].inputVisibles = false;
             //规格组合方法
             this.handleCombines(this.specificationArr)
         },
@@ -710,6 +712,7 @@ export default {
             let old = JSON.parse(this.oldTagValue)
             this.$set(this.specificationArr,index,old)
             this.specificationArr[index].tagIsUpdata = false
+            this.specificationArr[index].inputVisibles = false;
         },
         deleteUpdata(index){
             // this.$message("");
@@ -841,6 +844,7 @@ export default {
                         this.$message('有未确认的规格');
                         sure = '1'
                         return false
+
                     }
                 })
             }
