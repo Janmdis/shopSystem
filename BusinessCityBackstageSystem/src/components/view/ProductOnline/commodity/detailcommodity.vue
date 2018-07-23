@@ -613,8 +613,8 @@ export default {
                     var json = {};
                     for (var k = 0; k < arrs.length; k++) {
                         key = arrs[k].name;
-                      //  json[key] = finalArr[u][k];
-                        json[key] = finalArr[u];
+                        json[key] = finalArr[u][k];
+                       // json[key] = finalArr[u];
                       //  console.log(key)
                       //  console.log(finalArr[u])
                        // console.log(json[key])
