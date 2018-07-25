@@ -237,6 +237,7 @@ export default {
                 // 请求体重发送的数据
                 // headers: { 'Content-Type': 'application/json' },
                 data:{
+                     "statusFilter":true
                 },
             })
             .then(response => {

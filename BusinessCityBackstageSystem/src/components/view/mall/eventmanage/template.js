@@ -101,9 +101,9 @@ export default {
                     method: 'POST',
                     // 请求体重发送的数据
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    //  data:qs.stringify( {
-
-                    //  }),
+                      data:{
+                        "statusFilter":true
+                      },
                 })
                 .then(response => {
                     console.log(response)
