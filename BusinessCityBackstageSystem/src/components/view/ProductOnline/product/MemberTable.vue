@@ -171,7 +171,7 @@ export default {
         },
         getDate(pageIndex,data) {
             this.listLoading =  true;
-            let url = '/api/product/info/find?page='+pageIndex+'&pageSize=10';
+            let url = '/api/product/info/find?pageNo='+pageIndex+'&pageSize=10';
             this.$http({
                 url: url,
                 method: 'POST',
