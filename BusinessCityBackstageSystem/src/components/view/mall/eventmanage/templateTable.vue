@@ -128,7 +128,7 @@ export default {
             showLeft:0,
             pageIndex:1,
             iframeLink:'',
-            apis:'http://www.itchun.com/'
+            apis:'http://daojia.jingrunjia.com.cn/'
         }
     },
     created:function(){
@@ -237,6 +237,7 @@ export default {
                 // 请求体重发送的数据
                 // headers: { 'Content-Type': 'application/json' },
                 data:{
+                     "statusFilter":true
                 },
             })
             .then(response => {
