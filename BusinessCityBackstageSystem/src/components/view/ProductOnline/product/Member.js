@@ -107,7 +107,7 @@ export default {
             }
             this.listLoading = true;
             let _this = this;
-            let url = '/api/customer/account/search?page=' + this.pageIndex + '&pageSize=10&keyword=' + para.username;
+            let url = '/api/customer/account/search?pageNo=' + this.pageIndex + '&pageSize=10&keyword=' + para.username;
             // this.$http({
             //         url: url,
             //         method: 'POST',
