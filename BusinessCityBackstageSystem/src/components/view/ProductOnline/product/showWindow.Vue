@@ -16,8 +16,10 @@
                         list-type="picture" 
                         name="fileUpload" 
                         :show-file-list="isSave" 
-                        :limit="limitNumber" :drag="isDrag" 
-                        :multiple="isMultiple" :data="admin" 
+                        :limit="limitNumber" 
+                        :drag="isDrag" 
+                        :multiple="isMultiple" 
+                        :data="admin" 
                         :on-exceed="exceedLimit" 
                         :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload">
@@ -391,11 +393,15 @@
                 console.log(data);
                 this.clickTypes = data['type'];
                 if (this.clickTypes) {
+                    
                     this.$nextTick(() => {
                         // this.$refs['ruleForm'].resetFields();
                         this.ruleForm = {
                             title: '新增产品'
                         };
+                        console.log(this.ruleForm.productImage)
+                        this.ruleForm.productImage = '';
+                        this.imageArr= [];
                         this.imgUrls = [];
                     });
                 } else {
@@ -515,8 +521,10 @@
                         }]
                     }).then(res => {
                         console.log(res.data.msg);
+                         this.ruleForm.productImage = '';
+                         this.imageArr= [];
                         this.$root.$emit('getDatezdy', 1)
-                        this.ruleForm.productImage = [];
+                       
                     }).catch(err => {
                         console.log(err)
                     });
@@ -541,6 +549,8 @@
                         }
                     }).then(res => {
                         console.log(res.data.msg)
+                        this.ruleForm.productImage = '';
+                        this.imageArr= [];
                         this.$root.$emit('getDatezdy', 1)
                     }).catch(err => {
                         console.log(err)
