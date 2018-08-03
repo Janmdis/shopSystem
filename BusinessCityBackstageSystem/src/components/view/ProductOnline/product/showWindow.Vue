@@ -20,7 +20,7 @@
                         :drag="isDrag" 
                         :multiple="isMultiple" 
                         :data="admin" 
-                        :on-exceed="exceedLimit" 
+                        
                         :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload">
                             <i class="el-icon-plus avatar-uploader-icon"></i>
@@ -468,9 +468,6 @@
                 this.$message.error('上传图片大小不能超过 2MB!');
                 }
                 return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
-            },
-            exceedLimit() {
-                this.$message.error('您最多可上传五张图片!');
             },
             handleAvatarSuccess(res, file) {
                 // console.log(res,file);
