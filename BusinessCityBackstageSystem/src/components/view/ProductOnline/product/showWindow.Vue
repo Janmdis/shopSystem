@@ -15,8 +15,7 @@
                         action="api/zuul/sms/file/fileUpload" 
                         list-type="picture" 
                         name="fileUpload" 
-                        :show-file-list="isSave" 
-                        :limit="limitNumber" 
+                        :show-file-list="isSave"
                         :drag="isDrag" 
                         :multiple="isMultiple" 
                         :data="admin" 
@@ -277,7 +276,6 @@
                 isSave: true,
                 isMultiple: true,
                 isDrag: true,
-                limitNumber: 5,
                 admin: {
                     type: 'product'
                 },
@@ -470,6 +468,10 @@
                 return (isJPG || isBMP || isGIF || isPNG) && isLt2M;
             },
             handleAvatarSuccess(res, file) {
+                if(this.imageArr.length >= 5){
+                    this.$message.error('最多上传五张图片！');
+                    return false
+                }
                 // console.log(res,file);
                 // this.ruleForm.imageUrl = URL.createObjectURL(file.raw);
                 let hostName = location.hostname;
