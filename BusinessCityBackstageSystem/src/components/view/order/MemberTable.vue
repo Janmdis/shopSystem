@@ -47,6 +47,11 @@
         label="手机">
         </el-table-column>
         <el-table-column
+        prop="serialNumber"
+        width="180"
+        label="订单流水号">
+        </el-table-column>
+        <el-table-column
       
         label="来源">
             <template slot-scope='scope'>
