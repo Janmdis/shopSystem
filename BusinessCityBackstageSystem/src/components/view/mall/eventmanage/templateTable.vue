@@ -57,8 +57,8 @@
         <el-table-column
         label="活动状态">
         <template slot-scope="scope">
-            <span :class="scope.row.activityStatus == 0?'templateStausColorRed':scope.row.activityStatus == 1?'templateStausColorGreen':'templateStausColorGray'">
-                {{ scope.row.activityStatus == 0?'停用中':scope.row.activityStatus == 1?'启用中':'已过期' }}
+            <span :class="scope.row.isExpired==true?'templateStausColorGray':scope.row.activityStatus == 0?'templateStausColorRed':scope.row.activityStatus == 1?'templateStausColorGreen':''">
+                {{ scope.row.isExpired==true?'已过期':scope.row.activityStatus == 0?'停用中':scope.row.activityStatus == 1?'启用中':'' }}
                 </span>
         </template>
         </el-table-column>
@@ -105,10 +105,10 @@
         label="操作">
          <template slot-scope="scope">
             <el-button type="text"  size="small" @click="handleEdit(scope.$index, scope.row,$event)">
-                <span>{{ scope.row.activityStatus == 0?'编辑':scope.row.activityStatus == 1?'编辑':'&ensp;&ensp;&ensp;&ensp;'}}</span></el-button>
+                <span>{{ scope.row.activityStatus == 0?'编辑':scope.row.activityStatus == 1?'编辑':'编辑'}}</span></el-button>
             <el-button type="text"  size="small" @click="handleSwicth(scope.$index, scope.row,$event)">
-                <span :class="scope.row.activityStatus == 0?'templateStausColorGreen':scope.row.activityStatus == 1?'templateStausColorRed':'templateStausColorGray'">
-                    {{ scope.row.activityStatus == 0?'启用':scope.row.activityStatus == 1?'停用':'&ensp;&ensp;&ensp;&ensp;'}}</span>
+                <span :class="scope.row.isExpired==true?'templateStausColorGray':scope.row.activityStatus == 0?'templateStausColorRed':scope.row.activityStatus == 1?'templateStausColorGreen':''">
+                    {{ scope.row.activityStatus == 0?'启用':scope.row.activityStatus == 1?'停用':'启用'}}</span>
                 </el-button>
             <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row,$event)">删除</el-button>
         </template>
@@ -237,7 +237,6 @@ export default {
                 // 请求体重发送的数据
                 // headers: { 'Content-Type': 'application/json' },
                 data:{
-                     "statusFilter":true
                 },
             })
             .then(response => {

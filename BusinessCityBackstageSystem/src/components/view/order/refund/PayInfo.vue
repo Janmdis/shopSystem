@@ -5,6 +5,7 @@
                 <ul class="header-des">
                     <li>应付金额 : <span>{{thisData.actualMoney}}</span><span>商品/活动金额 :{{thisData.actualMoney}}-优惠:{{letinvoice}}</span></li>
                     <li>已付金额 : <span>{{thisData.paidMoney}}</span></li>
+                    <li style="font-size: 16px;">流水号 : <span style="font-weight:normal;">{{thisData.serialNumber}}</span></li>
                 </ul>
             </div>
             <div>

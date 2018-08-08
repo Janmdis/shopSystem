@@ -61,7 +61,7 @@
                                 <p style="line-height: 887%;text-align: center;font-size: 16px;">重新上传</p>
                              </div>
                          </div>
-                         <div class='tips' style="position: absolute;right: 34px;top: 65px;">
+                         <div class='tips' style="margin-left: 300px;">
                             <p>提示：1.本地上传图片大小不超过500k，750*412像素（建议尺寸）</p>
                             <p style='text-indent:3em;'>2.最多可上传1张图片</p>
                         </div>

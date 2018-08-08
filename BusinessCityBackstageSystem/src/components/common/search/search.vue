@@ -358,6 +358,11 @@
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="5" >
+                        <el-form-item label="流水号">
+                            <el-input v-model="form.order.serialNumber"></el-input>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
             </el-row>
             <!-- 退款订单 -->
@@ -538,7 +543,8 @@
                         orderState:'',
                         orderType:'',
                         serviceState:'',
-                        daterange:''
+                        daterange:'',
+                        serialNumber:''
                     },
                     invoice:{
                         orderNumber:'',

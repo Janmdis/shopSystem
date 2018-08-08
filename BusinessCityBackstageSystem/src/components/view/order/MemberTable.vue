@@ -48,7 +48,7 @@
         </el-table-column>
         <el-table-column
         prop="serialNumber"
-        width="180"
+        width="170"
         label="订单流水号">
         </el-table-column>
         <el-table-column
@@ -96,6 +96,7 @@ export default {
                 createTimeEnd:null,
                 orderState:null,
                 serviceState:null,
+                serialNumber:null,
                 pageSize:10,
                 pageNum:1
             },
@@ -121,6 +122,7 @@ export default {
             this.data.sourceId=datas.order.sourceId===''?null:datas.order.sourceId;
             this.data.orderState=datas.order.orderState===''?null:datas.order.orderState;
             this.data.serviceState=datas.order.serviceState===''?null:datas.order.serviceState;
+            this.data.serialNumber=datas.order.serialNumber===''?null:datas.order.serialNumber;
             this.data.createTimeStart=datas.order.daterange?Date.parse(datas.order.daterange[0]):null;
             this.data.createTimeEnd=datas.order.daterange?Date.parse(datas.order.daterange[1]):null;
             this.getDate(1);
