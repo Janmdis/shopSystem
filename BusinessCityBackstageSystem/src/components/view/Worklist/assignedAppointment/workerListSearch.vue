@@ -11,7 +11,7 @@
                                     :popper-append-to-body="false"
                                     v-for="(item,index) in ruleForm.customerCategory"
                                     :key="index"
-                                    :label="item.employeeTypeName"
+                                    :label="item.serName"
                                     :value="item.id">
                                     </el-option></el-select>
                                 

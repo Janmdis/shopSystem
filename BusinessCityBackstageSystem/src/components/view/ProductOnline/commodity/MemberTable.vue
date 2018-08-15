@@ -30,47 +30,40 @@
         </el-table-column>
         <el-table-column
         prop="name"
-        width='120'
         label="标题">
         </el-table-column>
         <el-table-column
-        width='120'
         prop="displayQuantity"
         label="库存" 
         sortable
         >
         </el-table-column>
         <el-table-column
-        width='120'
         prop="brand"
         label="分类(品牌)"
         >
         </el-table-column>
         <el-table-column
-        width='120'
         prop="totalSales"
         label="销量"
         sortable>
         </el-table-column>
         <el-table-column
-        width='120'
         prop="originalPrice"
         label="价格(/元)"
         sortable>
         </el-table-column>
         <el-table-column
-        width='120'
         prop="source"
         label="参加活动">
         </el-table-column>
         <el-table-column
-        width='100'
         label="状态">
             <template slot-scope="scope">
                 <span :class="scope.row.isOnSale==0?'nosale':'onsale'">{{scope.row.isOnSale==0?'下架':scope.row.isOnSale==1?"上架":''}}</span>
             </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
         width='200'
         prop="address"
         label="推荐商品"
@@ -82,7 +75,7 @@
                 
                 <el-button type="text" size="small" @click="Editcommond(scope.row)">修改</el-button>
             </template>
-    </el-table-column>
+    </el-table-column> -->
     <el-table-column
         width='200'
         prop="address"

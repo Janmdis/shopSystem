@@ -103,6 +103,7 @@ import knowledge from './knowledge'
 import Wordbar from './Wordbar'
 import editDatetemp from './editDatetemp'
 import editperiodspecial from './editPeriod_special'
+import reportTemplate from './reportTemplate'
 export default {
     data () {
         return{
@@ -129,7 +130,8 @@ export default {
                 {index:'7',icon:'el-icon-document',text:'房屋模块',url:'/api/product/commodity/category/queryMap'},
                 {index:'8',icon:'el-icon-setting',text:'渠道模块',url:'/api/product/commodity/category/queryMap'},
                 {index:'9',icon:'el-icon-document',text:'知识库',url:'/api/product/commodity/category/queryMap'},
-                {index:'10',icon:'el-icon-setting',text:'词条列表',url:'/api/product/commodity/category/queryMap'}
+                {index:'10',icon:'el-icon-setting',text:'词条列表',url:'/api/product/commodity/category/queryMap'},
+                // {index:'11',icon:'el-icon-document',text:'报告模板',url:'/api/product/commodity/category/queryMap'}
             ],
             name:'brandName',
             id:'brandId',
@@ -307,6 +309,10 @@ export default {
                 text = Wordbar;
                 this.desData = this.Wordbar;
                 this.modelIndex = 9;   
+            }else if(text == '报告模板'){
+                text = reportTemplate;
+                this.desData = this.reportTemplate;
+                this.modelIndex = 10;
             }
             this.userShow = true;
             this.userInfo = false;
@@ -546,7 +552,8 @@ export default {
         channelModel,
         knowledge,
         editDatetemp,
-        editperiodspecial
+        editperiodspecial,
+        reportTemplate
     },
     beforeDestroy(){
         this.$root.$off('searchInfo');

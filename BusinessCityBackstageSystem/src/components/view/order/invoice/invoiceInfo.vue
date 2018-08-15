@@ -207,9 +207,9 @@
                        
                     } else if (invoiceData.isDisallowance == true) {
                         if (invoiceData.isFinished == true) {
-                            this.invoiceType = "发放完成"
-                        }else{
                             this.invoiceType = "驳回"
+                        }else{
+                            this.invoiceType = "发放完成"
                         }
                         
                     } 

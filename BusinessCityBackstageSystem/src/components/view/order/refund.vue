@@ -22,27 +22,26 @@
             <el-table
             :data="datalist"
             @cell-click='showMemberInfo'
-            @selection-change='showextra'
             v-loading="loading"
             :stripe='true'
             style="width: 100%"
             height='500'
             >
                 <el-table-column fixed  type="index" label="N"  > </el-table-column>
-                <el-table-column fixed  type="selection" width="55" > </el-table-column>
-                <el-table-column prop="refundNumber" width="180" label="退款单号"> </el-table-column>
-                <el-table-column prop="number" width="180" label="订单编号"> </el-table-column>
-                <el-table-column prop="phone" width="180" label="手机号"> </el-table-column>
-                <el-table-column prop="refundTime" width="180" label="申请退款时间"> </el-table-column>
-                <el-table-column prop="refundMoney" width="100" label="退款金额"> </el-table-column>
-                <el-table-column prop="orderState" width="180" label="退款状态">
+                <!-- <el-table-column fixed  type="selection" > </el-table-column> -->
+                <el-table-column prop="refundNumber" label="退款单号"> </el-table-column>
+                <el-table-column prop="number"  label="订单编号"> </el-table-column>
+                <el-table-column prop="phone"  label="手机号"> </el-table-column>
+                <el-table-column prop="refundTime" label="申请退款时间"> </el-table-column>
+                <el-table-column prop="refundMoney" label="退款金额"> </el-table-column>
+                <el-table-column prop="orderState" label="退款状态">
                     <template slot-scope='scope'>
                         {{scope.row.orderState==4?'未处理':scope.row.orderState==5?'已完成':scope.row.orderState==7?'驳回':''}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" width="180" label="支付方式">
+                <el-table-column prop="createTime" label="支付方式">
                     <template slot-scope='scope'>
-                        {{scope.row.payType==1?'支付宝':scope.row.orderState==2?'微信':scope.row.orderState==3?'管家代收':''}}
+                        {{scope.row.payType==1?'支付宝':scope.row.payType==2?'微信':scope.row.payType==3?'管家代收':''}}
                     </template>
                 </el-table-column>
                 <!-- <el-table-column
@@ -113,11 +112,15 @@ export default {
     },
     methods:{
         // search(){},
+       
         getDatalist(pagenum){
             let that=this;
             this.loading=true;
-            this.$http.post('/api/product/order/mall/find?pageSize='+that.pagesize+'&pageNo='+pagenum)
-            .then(res=>{
+            this.$http({
+                    url:'/api/product/order/mall/find?pageSize='+that.pagesize+'&pageNo='+pagenum,
+                    method: 'POST',
+                    data:{refundStatas:1},
+            }).then(res=>{
                 console.log(res)
                 if(res.data.status==200){
                     that.datalist=res.data.info.list;
@@ -167,19 +170,19 @@ export default {
                 })
             }
         },
-        showextra(val){
-            console.log(val)
-             let show=false;
-             let editcan=true;
-             this.multipleSelection = val
-            if(this.multipleSelection.length>0){
-                show=true;
-            }
-            if(this.multipleSelection.length>1){
-                editcan=false;
-            }
-             this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
-        },
+        // showextra(val){
+        //     console.log(val)
+        //      let show=false;
+        //      let editcan=true;
+        //      this.multipleSelection = val
+        //     if(this.multipleSelection.length>0){
+        //         show=true;
+        //     }
+        //     if(this.multipleSelection.length>1){
+        //         editcan=false;
+        //     }
+        //      this.$root.$emit('showlttip',{show,editcan,num:this.multipleSelection.length,datas:this.multipleSelection});
+        // },
     },
      components: {
         OrderRefund,

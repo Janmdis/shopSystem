@@ -3,6 +3,7 @@
         title="详情模板"
         :visible.sync="dialogVisibless"
         width="52%"
+        id="activeDialogZbd"
         >
             <el-row style='padding-bottom:10px;' :gutter='24'>
                 <el-col :span="6">
@@ -21,7 +22,7 @@
             <el-table 
                 :data="listgoods" 
                 ref='goodtable' 
-                style="width: 100%;    height: 496px;" 
+                style="width: 100%;overflow-y: scroll;" 
                 class='table-products' 
                 @select="selectChange"
                 v-loading='loading'>
@@ -55,7 +56,12 @@
                 :current-page.sync="currentPage"
                 :page-size="pages"
                 layout="prev, pager, next, jumper"
-                :total="total">
+                :total="total"
+                style="text-align: right;
+                position: absolute;
+                bottom: 2%;
+                right: 2%;
+                top: 88%;">
                 </el-pagination>
                 <div class="zbd-selectedTip" v-show="selectedDiv">已选择：<span :style="tipcolor">{{ selectedTitle }}</span></div>
             <span slot="footer" class="dialog-footer">
@@ -190,6 +196,12 @@
         }
   }
 </script>
+<style>
+
+#activeDialogZbd .el-dialog__footer{
+    padding-top:50px;
+}
+</style>
 <style scoped lang="less">
 .templateStausColorGreen{
     color:#50c380;
